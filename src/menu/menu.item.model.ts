@@ -1,4 +1,13 @@
+import {MenuModel} from "./menu.model";
 export class MenuItemModel {
+
+  get menuModels(): MenuModel[] {
+    return this._menuModel;
+  }
+
+  set menuModels(value: MenuModel[]) {
+    this._menuModel = value;
+  }
 
   get secured(): boolean {
     return this._secured;
@@ -50,6 +59,24 @@ export class MenuItemModel {
     this._name = value;
   }
 
+  get rank(): number {
+    return this._rank;
+  }
+
+  set rank(value: number) {
+    this._rank = value;
+  }
+
+  get id(): string {
+    return this._id;
+  }
+
+  set id(value: string) {
+    this._id = value;
+  }
+
+  private _id:string;
+  private _rank:number;
   private _name: string;
   private _routeName: string;
   private _color: string;
@@ -57,5 +84,6 @@ export class MenuItemModel {
   private _active:boolean;
   private _selected: boolean;
   private _secured:boolean;
+  private _menuModel:MenuModel[];
 
 }

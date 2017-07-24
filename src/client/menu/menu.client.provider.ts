@@ -3,13 +3,14 @@ import {UUIDGenerator} from "../../uuid.generator";
 import {AppConfig} from "../../app.config";
 import {MenuClientHttp} from "./menu.client.http";
 import {MenuClientMock} from "./menu.client.mock";
+import {Subject} from "rxjs/Subject";
 
-export function menuClientFactory (appConfig: AppConfig, uuidGenerator: UUIDGenerator):MenuClient {
+export function menuClientFactory (appConfig: AppConfig, uuidGenerator: UUIDGenerator, loginSubject:Subject<boolean>):MenuClient {
   var menuClient: MenuClient;
   if (appConfig.remoteEndPoints) {
-    menuClient = new MenuClientHttp(uuidGenerator);
+    menuClient = new MenuClientHttp(loginSubject, uuidGenerator);
   } else {
-    menuClient = new MenuClientMock();
+    menuClient = new MenuClientMock(loginSubject);
   }
   return menuClient;
 }

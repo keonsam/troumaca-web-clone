@@ -1,6 +1,7 @@
-import {MenuData} from "./menu.data";
+import {MenuState} from "./menu.state";
 import {Observable} from "rxjs/Observable";
 
 export abstract class MenuClient {
-  abstract getMenuData(): Observable<MenuData>;
+  abstract getTopMenuState(): Observable<MenuState>;
+  abstract getLeftMenuState(): Observable<MenuState[]>;
 }

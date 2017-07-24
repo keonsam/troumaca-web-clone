@@ -1,4 +1,14 @@
-export class MenuItemData {
+import {LeftMenuModel} from "./left.menu.model";
+export class LeftMenuItemModel {
+
+  get leftMenuModels(): LeftMenuModel[] {
+    return this._leftMenuModel;
+  }
+
+  set leftMenuModels(value: LeftMenuModel[]) {
+    this._leftMenuModel = value;
+  }
+
   get secured(): boolean {
     return this._secured;
   }
@@ -49,6 +59,24 @@ export class MenuItemData {
     this._name = value;
   }
 
+  get rank(): number {
+    return this._rank;
+  }
+
+  set rank(value: number) {
+    this._rank = value;
+  }
+
+  get id(): string {
+    return this._id;
+  }
+
+  set id(value: string) {
+    this._id = value;
+  }
+
+  private _id:string;
+  private _rank:number;
   private _name: string;
   private _routeName: string;
   private _color: string;
@@ -56,4 +84,6 @@ export class MenuItemData {
   private _active:boolean;
   private _selected: boolean;
   private _secured:boolean;
+  private _leftMenuModel:LeftMenuModel[];
+
 }

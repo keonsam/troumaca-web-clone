@@ -4,12 +4,14 @@ import {CommonModule} from '@angular/common';
 import {MenuComponent} from "./menu.component";
 import {MenuService} from "./menu.service";
 import {MenuRepository} from "./menu.repository";
+import {RouterModule} from "@angular/router";
 
 
 @NgModule({
   imports: [
     CommonModule,
-    NgbModule
+    NgbModule,
+    RouterModule,
   ],
   declarations: [
     MenuComponent
