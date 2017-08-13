@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 
 @Component({
-  selector: 'logout',
+  selector: 'organization',
   templateUrl: './organization.component.html',
   styleUrls: ['./organization.component.css']
 })

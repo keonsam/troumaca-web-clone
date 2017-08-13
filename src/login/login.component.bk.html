@@ -1,0 +1,37 @@
+<div class="col-sm-6 mx-auto">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="row" style="margin-top: 10px;">
+      <!--<img id="google" src="assets/login/SocailLoginButton.png">-->
+      <!--<ul id="navlist" style="list-style: none">-->
+        <!--<li id="google"><a href="default.asp"></a></li>-->
+        <!--<li id="prev"><a href="css_intro.asp"></a></li>-->
+        <!--<li id="next"><a href="css_syntax.asp"></a></li>-->
+      <!--</ul>-->
+    </div>
+    <div class="imgcontainer">
+      <img src="assets/login/img_avatar2.png" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="container">
+      <label><b>Email or Phone</b></label>
+      <input type="text" formControlName="username" placeholder="Email or Phone" name="username" required>
+
+      <label><b>Password</b></label>
+      <!--suppress HtmlUnknownAttribute -->
+      <input type="password" formControlName="password" placeholder="Enter Password" name="password" required>
+
+      <div *ngIf="errorExists" class="alert alert-danger">
+        <strong>Error!</strong> Authentication failed.
+      </div>
+
+      <!--suppress HtmlUnknownAttribute -->
+      <button [disabled]="!loginForm.valid" type="submit">Login</button>
+      <input type="checkbox" checked="checked" formControlName="rememberMe"> Remember me
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" class="cancelbtn" (click)="onCancel()">Cancel</button>
+      <span class="psw">Forgot <a href="#" (click)="forgotPassword()" >password?</a></span>
+    </div>
+  </form>
+</div>

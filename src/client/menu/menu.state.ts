@@ -18,6 +18,14 @@ export class MenuState {
     this._title = value;
   }
 
+  get name(): string {
+    return this._name;
+  }
+
+  set name(value: string) {
+    this._name = value;
+  }
+
   get rank(): number {
     return this._rank;
   }
@@ -27,16 +35,17 @@ export class MenuState {
   }
 
   get menuItemStates(): MenuItemState[] {
-    return this._menuItemState;
+    return this._menuItemStates;
   }
 
   set menuItemStates(value: MenuItemState[]) {
-    this._menuItemState = value;
+    this._menuItemStates = value;
   }
 
   private _id:string;
   private _title:string;
+  private _name:string;
   private _rank:number;
-  private _menuItemState:MenuItemState[];
+  private _menuItemStates:MenuItemState[];
 
 }

@@ -1,3 +1,6 @@
+import {Injectable} from "@angular/core";
+
+@Injectable()
 export class AppConfig {
 
   private _apiEndpoint: string;

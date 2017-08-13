@@ -9,6 +9,8 @@ import {AccountRepository} from "./account.repository";
 import {RouterModule} from "@angular/router";
 import {LeftMenuModule} from "../left-menu/left.menu.module";
 import {OrganizationsModule} from "../organizations/organizations.module";
+import {PersonsModule} from "../person/persons.module";
+import {SecurityModule} from "../security/security.module";
 
 @NgModule({
   imports: [
@@ -19,7 +21,9 @@ import {OrganizationsModule} from "../organizations/organizations.module";
     ReactiveFormsModule,
     accountRouting,
     LeftMenuModule,
-    OrganizationsModule
+    OrganizationsModule,
+    PersonsModule,
+    SecurityModule
   ],
   declarations: [
     AccountComponent

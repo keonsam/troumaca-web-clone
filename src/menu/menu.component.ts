@@ -1,59 +1,91 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {MenuService} from "./menu.service";
 import {MenuModel} from "./menu.model";
 import {MenuItemModel} from "./menu.item.model";
+import {EventName, EventService} from "../event/event.service";
 
 @Component({
   selector: 'menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  styleUrls: ['./menu.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuComponent implements OnInit {
 
   private _title:string;
   private _menuModel:MenuModel;
+  private _isLoggedIn:boolean;
 
-  constructor(private menuService:MenuService) {
-    this._title = "Troumaca";
+  constructor(private eventService:EventService, private menuService:MenuService, private cd: ChangeDetectorRef) {
+    this.title = "Troumaca";
+    this.isLoggedIn = false;
+    this.menuModel = new MenuModel();
+    this.menuModel.menuItemModels = [];
+    if (true) {
+      console.log("Ok.");
+    }
+  }
+
+  handleMenuRefreshEvent() {
+    let that = this;
+    this.eventService.getEvent().subscribe(event => {
+      if (event.name == EventName.LOGIN) {
+        that.isLoggedIn = true;
+        that.getMenu(this.isLoggedIn);
+      }
+    });
   }
 
   get title(): string {
     return this._title;
   }
 
+  set title(title:string) {
+    this._title = title;
+  }
+
   get menuModel(): MenuModel {
     return this._menuModel;
   }
 
+  @Input()
   set menuModel(value: MenuModel) {
     this._menuModel = value;
   }
 
-  getClasses(menuItemMode:MenuItemModel) {
-    if (menuItemMode.active) {
-      return 'nav-item active';
-    } else {
-        return 'nav-item';
-    }
+  get isLoggedIn(): boolean {
+    return this._isLoggedIn;
+  }
+
+  set isLoggedIn(value: boolean) {
+    this._isLoggedIn = value;
   }
 
   ngOnInit(): void {
+    this.getMenu(this.isLoggedIn);
+
+    this.handleMenuRefreshEvent();
+  }
+
+  getMenu(isLoggedIn:boolean) {
     let that = this;
-    this.menuService.getMenu().subscribe(function (menu) {
-      that.menuModel = menu;
+    this.menuService.getMenu(isLoggedIn).subscribe(function (menu) {
+      that.menuModel.menuItemModels = [];
+      menu.menuItemModels.forEach(value => {
+        that.menuModel.menuItemModels.push(value);
+      });
+
+      that.cd.markForCheck();
     });
   }
 
-  onSelected(menuModel:MenuModel) {
+  onSelected(menuItemModel:MenuItemModel) {
     this._menuModel.menuItemModels.forEach(mi => {
       if (mi.active) {
         mi.active = false
       }
-
-      if (mi.id == menuModel.id) {
-        mi.active = true;
-      }
     });
+    menuItemModel.active = true;
   }
 
 }

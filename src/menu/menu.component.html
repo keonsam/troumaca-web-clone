@@ -6,9 +6,8 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li *ngFor="let menuItemModel of menuModel.menuItemModels" (click)="onSelected(menuItemModel)" [ngClass]="getClasses(menuItemModel)">
-        <!--<a class="nav-link" href="#" >{{menuItemModel.name}} <span *ngIf="selected"> class="sr-only">(current)</span></a>-->
-        <a class="nav-link" href="#" routerLink="{{menuItemModel.routeName}}">{{menuItemModel.name}} <span *ngIf="selected"> class="sr-only">(current)</span></a>
+      <li *ngFor="let menuItemModel of menuModel.menuItemModels" (click)="onSelected(menuItemModel)" class="nav-item" routerLinkActive="active">
+        <a class="nav-link" href="#" routerLink="{{menuItemModel.routeName}}" >{{menuItemModel.name}} <span *ngIf="menuItemModel.selected" class="sr-only">(current)</span></a>
       </li>
     </ul>
   </div>

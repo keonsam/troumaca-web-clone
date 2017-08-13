@@ -1,1 +1,31 @@
-Sign Up
+<div class="col-sm-6 mx-auto">
+  <h2>Signup Form</h2>
+
+  <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+    <div class="container">
+      <label><b>Email or Phone</b></label>
+      <input class="form-control" formControlName="username" type="text" placeholder="Email or Phone" name="email" required>
+
+      <label><b>Password</b></label>
+      <input class="form-control" formControlName="password" type="password" placeholder="Enter Password" name="psw" required>
+
+      <label><b>Repeat Password</b></label>
+      <input class="form-control" formControlName="confirmPassword" type="password" placeholder="Repeat Password" name="psw-repeat" required>
+      <input type="checkbox" checked="checked"> Remember me
+      <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+
+      <div *ngIf="errorExists" class="alert alert-danger">
+        <strong>Error!</strong> Failed to register person. Please try again later.
+      </div>
+
+      <div *ngIf="registered" class="alert alert-success">
+        <strong>Success!</strong> You have been register. You can now <a href="#" routerLink="/login">login</a>
+      </div>
+
+      <div class="clearfix">
+        <button type="button" (click)="onCancel()" class="cancelbtn">Cancel</button>
+        <button [disabled]="!signUpForm.valid" type="submit" class="signupbtn">Sign Up</button>
+      </div>
+    </div>
+  </form>
+</div>

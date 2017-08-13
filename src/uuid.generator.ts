@@ -1,3 +1,6 @@
+import {Injectable} from "@angular/core";
+
+@Injectable()
 export class UUIDGenerator {
   public generateUUID():string {
     var d = new Date().getTime();

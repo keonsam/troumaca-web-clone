@@ -1,12 +1,12 @@
 import {MenuState} from "./menu.state";
 export class MenuItemState {
 
-  get menuState(): MenuState[] {
-    return this._menuState;
+  get menuStates(): MenuState[] {
+    return this._menuStates;
   }
 
-  set menuState(value: MenuState[]) {
-    this._menuState = value;
+  set menuStates(value: MenuState[]) {
+    this._menuStates = value;
   }
 
   get secured(): boolean {
@@ -84,5 +84,5 @@ export class MenuItemState {
   private _active:boolean;
   private _selected: boolean;
   private _secured:boolean;
-  private _menuState:MenuState[];
+  private _menuStates:MenuState[];
 }

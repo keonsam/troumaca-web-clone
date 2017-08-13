@@ -20,7 +20,14 @@ import {ReportModule} from "../report/report.module";
 import {SignUpModule} from "../sign-up/sign.up.module";
 import {LogoutModule} from "../logout/logout.module";
 import {PageNotFoundModule} from "./page-not-found/page.not.found.module";
-import {EventModule} from "./event/event.module";
+import {EventSubjectModule} from "./event/event.module";
+import {EventModule} from "../event/event.module";
+import {ActivityModule} from "../activity/activity.module";
+import {AssetTypeModule} from "../asset-type/asset.type.module";
+import {RequestModule} from "../request/request.module";
+import {WorkOrderModule} from "../work-order/work.order.module";
+import {AssetModule} from "../asset/asset.module";
+import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 
 
 @NgModule({
@@ -38,7 +45,13 @@ import {EventModule} from "./event/event.module";
     SignUpModule,
     LogoutModule,
     PageNotFoundModule,
-    EventModule
+    EventSubjectModule,
+    EventModule,
+    ActivityModule,
+    AssetTypeModule,
+    RequestModule,
+    WorkOrderModule,
+    AssetModule
   ],
   declarations: [
     AppComponent
@@ -47,7 +60,8 @@ import {EventModule} from "./event/event.module";
     appRoutingProviders,
     {provide: APP_BASE_HREF, useValue: '/'},
     {provide: AppConfig, useClass: AppConfig},
-    {provide: UUIDGenerator, useClass: UUIDGenerator}
+    {provide: UUIDGenerator, useClass: UUIDGenerator},
+    authGuardProvider
   ],
   bootstrap: [AppComponent]
 })

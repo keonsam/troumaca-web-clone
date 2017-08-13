@@ -7,8 +7,8 @@ export class MenuService {
   constructor(private menuRepository: MenuRepository) {
   }
 
-  public getMenu():Observable<MenuModel> {
-    return this.menuRepository.getMenuModel();
+  public getMenu(isLoggedIn:boolean):Observable<MenuModel> {
+    return this.menuRepository.getMenuModel(isLoggedIn);
   }
 
 }

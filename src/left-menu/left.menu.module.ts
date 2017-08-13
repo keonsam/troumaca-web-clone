@@ -5,6 +5,7 @@ import {LeftMenuComponent} from "./left.menu.component";
 import {LeftMenuService} from "./left.menu.service";
 import {LeftMenuRepository} from "./left.menu.repository";
 import {RouterModule} from "@angular/router";
+import {LeftMenuTreeComponent} from "./left-menu-tree/left.menu.tree.component";
 
 
 @NgModule({
@@ -14,7 +15,7 @@ import {RouterModule} from "@angular/router";
     RouterModule,
   ],
   declarations: [
-    LeftMenuComponent
+    LeftMenuComponent, LeftMenuTreeComponent
   ],
   providers: [{
     provide: LeftMenuService,
@@ -27,6 +28,6 @@ import {RouterModule} from "@angular/router";
     },
     deps: [LeftMenuRepository]
   }],
-  exports: [LeftMenuComponent]
+  exports: [LeftMenuComponent, LeftMenuTreeComponent]
 })
 export class LeftMenuModule {}

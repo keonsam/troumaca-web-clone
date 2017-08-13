@@ -19,9 +19,9 @@ export class MenuRepositoryAdapter implements MenuRepository, LeftMenuRepository
   constructor(private menuClient: MenuClient) {
   }
 
-  getMenuModel(): Observable<MenuModel> {
+  getMenuModel(isLoggedIn:boolean): Observable<MenuModel> {
     return this.menuClient
-      .getTopMenuState()
+      .getTopMenuState(isLoggedIn)
       .map(menuData => {
         let menuItemModels:MenuItemModel[] = menuData.menuItemStates.map(menuItemData => {
           return mapObjectProps(menuItemData, new MenuItemModel());
@@ -35,12 +35,42 @@ export class MenuRepositoryAdapter implements MenuRepository, LeftMenuRepository
       });
   }
 
-  getLeftMenuModel(): Observable<LeftMenuModel[]> {
+  getLeftMenuModelByName(menuName:string): Observable<LeftMenuModel> {
     return this.menuClient
-      .getLeftMenuState()
+      .getLeftMenuStateByName(menuName)
+      .map(menuState => {
+        return this.toLeftMenuModel2(menuState);
+      });
+  }
+
+  getLeftMenuModelById(menuName:string): Observable<LeftMenuModel[]> {
+    return this.menuClient
+      .getLeftMenuStateById(menuName)
       .map(menuStates => {
         return this.toLeftMenuModels(menuStates);
       });
+  }
+
+  private toLeftMenuModel2(menuState: MenuState):LeftMenuModel {
+    let leftMenuModel:LeftMenuModel = mapObjectProps(menuState, new LeftMenuModel());
+    let menuItemStates = menuState.menuItemStates;
+    if (menuItemStates != null && menuItemStates.length > 0) {
+      leftMenuModel.leftMenuItemModels = this.toLeftMenuItemModel2(menuItemStates);
+    }
+    return leftMenuModel;
+  }
+
+  private toLeftMenuItemModel2(menuItemStates:MenuItemState[]):LeftMenuItemModel[] {
+    return menuItemStates.map(menuItemState => {
+      let leftMenuItemModel:LeftMenuItemModel = mapObjectProps(menuItemState, new LeftMenuItemModel());
+      let menuStates = menuItemState.menuStates;
+      if (menuStates != null && menuStates.length > 0) {
+        leftMenuItemModel.leftMenuModels = menuStates.map(menuState => {
+          return this.toLeftMenuModel2(menuState);
+        });
+      }
+      return leftMenuItemModel;
+    });
   }
 
   private toLeftMenuModels(menuStates: MenuState[]):LeftMenuModel[] {
@@ -64,7 +94,7 @@ export class MenuRepositoryAdapter implements MenuRepository, LeftMenuRepository
     return menuItemStates.map(menuItemState => {
       let leftMenuItemModel = new LeftMenuItemModel();
 
-      let childMenuStates:MenuState[] = menuItemState.menuState;
+      let childMenuStates:MenuState[] = menuItemState.menuStates;
 
       if (childMenuStates) {
         leftMenuItemModel.leftMenuModels = childMenuStates.map(childMenuState => {

@@ -7,8 +7,12 @@ export class LeftMenuService {
   constructor(private leftMenuRepository: LeftMenuRepository) {
   }
 
-  public getLeftMenu():Observable<LeftMenuModel[]> {
-    return this.leftMenuRepository.getLeftMenuModel();
+  public getLeftMenuByName(menuName:string):Observable<LeftMenuModel> {
+    return this.leftMenuRepository.getLeftMenuModelByName(menuName);
+  }
+
+  public getLeftMenuById(menuId:string):Observable<LeftMenuModel[]> {
+    return this.leftMenuRepository.getLeftMenuModelById(menuId);
   }
 
 }

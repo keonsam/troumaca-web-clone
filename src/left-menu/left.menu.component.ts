@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {LeftMenuService} from "./left.menu.service";
 import {LeftMenuModel} from "./left.menu.model";
 import {LeftMenuItemModel} from "./left.menu.item.model";
@@ -12,6 +12,8 @@ export class LeftMenuComponent implements OnInit {
 
   private _title:string;
   private _leftMenuModels:LeftMenuModel[];
+  private _leftMenuModel:LeftMenuModel;
+  private _name:string;
 
   constructor(private leftMenuService:LeftMenuService) {
     this._title = "Troumaca";
@@ -19,6 +21,19 @@ export class LeftMenuComponent implements OnInit {
 
   get title(): string {
     return this._title;
+  }
+
+  set title(value: string) {
+    this._title = value;
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  @Input()
+  set name(value: string) {
+    this._name = value;
   }
 
   get leftMenuModels(): LeftMenuModel[] {
@@ -29,18 +44,26 @@ export class LeftMenuComponent implements OnInit {
     this._leftMenuModels = value;
   }
 
-  getClasses(leftMenuItemMode:LeftMenuItemModel) {
-    if (leftMenuItemMode.active) {
-      return 'nav-item active';
-    } else {
-        return 'nav-item';
-    }
+  get leftMenuModel(): LeftMenuModel {
+    return this._leftMenuModel;
   }
+
+  set leftMenuModel(value: LeftMenuModel) {
+    this._leftMenuModel = value;
+  }
+
+  // getClasses(leftMenuItemMode:LeftMenuItemModel) {
+  //   if (leftMenuItemMode.active) {
+  //     return 'nav-item active';
+  //   } else {
+  //       return 'nav-item';
+  //   }
+  // }
 
   ngOnInit(): void {
     let that = this;
-    this.leftMenuService.getLeftMenu().subscribe(function (leftMenu) {
-      that.leftMenuModels = leftMenu;
+    this.leftMenuService.getLeftMenuByName(this.name).subscribe((leftMenu) => {
+      that.leftMenuModel = leftMenu;
     });
   }
 

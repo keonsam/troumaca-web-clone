@@ -1,2 +1,2 @@
-export abstract class SignUpState {
+export class SignUpState {
 }

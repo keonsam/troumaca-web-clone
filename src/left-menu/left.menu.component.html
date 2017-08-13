@@ -1,24 +1,17 @@
-<!--<div class="col-xs-6">-->
-<div class="col-xs-6">
-  <!-- Sidebar menu -->
-  <ul class="sidebar-menu list-unstyled">
+<div>
+      <!--<ul *ngFor="let leftMenuModel of leftMenuModel.leftMenuModels" class="sidebar-submenu" style="list-style: none; margin: 0; padding: 0;">-->
+      <!--<ul class="sidebar-submenu" style="list-style: none; margin: 0; padding: 0;">-->
+        <!--<li *ngFor="let leftMenuItemModel of leftMenuModel.leftMenuItemModels" class="sidebar-menu-item active" style="margin-left: 0px;">-->
+          <!--<a href="#" routerLink="{{leftMenuItemModel.routeName}}" class="sidebar-menu-button">{{leftMenuItemModel.name}}</a>-->
+          <!--<ul *ngFor="let leftMenuModel2 of leftMenuItemModel.leftMenuModels" class="sidebar-submenu" style="list-style: none; margin: 0; padding: 0;">-->
+            <!--<li *ngFor="let leftMenuItemModel2 of leftMenuModel2.leftMenuItemModels" class="sidebar-menu-item active" style="margin-left: 20px;">-->
+              <!--<a href="#" routerLink="{{leftMenuItemModel2.routeName}}" class="sidebar-menu-button">{{leftMenuItemModel2.name}}</a>-->
+            <!--</li>-->
+          <!--</ul>-->
+        <!--</li>-->
+      <!--</ul>-->
 
-    <!-- Open menu item -->
-    <li class="sidebar-menu-item open">
+  <left-menu-tree [leftMenuItemModels]="leftMenuModel.leftMenuItemModels"></left-menu-tree>
 
-      <!--Todo: Make the levels dynamic-->
-      <!-- Submenu -->
-      <ul *ngFor="let leftMenuModel of leftMenuModels" class="sidebar-submenu" style="list-style: none; margin: 0; padding: 0;">
-        <li *ngFor="let leftMenuItemModel of leftMenuModel.leftMenuItemModels" class="sidebar-menu-item active" style="margin-left: 20px;">
-          <a href="#" routerLink="{{leftMenuItemModel.routeName}}" class="sidebar-menu-button">{{leftMenuItemModel.name}}</a>
-          <ul *ngFor="let leftMenuModel2 of leftMenuItemModel.leftMenuModels" class="sidebar-submenu" style="list-style: none; margin: 0; padding: 0;">
-            <li *ngFor="let leftMenuItemModel2 of leftMenuModel2.leftMenuItemModels" class="sidebar-menu-item active" style="margin-left: 20px;">
-              <a href="#" routerLink="{{leftMenuItemModel2.routeName}}" class="sidebar-menu-button">{{leftMenuItemModel2.name}}</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
   <!--left menu: {{leftMenuModels | json}}-->
 </div>

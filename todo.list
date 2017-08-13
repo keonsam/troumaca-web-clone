@@ -1,0 +1,12 @@
+Todo:
+Login
+1. remove validation from username field - Done
+2. remove validation from password field - Done
+3. Add mock authentication - Done
+4. Handle login failure - Done
+5. Handle login success - Done
+6. Handle remember me
+7. Handle cancel login - Done
+
+
+8. Future: login with google, facebook, twitter, yahoo

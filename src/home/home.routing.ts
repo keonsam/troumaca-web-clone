@@ -7,4 +7,4 @@ const homeRoutes: Routes = [
   {path: 'home', component: HomeComponent},
 ];
 
-export const homeRouting: ModuleWithProviders = RouterModule.forChild(homeRoutes);
+export const homeRouting: ModuleWithProviders = RouterModule.forRoot(homeRoutes);

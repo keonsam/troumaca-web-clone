@@ -1,2 +1,2 @@
-export abstract class AccountState {
+export class AccountState {
 }

@@ -1,16 +1,17 @@
-import {LoginClient} from "../../client/login/login.client";
 import {LoginRepository} from "../../login/login.repository";
 import {LoginRepositoryAdapter} from "./login.repository.adapter";
-export function loginRepositoryProviderFactory (loginClient:LoginClient):LoginRepository {
-  let loginRepositoryAdapter: LoginRepositoryAdapter;
-  if (!loginRepositoryAdapter) {
-    loginRepositoryAdapter = new LoginRepositoryAdapter(loginClient);
+import {AuthenticationClient} from "../../client/authentication/authentication.client";
+
+export function authenticationRepositoryProviderFactory (authenticationClient:AuthenticationClient):LoginRepository {
+  let authenticationRepositoryAdapter: LoginRepositoryAdapter;
+  if (!authenticationRepositoryAdapter) {
+    authenticationRepositoryAdapter = new LoginRepositoryAdapter(authenticationClient);
   }
-  return loginRepositoryAdapter;
+  return authenticationRepositoryAdapter;
 }
 
-export let loginRepositoryProvider = {
+export let authenticationRepositoryProvider = {
   provide: LoginRepository,
-  useFactory: loginRepositoryProviderFactory,
-  deps: [LoginClient]
+  useFactory: authenticationRepositoryProviderFactory,
+  deps: [AuthenticationClient]
 };

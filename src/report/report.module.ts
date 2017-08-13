@@ -7,6 +7,7 @@ import {ReportService} from "./report.service";
 import {ReportRepository} from "./report.repository";
 import {reportRouting} from "./report.routing";
 import {RouterModule} from "@angular/router";
+import {LeftMenuModule} from "../left-menu/left.menu.module";
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import {RouterModule} from "@angular/router";
     RouterModule,
     ReactiveFormsModule,
     reportRouting,
+    LeftMenuModule
   ],
   declarations: [
     ReportComponent

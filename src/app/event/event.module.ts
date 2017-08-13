@@ -1,12 +1,12 @@
 import {NgModule} from "@angular/core";
-import {loginSubjectProvider} from './login/login.event.subject.provider';
+import {eventSubjectProvider} from './event.subject.provider';
 
 @NgModule({
   imports:      [],
   declarations: [],
   exports:      [],
   providers: [
-    loginSubjectProvider
+    eventSubjectProvider
   ]
 })
-export class EventModule { }
+export class EventSubjectModule { }

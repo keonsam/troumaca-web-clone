@@ -7,6 +7,8 @@ import {LoginRepository} from "./login.repository";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {loginRouting} from "./login.routing";
 import {RouterModule} from "@angular/router";
+import {ForgotPasswordModule} from "./forgot-password/forgot.password.module";
+import {SignInModule} from "./sign-in/sign.in.module";
 
 @NgModule({
   imports: [
@@ -16,21 +18,13 @@ import {RouterModule} from "@angular/router";
     FormsModule,
     ReactiveFormsModule,
     loginRouting,
+    ForgotPasswordModule,
+    SignInModule
   ],
   declarations: [
     LoginComponent
   ],
-  providers: [{
-    provide: LoginService,
-    useFactory(loginRepository:LoginRepository) {
-      let loginService: LoginService;
-      if (!loginService) {
-        loginService = new LoginService(loginRepository);
-      }
-      return loginService;
-    },
-    deps: [LoginRepository]
-  }],
+  providers: [],
   exports: [
     LoginComponent
   ]
