@@ -14,8 +14,10 @@ import {activityRepositoryProvider} from "./activity/activity.repository.adapter
 import {requestRepositoryProvider} from "./request/request.repository.adapter.provider";
 import {siteRepositoryProvider} from "./site/site.repository.adapter.provider";
 import {workOrderRepositoryProvider} from "./work-order/work.order.repository.adapter.provider";
-import {assetRepositoryProvider} from "./asset/asset.repository.adapter.provider";
+import {assetsRepositoryProvider} from "./assets/assets.repository.adapter.provider";
 import {authGuardServiceProvider} from "./auth-guard/auth.guard.repository.adapter.provider";
+import {goodsRepositoryProvider} from "./goods/goods.repository.adapter.provider";
+import {assetTypesRepositoryProvider} from "./asset-types/assets.repository.adapter.provider";
 
 @NgModule({
   imports:      [],
@@ -39,8 +41,10 @@ import {authGuardServiceProvider} from "./auth-guard/auth.guard.repository.adapt
     requestRepositoryProvider,
     siteRepositoryProvider,
     workOrderRepositoryProvider,
-    assetRepositoryProvider,
-    authGuardServiceProvider
+    assetsRepositoryProvider,
+    authGuardServiceProvider,
+    goodsRepositoryProvider,
+    assetTypesRepositoryProvider
   ]
 })
 export class AdapterModule { }

@@ -4,7 +4,6 @@ import isNumeric from 'validator/lib/isNumeric';
 import { parse, format, asYouType, isValidNumber } from 'libphonenumber-js'
 
 export class SignUp {
-  private country:string = "US";
 
   constructor(private signUpModel:SignUpModel) {
   }
@@ -28,6 +27,6 @@ export class SignUp {
       return validNumber;
     }
 
-    return  isValidNumber(emailOrPhone, this.country);
+    return  isValidNumber(parse(emailOrPhone));
   }
 }

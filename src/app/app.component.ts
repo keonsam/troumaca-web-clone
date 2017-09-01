@@ -7,9 +7,26 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  title = 'app';
+  private _title:string = 'app';
+  private _isLoggedIn:boolean = false;
 
   constructor() {
+    this.isLoggedIn = false;
   }
 
+  get title(): string {
+    return this._title;
+  }
+
+  set title(value: string) {
+    this._title = value;
+  }
+
+  get isLoggedIn(): boolean {
+    return this._isLoggedIn;
+  }
+
+  set isLoggedIn(value: boolean) {
+    this._isLoggedIn = value;
+  }
 }

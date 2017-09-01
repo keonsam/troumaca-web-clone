@@ -1,11 +1,11 @@
 import {SignInModel} from "./sign.in.model";
 import isEmail from 'validator/lib/isEmail';
 import isNumeric from 'validator/lib/isNumeric';
-import { parse, format, asYouType, isValidNumber } from 'libphonenumber-js'
+import {parse, format, asYouType, isValidNumber, CountryCode} from 'libphonenumber-js'
 
 export class SignIn {
 
-  private country:string = "US";
+  private countryCode:CountryCode = null;
 
   constructor(private loginModel:SignInModel) {
   }
@@ -29,7 +29,7 @@ export class SignIn {
       return validNumber;
     }
 
-    return  isValidNumber(emailOrPhone, this.country);
+    return  isValidNumber(parse(emailOrPhone));
   }
 
 }

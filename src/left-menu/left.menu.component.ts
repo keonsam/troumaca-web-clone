@@ -52,31 +52,11 @@ export class LeftMenuComponent implements OnInit {
     this._leftMenuModel = value;
   }
 
-  // getClasses(leftMenuItemMode:LeftMenuItemModel) {
-  //   if (leftMenuItemMode.active) {
-  //     return 'nav-item active';
-  //   } else {
-  //       return 'nav-item';
-  //   }
-  // }
-
   ngOnInit(): void {
     let that = this;
     this.leftMenuService.getLeftMenuByName(this.name).subscribe((leftMenu) => {
       that.leftMenuModel = leftMenu;
     });
-  }
-
-  onSelected(leftMenuModel:LeftMenuModel) {
-    // this._leftMenuModel.leftMenuItemModelList.forEach(mi => {
-    //   if (mi.active) {
-    //     mi.active = false
-    //   }
-    //
-    //   if (mi.id == leftMenuModel.id) {
-    //     mi.active = true;
-    //   }
-    // });
   }
 
 }

@@ -26,11 +26,8 @@ export class MenuRepositoryAdapter implements MenuRepository, LeftMenuRepository
         let menuItemModels:MenuItemModel[] = menuData.menuItemStates.map(menuItemData => {
           return mapObjectProps(menuItemData, new MenuItemModel());
         });
-
         let menuModel:MenuModel = mapObjectProps(menuData, new MenuModel());
-
         menuModel.menuItemModels = menuItemModels;
-
         return menuModel;
       });
   }
@@ -39,70 +36,43 @@ export class MenuRepositoryAdapter implements MenuRepository, LeftMenuRepository
     return this.menuClient
       .getLeftMenuStateByName(menuName)
       .map(menuState => {
-        return this.toLeftMenuModel2(menuState);
+        if (menuState == null) {
+          return new LeftMenuModel();
+        }
+        return this.toLeftMenuModel(menuState);
       });
   }
 
-  getLeftMenuModelById(menuName:string): Observable<LeftMenuModel[]> {
+  getLeftMenuModelById(menuName:string): Observable<LeftMenuModel> {
     return this.menuClient
       .getLeftMenuStateById(menuName)
       .map(menuStates => {
-        return this.toLeftMenuModels(menuStates);
+        if (menuStates == null) {
+          return new LeftMenuModel();
+        }
+        return this.toLeftMenuModel(menuStates);
       });
   }
 
-  private toLeftMenuModel2(menuState: MenuState):LeftMenuModel {
+  private toLeftMenuModel(menuState: MenuState):LeftMenuModel {
     let leftMenuModel:LeftMenuModel = mapObjectProps(menuState, new LeftMenuModel());
-    let menuItemStates = menuState.menuItemStates;
-    if (menuItemStates != null && menuItemStates.length > 0) {
-      leftMenuModel.leftMenuItemModels = this.toLeftMenuItemModel2(menuItemStates);
+    //let menuItemStates = menuState.menuItemStates;
+    if (menuState.menuItemStates && menuState.menuItemStates != null && menuState.menuItemStates.length > 0) {
+      leftMenuModel.leftMenuItemModels = this.toLeftMenuItemModel(menuState.menuItemStates);
     }
     return leftMenuModel;
   }
 
-  private toLeftMenuItemModel2(menuItemStates:MenuItemState[]):LeftMenuItemModel[] {
+  private toLeftMenuItemModel(menuItemStates:MenuItemState[]):LeftMenuItemModel[] {
     return menuItemStates.map(menuItemState => {
       let leftMenuItemModel:LeftMenuItemModel = mapObjectProps(menuItemState, new LeftMenuItemModel());
       let menuStates = menuItemState.menuStates;
       if (menuStates != null && menuStates.length > 0) {
         leftMenuItemModel.leftMenuModels = menuStates.map(menuState => {
-          return this.toLeftMenuModel2(menuState);
+          return this.toLeftMenuModel(menuState);
         });
       }
       return leftMenuItemModel;
-    });
-  }
-
-  private toLeftMenuModels(menuStates: MenuState[]):LeftMenuModel[] {
-    return menuStates.map(menuState => {
-      return this.toLeftMenuModel(menuState);
-    });
-  }
-
-  private toLeftMenuModel(menuState: MenuState):LeftMenuModel {
-    let leftMenuModel:LeftMenuModel = mapObjectProps(menuState, new LeftMenuModel());
-
-    let menuItemStates = menuState.menuItemStates;
-    if (menuItemStates) {
-      leftMenuModel.leftMenuItemModels = this.toLeftMenuItemModels(menuItemStates);
-    }
-
-    return leftMenuModel;
-  }
-
-  private toLeftMenuItemModels(menuItemStates:MenuItemState[]):LeftMenuItemModel[] {
-    return menuItemStates.map(menuItemState => {
-      let leftMenuItemModel = new LeftMenuItemModel();
-
-      let childMenuStates:MenuState[] = menuItemState.menuStates;
-
-      if (childMenuStates) {
-        leftMenuItemModel.leftMenuModels = childMenuStates.map(childMenuState => {
-          return this.toLeftMenuModel(childMenuState);
-        });
-      }
-
-      return mapObjectProps(menuItemState, leftMenuItemModel)
     });
   }
 

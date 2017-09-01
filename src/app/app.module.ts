@@ -1,5 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import {HttpClientModule} from '@angular/common/http';
 import {APP_BASE_HREF} from "@angular/common";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -23,17 +24,19 @@ import {PageNotFoundModule} from "./page-not-found/page.not.found.module";
 import {EventSubjectModule} from "./event/event.module";
 import {EventModule} from "../event/event.module";
 import {ActivityModule} from "../activity/activity.module";
-import {AssetTypeModule} from "../asset-type/asset.type.module";
+import {AssetTypesModule} from "../asset-types/asset.types.module";
 import {RequestModule} from "../request/request.module";
 import {WorkOrderModule} from "../work-order/work.order.module";
-import {AssetModule} from "../asset/asset.module";
 import {authGuardProvider} from "../auth-guard/auth.guard.provider";
+import {GoodsModule} from "../goods/goods.module";
+import {AssetsModule} from "../assets/assets.module";
 
 
 @NgModule({
   imports: [
     BrowserModule,
     NgbModule.forRoot(),
+    HttpClientModule,
     MenuModule,
     routing,
     HomeModule,
@@ -48,10 +51,11 @@ import {authGuardProvider} from "../auth-guard/auth.guard.provider";
     EventSubjectModule,
     EventModule,
     ActivityModule,
-    AssetTypeModule,
+    AssetTypesModule,
     RequestModule,
     WorkOrderModule,
-    AssetModule
+    AssetsModule,
+    GoodsModule
   ],
   declarations: [
     AppComponent

@@ -53,6 +53,7 @@ export class MenuComponent implements OnInit {
     this._menuModel = value;
   }
 
+  @Input()
   get isLoggedIn(): boolean {
     return this._isLoggedIn;
   }

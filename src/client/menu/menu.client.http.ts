@@ -17,7 +17,7 @@ export class MenuClientHttp extends MenuClient {
     return undefined;
   }
 
-  getLeftMenuStateById(menuId: string): Observable<MenuState[]> {
+  getLeftMenuStateById(menuId: string): Observable<MenuState> {
     return undefined;
   }
 }

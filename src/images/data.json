@@ -1,0 +1,234 @@
+{
+  "asset-types":[
+  {
+  "assetTypeId":"782564d0-a843-467a-949a-d24a09490ac6",
+  "modelNumber":"G62-465DX-09",
+  "description":"The model 1 description",
+  "materialCode":"SS-304-01",
+  "unitOfMeasure":"SECONDS",
+  "assetTypeClass": {
+    "assetTypeClassId":"e802b9cc-84fd-11e7-bb31-be2e44b06b34",
+    "name":"Pump",
+    "description":"Pump"
+  }, "assetTypeAttributes": [{
+    "assetTypeAttributeId":"298c74b2-8500-11e7-bb31-be2e44b06b34",
+    "name":"",
+    "format":"",
+    "unitOfMeasure":"",
+    "defaultHighValue":"",
+    "defaultLowValue":""
+  }], "assetTypeAttributeValues": [{
+    "assetTypeAttributeValueId":"1ce31cd8-8501-11e7-bb31-be2e44b06b34",
+    "assetTypeId":"782564d0-a843-467a-949a-d24a09490ac6",
+    "assetTypeAttributeId":"298c74b2-8500-11e7-bb31-be2e44b06b34",
+    "price":1.20
+  }]
+  }, {
+  "assetTypeId":"8d1db992-2a93-413d-a496-c4e0ca16486e",
+  "modelNumber":"G22-465DX-10",
+  "description":"The model 2 description",
+  "materialCode":"SS-304-02",
+  "unitOfMeasure":"SECONDS",
+  "assetTypeClass": {
+    "assetTypeClassId":"e802b9cc-84fd-11e7-bb31-be2e44b06b34",
+    "name":"Pump",
+    "description":"Pump"
+  }, "assetTypeAttributes": [{
+    "assetTypeAttributeId":"298c7908-8500-11e7-bb31-be2e44b06b34",
+    "name":"",
+    "format":"",
+    "unitOfMeasure":"",
+    "defaultHighValue":"",
+    "defaultLowValue":""
+  }], "assetTypeAttributeValues": [{
+    "assetTypeAttributeValueId":"",
+    "assetTypeId":"",
+    "assetTypeAttributeId":"",
+    "price":1.21
+  }]
+}, {
+  "assetTypeId":"d1c99236-c406-4f57-8652-fc4a0c3c20bf",
+  "modelNumber":"G23-465DX-11",
+  "description":"The model 3 description",
+  "materialCode":"SS-304-03",
+  "unitOfMeasure":"SECONDS",
+  "assetTypeClass": {
+    "assetTypeClassId":"e802b9cc-84fd-11e7-bb31-be2e44b06b34",
+    "name":"Pump",
+    "description":"Pump"
+  }, "assetTypeAttributes": [{
+    "assetTypeAttributeId":"298c7b1a-8500-11e7-bb31-be2e44b06b34",
+    "name":"",
+    "format":"",
+    "unitOfMeasure":"",
+    "defaultHighValue":"",
+    "defaultLowValue":""
+  }], "assetTypeAttributeValues": [{
+    "assetTypeAttributeValueId":"",
+    "assetTypeId":"",
+    "assetTypeAttributeId":"",
+    "price":1.22
+  }]
+}, {
+  "assetTypeId":"c47523bc-377e-4022-b852-165ab9c451c8",
+  "modelNumber":"G24-465DX-12",
+  "description":"The model 4 description",
+  "materialCode":"SS-304-04",
+  "unitOfMeasure":"SECONDS",
+  "assetTypeClass": {
+    "assetTypeClassId":"e802bf1c-84fd-11e7-bb31-be2e44b06b34",
+    "name":"Lotion",
+    "description":""
+  }, "assetTypeAttributes": [{
+    "assetTypeAttributeId":"298c83f8-8500-11e7-bb31-be2e44b06b34",
+    "name":"",
+    "format":"",
+    "unitOfMeasure":"",
+    "defaultHighValue":"",
+    "defaultLowValue":""
+  }], "assetTypeAttributeValues": [{
+    "assetTypeAttributeValueId":"",
+    "assetTypeId":"",
+    "assetTypeAttributeId":"",
+    "price":1.23
+  }]
+}, {
+  "assetTypeId":"6f167a84-3410-401a-8dea-8a8fe7728832",
+  "modelNumber":"G24-465DX-13",
+  "description":"The model 5 description",
+  "materialCode":"SS-304-05",
+  "unitOfMeasure":"SECONDS",
+  "assetTypeClass": {
+    "assetTypeClassId":"e802bf1c-84fd-11e7-bb31-be2e44b06b34",
+    "name":"Lotion",
+    "description":"Lotion"
+  }, "assetTypeAttributes": [{
+    "assetTypeAttributeId":"298c8600-8500-11e7-bb31-be2e44b06b34",
+    "name":"",
+    "format":"",
+    "unitOfMeasure":"",
+    "defaultHighValue":"",
+    "defaultLowValue":""
+  }], "assetTypeAttributeValues": [{
+    "assetTypeAttributeValueId":"",
+    "assetTypeId":"",
+    "assetTypeAttributeId":"",
+    "price":1.24
+  }]
+}, {
+  "assetTypeId":"ca5efa89-173f-4439-ba2d-1e4cd5fffcad",
+  "modelNumber":"G24-465DX-14",
+  "description":"The model 6 description",
+  "materialCode":"SS-304-06",
+  "unitOfMeasure":"SECONDS",
+  "assetTypeClass": {
+    "assetTypeClassId":"e802bf1c-84fd-11e7-bb31-be2e44b06b34",
+    "name":"Lotion",
+    "description":"Lotion"
+  }, "assetTypeAttributes": [{
+    "assetTypeAttributeId":"298c87c2-8500-11e7-bb31-be2e44b06b34",
+    "name":"",
+    "format":"",
+    "unitOfMeasure":"",
+    "defaultHighValue":"",
+    "defaultLowValue":""
+  }], "assetTypeAttributeValues": [{
+    "assetTypeAttributeValueId":"",
+    "assetTypeId":"",
+    "assetTypeAttributeId":"",
+    "price":1.25
+  }]
+}, {
+  "assetTypeId":"a7638400-0ac2-49a7-87e2-04577f61ce9b",
+  "modelNumber":"G24-465DX-15",
+  "description":"The model 7 description",
+  "materialCode":"SS-304-07",
+  "unitOfMeasure":"SECONDS",
+  "assetTypeClass": {
+    "assetTypeClassId":"e802c4f8-84fd-11e7-bb31-be2e44b06b34",
+    "name":"Spray",
+    "description":"Spray"
+  }, "assetTypeAttributes": [{
+    "assetTypeAttributeId":"298c898e-8500-11e7-bb31-be2e44b06b34",
+    "name":"",
+    "format":"",
+    "unitOfMeasure":"",
+    "defaultHighValue":"",
+    "defaultLowValue":""
+  }], "assetTypeAttributeValues": [{
+    "assetTypeAttributeValueId":"",
+    "assetTypeId":"",
+    "assetTypeAttributeId":"",
+    "price":1.26
+  }]
+}, {
+  "assetTypeId":"2232d922-0014-46a2-9cb8-ba82b8347388",
+  "modelNumber":"G24-465DX-16",
+  "description":"The model 8 description",
+  "materialCode":"SS-304-08",
+  "unitOfMeasure":"SECONDS",
+  "assetTypeClass": {
+    "assetTypeClassId":"e802c4f8-84fd-11e7-bb31-be2e44b06b34",
+    "name":"Spray",
+    "description":"Spray"
+  }, "assetTypeAttributes": [{
+    "assetTypeAttributeId":"298c8b46-8500-11e7-bb31-be2e44b06b34",
+    "name":"",
+    "format":"",
+    "unitOfMeasure":"",
+    "defaultHighValue":"",
+    "defaultLowValue":""
+  }], "assetTypeAttributeValues": [{
+    "assetTypeAttributeValueId":"",
+    "assetTypeId":"",
+    "assetTypeAttributeId":"",
+    "price":1.27
+  }]
+}, {
+  "assetTypeId":"c0ea2fc8-7084-48ec-bb2a-3bb149a45885",
+  "modelNumber":"G24-465DX-17",
+  "description":"The model 9 description",
+  "materialCode":"SS-304-09",
+  "unitOfMeasure":"SECONDS",
+  "assetTypeClass": {
+    "assetTypeClassId":"e802c4f8-84fd-11e7-bb31-be2e44b06b34",
+    "name":"Spray",
+    "description":"Spray"
+  }, "assetTypeAttributes": [{
+    "assetTypeAttributeId":"298c8cfe-8500-11e7-bb31-be2e44b06b34",
+    "name":"",
+    "format":"",
+    "unitOfMeasure":"",
+    "defaultHighValue":"",
+    "defaultLowValue":""
+  }], "assetTypeAttributeValues": [{
+    "assetTypeAttributeValueId":"",
+    "assetTypeId":"",
+    "assetTypeAttributeId":"",
+    "price":1.28
+  }]
+}, {
+  "assetTypeId":"810c0a8f-9875-45fc-83ca-63a78516b0cc",
+  "modelNumber":"G24-465DX-18",
+  "description":"The model 10 description",
+  "materialCode":"SS-304-10",
+  "unitOfMeasure":"SECONDS",
+  "assetTypeClass": {
+    "assetTypeClassId":"e802c76e-84fd-11e7-bb31-be2e44b06b34",
+    "name":"Hot Sauce",
+    "description":"Hot Sauce"
+  }, "assetTypeAttributes": [{
+    "assetTypeAttributeId":"298c93ca-8500-11e7-bb31-be2e44b06b34",
+    "name":"",
+    "format":"",
+    "unitOfMeasure":"",
+    "defaultHighValue":"",
+    "defaultLowValue":""
+  }], "assetTypeAttributeValues": [{
+    "assetTypeAttributeValueId":"",
+    "assetTypeId":"",
+    "assetTypeAttributeId":"",
+    "price":1.29
+  }]
+}]
+}

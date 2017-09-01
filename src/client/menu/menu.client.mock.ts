@@ -55,7 +55,7 @@ export class MenuClientMock extends MenuClient {
   private topMenuItems():MenuItemState[] {
     return [
       this.toMenuItem({"id":"101", "rank":"20", "name": 'Account', "routeName": '/account', "color": 'black', "backgroundColor": 'white', "selected": true, "active": true, "secured": false}),
-      this.toMenuItem({"id":"102", "rank":"21", "name": 'Asset', "routeName": '/asset-type', "color": 'black', "backgroundColor": 'white', "selected": true, "active": true, "secured": false}),
+      this.toMenuItem({"id":"102", "rank":"21", "name": 'Asset', "routeName": '/goods', "color": 'black', "backgroundColor": 'white', "selected": true, "active": true, "secured": false}),
       this.toMenuItem({"id":"103", "rank":"22", "name": 'Work Order', "routeName": '/work-order', "color": 'black', "backgroundColor": 'white', "selected": true, "active": true, "secured": false}),
       this.toMenuItem({"id":"104", "rank":"23", "name": 'Request', "routeName": '/request', "color": 'black', "backgroundColor": 'white', "selected": true, "active": true, "secured": false}),
       this.toMenuItem({"id":"110", "rank":"30", "name": 'Login', "routeName": '/login', "color": 'black', "backgroundColor": 'white', "selected": true, "active": true, "secured": false}),
@@ -99,7 +99,8 @@ export class MenuClientMock extends MenuClient {
   getLeftMenuStateByName(menuName: string): Observable<MenuState> {
 
     this.leftMenuMap.set("account", this.accountLeftMenu);
-    this.leftMenuMap.set("asset-type", this.assetTypeLeftMenu);
+    this.leftMenuMap.set("goods", this.goodsLeftMenu);
+    this.leftMenuMap.set("assets", this.goodsLeftMenu);
     this.leftMenuMap.set("work-order", this.workOrderLeftMenu);
     this.leftMenuMap.set("request", this.requestLeftMenu);
     this.leftMenuMap.set("report", this.reportLeftMenu);
@@ -176,8 +177,26 @@ export class MenuClientMock extends MenuClient {
     return this.createAccountMenu(accountSubLeftMenu);
   }
 
-  get assetTypeLeftMenu():MenuState {
-    return new MenuState();
+  get goodsLeftMenu():MenuState {
+    return this.createAssetMenu(this.assetMenuItems());
+  }
+
+  private createAssetMenu(assetTypeMenuItems:MenuItemState[]):MenuState {
+    let assetTypeLeftMenu:MenuState = new MenuState();
+    assetTypeLeftMenu.id = "1000";
+    assetTypeLeftMenu.rank = 100;
+    assetTypeLeftMenu.name = "asset-type";
+    assetTypeLeftMenu.title = "Asset Type Menu";
+    assetTypeLeftMenu.menuItemStates = assetTypeMenuItems;
+    return assetTypeLeftMenu;
+
+  }
+
+  private assetMenuItems():MenuItemState[] {
+    return [
+      // this.toMenuItem({"id":"3000", "rank":"1", "name": 'Assets', "routeName": '/goods/assets', "color": 'black', "backgroundColor": 'white', "selected": true, "active": false, "secured": false}),
+      this.toMenuItem({"id":"3000", "rank":"1", "name": 'Asset Types', "routeName": '/goods/asset-types', "color": 'black', "backgroundColor": 'white', "selected": true, "active": false, "secured": false}),
+    ];
   }
 
   get workOrderLeftMenu():MenuState {
@@ -202,7 +221,7 @@ export class MenuClientMock extends MenuClient {
     return accountLeftMenu;
   }
 
-  getLeftMenuStateById(menuId: string): Observable<MenuState[]> {
+  getLeftMenuStateById(menuId: string): Observable<MenuState> {
 
     this.leftMenuMap.set("account", null);
     this.leftMenuMap.set("asset-type", null);
@@ -233,7 +252,8 @@ export class MenuClientMock extends MenuClient {
     menuState.push(myInfoMenuState);
     menuState.push(securityMenuState);
 
-    return Observable.of(menuState);
+    // return Observable.of(menuState);
+    return null;
   }
 
   private organizationsMenuItems(menuState:MenuState[]):MenuItemState[] {

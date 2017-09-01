@@ -1,8 +1,13 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div id="content">
-  <div class="container">
-    <menu></menu>
-    <hr>
-    <router-outlet></router-outlet>
+<div class="all-wrapper menu-side no-padding-content">
+  <div class="layout-w">
+    <!--side menu-->
+    <menu [isLoggedIn]="isLoggedIn"></menu>
+    <div class="content-w">
+      <!--top menu-->
+      <top-menu [isLoggedIn]="isLoggedIn"></top-menu>
+      <router-outlet></router-outlet>
+    </div>
   </div>
+  <div class="display-type"></div>
 </div>

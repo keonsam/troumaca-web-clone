@@ -11,7 +11,7 @@ export class LeftMenuService {
     return this.leftMenuRepository.getLeftMenuModelByName(menuName);
   }
 
-  public getLeftMenuById(menuId:string):Observable<LeftMenuModel[]> {
+  public getLeftMenuById(menuId:string):Observable<LeftMenuModel> {
     return this.leftMenuRepository.getLeftMenuModelById(menuId);
   }
 
