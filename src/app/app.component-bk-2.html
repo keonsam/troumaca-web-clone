@@ -1,0 +1,12 @@
+<div class="all-wrapper menu-side" [ngClass]="{'with-pattern':appDynamicStyle.isWithPattern, 'no-padding-content':appDynamicStyle.isNoPaddingContent, 'with-side-panel':appDynamicStyle.isWithSidePanel}" >
+<!--<div class="all-wrapper menu-side with-side-panel">-->
+<!--<div class="all-wrapper menu-side">-->
+  <div class="layout-w">
+    <!--need conditional so that it does not apply to certain page-->
+    <mobile-menu></mobile-menu>
+    <!--side menu-->
+    <side-menu></side-menu>
+    <router-outlet></router-outlet>
+  </div>
+  <div class="display-type"></div>
+</div>

@@ -1,7 +1,7 @@
 import "rxjs/add/operator/map";
 import {ForgotPasswordRepository} from "../../login/forgot-password/forgot.password.repository";
 import {Observable} from "rxjs/Observable";
-import {AuthenticationClient} from "../../client/authentication/authentication.client";
+import {AuthenticationClient} from "../../client/credentials/authentication.client";
 
 export class ForgotPasswordRepositoryAdapter extends ForgotPasswordRepository {
 

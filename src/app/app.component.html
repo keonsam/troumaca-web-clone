@@ -1,13 +1,39 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div class="all-wrapper menu-side no-padding-content">
+<div class="all-wrapper menu-side no-padding-content container-main">
+
   <div class="layout-w">
-    <!--side menu-->
-    <menu [isLoggedIn]="isLoggedIn"></menu>
-    <div class="content-w">
-      <!--top menu-->
-      <top-menu [isLoggedIn]="isLoggedIn"></top-menu>
-      <router-outlet></router-outlet>
+      <!--------------------
+      START - Mobile Menu
+      -------------------->
+      <mobile-menu></mobile-menu>
+      <!--------------------
+      END - Mobile Menu
+      -------------------->
+
+    <!--Might be able to move order down to the component-->
+    <div class="container-app">
+
+      <!--------------------
+      START - Menu side compact
+      -------------------->
+      <side-menu></side-menu>
+      <!--------------------
+      END - Menu side compact
+      -------------------->
+
+      <!--Might be able to move order down to the component-->
+      <div class="container-content">
+        <!--------------------
+        START - Content W
+        -------------------->
+        <router-outlet></router-outlet>
+        <!--------------------
+        End - Content W
+        -------------------->
+      </div>
+
     </div>
+
   </div>
+
   <div class="display-type"></div>
 </div>

@@ -8,7 +8,8 @@ export class AppConfig {
   private _remoteEndPoints: boolean;
 
   constructor() {
-    this._apiEndpoint = "api.heroes.com";
+    // this._apiEndpoint = "api.heroes.com";
+    this._apiEndpoint = "http://localhost:3000";
     this._title = "Troumaca";
     this._remoteEndPoints = false;
   }

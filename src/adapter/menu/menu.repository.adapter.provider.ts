@@ -1,4 +1,4 @@
-import {MenuClient} from "../../client/menu/menu.client";
+import {MenuClient} from "../../client/menus/menu.client";
 import {MenuRepositoryAdapter} from "./menu.repository.adapter";
 import {MenuRepository} from "../../menu/menu.repository";
 import {LeftMenuRepository} from "../../left-menu/left.menu.repository";

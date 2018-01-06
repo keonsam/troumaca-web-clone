@@ -1,6 +1,6 @@
 import "rxjs/add/operator/map";
 import {AuthGuardService} from "../../auth-guard/auth.guard.service";
-import {SessionClient} from "../../client/session/session.client";
+import {SessionClient} from "../../client/sessions/session.client";
 import {Observable} from "rxjs/Observable";
 
 export class AuthGuardRepositoryAdapter extends AuthGuardService {

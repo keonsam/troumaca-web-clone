@@ -1,6 +1,6 @@
 import {SignInRepositoryAdapter} from "./sign.in.repository.adapter";
 import {SignInRepository} from "../../login/sign-in/sign.in.repository";
-import {AuthenticationClient} from "../../client/authentication/authentication.client";
+import {AuthenticationClient} from "../../client/credentials/authentication.client";
 
 export function signInRepositoryProviderFactory (loginClient:AuthenticationClient):SignInRepository {
   let signInRepositoryAdapter: SignInRepositoryAdapter;

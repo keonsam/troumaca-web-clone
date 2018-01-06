@@ -1,6 +1,6 @@
 import {SignUpRepository} from "../../sign-up/sign.up.repository";
 import {SignUpClient} from "../../client/sign-up/sign.up.client";
-import {mapObjectProps} from "../object.property.mapper";
+import {mapObjectProps} from "../../mapper/object.property.mapper";
 import {SignUpState} from "../../client/sign-up/sign.up.state";
 import {SignUpModel} from "../../sign-up/sign.up.model";
 

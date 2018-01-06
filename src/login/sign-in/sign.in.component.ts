@@ -12,56 +12,13 @@ import {Router} from "@angular/router";
 import {EventName, EventService} from "../../event/event.service";
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 
+
 @Component({
   selector: 'login',
   templateUrl: './sign.in.component.html',
   styleUrls: ['./sign.in.component.css']
 })
 export class SignInComponent implements OnInit {
-
-  get errorExists(): boolean {
-    return this._errorExists;
-  }
-
-  set errorExists(value: boolean) {
-    this._errorExists = value;
-  }
-  get message(): string {
-    return this._message;
-  }
-
-  set message(value: string) {
-    this._message = value;
-  }
-  get rememberMe(): FormControl {
-    return this._rememberMe;
-  }
-
-  set rememberMe(value: FormControl) {
-    this._rememberMe = value;
-  }
-  get password(): FormControl {
-    return this._password;
-  }
-
-  set password(value: FormControl) {
-    this._password = value;
-  }
-  get username(): FormControl {
-    return this._username;
-  }
-
-  set username(value: FormControl) {
-    this._username = value;
-  }
-
-  get signInForm(): FormGroup {
-    return this._signInForm;
-  }
-
-  set signInForm(value: FormGroup) {
-    this._signInForm = value;
-  }
 
   private _signInForm: FormGroup;
   private _username: FormControl;
@@ -142,4 +99,49 @@ export class SignInComponent implements OnInit {
   forgotPassword() {
     this.router.navigate(['/login/forgot-password']);
   }
+
+  get errorExists(): boolean {
+    return this._errorExists;
+  }
+
+  set errorExists(value: boolean) {
+    this._errorExists = value;
+  }
+  get message(): string {
+    return this._message;
+  }
+
+  set message(value: string) {
+    this._message = value;
+  }
+  get rememberMe(): FormControl {
+    return this._rememberMe;
+  }
+
+  set rememberMe(value: FormControl) {
+    this._rememberMe = value;
+  }
+  get password(): FormControl {
+    return this._password;
+  }
+
+  set password(value: FormControl) {
+    this._password = value;
+  }
+  get username(): FormControl {
+    return this._username;
+  }
+
+  set username(value: FormControl) {
+    this._username = value;
+  }
+
+  get signInForm(): FormGroup {
+    return this._signInForm;
+  }
+
+  set signInForm(value: FormGroup) {
+    this._signInForm = value;
+  }
+
 }

@@ -21,9 +21,7 @@ export class MenuComponent implements OnInit {
     this.isLoggedIn = false;
     this.menuModel = new MenuModel();
     this.menuModel.menuItemModels = [];
-    if (true) {
-      console.log("Ok.");
-    }
+    console.log("Ok.");
   }
 
   handleMenuRefreshEvent() {

@@ -29,33 +29,49 @@ import {RequestModule} from "../request/request.module";
 import {WorkOrderModule} from "../work-order/work.order.module";
 import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 import {GoodsModule} from "../goods/goods.module";
-import {AssetsModule} from "../assets/assets.module";
+import {AssetModule} from "../assets/asset.module";
+import {FrontHomeModule} from "./front-home/front.home.module";
+import {LobbyHomeModule} from "./lobby-home/lobby.home.module";
+import {AppRoutingModule} from "./app.routing.module";
+import {AttributeModule} from "../attributes/attribute.module";
+import {AssetTypeClassModule} from "../asset-type-classes/asset.type.class.module";
+import {SiteModule} from "../site/site.module";
+import {Ng2CompleterModule} from "ng2-completer";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
   imports: [
     BrowserModule,
-    NgbModule.forRoot(),
+    Ng2CompleterModule,
+    FormsModule,
+    // NgbModule.forRoot(),
     HttpClientModule,
     MenuModule,
-    routing,
-    HomeModule,
+    // routing,
+    // HomeModule,
     ClientModule,
     AdapterModule,
-    LoginModule,
-    AccountModule,
-    ReportModule,
-    SignUpModule,
-    LogoutModule,
+    // LoginModule,
+    // AccountModule,
+    // ReportModule,
+    // SignUpModule,
+    // LogoutModule,
     PageNotFoundModule,
     EventSubjectModule,
     EventModule,
-    ActivityModule,
+    // ActivityModule,
     AssetTypesModule,
-    RequestModule,
-    WorkOrderModule,
-    AssetsModule,
-    GoodsModule
+    // RequestModule,
+    // WorkOrderModule,
+    AssetModule,
+    // GoodsModule,
+    // FrontHomeModule,
+    LobbyHomeModule,
+    AttributeModule,
+    AssetTypeClassModule,
+    SiteModule,
+    AppRoutingModule
   ],
   declarations: [
     AppComponent

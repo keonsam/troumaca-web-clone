@@ -5,19 +5,22 @@ import {reportRepositoryProvider} from "./report/report.repository.adapter.provi
 import {signUpRepositoryProvider} from "./sign-up/sign.up.repository.adapter.provider";
 import {signInRepositoryProvider} from "./sign-in/sign.in.repository.adapter.provider";
 import {forgotPasswordRepositoryProvider} from "./forgot-password/forgot.password.repository.adapter.provider";
-import {organizationRepositoryProvider, personRepositoryProvider} from "./party/party.repository.adapter.provider";
+import {organizationRepositoryProvider, personRepositoryProvider, assetPersonRepositoryProvider} from "./party/party.repository.adapter.provider";
 import {securityRepositoryProvider} from "./security/security.repository.provider";
 import {authenticationRepositoryProvider} from "./login/login.repository.adapter.provider";
 import {changePasswordRepositoryProvider} from "./change-password/change.password.repository.adapter.provider";
 import {sessionRepositoryProvider} from "./session/session.repository.adapter.provider";
 import {activityRepositoryProvider} from "./activity/activity.repository.adapter.provider";
 import {requestRepositoryProvider} from "./request/request.repository.adapter.provider";
-import {siteRepositoryProvider} from "./site/site.repository.adapter.provider";
+import {assetSiteRepositoryProvider, siteRepositoryProvider} from "./site/site.repository.adapter.provider";
 import {workOrderRepositoryProvider} from "./work-order/work.order.repository.adapter.provider";
 import {assetsRepositoryProvider} from "./assets/assets.repository.adapter.provider";
 import {authGuardServiceProvider} from "./auth-guard/auth.guard.repository.adapter.provider";
 import {goodsRepositoryProvider} from "./goods/goods.repository.adapter.provider";
 import {assetTypesRepositoryProvider} from "./asset-types/assets.repository.adapter.provider";
+import {attributeRepositoryProvider} from "./attributes/attributes.repository.adapter.provider";
+import {assetTypeClassRepositoryProvider} from "./asset-type-classes/asset.type.classes.adapter.provider";
+import {unitOfMeasureRepositoryProvider} from "./unit-of-measures/unit.of.measure.repository.adapter.provider";
 
 @NgModule({
   imports:      [],
@@ -40,11 +43,16 @@ import {assetTypesRepositoryProvider} from "./asset-types/assets.repository.adap
     activityRepositoryProvider,
     requestRepositoryProvider,
     siteRepositoryProvider,
+    assetSiteRepositoryProvider,
     workOrderRepositoryProvider,
     assetsRepositoryProvider,
     authGuardServiceProvider,
     goodsRepositoryProvider,
-    assetTypesRepositoryProvider
+    assetTypesRepositoryProvider,
+    attributeRepositoryProvider,
+    assetTypeClassRepositoryProvider,
+    unitOfMeasureRepositoryProvider,
+    assetPersonRepositoryProvider
   ]
 })
 export class AdapterModule { }

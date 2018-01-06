@@ -1,4 +1,4 @@
-import {ReportClient} from "../../client/report/report.client";
+import {ReportClient} from "../../client/reports/report.client";
 import {ReportRepository} from "../../report/report.repository";
 import {ReportRepositoryAdapter} from "./report.repository.adapter";
 export function reportRepositoryProviderFactory (reportClient:ReportClient):ReportRepository {

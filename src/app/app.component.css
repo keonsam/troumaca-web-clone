@@ -1,0 +1,77 @@
+/*Template styles*/
+.all-wrapper {
+  -webkit-box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  max-width: 1600px;
+  margin: 0px auto;
+  position: relative;
+  min-height: 100%;
+}
+
+.menu-side .layout-w {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+
+/*
+  Troumaca overrides etc.
+*/
+.all-wrapper {
+  max-width: 1820px;
+  height: 100% !important;
+}
+
+.container-main {
+  width: 100%;
+  height: 100% !important;
+  border: solid 1px blue;
+}
+
+.menu-side .layout-w {
+  height: 100% !important;
+  width: 100%;
+  border: solid 1px burlywood;
+  display: flex;
+  display: -webkit-flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.container-app {
+  height: 100% !important;
+  width: 100%;
+  border: solid 1px green;
+  order: 2;
+  display: flex;
+  display: -webkit-flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  min-height: 768px;
+  /*-webkit-align-items: flex-start;*/
+  /*align-items: flex-start;  */
+}
+
+.container-content {
+  order: 2;
+  width: 100%;
+  height: 100% !important;
+}
+
+.layout-w {
+  min-height: 768px;
+}
+
+/*Media query*/
+@media only screen and (max-width: 750px) {
+  .menu-container-side {
+    display: none;
+  }
+}
+
+:host  {
+  width: 100%;
+  height: 100% !important;
+}

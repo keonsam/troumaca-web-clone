@@ -1,0 +1,42 @@
+<div style="padding-bottom: 20px;line-height: 50px;">
+  <input name="search" placeholder="Search..." height="100">
+  <!--<button>Save</button>-->
+</div>
+<table class="table-fill">
+  <thead>
+  <tr>
+    <th class="text-left">Class</th>
+    <th class="text-left">Name</th>
+    <!--<th class="text-left">Description</th>-->
+    <th class="text-left">Model Number</th>
+    <!--<th class="text-left">Unit of measure</th>-->
+    <th class="text-left">Quantity</th>
+  </tr>
+  </thead>
+  <tbody class="table-hover">
+  <tr *ngFor="let assetTypeModel of assetTypeModels">
+    <td class="text-left">{{assetTypeModel.assetTypeClass.name}}</td>
+    <td class="text-left">{{assetTypeModel.description}}</td>
+    <!--<td class="text-left">Jonesco Model 1650 pump</td>-->
+    <td class="text-left">{{assetTypeModel.modelNumber}}</td>
+    <!--<td class="text-left">1234567890</td>-->
+    <td class="text-left">10</td>
+  </tr>
+  <!--<tr>-->
+    <!--<td class="text-left">February</td>-->
+    <!--<td class="text-left">$ 10,000.00</td>-->
+  <!--</tr>-->
+  <!--<tr>-->
+    <!--<td class="text-left">March</td>-->
+    <!--<td class="text-left">$ 85,000.00</td>-->
+  <!--</tr>-->
+  <!--<tr>-->
+    <!--<td class="text-left">April</td>-->
+    <!--<td class="text-left">$ 56,000.00</td>-->
+  <!--</tr>-->
+  <!--<tr>-->
+    <!--<td class="text-left">May</td>-->
+    <!--<td class="text-left">$ 98,000.00</td>-->
+  <!--</tr>-->
+  </tbody>
+</table>

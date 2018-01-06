@@ -1,2 +1,41 @@
-<front-menu></front-menu>
-<inside-menu></inside-menu>
+<div class="top-menu-secondary">
+  <ul>
+    <li *ngFor="let menuItemModel of menuModel.menuItemModels" (click)="onSelected(menuItemModel)" routerLinkActive="active">
+      <a href="#" routerLink="{{menuItemModel.routeName}}">{{menuItemModel.name}}</a>
+    </li>
+  </ul>
+  <div class="top-menu-controls">
+
+    <search [visible]="displaySearchBox"></search>
+
+    <!--------------------
+    START - Messages Link in secondary top menu
+    -------------------->
+
+    <message></message>
+
+    <!--------------------
+    END - Messages Link in secondary top menu
+    -------------------->
+
+    <!--------------------
+    START - Settings Link in secondary top menu
+    -------------------->
+
+    <setting></setting>
+
+    <!--------------------
+    END - Settings Link in secondary top menu
+    -------------------->
+
+    <!--------------------
+    START - User avatar and menu in secondary top menu
+    -------------------->
+
+    <avatar-menu></avatar-menu>
+
+    <!--------------------
+    END - User avatar and menu in secondary top menu
+    -------------------->
+  </div>
+</div>

@@ -5,11 +5,16 @@ import {MenuComponent} from "./menu.component";
 import {MenuService} from "./menu.service";
 import {MenuRepository} from "./menu.repository";
 import {RouterModule} from "@angular/router";
-import {SideMenuComponent} from "./side/side.menu.component";
 import {TopMenuComponent} from "./top/top.menu.component";
 import {MobileMenuComponent} from "./mobile/mobile.menu.component";
-import {InsideMenuComponent} from "./top/inside/inside.menu.component";
-import {FrontMenuComponent} from "./top/front/front.menu.component";
+import {SideMenuLogoComponent} from "./side/logo/side.menu.logo.component";
+import {SideMenuComponent} from "./side/side.menu.component";
+import {SideMenuUserComponent} from "./user/side.menu.user.component";
+import {SideMenuMainComponent} from "./side/main/side.menu.main.component";
+import {SearchModule} from "../search/search.module";
+import {AvatarMenuComponent} from "./avatar/avatar.menu.component";
+import {MessageModule} from "../message/message.module";
+import {SettingModule} from "../setting/setting.module";
 
 
 @NgModule({
@@ -17,13 +22,18 @@ import {FrontMenuComponent} from "./top/front/front.menu.component";
     CommonModule,
     NgbModule,
     RouterModule,
+    SearchModule,
+    MessageModule,
+    SettingModule
   ],
   declarations: [
-    FrontMenuComponent,
-    InsideMenuComponent,
     MobileMenuComponent,
     TopMenuComponent,
     SideMenuComponent,
+    SideMenuLogoComponent,
+    SideMenuUserComponent,
+    SideMenuMainComponent,
+    AvatarMenuComponent,
     MenuComponent
   ],
   providers: [{
@@ -38,11 +48,12 @@ import {FrontMenuComponent} from "./top/front/front.menu.component";
     deps: [MenuRepository]
   }],
   exports: [
-    FrontMenuComponent,
-    InsideMenuComponent,
     MobileMenuComponent,
     TopMenuComponent,
     SideMenuComponent,
+    SideMenuLogoComponent,
+    SideMenuUserComponent,
+    SideMenuMainComponent,
     MenuComponent
   ]
 })

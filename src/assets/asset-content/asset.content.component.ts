@@ -1,0 +1,71 @@
+import {Component, OnInit} from "@angular/core";
+import {AssetService} from "../asset.service";
+import {Assets} from "../assets";
+
+@Component({
+  selector: 'asset-content',
+  templateUrl: './asset.content.component.html',
+  styleUrls: ['./asset.content.component.css']
+})
+export class AssetContentComponent implements OnInit {
+
+  private _headerNames:string[] = [];
+  private _assets:Assets;
+
+  constructor(private assetService:AssetService) {
+    this.assets = new Assets();
+    this.assets.assets = [];
+  }
+
+  ngOnInit(): void {
+    this.assetService.getAssets()
+    .subscribe(next => {
+      console.log(next);
+      this.assets = next;
+    }, error => {
+      console.log(error);
+    }, () => {
+      console.log("complete");
+    });
+
+    this.headerNames = [
+      "Classification",
+      "Name",
+      "Description"
+    ];
+  }
+
+  public onRequestPage(pageNumber:number) {
+    this.assetService.getAssets(pageNumber)
+      .subscribe(next => {
+        console.log(next);
+        this.assets = next;
+      }, error => {
+        console.log(error);
+      }, () => {
+        console.log("complete");
+      });
+
+  }
+
+  get headerNames(): string[] {
+    return this._headerNames;
+  }
+
+  set headerNames(value: string[]) {
+    this._headerNames = value;
+  }
+
+  get assets(): Assets {
+    return this._assets;
+  }
+
+  set assets(value: Assets) {
+    this._assets = value;
+  }
+
+  onResize(event) {
+    console.log("W:" + event.target.innerWidth + " H:" + event.target.innerHeight);
+  }
+
+}

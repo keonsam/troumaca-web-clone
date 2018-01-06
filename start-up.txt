@@ -1,0 +1,8 @@
+Start back end
+/Users/michael/IdeaProjects/troumaca-web/backend/bin
+Michaels-MacBook-Pro:bin michael$ node server.js
+
+
+Start front end
+/Users/michael/IdeaProjects/troumaca-web
+Michaels-MacBook-Pro:troumaca-web michael$ npm start startconcurrentlywithproxy

@@ -1,0 +1,8 @@
+<div *ngIf="visible" class="searchPanel">
+  <div class="element-search hidden-lg-down">
+    <input name=search type="text" placeholder="Start typing to search..." #search (keyup.enter)="onEnter(search.value)" (keyup)="onKeyUp(search.value)">
+  </div>
+  <div class="top-icon top-search hidden-xl-up">
+    <i class="os-icon os-icon-ui-37"></i>
+  </div>
+</div>

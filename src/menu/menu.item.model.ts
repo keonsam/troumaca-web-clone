@@ -1,6 +1,14 @@
 import {MenuModel} from "./menu.model";
 export class MenuItemModel {
 
+  get iconClasses(): string {
+    return this._iconClasses;
+  }
+
+  set iconClasses(value: string) {
+    this._iconClasses = value;
+  }
+
   get menuModels(): MenuModel[] {
     return this._menuModel;
   }
@@ -85,5 +93,6 @@ export class MenuItemModel {
   private _selected: boolean;
   private _secured:boolean;
   private _menuModel:MenuModel[];
+  private _iconClasses:string;
 
 }

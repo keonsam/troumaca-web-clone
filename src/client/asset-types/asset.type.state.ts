@@ -1,18 +1,16 @@
 import {AssetTypeClassState} from "./asset.type.class.state";
-import {AssetTypeAttributeState} from "./asset.type.attribute.state";
-import {AssetTypeAttributeValueState} from "./asset.type.attribute.value.state";
+// import {AttributeState} from "./attribute.state";
 
 export class AssetTypeState {
 
   private _assetTypeId:string;
-  private _assetTypeClass:AssetTypeClassState;
-  private _assetTypeAttributes:AssetTypeAttributeState[];
-  private _assetTypeAttributeValues:AssetTypeAttributeValueState[];
   private _modelNumber:string;
   private _description:string;
   private _name:string;
   private _materialCode:string;
   private _unitOfMeasure:string;
+  private _assetTypeClass:AssetTypeClassState;
+
 
   get assetTypeId(): string {
     return this._assetTypeId;
@@ -30,21 +28,13 @@ export class AssetTypeState {
     this._assetTypeClass = value;
   }
 
-  get assetTypeAttributes(): AssetTypeAttributeState[] {
-    return this._assetTypeAttributes;
-  }
-
-  set assetTypeAttributes(value: AssetTypeAttributeState[]) {
-    this._assetTypeAttributes = value;
-  }
-
-  get assetTypeAttributeValues(): AssetTypeAttributeValueState[] {
-    return this._assetTypeAttributeValues;
-  }
-
-  set assetTypeAttributeValues(value: AssetTypeAttributeValueState[]) {
-    this._assetTypeAttributeValues = value;
-  }
+  // get attributes(): AttributeState[] {
+  //   return this._attributes;
+  // }
+  //
+  // set attributes(value: AttributeState[]) {
+  //   this._attributes = value;
+  // }
 
   get modelNumber(): string {
     return this._modelNumber;

@@ -3,12 +3,12 @@ import {Observable} from "rxjs/Observable";
 import {AssetTypeState} from "./asset.type.state";
 import {AssetTypeClassState} from "./asset.type.class.state";
 import "rxjs/add/observable/of";
-import {AssetTypeAttributeState} from "./asset.type.attribute.state";
-import {AssetTypeAttributeValueState} from "./asset.type.attribute.value.state";
+import {AttributeState} from "./attribute.state";
 import {UUIDGenerator} from "../../uuid.generator";
 import {HttpClient} from "@angular/common/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
+import {AssetTypeStates} from "./asset.type.states";
 
 // const URI_API: string = "http://localhost:3000/asset-types";
 const URI_API: string = "/asset-types";
@@ -30,6 +30,10 @@ export class AssetTypesClientMock extends AssetTypesClient {
 
   }
 
+  public findAssetTypes(searchStr: string, pageSize:number): Observable<AssetTypeStates> {
+    return null;
+  }
+
   private createAssetTypeClass():AssetTypeClassState {
     let assetTypeClassState:AssetTypeClassState = new AssetTypeClassState();
     assetTypeClassState.assetTypeClassId = this.uuidGenerator.generateUUID();
@@ -38,16 +42,10 @@ export class AssetTypesClientMock extends AssetTypesClient {
     return assetTypeClassState;
   }
 
-  private createAssetTypeAttribute():AssetTypeAttributeState {
-    let assetTypeAttributeState:AssetTypeAttributeState = new AssetTypeAttributeState();
+  private createAssetTypeAttribute():AttributeState {
+    let assetTypeAttributeState:AttributeState = new AttributeState();
     return assetTypeAttributeState;
   }
-
-  private createAssetTypeAttributeValue():AssetTypeAttributeValueState {
-    let assetTypeAttributeValueState:AssetTypeAttributeValueState = new AssetTypeAttributeValueState();
-    return assetTypeAttributeValueState;
-  }
-
 
 
 }

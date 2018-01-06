@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {AssetTypesService} from "./asset.types.service";
-import {AssetTypeModel} from "./asset.types.model";
+import {AssetType} from "../assets/asset.type";
 
 @Component({
   selector: 'asset-types',
@@ -9,7 +9,7 @@ import {AssetTypeModel} from "./asset.types.model";
 })
 export class AssetTypesComponent implements OnInit {
 
-  private _assetTypeModels:AssetTypeModel[];
+  private _assetTypes:AssetType[];
 
   constructor(private assetTypesService:AssetTypesService) {
   }
@@ -19,7 +19,7 @@ export class AssetTypesComponent implements OnInit {
       .getAssetTypes()
       .subscribe(assetTypes => {
         console.log(assetTypes);
-        this._assetTypeModels = assetTypes;
+        this._assetTypes = assetTypes;
       }, error => {
 
       }, () => {
@@ -27,12 +27,12 @@ export class AssetTypesComponent implements OnInit {
       });
   }
 
-
-  get assetTypeModels(): AssetTypeModel[] {
-    return this._assetTypeModels;
+  get assetTypes(): AssetType[] {
+    return this._assetTypes;
   }
 
-  set assetTypeModels(value: AssetTypeModel[]) {
-    this._assetTypeModels = value;
+  set assetTypes(value: AssetType[]) {
+    this._assetTypes = value;
   }
+
 }

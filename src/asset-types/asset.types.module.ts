@@ -3,11 +3,10 @@ import {CommonModule} from "@angular/common";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AssetTypesComponent} from "./asset.types.component";
-import {assetTypesRouting} from "./asset.types.routing";
 import {AssetTypesService} from "./asset.types.service";
 import {AssetTypesRepository} from "./asset.types.repository";
 import {RouterModule} from "@angular/router";
-import {LeftMenuModule} from "../left-menu/left.menu.module";
+import {MenuModule} from "../menu/menu.module";
 
 @NgModule({
   imports: [
@@ -16,8 +15,7 @@ import {LeftMenuModule} from "../left-menu/left.menu.module";
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    LeftMenuModule,
-    // assetTypesRouting,
+    MenuModule
   ],
   declarations: [
     AssetTypesComponent

@@ -7,6 +7,7 @@ import {SiteService} from "./site.service";
 import {SiteRepository} from "./site.repository";
 import {siteRouting} from "./site.routing";
 import {RouterModule} from "@angular/router";
+import {MenuModule} from "../menu/menu.module";
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import {RouterModule} from "@angular/router";
     RouterModule,
     ReactiveFormsModule,
     siteRouting,
+    MenuModule
   ],
   declarations: [
     SiteComponent

@@ -1,6 +1,6 @@
 import {SessionRepository} from "../../security/session/session.repository";
 import {SessionRepositoryAdapter} from "./session.repository.adapter";
-import {SessionClient} from "../../client/session/session.client";
+import {SessionClient} from "../../client/sessions/session.client";
 
 export function sessionRepositoryProviderFactory (sessionClient:SessionClient):SessionRepository {
   let sessionRepositoryAdapter: SessionRepositoryAdapter;

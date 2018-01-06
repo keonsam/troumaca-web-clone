@@ -1,5 +1,5 @@
 import {RequestRepositoryAdapter} from "./request.repository.adapter";
-import {RequestClient} from "../../client/request/request.client";
+import {RequestClient} from "../../client/requests/request.client";
 import {RequestRepository} from "../../request/request.repository";
 
 export function requestRepositoryProviderFactory (requestClient:RequestClient):RequestRepository {

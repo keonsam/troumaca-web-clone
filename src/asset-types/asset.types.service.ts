@@ -1,12 +1,12 @@
 import {AssetTypesRepository} from "./asset.types.repository";
 import {Observable} from "rxjs/Observable";
-import {AssetTypeModel} from "./asset.types.model";
+import {AssetType} from "../assets/asset.type";
 
 export class AssetTypesService {
   constructor(private assetTypesRepository: AssetTypesRepository) {
   }
 
-  getAssetTypes():Observable<AssetTypeModel[]> {
+  getAssetTypes():Observable<AssetType[]> {
     return this.assetTypesRepository.getAssetTypes();
   }
 }

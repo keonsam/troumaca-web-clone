@@ -3,8 +3,8 @@ import {LoginModel} from "../../login/login.model";
 import {Observable} from "rxjs/Observable";
 import {Session} from "../../login/session";
 import "rxjs/add/operator/map";
-import {mapObjectProps} from "../object.property.mapper";
-import {AuthenticationClient} from "../../client/authentication/authentication.client";
+import {mapObjectProps} from "../../mapper/object.property.mapper";
+import {AuthenticationClient} from "../../client/credentials/authentication.client";
 
 export class LoginRepositoryAdapter extends LoginRepository {
 

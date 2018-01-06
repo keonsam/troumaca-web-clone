@@ -1,0 +1,196 @@
+/* Logged user box in the menu */
+.logged-user-w {
+  text-align: center;
+  padding: 1rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.logged-user-w .avatar-w {
+  padding: 5px;
+  border: 1px solid #262626;
+  border-radius: 50px;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.logged-user-w .avatar-w img {
+  width: 50px;
+  height: auto;
+  border-radius: 50px;
+}
+
+.logged-user-w .logged-user-role {
+  display: block;
+  font-size: 0.63rem;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* others */
+
+/*.top-menu-secondary .logged-user-w {*/
+.logged-user-w {
+  position: relative;
+  padding: 0px 1rem;
+  border-bottom: none;
+}
+
+/*.top-menu-secondary .logged-user-w .avatar-w {*/
+.logged-user-w .avatar-w {
+  padding: 0px;
+  border: none;
+}
+
+/*.top-menu-secondary .logged-user-w .avatar-w img {*/
+.logged-user-w .avatar-w img {
+  width: 40px;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-i {*/
+.logged-user-w .logged-user-i {
+  display: inline-block;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-i:hover {*/
+.logged-user-w .logged-user-i:hover {
+  cursor: pointer;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-i:hover .logged-user-menu {*/
+.logged-user-w .logged-user-i:hover .logged-user-menu {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transform: translateY(0px);
+  transform: translateY(0px);
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu {*/
+.logged-user-w .logged-user-menu {
+  background: #0061da;
+  -webkit-box-shadow: 0 2px 30px 0 rgba(45, 130, 255, 0.75);
+  box-shadow: 0 2px 30px 0 rgba(45, 130, 255, 0.75);
+  position: absolute;
+  top: -10px;
+  right: -20px;
+  overflow: hidden;
+  padding: 1rem;
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transform: translateY(20px);
+  transform: translateY(20px);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu .logged-user-avatar-info {*/
+.logged-user-w .logged-user-menu .logged-user-avatar-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  padding: 0px 30px 10px 13px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu .avatar-w {*/
+.logged-user-w .logged-user-menu .avatar-w {
+  border-color: #fff;
+  vertical-align: middle;
+  margin-right: 20px;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu .logged-user-info-w {*/
+.logged-user-w .logged-user-menu .logged-user-info-w {
+  vertical-align: middle;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu .logged-user-info-w .logged-user-name {*/
+.logged-user-w .logged-user-menu .logged-user-info-w .logged-user-name {
+  color: #fff;
+  white-space: nowrap;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu .logged-user-info-w .logged-user-role {*/
+.logged-user-w .logged-user-menu .logged-user-info-w .logged-user-role {
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu ul {*/
+.logged-user-w .logged-user-menu ul {
+  list-style: none;
+  text-align: left;
+  margin: 0px;
+  padding: 0px;
+  padding-bottom: 0px;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu ul li {*/
+.logged-user-w .logged-user-menu ul li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu ul li a {*/
+.logged-user-w .logged-user-menu ul li a {
+  display: block;
+  padding: 10px 20px;
+  color: #fff;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu ul li a i {*/
+.logged-user-w .logged-user-menu ul li a i {
+  vertical-align: middle;
+  margin-right: 15px;
+  font-size: 20px;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu ul li a span {*/
+.logged-user-w .logged-user-menu ul li a span {
+  vertical-align: middle;
+  font-size: 0.9rem;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu ul li a:hover {*/
+.logged-user-w .logged-user-menu ul li a:hover {
+  text-decoration: none;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu ul li a:hover i {*/
+.logged-user-w .logged-user-menu ul li a:hover i {
+  -webkit-transform: translateX(5px);
+  transform: translateX(5px);
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu ul li a:hover span {*/
+.logged-user-w .logged-user-menu ul li a:hover span {
+  -webkit-transform: translateX(8px);
+  transform: translateX(8px);
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu ul li:last-child {*/
+.logged-user-w .logged-user-menu ul li:last-child {
+  border-bottom: none;
+}
+
+/*.top-menu-secondary .logged-user-w .logged-user-menu .bg-icon {*/
+.logged-user-w .logged-user-menu .bg-icon {
+  font-size: 100px;
+  color: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  bottom: -40px;
+  right: -20px;
+}

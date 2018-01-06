@@ -1,10 +1,12 @@
-import {AssetTypeAttributeAssignmentState} from "./asset.type.attribute.assignment.state";
+
+import {AttributeState} from "./attribute.state";
 
 export class AssetTypeClassState {
 
   private _assetTypeClassId:string;
   private _name:string;
   private _description:string;
+  private _attributes:AttributeState[];
 
   get assetTypeClassId(): string {
     return this._assetTypeClassId;
@@ -29,5 +31,21 @@ export class AssetTypeClassState {
   set description(value: string) {
     this._description = value;
   }
+
+  get attributes(): AttributeState[] {
+    return this._attributes;
+  }
+
+  set attributes(value: AttributeState[]) {
+    this._attributes = value;
+  }
+
+// get attributeAssignmentId(): string {
+  //   return this._attributeAssignmentId;
+  // }
+  //
+  // set attributeAssignmentId(value: string) {
+  //   this._attributeAssignmentId = value;
+  // }
 
 }

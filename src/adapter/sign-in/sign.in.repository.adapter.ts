@@ -3,8 +3,8 @@ import {SignInModel} from "../../login/sign-in/sign.in.model";
 import {Observable} from "rxjs/Observable";
 import {Session} from "../../login/sign-in/session";
 import "rxjs/add/operator/map";
-import {mapObjectProps} from "../object.property.mapper";
-import {AuthenticationClient} from "../../client/authentication/authentication.client";
+import {mapObjectProps} from "../../mapper/object.property.mapper";
+import {AuthenticationClient} from "../../client/credentials/authentication.client";
 
 export class SignInRepositoryAdapter extends SignInRepository {
 

@@ -1,37 +1,24 @@
-<div class="col-sm-6 mx-auto">
-  <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
-    <div class="row" style="margin-top: 10px;">
-      <!--<img id="google" src="assets/login/SocailLoginButton.png">-->
-      <!--<ul id="navlist" style="list-style: none">-->
-        <!--<li id="google"><a href="default.asp"></a></li>-->
-        <!--<li id="prev"><a href="css_intro.asp"></a></li>-->
-        <!--<li id="next"><a href="css_syntax.asp"></a></li>-->
-      <!--</ul>-->
+<div class="auth-box-w">
+  <div class="logo-w">
+    <a href="index.html"><img alt="" src="images/logo-big.png"></a>
+  </div>
+  <h4 class="auth-header">
+    Login Form
+  </h4>
+  <form action="">
+    <div class="form-group">
+      <label for="">Username</label><input class="form-control" placeholder="Enter your username" type="text">
+      <div class="pre-icon os-icon os-icon-user-male-circle"></div>
     </div>
-    <div class="imgcontainer">
-      <img src="images/login/img_avatar2.png" alt="Avatar" class="avatar">
+    <div class="form-group">
+      <label for="">Password</label><input class="form-control" placeholder="Enter your password" type="password">
+      <div class="pre-icon os-icon os-icon-fingerprint"></div>
     </div>
-
-    <div class="container">
-      <label><b>Email or Phone</b></label>
-      <input type="text" formControlName="username" placeholder="Email or Phone" name="username" required>
-
-      <label><b>Password</b></label>
-      <!--suppress HtmlUnknownAttribute -->
-      <input type="password" formControlName="password" placeholder="Enter Password" name="password" required>
-
-      <div *ngIf="errorExists" class="alert alert-danger">
-        <strong>Error!</strong> Authentication failed.
+    <div class="buttons-w">
+      <button class="btn btn-primary">Log me in</button>
+      <div class="form-check-inline">
+        <label class="form-check-label"><input class="form-check-input" type="checkbox">Remember Me</label>
       </div>
-
-      <!--suppress HtmlUnknownAttribute -->
-      <button [disabled]="!signInForm.valid" type="submit">Login</button>
-      <input type="checkbox" checked="checked" formControlName="rememberMe"> Remember me
-    </div>
-
-    <div class="container" style="background-color:#f1f1f1">
-      <button type="button" class="cancelbtn" (click)="onCancel()">Cancel</button>
-      <span class="psw">Forgot <a href="#" routerLink="/login/forgot-password" >password?</a></span>
     </div>
   </form>
 </div>
