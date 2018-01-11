@@ -548,6 +548,9 @@ export class AssetCreationComponent implements OnInit {
   onCreate() {
   }
 
+  onReset() {
+    this._assetForm.reset();
+  }
   onAssetTypeSelect(selected: CompleterItem) {
     if (selected) {
       this.assetTypeFormControlValue = selected.originalObject.assetTypeId;
@@ -589,10 +592,11 @@ export class AssetCreationComponent implements OnInit {
       return false;
     }
 
-    return !this.siteFormControlValue;
+    return this.siteFormControlValue;
   }
 
   isValidDiscreteItem() {
+
     if (!this.assetKindFormControlValue) {
       return false;
     }
@@ -604,21 +608,18 @@ export class AssetCreationComponent implements OnInit {
     if (!this.serialNumberFormControlValue) {
       return false;
     }
-
-    return !this.siteFormControlValue;
+    return this.siteFormControlValue;
   }
 
   enableSubmit() {
     if (this.isInventory() && this.isValidInventory()) {
       return true;
     }
-
     return !!(this.isDiscreteItem() && this.isValidDiscreteItem());
   }
 
   onSubmit() {
     if (this.isInventory() && this.isValidInventory()) {
-
       let assetInventory:Asset = new Asset(); // validate
       this.assetService.addInventoryAsset(assetInventory);
 
@@ -633,4 +634,3 @@ export class AssetCreationComponent implements OnInit {
 
 
 }
-
