@@ -11,6 +11,7 @@ let assetTypes = require('./routes/asset-types');
 let unitOfMeasures = require('./routes/unit-of-measures');
 let unionOfPhysicalSites = require('./routes/sites/physical-sites/union-of-physical-sites');
 let persons = require('./routes/parties/persons/persons');
+let addAsset = require('./routes/addAsset'); 
 
 let app = express();
 
@@ -27,6 +28,7 @@ app.use('/asset-types', assetTypes);
 app.use('/unit-of-measures', unitOfMeasures);
 app.use('/sites/physical-sites', unionOfPhysicalSites);
 app.use('/parties/persons', persons);
+app.use('/addAsset', addAsset);
 
 // app.set('view engine', 'ejs');
 

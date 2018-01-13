@@ -158,7 +158,6 @@ export class AssetCreationComponent implements OnInit {
         that.serialNumberFormControlValue = value;
         that.asset.serialNumber = value;
       });
-
     this.assetForm.get(this.quantityFormControlName).valueChanges
       .subscribe(value => {
         that.quantityFormControlValue = value;
@@ -542,13 +541,34 @@ export class AssetCreationComponent implements OnInit {
 
   isDiscreteItem() {
     let typeId = "4cf11077-c5e3-41f3-b40b-6e89dce6e9c8";
+
     return this.selectedAssetKindId.toUpperCase() === typeId.toUpperCase();
   }
 
   onCreate() {
+   let makeAsset = {}
+   Object.keys(this.assetForm.value).forEach((key) =>{
+   if(this.assetForm.value[key] !=="") makeAsset[key]=this.assetForm.value[key];
+});
+   /*this.assetService.addAsset(makeAsset).*/
+   //method two
+   /*let makeAsset = {
+     assetKind: this._assetKindFormControlValue,
+     assetType: this._assetTypeFormControlValue,
+     assignee: this._personFormControlValue,
+     site: this._siteFormControlValue,
+   }
+    if(this._assetKindFormControlValue === "65694257-0aa8-4fb6-abb7-e6c7b83cf4f2") {
+     makeAsset["quantity"] = this._quantityFormControlValue;
+     makeAsset["unitOfMeasure"] = this._unitOfMeasureFormControlValue;
+  }else {
+    makeAsset["serialNumber"] = this._serialNumberFormControlValue;
+  } */
+  console.log(makeAsset);
   }
 
   onReset() {
+    //not working
     this._assetForm.reset();
   }
   onAssetTypeSelect(selected: CompleterItem) {
@@ -576,6 +596,7 @@ export class AssetCreationComponent implements OnInit {
   }
 
   isValidInventory() {
+
     if (!this.assetKindFormControlValue) {
       return false;
     }
@@ -612,6 +633,7 @@ export class AssetCreationComponent implements OnInit {
   }
 
   enableSubmit() {
+
     if (this.isInventory() && this.isValidInventory()) {
       return true;
     }

@@ -1,4 +1,4 @@
-import {AssetUnitOfMeasure} from "./asset.unit.of.measure";
+ import {AssetUnitOfMeasure} from "./asset.unit.of.measure";
 
 export class AssetUnitOfMeasures {
 

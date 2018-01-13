@@ -12,6 +12,7 @@ import {AssetPersonRepository} from "./asset.person.repository";
 import {AssetPersons} from "./asset.persons";
 import {Asset} from "./asset";
 
+
 export class AssetService {
 
   constructor(private assetsRepository: AssetRepository,
@@ -52,5 +53,9 @@ export class AssetService {
   public addDiscreteAsset(assetModel:Asset):Observable<Asset> {
     return this.assetsRepository.addDiscreteAsset(assetModel);
   }
+
+  /*public addAsset(makeAsset: any): Observable<any> {
+    return console.log(makeAsset);
+  } */
 
 }
