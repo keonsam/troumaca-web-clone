@@ -1,6 +1,6 @@
 let express = require('express');
 let router = express.Router();
-let AssetOrchestrator = require('./asset.orchestrator');
+let AssetOrchestrator = require('./orchestrator');
 
 let assetOrch = new AssetOrchestrator();
 

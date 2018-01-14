@@ -2,7 +2,7 @@ var factoryOptions = {
   "useDatabase": true
 };
 
-require('./features/assets/asset.repository.factory')(factoryOptions);
+require('./features/assets/repository.factory')(factoryOptions);
 
 let express = require('express');
 let path = require('path');

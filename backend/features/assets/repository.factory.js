@@ -1,4 +1,4 @@
-let DatabaseAssetRepository = require("./database.asset.repository");
+let DatabaseAssetRepository = require("./database.repository");
 let RestClientRepository = require("./rest.client.repository");
 
 var useDatabase;
