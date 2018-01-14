@@ -570,7 +570,7 @@ export class AssetCreationComponent implements OnInit {
 
   onUnitOfMeasureSelect(selected: CompleterItem) {
     if (selected) {
-      this.unitOfMeasureFormControlValue = selected.originalObject.unitOfMeasureId;
+      // this.unitOfMeasureFormControlValue = selected.originalObject.unitOfMeasureId;
       this.asset.unitOfMeasure.unitOfMeasureId = selected.originalObject.unitOfMeasureId;
     }
   }
@@ -634,6 +634,7 @@ export class AssetCreationComponent implements OnInit {
 
   onSubmit() {
     if (this.isInventory() && this.isValidInventory()) {
+
       let assetInventory:Asset = new Asset(); // validate
       this.assetService.addInventoryAsset(assetInventory);
 
