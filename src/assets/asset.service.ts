@@ -4,7 +4,7 @@ import {Assets} from "./assets";
 import {AssetKinds} from "./asset.kinds";
 import {AssetTypes} from "./asset.types";
 import {AssetTypesRepository} from "../asset-types/asset.types.repository";
-import {AssetUnitOfMeasures} from "./asset.unit.of.measures";
+import {UnitOfMeasures} from "./asset.unit.of.measures";
 import {AssetUnitOfMeasureRepository} from "./assset.unit.of.measure.repository";
 import {AssetSiteRepository} from "./asset.site.repository";
 import {AssetUnionOfPhysicalSites} from "./asset.union.of.physical.sites";
@@ -34,7 +34,7 @@ export class AssetService {
     return this.assetTypesRepository.findAssetTypes(searchStr, pageSize);
   }
 
-  public findUnitOfMeasures(searchStr: string, pageSize: number):Observable<AssetUnitOfMeasures> {
+  public findUnitOfMeasures(searchStr: string, pageSize: number):Observable<UnitOfMeasures> {
     return this.assetUnitOfMeasureRepository.findUnitOfMeasures(searchStr, pageSize);
   }
 

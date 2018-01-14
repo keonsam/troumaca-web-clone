@@ -59,7 +59,7 @@ export class AssetRepositoryAdapter extends AssetRepository {
   }
 
   public addInventoryAsset(asset: Asset): Observable<Asset> {
-    let assetState:AssetState = mapObjectProps(asset, new AssetState());
+    // let assetState:AssetState = mapObjectProps(asset, new AssetState());
     return this.assetClient
     .addInventoryAsset(mapObjectProps(asset, new AssetState()))
     .map(value => {

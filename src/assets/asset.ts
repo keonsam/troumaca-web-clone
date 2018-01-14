@@ -1,5 +1,8 @@
 import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
 import {AssetType} from "assets/asset.type";
+import {Site} from "./asset.site";
+import {Lot} from "./asset.lot";
+import {UnitOfMeasure} from "./asset.unit.of.measure";
 
 export class Asset {
 
@@ -8,26 +11,20 @@ export class Asset {
   private _serialNumber:string;
   private _description:string;
   private _quantity:string;
-  private _unitOfMeasureId:string;
-  // Todo: Remove
-  private _lotNumber:string;
-  private _lotId:string;
-  private _siteId:string;
+  private _unitOfMeasure:UnitOfMeasure;
+  private _lot:Lot;
 
+  private _site:Site;
   private _assetTypeClass: AssetTypeClass;
   private _assetType: AssetType;
 
 
-  constructor(assetId?: string, assetKindId?:string, serialNumber?: string, description?: string, quantity?: string,
-              unitOfMeasureId?: string, assetTypeClass?: AssetTypeClass, assetType?: AssetType) {
-    this._assetId = assetId;
-    this._assetKindId = assetKindId;
-    this._serialNumber = serialNumber;
-    this._description = description;
-    this._quantity = quantity;
-    this._unitOfMeasureId = unitOfMeasureId;
-    this._assetTypeClass = assetTypeClass;
-    this._assetType = assetType;
+  constructor() {
+    this._unitOfMeasure = new UnitOfMeasure();
+    this._assetTypeClass = new AssetTypeClass();
+    this._assetType = new AssetType();
+    this._lot = new Lot();
+    this._site = new Site();
   }
 
   get assetId(): string {
@@ -70,20 +67,12 @@ export class Asset {
     this._quantity = value;
   }
 
-  get unitOfMeasureId(): string {
-    return this._unitOfMeasureId;
+  get unitOfMeasure(): UnitOfMeasure {
+    return this._unitOfMeasure;
   }
 
-  set unitOfMeasureId(value: string) {
-    this._unitOfMeasureId = value;
-  }
-
-  get lotNumber(): string {
-    return this._lotNumber;
-  }
-
-  set lotNumber(value: string) {
-    this._lotNumber = value;
+  set unitOfMeasure(value: UnitOfMeasure) {
+    this._unitOfMeasure = value;
   }
 
   get assetTypeClass(): AssetTypeClass {
@@ -102,20 +91,20 @@ export class Asset {
     this._assetType = value;
   }
 
-  get lotId(): string {
-    return this._lotId;
+  get lot(): Lot {
+    return this._lot;
   }
 
-  set lotId(value: string) {
-    this._lotId = value;
+  set lotId(value: Lot) {
+    this._lot = value;
   }
 
-  get siteId(): string {
-    return this._siteId;
+  get site(): Site {
+    return this._site;
   }
 
-  set siteId(value: string) {
-    this._siteId = value;
+  set site(value: Site) {
+    this._site = value;
   }
 
 }

@@ -1,4 +1,4 @@
-export class AssetUnitOfMeasure {
+export class UnitOfMeasure {
 
   private _unitOfMeasureId:string;
   private _quantity: string;

@@ -558,17 +558,20 @@ export class AssetCreationComponent implements OnInit {
 
   onReset() {
     //not working
-    this._assetForm.reset();
+    this.assetForm.reset();
   }
+
   onAssetTypeSelect(selected: CompleterItem) {
     if (selected) {
       this.assetTypeFormControlValue = selected.originalObject.assetTypeId;
+      this.asset.assetKindId = selected.originalObject.assetTypeId;
     }
   }
 
   onUnitOfMeasureSelect(selected: CompleterItem) {
     if (selected) {
       this.unitOfMeasureFormControlValue = selected.originalObject.unitOfMeasureId;
+      this.asset.unitOfMeasure.unitOfMeasureId = selected.originalObject.unitOfMeasureId;
     }
   }
 
@@ -598,7 +601,7 @@ export class AssetCreationComponent implements OnInit {
       return false;
     }
 
-    if (!this.unitOfMeasureFormControlValue) {
+    if (!this.asset.unitOfMeasure.unitOfMeasureId) {
       return false;
     }
 

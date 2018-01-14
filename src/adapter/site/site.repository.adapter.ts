@@ -8,7 +8,7 @@ import "rxjs/add/operator/map";
 import { map, reduce, somethingElse } from "underscore";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
 import {AssetUnionOfPhysicalSites} from "../../assets/asset.union.of.physical.sites";
-import {AssetUnionOfPhysicalSite} from "../../assets/asset.union.of.physical.site";
+import {UnionOfPhysicalSite} from "../../assets/asset.union.of.physical.site";
 
 export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRepository {
 
@@ -22,7 +22,7 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
       .map(values => {
         let unionOfPhysicalSites:AssetUnionOfPhysicalSites = new AssetUnionOfPhysicalSites();
         unionOfPhysicalSites.unionOfPhysicalSites = map(values.unionOfPhysicalSites, value => {
-          return mapObjectProps(value, new AssetUnionOfPhysicalSite());
+          return mapObjectProps(value, new UnionOfPhysicalSite());
         });
         return unionOfPhysicalSites;
       });

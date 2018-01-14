@@ -1,6 +1,6 @@
 import {Observable} from "rxjs/Observable";
-import {AssetUnitOfMeasures} from "./asset.unit.of.measures";
+import {UnitOfMeasures} from "./asset.unit.of.measures";
 
 export abstract class AssetUnitOfMeasureRepository {
-  abstract findUnitOfMeasures(searchStr: string, pageSize: number):Observable<AssetUnitOfMeasures>;
+  abstract findUnitOfMeasures(searchStr: string, pageSize: number):Observable<UnitOfMeasures>;
 }
