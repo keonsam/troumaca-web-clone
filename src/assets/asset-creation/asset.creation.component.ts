@@ -152,12 +152,13 @@ export class AssetCreationComponent implements OnInit {
   //       that.assetTypeFormControlValue = value;
   //       that.asset.assetType.assetTypeId = value;
   //     });
-  //
+
     this.assetForm.get(this.serialNumberFormControlName).valueChanges
       .subscribe(value => {
         that.serialNumberFormControlValue = value;
         that.asset.serialNumber = value;
       });
+
     this.assetForm.get(this.quantityFormControlName).valueChanges
       .subscribe(value => {
         that.quantityFormControlValue = value;
@@ -546,25 +547,13 @@ export class AssetCreationComponent implements OnInit {
   }
 
   onCreate() {
-   let makeAsset = {}
-   Object.keys(this.assetForm.value).forEach((key) =>{
-   if(this.assetForm.value[key] !=="") makeAsset[key]=this.assetForm.value[key];
-});
-   /*this.assetService.addAsset(makeAsset).*/
-   //method two
-   /*let makeAsset = {
-     assetKind: this._assetKindFormControlValue,
-     assetType: this._assetTypeFormControlValue,
-     assignee: this._personFormControlValue,
-     site: this._siteFormControlValue,
-   }
-    if(this._assetKindFormControlValue === "65694257-0aa8-4fb6-abb7-e6c7b83cf4f2") {
-     makeAsset["quantity"] = this._quantityFormControlValue;
-     makeAsset["unitOfMeasure"] = this._unitOfMeasureFormControlValue;
-  }else {
-    makeAsset["serialNumber"] = this._serialNumberFormControlValue;
-  } */
-  console.log(makeAsset);
+    if (this.isDiscreteItem()) {
+      this.assetService.addDiscreteAsset(this.asset);
+    } else if(this.isInventory()) {
+      this.assetService.addInventoryAsset(this.asset);
+    } else {
+      console.log("Cannot create an unknown asset kind")
+    }
   }
 
   onReset() {

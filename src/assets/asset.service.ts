@@ -54,8 +54,4 @@ export class AssetService {
     return this.assetsRepository.addDiscreteAsset(assetModel);
   }
 
-  /*public addAsset(makeAsset: any): Observable<any> {
-    return console.log(makeAsset);
-  } */
-
 }

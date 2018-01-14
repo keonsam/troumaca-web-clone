@@ -9,7 +9,10 @@ export class Asset {
   private _description:string;
   private _quantity:string;
   private _unitOfMeasureId:string;
+  // Todo: Remove
   private _lotNumber:string;
+  private _lotId:string;
+  private _siteId:string;
 
   private _assetTypeClass: AssetTypeClass;
   private _assetType: AssetType;
@@ -97,6 +100,22 @@ export class Asset {
 
   set assetType(value: AssetType) {
     this._assetType = value;
+  }
+
+  get lotId(): string {
+    return this._lotId;
+  }
+
+  set lotId(value: string) {
+    this._lotId = value;
+  }
+
+  get siteId(): string {
+    return this._siteId;
+  }
+
+  set siteId(value: string) {
+    this._siteId = value;
   }
 
 }

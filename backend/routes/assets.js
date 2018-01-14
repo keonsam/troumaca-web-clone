@@ -59,8 +59,6 @@ router.get('/', function(req, res, next) {
   }
 });
 
-
-
 // var assetStates = {
 //   page: {
 //     number: 1,
