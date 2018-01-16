@@ -139,6 +139,7 @@ export class AssetCreationComponent implements OnInit {
       .subscribe(value => {
         that.selectedAssetKindId = value;
         this.assetKindFormControlValue = value;
+        this.asset.assetId = value;
       });
 
     // this.assetForm.get(this.assetKindFormControlName).valueChanges
@@ -547,6 +548,7 @@ export class AssetCreationComponent implements OnInit {
   }
 
   onCreate() {
+    console.log(this.asset);
     if (this.isDiscreteItem()) {
       this.assetService.addDiscreteAsset(this.asset);
     } else if(this.isInventory()) {
@@ -563,8 +565,9 @@ export class AssetCreationComponent implements OnInit {
 
   onAssetTypeSelect(selected: CompleterItem) {
     if (selected) {
-      this.assetTypeFormControlValue = selected.originalObject.assetTypeId;
+      //this.assetTypeFormControlValue = selected.originalObject.assetTypeId;
       this.asset.assetKindId = selected.originalObject.assetTypeId;
+      //this.asset.assetType.assetTypeId = selected.originalObject.assetTypeId;
     }
   }
 
@@ -577,27 +580,29 @@ export class AssetCreationComponent implements OnInit {
 
   onPhysicalSiteSelect(selected: CompleterItem) {
     if (selected) {
-      this.siteFormControlValue = selected.originalObject.siteId;
+    //  this.siteFormControlValue = selected.originalObject.siteId;
+      this.asset.site = selected.originalObject.siteId;
     }
   }
 
   onPersonSelect(selected: CompleterItem) {
     if (selected) {
-      this.personFormControlValue = selected.originalObject.partyId;
+    //  this.personFormControlValue = selected.originalObject.partyId;
+      this.asset.person.partyId = selected.originalObject.partyId;
     }
   }
 
   isValidInventory() {
 
-    if (!this.assetKindFormControlValue) {
+    if (!this.asset.assetId) {
       return false;
     }
 
-    if (!this.assetTypeFormControlValue) {
+    if (!this.asset.assetKindId) {
       return false;
     }
 
-    if (!this.quantityFormControlValue) {
+    if (!this.asset.quantity) {
       return false;
     }
 
@@ -605,23 +610,23 @@ export class AssetCreationComponent implements OnInit {
       return false;
     }
 
-    return this.siteFormControlValue;
+    return this.asset.site ? true:false;
   }
 
   isValidDiscreteItem() {
 
-    if (!this.assetKindFormControlValue) {
+    if (!this.asset.assetId) {
       return false;
     }
 
-    if (!this.assetTypeFormControlValue) {
+    if (!this.asset.assetKindId) {
       return false;
     }
 
-    if (!this.serialNumberFormControlValue) {
+    if (!this.asset.serialNumber) {
       return false;
     }
-    return this.siteFormControlValue;
+    return this.asset.site ? true:false;
   }
 
   enableSubmit() {

@@ -3,6 +3,8 @@ import {AssetType} from "assets/asset.type";
 import {Site} from "./asset.site";
 import {Lot} from "./asset.lot";
 import {UnitOfMeasure} from "./asset.unit.of.measure";
+import {AssetPerson} from "./asset.person";
+//import {AssetKind} from "./asset.kind";
 
 export class Asset {
 
@@ -13,6 +15,7 @@ export class Asset {
   private _quantity:string;
   private _unitOfMeasure:UnitOfMeasure;
   private _lot:Lot;
+  private _person: AssetPerson;
 
   private _site:Site;
   private _assetTypeClass: AssetTypeClass;
@@ -24,6 +27,7 @@ export class Asset {
     this._assetTypeClass = new AssetTypeClass();
     this._assetType = new AssetType();
     this._lot = new Lot();
+    this._person = new AssetPerson();
     this._site = new Site();
   }
 
@@ -97,6 +101,14 @@ export class Asset {
 
   set lotId(value: Lot) {
     this._lot = value;
+  }
+
+  get person(): AssetPerson {
+  return  this._person;
+  }
+
+  set person(value: AssetPerson) {
+    this._person = value
   }
 
   get site(): Site {
