@@ -102,6 +102,7 @@ export class AssetCreationComponent implements OnInit {
     asset.assetType = new AssetType();
     asset.assetTypeClass = new AssetTypeClass();
     this.asset = asset;
+
   }
 
   ngOnInit(): void {
@@ -641,12 +642,22 @@ export class AssetCreationComponent implements OnInit {
     if (this.isInventory() && this.isValidInventory()) {
 
       let assetInventory:Asset = new Asset(); // validate
-      this.assetService.addInventoryAsset(assetInventory);
+      this.assetService.addInventoryAsset(assetInventory)
+      .subscribe(value => {
+        console.log(value);
+      }, error => {
+        console.log(error);
+      });
 
     } else if (this.isDiscreteItem() && this.isValidDiscreteItem()) {
 
       let assetDiscrete:Asset = new Asset(); // validate
-      this.assetService.addDiscreteAsset(assetDiscrete);
+      this.assetService.addDiscreteAsset(assetDiscrete)
+        .subscribe(value => {
+          console.log(value);
+        }, error => {
+          console.log(error);
+        });;
 
     }
     console.log("onSubmit");

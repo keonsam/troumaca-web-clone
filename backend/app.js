@@ -11,7 +11,7 @@ let logger = require('morgan');
 let cors = require('cors');
 let bodyParser = require('body-parser');
 
-let assets = require('./features/assets/assets');
+let assets = require('./routes/assets');
 let asset = require('./routes/asset');
 let lots = require('./routes/lots');
 

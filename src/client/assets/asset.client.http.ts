@@ -64,7 +64,7 @@ export class AssetClientHttp extends AssetClient {
   public addInventoryAsset(assetState: AssetState): Observable<AssetState> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets");
+    array.push("/v2/assets");
     return this.http.post(array.join(""), assetState, {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
@@ -75,7 +75,7 @@ export class AssetClientHttp extends AssetClient {
   public addDiscreteAsset(assetState: AssetState): Observable<AssetState> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets");
+    array.push("/v2/assets");
     return this.http.post(array.join(""), assetState, {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {

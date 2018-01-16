@@ -10,6 +10,9 @@ router.get("/", function(req, res, next) {
     .subscribe(asset => {
       res.send(JSON.stringify(asset));
     });
+}).post("/", function (req, res, ndex) {
+  console.log("post asset resource");
+  res.send(JSON.stringify({}));
 });
 
 
