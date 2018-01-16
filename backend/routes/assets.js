@@ -72,7 +72,7 @@ router.get('/', function(req, res, next) {
 //   assets: []
 // };
 
-var pagination = {
+var   pagination = {
   page: {
     number: 1,
     size: 3,
