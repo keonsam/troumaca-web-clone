@@ -11,7 +11,7 @@ let logger = require('morgan');
 let cors = require('cors');
 let bodyParser = require('body-parser');
 
-let assets = require('./routes/assets');
+let assets = require('./features/assets/assets');
 let asset = require('./routes/asset');
 let lots = require('./routes/lots');
 
@@ -19,7 +19,6 @@ let assetTypes = require('./routes/asset-types');
 let unitOfMeasures = require('./routes/unit-of-measures');
 let unionOfPhysicalSites = require('./routes/sites/physical-sites/union-of-physical-sites');
 let persons = require('./routes/parties/persons/persons');
-let addAsset = require('./routes/addAsset');
 
 
 let assetResource = require('./features/assets/resources');
@@ -40,7 +39,6 @@ app.use('/asset-types', assetTypes);
 app.use('/unit-of-measures', unitOfMeasures);
 app.use('/sites/physical-sites', unionOfPhysicalSites);
 app.use('/parties/persons', persons);
-app.use('/addAsset', addAsset);
 app.use('/v2/assets', assetResource);
 
 // app.set('view engine', 'ejs');
