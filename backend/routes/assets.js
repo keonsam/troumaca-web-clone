@@ -1,4 +1,4 @@
-  let express = require('express');
+let express = require('express');
 let router = express.Router();
 
 function calculateSkip(page, size) {
@@ -58,8 +58,6 @@ router.get('/', function(req, res, next) {
     res.send(JSON.stringify(pagedAssetListResponse));
   }
 });
-
-
 
 // var assetStates = {
 //   page: {

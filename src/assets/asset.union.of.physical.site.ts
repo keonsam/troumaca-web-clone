@@ -1,4 +1,4 @@
-export class AssetUnionOfPhysicalSite {
+export class UnionOfPhysicalSite {
 
   private _siteId:string;
   private _name: string;

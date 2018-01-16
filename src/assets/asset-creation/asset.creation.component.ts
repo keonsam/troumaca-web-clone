@@ -102,6 +102,7 @@ export class AssetCreationComponent implements OnInit {
     asset.assetType = new AssetType();
     asset.assetTypeClass = new AssetTypeClass();
     this.asset = asset;
+
   }
 
   ngOnInit(): void {
@@ -139,6 +140,7 @@ export class AssetCreationComponent implements OnInit {
       .subscribe(value => {
         that.selectedAssetKindId = value;
         this.assetKindFormControlValue = value;
+        this.asset.assetId = value;
       });
 
     // this.assetForm.get(this.assetKindFormControlName).valueChanges
@@ -152,7 +154,7 @@ export class AssetCreationComponent implements OnInit {
   //       that.assetTypeFormControlValue = value;
   //       that.asset.assetType.assetTypeId = value;
   //     });
-  //
+
     this.assetForm.get(this.serialNumberFormControlName).valueChanges
       .subscribe(value => {
         that.serialNumberFormControlValue = value;
@@ -542,76 +544,94 @@ export class AssetCreationComponent implements OnInit {
 
   isDiscreteItem() {
     let typeId = "4cf11077-c5e3-41f3-b40b-6e89dce6e9c8";
+
     return this.selectedAssetKindId.toUpperCase() === typeId.toUpperCase();
   }
 
   onCreate() {
+    console.log(this.asset);
+    if (this.isDiscreteItem()) {
+      this.assetService.addDiscreteAsset(this.asset);
+    } else if(this.isInventory()) {
+      this.assetService.addInventoryAsset(this.asset);
+    } else {
+      console.log("Cannot create an unknown asset kind")
+    }
   }
 
   onReset() {
-    this._assetForm.reset();
+    //not working
+    this.assetForm.reset();
   }
+
   onAssetTypeSelect(selected: CompleterItem) {
     if (selected) {
-      this.assetTypeFormControlValue = selected.originalObject.assetTypeId;
+      //this.assetTypeFormControlValue = selected.originalObject.assetTypeId;
+      this.asset.assetKindId = selected.originalObject.assetTypeId;
+      //this.asset.assetType.assetTypeId = selected.originalObject.assetTypeId;
     }
   }
 
   onUnitOfMeasureSelect(selected: CompleterItem) {
     if (selected) {
-      this.unitOfMeasureFormControlValue = selected.originalObject.unitOfMeasureId;
+      // this.unitOfMeasureFormControlValue = selected.originalObject.unitOfMeasureId;
+      this.asset.unitOfMeasure.unitOfMeasureId = selected.originalObject.unitOfMeasureId;
     }
   }
 
   onPhysicalSiteSelect(selected: CompleterItem) {
     if (selected) {
-      this.siteFormControlValue = selected.originalObject.siteId;
+    //  this.siteFormControlValue = selected.originalObject.siteId;
+      this.asset.site = selected.originalObject.siteId;
     }
   }
 
   onPersonSelect(selected: CompleterItem) {
     if (selected) {
-      this.personFormControlValue = selected.originalObject.partyId;
+    //  this.personFormControlValue = selected.originalObject.partyId;
+      this.asset.person.partyId = selected.originalObject.partyId;
     }
   }
 
   isValidInventory() {
-    if (!this.assetKindFormControlValue) {
+
+    if (!this.asset.assetId) {
       return false;
     }
 
-    if (!this.assetTypeFormControlValue) {
+    if (!this.asset.assetKindId) {
       return false;
     }
 
-    if (!this.quantityFormControlValue) {
+    if (!this.asset.quantity) {
       return false;
     }
 
-    if (!this.unitOfMeasureFormControlValue) {
+    if (!this.asset.unitOfMeasure.unitOfMeasureId) {
       return false;
     }
 
-    return this.siteFormControlValue;
+    return this.asset.site ? true:false;
   }
 
   isValidDiscreteItem() {
 
-    if (!this.assetKindFormControlValue) {
+    if (!this.asset.assetId) {
       return false;
     }
 
-    if (!this.assetTypeFormControlValue) {
+    if (!this.asset.assetKindId) {
       return false;
     }
 
-    if (!this.serialNumberFormControlValue) {
+    if (!this.asset.serialNumber) {
       return false;
     }
-    return this.siteFormControlValue;
+    return this.asset.site ? true:false;
   }
 
   enableSubmit() {
+
     if (this.isInventory() && this.isValidInventory()) {
       return true;
     }
@@ -620,13 +640,24 @@ export class AssetCreationComponent implements OnInit {
 
   onSubmit() {
     if (this.isInventory() && this.isValidInventory()) {
+
       let assetInventory:Asset = new Asset(); // validate
-      this.assetService.addInventoryAsset(assetInventory);
+      this.assetService.addInventoryAsset(assetInventory)
+      .subscribe(value => {
+        console.log(value);
+      }, error => {
+        console.log(error);
+      });
 
     } else if (this.isDiscreteItem() && this.isValidDiscreteItem()) {
 
       let assetDiscrete:Asset = new Asset(); // validate
-      this.assetService.addDiscreteAsset(assetDiscrete);
+      this.assetService.addDiscreteAsset(assetDiscrete)
+        .subscribe(value => {
+          console.log(value);
+        }, error => {
+          console.log(error);
+        });;
 
     }
     console.log("onSubmit");

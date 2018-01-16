@@ -10,6 +10,7 @@ export class AssetType {
   private _unitOfMeasure:string;
   private _assetTypeClass:AssetTypeClasses;
 
+
   get assetTypeId(): string {
     return this._assetTypeId;
   }

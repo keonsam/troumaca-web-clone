@@ -1,14 +1,14 @@
-import {AssetUnitOfMeasure} from "./asset.unit.of.measure";
+ import {UnitOfMeasure} from "./asset.unit.of.measure";
 
-export class AssetUnitOfMeasures {
+export class UnitOfMeasures {
 
-  private _unitOfMeasures:AssetUnitOfMeasure[];
+  private _unitOfMeasures:UnitOfMeasure[];
 
-  get unitOfMeasures(): AssetUnitOfMeasure[] {
+  get unitOfMeasures(): UnitOfMeasure[] {
     return this._unitOfMeasures;
   }
 
-  set unitOfMeasures(value: AssetUnitOfMeasure[]) {
+  set unitOfMeasures(value: UnitOfMeasure[]) {
     this._unitOfMeasures = value;
   }
 

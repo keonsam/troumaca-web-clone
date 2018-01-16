@@ -6,6 +6,14 @@ export class AssetPerson {
   private _lastName:String;
   private _birthDate:Date;
 
+  constructor(partyId?:string, firstName?:string, middleName?:string, lastName?: string, birthDate?: Date){
+    this._partyId = partyId;
+    this._firstName = firstName;
+    this._middleName = middleName;
+    this._lastName = lastName;
+    this._birthDate = birthDate;
+  }
+
   get partyId(): string {
     return this._partyId;
   }
