@@ -7,15 +7,25 @@ let assetOrch = new AssetOrchestrator();
 
 router.get("/", function(req, res, next) {
 
-  var pagination = new Pagination();
+  var page = {
+    number: req.body.pageNumber,
+    size: req.body.pageSize
+  //  items: 1
+  }
 
-  assetOrch.getAssets("")
+  var sort = {
+    direction: req.query.sortDirection,
+    attributes: req.query.sortAttributes
+  }
+  var pagination = new Pagination(page,sort);
+
+  assetOrch.getAssets(pagination)
   .subscribe(asset => {
     res.send(JSON.stringify(asset));
   });
 }).post("/", function (req, res, ndex) {
 
-  assetOrch.saveAsset("")
+  assetOrch.saveAsset(req.body)
   .subscribe(asset => {
     res.send(JSON.stringify(asset));
   });

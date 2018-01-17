@@ -7,11 +7,14 @@ export class AssetState {
 
   @JsonProperty("assetId", String)
   private _assetId:string;
+  private _assetKindId: string;
   private _serialNumber:string;
   private _description:string;
   private _quantity:number;
   private _unitOfMeasure:string;
   private _lotNumber:string;
+  private _site: string;
+  private _person: string;
 
   private _assetTypeClass: AssetTypeClassState;
   private _assetType: AssetTypeState;
@@ -22,6 +25,13 @@ export class AssetState {
 
   set assetId(value: string) {
     this._assetId = value;
+  }
+  get assetKindId(): string {
+    return this._assetKindId;
+  }
+
+  set assetKindId(value: string){
+     this._assetKindId = value
   }
 
   get serialNumber(): string {
@@ -79,5 +89,19 @@ export class AssetState {
   set assetType(value: AssetTypeState) {
     this._assetType = value;
   }
+  get person(): string {
+    return this._person;
+  }
 
+  set person(value: string) {
+    this._person = value
+  }
+
+  get site(): string {
+    return this._site;
+  }
+
+  set site(value: string) {
+    this._site = value;
+  }
 }

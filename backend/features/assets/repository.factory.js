@@ -10,7 +10,7 @@ function assetRepositoryFactory(options) {
   }
 
   return {
-    createAssetRepository: function () {
+    createAssetRepository: function (asset) {
       if (useDatabase) {
         return new DatabaseAssetRepository();
       } else {

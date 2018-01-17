@@ -139,8 +139,8 @@ export class AssetCreationComponent implements OnInit {
     this.assetForm.get(this.assetKindFormControlName).valueChanges
       .subscribe(value => {
         that.selectedAssetKindId = value;
-        this.assetKindFormControlValue = value;
-        this.asset.assetId = value;
+        //this.assetKindFormControlValue = value;
+        this.asset.assetKindId = value;
       });
 
     // this.assetForm.get(this.assetKindFormControlName).valueChanges
@@ -157,13 +157,13 @@ export class AssetCreationComponent implements OnInit {
 
     this.assetForm.get(this.serialNumberFormControlName).valueChanges
       .subscribe(value => {
-        that.serialNumberFormControlValue = value;
+        //that.serialNumberFormControlValue = value;
         that.asset.serialNumber = value;
       });
 
     this.assetForm.get(this.quantityFormControlName).valueChanges
       .subscribe(value => {
-        that.quantityFormControlValue = value;
+        //that.quantityFormControlValue = value;
         that.asset.quantity = value;
       });
 
@@ -544,19 +544,18 @@ export class AssetCreationComponent implements OnInit {
 
   isDiscreteItem() {
     let typeId = "4cf11077-c5e3-41f3-b40b-6e89dce6e9c8";
-
     return this.selectedAssetKindId.toUpperCase() === typeId.toUpperCase();
   }
 
   onCreate() {
-    console.log(this.asset);
-    if (this.isDiscreteItem()) {
+    // two methods chose one see onSubmit method
+  /*  if (this.isDiscreteItem()) {
       this.assetService.addDiscreteAsset(this.asset);
     } else if(this.isInventory()) {
       this.assetService.addInventoryAsset(this.asset);
     } else {
       console.log("Cannot create an unknown asset kind")
-    }
+    }*/
   }
 
   onReset() {
@@ -567,8 +566,8 @@ export class AssetCreationComponent implements OnInit {
   onAssetTypeSelect(selected: CompleterItem) {
     if (selected) {
       //this.assetTypeFormControlValue = selected.originalObject.assetTypeId;
-      this.asset.assetKindId = selected.originalObject.assetTypeId;
-      //this.asset.assetType.assetTypeId = selected.originalObject.assetTypeId;
+      //this.asset.assetKindId = selected.originalObject.assetTypeId;
+      this.asset.assetType.assetTypeId = selected.originalObject.assetTypeId;
     }
   }
 
@@ -589,17 +588,17 @@ export class AssetCreationComponent implements OnInit {
   onPersonSelect(selected: CompleterItem) {
     if (selected) {
     //  this.personFormControlValue = selected.originalObject.partyId;
-      this.asset.person.partyId = selected.originalObject.partyId;
+      this.asset.person = selected.originalObject.partyId;
     }
   }
 
   isValidInventory() {
 
-    if (!this.asset.assetId) {
+    if (!this.asset.assetKindId) {
       return false;
     }
 
-    if (!this.asset.assetKindId) {
+    if (!this.asset.assetType.assetTypeId) {
       return false;
     }
 
@@ -616,11 +615,11 @@ export class AssetCreationComponent implements OnInit {
 
   isValidDiscreteItem() {
 
-    if (!this.asset.assetId) {
+    if (!this.asset.assetKindId) {
       return false;
     }
 
-    if (!this.asset.assetKindId) {
+    if (!this.asset.assetType.assetTypeId) {
       return false;
     }
 
@@ -640,9 +639,8 @@ export class AssetCreationComponent implements OnInit {
 
   onSubmit() {
     if (this.isInventory() && this.isValidInventory()) {
-
       let assetInventory:Asset = new Asset(); // validate
-      this.assetService.addInventoryAsset(assetInventory)
+      this.assetService.addInventoryAsset(this.asset)
       .subscribe(value => {
         console.log(value);
       }, error => {
@@ -650,9 +648,8 @@ export class AssetCreationComponent implements OnInit {
       });
 
     } else if (this.isDiscreteItem() && this.isValidDiscreteItem()) {
-
       let assetDiscrete:Asset = new Asset(); // validate
-      this.assetService.addDiscreteAsset(assetDiscrete)
+      this.assetService.addDiscreteAsset(this.asset)
         .subscribe(value => {
           console.log(value);
         }, error => {
@@ -662,6 +659,4 @@ export class AssetCreationComponent implements OnInit {
     }
     console.log("onSubmit");
   }
-
-
 }

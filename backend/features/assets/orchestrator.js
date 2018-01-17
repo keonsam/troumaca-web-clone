@@ -5,11 +5,11 @@ module.exports = function AssetOrchestrator() {
 
   var that = this;
   this.saveAsset = function (asset) {
-    return assetRepository.saveAsset();
+    return assetRepository.saveAsset(asset);
   };
 
-  this.getAssets = function () {
-
+  this.getAssets = function (pageInfo, sortInfo) {
+   return assetRepository.getAssets(pageInfo, sortInfo);
   };
 
 };

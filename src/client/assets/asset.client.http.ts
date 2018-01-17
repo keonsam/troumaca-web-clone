@@ -26,7 +26,7 @@ export class AssetClientHttp extends AssetClient {
   public getAssets(pageNumber:number): Observable<AssetStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets");
+    array.push("/v2/assets");
     if (pageNumber) {
       array.push("?");
       array.push("pageNumber=" + pageNumber);
