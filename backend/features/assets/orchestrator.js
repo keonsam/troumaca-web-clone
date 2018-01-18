@@ -3,7 +3,7 @@ let assetRepository = assetRepositoryFactory.createAssetRepository();
 
 module.exports = function AssetOrchestrator() {
 
-  var that = this;
+  let that = this;
   this.saveAsset = function (asset) {
     return assetRepository.saveAsset(asset);
   };
