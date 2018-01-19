@@ -66,7 +66,7 @@ module.exports =  function DatabaseAssetRepository() {
         let calculateSkip2 = calculateSkip(paginationCopy.page.number, paginationCopy.page.size);
 
         let docsArr = [];
-        db.users.find({}).skip(calculateSkip).limit(page.size).exec(function (err, docs){
+        db.users.find({}).skip(calculateSkip2).limit(page.size).exec(function (err, docs){
           if(err) {
             observer.error(err);
           } else {

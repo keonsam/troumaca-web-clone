@@ -8,9 +8,9 @@ let assetOrch = new AssetOrchestrator();
 router.get("/", function(req, res, next) {
 
   let page = {
-    number: req.body.pageNumber,
-    size: req.body.pageSize
-  //  items: 1
+    number: req.query.pageNumber,
+    size: req.query.pageSize,
+   items: 20
   };
 
   let sort = {
