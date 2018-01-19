@@ -37,11 +37,10 @@ export class AssetRepositoryAdapter extends AssetRepository {
 
         return assetModel;
       });
-      assetModels.page = mapObjectProps(values.page, new Page());
-      assetModels.sort = mapObjectProps(values.sort, new Sort());
+     assetModels.page = mapObjectProps(values.page, new Page());
+     assetModels.sort = mapObjectProps(values.sort, new Sort());
 
-      console.log(assetModels);
-
+     console.log(assetModels);
       return assetModels;
     });
   }

@@ -35,7 +35,6 @@ export class AssetClientHttp extends AssetClient {
     // return this.http.get(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
-
       // let assetStates:AssetStates;
       // assetStates = this.jsonConvert.deserializeObject(data, AssetStates);
       // assetStates = mapObjectProps(data, new AssetStates());

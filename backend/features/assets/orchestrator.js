@@ -8,8 +8,8 @@ module.exports = function AssetOrchestrator() {
     return assetRepository.saveAsset(asset);
   };
 
-  this.getAssets = function (pageInfo, sortInfo) {
-   return assetRepository.getAssets(pageInfo, sortInfo);
+  this.getAssets = function (pagination) {
+   return assetRepository.getAssets(pagination);
   };
 
 };

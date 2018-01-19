@@ -4,19 +4,13 @@ const Datastore = require('nedb');
 let db = {};
 db.users = new Datastore('../../nedb/assets.db');
 
+db.users.loadDatabase();
+
 function calculateSkip(page, size) {
   if (page <= 1) {
     return 0;
   } else {
     return ((page -1) * size);
-  }
-}
-
-function calculatePageStart(page, size) {
-  if (page <= 1) {
-    return 1;
-  } else {
-    return ((page -1) * size) + 1;
   }
 }
 
@@ -27,34 +21,27 @@ function buildPagedAssetListResponse(page, sort, assets) {
     assets:assets
   }
 }
-
-/*var   pagination = {
-  page: {
-    number: 1,
-    size: 3,
-    items: 1
-  },
-  sort: {
-    direction: "asc",
-    attributes: [{
-      name:"name"
-    }]
-  }
-};*/
-
 module.exports =  function DatabaseAssetRepository() {
 
   this.saveAsset = function (asset) {
-    var newAsset = {
-      "assetKindId": asset._assetKindId
-    };
+    let newAsset = {
+      assetKindId: asset._assetKindId,
+      assetType: asset._assetType.assetTypeId,
+      person: asset._person,
+      site: asset._site
+    }
+    if(newAsset.assetKindId == "65694257-0aa8-4fb6-abb7-e6c7b83cf4f2"){
+    newAsset.quantity = asset._quantity;
+    newAsset.unitOfMeasure = asset._unitOfMeasure._unitOfMeasureId;
+  }else{
+   newAsset.serialNumber = asset._serialNumber;
+  }
     return Rx.Observable.create(function (observer) {
-      console.log(asset);
-      db.insert(newAsset, function (err, doc) {
+      db.users.insert(newAsset, function (err, doc) {
         if (err) {
-          observer.onError(err);
+          observer.error(err);
         } else {
-          observer.onNext(doc);
+          observer.next();
         }
         console.log('Inserted', doc.name, 'with ID', doc._id);
       });
@@ -79,15 +66,16 @@ module.exports =  function DatabaseAssetRepository() {
         let calculateSkip2 = calculateSkip(paginationCopy.page.number, paginationCopy.page.size);
 
         let docsArr = [];
-        db.find({}).skip(calculateSkip).limit(page.size).exec(function (err, docs){
+        db.users.find({}).skip(calculateSkip).limit(page.size).exec(function (err, docs){
           if(err) {
-            observer.onError(err);
+            observer.error(err);
           } else {
-            observer.onNext(docs);
+            const pagedAssetListResponse = buildPagedAssetListResponse(page, sort, docs);
+            observer.next(pagedAssetListResponse);
           }
         });
       } catch (error) {
-        observer.onError(error);
+        observer.error(error);
       }
     });
   }
