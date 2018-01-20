@@ -559,7 +559,6 @@ export class AssetCreationComponent implements OnInit {
   }
 
   onReset() {
-    //not working
     this.assetForm.reset();
   }
 
