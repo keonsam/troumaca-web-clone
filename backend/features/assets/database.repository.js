@@ -56,6 +56,7 @@ module.exports =  function DatabaseAssetRepository() {
         let page = paginationCopy.page;
         page.number = parseInt(isNaN(pagination.page.number) ? 1 : pagination.page.number);
         page.size = parseInt(isNaN(pagination.page.size) ? 5 : pagination.page.size);
+        //page.items = 20;
 
         let sort = paginationCopy.sort;
         sort.direction = (pagination.sort.direction ? pagination.sort.direction : "asc");
@@ -63,9 +64,11 @@ module.exports =  function DatabaseAssetRepository() {
 
         let sortAttribute = sort.attributes;
         let sortDirection = sort.direction;
-        let calculateSkip2 = calculateSkip(paginationCopy.page.number, paginationCopy.page.size);
-
-        let docsArr = [];
+        let calculateSkip2 = calculateSkip(page.number, page.size);
+        db.users.count({}, function (err, count) {
+         page.items = count;
+        });
+        
         db.users.find({}).skip(calculateSkip2).limit(page.size).exec(function (err, docs){
           if(err) {
             observer.error(err);

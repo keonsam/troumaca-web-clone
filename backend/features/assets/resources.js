@@ -10,7 +10,7 @@ router.get("/", function(req, res, next) {
   let page = {
     number: req.query.pageNumber,
     size: req.query.pageSize,
-   items: 20
+   items: 1
   };
 
   let sort = {
