@@ -2,9 +2,9 @@ let Rx = require("rxjs");
 const Datastore = require('nedb');
 // const db = new Datastore({filename: __dirname+'/assets.db', autoload: true});
 let db = {};
-db.users = new Datastore('../../nedb/assets.db');
+db.assets = new Datastore('../nedb/assets.db');
 
-db.users.loadDatabase();
+db.assets.loadDatabase();
 
 function calculateSkip(page, size) {
   if (page <= 1) {
@@ -21,6 +21,7 @@ function buildPagedAssetListResponse(page, sort, assets) {
     assets:assets
   }
 }
+
 module.exports =  function DatabaseAssetRepository() {
 
   this.saveAsset = function (asset) {
@@ -29,15 +30,17 @@ module.exports =  function DatabaseAssetRepository() {
       assetType: asset._assetType.assetTypeId,
       person: asset._person,
       site: asset._site
+    };
+
+    if (newAsset.assetKindId == "65694257-0aa8-4fb6-abb7-e6c7b83cf4f2") {
+      newAsset.quantity = asset._quantity;
+      newAsset.unitOfMeasure = asset._unitOfMeasure._unitOfMeasureId;
+    } else {
+     newAsset.serialNumber = asset._serialNumber;
     }
-    if(newAsset.assetKindId == "65694257-0aa8-4fb6-abb7-e6c7b83cf4f2"){
-    newAsset.quantity = asset._quantity;
-    newAsset.unitOfMeasure = asset._unitOfMeasure._unitOfMeasureId;
-  }else{
-   newAsset.serialNumber = asset._serialNumber;
-  }
+
     return Rx.Observable.create(function (observer) {
-      db.users.insert(newAsset, function (err, doc) {
+      db.assets.insert(newAsset, function (err, doc) {
         if (err) {
           observer.error(err);
         } else {
@@ -46,6 +49,7 @@ module.exports =  function DatabaseAssetRepository() {
         console.log('Inserted', doc.name, 'with ID', doc._id);
       });
     });
+
   };
 
   this.getAssets = function (pagination) {
@@ -65,11 +69,13 @@ module.exports =  function DatabaseAssetRepository() {
         let sortAttribute = sort.attributes;
         let sortDirection = sort.direction;
         let calculateSkip2 = calculateSkip(page.number, page.size);
-        db.users.count({}, function (err, count) {
+
+        db.assets.count({}, function (err, count) {
          page.items = count;
         });
-        db.users.find({}).skip(calculateSkip2).limit(page.size).exec(function (err, docs){
-          if(err) {
+
+        db.assets.find({}).skip(calculateSkip2).limit(page.size).exec(function (err, docs) {
+          if (err) {
             observer.error(err);
           } else {
             const pagedAssetListResponse = buildPagedAssetListResponse(page, sort, docs);
