@@ -68,7 +68,6 @@ module.exports =  function DatabaseAssetRepository() {
         db.users.count({}, function (err, count) {
          page.items = count;
         });
-        
         db.users.find({}).skip(calculateSkip2).limit(page.size).exec(function (err, docs){
           if(err) {
             observer.error(err);
