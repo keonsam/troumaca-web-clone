@@ -9,9 +9,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "startconcurrentlywithproxy": "concurrently --kill-others \"json-server -q src/images/data.json\" \"ng serve --proxy-config proxy.conf.json\"",
-    "startconcurrentlywithproxy2": "concurrently --kill-others \"node /Users/michael/IdeaProjects/troumaca-web/backend/bin/server.js\" \"ng serve --proxy-config proxy.conf.json\"",
-    "startconcurrentlywithproxy3": "concurrently --kill-others \"ng serve --proxy-config proxy.conf.json\""
+    "startBackEnd": "node /Users/michael/IdeaProjects/troumaca-web/backend/bin/server.js",
+    "startServerWithProxy": "concurrently --kill-others \"ng serve --proxy-config proxy.conf.json\"",
+    "startServersWithProxy": "npm run startBackEnd | ng serve --proxy-config proxy.conf.json"
   },
   "private": true,
   "dependencies": {

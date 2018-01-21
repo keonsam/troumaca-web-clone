@@ -6,7 +6,6 @@ import {AssetStates} from "./asset.states";
 import {JsonConvert, OperationMode, ValueCheckingMode} from "json2typescript";
 import {AssetKindStates} from "./asset.kind.states";
 import {AssetState} from "./asset.state";
-import {Encoder} from "../encoder";
 
 export class AssetClientHttp extends AssetClient {
 
@@ -65,7 +64,7 @@ export class AssetClientHttp extends AssetClient {
     let array = [];
     array.push(this.hostPort);
     array.push("/v2/assets");
-    return this.http.post(array.join(""), assetState, {
+    return this.http.post(array.join(""), assetState.toJson(), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
@@ -79,20 +78,10 @@ export class AssetClientHttp extends AssetClient {
 
     Encoder.encode(assetState);
 
-    return this.http.post(array.join(""), assetState, {
+    return this.http.post(array.join(""), assetState.toJson(), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
     });
-  }
-
-  private encodeAsset(assetState: AssetState) {
-    assetState.assetId;
-    assetState.assetKindId;
-    assetState.assetType;
-    assetState.assetTypeClass;
-    return {
-
-    };
   }
 }

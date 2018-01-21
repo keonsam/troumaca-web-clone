@@ -104,4 +104,20 @@ export class AssetState {
   set site(value: string) {
     this._site = value;
   }
+
+  toJson() {
+
+    return {
+      assetId: this.assetId,
+      assetKindId: this.assetKindId,
+      serialNumber: this.serialNumber,
+      description: this.description,
+      quantity: this.quantity,
+      unitOfMeasure: this.unitOfMeasure,
+      lotNumber: this.lotNumber,
+      site: this.site,
+      person: (this.assetTypeClass ? this.assetTypeClass : "")
+    }
+  }
+
 }
