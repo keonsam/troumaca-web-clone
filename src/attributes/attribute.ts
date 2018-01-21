@@ -1,3 +1,3 @@
-export class AttributeModel {
+export class Attribute {
 
 }
