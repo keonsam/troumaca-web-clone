@@ -1,21 +1,21 @@
 import {Component, OnInit} from "@angular/core";
-import {AssetTypesService} from "./asset.types.service";
+import {AssetTypeService} from "./asset.type.service";
 import {AssetType} from "../assets/asset.type";
 
 @Component({
   selector: 'asset-types',
-  templateUrl: './asset.types.component.html',
-  styleUrls: ['./asset.types.component.css']
+  templateUrl: './asset.type.component.html',
+  styleUrls: ['./asset.type.component.css']
 })
-export class AssetTypesComponent implements OnInit {
+export class AssetTypeComponent implements OnInit {
 
   private _assetTypes:AssetType[];
 
-  constructor(private assetTypesService:AssetTypesService) {
+  constructor(private assetTypeService:AssetTypeService) {
   }
 
   ngOnInit(): void {
-    this.assetTypesService
+    this.assetTypeService
       .getAssetTypes()
       .subscribe(assetTypes => {
         console.log(assetTypes);

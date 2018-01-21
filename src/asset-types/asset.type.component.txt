@@ -1,6 +1,4 @@
-<div class="content-w">
-  <top-menu menuName="asset-types-menu"></top-menu>
-  <div class="content-i">
+<div class="content-i">
     <!--<div class="content-box">&lt;!&ndash;START - To Do Application&ndash;&gt;-->
       <!--<div class="todo-app-w">-->
         <!--&lt;!&ndash;START - To Do SIDEBAR&ndash;&gt;-->
@@ -583,4 +581,3 @@
       <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
     <!--</div>-->
   </div>
-</div>

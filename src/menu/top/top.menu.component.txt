@@ -1,0 +1,17 @@
+// if (assetTypeClass) {
+//   assetTypeModel.assetTypeClass = mapObjectProps(assetTypeClass, new AssetTypeClassModel());
+// }
+
+// let assetTypeAttributes = assetTypeState.attributes;
+// if (attributes && attributes.length > 0) {
+//   assetTypeModel.attributes = attributes.map(assetTypeAttribute => {
+//     return mapObjectProps(assetTypeAttribute, new AssetTypeAttributeModel());
+//   })
+// }
+
+// let assetTypeAttributeValues = assetTypeState.assetTypeAttributeValues;
+// if (assetTypeAttributeValues && assetTypeAttributeValues.length > 0) {
+//   assetTypeModel.assetTypeAttributeValues = assetTypeAttributeValues.map(assetTypeAttribute => {
+//     return mapObjectProps(assetTypeAttribute, new AssetTypeAttributeValueModel());
+//   })
+// }

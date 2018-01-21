@@ -9,7 +9,6 @@ import {Assets} from "../../assets/assets";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
-import {AssetTypes} from "../../assets/asset.types";
 import {AssetKinds} from "assets/asset.kinds";
 import {AssetKind} from "../../assets/asset.kind";
 import {AssetType} from "../../assets/asset.type";

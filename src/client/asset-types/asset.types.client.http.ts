@@ -15,7 +15,8 @@ export class AssetTypesClientHttp extends AssetTypesClient {
 
   getAssetTypes(): Observable<AssetTypeState[]> {
     let generateUUID = this.uuidGenerator.generateUUID();
-    return null;
+    let assetTypeStates:AssetTypeState[] = [];
+    return Observable.of(assetTypeStates);
   }
 
   public findAssetTypes(searchStr: string, pageSize:number): Observable<AssetTypeStates> {

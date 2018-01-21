@@ -4,5 +4,5 @@ import {AssetTypeStates} from "./asset.type.states";
 
 export abstract class AssetTypesClient {
   abstract getAssetTypes():Observable<AssetTypeState[]>;
-  public abstract findAssetTypes(searchStr: string, pageSize:number):Observable<AssetTypeStates>;
+  abstract findAssetTypes(searchStr: string, pageSize:number):Observable<AssetTypeStates>;
 }

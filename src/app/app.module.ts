@@ -24,7 +24,7 @@ import {PageNotFoundModule} from "./page-not-found/page.not.found.module";
 import {EventSubjectModule} from "./event/event.module";
 import {EventModule} from "../event/event.module";
 import {ActivityModule} from "../activity/activity.module";
-import {AssetTypesModule} from "../asset-types/asset.types.module";
+import {AssetTypesModule} from "../asset-types/asset.type.module";
 import {RequestModule} from "../request/request.module";
 import {WorkOrderModule} from "../work-order/work.order.module";
 import {authGuardProvider} from "../auth-guard/auth.guard.provider";

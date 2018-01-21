@@ -13,7 +13,7 @@ import {AssetContentComponent} from "./asset-content/asset.content.component";
 import {AssetTopMenuComponent} from "./asset-top-menu/asset.top.menu.component";
 import {AssetCreationComponent} from "./asset-creation/asset.creation.component";
 import {Ng2CompleterModule} from "ng2-completer";
-import {AssetTypesRepository} from "../asset-types/asset.types.repository";
+import {AssetTypeRepository} from "../asset-types/asset.type.repository";
 import {AssetUnitOfMeasureRepository} from "./assset.unit.of.measure.repository";
 import {AssetSiteRepository} from "./asset.site.repository";
 import {AssetPersonRepository} from "./asset.person.repository";
@@ -39,23 +39,23 @@ import {AssetPersonRepository} from "./asset.person.repository";
   ],
   providers: [{
     provide: AssetService,
-    useFactory(assetsRepository:AssetRepository,
-               assetTypesRepository: AssetTypesRepository,
+    useFactory(assetRepository:AssetRepository,
+               assetTypeRepository: AssetTypeRepository,
                assetUnitOfMeasureRepository:AssetUnitOfMeasureRepository,
                assetSiteRepository:AssetSiteRepository,
                assetPersonRepository:AssetPersonRepository) {
-      let assetsService: AssetService;
-      if (!assetsService) {
-        assetsService = new AssetService(
-          assetsRepository,
-          assetTypesRepository,
+      let assetService: AssetService;
+      if (!assetService) {
+        assetService = new AssetService(
+          assetRepository,
+          assetTypeRepository,
           assetUnitOfMeasureRepository,
           assetSiteRepository,
           assetPersonRepository);
       }
-      return assetsService;
+      return assetService;
     },
-    deps: [AssetRepository, AssetTypesRepository, AssetUnitOfMeasureRepository, AssetSiteRepository, AssetPersonRepository]
+    deps: [AssetRepository, AssetTypeRepository, AssetUnitOfMeasureRepository, AssetSiteRepository, AssetPersonRepository]
   }],
   exports: [
     AssetComponent,

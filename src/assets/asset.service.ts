@@ -3,7 +3,7 @@ import {Observable} from "rxjs/Observable";
 import {Assets} from "./assets";
 import {AssetKinds} from "./asset.kinds";
 import {AssetTypes} from "./asset.types";
-import {AssetTypesRepository} from "../asset-types/asset.types.repository";
+import {AssetTypeRepository} from "../asset-types/asset.type.repository";
 import {UnitOfMeasures} from "./asset.unit.of.measures";
 import {AssetUnitOfMeasureRepository} from "./assset.unit.of.measure.repository";
 import {AssetSiteRepository} from "./asset.site.repository";
@@ -15,23 +15,23 @@ import {Asset} from "./asset";
 
 export class AssetService {
 
-  constructor(private assetsRepository: AssetRepository,
-              private assetTypesRepository: AssetTypesRepository,
+  constructor(private assetRepository: AssetRepository,
+              private assetTypeRepository: AssetTypeRepository,
               private assetUnitOfMeasureRepository:AssetUnitOfMeasureRepository,
               private assetSiteRepository:AssetSiteRepository,
               private assetPersonRepository:AssetPersonRepository) {
   }
 
   public getAssets(pageNumber?:number):Observable<Assets> {
-    return this.assetsRepository.getAssets(pageNumber);
+    return this.assetRepository.getAssets(pageNumber);
   }
 
   public getAssetKinds():Observable<AssetKinds> {
-    return this.assetsRepository.getAssetKinds();
+    return this.assetRepository.getAssetKinds();
   }
 
   public findAssetTypes(searchStr: string, pageSize:number):Observable<AssetTypes> {
-    return this.assetTypesRepository.findAssetTypes(searchStr, pageSize);
+    return this.assetTypeRepository.findAssetTypes(searchStr, pageSize);
   }
 
   public findUnitOfMeasures(searchStr: string, pageSize: number):Observable<UnitOfMeasures> {
@@ -47,11 +47,11 @@ export class AssetService {
   }
 
   public addInventoryAsset(assetModel:Asset):Observable<Asset> {
-    return this.assetsRepository.addInventoryAsset(assetModel);
+    return this.assetRepository.addInventoryAsset(assetModel);
   }
 
   public addDiscreteAsset(assetModel:Asset):Observable<Asset> {
-    return this.assetsRepository.addDiscreteAsset(assetModel);
+    return this.assetRepository.addDiscreteAsset(assetModel);
   }
 
 }

@@ -1,6 +1,6 @@
 import {AssetClient} from "../../client/assets/asset.client";
 import {AssetRepository} from "../../assets/asset.repository";
-import {AssetRepositoryAdapter} from "./assets.repository.adapter";
+import {AssetRepositoryAdapter} from "./asset.repository.adapter";
 
 export function assetsRepositoryProviderFactory (assetClient:AssetClient):AssetRepository {
   let assetRepositoryAdapter: AssetRepositoryAdapter;
@@ -10,7 +10,7 @@ export function assetsRepositoryProviderFactory (assetClient:AssetClient):AssetR
   return assetRepositoryAdapter;
 }
 
-export let assetsRepositoryProvider = {
+export let assetRepositoryProvider = {
   provide: AssetRepository,
   useFactory: assetsRepositoryProviderFactory,
   deps: [AssetClient]
