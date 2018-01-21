@@ -11,7 +11,7 @@
     "e2e": "ng e2e",
     "startBackEnd": "node /Users/michael/IdeaProjects/troumaca-web/backend/bin/server.js",
     "startServerWithProxy": "concurrently --kill-others \"ng serve --proxy-config proxy.conf.json\"",
-    "startServersWithProxy": "npm run startBackEnd | ng serve --proxy-config proxy.conf.json"
+    "startServersWithProxy": "npm run --debug=5858 startBackEnd | ng serve --proxy-config proxy.conf.json"
   },
   "private": true,
   "dependencies": {
@@ -41,6 +41,7 @@
     "rxjs": "^5.4.3",
     "serve-favicon": "^2.4.3",
     "underscore": "^1.8.3",
+    "uuid": "^3.2.1",
     "validator": "^8.0.0",
     "zone.js": "^0.8.16"
   },

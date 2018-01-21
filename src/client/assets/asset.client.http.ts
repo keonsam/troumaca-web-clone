@@ -27,10 +27,12 @@ export class AssetClientHttp extends AssetClient {
     let array = [];
     array.push(this.hostPort);
     array.push("/v2/assets");
+
     if (pageNumber) {
       array.push("?");
       array.push("pageNumber=" + pageNumber);
     }
+
     return this.http.get<AssetStates>(array.join(""), {
     // return this.http.get(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
@@ -53,6 +55,7 @@ export class AssetClientHttp extends AssetClient {
     let array = [];
     array.push(this.hostPort);
     array.push("/asset/kinds");
+
     return this.http.get<AssetKindStates>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
@@ -64,6 +67,7 @@ export class AssetClientHttp extends AssetClient {
     let array = [];
     array.push(this.hostPort);
     array.push("/v2/assets");
+
     return this.http.post(array.join(""), assetState.toJson(), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
@@ -75,8 +79,6 @@ export class AssetClientHttp extends AssetClient {
     let array = [];
     array.push(this.hostPort);
     array.push("/v2/assets");
-
-    Encoder.encode(assetState);
 
     return this.http.post(array.join(""), assetState.toJson(), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())

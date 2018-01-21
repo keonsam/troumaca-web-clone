@@ -45,16 +45,8 @@ export class AssetTypeClassState {
       assetTypeClassId: this.assetTypeClassId,
       name: this.name,
       description: this.description,
-      attributes: this.toJsonArray(this.attributes)
+      attributes: this.attributes
     }
-  }
-
-  private toJsonArray(attributeStates:AttributeState[]):[] {
-    let arr:Array = [];
-    for (let attributeState of attributeStates) {
-      arr.push(attributeState.toJson());
-    }
-    return arr;
   }
 
 }

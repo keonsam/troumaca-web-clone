@@ -32,8 +32,6 @@ router.get("/", function(req, res, next) {
     res.send(JSON.stringify(asset));
   });
 
-  console.log("post asset resource");
-  res.send(JSON.stringify({}));
 });
 
 

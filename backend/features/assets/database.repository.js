@@ -1,10 +1,18 @@
+let uuidv5 = require('uuid/v5');
+let Datastore = require('nedb');
 let Rx = require("rxjs");
-const Datastore = require('nedb');
-// const db = new Datastore({filename: __dirname+'/assets.db', autoload: true});
-let db = {};
-db.assets = new Datastore('../nedb/assets.db');
 
-db.assets.loadDatabase();
+let hostname = 'troumaca.com';
+
+//{filename:'/Users/michael/IdeaProjects/troumaca-web/backend/nedb/assets.db',autoload: true,inMemoryOnly: false}
+
+let db = {};
+db.assets = new Datastore('/Users/michael/IdeaProjects/troumaca-web/backend/nedb/assets.db');
+db.assets.loadDatabase(function (err) {    // Callback is optional
+  // Now commands will be executed
+  console.log(err);
+});
+
 
 function calculateSkip(page, size) {
   if (page <= 1) {
@@ -25,26 +33,13 @@ function buildPagedAssetListResponse(page, sort, assets) {
 module.exports =  function DatabaseAssetRepository() {
 
   this.saveAsset = function (asset) {
-    let newAsset = {
-      assetKindId: asset._assetKindId,
-      assetType: asset._assetType.assetTypeId,
-      person: asset._person,
-      site: asset._site
-    };
-
-    if (newAsset.assetKindId == "65694257-0aa8-4fb6-abb7-e6c7b83cf4f2") {
-      newAsset.quantity = asset._quantity;
-      newAsset.unitOfMeasure = asset._unitOfMeasure._unitOfMeasureId;
-    } else {
-     newAsset.serialNumber = asset._serialNumber;
-    }
-
+    asset.assetId = uuidv5(hostname, uuidv5.DNS);
     return Rx.Observable.create(function (observer) {
-      db.assets.insert(newAsset, function (err, doc) {
+      db.assets.insert(asset, function (err, doc) {
         if (err) {
           observer.error(err);
         } else {
-          observer.next();
+          observer.next(asset);
         }
         console.log('Inserted', doc.name, 'with ID', doc._id);
       });
