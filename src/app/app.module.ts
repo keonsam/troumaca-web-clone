@@ -74,7 +74,7 @@ import {FormsModule} from "@angular/forms";
     AppRoutingModule
   ],
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   providers: [
     appRoutingProviders,
