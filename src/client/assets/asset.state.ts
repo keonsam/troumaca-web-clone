@@ -106,7 +106,6 @@ export class AssetState {
   }
 
   toJson() {
-
     return {
       assetId: this.assetId,
       assetKindId: this.assetKindId,
@@ -116,7 +115,7 @@ export class AssetState {
       unitOfMeasure: this.unitOfMeasure,
       lotNumber: this.lotNumber,
       site: this.site,
-      person: (this.assetTypeClass ? this.assetTypeClass : "")
+      assetTypeClass: (this.assetTypeClass ? this.assetTypeClass : "")
     }
   }
 

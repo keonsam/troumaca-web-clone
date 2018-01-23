@@ -106,8 +106,9 @@ export class MenuClientMock extends MenuClient {
       this.toMenuItem({id:'101', rank:'20', name: 'ASSETS', routeName: '/assets', iconClasses:'os-icon os-icon-delivery-box-2', color: '', backgroundColor: '', selected: true, active: true, secured: false}),
       this.toMenuItem({id:'101', rank:'20', name: 'REQUESTS', routeName: '/requests', iconClasses:'os-icon os-icon-delivery-box-2', color: '', backgroundColor: '', selected: true, active: true, secured: false}),
       // this.toMenuItem({id:'101', rank:'20', name: 'USERS', routeName: '/users', iconClasses:'os-icon os-icon-user-male-circle', color: '', backgroundColor: '', selected: true, active: true, secured: false}),
-      // this.toMenuItem({id:'101', rank:'20', name: 'INVOICE TEMPLATES', routeName: '/invoice-templates', iconClasses:'os-icon os-icon-delivery-box-2', color: '', backgroundColor: '', selected: true, active: true, secured: false}),
+      // this.toMenuItem({id:'101', rank:'20', name: 'RECEIPTS', routeName: '/users', iconClasses:'os-icon os-icon-user-male-circle', color: '', backgroundColor: '', selected: true, active: true, secured: false}),
       // this.toMenuItem({id:'101', rank:'20', name: 'WORK ORDERS', routeName: '/work-orders', iconClasses:'os-icon os-icon-delivery-box-2', color: '', backgroundColor: '', selected: true, active: true, secured: false}),
+      // this.toMenuItem({id:'101', rank:'20', name: 'INVOICE TEMPLATES', routeName: '/invoice-templates', iconClasses:'os-icon os-icon-delivery-box-2', color: '', backgroundColor: '', selected: true, active: true, secured: false})
     ];
   }
 

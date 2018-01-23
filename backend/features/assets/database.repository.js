@@ -8,6 +8,7 @@ let hostname = 'troumaca.com';
 
 let db = {};
 db.assets = new Datastore('/Users/michael/IdeaProjects/troumaca-web/backend/nedb/assets.db');
+// db.assets = new Datastore(__dirname + '/../nedb/assets.db');
 db.assets.loadDatabase(function (err) {    // Callback is optional
   // Now commands will be executed
   console.log(err);
