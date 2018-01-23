@@ -17,6 +17,11 @@ import {SiteListComponent} from "../site/site-list/site.list.component";
 import {SiteCreationComponent} from "../site/site-creation/site.creation.component";
 import {AttributeListComponent} from "../attributes/attribute-list/attribute.list.component";
 import {AttributeCreationComponent} from "../attributes/attribute-creation/attribute.creation.component";
+import {SitePostOfficeBoxListComponent} from "../site/site-post-office-box-list/site.post.office.box.list.component";
+import {SiteEmailListComponent} from "../site/site-email-list/site.email.list.component";
+import {SiteWebListComponent} from "../site/site-web-list/site.web.list.component";
+import {SitePhoneListComponent} from "../site/site-phone-list/site.phone.list.component";
+import {SiteStreetAddressListComponent} from "../site/site-street-address-list/site.street.address.list.component";
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -42,8 +47,12 @@ const appRoutes: Routes = [
       { path: 'create', component: AttributeCreationComponent }
   ]},
   { path: 'sites', component: SiteComponent, children:[
-    { path: '', redirectTo: 'listing', pathMatch: 'full'},
-    { path: 'listing', component: SiteListComponent },
+    { path: '', redirectTo: 'street-addresses', pathMatch: 'full'},
+    { path: 'street-addresses', component: SiteStreetAddressListComponent },
+    { path: 'post-office-boxes', component: SitePostOfficeBoxListComponent },
+    { path: 'emails', component: SiteEmailListComponent },
+    { path: 'web-sites', component: SiteWebListComponent },
+    { path: 'phones', component: SitePhoneListComponent },
     { path: 'create', component: SiteCreationComponent }
   ]},
   { path: '**', component: PageNotFoundComponent },

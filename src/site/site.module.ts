@@ -11,6 +11,11 @@ import {MenuModule} from "../menu/menu.module";
 import {SiteCreationComponent} from "./site-creation/site.creation.component";
 import {SiteListComponent} from "./site-list/site.list.component";
 import {SiteTopMenuComponent} from "./site-top-menu/site.top.menu.component";
+import {SiteEmailListComponent} from "./site-email-list/site.email.list.component";
+import {SitePhoneListComponent} from "./site-phone-list/site.phone.list.component";
+import {SitePostOfficeBoxListComponent} from "./site-post-office-box-list/site.post.office.box.list.component";
+import {SiteStreetAddressListComponent} from "./site-street-address-list/site.street.address.list.component";
+import {SiteWebListComponent} from "./site-web-list/site.web.list.component";
 
 @NgModule({
   imports: [
@@ -26,7 +31,12 @@ import {SiteTopMenuComponent} from "./site-top-menu/site.top.menu.component";
     SiteComponent,
     SiteCreationComponent,
     SiteListComponent,
-    SiteTopMenuComponent
+    SiteTopMenuComponent,
+    SiteEmailListComponent,
+    SitePhoneListComponent,
+    SitePostOfficeBoxListComponent,
+    SiteStreetAddressListComponent,
+    SiteWebListComponent
   ],
   providers: [{
     provide: SiteService,
@@ -43,7 +53,12 @@ import {SiteTopMenuComponent} from "./site-top-menu/site.top.menu.component";
     SiteComponent,
     SiteCreationComponent,
     SiteListComponent,
-    SiteTopMenuComponent
+    SiteTopMenuComponent,
+    SiteEmailListComponent,
+    SitePhoneListComponent,
+    SitePostOfficeBoxListComponent,
+    SiteStreetAddressListComponent,
+    SiteWebListComponent
   ]
 })
 export class SiteModule {}
