@@ -17,31 +17,24 @@ import {AssetType} from "../asset.type";
 export class AssetCreationComponent implements OnInit {
 
   private _assetKindFormControlName: string;
-  private _assetKindFormControlValue: string;
   private _assetKind: FormControl;
 
   private _assetTypeFormControlName: string;
-  private _assetTypeFormControlValue: string;
   private _assetType: FormControl;
 
   private _serialNumberFormControlName: string;
-  private _serialNumberFormControlValue: string;
   private _serialNumber: FormControl;
 
   private _quantityFormControlName: string;
-  private _quantityFormControlValue: string;
   private _quantity: FormControl;
 
   private _unitOfMeasureFormControlName: string;
-  private _unitOfMeasureFormControlValue: string;
   private _unitOfMeasure: FormControl;
 
   private _siteFormControlName: string;
-  private _siteFormControlValue: string;
   private _site: FormControl;
 
   private _personFormControlName: string;
-  private _personFormControlValue: string;
   private _person: FormControl;
 
   private _assetForm:FormGroup;
@@ -479,62 +472,6 @@ export class AssetCreationComponent implements OnInit {
 
   set personFormControlName(value: string) {
     this._personFormControlName = value;
-  }
-
-  get personFormControlValue(): string {
-    return this._personFormControlValue;
-  }
-
-  set personFormControlValue(value: string) {
-    this._personFormControlValue = value;
-  }
-
-  get assetKindFormControlValue(): string {
-    return this._assetKindFormControlValue;
-  }
-
-  set assetKindFormControlValue(value: string) {
-    this._assetKindFormControlValue = value;
-  }
-
-  get assetTypeFormControlValue(): string {
-    return this._assetTypeFormControlValue;
-  }
-
-  set assetTypeFormControlValue(value: string) {
-    this._assetTypeFormControlValue = value;
-  }
-
-  get serialNumberFormControlValue(): string {
-    return this._serialNumberFormControlValue;
-  }
-
-  set serialNumberFormControlValue(value: string) {
-    this._serialNumberFormControlValue = value;
-  }
-
-  get quantityFormControlValue(): string {
-    return this._quantityFormControlValue;
-  }
-
-  set quantityFormControlValue(value: string) {
-    this._quantityFormControlValue = value;
-  }
-
-  get unitOfMeasureFormControlValue(): string {
-    return this._unitOfMeasureFormControlValue;
-  }
-
-  set unitOfMeasureFormControlValue(value: string) {
-    this._unitOfMeasureFormControlValue = value;
-  }
-
-  get siteFormControlValue(): string {
-    return this._siteFormControlValue;
-  }
-
-  set siteFormControlValue(value: string) {
-    this._siteFormControlValue = value;
   }
 
   isInventory() {

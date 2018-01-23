@@ -9,6 +9,7 @@ import {AssetTypeService} from "./asset.type.service";
 import {AssetTypeRepository} from "./asset.type.repository";
 import {RouterModule} from "@angular/router";
 import {MenuModule} from "../menu/menu.module";
+import {AssetTypeTopMenuComponent} from "./asset-type-top-menu/asset.type.top.menu.component";
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import {MenuModule} from "../menu/menu.module";
   declarations: [
     AssetTypeComponent,
     AssetTypeListComponent,
-    AssetTypeCreationComponent
+    AssetTypeCreationComponent,
+    AssetTypeTopMenuComponent
   ],
   providers: [{
     provide: AssetTypeService,
@@ -36,7 +38,10 @@ import {MenuModule} from "../menu/menu.module";
     deps: [AssetTypeRepository]
   }],
   exports: [
-    AssetTypeComponent
+    AssetTypeComponent,
+    AssetTypeListComponent,
+    AssetTypeCreationComponent,
+    AssetTypeTopMenuComponent
   ]
 })
 export class AssetTypesModule {}

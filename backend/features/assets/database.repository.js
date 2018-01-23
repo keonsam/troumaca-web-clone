@@ -1,14 +1,13 @@
 let uuidv5 = require('uuid/v5');
 let Datastore = require('nedb');
 let Rx = require("rxjs");
+var path = require('path'),
+    __parentDir = path.resolve(__dirname, '..','..',) + '/nedb/assets.db';
 
 let hostname = 'troumaca.com';
 
-//{filename:'/Users/michael/IdeaProjects/troumaca-web/backend/nedb/assets.db',autoload: true,inMemoryOnly: false}
-
 let db = {};
-db.assets = new Datastore('/Users/michael/IdeaProjects/troumaca-web/backend/nedb/assets.db');
-// db.assets = new Datastore(__dirname + '/../nedb/assets.db');
+db.assets = new Datastore(__parentDir);
 db.assets.loadDatabase(function (err) {    // Callback is optional
   // Now commands will be executed
   console.log(err);

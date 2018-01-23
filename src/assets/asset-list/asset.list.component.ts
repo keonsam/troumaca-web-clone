@@ -3,11 +3,11 @@ import {AssetService} from "../asset.service";
 import {Assets} from "../assets";
 
 @Component({
-  selector: 'asset-content',
-  templateUrl: './asset.content.component.html',
-  styleUrls: ['./asset.content.component.css']
+  selector: 'asset-list',
+  templateUrl: './asset.list.component.html',
+  styleUrls: ['./asset.list.component.css']
 })
-export class AssetContentComponent implements OnInit {
+export class AssetListComponent implements OnInit {
 
   private _headerNames:string[] = [];
   private _assets:Assets;

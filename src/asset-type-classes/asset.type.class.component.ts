@@ -3,7 +3,7 @@ import {AssetTypeClassService} from "./asset.type.class.service";
 import {AssetTypeClass} from "./asset.type.class";
 
 @Component({
-  selector: 'asset-types',
+  selector: 'asset-type-class',
   templateUrl: './asset.type.class.component.html',
   styleUrls: ['./asset.type.class.component.css']
 })

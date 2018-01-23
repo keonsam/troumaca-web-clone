@@ -8,6 +8,9 @@ import {SiteRepository} from "./site.repository";
 import {siteRouting} from "./site.routing";
 import {RouterModule} from "@angular/router";
 import {MenuModule} from "../menu/menu.module";
+import {SiteCreationComponent} from "./site-creation/site.creation.component";
+import {SiteListComponent} from "./site-list/site.list.component";
+import {SiteTopMenuComponent} from "./site-top-menu/site.top.menu.component";
 
 @NgModule({
   imports: [
@@ -20,7 +23,10 @@ import {MenuModule} from "../menu/menu.module";
     MenuModule
   ],
   declarations: [
-    SiteComponent
+    SiteComponent,
+    SiteCreationComponent,
+    SiteListComponent,
+    SiteTopMenuComponent
   ],
   providers: [{
     provide: SiteService,
@@ -34,7 +40,10 @@ import {MenuModule} from "../menu/menu.module";
     deps: [SiteRepository]
   }],
   exports: [
-    SiteComponent
+    SiteComponent,
+    SiteCreationComponent,
+    SiteListComponent,
+    SiteTopMenuComponent
   ]
 })
 export class SiteModule {}

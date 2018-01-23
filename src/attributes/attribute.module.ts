@@ -7,6 +7,9 @@ import {AttributeService} from "./attribute.service";
 import {AttributeRepository} from "./attribute.repository";
 import {RouterModule} from "@angular/router";
 import {MenuModule} from "../menu/menu.module";
+import {AttributeCreationComponent} from "./attribute-creation/attribute.creation.component";
+import {AttributeListComponent} from "./attribute-list/attribute.list.component";
+import {AttributeTopMenuComponent} from "./attribute-top-menu/attribute.top.menu.component";
 
 @NgModule({
   imports: [
@@ -18,7 +21,10 @@ import {MenuModule} from "../menu/menu.module";
     MenuModule
   ],
   declarations: [
-    AttributeComponent
+    AttributeComponent,
+    AttributeCreationComponent,
+    AttributeListComponent,
+    AttributeTopMenuComponent
   ],
   providers: [{
     provide: AttributeService,
@@ -32,7 +38,10 @@ import {MenuModule} from "../menu/menu.module";
     deps: [AttributeRepository]
   }],
   exports: [
-    AttributeComponent
+    AttributeComponent,
+    AttributeCreationComponent,
+    AttributeListComponent,
+    AttributeTopMenuComponent
   ]
 })
 export class AttributeModule {}
