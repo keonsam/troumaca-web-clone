@@ -10,4 +10,8 @@ export class AssetTypeClassService {
   public getAssetTypeClasses():Observable<AssetTypeClass[]> {
     return this.assetTypeClassRepository.getAssetTypeClasses();
   }
+
+  public addAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass> {
+    return this.assetTypeClassRepository.addAssetTypeClass(assetTypeClass);
+  }
 }

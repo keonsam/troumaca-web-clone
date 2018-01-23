@@ -8,6 +8,7 @@ import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
 // import {AssetTypeClassModel} from "../../asset-types/asset.type.class.model";
 // import {AssetTypeAttributeModel} from "../../attributes/asset.type.attribute.model";
 // import {AssetTypeAttributeValueModel} from "../../attributes/asset.type.attribute.value.model";
+import {AssetTypeClassState} from "../../client/asset-type-classes/asset.type.class.state";
 
 export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
 
@@ -47,4 +48,11 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
       });
   }
 
+  addAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass> {
+    return this.assetTypeClassClient
+    .addAssetTypeClass(mapObjectProps(assetTypeClass, new AssetTypeClassState()))
+    .map(value =>{
+      return mapObjectProps(value, new AssetTypeClass());
+    });
+  }
 }

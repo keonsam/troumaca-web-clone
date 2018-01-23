@@ -27,7 +27,7 @@ export class AssetClientHttp extends AssetClient {
     let array = [];
     array.push(this.hostPort);
     array.push("/v2/assets");
-
+    console.log(array);
     if (pageNumber) {
       array.push("?");
       array.push("pageNumber=" + pageNumber);

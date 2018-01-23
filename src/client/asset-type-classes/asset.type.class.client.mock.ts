@@ -6,4 +6,8 @@ export class AssetTypeClassClientMock extends AssetTypeClassClient {
   public getAssetTypeClasses(): Observable<AssetTypeClassState[]> {
     return undefined;
   }
+
+  public addAssetTypeClass(assetTypeClassState: AssetTypeClassState): Observable<AssetTypeClassState> {
+    return null;
+  }
 }

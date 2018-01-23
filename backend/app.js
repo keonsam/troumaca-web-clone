@@ -3,6 +3,7 @@ var factoryOptions = {
 };
 
 require('./features/assets/repository.factory')(factoryOptions);
+require('./features/asset-type-classes/repository.factory')(factoryOptions);
 
 let express = require('express');
 let path = require('path');
@@ -22,6 +23,7 @@ let persons = require('./routes/parties/persons/persons');
 
 
 let assetResource = require('./features/assets/resources');
+let assetTypeClassesResource = require('./features/asset-type-classes/resources');
 
 let app = express();
 
@@ -40,6 +42,7 @@ app.use('/unit-of-measures', unitOfMeasures);
 app.use('/sites/physical-sites', unionOfPhysicalSites);
 app.use('/parties/persons', persons);
 app.use('/v2/assets', assetResource);
+app.use('/asset-type-classes', assetTypeClassesResource);
 
 // app.set('view engine', 'ejs');
 

@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {AssetService} from "../../assets/asset.service";
 import {CompleterService} from "ng2-completer";
 import {AssetTypeClassService} from "../asset.type.class.service";
+import {AssetTypeClass} from "../asset.type.class";
 
 @Component({
   selector: 'asset-type-class-creation',
@@ -15,13 +16,16 @@ export class AssetTypeClassCreationComponent implements OnInit {
   private _description: FormControl;
   private _assetTypeClassForm:FormGroup;
 
+  private assetTypeClass: AssetTypeClass;
+
   constructor(private assetTypeClassService:AssetTypeClassService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder) {
     this.name = new FormControl("", Validators.required);
     this.description = new FormControl("");
 
-    this.assetTypeClassForm = formBuilder.group({
+
+   this.assetTypeClassForm = formBuilder.group({
       "name": this.name,
       "description": this.description
     });
@@ -55,6 +59,10 @@ export class AssetTypeClassCreationComponent implements OnInit {
   }
 
   enableSubmit() {
+    if (!this.name){
+      return false;
+    }
+    return true;
   }
 
   onCreate() {
@@ -64,6 +72,18 @@ export class AssetTypeClassCreationComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.name) {
+      let id= "1233";
+      let name = this.name.value;
+      let description = this.name.value;
+      let assetTypeClasses: AssetTypeClass = new AssetTypeClass(undefined,this.name.value,this.description.value); // validate
+     this.assetTypeClassService.addAssetTypeClass(this.assetTypeClass)
+      .subscribe(value => {
+        console.log(value);
+      }, error => {
+        console.log(error);
+      });
+    }
   }
 
 }
