@@ -73,11 +73,8 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
   onSubmit() {
     if (this.name) {
-      let id= "1233";
-      let name = this.name.value;
-      let description = this.name.value;
-      let assetTypeClasses: AssetTypeClass = new AssetTypeClass(undefined,this.name.value,this.description.value); // validate
-     this.assetTypeClassService.addAssetTypeClass(this.assetTypeClass)
+     let assetTypeClasses: AssetTypeClass = new AssetTypeClass("",this.name.value,this.description.value); // validate
+     this.assetTypeClassService.addAssetTypeClass(assetTypeClasses)
       .subscribe(value => {
         console.log(value);
       }, error => {
