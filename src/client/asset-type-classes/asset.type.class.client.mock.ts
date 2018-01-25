@@ -1,9 +1,10 @@
 import {AssetTypeClassClient} from "./asset.type.class.client";
 import {Observable} from "rxjs/Observable";
 import {AssetTypeClassState} from "./asset.type.class.state";
+import {AssetTypeClassStates} from "./asset.type.class.states";
 
 export class AssetTypeClassClientMock extends AssetTypeClassClient {
-  public getAssetTypeClasses(): Observable<AssetTypeClassState[]> {
+  public getAssetTypeClasses(pageNumber?: number): Observable<AssetTypeClassStates> {
     return undefined;
   }
 

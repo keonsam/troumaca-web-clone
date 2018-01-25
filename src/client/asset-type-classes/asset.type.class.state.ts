@@ -1,3 +1,6 @@
+import {JsonObject, JsonProperty} from "json2typescript";
+
+@JsonObject
 export class AssetTypeClassState {
 
   private _assetTypeClassId:string;
@@ -9,7 +12,7 @@ export class AssetTypeClassState {
     this._name = name;
     this._description = description;
   }
-  
+
   get assetTypeClassId(): string {
     return this._assetTypeClassId;
   }
@@ -33,5 +36,11 @@ export class AssetTypeClassState {
   set description(value: string) {
     this._description = value;
   }
-
+ toJson() {
+   return {
+     assetTypeClassId : this.assetTypeClassId,
+     name: this.name,
+     description: this.description
+   }
+ }
 }

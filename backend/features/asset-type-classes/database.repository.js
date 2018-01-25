@@ -13,6 +13,23 @@ db.assetTypeClasses.loadDatabase(function (err) {    // Callback is optional
   console.log(err);
 });
 
+function calculateSkip(page, size) {
+  if (page <= 1) {
+    return 0;
+  } else {
+    return ((page -1) * size);
+  }
+}
+
+function buildPagedAssetListResponse(page, sort, assetTypeClasses) {
+  return {
+    page:page,
+    sort:sort,
+    assetTypeClasses:assetTypeClasses
+  }
+}
+
+
 module.exports =  function DatabaseAssetRepository() {
   this.saveAssetTypeClass = function (assetTypeClass) {
     assetTypeClass.assetTypeClassId = uuidv5(hostname, uuidv5.DNS);
