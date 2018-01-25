@@ -8,7 +8,7 @@ export class SiteService {
   }
 
   public getEmails(pageNumber:number):Observable<Emails> {
-    this.siteRepository.getEmails(pageNumber);
+  return  this.siteRepository.getEmails(pageNumber);
 
   }
 }

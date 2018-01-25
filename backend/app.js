@@ -20,7 +20,7 @@ let assetTypes = require('./routes/asset-types');
 let unitOfMeasures = require('./routes/unit-of-measures');
 let unionOfPhysicalSites = require('./routes/sites/physical-sites/union-of-physical-sites');
 let persons = require('./routes/parties/persons/persons');
-
+let emailSites = require("./routes/sites/virtual-sites/e-mail-sites");
 
 let assetResource = require('./features/assets/resources');
 let assetTypeClassesResource = require('./features/asset-type-classes/resources');
@@ -40,6 +40,7 @@ app.use('/lots', lots);
 app.use('/asset-types', assetTypes);
 app.use('/unit-of-measures', unitOfMeasures);
 app.use('/sites/physical-sites', unionOfPhysicalSites);
+app.use('/sites/virtual-sites', emailSites);
 app.use('/parties/persons', persons);
 app.use('/v2/assets', assetResource);
 app.use('/asset-type-classes', assetTypeClassesResource);

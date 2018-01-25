@@ -14,7 +14,14 @@ export class SiteClientHttp extends SiteClient {
   }
 
   public getEmails(pageNumber:number):Observable<EmailStates> {
-    return Observable.of(new EmailStates());
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/sites/virtual-sites/e-mail-sites");
+    return this.httpClient.get<EmailStates>(array.join(""), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
   }
 
   public findUnionOfPhysicalSiteStates(searchStr:string, pageSize:number):Observable<UnionOfPhysicalSiteStates> {
@@ -42,6 +49,5 @@ export class SiteClientHttp extends SiteClient {
       return data;
     });
   }
-
 
 }
