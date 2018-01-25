@@ -16,8 +16,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
   private _description: FormControl;
   private _assetTypeClassForm:FormGroup;
 
-  private assetTypeClass: AssetTypeClass;
-
   constructor(private assetTypeClassService:AssetTypeClassService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder) {
@@ -58,11 +56,12 @@ export class AssetTypeClassCreationComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  enableSubmit() {
-    if (!this.name){
+  enableSubmit():boolean {
+    if (!this.name) {
       return false;
+    } else {
+      return true;
     }
-    return true;
   }
 
   onCreate() {
@@ -76,8 +75,8 @@ export class AssetTypeClassCreationComponent implements OnInit {
       let id= "1233";
       let name = this.name.value;
       let description = this.name.value;
-      let assetTypeClasses: AssetTypeClass = new AssetTypeClass(undefined,this.name.value,this.description.value); // validate
-     this.assetTypeClassService.addAssetTypeClass(this.assetTypeClass)
+      let assetTypeClasses: AssetTypeClass = new AssetTypeClass(undefined, name, description); // validate
+     this.assetTypeClassService.addAssetTypeClass(assetTypeClasses)
       .subscribe(value => {
         console.log(value);
       }, error => {
