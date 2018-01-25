@@ -13,7 +13,6 @@ import {AssetTypeListComponent} from "../asset-types/asset-type-list/asset.type.
 import {AssetTypeCreationComponent} from "../asset-types/asset-type-creation/asset.type.creation.component";
 import {AssetTypeClassCreationComponent} from "../asset-type-classes/asset-type-class-creation/asset.type.class.creation.component";
 import {AssetTypeClassListComponent} from "../asset-type-classes/asset-type-class-list/asset.type.class.list.component";
-import {SiteListComponent} from "../site/site-list/site.list.component";
 import {SiteCreationComponent} from "../site/site-creation/site.creation.component";
 import {AttributeListComponent} from "../attributes/attribute-list/attribute.list.component";
 import {AttributeCreationComponent} from "../attributes/attribute-creation/attribute.creation.component";

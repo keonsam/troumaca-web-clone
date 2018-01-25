@@ -10,6 +10,7 @@ import {AssetTypeRepository} from "./asset.type.repository";
 import {RouterModule} from "@angular/router";
 import {MenuModule} from "../menu/menu.module";
 import {AssetTypeTopMenuComponent} from "./asset-type-top-menu/asset.type.top.menu.component";
+import {SearchModule} from "../search/search.module";
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import {AssetTypeTopMenuComponent} from "./asset-type-top-menu/asset.type.top.me
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    MenuModule
+    MenuModule,
+    SearchModule
   ],
   declarations: [
     AssetTypeComponent,

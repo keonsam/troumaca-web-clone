@@ -1,6 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {AssetTypeClassService} from "../asset.type.class.service";
 import {AssetTypeClasses} from "../asset.type.classes";
+import {Page} from "../../page/page";
+import {Sort} from "../../sort/sort";
 
 @Component({
   selector: 'asset-type-class-list',
@@ -8,19 +10,34 @@ import {AssetTypeClasses} from "../asset.type.classes";
   styleUrls: ['./asset.type.class.list.component.css']
 })
 export class AssetTypeClassListComponent implements OnInit {
-  private _headerNames:string[] = [];
+
+  private _headerNames:string[] = ["Name","Description"];
   private _assetTypeClasses: AssetTypeClasses;
 
- constructor(private assetTypeClassService: AssetTypeClassService){
-   this.assetTypeClass = new AssetTypeClasses();
-   this.assetTypeClass.assetTypeClasses = [];
+ constructor(private assetTypeClassService: AssetTypeClassService) {
+   let assetTypeClasses:AssetTypeClasses = new AssetTypeClasses();
+   assetTypeClasses.assetTypeClasses = [];
+   assetTypeClasses.page = new Page(1, 10, 0);
+   this.assetTypeClasses = assetTypeClasses;
  }
 
   ngOnInit(): void {
     this.assetTypeClassService.getAssetTypeClasses()
-    .subscribe(next => {
-      console.log(next);
-      this.assetTypeClass = next;
+    .subscribe(assetTypeClasses => {
+      console.log(assetTypeClasses);
+      if (assetTypeClasses) {
+
+        let newAssetTypeClasses:AssetTypeClasses = assetTypeClasses;
+        if (!newAssetTypeClasses.page) {
+          newAssetTypeClasses.page = new Page(1, 10, newAssetTypeClasses.assetTypeClasses.length);
+        }
+
+        if (!newAssetTypeClasses.sort) {
+          newAssetTypeClasses.sort = new Sort();
+        }
+
+        this.assetTypeClasses = newAssetTypeClasses;
+      }
     }, error => {
       console.log(error);
     }, () => {
@@ -30,9 +47,22 @@ export class AssetTypeClassListComponent implements OnInit {
 
   public onRequestPage(pageNumber:number) {
   this.assetTypeClassService.getAssetTypeClasses(pageNumber)
-      .subscribe(next => {
-        console.log(next);
-        this.assetTypeClass = next;
+      .subscribe(assetTypeClasses => {
+        console.log(assetTypeClasses);
+        if (assetTypeClasses) {
+          let newAssetTypeClasses:AssetTypeClasses = assetTypeClasses;
+
+          if (!newAssetTypeClasses.page) {
+            newAssetTypeClasses.assetTypeClasses.length
+            newAssetTypeClasses.page = new Page(1, 10, newAssetTypeClasses.assetTypeClasses.length);
+          }
+          if (!newAssetTypeClasses.sort) {
+            newAssetTypeClasses.sort = new Sort();
+          }
+
+          this.assetTypeClasses = newAssetTypeClasses;
+        }
+
       }, error => {
         console.log(error);
       }, () => {
@@ -49,11 +79,11 @@ export class AssetTypeClassListComponent implements OnInit {
     this._headerNames = value;
   }
 
-  get assetTypeClass(): AssetTypeClasses {
+  get assetTypeClasses(): AssetTypeClasses {
     return this._assetTypeClasses;
   }
 
-  set assetTypeClass(value: AssetTypeClasses) {
+  set assetTypeClasses(value: AssetTypeClasses) {
     this._assetTypeClasses = value;
   }
 

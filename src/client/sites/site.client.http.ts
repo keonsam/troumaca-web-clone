@@ -3,6 +3,7 @@ import {UUIDGenerator} from "../../uuid.generator";
 import {Observable} from "rxjs/Observable";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UnionOfPhysicalSiteStates} from "./union.of.physical.site.states";
+import {EmailStates} from "./email.states";
 
 export class SiteClientHttp extends SiteClient {
 
@@ -10,6 +11,10 @@ export class SiteClientHttp extends SiteClient {
               private httpClient: HttpClient,
               private hostPort:string) {
     super();
+  }
+
+  public getEmails(pageNumber:number):Observable<EmailStates> {
+    return Observable.of(new EmailStates());
   }
 
   public findUnionOfPhysicalSiteStates(searchStr:string, pageSize:number):Observable<UnionOfPhysicalSiteStates> {

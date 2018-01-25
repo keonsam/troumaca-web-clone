@@ -16,32 +16,29 @@
           <table class="table table-striped table-lightfont table-full-width">
             <thead>
               <tr>
-                <th class="classification">{{headerNames[0]}}</th>
+                <th class="name">{{headerNames[0]}}</th>
                 <th>{{headerNames[1]}}</th>
-                <th class="description">{{headerNames[2]}}</th>
               </tr>
             </thead>
             <tfoot>
               <tr>
-                <th class="classification">{{headerNames[0]}}</th>
+                <th class="description">{{headerNames[0]}}</th>
                 <th>{{headerNames[1]}}</th>
-                <th class="description">{{headerNames[2]}}</th>
               </tr>
             </tfoot>
             <tbody>
-              <tr role="row" *ngFor="let assetTypeClass of assetTypeClass.assetTypeClass; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-                <td class="classification">{{assetTypeClass.assetTypeClass.name}}</td>
-                <td>{{assetTypeClass.assetTypeClass.name}}</td>
-                <td class="description">{{assetTypeClass.description}}</td>
-              </tr>
-              <tr *ngIf="assetsTypeClass.assetTypeClass.length <= 0" class="odd">
+              <tr role="row" *ngFor="let assetTypeClass of assetTypeClasses.assetTypeClasses; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+                <td class="name">{{assetTypeClass.name}}</td>
+                <td >{{assetTypeClass.description}}</td>
+                </tr>
+              <tr *ngIf="assetTypeClasses.length <= 0" class="odd">
                 <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
               </tr>
             </tbody>
           </table>
-          <paging [page]="assetTypeClass.page" (requestPage)="onRequestPage($event)"></paging>
+          <!--<pre>{{assetTypeClasses | json}}</pre>-->
+          <paging [page]="assetTypeClasses.page" (requestPage)="onRequestPage($event)"></paging>
         </div>
-
       </div>
     </div>
   </div>

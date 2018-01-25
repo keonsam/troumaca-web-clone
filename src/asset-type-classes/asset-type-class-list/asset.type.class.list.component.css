@@ -645,7 +645,7 @@ th {
   width: 100%;
 }
 
-.classification {
+.name {
   display: block;
 }
 
@@ -663,7 +663,7 @@ th {
 }
 
 @media (max-width: 850px) {
-  .classification {
+  .name {
     display: none !important;
   }
 }

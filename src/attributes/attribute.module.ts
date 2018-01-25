@@ -10,6 +10,7 @@ import {MenuModule} from "../menu/menu.module";
 import {AttributeCreationComponent} from "./attribute-creation/attribute.creation.component";
 import {AttributeListComponent} from "./attribute-list/attribute.list.component";
 import {AttributeTopMenuComponent} from "./attribute-top-menu/attribute.top.menu.component";
+import {SearchModule} from "../search/search.module";
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import {AttributeTopMenuComponent} from "./attribute-top-menu/attribute.top.menu
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    MenuModule
+    MenuModule,
+    SearchModule
   ],
   declarations: [
     AttributeComponent,

@@ -1,6 +1,5 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {AssetService} from "../../assets/asset.service";
 import {CompleterService} from "ng2-completer";
 import {AssetTypeClassService} from "../asset.type.class.service";
 import {AssetTypeClass} from "../asset.type.class";
@@ -19,6 +18,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
   constructor(private assetTypeClassService:AssetTypeClassService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder) {
+
     this.name = new FormControl("", Validators.required);
     this.description = new FormControl("");
 

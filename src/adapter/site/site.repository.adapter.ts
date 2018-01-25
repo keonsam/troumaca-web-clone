@@ -9,11 +9,25 @@ import { map, reduce, somethingElse } from "underscore";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
 import {AssetUnionOfPhysicalSites} from "../../assets/asset.union.of.physical.sites";
 import {UnionOfPhysicalSite} from "../../assets/asset.union.of.physical.site";
+import {Emails} from "../../site/emails";
 
 export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRepository {
 
   constructor(private siteClient: SiteClient) {
     super();
+  }
+
+
+  public getEmails(pageNumber:number):Observable<Emails> {
+    return this.siteClient
+      .getEmails(pageNumber)
+      .map(values => {
+        let emails:Emails = new Emails();
+        emails.emails = map(values.emails, value => {
+          return mapObjectProps(value, new Emails());
+        });
+        return emails;
+      });
   }
 
   public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<AssetUnionOfPhysicalSites> {
