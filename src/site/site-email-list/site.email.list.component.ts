@@ -20,7 +20,7 @@ export class SiteEmailListComponent implements OnInit {
     this.siteService.getEmails(this.defaultPage)
       .subscribe(next => {
         console.log(next);
-        this.assets = next;
+        this.emails = next;
       }, error => {
         console.log(error);
       }, () => {

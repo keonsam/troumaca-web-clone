@@ -1,4 +1,4 @@
-export class Site {
+export class SiteState {
 
   private _siteId:string;
   private _name:string;
