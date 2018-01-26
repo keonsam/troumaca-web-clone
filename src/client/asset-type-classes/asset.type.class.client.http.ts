@@ -6,6 +6,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {JsonConvert, OperationMode, ValueCheckingMode} from "json2typescript";
 import {AssetTypeClassStates} from "./asset.type.class.states";
 
+
 export class AssetTypeClassClientHttp extends AssetTypeClassClient {
 
   private jsonConvert: JsonConvert;
@@ -55,6 +56,17 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
     array.push(this.hostPort);
     array.push("/asset-type-classes");
     return this.http.post(array.join(""), assetTypeClassState.toJson(), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+
+  public deleteAssetTypeClass(id: string): Observable<string> {
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/asset-type-classes");
+    return this.http.delete(array.join(""),{
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;

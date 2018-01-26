@@ -6,4 +6,7 @@ export abstract class AssetTypeClassRepository {
   abstract getAssetTypeClasses(pageNumber?:number):Observable<AssetTypeClasses>;
 
   abstract addAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass>;
+
+  abstract deleteAssetTypeClass(id: string): Observable<string>;
+  
 }

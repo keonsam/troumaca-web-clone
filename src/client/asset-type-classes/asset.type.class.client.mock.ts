@@ -11,4 +11,8 @@ export class AssetTypeClassClientMock extends AssetTypeClassClient {
   public addAssetTypeClass(assetTypeClassState: AssetTypeClassState): Observable<AssetTypeClassState> {
     return null;
   }
+
+  public deleteAssetTypeClass(id: string): Observable<string> {
+    return null;
+  }
 }

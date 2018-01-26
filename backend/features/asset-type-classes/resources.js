@@ -1,9 +1,9 @@
 let express = require('express');
 let router = express.Router();
-let AssetOrchestrator = require('./orchestrator');
+let AssetTypeClassesOrchestrator = require('./orchestrator');
 let Pagination = require("../pagination");
 
-let assetOrch = new AssetOrchestrator();
+let assetOrch = new AssetTypeClassesOrchestrator();
 
 router.get("/", function(req, res, next) {
 
@@ -31,7 +31,11 @@ router.get("/", function(req, res, next) {
     res.send(JSON.stringify(assetTypeClass));
   });
 
+}).delete("/",function (req,res,next){
+  assetOrch.deleteAssetTypeClass(req.body)
+  .subscribe(string => {
+    res.send(string);
+  });
 });
-
 
 module.exports = router;

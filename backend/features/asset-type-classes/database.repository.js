@@ -80,4 +80,16 @@ module.exports =  function DatabaseAssetRepository() {
       }
     });
   }
+
+  this.deleteAssetTypeClass= function(id) {
+    return Rx.Observable.create(function (observer) {
+      db.assetTypeClasses.remove({_id: id}, function (err, doc) {
+        if (err) {
+          observer.error(err);
+        } else {
+          observer.next("ok");
+        }
+      });
+    });
+ }
 };

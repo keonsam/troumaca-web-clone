@@ -15,4 +15,8 @@ export class AssetTypeClassService {
   public addAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass> {
     return this.assetTypeClassRepository.addAssetTypeClass(assetTypeClass);
   }
+
+  public deleteAssetTypeClass(id: string): Observable<string>{
+    return this.assetTypeClassRepository.deleteAssetTypeClass(id);
+  }
 }

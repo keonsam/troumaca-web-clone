@@ -91,4 +91,13 @@ export class AssetTypeClassListComponent implements OnInit {
     console.log("W:" + event.target.innerWidth + " H:" + event.target.innerHeight);
   }
 
+  onEdit(event) {
+   console.log(event);
+  }
+
+  onDelete(id) {
+  if(confirm("Are you sure you want to delete this")){
+    this.assetTypeClassService.deleteAssetTypeClass(id);
+  }
+}
 }
