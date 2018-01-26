@@ -6,41 +6,51 @@
 
     <div class="element-wrapper">
       <h6 class="element-header">
-        Street Address Listing
+        Street Address Listing <div align="right" style="width: 83%; display: inline-block;"><a class="btn btn-sm btn-primary" href="#">New</a></div>
       </h6>
       <div class="element-box">
 
         <search></search>
 
-        <!--<div class="table-responsive table-section">-->
-          <!--<table class="table table-striped table-lightfont table-full-width">-->
-            <!--<thead>-->
-            <!--<tr>-->
-              <!--<th class="classification">{{headerNames[0]}}</th>-->
-              <!--<th>{{headerNames[1]}}</th>-->
-              <!--<th class="description">{{headerNames[2]}}</th>-->
-            <!--</tr>-->
-            <!--</thead>-->
-            <!--<tfoot>-->
-            <!--<tr>-->
-              <!--<th class="classification">{{headerNames[0]}}</th>-->
-              <!--<th>{{headerNames[1]}}</th>-->
-              <!--<th class="description">{{headerNames[2]}}</th>-->
-            <!--</tr>-->
-            <!--</tfoot>-->
-            <!--<tbody>-->
+
+        <div class="table-responsive table-section">
+          <table class="table table-striped table-lightfont table-full-width">
+            <thead>
+            <tr>
+              <th>Site Name</th>
+              <th>Description</th>
+              <th>Street Number</th>
+              <th>Street</th>
+              <th>City</th>
+              <th>State or Province</th>
+              <th>Country</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+              <th>Site Name</th>
+              <th>Description</th>
+              <th>Street Number</th>
+              <th>Street</th>
+              <th>City</th>
+              <th>State or Province</th>
+              <th>Country</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr>
             <!--<tr role="row" *ngFor="let asset of assets.assets; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">-->
               <!--<td class="classification">{{asset.assetTypeClass.name}}</td>-->
               <!--<td>{{asset.assetType.name}}</td>-->
               <!--<td class="description">{{asset.description}}</td>-->
-            <!--</tr>-->
+            </tr>
             <!--<tr *ngIf="assets.assets.length <= 0" class="odd">-->
               <!--<td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>-->
             <!--</tr>-->
-            <!--</tbody>-->
-          <!--</table>-->
+            </tbody>
+          </table>
           <!--<paging [page]="assets.page" (requestPage)="onRequestPage($event)"></paging>-->
-        <!--</div>-->
+        </div>
 
       </div>
     </div>

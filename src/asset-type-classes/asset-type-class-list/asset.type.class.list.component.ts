@@ -3,6 +3,7 @@ import {AssetTypeClassService} from "../asset.type.class.service";
 import {AssetTypeClasses} from "../asset.type.classes";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
+import {NgbModal, ModalDismissReasons} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'asset-type-class-list',
@@ -14,7 +15,9 @@ export class AssetTypeClassListComponent implements OnInit {
   private _headerNames:string[] = ["Name","Description"];
   private _assetTypeClasses: AssetTypeClasses;
 
- constructor(private assetTypeClassService: AssetTypeClassService) {
+ constructor(private assetTypeClassService: AssetTypeClassService,
+             private modalService: NgbModal) {
+
    let assetTypeClasses:AssetTypeClasses = new AssetTypeClasses();
    assetTypeClasses.assetTypeClasses = [];
    assetTypeClasses.page = new Page(1, 10, 0);
@@ -91,12 +94,15 @@ export class AssetTypeClassListComponent implements OnInit {
     console.log("W:" + event.target.innerWidth + " H:" + event.target.innerHeight);
   }
 
-  onEdit(event) {
-   console.log(event);
+  editModal(content) {
+    this.modalService.open(content);
+  }
+  onEdit(assetTypeClass) {
+  //this.assetTypeClassService.addAssetTypeClass(assetTypeClass);
   }
 
   onDelete(id) {
-  if(confirm("Are you sure you want to delete this")){
+  if(confirm("Are you sure you want to delete this?")){
     this.assetTypeClassService.deleteAssetTypeClass(id);
   }
 }

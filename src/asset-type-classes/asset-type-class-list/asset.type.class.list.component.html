@@ -30,12 +30,32 @@
               <tr role="row" *ngFor="let assetTypeClass of assetTypeClasses.assetTypeClasses; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
                 <td class="name">{{assetTypeClass.name}}</td>
                 <td >{{assetTypeClass.description}}</td>
-                <a (click)="onEdit(assetTypeClass._id)">
+                <a (click)="editModal(content)">
                   <i class="os-icon os-icon-pencil-2"></i>
                 </a>
                 <a (click)="onDelete(assetTypeClass._id)" class="danger" value="assetTypeClass._id">
                   <i class="os-icon os-icon-database-remove"></i>
                 </a>
+                  <ng-template #content let-c="close">
+                   <div class="modal-header">
+                    <h4 class="modal-title">Edit Asset Type Class</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="c()">
+                    <span aria-hidden="true">&times;</span>
+                   </button>
+                   </div>
+                   <div class="modal-body">
+                     <div class="form-group">
+                      <label for="">Name</label><input [(ngModel)]="assetTypeClass.name" class="form-control"  data-error="Your Name is invalid" placeholder="Name" required="required" type="text">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Description</label><input [(ngModel)]="assetTypeClass.description" class="form-control" data-error="Your Description is invalid" placeholder="Description" required="required" type="text">
+                    </div>
+                   </div>
+                   <div class="modal-footer">
+                    <button class="btn btn-primary" (click)="onEdit(assetTypeClass)">Edit</button>
+                    <button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+                   </div>
+                 </ng-template>
                 </tr>
               <tr *ngIf="assetTypeClasses.length <= 0" class="odd">
                 <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
