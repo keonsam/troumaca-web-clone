@@ -44,7 +44,6 @@ app.use('/sites/virtual-sites', emailSites);
 app.use('/parties/persons', persons);
 app.use('/v2/assets', assetResource);
 app.use('/asset-type-classes', assetTypeClassesResource);
-
 // app.set('view engine', 'ejs');
 
 // catch 404 and forward to error handler

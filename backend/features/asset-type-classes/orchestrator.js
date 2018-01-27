@@ -4,15 +4,21 @@ let assetTypeClassesRepository = assetTypeClassesRepositoryFactory.createAssetRe
 module.exports = function AssetTypeClassesOrchestrator() {
 
   let that = this;
+
   this.saveAssetTypeClass = function (assetTypeClass) {
     return assetTypeClassesRepository.saveAssetTypeClass(assetTypeClass);
+  };
+
+  this.getAssetTypeClass = function (assetTypeClassId) {
+    return assetTypeClassesRepository.getAssetTypeClass(assetTypeClassId);
   };
 
   this.getAssetTypeClasses = function (pagination) {
    return assetTypeClassesRepository.getAssetTypeClasses(pagination);
   };
 
-  this.deleteAssetTypeClass = function (id) {
-    return assetTypeClassesRepository.deleteAssetTypeClass(id);
-  }
+  this.deleteAssetTypeClass = function (assetTypeClassId) {
+    return assetTypeClassesRepository.deleteAssetTypeClass(assetTypeClassId);
+  };
+  
 };

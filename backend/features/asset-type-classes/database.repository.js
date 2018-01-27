@@ -43,8 +43,25 @@ module.exports =  function DatabaseAssetRepository() {
         console.log('Inserted', doc.name, 'with ID', doc._id);
       });
     });
-
   };
+
+  this.getAssetTypeClass = function(assetTypeClassId) {
+    console.log("this was called");
+    return Rx.Observable.create(function (observer) {
+      try {
+        db.assetTypeClasses.findOne({assetTypeClassId}, function (err, docs) {
+          if (err) {
+            observer.error(err);
+          } else {
+            console.log(docs);
+            observer.next(docs);
+          }
+        });
+      } catch (error) {
+        observer.error(error);
+      }
+    });
+  }
 
   this.getAssetTypeClasses = function (pagination) {
     return Rx.Observable.create(function (observer) {
@@ -81,9 +98,9 @@ module.exports =  function DatabaseAssetRepository() {
     });
   }
 
-  this.deleteAssetTypeClass= function(id) {
+  this.deleteAssetTypeClass= function(assetTypeClassId) {
     return Rx.Observable.create(function (observer) {
-      db.assetTypeClasses.remove({_id: id}, function (err, doc) {
+      db.assetTypeClasses.remove({assetTypeClassId}, function (err, doc) {
         if (err) {
           observer.error(err);
         } else {

@@ -98,12 +98,15 @@ export class AssetTypeClassListComponent implements OnInit {
     this.modalService.open(content);
   }
   onEdit(assetTypeClass) {
-  //this.assetTypeClassService.addAssetTypeClass(assetTypeClass);
+    this.assetTypeClassService.updateAssetTypeClass(assetTypeClass);
   }
 
-  onDelete(id) {
+  onDelete(assetTypeClassId) {
   if(confirm("Are you sure you want to delete this?")){
-    this.assetTypeClassService.deleteAssetTypeClass(id);
+    this.assetTypeClassService.deleteAssetTypeClass(assetTypeClassId)
+    .subscribe(data => {
+      console.log(data);
+    });
   }
 }
 }
