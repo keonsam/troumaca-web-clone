@@ -8,6 +8,14 @@ import {SiteRepository} from "./site.repository";
 import {siteRouting} from "./site.routing";
 import {RouterModule} from "@angular/router";
 import {MenuModule} from "../menu/menu.module";
+import {SiteCreationComponent} from "./site-creation/site.creation.component";
+import {SiteTopMenuComponent} from "./site-top-menu/site.top.menu.component";
+import {SiteEmailListComponent} from "./site-email-list/site.email.list.component";
+import {SitePhoneListComponent} from "./site-phone-list/site.phone.list.component";
+import {SitePostOfficeBoxListComponent} from "./site-post-office-box-list/site.post.office.box.list.component";
+import {SiteStreetAddressListComponent} from "./site-street-address-list/site.street.address.list.component";
+import {SiteWebListComponent} from "./site-web-list/site.web.list.component";
+import {SearchModule} from "../search/search.module";
 
 @NgModule({
   imports: [
@@ -17,10 +25,18 @@ import {MenuModule} from "../menu/menu.module";
     RouterModule,
     ReactiveFormsModule,
     siteRouting,
-    MenuModule
+    MenuModule,
+    SearchModule
   ],
   declarations: [
-    SiteComponent
+    SiteComponent,
+    SiteCreationComponent,
+    SiteTopMenuComponent,
+    SiteEmailListComponent,
+    SitePhoneListComponent,
+    SitePostOfficeBoxListComponent,
+    SiteStreetAddressListComponent,
+    SiteWebListComponent
   ],
   providers: [{
     provide: SiteService,
@@ -34,7 +50,14 @@ import {MenuModule} from "../menu/menu.module";
     deps: [SiteRepository]
   }],
   exports: [
-    SiteComponent
+    SiteComponent,
+    SiteCreationComponent,
+    SiteTopMenuComponent,
+    SiteEmailListComponent,
+    SitePhoneListComponent,
+    SitePostOfficeBoxListComponent,
+    SiteStreetAddressListComponent,
+    SiteWebListComponent
   ]
 })
 export class SiteModule {}

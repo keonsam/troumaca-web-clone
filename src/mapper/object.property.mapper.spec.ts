@@ -7,8 +7,6 @@ describe('main test', () => {
   });
 });
 
-
-
 export class FromAttrOne {
 
   private _str:string;

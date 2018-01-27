@@ -4,8 +4,8 @@ import {AssetTypeClassComponent} from "./asset.type.class.component";
 
 
 export const assetTypeClassRoutes: Routes = [
-  {path: '', redirectTo: 'asset-types', pathMatch: 'full'},
-  {path: 'asset-types', component: AssetTypeClassComponent}
+  {path: '', redirectTo: 'asset-type-classes', pathMatch: 'full'},
+  {path: 'asset-type-classes', component: AssetTypeClassComponent}
 ];
 
 export const assetTypeClassRouting: ModuleWithProviders = RouterModule.forChild(assetTypeClassRoutes);

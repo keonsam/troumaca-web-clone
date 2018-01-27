@@ -4,6 +4,13 @@ export class Page {
   private _size:number;
   private _items:number;
 
+
+  constructor(number?: number, size?: number, items?: number) {
+    this._number = number;
+    this._size = size;
+    this._items = items;
+  }
+
   get number(): number {
     return this._number;
   }

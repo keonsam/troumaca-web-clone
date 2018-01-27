@@ -1,9 +1,9 @@
 import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
 import {AssetType} from "assets/asset.type";
-import {Site} from "./asset.site";
+//import {Site} from "./asset.site";
 import {Lot} from "./asset.lot";
 import {UnitOfMeasure} from "./asset.unit.of.measure";
-import {AssetPerson} from "./asset.person";
+//import {AssetPerson} from "./asset.person";
 //import {AssetKind} from "./asset.kind";
 
 export class Asset {
@@ -15,9 +15,9 @@ export class Asset {
   private _quantity:string;
   private _unitOfMeasure:UnitOfMeasure;
   private _lot:Lot;
-  private _person: AssetPerson;
+  private _person: string;
 
-  private _site:Site;
+  private _site: string;
   private _assetTypeClass: AssetTypeClass;
   private _assetType: AssetType;
 
@@ -27,8 +27,6 @@ export class Asset {
     this._assetTypeClass = new AssetTypeClass();
     this._assetType = new AssetType();
     this._lot = new Lot();
-    this._person = new AssetPerson();
-    this._site = new Site();
   }
 
   get assetId(): string {
@@ -103,19 +101,19 @@ export class Asset {
     this._lot = value;
   }
 
-  get person(): AssetPerson {
+  get person(): string {
   return  this._person;
   }
 
-  set person(value: AssetPerson) {
+  set person(value: string) {
     this._person = value
   }
 
-  get site(): Site {
+  get site(): string {
     return this._site;
   }
 
-  set site(value: Site) {
+  set site(value: string) {
     this._site = value;
   }
 

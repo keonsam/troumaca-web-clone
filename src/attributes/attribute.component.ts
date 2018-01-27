@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {AttributeService} from "./attribute.service";
-import {AttributeModel} from "./attribute.model";
+import {Attribute} from "./attribute";
 
 @Component({
   selector: 'asset-types',
@@ -9,7 +9,7 @@ import {AttributeModel} from "./attribute.model";
 })
 export class AttributeComponent implements OnInit {
 
-  private _attributeModels:AttributeModel[];
+  private _attributeModels:Attribute[];
 
   constructor(private attributeService:AttributeService) {
   }
@@ -17,11 +17,11 @@ export class AttributeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get attributeModels(): AttributeModel[] {
+  get attributeModels(): Attribute[] {
     return this._attributeModels;
   }
 
-  set attributeModels(value: AttributeModel[]) {
+  set attributeModels(value: Attribute[]) {
     this._attributeModels = value;
   }
 }

@@ -2,7 +2,7 @@ import "rxjs/add/operator/map";
 import {AttributeRepository} from "../../attributes/attribute.repository";
 import {AttributeClient} from "../../client/attributes/attribute.client";
 import {Observable} from "rxjs/Observable";
-import {AttributeModel} from "../../attributes/attribute.model";
+import {Attribute} from "../../attributes/attribute";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
 
 export class AttributeRepositoryAdapter extends AttributeRepository {
@@ -12,17 +12,17 @@ export class AttributeRepositoryAdapter extends AttributeRepository {
   }
 
 
-  getAttributes(): Observable<AttributeModel[]> {
+  getAttributes(): Observable<Attribute[]> {
     return null;
   }
 
-  public getAttribute(): Observable<AttributeModel[]> {
+  public getAttribute(): Observable<Attribute[]> {
     return this.attributeClient
       .getAttributes()
       .map(attributeState => {
         return attributeState.map(attributeState => {
 
-          // let attributeModel:AttributeModel = mapObjectProps(attributeState, new AttributeModel());
+          // let attributeModel:Attribute = mapObjectProps(attributeState, new Attribute());
 
           // let attributeClass = attributeState.attributeClass;
 

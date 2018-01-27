@@ -1,6 +1,6 @@
-import {AttributeModel} from "./attribute.model";
+import {Attribute} from "./attribute";
 import {Observable} from "rxjs/Observable";
 
 export abstract class AttributeRepository {
-  abstract getAttributes():Observable<AttributeModel[]>;
+  abstract getAttributes():Observable<Attribute[]>;
 }

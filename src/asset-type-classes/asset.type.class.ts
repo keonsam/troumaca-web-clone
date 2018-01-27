@@ -4,6 +4,12 @@ export class AssetTypeClass {
   private _name:string;
   private _description:string;
 
+  constructor(assetTypeClassId?: string, name?:string, description?: string){
+    this._assetTypeClassId = assetTypeClassId;
+    this._name = name;
+    this._description = description;
+  }
+  
   get assetTypeClassId(): string {
     return this._assetTypeClassId;
   }

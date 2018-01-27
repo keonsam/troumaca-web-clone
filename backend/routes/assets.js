@@ -26,6 +26,7 @@ function buildPagedAssetListResponse(page, sort, assets) {
 }
 
 router.get('/', function(req, res, next) {
+
   let paginationCopy = JSON.parse(JSON.stringify(pagination));
 
   let page = paginationCopy.page;
@@ -72,7 +73,7 @@ router.get('/', function(req, res, next) {
 //   assets: []
 // };
 
-var pagination = {
+var   pagination = {
   page: {
     number: 1,
     size: 3,
@@ -105,7 +106,7 @@ var assetList = [
     serialNumber:"9554baf4-1",
     description:"",
     quantity:"1",
-    unitOfMeasure:""
+    unitOfMeasure:"1"
   }, {
     assetTypeClass: {
       assetTypeClassId:"9554b784-b563-11e7-abc4-cec278b6b50a",
@@ -124,7 +125,7 @@ var assetList = [
     serialNumber:"9554baf4-2",
     description:"",
     quantity:"1",
-    unitOfMeasure:""
+    unitOfMeasure:"2"
   }, {
     assetTypeClass: {
       assetTypeClassId:"9554b784-b563-11e7-abc4-cec278b6b50a",
@@ -143,7 +144,7 @@ var assetList = [
     serialNumber:"9554baf4-3",
     description:"",
     quantity:"1",
-    unitOfMeasure:""
+    unitOfMeasure:"3"
   }, {
     assetTypeClass: {
       assetTypeClassId:"9554b784-b563-11e7-abc4-cec278b6b50a",
@@ -162,7 +163,7 @@ var assetList = [
     serialNumber:"9554baf4-4",
     description:"",
     quantity:"1",
-    unitOfMeasure:""
+    unitOfMeasure:"4"
   }, {
     assetTypeClass: {
       assetTypeClassId:"9554b784-b563-11e7-abc4-cec278b6b50a",
@@ -181,7 +182,7 @@ var assetList = [
     serialNumber:"9554baf4-5",
     description:"",
     quantity:"1",
-    unitOfMeasure:""
+    unitOfMeasure:"5"
   }, {
     assetTypeClass: {
       assetTypeClassId:"9554b784-b563-11e7-abc4-cec278b6b50a",

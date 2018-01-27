@@ -26,16 +26,17 @@ export class AssetClientHttp extends AssetClient {
   public getAssets(pageNumber:number): Observable<AssetStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets");
+    array.push("/v2/assets");
+    console.log(array);
     if (pageNumber) {
       array.push("?");
       array.push("pageNumber=" + pageNumber);
     }
+
     return this.http.get<AssetStates>(array.join(""), {
     // return this.http.get(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
-
       // let assetStates:AssetStates;
       // assetStates = this.jsonConvert.deserializeObject(data, AssetStates);
       // assetStates = mapObjectProps(data, new AssetStates());
@@ -54,6 +55,7 @@ export class AssetClientHttp extends AssetClient {
     let array = [];
     array.push(this.hostPort);
     array.push("/asset/kinds");
+
     return this.http.get<AssetKindStates>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
@@ -65,7 +67,8 @@ export class AssetClientHttp extends AssetClient {
     let array = [];
     array.push(this.hostPort);
     array.push("/v2/assets");
-    return this.http.post(array.join(""), assetState, {
+
+    return this.http.post(array.join(""), assetState.toJson(), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
@@ -76,11 +79,11 @@ export class AssetClientHttp extends AssetClient {
     let array = [];
     array.push(this.hostPort);
     array.push("/v2/assets");
-    return this.http.post(array.join(""), assetState, {
+
+    return this.http.post(array.join(""), assetState.toJson(), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
     });
   }
-
 }

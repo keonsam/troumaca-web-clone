@@ -9,9 +9,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "startconcurrentlywithproxy": "concurrently --kill-others \"json-server -q src/images/data.json\" \"ng serve --proxy-config proxy.conf.json\"",
-    "startconcurrentlywithproxy2": "concurrently --kill-others \"node /Users/michael/IdeaProjects/troumaca-web/backend/bin/server.js\" \"ng serve --proxy-config proxy.conf.json\"",
-    "startconcurrentlywithproxy3": "concurrently --kill-others \"ng serve --proxy-config proxy.conf.json\""
+    "startBackEnd": "node /Users/michael/IdeaProjects/troumaca-web/backend/bin/server.js",
+    "startServerWithProxy": "concurrently --kill-others \"ng serve --proxy-config proxy.conf.json\"",
+    "startServersWithProxy": "npm run --debug=5858 startBackEnd | ng serve --proxy-config proxy.conf.json"
   },
   "private": true,
   "dependencies": {
@@ -34,12 +34,14 @@
     "json2typescript": "^1.0.5",
     "libphonenumber-js": "^0.4.27",
     "morgan": "^1.8.2",
+    "nedb": "^1.8.0",
     "ng2-completer": "^1.6.3",
     "ng2-cookies": "^1.0.12",
     "ngx-bootstrap": "^1.8.1",
     "rxjs": "^5.4.3",
     "serve-favicon": "^2.4.3",
     "underscore": "^1.8.3",
+    "uuid": "^3.2.1",
     "validator": "^8.0.0",
     "zone.js": "^0.8.16"
   },

@@ -3,7 +3,7 @@ import {ModuleWithProviders} from "@angular/core";
 import {GoodsComponent} from "./goods.component";
 import {AuthGuard} from "../auth-guard/auth.guard";
 import {assetsRoutes} from "../assets/asset.routing";
-import {assetTypesRoutes} from "../asset-types/asset.types.routing";
+import {assetTypesRoutes} from "../asset-types/asset.type.routing";
 
 const goodsRoutes: Routes = [
   {path: 'goods',

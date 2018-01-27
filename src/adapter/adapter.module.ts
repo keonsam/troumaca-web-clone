@@ -14,10 +14,10 @@ import {activityRepositoryProvider} from "./activity/activity.repository.adapter
 import {requestRepositoryProvider} from "./request/request.repository.adapter.provider";
 import {assetSiteRepositoryProvider, siteRepositoryProvider} from "./site/site.repository.adapter.provider";
 import {workOrderRepositoryProvider} from "./work-order/work.order.repository.adapter.provider";
-import {assetsRepositoryProvider} from "./assets/assets.repository.adapter.provider";
+import {assetRepositoryProvider} from "./assets/asset.repository.adapter.provider";
 import {authGuardServiceProvider} from "./auth-guard/auth.guard.repository.adapter.provider";
 import {goodsRepositoryProvider} from "./goods/goods.repository.adapter.provider";
-import {assetTypesRepositoryProvider} from "./asset-types/assets.repository.adapter.provider";
+import {assetTypeRepositoryProvider} from "./asset-types/asset.repository.adapter.provider";
 import {attributeRepositoryProvider} from "./attributes/attributes.repository.adapter.provider";
 import {assetTypeClassRepositoryProvider} from "./asset-type-classes/asset.type.classes.adapter.provider";
 import {unitOfMeasureRepositoryProvider} from "./unit-of-measures/unit.of.measure.repository.adapter.provider";
@@ -45,10 +45,10 @@ import {unitOfMeasureRepositoryProvider} from "./unit-of-measures/unit.of.measur
     siteRepositoryProvider,
     assetSiteRepositoryProvider,
     workOrderRepositoryProvider,
-    assetsRepositoryProvider,
+    assetRepositoryProvider,
     authGuardServiceProvider,
     goodsRepositoryProvider,
-    assetTypesRepositoryProvider,
+    assetTypeRepositoryProvider,
     attributeRepositoryProvider,
     assetTypeClassRepositoryProvider,
     unitOfMeasureRepositoryProvider,

@@ -9,5 +9,4 @@ export abstract class AssetRepository {
   public abstract getAssetKinds():Observable<AssetKinds>;
   public abstract addInventoryAsset(assetModel: Asset):Observable<Asset>;
   public abstract addDiscreteAsset(assetModel: Asset):Observable<Asset>;
-
 }

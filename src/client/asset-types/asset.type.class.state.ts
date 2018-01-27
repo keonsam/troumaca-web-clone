@@ -40,12 +40,13 @@ export class AssetTypeClassState {
     this._attributes = value;
   }
 
-// get attributeAssignmentId(): string {
-  //   return this._attributeAssignmentId;
-  // }
-  //
-  // set attributeAssignmentId(value: string) {
-  //   this._attributeAssignmentId = value;
-  // }
+  toJson() {
+    return {
+      assetTypeClassId: this.assetTypeClassId,
+      name: this.name,
+      description: this.description,
+      attributes: this.attributes
+    }
+  }
 
 }

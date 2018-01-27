@@ -7,8 +7,8 @@ export class AttributeState {
   private _name:string;
   private _format:string;
   private _unitOfMeasure:string;
-  private _defaultHighValue;
-  private _defaultLowValue;
+  private _defaultHighValue:string;
+  private _defaultLowValue:string;
 
   get attributeAssignmentId(): string {
     return this._attributeAssignmentId;
@@ -81,4 +81,19 @@ export class AttributeState {
   set defaultLowValue(value) {
     this._defaultLowValue = value;
   }
+
+  toJson() {
+    return {
+       attributeAssignmentId: this.attributeAssignmentId,
+       valueId: this.valueId,
+       value: this.value,
+       attributeId: this.attributeId,
+       name: this.name,
+       format: this.format,
+       unitOfMeasure: this.unitOfMeasure,
+       defaultHighValue: this.defaultHighValue,
+       defaultLowValue: this.defaultLowValue
+    }
+  }
+
 }

@@ -17,31 +17,24 @@ import {AssetType} from "../asset.type";
 export class AssetCreationComponent implements OnInit {
 
   private _assetKindFormControlName: string;
-  private _assetKindFormControlValue: string;
   private _assetKind: FormControl;
 
   private _assetTypeFormControlName: string;
-  private _assetTypeFormControlValue: string;
   private _assetType: FormControl;
 
   private _serialNumberFormControlName: string;
-  private _serialNumberFormControlValue: string;
   private _serialNumber: FormControl;
 
   private _quantityFormControlName: string;
-  private _quantityFormControlValue: string;
   private _quantity: FormControl;
 
   private _unitOfMeasureFormControlName: string;
-  private _unitOfMeasureFormControlValue: string;
   private _unitOfMeasure: FormControl;
 
   private _siteFormControlName: string;
-  private _siteFormControlValue: string;
   private _site: FormControl;
 
   private _personFormControlName: string;
-  private _personFormControlValue: string;
   private _person: FormControl;
 
   private _assetForm:FormGroup;
@@ -139,8 +132,8 @@ export class AssetCreationComponent implements OnInit {
     this.assetForm.get(this.assetKindFormControlName).valueChanges
       .subscribe(value => {
         that.selectedAssetKindId = value;
-        this.assetKindFormControlValue = value;
-        this.asset.assetId = value;
+        //this.assetKindFormControlValue = value;
+        this.asset.assetKindId = value;
       });
 
     // this.assetForm.get(this.assetKindFormControlName).valueChanges
@@ -157,13 +150,13 @@ export class AssetCreationComponent implements OnInit {
 
     this.assetForm.get(this.serialNumberFormControlName).valueChanges
       .subscribe(value => {
-        that.serialNumberFormControlValue = value;
+        //that.serialNumberFormControlValue = value;
         that.asset.serialNumber = value;
       });
 
     this.assetForm.get(this.quantityFormControlName).valueChanges
       .subscribe(value => {
-        that.quantityFormControlValue = value;
+        //that.quantityFormControlValue = value;
         that.asset.quantity = value;
       });
 
@@ -481,62 +474,6 @@ export class AssetCreationComponent implements OnInit {
     this._personFormControlName = value;
   }
 
-  get personFormControlValue(): string {
-    return this._personFormControlValue;
-  }
-
-  set personFormControlValue(value: string) {
-    this._personFormControlValue = value;
-  }
-
-  get assetKindFormControlValue(): string {
-    return this._assetKindFormControlValue;
-  }
-
-  set assetKindFormControlValue(value: string) {
-    this._assetKindFormControlValue = value;
-  }
-
-  get assetTypeFormControlValue(): string {
-    return this._assetTypeFormControlValue;
-  }
-
-  set assetTypeFormControlValue(value: string) {
-    this._assetTypeFormControlValue = value;
-  }
-
-  get serialNumberFormControlValue(): string {
-    return this._serialNumberFormControlValue;
-  }
-
-  set serialNumberFormControlValue(value: string) {
-    this._serialNumberFormControlValue = value;
-  }
-
-  get quantityFormControlValue(): string {
-    return this._quantityFormControlValue;
-  }
-
-  set quantityFormControlValue(value: string) {
-    this._quantityFormControlValue = value;
-  }
-
-  get unitOfMeasureFormControlValue(): string {
-    return this._unitOfMeasureFormControlValue;
-  }
-
-  set unitOfMeasureFormControlValue(value: string) {
-    this._unitOfMeasureFormControlValue = value;
-  }
-
-  get siteFormControlValue(): string {
-    return this._siteFormControlValue;
-  }
-
-  set siteFormControlValue(value: string) {
-    this._siteFormControlValue = value;
-  }
-
   isInventory() {
     let typeId = "65694257-0aa8-4fb6-abb7-e6c7b83cf4f2";
     return this.selectedAssetKindId.toUpperCase() === typeId.toUpperCase();
@@ -544,31 +481,29 @@ export class AssetCreationComponent implements OnInit {
 
   isDiscreteItem() {
     let typeId = "4cf11077-c5e3-41f3-b40b-6e89dce6e9c8";
-
     return this.selectedAssetKindId.toUpperCase() === typeId.toUpperCase();
   }
 
   onCreate() {
-    console.log(this.asset);
-    if (this.isDiscreteItem()) {
+    // two methods chose one see onSubmit method
+  /*  if (this.isDiscreteItem()) {
       this.assetService.addDiscreteAsset(this.asset);
     } else if(this.isInventory()) {
       this.assetService.addInventoryAsset(this.asset);
     } else {
       console.log("Cannot create an unknown asset kind")
-    }
+    }*/
   }
 
   onReset() {
-    //not working
     this.assetForm.reset();
   }
 
   onAssetTypeSelect(selected: CompleterItem) {
     if (selected) {
       //this.assetTypeFormControlValue = selected.originalObject.assetTypeId;
-      this.asset.assetKindId = selected.originalObject.assetTypeId;
-      //this.asset.assetType.assetTypeId = selected.originalObject.assetTypeId;
+      //this.asset.assetKindId = selected.originalObject.assetTypeId;
+      this.asset.assetType.assetTypeId = selected.originalObject.assetTypeId;
     }
   }
 
@@ -589,17 +524,17 @@ export class AssetCreationComponent implements OnInit {
   onPersonSelect(selected: CompleterItem) {
     if (selected) {
     //  this.personFormControlValue = selected.originalObject.partyId;
-      this.asset.person.partyId = selected.originalObject.partyId;
+      this.asset.person = selected.originalObject.partyId;
     }
   }
 
   isValidInventory() {
 
-    if (!this.asset.assetId) {
+    if (!this.asset.assetKindId) {
       return false;
     }
 
-    if (!this.asset.assetKindId) {
+    if (!this.asset.assetType.assetTypeId) {
       return false;
     }
 
@@ -616,11 +551,11 @@ export class AssetCreationComponent implements OnInit {
 
   isValidDiscreteItem() {
 
-    if (!this.asset.assetId) {
+    if (!this.asset.assetKindId) {
       return false;
     }
 
-    if (!this.asset.assetKindId) {
+    if (!this.asset.assetType.assetTypeId) {
       return false;
     }
 
@@ -640,9 +575,8 @@ export class AssetCreationComponent implements OnInit {
 
   onSubmit() {
     if (this.isInventory() && this.isValidInventory()) {
-
       let assetInventory:Asset = new Asset(); // validate
-      this.assetService.addInventoryAsset(assetInventory)
+      this.assetService.addInventoryAsset(this.asset)
       .subscribe(value => {
         console.log(value);
       }, error => {
@@ -650,9 +584,8 @@ export class AssetCreationComponent implements OnInit {
       });
 
     } else if (this.isDiscreteItem() && this.isValidDiscreteItem()) {
-
       let assetDiscrete:Asset = new Asset(); // validate
-      this.assetService.addDiscreteAsset(assetDiscrete)
+      this.assetService.addDiscreteAsset(this.asset)
         .subscribe(value => {
           console.log(value);
         }, error => {
@@ -662,6 +595,4 @@ export class AssetCreationComponent implements OnInit {
     }
     console.log("onSubmit");
   }
-
-
 }

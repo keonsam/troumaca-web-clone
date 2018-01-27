@@ -7,6 +7,11 @@ import {AssetTypeClassService} from "./asset.type.class.service";
 import {AssetTypeClassRepository} from "./asset.type.class.repository";
 import {RouterModule} from "@angular/router";
 import {MenuModule} from "../menu/menu.module";
+import {AssetTypeClassListComponent} from './asset-type-class-list/asset.type.class.list.component';
+import {AssetTypeClassCreationComponent} from './asset-type-class-creation/asset.type.class.creation.component';
+import {AssetTypeClassTopMenuComponent} from './asset-type-class-top-menu/asset-type-class-top-menu.component';
+import {PagingModule} from "../paging/paging.module";
+import {SearchModule} from "../search/search.module";
 
 @NgModule({
   imports: [
@@ -15,10 +20,15 @@ import {MenuModule} from "../menu/menu.module";
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    MenuModule
+    MenuModule,
+    PagingModule,
+    SearchModule
   ],
   declarations: [
-    AssetTypeClassComponent
+    AssetTypeClassComponent,
+    AssetTypeClassListComponent,
+    AssetTypeClassCreationComponent,
+    AssetTypeClassTopMenuComponent
   ],
   providers: [{
     provide: AssetTypeClassService,
@@ -32,7 +42,10 @@ import {MenuModule} from "../menu/menu.module";
     deps: [AssetTypeClassRepository]
   }],
   exports: [
-    AssetTypeClassComponent
+    AssetTypeClassComponent,
+    AssetTypeClassListComponent,
+    AssetTypeClassCreationComponent,
+    AssetTypeClassTopMenuComponent
   ]
 })
 export class AssetTypeClassModule {}
