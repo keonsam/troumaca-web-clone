@@ -1,0 +1,65 @@
+<div class="content-i asset-container">
+
+  <site-top-menu></site-top-menu>
+
+  <div class="content-box">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="element-wrapper">
+          <div class="element-box">
+            <form [formGroup]="sitePhoneForm" (ngSubmit)="onSubmit()" id="formValidate">
+              <h5 class="form-header">
+                New Phone Form
+              </h5>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="">Country Code</label><input class="form-control" formControlName="countryCode" data-error="Invalid country code" placeholder="Country Code" required="required" type="number">
+                  <div class="help-block form-text with-errors form-control-feedback"></div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="">Area Code</label><input class="form-control" formControlName="areaCode" data-error="Invalid area code" placeholder="Area Code" required="required" pattern="^[0-9]{3}$" type="number">
+                  <div class="help-block form-text with-errors form-control-feedback"></div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="">Exchange</label><input class="form-control" formControlName="exchange" data-error="Invalid exchange" placeholder="Exchange">
+                  <div class="help-block form-text with-errors form-control-feedback"></div>
+                </div>
+              </fieldset>
+
+              <p>Form value: {{ sitePhoneForm.value | json }}</p>
+              <p>Form status: {{ sitePhoneForm.status | json }}</p>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="">Telephone Number</label><input class="form-control" formControlName="telephoneNumber" data-error="Invalid Telephone Number" placeholder="Telephone Number" required="required" type="number">
+                  <div class="help-block form-text with-errors form-control-feedback"></div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="">Extension</label><input class="form-control" formControlName="extension" data-error="Invalid extension" placeholder="Extension" type="number">
+                  <div class="help-block form-text with-errors form-control-feedback"></div>
+                </div>
+              </fieldset>
+
+              <div class="form-buttons-w">
+                <button class="btn btn-primary button1" [disabled]="!sitePhoneForm.valid" (click)="onCreate()" type="submit"> Submit</button>
+                <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

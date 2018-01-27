@@ -21,6 +21,7 @@ import {SiteEmailListComponent} from "../site/site-email-list/site.email.list.co
 import {SiteWebListComponent} from "../site/site-web-list/site.web.list.component";
 import {SitePhoneListComponent} from "../site/site-phone-list/site.phone.list.component";
 import {SiteStreetAddressListComponent} from "../site/site-street-address-list/site.street.address.list.component";
+import {SitePhoneCreationComponent} from "../site/site-phone-creation/site.phone.creation.component";
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -51,7 +52,8 @@ const appRoutes: Routes = [
     { path: 'post-office-boxes', component: SitePostOfficeBoxListComponent },
     { path: 'emails', component: SiteEmailListComponent },
     { path: 'web-sites', component: SiteWebListComponent },
-    { path: 'phones', component: SitePhoneListComponent },
+    { path: 'phones', component: SitePhoneListComponent},
+    { path: 'phones/create', component: SitePhoneCreationComponent},
     { path: 'create', component: SiteCreationComponent }
   ]},
   { path: '**', component: PageNotFoundComponent },

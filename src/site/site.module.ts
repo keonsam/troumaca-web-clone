@@ -16,6 +16,7 @@ import {SitePostOfficeBoxListComponent} from "./site-post-office-box-list/site.p
 import {SiteStreetAddressListComponent} from "./site-street-address-list/site.street.address.list.component";
 import {SiteWebListComponent} from "./site-web-list/site.web.list.component";
 import {SearchModule} from "../search/search.module";
+import {SitePhoneCreationComponent} from "./site-phone-creation/site.phone.creation.component";
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import {SearchModule} from "../search/search.module";
     SiteTopMenuComponent,
     SiteEmailListComponent,
     SitePhoneListComponent,
+    SitePhoneCreationComponent,
     SitePostOfficeBoxListComponent,
     SiteStreetAddressListComponent,
     SiteWebListComponent
@@ -55,6 +57,7 @@ import {SearchModule} from "../search/search.module";
     SiteTopMenuComponent,
     SiteEmailListComponent,
     SitePhoneListComponent,
+    SitePhoneCreationComponent,
     SitePostOfficeBoxListComponent,
     SiteStreetAddressListComponent,
     SiteWebListComponent
