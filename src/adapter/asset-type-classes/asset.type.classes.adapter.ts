@@ -58,4 +58,12 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
       return mapObjectProps(value, new AssetTypeClass());
     });
   }
+
+  deleteAssetTypeClass(id: string): Observable<string> {
+    return this.assetTypeClassClient
+    .deleteAssetTypeClass(id)
+    .map(value =>{
+      return value
+    })
+  }
 }

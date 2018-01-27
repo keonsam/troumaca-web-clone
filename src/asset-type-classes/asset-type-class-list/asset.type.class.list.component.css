@@ -703,3 +703,42 @@ tfoot tr {
 .table-section {
   margin-top: 30px;
 }
+
+.os-icon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'osfont' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.os-icon-pencil-2:before {
+  content: "\e909";
+}
+
+.os-icon-pencil-12:before {
+  content: "\e96e";
+}
+
+.os-icon-pencil-1:before {
+  content: "\e90b";
+}
+
+.os-icon-database-remove:before {
+  content: "\e908";
+}
+
+a.danger {
+    color: #9d1818;
+}
+
+a {
+    margin-right: 0.8rem;
+    color: #3E4B5B;
+}

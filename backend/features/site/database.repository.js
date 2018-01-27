@@ -2,16 +2,17 @@ let uuidv5 = require('uuid/v5');
 let Datastore = require('nedb');
 let Rx = require("rxjs");
 var path = require('path'),
-    __parentDir = path.resolve(__dirname, '..','..',) + '/nedb/asset-type-classes.db';
+    __parentDir = path.resolve(__dirname, '..','..',) + '/nedb/Sites.db';
 
 let hostname = 'troumaca.com';
 
 let db = {};
-db.assetTypeClasses = new Datastore(__parentDir);
-db.assetTypeClasses.loadDatabase(function (err) {    // Callback is optional
+db.Sites = new Datastore(__parentDir);
+db.Sites.loadDatabase(function (err) {    // Callback is optional
   // Now commands will be executed
   console.log(err);
 });
+
 
 function calculateSkip(page, size) {
   if (page <= 1) {
@@ -21,24 +22,24 @@ function calculateSkip(page, size) {
   }
 }
 
-function buildPagedAssetListResponse(page, sort, assetTypeClasses) {
+function buildPagedSiteListResponse(page, sort, Sites) {
   return {
     page:page,
     sort:sort,
-    assetTypeClasses:assetTypeClasses
+    Sites:Sites
   }
 }
 
+module.exports =  function DatabaseSiteRepository() {
 
-module.exports =  function DatabaseAssetRepository() {
-  this.saveAssetTypeClass = function (assetTypeClass) {
-    assetTypeClass.assetTypeClassId = uuidv5(hostname, uuidv5.DNS);
+  this.saveSite = function (Site) {
+    Site.SiteId = uuidv5(hostname, uuidv5.DNS);
     return Rx.Observable.create(function (observer) {
-      db.assetTypeClasses.insert(assetTypeClass, function (err, doc) {
+      db.Sites.insert(Site, function (err, doc) {
         if (err) {
           observer.error(err);
         } else {
-          observer.next(assetTypeClass);
+          observer.next(Site);
         }
         console.log('Inserted', doc.name, 'with ID', doc._id);
       });
@@ -46,7 +47,7 @@ module.exports =  function DatabaseAssetRepository() {
 
   };
 
-  this.getAssetTypeClasses = function (pagination) {
+  this.getSites = function (pagination) {
     return Rx.Observable.create(function (observer) {
       try {
         let paginationCopy = JSON.parse(JSON.stringify(pagination));
@@ -54,6 +55,7 @@ module.exports =  function DatabaseAssetRepository() {
         let page = paginationCopy.page;
         page.number = parseInt(isNaN(pagination.page.number) ? 1 : pagination.page.number);
         page.size = parseInt(isNaN(pagination.page.size) ? 5 : pagination.page.size);
+        //page.items = 20;
 
         let sort = paginationCopy.sort;
         sort.direction = (pagination.sort.direction ? pagination.sort.direction : "asc");
@@ -63,16 +65,16 @@ module.exports =  function DatabaseAssetRepository() {
         let sortDirection = sort.direction;
         let calculateSkip2 = calculateSkip(page.number, page.size);
 
-        db.assetTypeClasses.count({}, function (err, count) {
+        db.Sites.count({}, function (err, count) {
          page.items = count;
         });
 
-        db.assetTypeClasses.find({}).skip(calculateSkip2).limit(page.size).exec(function (err, docs) {
+        db.Sites.find({}).skip(calculateSkip2).limit(page.size).exec(function (err, docs) {
           if (err) {
             observer.error(err);
           } else {
-            const pagedAssetListResponse = buildPagedAssetListResponse(page, sort, docs);
-            observer.next(pagedAssetListResponse);
+            const pagedSiteListResponse = buildPagedSiteListResponse(page, sort, docs);
+            observer.next(pagedSiteListResponse);
           }
         });
       } catch (error) {
@@ -80,16 +82,4 @@ module.exports =  function DatabaseAssetRepository() {
       }
     });
   }
-
-  this.deleteAssetTypeClass= function(id) {
-    return Rx.Observable.create(function (observer) {
-      db.assetTypeClasses.remove({_id: id}, function (err, doc) {
-        if (err) {
-          observer.error(err);
-        } else {
-          observer.next("ok");
-        }
-      });
-    });
- }
 };

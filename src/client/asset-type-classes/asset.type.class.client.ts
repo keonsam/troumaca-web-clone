@@ -7,4 +7,6 @@ export abstract class AssetTypeClassClient {
   abstract getAssetTypeClasses(pageNumber?: number) :Observable<AssetTypeClassStates>;
 
   abstract addAssetTypeClass(assetTypeClassState: AssetTypeClassState):Observable<AssetTypeClassState>;
+
+  abstract deleteAssetTypeClass(id: string): Observable<string>;
 }
