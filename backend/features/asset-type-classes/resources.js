@@ -31,6 +31,12 @@ router.get("/", function(req, res, next) {
     res.send(JSON.stringify(assetTypeClass));
   });
 
+}).get("/:assetTypeClassId", function (req, res, ndex){
+  assetOrch.getAssetTypeClass(req.params.assetTypeClassId)
+  .subscribe(assetTypeClass => {
+    res.send(JSON.stringify(assetTypeClass));
+  });
+
 }).put("/:assetTypeClassId", function (req, res, ndex) {
 
   res.send("Not Implemented.");

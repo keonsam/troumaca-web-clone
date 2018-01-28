@@ -8,6 +8,10 @@ export class AssetTypeClassService {
   constructor(private assetTypeClassRepository: AssetTypeClassRepository) {
   }
 
+  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass> {
+    return this.assetTypeClassRepository.getAssetTypeClass(assetTypeClassId);
+  }
+
   public getAssetTypeClasses(pageNumber?: number):Observable<AssetTypeClasses> {
     return this.assetTypeClassRepository.getAssetTypeClasses(pageNumber);
   }
@@ -16,7 +20,11 @@ export class AssetTypeClassService {
     return this.assetTypeClassRepository.addAssetTypeClass(assetTypeClass);
   }
 
-  public deleteAssetTypeClass(id: string): Observable<string>{
-    return this.assetTypeClassRepository.deleteAssetTypeClass(id);
+  public deleteAssetTypeClass(assetTypeClassId: string): Observable<string>{
+    return this.assetTypeClassRepository.deleteAssetTypeClass(assetTypeClassId);
+  }
+
+  public updateAssetTypeClass(assetTypeClass): Observable<any> {
+    return this.assetTypeClassRepository.updateAssetTypeClass(assetTypeClass);
   }
 }

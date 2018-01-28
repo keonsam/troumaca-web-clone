@@ -20,6 +20,13 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
     super();
   }
 
+  getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass> {
+    return this.assetTypeClassClient
+    .getAssetTypeClass(assetTypeClassId)
+    .map(value =>{
+      return mapObjectProps(value, new AssetTypeClass());
+    });
+  }
 
   getAssetTypeClasses(pageNumber?: number): Observable<AssetTypeClasses> {
     return this.assetTypeClassClient
@@ -59,9 +66,17 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
     });
   }
 
-  deleteAssetTypeClass(id: string): Observable<string> {
+  deleteAssetTypeClass(assetTypeClassId: string): Observable<string> {
     return this.assetTypeClassClient
-    .deleteAssetTypeClass(id)
+    .deleteAssetTypeClass(assetTypeClassId)
+    .map(value =>{
+      return value
+    })
+  }
+
+  updateAssetTypeClass(assetTypeClass): Observable<any> {
+    return this.assetTypeClassClient
+    .updateAssetTypeClass(assetTypeClass)
     .map(value =>{
       return value
     })

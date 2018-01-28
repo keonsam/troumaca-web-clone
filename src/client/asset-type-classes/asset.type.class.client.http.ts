@@ -23,6 +23,19 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
     this.jsonConvert.valueCheckingMode = ValueCheckingMode.DISALLOW_NULL; // never allow null
   }
 
+  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassState>{
+    let array = [];
+    console.log(assetTypeClassId);
+    array.push(this.hostPort);
+    array.push("/asset-type-classes/");
+    array.push(assetTypeClassId);
+    return this.http.get(array.join(""), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+
   public getAssetTypeClasses(pageNumber?: number): Observable<AssetTypeClassStates> {
     let array = [];
     array.push(this.hostPort);
@@ -63,11 +76,22 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
   }
 
   public deleteAssetTypeClass(assetTypeClassId: string): Observable<string> {
+    console.log("working");
     let array = [];
     array.push(this.hostPort);
     array.push("/asset-type-classes/");
     array.push(assetTypeClassId);
     return this.http.delete(array.join(""),{
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+  public updateAssetTypeClass(assetTypeClass): Observable<any> {
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/asset-type-classes");
+    return this.http.put(array.join(""),assetTypeClass,{
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
