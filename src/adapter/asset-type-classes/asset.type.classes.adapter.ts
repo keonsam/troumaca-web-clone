@@ -74,11 +74,11 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
     })
   }
 
-  updateAssetTypeClass(assetTypeClass): Observable<any> {
+  updateAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass> {
     return this.assetTypeClassClient
-    .updateAssetTypeClass(assetTypeClass)
+    .updateAssetTypeClass(mapObjectProps(assetTypeClass, new AssetTypeClassState()))
     .map(value =>{
-      return value
+      return mapObjectProps(value, new AssetTypeClass());
     })
   }
 }

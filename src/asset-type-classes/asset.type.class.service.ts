@@ -24,7 +24,7 @@ export class AssetTypeClassService {
     return this.assetTypeClassRepository.deleteAssetTypeClass(assetTypeClassId);
   }
 
-  public updateAssetTypeClass(assetTypeClass): Observable<any> {
+  public updateAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass> {
     return this.assetTypeClassRepository.updateAssetTypeClass(assetTypeClass);
   }
 }

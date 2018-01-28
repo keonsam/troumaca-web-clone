@@ -46,7 +46,6 @@ module.exports =  function DatabaseAssetRepository() {
   };
 
   this.getAssetTypeClass = function(assetTypeClassId) {
-    console.log("this was called");
     return Rx.Observable.create(function (observer) {
       try {
         db.assetTypeClasses.findOne({assetTypeClassId}, function (err, docs) {
@@ -108,5 +107,17 @@ module.exports =  function DatabaseAssetRepository() {
         }
       });
     });
+ }
+
+ this.updateAssetTypeClass = function(assetTypeClass) {
+   return Rx.Observable.create(function (observer) {
+     db.assetTypeClasses.update({assetTypeClassId: assetTypeClass.assetTypeClassId},{assetTypeClass},{}, function (err, numAffected, affectedDocuments, upsert) {
+       if (err) {
+         observer.error(err);
+       } else {
+         observer.next(numAffected);
+       }
+     });
+   });
  }
 };
