@@ -3,6 +3,8 @@ let Datastore = require('nedb');
 let Rx = require("rxjs");
 let path = require('path');
 let UUIDGenerator = require("../uuid.generator");
+let DbUtil = require("../db.util");
+
 let hostname = 'troumaca.com';
 
 let theTelephoneDb = path.resolve(__dirname, '..','..',) + '/nedb/telephones.db';
@@ -37,8 +39,11 @@ function buildPagedSiteListResponse(page, sort, Sites) {
 }
 
 let newUuidGenerator = new UUIDGenerator();
+let dbUtil = new DbUtil();
 
 module.exports =  function DatabaseSiteRepository() {
+
+  let defaultPageSize = 10;
 
   this.saveTelephone = function (phone) {
     phone.siteId = newUuidGenerator.generateUUID();
@@ -56,9 +61,10 @@ module.exports =  function DatabaseSiteRepository() {
 
   };
 
-  this.getTelephones = function (page, size, order) {
+  this.getTelephones = function (pageNumber, pageSize, order) {
     return Rx.Observable.create(function (observer) {
-      db.telephones.find({}).sort(order).skip(calcSkip(page, size)).limit(size).exec(function (err, doc) {
+      let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
+      db.telephones.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
