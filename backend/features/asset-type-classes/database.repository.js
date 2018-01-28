@@ -1,17 +1,14 @@
 let uuidv5 = require('uuid/v5');
 let Datastore = require('nedb');
 let Rx = require("rxjs");
-var path = require('path'),
-    __parentDir = path.resolve(__dirname, '..','..',) + '/nedb/asset-type-classes.db';
+let UUIDGenerator = require("../uuid.generator");
+let path = require('path');
+let theAssetTypeClassesDb = path.resolve(__dirname, '..','..',) + '/nedb/asset-type-classes.db';
 
-let hostname = 'troumaca.com';
 
 let db = {};
-db.assetTypeClasses = new Datastore(__parentDir);
-db.assetTypeClasses.loadDatabase(function (err) {    // Callback is optional
-  // Now commands will be executed
-  console.log(err);
-});
+db.assetTypeClasses = new Datastore(theAssetTypeClassesDb);
+db.assetTypeClasses.loadDatabase(function (err) { console.log(err); });
 
 function calculateSkip(page, size) {
   if (page <= 1) {
@@ -29,10 +26,12 @@ function buildPagedAssetListResponse(page, sort, assetTypeClasses) {
   }
 }
 
+let newUuidGenerator = new UUIDGenerator();
+
 
 module.exports =  function DatabaseAssetRepository() {
   this.saveAssetTypeClass = function (assetTypeClass) {
-    assetTypeClass.assetTypeClassId = uuidv5(hostname, uuidv5.DNS);
+    assetTypeClass.assetTypeClassId = newUuidGenerator.generateUUID();
     return Rx.Observable.create(function (observer) {
       db.assetTypeClasses.insert(assetTypeClass, function (err, doc) {
         if (err) {
@@ -60,7 +59,7 @@ module.exports =  function DatabaseAssetRepository() {
         observer.error(error);
       }
     });
-  }
+  };
 
   this.getAssetTypeClasses = function (pagination) {
     return Rx.Observable.create(function (observer) {
@@ -107,7 +106,7 @@ module.exports =  function DatabaseAssetRepository() {
         }
       });
     });
- }
+ };
 
  this.updateAssetTypeClass = function(assetTypeClass) {
    return Rx.Observable.create(function (observer) {
