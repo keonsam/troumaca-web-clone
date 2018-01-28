@@ -20,5 +20,8 @@ module.exports = function AssetTypeClassesOrchestrator() {
   this.deleteAssetTypeClass = function (assetTypeClassId) {
     return assetTypeClassesRepository.deleteAssetTypeClass(assetTypeClassId);
   };
-  
+
+  this.updateAssetTypeClass = function (assetTypeClass) {
+    return assetTypeClassesRepository.updateAssetTypeClass(assetTypeClass);
+  }
 };

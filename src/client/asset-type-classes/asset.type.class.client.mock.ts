@@ -6,7 +6,7 @@ import {AssetTypeClassStates} from "./asset.type.class.states";
 export class AssetTypeClassClientMock extends AssetTypeClassClient {
 
   public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassState> {
-   return Observable.of(new AssetTypeClassState());  
+   return Observable.of(new AssetTypeClassState());
   }
 
   public getAssetTypeClasses(pageNumber?: number): Observable<AssetTypeClassStates> {
@@ -21,7 +21,7 @@ export class AssetTypeClassClientMock extends AssetTypeClassClient {
     return undefined;
   }
 
-  public updateAssetTypeClass(assetTypeClass): Observable<any> {
+  public updateAssetTypeClass(assetTypeClass: AssetTypeClassState): Observable<AssetTypeClassState> {
     return null
   }
 }

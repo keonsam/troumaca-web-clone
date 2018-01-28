@@ -13,5 +13,5 @@ export abstract class AssetTypeClassClient {
 
   abstract deleteAssetTypeClass(assetTypeClassId: string): Observable<string>;
 
-  abstract updateAssetTypeClass(assetTypeClass) : Observable<any>;
+  abstract updateAssetTypeClass(assetTypeClass: AssetTypeClassState) : Observable<AssetTypeClassState>;
 }

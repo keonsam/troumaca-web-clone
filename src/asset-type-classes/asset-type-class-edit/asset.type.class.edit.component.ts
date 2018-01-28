@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AssetTypeClassEditComponent implements OnInit {
 
-  id: string;
+  assetTypeClassId: string;
   private sub: any;
   private _name: FormControl;
   private _description: FormControl;
@@ -36,11 +36,13 @@ export class AssetTypeClassEditComponent implements OnInit {
 
   ngOnInit() {
      this.sub = this.route.params.subscribe(params => {
-        this.id = params['id'];
-        this.assetTypeClassService.getAssetTypeClass(this.id)
+        this.assetTypeClassId = params['id'];
+        this.assetTypeClassService.getAssetTypeClass(this.assetTypeClassId)
         .subscribe(assetTypeClass =>{
-        //  this.name = assetTypeClass.name;
-        //  this.description = assetTypeClass.description;
+        this.assetTypeClassEditForm.setValue({
+         "name": assetTypeClass.name,
+         "description": assetTypeClass.description
+        });
         });
      });
 
@@ -86,8 +88,8 @@ export class AssetTypeClassEditComponent implements OnInit {
 
    onSubmit() {
      if (this.name) {
-      let assetTypeClasses: AssetTypeClass = new AssetTypeClass("",this.name.value,this.description.value); // validate
-      this.assetTypeClassService.addAssetTypeClass(assetTypeClasses)
+      let assetTypeClasses: AssetTypeClass = new AssetTypeClass(this.assetTypeClassId,this.name.value,this.description.value); // validate
+      this.assetTypeClassService.updateAssetTypeClass(assetTypeClasses)
        .subscribe(value => {
          console.log(value);
        }, error => {

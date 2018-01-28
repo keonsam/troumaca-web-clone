@@ -87,11 +87,11 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
       return data;
     });
   }
-  public updateAssetTypeClass(assetTypeClass): Observable<any> {
+  public updateAssetTypeClass(assetTypeClassState: AssetTypeClassState): Observable<AssetTypeClassState> {
     let array = [];
     array.push(this.hostPort);
     array.push("/asset-type-classes");
-    return this.http.put(array.join(""),assetTypeClass,{
+    return this.http.put(array.join(""),assetTypeClassState,{
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
