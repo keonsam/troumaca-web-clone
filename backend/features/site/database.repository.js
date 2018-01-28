@@ -1,17 +1,23 @@
 let uuidv5 = require('uuid/v5');
 let Datastore = require('nedb');
 let Rx = require("rxjs");
-var path = require('path'),
-    __parentDir = path.resolve(__dirname, '..','..',) + '/nedb/Sites.db';
-
+let path = require('path');
+let UUIDGenerator = require("../uuid.generator");
 let hostname = 'troumaca.com';
 
+let theTelephoneDb = path.resolve(__dirname, '..','..',) + '/nedb/telephones.db';
+let theEmailDb = path.resolve(__dirname, '..','..',) + '/nedb/emails.db';
+let theWebSiteDb = path.resolve(__dirname, '..','..',) + '/nedb/web-sites.db';
+
 let db = {};
-db.Sites = new Datastore(__parentDir);
-db.Sites.loadDatabase(function (err) {    // Callback is optional
-  // Now commands will be executed
-  console.log(err);
-});
+db.telephones = new Datastore(theTelephoneDb);
+db.telephones.loadDatabase(function (err) { console.log(err); });
+
+db.emails = new Datastore(theEmailDb);
+db.emails.loadDatabase(function (err) { console.log(err); });
+
+db.websites = new Datastore(theWebSiteDb);
+db.websites.loadDatabase(function (err) { console.log(err); });
 
 
 function calculateSkip(page, size) {
@@ -30,7 +36,43 @@ function buildPagedSiteListResponse(page, sort, Sites) {
   }
 }
 
+let newUuidGenerator = new UUIDGenerator();
+
 module.exports =  function DatabaseSiteRepository() {
+
+  this.saveTelephone = function (phone) {
+    phone.siteId = newUuidGenerator.generateUUID();
+    return Rx.Observable.create(function (observer) {
+      db.telephones.insert(phone, function (err, doc) {
+        if (!err) {
+          observer.next(phone);
+        } else {
+          observer.error(err);
+        }
+        console.log('Inserted', doc.name, 'with ID', doc._id);
+        observer.complete();
+      });
+    });
+
+  };
+
+  this.getTelephones = function (page, size, order) {
+    return Rx.Observable.create(function (observer) {
+      db.telephones.find({}).sort(order).skip(calcSkip(page, size)).limit(size).exec(function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        console.log('Inserted', doc.name, 'with ID', doc._id);
+        observer.complete();
+      });
+    });
+  };
+
+  function calcSkip(page, size) {
+    return (number - 1) * size;
+  }
 
   this.saveSite = function (Site) {
     Site.SiteId = uuidv5(hostname, uuidv5.DNS);

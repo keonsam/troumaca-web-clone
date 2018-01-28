@@ -16,5 +16,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
               private formBuilder: FormBuilder) {
   }
 
+  ngOnInit(): void {
+  }
 
 }

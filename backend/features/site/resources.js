@@ -1,28 +1,37 @@
 let express = require('express');
 let router = express.Router();
-let SiteOrchestrator = require('./orchestrator');
+let siteOrchestrator = require('./orchestrator');
 let Pagination = require("../pagination");
 
-let SiteOrch = new SiteOrchestrator();
+let orchestrator = new siteOrchestrator();
 
-router.get("/", function(req, res, next) {
+router
+.post("/virtual-sites/phones", function (req, res, next) {
+  let phone = req.body;
+  orchestrator
+  .saveTelephone(phone)
+  .subscribe(phone => {
+    res.send(JSON.stringify(phone));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  })
 
-  let page = {
-    number: req.query.pageNumber,
-    size: req.query.pageSize,
-   items: 1
-  };
+}).get("/virtual-sites/phones", function(req, res, next) {
 
-  let sort = {
-    direction: req.query.sortDirection,
-    attributes: req.query.sortAttributes
-  };
+  let number = getNumericValueOrDefault(req.query.pageNumber, 1);
+  let size = getNumericValueOrDefault(req.query.pageSize, 10);
+  let sort = getSortValueOrDefault(req.query.sortField, req.query.sortOrder);
 
-  let pagination = new Pagination(page,sort);
-
-  SiteOrch.getSite(pagination)
-  .subscribe(Site => {
-    res.send(JSON.stringify(Site));
+  orchestrator
+  .getTelephones(number, size, sort)
+  .subscribe(telephones => {
+    res.send(JSON.stringify(telephones));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
   });
 
 }).post("/", function (req, res, ndex) {
@@ -34,5 +43,31 @@ router.get("/", function(req, res, next) {
 
 });
 
+function getNumericValueOrDefault(value, defaultValue) {
+  if (!value) {
+    return defaultValue;
+  }
+
+  if (isNaN(parseFloat(value))) {
+    return defaultValue;
+  }
+
+  if (!isFinite(value)) {
+    return defaultValue;
+  }
+
+  return value
+}
+
+function getSortValueOrDefault(field, direction) {
+  let sort = {};
+  if (field && direction) {
+    sort[field] = direction;
+    return sort;
+  } else {
+    return sort;
+  }
+
+}
 
 module.exports = router;

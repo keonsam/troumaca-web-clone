@@ -1,7 +1,7 @@
 let DatabaseSiteRepository = require("./database.repository");
 let RestClientRepository = require("./rest.client.repository");
 
-var useDatabase;
+var useDatabase = true;
 
 function SiteRepositoryFactory(options) {
 
@@ -10,7 +10,7 @@ function SiteRepositoryFactory(options) {
   }
 
   return {
-    createSiteRepository: function (Site) {
+    createSiteRepository: function () {
       if (useDatabase) {
         return new DatabaseSiteRepository();
       } else {

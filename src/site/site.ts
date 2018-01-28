@@ -1,6 +1,7 @@
 export class Site {
 
   private _siteId:string;
+  private _tenantId:string;
   private _name:string;
   private _description:string;
 
@@ -10,6 +11,14 @@ export class Site {
 
   set siteId(value: string) {
     this._siteId = value;
+  }
+
+  get tenantId(): string {
+    return this._tenantId;
+  }
+
+  set tenantId(value: string) {
+    this._tenantId = value;
   }
 
   get name(): string {

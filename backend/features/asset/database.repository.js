@@ -1,18 +1,15 @@
 let uuidv5 = require('uuid/v5');
 let Datastore = require('nedb');
 let Rx = require("rxjs");
-var path = require('path'),
-    __parentDir = path.resolve(__dirname, '..','..',) + '/nedb/assets.db';
+let path = require('path');
+let theAssetDb = path.resolve(__dirname, '..','..',) + '/nedb/assets.db';
+
 
 let hostname = 'troumaca.com';
 
 let db = {};
-db.assets = new Datastore(__parentDir);
-db.assets.loadDatabase(function (err) {    // Callback is optional
-  // Now commands will be executed
-  console.log(err);
-});
-
+db.assets = new Datastore(theAssetDb);
+db.assets.loadDatabase(function (err) { console.log(err); });
 
 function calculateSkip(page, size) {
   if (page <= 1) {
@@ -44,6 +41,9 @@ module.exports =  function DatabaseAssetRepository() {
         console.log('Inserted', doc.name, 'with ID', doc._id);
       });
     });
+  };
+
+  this.saveTelephone = function (telephone) {
 
   };
 

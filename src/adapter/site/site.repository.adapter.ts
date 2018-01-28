@@ -15,6 +15,8 @@ import {PostOfficeBoxState} from "../../client/sites/post.office.box.state";
 import {PostOfficeBoxes} from "../../site/post.office.boxes";
 import {Phones} from "../../site/phones";
 import {WebSites} from "../../site/web.sites";
+import {Phone} from "../../site/phone";
+import {PhoneState} from "../../client/sites/phone.state";
 
 export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRepository {
 
@@ -58,9 +60,9 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     });
   }
 
-  public getPhones(pageNumber:number):Observable<Phones> {
+  public getPhones(pageNumber:number, pageSize:number, sortOrder:string):Observable<Phones> {
     return this.siteClient
-    .getPhoneStates(pageNumber)
+    .getPhoneStates(pageNumber, pageSize, sortOrder)
     .map(values => {
       let phones:Phones = new Phones();
       phones.phones = map(values.phones, value => {
@@ -92,6 +94,14 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
         });
         return unionOfPhysicalSites;
       });
+  }
+
+  public addPhone(phone:Phone):Observable<Phone> {
+    return this.siteClient
+    .addPhone(mapObjectProps(phone, new PhoneState()))
+    .map(phoneState => {
+      return mapObjectProps(phoneState, new Phone());
+    })
   }
 
 }

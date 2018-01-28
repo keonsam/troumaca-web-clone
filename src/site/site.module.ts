@@ -22,7 +22,7 @@ import {SitePhoneCreationComponent} from "./site-phone-creation/site.phone.creat
   imports: [
     CommonModule,
     NgbModule,
-    FormsModule,
+    // FormsModule,
     RouterModule,
     ReactiveFormsModule,
     siteRouting,

@@ -1,6 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {SiteService} from "../site.service";
 import {Phones} from "../phones";
+import {Page} from "../../page/page";
+import {Sort} from "../../sort/sort";
 
 @Component({
   selector: 'site-phone-list',
@@ -11,6 +13,8 @@ export class SitePhoneListComponent implements OnInit {
 
   private _phones:Phones;
   private defaultPage:number = 1;
+  private defaultPageSize:number = 10;
+  private defaultSortOrder = "asc";
   private _routerLinkCreatePhone:string = "/sites/phones/create";
 
   constructor(private siteService:SiteService) {
@@ -18,7 +22,7 @@ export class SitePhoneListComponent implements OnInit {
 
   ngOnInit(): void {
     this.siteService
-    .getPhones(this.defaultPage)
+    .getPhones(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
       console.log(next);
       this.phones = next;

@@ -2,6 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {SiteService} from "../site.service";
 import {SignUpService} from "../../sign-up/sign.up.service";
+import {Phone} from "../phone";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'site-phone-creation',
@@ -10,65 +12,91 @@ import {SignUpService} from "../../sign-up/sign.up.service";
 })
 export class SitePhoneCreationComponent implements OnInit {
 
+  private _name:FormControl;
   private _countryCode:FormControl;
   private _areaCode:FormControl;
   private _exchange:FormControl;
   private _telephoneNumber:FormControl;
   private _extension:FormControl;
+  private _description:FormControl;
+  private _removedOn:FormControl;
+
   private _sitePhoneForm:FormGroup;
 
-  constructor(private siteService:SiteService, private formBuilder: FormBuilder) {
+  private phone:Phone;
+
+  private _createFailed:boolean;
+
+  constructor(private siteService:SiteService,
+              private formBuilder: FormBuilder,
+              private router: Router) {
+    this.name = new FormControl("");
+
     this.countryCode = new FormControl("", [
       Validators.required
     ]);
+
     this.areaCode = new FormControl("", [
-      Validators.required
+      Validators.required,
+      Validators.pattern(/\d{3}/)
     ]);
+
     this.exchange = new FormControl("");
-    this.telephoneNumber = new FormControl("", Validators.required);
+
+    this.telephoneNumber = new FormControl("", [
+      Validators.required,
+      Validators.pattern(/^([0-9]{3})[-. ]?([0-9]{4})$/)
+    ]);
+
     this.extension = new FormControl("");
 
+    this.description = new FormControl("");
+
+    this.removedOn = new FormControl();
+
     this.sitePhoneForm = formBuilder.group({
+      "name": this.name,
       "countryCode": this.countryCode,
       "areaCode": this.areaCode,
       "exchange": this.exchange,
       "telephoneNumber": this.telephoneNumber,
       "extension": this.extension,
+      "description": this.description,
+      "removedOn": this.removedOn,
     });
 
-    this.areaCode.statusChanges.subscribe(value => {
-      console.log(value)
-    }, error2 => {
-      console.log(error2);
-    });
+    this.phone = new Phone();
 
-    this.sitePhoneForm.valueChanges.subscribe(value => {
+    this.sitePhoneForm
+    .valueChanges
+    .subscribe(value => {
+      this.phone.name = value.name;
+      this.phone.areaCode = value.areaCode;
+      this.phone.countryCode = value.countryCode;
+      this.phone.exchange = value.exchange;
+      this.phone.telephoneNumber = value.telephoneNumber;
+      this.phone.extension = value.extension;
+      this.phone.description = value.description;
       console.log(value);
     }, error2 => {
       console.log(error2);
-    })
+    });
+
+    this.createFailed = false;
   }
 
   ngOnInit(): void {
   }
 
-  // Validators
-  isValidCountryCode() {
-    let that = this;
-    return (c:FormControl) => {
-      return that.isCountryCode(c.value) ? null : {
-        validateEmail: {
-          valid: false
-        }
-      };
-    };
-  }
-
-  isCountryCode(value) {
-    /^[0-9]{3}$/.test(value)
-  }
-
   // Field
+  get name(): FormControl {
+    return this._name;
+  }
+
+  set name(value: FormControl) {
+    this._name = value;
+  }
+
   get countryCode(): FormControl {
     return this._countryCode;
   }
@@ -109,6 +137,22 @@ export class SitePhoneCreationComponent implements OnInit {
     this._extension = value;
   }
 
+  get description(): FormControl {
+    return this._description;
+  }
+
+  set description(value: FormControl) {
+    this._description = value;
+  }
+
+  get removedOn(): FormControl {
+    return this._removedOn;
+  }
+
+  set removedOn(value: FormControl) {
+    this._removedOn = value;
+  }
+
   get sitePhoneForm(): FormGroup {
     return this._sitePhoneForm;
   }
@@ -117,19 +161,30 @@ export class SitePhoneCreationComponent implements OnInit {
     this._sitePhoneForm = value;
   }
 
-  enableSubmit():boolean {
-    return false;
+  get createFailed(): boolean {
+    return this._createFailed;
+  }
+
+  set createFailed(value: boolean) {
+    this._createFailed = value;
   }
 
   onCreate() {
+    this.siteService
+    .addPhone(this.phone)
+    .subscribe(value => {
+      if (value && value.siteId) {
+        this.router.navigate(['/sites/phones']);
+      } else {
+        this.createFailed = true;
+      }
+    }, error => {
+      console.log(error);
+      this.createFailed = true;
+    });
   }
 
   cancel() {
-  }
-  
-  private isPhoneNumber() {
-    let value = this.countryCode.value;
-    this.areaCode.value
   }
 
 }

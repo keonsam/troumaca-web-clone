@@ -1,7 +1,7 @@
 let DatabaseAssetRepository = require("./database.repository");
 let RestClientRepository = require("./rest.client.repository");
 
-var useDatabase;
+var useDatabase = false;
 
 function assetRepositoryFactory(options) {
 
@@ -10,7 +10,7 @@ function assetRepositoryFactory(options) {
   }
 
   return {
-    createAssetRepository: function (asset) {
+    createAssetRepository: function () {
       if (useDatabase) {
         return new DatabaseAssetRepository();
       } else {

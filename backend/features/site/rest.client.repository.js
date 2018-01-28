@@ -1,5 +1,5 @@
 module.exports =  function RestClientSiteRepository() {
-  this.saveSite = function (Site) {
+  this.saveSite = function (site) {
     throw new Error('Options.db is required');
   }
 };

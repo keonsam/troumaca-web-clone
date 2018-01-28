@@ -8,6 +8,7 @@ import {StreetAddressStates} from "./street.address.states";
 import {PostOfficeBoxStates} from "./post.office.box.states";
 import {PhoneStates} from "./phone.states";
 import {WebSiteStates} from "./web.site.states";
+import {PhoneState} from "./phone.state";
 
 export class SiteClientHttp extends SiteClient {
 
@@ -86,7 +87,7 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public getPhoneStates(pageNumber: number): Observable<PhoneStates> {
+  public getPhoneStates(pageNumber:number, pageSize:number, sortOrder:string): Observable<PhoneStates> {
     let array = [];
     array.push(this.hostPort);
     array.push("/sites/virtual-sites/phones");
@@ -95,6 +96,14 @@ export class SiteClientHttp extends SiteClient {
 
     if (pageNumber) {
       queryStr.push("pageNumber=" + pageNumber);
+    }
+
+    if (pageSize) {
+      queryStr.push("pageSize=" + pageSize);
+    }
+
+    if (sortOrder) {
+      queryStr.push("sortOrder=" + sortOrder);
     }
 
     if (queryStr.length > 0) {
@@ -152,6 +161,18 @@ export class SiteClientHttp extends SiteClient {
     }
 
     return this.httpClient.get<UnionOfPhysicalSiteStates>(array.join(""), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+
+  public addPhone(phoneState: PhoneState): Observable<PhoneState> {
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/sites/virtual-sites/phones");
+
+    return this.httpClient.post(array.join(""), phoneState.toJson(), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
