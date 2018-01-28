@@ -91,7 +91,7 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
     let array = [];
     array.push(this.hostPort);
     array.push("/asset-type-classes");
-    return this.http.put(array.join(""),assetTypeClassState,{
+    return this.http.put(array.join(""),assetTypeClassState.toJson(),{
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
