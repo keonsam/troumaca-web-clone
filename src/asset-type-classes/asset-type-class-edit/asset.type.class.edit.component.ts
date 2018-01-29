@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class AssetTypeClassEditComponent implements OnInit {
 
-  assetTypeClassId: string;
+  private _assetTypeClassId: string;
   private sub: any;
   private _name: FormControl;
   private _description: FormControl;
@@ -48,6 +48,14 @@ export class AssetTypeClassEditComponent implements OnInit {
      });
 
    }
+
+  get assetTypeClassId(): string {
+    return this._assetTypeClassId;
+  }
+
+  set assetTypeClassId(value: string) {
+    this._assetTypeClassId = value;
+  }
 
    get name(): FormControl {
      return this._name;
