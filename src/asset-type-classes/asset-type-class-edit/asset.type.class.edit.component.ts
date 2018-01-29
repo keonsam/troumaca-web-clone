@@ -4,7 +4,7 @@ import {CompleterService} from "ng2-completer";
 import {AssetTypeClassService} from "../asset.type.class.service";
 import {AssetTypeClass} from "../asset.type.class";
 import { ActivatedRoute } from '@angular/router';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'asset-type-class-edit',
@@ -22,7 +22,8 @@ export class AssetTypeClassEditComponent implements OnInit {
   constructor(private assetTypeClassService:AssetTypeClassService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router) {
 
      this.name = new FormControl("", Validators.required);
      this.description = new FormControl("");
@@ -92,6 +93,7 @@ export class AssetTypeClassEditComponent implements OnInit {
       this.assetTypeClassService.updateAssetTypeClass(assetTypeClasses)
        .subscribe(value => {
          console.log(value);
+          this.router.navigate(['/asset-type-classes']);
        }, error => {
          console.log(error);
        });
