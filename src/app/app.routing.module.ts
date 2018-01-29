@@ -57,7 +57,7 @@ const appRoutes: Routes = [
     { path: 'emails', component: SiteEmailListComponent },
     { path: 'web-sites', component: SiteWebListComponent },
     { path: 'phones', component: SitePhoneListComponent},
-    { path: 'phones/:siteId', component: SitePhoneEditComponent},
+    { path: 'phones/:siteId/edit', component: SitePhoneEditComponent},
     { path: 'phones/create', component: SitePhoneCreationComponent},
     { path: 'create', component: SiteCreationComponent }
   ]},

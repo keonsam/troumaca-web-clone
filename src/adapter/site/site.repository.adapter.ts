@@ -120,11 +120,11 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
   }
 
   public updatePhone(siteId:string, phone: Phone): Observable<number> {
-    return this.siteClient.updatePhone(string, mapObjectProps(phone, new PhoneState()));
+    return this.siteClient.updatePhone(siteId, mapObjectProps(phone, new PhoneState()));
   }
 
   public deletePhone(siteId:string): Observable<number> {
-    return this.siteClient.updatePhone(string, mapObjectProps(phone, new PhoneState()));
+    return this.siteClient.deletePhone(siteId);
   }
 
 }

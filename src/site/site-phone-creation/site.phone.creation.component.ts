@@ -24,7 +24,7 @@ export class SitePhoneCreationComponent implements OnInit {
 
   private phone:Phone;
 
-  private _createFailed:boolean;
+  private _doNotDisplayFailureMessage:boolean;
 
   constructor(private siteService:SiteService,
               private formBuilder: FormBuilder,
@@ -81,7 +81,7 @@ export class SitePhoneCreationComponent implements OnInit {
       console.log(error2);
     });
 
-    this.createFailed = false;
+    this.doNotDisplayFailureMessage = true;
   }
 
   ngOnInit(): void {
@@ -160,30 +160,32 @@ export class SitePhoneCreationComponent implements OnInit {
     this._sitePhoneForm = value;
   }
 
-  get createFailed(): boolean {
-    return this._createFailed;
+  get doNotDisplayFailureMessage(): boolean {
+    return this._doNotDisplayFailureMessage;
   }
 
-  set createFailed(value: boolean) {
-    this._createFailed = value;
+  set doNotDisplayFailureMessage(value: boolean) {
+    this._doNotDisplayFailureMessage = value;
   }
 
   onCreate() {
+    this.doNotDisplayFailureMessage = true;
     this.siteService
     .addPhone(this.phone)
     .subscribe(value => {
       if (value && value.siteId) {
         this.router.navigate(['/sites/phones']);
       } else {
-        this.createFailed = true;
+        this.doNotDisplayFailureMessage = false;
       }
     }, error => {
       console.log(error);
-      this.createFailed = true;
+      this.doNotDisplayFailureMessage = false;
     });
   }
 
   cancel() {
+    this.router.navigate(['/sites/phones']);
   }
 
 }

@@ -202,7 +202,7 @@ export class SiteClientHttp extends SiteClient {
     let url = `${this.hostPort}/sites/virtual-sites/phones/${siteId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .put(url, phoneState.toJson(), {headers:headers})
+    .delete(url, {headers:headers})
     .map(data => {
       return data;
     });

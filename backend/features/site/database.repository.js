@@ -54,7 +54,6 @@ module.exports =  function DatabaseSiteRepository() {
         } else {
           observer.error(err);
         }
-        console.log('Inserted', doc.name, 'with ID', doc._id);
         observer.complete();
       });
     });
@@ -71,7 +70,6 @@ module.exports =  function DatabaseSiteRepository() {
         } else {
           observer.error(err);
         }
-        console.log('Inserted', doc.name, 'with ID', doc._id);
         observer.complete();
       });
     });
@@ -86,7 +84,6 @@ module.exports =  function DatabaseSiteRepository() {
         } else {
           observer.error(err);
         }
-        console.log('Inserted', doc.name, 'with ID', doc._id);
         observer.complete();
       });
     });
@@ -144,7 +141,6 @@ module.exports =  function DatabaseSiteRepository() {
         } else {
           observer.next(Site);
         }
-        console.log('Inserted', doc.name, 'with ID', doc._id);
       });
     });
 

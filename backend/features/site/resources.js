@@ -5,8 +5,7 @@ let Pagination = require("../pagination");
 
 let orchestrator = new siteOrchestrator();
 
-router
-.post("/virtual-sites/phones", function (req, res, next) {
+router.post("/virtual-sites/phones/", function (req, res, next) {
 
   let phone = req.body;
   orchestrator
@@ -19,7 +18,9 @@ router
     console.log(error);
   })
 
-}).get("/virtual-sites/phones", function(req, res, next) {
+});
+
+router.get("/virtual-sites/phones/", function(req, res, next) {
 
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
   let size = getNumericValueOrDefault(req.query.pageSize, 10);
@@ -36,7 +37,9 @@ router
     console.log(error);
   });
 
-}).get("/virtual-sites/phones/:siteId", function (req, res, next) {
+});
+
+router.get("/virtual-sites/phones/:siteId/", function (req, res, next) {
 
   let siteId = req.params.siteId;
 
@@ -49,7 +52,9 @@ router
     res.send(JSON.stringify(error));
   });
 
-}).put("/virtual-sites/phones/:siteId", function (req, res, next) {
+});
+
+router.put("/virtual-sites/phones/:siteId/", function (req, res, next) {
 
   let siteId = req.params.siteId;
   let phone = req.body;
@@ -63,7 +68,9 @@ router
       console.log(error);
     })
 
-}).delete("/virtual-sites/phones/:siteId", function (req, res, next) {
+});
+
+router.delete("/virtual-sites/phones/:siteId/", function (req, res, next) {
 
   let siteId = req.params.siteId;
   orchestrator
@@ -75,7 +82,6 @@ router
       res.send(error);
       console.log(error);
     })
-
 });
 
 function getNumericValueOrDefault(value, defaultValue) {

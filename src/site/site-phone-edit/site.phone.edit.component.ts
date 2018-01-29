@@ -85,6 +85,7 @@ export class SitePhoneEditComponent implements OnInit {
         this.extension.setValue(phone.extension);
         this.description.setValue(phone.description);
         this.removedOn.setValue(phone.removedOn);
+        this.phone = phone;
       }, error => {
         console.log(error);
       }, () => {
@@ -189,10 +190,11 @@ export class SitePhoneEditComponent implements OnInit {
 
   onSaveEdit() {
     this.doNotDisplayFailureMessage = true;
+
     this.siteService
     .updatePhone(this.phone.siteId, this.phone)
     .subscribe(value => {
-      if (value && value.siteId) {
+      if (value) {
         this.router.navigate(['/sites/phones']);
       } else {
         this.doNotDisplayFailureMessage = false;
@@ -204,6 +206,7 @@ export class SitePhoneEditComponent implements OnInit {
   }
 
   cancel() {
+    this.router.navigate(['/sites/phones']);
   }
 
 }

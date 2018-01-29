@@ -53,10 +53,6 @@ export class SitePhoneListComponent implements OnInit {
     this._routerLinkCreatePhone = value;
   }
 
-  onSubmitEdit() {
-
-  }
-
   onDelete() {
 
   }
