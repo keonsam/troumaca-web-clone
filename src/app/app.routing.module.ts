@@ -23,6 +23,7 @@ import {SiteWebListComponent} from "../site/site-web-list/site.web.list.componen
 import {SitePhoneListComponent} from "../site/site-phone-list/site.phone.list.component";
 import {SiteStreetAddressListComponent} from "../site/site-street-address-list/site.street.address.list.component";
 import {SitePhoneCreationComponent} from "../site/site-phone-creation/site.phone.creation.component";
+import {SitePhoneEditComponent} from "../site/site-phone-edit/site.phone.edit.component";
 
 
 const appRoutes: Routes = [
@@ -56,6 +57,7 @@ const appRoutes: Routes = [
     { path: 'emails', component: SiteEmailListComponent },
     { path: 'web-sites', component: SiteWebListComponent },
     { path: 'phones', component: SitePhoneListComponent},
+    { path: 'phones/:siteId', component: SitePhoneEditComponent},
     { path: 'phones/create', component: SitePhoneCreationComponent},
     { path: 'create', component: SiteCreationComponent }
   ]},

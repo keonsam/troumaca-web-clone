@@ -3,12 +3,14 @@ export class Page {
   private _number:number;
   private _size:number;
   private _items:number;
+  private _totalItems:number;
 
 
-  constructor(number?: number, size?: number, items?: number) {
-    this._number = number;
-    this._size = size;
-    this._items = items;
+  constructor(number?: number, size?: number, items?: number, totalItems?:number) {
+    this.number = number;
+    this.size = size;
+    this.items = items;
+    this.totalItems = totalItems;
   }
 
   get number(): number {
@@ -33,6 +35,14 @@ export class Page {
 
   set items(value: number) {
     this._items = value;
+  }
+
+  get totalItems(): number {
+    return this._totalItems;
+  }
+
+  set totalItems(value: number) {
+    this._totalItems = value;
   }
 
 }

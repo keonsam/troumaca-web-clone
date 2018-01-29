@@ -30,13 +30,15 @@
               <tr role="row" *ngFor="let assetTypeClass of assetTypeClasses.assetTypeClasses; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
                 <td class="name">{{assetTypeClass.name}}</td>
                 <td >{{assetTypeClass.description}}</td>
+                <td>
                 <a [routerLink]="['/asset-type-classes/edit', assetTypeClass.assetTypeClassId]">
                   <i class="os-icon os-icon-pencil-2"></i>
                 </a>
                 <a (click)="onDelete(assetTypeClass.assetTypeClassId)" class="danger" value="assetTypeClass._id">
                   <i class="os-icon os-icon-database-remove"></i>
                 </a>
-                </tr>
+                </td>
+              </tr>
               <tr *ngIf="assetTypeClasses.length <= 0" class="odd">
                 <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
               </tr>

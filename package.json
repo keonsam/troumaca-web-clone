@@ -9,9 +9,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "startBackEnd": "node /Users/michael/IdeaProjects/troumaca-web/backend/bin/server.js",
+    "startBackEnd": "node --inspect=5959 /Users/michael/IdeaProjects/troumaca-web/backend/bin/server.js",
     "startServerWithProxy": "concurrently --kill-others \"ng serve --proxy-config proxy.conf.json\"",
-    "startServersWithProxy": "npm run --debug=5858 startBackEnd | ng serve --proxy-config proxy.conf.json"
+    "startServersWithProxy": "npm run --inspect=5858 startBackEnd | ng serve --proxy-config proxy.conf.json"
   },
   "private": true,
   "dependencies": {

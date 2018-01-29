@@ -703,3 +703,12 @@ tfoot tr {
 .table-section {
   margin-top: 30px;
 }
+
+a.danger {
+  color: #9d1818;
+}
+
+a {
+  margin-right: 0.8rem;
+  color: #3E4B5B;
+}

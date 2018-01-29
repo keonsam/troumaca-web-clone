@@ -61,6 +61,22 @@ module.exports =  function DatabaseSiteRepository() {
 
   };
 
+  this.getTelephoneBySiteId = function (siteId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.telephones.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        console.log('Inserted', doc.name, 'with ID', doc._id);
+        observer.complete();
+      });
+    });
+  };
+
   this.getTelephones = function (pageNumber, pageSize, order) {
     return Rx.Observable.create(function (observer) {
       let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
@@ -76,9 +92,48 @@ module.exports =  function DatabaseSiteRepository() {
     });
   };
 
-  function calcSkip(page, size) {
-    return (number - 1) * size;
-  }
+  this.getTelephoneCount = function () {
+    return Rx.Observable.create(function (observer) {
+      db.telephones.count({}, function (err, count) {
+        if (!err) {
+          observer.next(count);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.updateTelephone = function (siteId, phone) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.telephones.update(query, phone, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
+
+  this.deleteTelephone = function (siteId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.telephones.remove(query, {}, function (err, numRemoved) {
+        if (!err) {
+          observer.next(numRemoved);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
 
   this.saveSite = function (Site) {
     Site.SiteId = uuidv5(hostname, uuidv5.DNS);

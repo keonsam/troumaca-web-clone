@@ -4,6 +4,7 @@ export class PageState {
   private _number:number;
   private _size:number;
   private _items:number;
+  private _totalItems:number;
 
   get number(): number {
     return this._number;
@@ -29,4 +30,11 @@ export class PageState {
     this._items = value;
   }
 
+  get totalItems(): number {
+    return this._totalItems;
+  }
+
+  set totalItems(value: number) {
+    this._totalItems = value;
+  }
 }

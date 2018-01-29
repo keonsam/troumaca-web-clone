@@ -2,14 +2,14 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {SiteService} from "../site.service";
 import {Phone} from "../phone";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
-  selector: 'site-phone-creation',
-  templateUrl: './site.phone.creation.component.html',
-  styleUrls: ['./site.phone.creation.component.css']
+  selector: 'site-phone-edit',
+  templateUrl: './site.phone.edit.component.html',
+  styleUrls: ['./site.phone.edit.component.css']
 })
-export class SitePhoneCreationComponent implements OnInit {
+export class SitePhoneEditComponent implements OnInit {
 
   private _name:FormControl;
   private _countryCode:FormControl;
@@ -24,11 +24,13 @@ export class SitePhoneCreationComponent implements OnInit {
 
   private phone:Phone;
 
-  private _createFailed:boolean;
+  private _doNotDisplayFailureMessage:boolean;
 
   constructor(private siteService:SiteService,
               private formBuilder: FormBuilder,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
+
     this.name = new FormControl("");
 
     this.countryCode = new FormControl("", [
@@ -66,25 +68,42 @@ export class SitePhoneCreationComponent implements OnInit {
 
     this.phone = new Phone();
 
-    this.sitePhoneForm
-    .valueChanges
-    .subscribe(value => {
-      this.phone.name = value.name;
-      this.phone.areaCode = value.areaCode;
-      this.phone.countryCode = value.countryCode;
-      this.phone.exchange = value.exchange;
-      this.phone.telephoneNumber = value.telephoneNumber;
-      this.phone.extension = value.extension;
-      this.phone.description = value.description;
-      console.log(value);
-    }, error2 => {
-      console.log(error2);
-    });
-
-    this.createFailed = false;
+    this.doNotDisplayFailureMessage = true;
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      let siteId = params['siteId'];
+      this.siteService
+      .getPhoneById(siteId)
+      .subscribe(phone => {
+        this.name.setValue(phone.name);
+        this.countryCode.setValue(phone.countryCode);
+        this.areaCode.setValue(phone.areaCode);
+        this.exchange.setValue(phone.exchange);
+        this.telephoneNumber.setValue(phone.telephoneNumber);
+        this.extension.setValue(phone.extension);
+        this.description.setValue(phone.description);
+        this.removedOn.setValue(phone.removedOn);
+      }, error => {
+        console.log(error);
+      }, () => {
+        this.sitePhoneForm
+        .valueChanges
+        .subscribe(value => {
+          this.phone.name = value.name;
+          this.phone.areaCode = value.areaCode;
+          this.phone.countryCode = value.countryCode;
+          this.phone.exchange = value.exchange;
+          this.phone.telephoneNumber = value.telephoneNumber;
+          this.phone.extension = value.extension;
+          this.phone.description = value.description;
+          console.log(value);
+        }, error2 => {
+          console.log(error2);
+        });
+      })
+    });
   }
 
   // Field
@@ -160,26 +179,27 @@ export class SitePhoneCreationComponent implements OnInit {
     this._sitePhoneForm = value;
   }
 
-  get createFailed(): boolean {
-    return this._createFailed;
+  get doNotDisplayFailureMessage(): boolean {
+    return this._doNotDisplayFailureMessage;
   }
 
-  set createFailed(value: boolean) {
-    this._createFailed = value;
+  set doNotDisplayFailureMessage(value: boolean) {
+    this._doNotDisplayFailureMessage = value;
   }
 
-  onCreate() {
+  onSaveEdit() {
+    this.doNotDisplayFailureMessage = true;
     this.siteService
-    .addPhone(this.phone)
+    .updatePhone(this.phone.siteId, this.phone)
     .subscribe(value => {
       if (value && value.siteId) {
         this.router.navigate(['/sites/phones']);
       } else {
-        this.createFailed = true;
+        this.doNotDisplayFailureMessage = false;
       }
     }, error => {
       console.log(error);
-      this.createFailed = true;
+      this.doNotDisplayFailureMessage = false;
     });
   }
 

@@ -87,6 +87,17 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
+  public getPhoneState(siteId:string): Observable<PhoneState> {
+    let url = `${this.hostPort}/sites/virtual-sites/phones/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+
+    return this.httpClient
+    .get<PhoneState>(url, {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
   public getPhoneStates(pageNumber:number, pageSize:number, sortOrder:string): Observable<PhoneStates> {
     let array = [];
     array.push(this.hostPort);
@@ -168,13 +179,31 @@ export class SiteClientHttp extends SiteClient {
   }
 
   public addPhone(phoneState: PhoneState): Observable<PhoneState> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/sites/virtual-sites/phones");
+    let url = `${this.hostPort}/sites/virtual-sites/phones`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .post(url, phoneState.toJson(), {headers: headers})
+    .map(data => {
+      return data;
+    });
+  }
 
-    return this.httpClient.post(array.join(""), phoneState.toJson(), {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
+  public updatePhone(siteId:string, phoneState: PhoneState): Observable<number> {
+    let url = `${this.hostPort}/sites/virtual-sites/phones/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .put(url, phoneState.toJson(), {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
+  public deletePhone(siteId:string): Observable<number> {
+    let url = `${this.hostPort}/sites/virtual-sites/phones/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .put(url, phoneState.toJson(), {headers:headers})
+    .map(data => {
       return data;
     });
   }
