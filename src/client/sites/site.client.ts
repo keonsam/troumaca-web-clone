@@ -16,8 +16,11 @@ export abstract class SiteClient {
 
   public abstract getEmailStates(pageNumber:number):Observable<EmailStates>;
   public abstract getPhoneStates(pageNumber:number, pageSize:number, sortOrder:string):Observable<PhoneStates>;
+  public abstract getPhoneState(siteId:string):Observable<PhoneState>;
   public abstract getWebSiteStates(pageNumber:number):Observable<WebSiteStates>;
 
   public abstract addPhone(phoneState:PhoneState):Observable<PhoneState>;
+  public abstract updatePhone(siteId:string, phoneState:PhoneState):Observable<number>;
+  public abstract deletePhone(siteId:string):Observable<number>;
 
 }

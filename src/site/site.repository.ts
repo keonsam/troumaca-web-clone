@@ -12,7 +12,10 @@ export abstract class SiteRepository {
 
   abstract getEmails(pageNumber:number):Observable<Emails>;
   abstract getPhones(pageNumber:number, pageSize:number, sortOrder:string):Observable<Phones>;
+  abstract getPhone(siteId:string):Observable<Phone>;
   abstract getWebSites(pageNumber:number):Observable<WebSites>;
   abstract addPhone(phone:Phone):Observable<Phone>;
+  abstract updatePhone(siteId:string, phone:Phone):Observable<number>;
+  abstract deletePhone(siteId:string):Observable<number>;
 
 }

@@ -17,6 +17,8 @@ import {SiteStreetAddressListComponent} from "./site-street-address-list/site.st
 import {SiteWebListComponent} from "./site-web-list/site.web.list.component";
 import {SearchModule} from "../search/search.module";
 import {SitePhoneCreationComponent} from "./site-phone-creation/site.phone.creation.component";
+import {PagingModule} from "../paging/paging.module";
+import {SitePhoneEditComponent} from "./site-phone-edit/site.phone.edit.component";
 
 @NgModule({
   imports: [
@@ -27,7 +29,8 @@ import {SitePhoneCreationComponent} from "./site-phone-creation/site.phone.creat
     ReactiveFormsModule,
     siteRouting,
     MenuModule,
-    SearchModule
+    SearchModule,
+    PagingModule
   ],
   declarations: [
     SiteComponent,
@@ -36,6 +39,7 @@ import {SitePhoneCreationComponent} from "./site-phone-creation/site.phone.creat
     SiteEmailListComponent,
     SitePhoneListComponent,
     SitePhoneCreationComponent,
+    SitePhoneEditComponent,
     SitePostOfficeBoxListComponent,
     SiteStreetAddressListComponent,
     SiteWebListComponent
@@ -58,6 +62,7 @@ import {SitePhoneCreationComponent} from "./site-phone-creation/site.phone.creat
     SiteEmailListComponent,
     SitePhoneListComponent,
     SitePhoneCreationComponent,
+    SitePhoneEditComponent,
     SitePostOfficeBoxListComponent,
     SiteStreetAddressListComponent,
     SiteWebListComponent

@@ -5,8 +5,8 @@ let Pagination = require("../pagination");
 
 let orchestrator = new siteOrchestrator();
 
-router
-.post("/virtual-sites/phones", function (req, res, next) {
+router.post("/virtual-sites/phones/", function (req, res, next) {
+
   let phone = req.body;
   orchestrator
   .saveTelephone(phone)
@@ -18,14 +18,17 @@ router
     console.log(error);
   })
 
-}).get("/virtual-sites/phones", function(req, res, next) {
+});
+
+router.get("/virtual-sites/phones/", function(req, res, next) {
 
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
   let size = getNumericValueOrDefault(req.query.pageSize, 10);
-  let sort = getSortValueOrDefault(req.query.sortField, req.query.sortOrder);
+  let field = getStringValueOrDefault(req.query.sortField, "");
+  let direction = getStringValueOrDefault(req.query.sortOrder, "");
 
   orchestrator
-  .getTelephones(number, size, sort)
+  .getTelephones(number, size, field, direction)
   .subscribe(telephones => {
     res.send(JSON.stringify(telephones));
   }, error => {
@@ -34,13 +37,51 @@ router
     console.log(error);
   });
 
-}).post("/", function (req, res, ndex) {
+});
 
-  SiteOrch.saveSite(req.body)
-  .subscribe(Site => {
-    res.send(JSON.stringify(Site));
+router.get("/virtual-sites/phones/:siteId/", function (req, res, next) {
+
+  let siteId = req.params.siteId;
+
+  orchestrator
+  .getTelephoneBySiteId(siteId)
+  .subscribe(phone => {
+    let body = JSON.stringify(phone);
+    res.send(body);
+  }, error => {
+    res.send(JSON.stringify(error));
   });
 
+});
+
+router.put("/virtual-sites/phones/:siteId/", function (req, res, next) {
+
+  let siteId = req.params.siteId;
+  let phone = req.body;
+  orchestrator
+    .updateTelephone(siteId, phone)
+    .subscribe(phone => {
+      res.send(JSON.stringify(phone));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
+
+});
+
+router.delete("/virtual-sites/phones/:siteId/", function (req, res, next) {
+
+  let siteId = req.params.siteId;
+  orchestrator
+    .deleteTelephone(siteId)
+    .subscribe(phone => {
+      res.send(JSON.stringify(phone));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
 });
 
 function getNumericValueOrDefault(value, defaultValue) {
@@ -59,15 +100,16 @@ function getNumericValueOrDefault(value, defaultValue) {
   return value
 }
 
-function getSortValueOrDefault(field, direction) {
-  let sort = {};
-  if (field && direction) {
-    sort[field] = direction;
-    return sort;
-  } else {
-    return sort;
+function getStringValueOrDefault(strValue, defaultValue) {
+  if (!strValue && !defaultValue) {
+    return "";
   }
 
+  if (!strValue && defaultValue) {
+    return defaultValue;
+  }
+
+  return strValue;
 }
 
 module.exports = router;

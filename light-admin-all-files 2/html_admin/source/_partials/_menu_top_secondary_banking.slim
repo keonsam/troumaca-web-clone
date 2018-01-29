@@ -1,0 +1,156 @@
+- menu_secondary_class = 'top-menu-secondary with-overflow'
+- menu_secondary_class+= (defined?(menu_secondary_dark) && menu_secondary_dark) ? ' color-scheme-dark' : ''
+div[class="#{menu_secondary_class}"]
+  /!
+    ------------------
+    START - Messages Link in secondary top menu
+    ------------------
+  .logo-w.menu-size
+    a.logo href="index.html" 
+      img src="img/logo.png"
+      span Clean Admin
+  .fancy-selector-w
+    .fancy-selector-current
+      .fs-img
+        img src="img/card1.png" alt=""/
+      .fs-main-info
+        .fs-name American Express Platinum
+        .fs-sub 
+          span Balance:
+          strong $5,304
+      .fs-extra-info
+        strong 5476
+        span ending
+      .fs-selector-trigger
+        i.os-icon.os-icon-arrow-down4
+    .fancy-selector-options
+      .fancy-selector-option
+        .fs-img
+          img src="img/card2.png" alt=""/
+        .fs-main-info
+          .fs-name Capital One Venture Card
+          .fs-sub 
+            span Balance:
+            strong $5,304
+        .fs-extra-info
+          strong 5476
+          span ending
+      .fancy-selector-option.active
+        .fs-img
+          img src="img/card1.png" alt=""/
+        .fs-main-info
+          .fs-name American Express Platinum
+          .fs-sub 
+            span Balance:
+            strong $8,274
+        .fs-extra-info
+          strong 2523
+          span ending
+      .fancy-selector-option
+        .fs-img
+          img src="img/card3.png" alt=""/
+        .fs-main-info
+          .fs-name CitiBank Preferred Credit
+          .fs-sub 
+            span Balance:
+            strong $1,202
+        .fs-extra-info
+          strong 6345
+          span ending
+      .fancy-selector-actions.text-right
+        a.btn.btn-primary href="#"
+          i.os-icon.os-icon-ui-22
+          span Add Account
+
+
+  .top-menu-controls
+    .element-search.hidden-lg-down
+      input type="text" placeholder="Start typing to search..."
+    .top-icon.top-search.hidden-xl-up
+      i.os-icon.os-icon-ui-37
+    /!
+      ------------------
+      START - Messages Link in secondary top menu
+      ------------------
+    .messages-notifications.os-dropdown-trigger.os-dropdown-center
+      i.os-icon.os-icon-mail-14
+      .new-messages-count 12
+      .os-dropdown.light.message-list
+        .icon-w
+          i.os-icon.os-icon-mail-14
+        ul
+          li
+            a href="#"
+              .user-avatar-w
+                img alt="" src="img/avatar1.jpg"
+              .message-content
+                h6.message-from John Mayers
+                h6.message-title Account Update
+          li
+            a href="#"
+              .user-avatar-w
+                img alt="" src="img/avatar2.jpg"
+              .message-content
+                h6.message-from Phil Jones
+                h6.message-title Secutiry Updates
+          li
+            a href="#"
+              .user-avatar-w
+                img alt="" src="img/avatar3.jpg"
+              .message-content
+                h6.message-from Bekky Simpson
+                h6.message-title Vacation Rentals
+          li
+            a href="#"
+              .user-avatar-w
+                img alt="" src="img/avatar4.jpg"
+              .message-content
+                h6.message-from Alice Priskon
+                h6.message-title Payment Confirmation
+    /!
+      ------------------
+      END - Messages Link in secondary top menu
+      ------------------
+    /!
+      ------------------
+      START - Settings Link in secondary top menu
+      ------------------
+    .top-icon.top-settings.os-dropdown-trigger.os-dropdown-center
+      i.os-icon.os-icon-ui-46
+      .os-dropdown
+        .icon-w
+          i.os-icon.os-icon-ui-46
+        ul
+          li
+            a href="#" 
+              i.os-icon.os-icon-ui-49
+              span Profile Settings
+          li
+            a href="#" 
+              i.os-icon.os-icon-grid-10
+              span Billing Info
+          li
+            a href="#" 
+              i.os-icon.os-icon-ui-44
+              span My Invoices
+          li
+            a href="#" 
+              i.os-icon.os-icon-ui-15
+              span Deactivate Account
+    /!
+      ------------------
+      END - Settings Link in secondary top menu
+      ------------------
+    /!
+      ------------------
+      START - User avatar and menu in secondary top menu
+      ------------------
+    .logged-user-w
+      .logged-user-i
+        .avatar-w
+          img src="img/avatar1.jpg" alt=""/
+        include ../_partials/_user_hover_menu.slim
+    /!
+      ------------------
+      END - User avatar and menu in secondary top menu
+      ------------------

@@ -18,6 +18,10 @@ export class SitePhoneListComponent implements OnInit {
   private _routerLinkCreatePhone:string = "/sites/phones/create";
 
   constructor(private siteService:SiteService) {
+    let newPhones = new Phones();
+    newPhones.page = new Page(0, 0, 0);
+    newPhones.sort = new Sort();
+    this.phones = newPhones;
   }
 
   ngOnInit(): void {
@@ -49,8 +53,8 @@ export class SitePhoneListComponent implements OnInit {
     this._routerLinkCreatePhone = value;
   }
 
-  public createNew(event:Event) {
-    console.log("createNew");
+  onDelete() {
+
   }
 
 }

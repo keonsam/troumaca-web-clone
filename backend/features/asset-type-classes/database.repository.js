@@ -1,7 +1,7 @@
-let uuidv5 = require('uuid/v5');
 let Datastore = require('nedb');
 let Rx = require("rxjs");
 let UUIDGenerator = require("../uuid.generator");
+let DbUtil = require('../db.util');
 let path = require('path');
 let theAssetTypeClassesDb = path.resolve(__dirname, '..','..',) + '/nedb/asset-type-classes.db';
 
@@ -10,13 +10,13 @@ let db = {};
 db.assetTypeClasses = new Datastore(theAssetTypeClassesDb);
 db.assetTypeClasses.loadDatabase(function (err) { console.log(err); });
 
-function calculateSkip(page, size) {
-  if (page <= 1) {
-    return 0;
-  } else {
-    return ((page -1) * size);
-  }
-}
+// function calculateSkip(page, size) {
+//   if (page <= 1) {
+//     return 0;
+//   } else {
+//     return ((page -1) * size);
+//   }
+// }
 
 function buildPagedAssetListResponse(page, sort, assetTypeClasses) {
   return {
@@ -27,7 +27,7 @@ function buildPagedAssetListResponse(page, sort, assetTypeClasses) {
 }
 
 let newUuidGenerator = new UUIDGenerator();
-
+let dbUtil = new DbUtil();
 
 module.exports =  function DatabaseAssetRepository() {
   this.saveAssetTypeClass = function (assetTypeClass) {
@@ -76,13 +76,15 @@ module.exports =  function DatabaseAssetRepository() {
 
         let sortAttribute = sort.attributes;
         let sortDirection = sort.direction;
-        let calculateSkip2 = calculateSkip(page.number, page.size);
+        //let calculateSkip2 = calculateSkip(page.number, page.size);
 
         db.assetTypeClasses.count({}, function (err, count) {
          page.items = count;
         });
 
-        db.assetTypeClasses.find({}).skip(calculateSkip2).limit(page.size).exec(function (err, docs) {
+        let skip = dbUtil.calcSkip(page.number, page.size, 10);
+
+        db.assetTypeClasses.find({}).skip(skip).limit(page.size).exec(function (err, docs) {
           if (err) {
             observer.error(err);
           } else {
