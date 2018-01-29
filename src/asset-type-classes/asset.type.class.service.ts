@@ -20,7 +20,7 @@ export class AssetTypeClassService {
     return this.assetTypeClassRepository.addAssetTypeClass(assetTypeClass);
   }
 
-  public deleteAssetTypeClass(assetTypeClassId: string): Observable<string>{
+  public deleteAssetTypeClass(assetTypeClassId: string): Observable<any>{
     return this.assetTypeClassRepository.deleteAssetTypeClass(assetTypeClassId);
   }
 

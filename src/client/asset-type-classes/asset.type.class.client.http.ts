@@ -75,7 +75,7 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
     });
   }
 
-  public deleteAssetTypeClass(assetTypeClassId: string): Observable<string> {
+  public deleteAssetTypeClass(assetTypeClassId: string): Observable<any> {
     console.log("working");
     let array = [];
     array.push(this.hostPort);

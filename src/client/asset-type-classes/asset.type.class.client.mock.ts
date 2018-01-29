@@ -17,7 +17,7 @@ export class AssetTypeClassClientMock extends AssetTypeClassClient {
     return null;
   }
 
-  public deleteAssetTypeClass(assetTypeClassId: string): Observable<string> {
+  public deleteAssetTypeClass(assetTypeClassId: string): Observable<any> {
     return undefined;
   }
 

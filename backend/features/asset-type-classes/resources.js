@@ -46,8 +46,8 @@ router.get("/", function(req, res, next) {
 }).delete("/:assetTypeClassId", function (req, res, next) {
   let assetTypeClassId = req.params.assetTypeClassId;
   assetOrch.deleteAssetTypeClass(assetTypeClassId)
-  .subscribe(string => {
-    res.send(string);
+  .subscribe(numRemoved => {
+    res.send(JSON.stringify(numRemoved));
   });
 });
 

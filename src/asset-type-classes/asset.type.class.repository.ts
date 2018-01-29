@@ -10,7 +10,7 @@ export abstract class AssetTypeClassRepository {
 
   abstract addAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass>;
 
-  abstract deleteAssetTypeClass(assetTypeClassId: string): Observable<string>;
+  abstract deleteAssetTypeClass(assetTypeClassId: string): Observable<any>;
 
   abstract updateAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass>;
 }

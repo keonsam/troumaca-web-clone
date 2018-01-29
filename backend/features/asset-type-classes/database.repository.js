@@ -98,11 +98,11 @@ module.exports =  function DatabaseAssetRepository() {
 
   this.deleteAssetTypeClass= function(assetTypeClassId) {
     return Rx.Observable.create(function (observer) {
-      db.assetTypeClasses.remove({assetTypeClassId}, function (err, doc) {
+      db.assetTypeClasses.remove({assetTypeClassId}, function (err, numRemoved) {
         if (err) {
           observer.error(err);
         } else {
-          observer.next("ok");
+          observer.next(numRemoved);
         }
       });
     });

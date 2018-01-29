@@ -33,7 +33,7 @@
                 <a [routerLink]="['/asset-type-classes/edit', assetTypeClass.assetTypeClassId]">
                   <i class="os-icon os-icon-pencil-2"></i>
                 </a>
-                <a (click)="onDelete(assetTypeClass.assetTypeClassId)" class="danger" value="assetTypeClass._id">
+                <a (click)="onDelete(assetTypeClass.assetTypeClassId, index)" class="danger" value="assetTypeClass._id">
                   <i class="os-icon os-icon-database-remove"></i>
                 </a>
                 </tr>

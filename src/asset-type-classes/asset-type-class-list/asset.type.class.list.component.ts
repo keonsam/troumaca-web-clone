@@ -101,11 +101,12 @@ export class AssetTypeClassListComponent implements OnInit {
     this.assetTypeClassService.updateAssetTypeClass(assetTypeClass);
   }
 
-  onDelete(assetTypeClassId) {
+  onDelete(assetTypeClassId,index) {
   if(confirm("Are you sure you want to delete this?")){
     this.assetTypeClassService.deleteAssetTypeClass(assetTypeClassId)
     .subscribe(data => {
       console.log(data);
+      this.assetTypeClasses.assetTypeClasses.splice(index, 1);
     });
   }
 }

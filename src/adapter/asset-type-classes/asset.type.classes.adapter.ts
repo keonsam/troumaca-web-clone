@@ -66,11 +66,11 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
     });
   }
 
-  deleteAssetTypeClass(assetTypeClassId: string): Observable<string> {
+  deleteAssetTypeClass(assetTypeClassId: string): Observable<any> {
     return this.assetTypeClassClient
     .deleteAssetTypeClass(assetTypeClassId)
     .map(value =>{
-      return value
+      return value;
     })
   }
 
