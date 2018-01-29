@@ -45,8 +45,11 @@
                 <td>{{phone.areaCode}}</td>
                 <td>{{phone.telephoneNumber}}</td>
                 <td>{{phone.description}}</td>
-                <td>
-                  <a [routerLink]="['/sites/phones', phone.siteId, 'edit']" href="#"><i class="os-icon os-icon-pencil-2"></i></a><a class="danger" (click)="onDelete();false;" href="#"><i class="os-icon os-icon-database-remove"></i></a>
+                <!--<td>-->
+                  <!--<a [routerLink]="['/sites/phones', phone.siteId, 'edit']" href="#"><i class="os-icon os-icon-pencil-2"></i></a><a class="danger" (click)="onDelete();false;" href="#"><i class="os-icon os-icon-database-remove"></i></a>-->
+                <!--</td>-->
+                <td class="row-actions">
+                  <a [routerLink]="['/sites/phones', phone.siteId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" (click)="onDelete();false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
                 </td>
               </tr>
               <tr *ngIf="phones.phones.length <= 0" class="odd">
