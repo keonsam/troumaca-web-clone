@@ -645,7 +645,7 @@ th {
   width: 100%;
 }
 
-.name {
+.classification {
   display: block;
 }
 
@@ -663,7 +663,7 @@ th {
 }
 
 @media (max-width: 850px) {
-  .name {
+  .classification {
     display: none !important;
   }
 }
@@ -675,7 +675,7 @@ th {
 }
 
 /*tr:nth-child(even) {*/
-  /*background: #CCC*/
+/*background: #CCC*/
 /*}*/
 
 tbody tr:nth-child(odd) {
@@ -702,13 +702,4 @@ tfoot tr {
 
 .table-section {
   margin-top: 30px;
-}
-
-a.danger {
-    color: #9d1818;
-}
-
-a {
-    margin-right: 0.8rem;
-    color: #3E4B5B;
 }

@@ -43,7 +43,7 @@ const appRoutes: Routes = [
     { path: '', redirectTo: 'listing', pathMatch: 'full'},
     { path: 'listing', component: AssetTypeClassListComponent },
     { path: 'create', component: AssetTypeClassCreationComponent },
-    { path: 'edit/:id', component: AssetTypeClassEditComponent }
+    { path: ':id/edit', component: AssetTypeClassEditComponent }
   ]},
   { path: 'attributes', component: AttributeComponent, children:[
       { path: '', redirectTo: 'listing', pathMatch: 'full'},
