@@ -83,7 +83,6 @@ module.exports =  function DatabaseAssetRepository() {
         });
 
         let skip = dbUtil.calcSkip(page.number, page.size, 10);
-
         db.assetTypeClasses.find({}).skip(skip).limit(page.size).exec(function (err, docs) {
           if (err) {
             observer.error(err);

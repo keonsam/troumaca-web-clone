@@ -34,10 +34,29 @@
                 <a [routerLink]="['/asset-type-classes/edit', assetTypeClass.assetTypeClassId]">
                   <i class="os-icon os-icon-pencil-2"></i>
                 </a>
-                <a (click)="onDelete(assetTypeClass.assetTypeClassId, index)" class="danger" value="assetTypeClass._id">
+                <a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOk(assetTypeClass.assetTypeClassId, index)" >
                   <i class="os-icon os-icon-database-remove"></i>
                 </a>
                 </td>
+                <div aria-labelledby="DeleteModalLabel" class="modal fade" id="DeleteModal1" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+                 <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                   <div class="modal-header">
+                    <h5 class="modal-title" id="DeleteModalLabel">
+                     Delete Asset Type Class
+                    </h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
+                   </div>
+                   <div class="modal-body">
+                   <p>Are you sure you want to delete this?</p>
+                   </div>
+                      <div class="modal-footer">
+                      <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
+                      <button class="btn btn-danger" type="button" data-dismiss="modal" (click)="onDelete()"> Delete</button>
+                     </div>
+                    </div>
+                   </div>
+                 </div>
               </tr>
               <tr *ngIf="assetTypeClasses.length <= 0" class="odd">
                 <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>

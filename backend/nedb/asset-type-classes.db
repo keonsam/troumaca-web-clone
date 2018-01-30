@@ -1,4 +1,9 @@
-{"assetTypeClassId":"4ea7e000-af6d-4b72-ad8d-fc476d6cdff6","name":"Van","description":"Toyota","_id":"3YNhi0QJ1Wxk7xha"}
-{"assetTypeClassId":"76466bd2-9680-49c4-a5bc-a640b7b48477","name":"truck","description":"Cat-Company","_id":"EpybZgHhs11OVAqR"}
-{"assetTypeClassId":"1d56a324-3a80-4dcf-b9c3-dc8c9b9c5af5","name":"phone","description":"i-phone","_id":"r69qZ7a8uCs4VVBM"}
-{"assetTypeClassId":"76466bd2-9680-49c4-a5bc-a640b7b48477","name":"truck","description":"Cat-Compan","_id":"EpybZgHhs11OVAqR"}
+{"assetTypeClassId":"3e72a085-6a4b-4516-a8ac-68bf848deac1","name":"People","description":"Melisia","_id":"Xm1OFycepItzyAmx"}
+{"assetTypeClassId":"ae246959-8410-4b2d-99c4-b25a5a289fd3","name":"Phone","description":"Samsung","_id":"ZbsyWpImergkOVt5"}
+{"assetTypeClassId":"25709dba-2c91-451a-8d2d-4abfb2f4d40e","name":"Computer","description":"Laptop","_id":"iDKuwz5D23JDqStG"}
+{"$$deleted":true,"_id":"iDKuwz5D23JDqStG"}
+{"$$deleted":true,"_id":"ZbsyWpImergkOVt5"}
+{"assetTypeClassId":"e82bbfff-da0b-499f-865e-40520623c802","name":"Computer","description":"Laptop","_id":"mRJlBVZLPQzrImlh"}
+{"assetTypeClassId":"73564917-0cc8-4f1e-bb4b-670464329401","name":"Desktop","description":"Acer","_id":"mJ5nDFPefV8sYNgo"}
+{"assetTypeClassId":"dd02ba56-e868-4cbb-819d-13d289eb2647","name":"Desktop","description":"friends","_id":"NH6nJX1Vkq61NiR0"}
+{"$$deleted":true,"_id":"NH6nJX1Vkq61NiR0"}

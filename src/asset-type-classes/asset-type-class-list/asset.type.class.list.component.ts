@@ -1,22 +1,23 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {AssetTypeClassService} from "../asset.type.class.service";
 import {AssetTypeClasses} from "../asset.type.classes";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
-import {NgbModal, ModalDismissReasons} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'asset-type-class-list',
   templateUrl: './asset.type.class.list.component.html',
   styleUrls: ['./asset.type.class.list.component.css']
 })
+
 export class AssetTypeClassListComponent implements OnInit {
 
   private _headerNames:string[] = ["Name","Description"];
   private _assetTypeClasses: AssetTypeClasses;
+  private _assetTypeClassId: string;
+  private _index: number;
 
- constructor(private assetTypeClassService: AssetTypeClassService,
-             private modalService: NgbModal) {
+ constructor(private assetTypeClassService: AssetTypeClassService) {
 
    let assetTypeClasses:AssetTypeClasses = new AssetTypeClasses();
    assetTypeClasses.assetTypeClasses = [];
@@ -90,24 +91,37 @@ export class AssetTypeClassListComponent implements OnInit {
     this._assetTypeClasses = value;
   }
 
+  get assetTypeClassId(): string {
+    return this._assetTypeClassId;
+  }
+
+  set assetTypeClassId(value: string) {
+    this._assetTypeClassId = value;
+  }
+
+  get index(): number {
+    return this._index;
+  }
+
+  set index(value: number) {
+    this._index = value;
+  }
+
   onResize(event) {
     console.log("W:" + event.target.innerWidth + " H:" + event.target.innerHeight);
   }
 
-  editModal(content) {
-    this.modalService.open(content);
-  }
-  onEdit(assetTypeClass) {
-    this.assetTypeClassService.updateAssetTypeClass(assetTypeClass);
+  onOk(assetTypeClassId,index){
+    this.assetTypeClassId = assetTypeClassId;
+    this.index = index;
   }
 
-  onDelete(assetTypeClassId,index) {
-  if(confirm("Are you sure you want to delete this?")){
-    this.assetTypeClassService.deleteAssetTypeClass(assetTypeClassId)
+  onDelete() {
+    this.assetTypeClassService.deleteAssetTypeClass(this.assetTypeClassId)
     .subscribe(data => {
       console.log(data);
-      this.assetTypeClasses.assetTypeClasses.splice(index, 1);
+      this.assetTypeClasses.assetTypeClasses.splice(this.index, 1);
     });
-  }
 }
+
 }
