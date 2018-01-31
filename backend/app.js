@@ -25,7 +25,7 @@ let persons = require('./routes/parties/persons/persons');
 let assetResource = require('./features/asset/resources');
 let assetTypeClassesResource = require('./features/asset-type-classes/resources');
 let siteResource = require('./features/site/resources');
-
+let attributesResource = require('./features/attributes/resources');
 let app = express();
 
 app.use(logger('dev'));
@@ -49,6 +49,7 @@ app.use('/parties/persons', persons);
 app.use('/v2/assets', assetResource);
 app.use('/asset-type-classes', assetTypeClassesResource);
 app.use('/sites', siteResource);
+app.use('/attributes', attributesResource);
 
 // app.set('view engine', 'ejs');
 

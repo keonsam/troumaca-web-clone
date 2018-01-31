@@ -6,4 +6,9 @@ export class AttributeClientMock extends AttributeClient {
   public getAttributes(): Observable<AttributeState[]> {
     return undefined;
   }
+
+  public addAttribute(attributeState: AttributeState): Observable<AttributeState> {
+    return null;
+  }
+
 }
