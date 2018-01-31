@@ -28,6 +28,10 @@ export class AttributeListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAttributes();
+  }
+
+  getAttributes () {
     this.attributeService
     .getAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
@@ -56,7 +60,7 @@ export class AttributeListComponent implements OnInit {
     this.attributeService
     .deleteAttribute(this.attributeId)
     .subscribe(value => {
-    this.router.navigate(['/attributes']);
+    this.getAttributes();
     }, error => {
     console.log(error);
     }, () => {
@@ -64,4 +68,8 @@ export class AttributeListComponent implements OnInit {
     });
   }
 
+  onRequestPage(pageNumber:number) {
+   this.defaultPage = pageNumber;
+   this.getAttributes();   
+  }
 }
