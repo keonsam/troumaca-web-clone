@@ -7,12 +7,12 @@
       <div class="col-sm-12">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="attributeForm" (ngSubmit)="onCreate()">
+            <form [formGroup]="attributeEditForm" (ngSubmit)="onCreate()">
               <h5 class="form-header">
                 New Attribute Form
               </h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to create attribute.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to edit attribute.</div>
 
               <fieldset class="form-group">
                 <div class="form-group">
@@ -57,7 +57,7 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [disabled]="!attributeForm.valid" type="submit"> Create</button>
+                <button class="btn btn-primary button1" [disabled]="!attributeEditForm.valid" type="submit"> Save</button>
                 <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>
               </div>
 

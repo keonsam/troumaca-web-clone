@@ -7,10 +7,8 @@ import {HttpClient} from "@angular/common/http";
 
 
 export function attributeClientFactory (appConfig: AppConfig, httpClient:HttpClient, uuidGenerator: UUIDGenerator):AttributeClient {
-  var attributeClient: AttributeClient;
-    attributeClient = new AttributeClientHttp(uuidGenerator, httpClient, appConfig.apiEndpoint);
 
-  return attributeClient;
+  return new AttributeClientHttp(uuidGenerator, httpClient, appConfig.apiEndpoint);
 }
 
 export let attributeClientProvider = {

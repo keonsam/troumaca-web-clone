@@ -17,6 +17,7 @@ import {AssetTypeClassEditComponent} from "../asset-type-classes/asset-type-clas
 import {SiteCreationComponent} from "../site/site-creation/site.creation.component";
 import {AttributeListComponent} from "../attributes/attribute-list/attribute.list.component";
 import {AttributeCreationComponent} from "../attributes/attribute-creation/attribute.creation.component";
+import {AttributeEditComponent} from "../attributes/attribute-edit/attribute.edit.component";
 import {SitePostOfficeBoxListComponent} from "../site/site-post-office-box-list/site.post.office.box.list.component";
 import {SiteEmailListComponent} from "../site/site-email-list/site.email.list.component";
 import {SiteWebListComponent} from "../site/site-web-list/site.web.list.component";
@@ -48,7 +49,8 @@ const appRoutes: Routes = [
   { path: 'attributes', component: AttributeComponent, children:[
       { path: '', redirectTo: 'listing', pathMatch: 'full'},
       { path: 'listing', component: AttributeListComponent },
-      { path: 'create', component: AttributeCreationComponent }
+      { path: 'create', component: AttributeCreationComponent },
+      { path: ':attributeId/edit', component: AttributeEditComponent }
   ]},
   { path: 'sites', component: SiteComponent, children:[
     { path: '', redirectTo: 'street-addresses', pathMatch: 'full'},
