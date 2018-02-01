@@ -1,9 +1,8 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, NgZone, OnInit} from "@angular/core";
 import {AssetTypeClassService} from "../asset.type.class.service";
 import {AssetTypeClasses} from "../asset.type.classes";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'asset-type-class-list',
@@ -20,7 +19,7 @@ export class AssetTypeClassListComponent implements OnInit {
   private defaultSortOrder = "asc";
 
  constructor(private assetTypeClassService: AssetTypeClassService,
-             private router: Router) {
+             private zone:NgZone) {
 
     let newAssetTypeClasses = new AssetTypeClasses();
     newAssetTypeClasses.page = new Page(0, 0, 0);
@@ -37,7 +36,9 @@ export class AssetTypeClassListComponent implements OnInit {
     .getAssetTypeClasses(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
       console.log(next);
-      this.assetTypeClasses = next;
+      this.zone.run(() => {
+        this.assetTypeClasses = next;
+      });
     }, error => {
       console.log(error);
     }, () => {
