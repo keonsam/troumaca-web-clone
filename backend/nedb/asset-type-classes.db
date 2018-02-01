@@ -1,6 +1,4 @@
-{"assetTypeClassId":"fc63525a-63b7-409e-903c-2e18ea35277d","name":"moretest","description":"test2","_id":"E8IptO7Ol9VmaRMe"}
-{"assetTypeClassId":"42030700-b2ce-4b75-8832-f797e9e969f1","name":"moretest","description":"test5","_id":"KfEQO7NXZCe5q4tG"}
-{"assetTypeClassId":"3e72a085-6a4b-4516-a8ac-68bf848deac1","name":"People","description":"Melisia","_id":"Xm1OFycepItzyAmx"}
-{"assetTypeClassId":"3d5ea095-1dfe-42b2-9066-d76800c610ae","name":"Test","description":"test2","_id":"ggrK5JnAb4O7ar5h"}
-{"assetTypeClassId":"21be3161-542a-4220-9026-85cfbfa1c1c2","name":"Test","description":"test6","_id":"jxKldKRJb1vNbTfo"}
-{"assetTypeClassId":"1fa05f49-c17d-42cc-8d41-b9adbd70329c","name":"moretest","description":"test1","_id":"mMRrFDXoqtr3EluN"}
+{"name":"test1","description":"Car","assetTypeClassId":"1a3c08fe-07c2-4472-b84f-be3e03b0afe1","_id":"LERNyvFEoAwBOdYb"}
+{"assetTypeClassId":"1a3c08fe-07c2-4472-b84f-be3e03b0afe1","name":"test2","description":"Car","_id":"LERNyvFEoAwBOdYb"}
+{"name":"rjleejfe","description":"rdffjl","assetTypeClassId":"5feec1b7-90ee-466f-8d7f-b66046e0e79a","_id":"vLjUoEN0DbIs5qlD"}
+{"$$deleted":true,"_id":"vLjUoEN0DbIs5qlD"}

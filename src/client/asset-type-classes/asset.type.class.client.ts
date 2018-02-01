@@ -7,11 +7,11 @@ export abstract class AssetTypeClassClient {
 
   abstract getAssetTypeClass(assetTypeClassId: string) : Observable<AssetTypeClassState>;
 
-  abstract getAssetTypeClasses(pageNumber?: number) :Observable<AssetTypeClassStates>;
+  abstract getAssetTypeClasses(pageNumber: number, pageSize:number, sortOrder:string) :Observable<AssetTypeClassStates>;
 
   abstract addAssetTypeClass(assetTypeClassState: AssetTypeClassState):Observable<AssetTypeClassState>;
 
-  abstract deleteAssetTypeClass(assetTypeClassId: string): Observable<any>;
+  abstract deleteAssetTypeClass(assetTypeClassId: string): Observable<number>;
 
-  abstract updateAssetTypeClass(assetTypeClass: AssetTypeClassState) : Observable<AssetTypeClassState>;
+  abstract updateAssetTypeClass(assetTypeClassId: string, assetTypeClassState: AssetTypeClassState) : Observable<number>;
 }

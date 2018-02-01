@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
 
 export class AttributeEditComponent implements OnInit {
 
-  private _attributeId: string;
+  private attributeId: string;
   private sub: any;
   private _name: FormControl;
   private _format: FormControl;
@@ -89,14 +89,6 @@ export class AttributeEditComponent implements OnInit {
         });
       })
     });
-  }
-
-  get attributeId(): string {
-    return this._attributeId;
-  }
-
-  set attributeId(value: string) {
-    this._attributeId = value;
   }
 
   get name(): FormControl {

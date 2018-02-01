@@ -3,6 +3,7 @@ import {AssetTypeClassService} from "../asset.type.class.service";
 import {AssetTypeClasses} from "../asset.type.classes";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'asset-type-class-list',
@@ -12,75 +13,36 @@ import {Sort} from "../../sort/sort";
 
 export class AssetTypeClassListComponent implements OnInit {
 
-  private _headerNames:string[] = ["Name","Description"];
+  private assetTypeClassId: string;
   private _assetTypeClasses: AssetTypeClasses;
-  private _assetTypeClassId: string;
-  private _index: number;
+  private defaultPage:number = 1;
+  private defaultPageSize:number = 10;
+  private defaultSortOrder = "asc";
 
- constructor(private assetTypeClassService: AssetTypeClassService) {
+ constructor(private assetTypeClassService: AssetTypeClassService,
+             private router: Router) {
 
-   let assetTypeClasses:AssetTypeClasses = new AssetTypeClasses();
-   assetTypeClasses.assetTypeClasses = [];
-   assetTypeClasses.page = new Page(1, 10, 0);
-   this.assetTypeClasses = assetTypeClasses;
+    let newAssetTypeClasses = new AssetTypeClasses();
+    newAssetTypeClasses.page = new Page(0, 0, 0);
+    newAssetTypeClasses.sort = new Sort();
+    this.assetTypeClasses = newAssetTypeClasses;
  }
 
   ngOnInit(): void {
-    this.assetTypeClassService.getAssetTypeClasses()
-    .subscribe(assetTypeClasses => {
-      console.log(assetTypeClasses);
-      if (assetTypeClasses) {
+      this.getAssetTypeClasses();
+  }
 
-        let newAssetTypeClasses:AssetTypeClasses = assetTypeClasses;
-        if (!newAssetTypeClasses.page) {
-          newAssetTypeClasses.page = new Page(1, 10, newAssetTypeClasses.assetTypeClasses.length);
-        }
-
-        if (!newAssetTypeClasses.sort) {
-          newAssetTypeClasses.sort = new Sort();
-        }
-
-        this.assetTypeClasses = newAssetTypeClasses;
-      }
+  getAssetTypeClasses() {
+    this.assetTypeClassService
+    .getAssetTypeClasses(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
+    .subscribe(next => {
+      console.log(next);
+      this.assetTypeClasses = next;
     }, error => {
       console.log(error);
     }, () => {
       console.log("complete");
     });
-  }
-
-  public onRequestPage(pageNumber:number) {
-  this.assetTypeClassService.getAssetTypeClasses(pageNumber)
-      .subscribe(assetTypeClasses => {
-        console.log(assetTypeClasses);
-        if (assetTypeClasses) {
-          let newAssetTypeClasses:AssetTypeClasses = assetTypeClasses;
-
-          if (!newAssetTypeClasses.page) {
-            newAssetTypeClasses.assetTypeClasses.length
-            newAssetTypeClasses.page = new Page(1, 10, newAssetTypeClasses.assetTypeClasses.length);
-          }
-          if (!newAssetTypeClasses.sort) {
-            newAssetTypeClasses.sort = new Sort();
-          }
-
-          this.assetTypeClasses = newAssetTypeClasses;
-        }
-
-      }, error => {
-        console.log(error);
-      }, () => {
-        console.log("complete");
-      });
-
-  }
-
-  get headerNames(): string[] {
-    return this._headerNames;
-  }
-
-  set headerNames(value: string[]) {
-    this._headerNames = value;
   }
 
   get assetTypeClasses(): AssetTypeClasses {
@@ -91,36 +53,28 @@ export class AssetTypeClassListComponent implements OnInit {
     this._assetTypeClasses = value;
   }
 
-  get assetTypeClassId(): string {
-    return this._assetTypeClassId;
-  }
-
-  set assetTypeClassId(value: string) {
-    this._assetTypeClassId = value;
-  }
-
-  get index(): number {
-    return this._index;
-  }
-
-  set index(value: number) {
-    this._index = value;
-  }
-
   onResize(event) {
     console.log("W:" + event.target.innerWidth + " H:" + event.target.innerHeight);
   }
 
-  onOk(assetTypeClassId,index){
+  onOpenModal(assetTypeClassId: string){
     this.assetTypeClassId = assetTypeClassId;
-    this.index = index;
+  }
+
+  onRequestPage(pageNumber:number) {
+  this.defaultPage = pageNumber;
+  this.getAssetTypeClasses();
   }
 
   onDelete() {
-    this.assetTypeClassService.deleteAssetTypeClass(this.assetTypeClassId)
-    .subscribe(data => {
-      console.log(data);
-      this.assetTypeClasses.assetTypeClasses.splice(this.index, 1);
+    this.assetTypeClassService
+    .deleteAssetTypeClass(this.assetTypeClassId)
+    .subscribe(value => {
+    this.getAssetTypeClasses();
+    }, error => {
+    console.log(error);
+    }, () => {
+    console.log("complete");
     });
 }
 

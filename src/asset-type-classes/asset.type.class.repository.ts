@@ -6,11 +6,11 @@ export abstract class AssetTypeClassRepository {
 
   abstract getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass>
 
-  abstract getAssetTypeClasses(pageNumber?:number):Observable<AssetTypeClasses>;
+  abstract getAssetTypeClasses(pageNumber:number, pageSize:number, sortOrder:string):Observable<AssetTypeClasses>;
 
   abstract addAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass>;
 
-  abstract deleteAssetTypeClass(assetTypeClassId: string): Observable<any>;
+  abstract deleteAssetTypeClass(assetTypeClassId: string): Observable<number>;
 
-  abstract updateAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass>;
+  abstract updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass): Observable<number>;
 }

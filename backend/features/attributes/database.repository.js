@@ -13,22 +13,6 @@ let db = {};
 db.attributes = new Datastore(theAttributesDb);
 db.attributes.loadDatabase(function (err) { console.log(err); });
 
-function calculateSkip(page, size) {
-  if (page <= 1) {
-    return 0;
-  } else {
-    return ((page -1) * size);
-  }
-}
-
-function buildPagedAttributeListResponse(page, sort, attributes) {
-  return {
-    page:page,
-    sort:sort,
-    attributes: attributes
-  }
-}
-
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();
 
@@ -69,7 +53,6 @@ module.exports =  function DatabaseAttributeRepository() {
       query["attributeId"] = attributeId;
       db.attributes.findOne(query, function (err, doc) {
         if (!err) {
-          console.log(doc);
           observer.next(doc);
         } else {
           observer.error(err);
@@ -84,7 +67,7 @@ module.exports =  function DatabaseAttributeRepository() {
     return Rx.Observable.create(function (observer) {
       db.attributes.insert(attribute, function (err, doc) {
         if (!err) {
-          observer.next(attribute);
+          observer.next(doc);
         } else {
           observer.error(err);
         }

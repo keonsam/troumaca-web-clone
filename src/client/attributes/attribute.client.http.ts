@@ -47,7 +47,6 @@ export class AttributeClientHttp extends AttributeClient {
 
   public getAttributeState(attributeId: string): Observable<AttributeState>{
     let url = `${this.hostPort}/attributes/${attributeId}`;
-    console.log(url);
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .get<AttributeState>(url, {headers:headers})

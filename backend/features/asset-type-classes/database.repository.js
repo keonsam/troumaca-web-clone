@@ -1,123 +1,109 @@
+let uuidv5 = require('uuid/v5');
 let Datastore = require('nedb');
 let Rx = require("rxjs");
-let UUIDGenerator = require("../uuid.generator");
-let DbUtil = require('../db.util');
 let path = require('path');
-let theAssetTypeClassesDb = path.resolve(__dirname, '..','..',) + '/nedb/asset-type-classes.db';
+let UUIDGenerator = require("../uuid.generator");
+let DbUtil = require("../db.util");
 
+let hostname = 'troumaca.com';
+
+let theAssetTypeClassesDb = path.resolve(__dirname, '..','..',) + '/nedb/asset-type-classes.db';
 
 let db = {};
 db.assetTypeClasses = new Datastore(theAssetTypeClassesDb);
 db.assetTypeClasses.loadDatabase(function (err) { console.log(err); });
 
-// function calculateSkip(page, size) {
-//   if (page <= 1) {
-//     return 0;
-//   } else {
-//     return ((page -1) * size);
-//   }
-// }
-
-function buildPagedAssetListResponse(page, sort, assetTypeClasses) {
-  return {
-    page:page,
-    sort:sort,
-    assetTypeClasses:assetTypeClasses
-  }
-}
-
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();
 
 module.exports =  function DatabaseAssetRepository() {
-  this.saveAssetTypeClass = function (assetTypeClass) {
-    assetTypeClass.assetTypeClassId = newUuidGenerator.generateUUID();
+
+  let defaultPageSize = 10;
+
+  this.getAssetTypeClasses = function (pageNumber, pageSize, order) {
     return Rx.Observable.create(function (observer) {
-      db.assetTypeClasses.insert(assetTypeClass, function (err, doc) {
-        if (err) {
-          observer.error(err);
+      let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
+      db.assetTypeClasses.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
+        if (!err) {
+          observer.next(doc);
         } else {
-          observer.next(assetTypeClass);
+          observer.error(err);
         }
-        console.log('Inserted', doc.name, 'with ID', doc._id);
+        observer.complete();
+      });
+    });
+  }
+
+  this.getAssetTypeClassCount = function () {
+    return Rx.Observable.create(function (observer) {
+      db.assetTypeClasses.count({}, function (err, count) {
+        if (!err) {
+          observer.next(count);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
       });
     });
   };
 
   this.getAssetTypeClass = function(assetTypeClassId) {
     return Rx.Observable.create(function (observer) {
-      try {
-        db.assetTypeClasses.findOne({assetTypeClassId}, function (err, docs) {
-          if (err) {
-            observer.error(err);
-          } else {
-            console.log(docs);
-            observer.next(docs);
-          }
-        });
-      } catch (error) {
-        observer.error(error);
-      }
+      let query = {};
+      query["assetTypeClassId"] = assetTypeClassId;
+      db.assetTypeClasses.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
     });
   };
 
-  this.getAssetTypeClasses = function (pagination) {
+  this.saveAssetTypeClass = function (assetTypeClass) {
+    assetTypeClass.assetTypeClassId = newUuidGenerator.generateUUID();
     return Rx.Observable.create(function (observer) {
-      try {
-        let paginationCopy = JSON.parse(JSON.stringify(pagination));
-
-        let page = paginationCopy.page;
-        page.number = parseInt(isNaN(pagination.page.number) ? 1 : pagination.page.number);
-        page.size = parseInt(isNaN(pagination.page.size) ? 5 : pagination.page.size);
-
-        let sort = paginationCopy.sort;
-        sort.direction = (pagination.sort.direction ? pagination.sort.direction : "asc");
-        sort.attributes = (pagination.sort.attributes ? pagination.sort.attributes : ["name"]);
-
-        let sortAttribute = sort.attributes;
-        let sortDirection = sort.direction;
-        //let calculateSkip2 = calculateSkip(page.number, page.size);
-
-        db.assetTypeClasses.count({}, function (err, count) {
-         page.items = count;
-        });
-
-        let skip = dbUtil.calcSkip(page.number, page.size, 10);
-        db.assetTypeClasses.find({}).skip(skip).limit(page.size).exec(function (err, docs) {
-          if (err) {
-            observer.error(err);
-          } else {
-            const pagedAssetListResponse = buildPagedAssetListResponse(page, sort, docs);
-            observer.next(pagedAssetListResponse);
-          }
-        });
-      } catch (error) {
-        observer.error(error);
-      }
+      db.assetTypeClasses.insert(assetTypeClass, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
     });
-  }
+  };
 
   this.deleteAssetTypeClass= function(assetTypeClassId) {
     return Rx.Observable.create(function (observer) {
-      db.assetTypeClasses.remove({assetTypeClassId}, function (err, numRemoved) {
-        if (err) {
-          observer.error(err);
-        } else {
+      let query = {};
+      query["assetTypeClassId"] = assetTypeClassId;
+      db.assetTypeClasses.remove(query, {}, function (err, numRemoved) {
+        if (!err) {
           observer.next(numRemoved);
+        } else {
+          observer.error(err);
         }
-      });
+        observer.complete();
+      })
     });
  };
 
- this.updateAssetTypeClass = function(assetTypeClass) {
+ this.updateAssetTypeClass = function(assetTypeClassId, assetTypeClass) {
    return Rx.Observable.create(function (observer) {
-     db.assetTypeClasses.update({assetTypeClassId: assetTypeClass.assetTypeClassId},{$set: assetTypeClass},{}, function (err, numAffected, affectedDocuments, upsert) {
-       if (err) {
-         observer.error(err);
+     let query = {};
+     query["assetTypeClassId"] = assetTypeClassId;
+     db.assetTypeClasses.update(query, assetTypeClass, {}, function (err, numReplaced) {
+       if (!err) {
+         observer.next(numReplaced);
        } else {
-         observer.next(numAffected);
+         observer.error(err);
        }
-     });
+       observer.complete();
+     })
    });
- }
+ };
+
 };

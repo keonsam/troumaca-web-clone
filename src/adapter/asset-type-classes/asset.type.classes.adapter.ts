@@ -28,14 +28,18 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
     });
   }
 
-  getAssetTypeClasses(pageNumber?: number): Observable<AssetTypeClasses> {
+  getAssetTypeClasses(pageNumber: number, pageSize:number, sortOrder:string): Observable<AssetTypeClasses> {
     return this.assetTypeClassClient
-    .getAssetTypeClasses(pageNumber)
+    .getAssetTypeClasses(pageNumber, pageSize, sortOrder)
     .map(values => {
-      let assetTypeClassModels:AssetTypeClasses = new AssetTypeClasses();
-      assetTypeClassModels.assetTypeClasses = map(values.assetTypeClasses);
-     assetTypeClassModels.page = mapObjectProps(values.page, new Page());
-     assetTypeClassModels.sort = mapObjectProps(values.sort, new Sort());
+      let assetTypeClasses:AssetTypeClasses = new AssetTypeClasses();
+      assetTypeClasses.assetTypeClasses = map(values.assetTypeClasses, value =>{
+        let assetTypeClass = mapObjectProps(value, new AssetTypeClass());
+        return assetTypeClass;
+      });
+
+     assetTypeClasses.page = mapObjectProps(values.page, new Page());
+     assetTypeClasses.sort = mapObjectProps(values.sort, new Sort());
           // if (assetTypeClass) {
           //   assetTypeModel.assetTypeClass = mapObjectProps(assetTypeClass, new AssetTypeClassModel());
           // }
@@ -54,7 +58,7 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
           //   })
           // }
 
-          return assetTypeClassModels;
+          return assetTypeClasses;
         });
       }
 
@@ -66,19 +70,11 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
     });
   }
 
-  deleteAssetTypeClass(assetTypeClassId: string): Observable<any> {
-    return this.assetTypeClassClient
-    .deleteAssetTypeClass(assetTypeClassId)
-    .map(value =>{
-      return value;
-    })
+  deleteAssetTypeClass(assetTypeClassId: string): Observable<number> {
+    return this.assetTypeClassClient.deleteAssetTypeClass(assetTypeClassId);
   }
 
-  updateAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass> {
-    return this.assetTypeClassClient
-    .updateAssetTypeClass(mapObjectProps(assetTypeClass, new AssetTypeClassState()))
-    .map(value =>{
-      return mapObjectProps(value, new AssetTypeClass());
-    })
+  updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass): Observable<number> {
+    return this.assetTypeClassClient.updateAssetTypeClass(assetTypeClassId,mapObjectProps(assetTypeClass, new AssetTypeClassState()));
   }
 }

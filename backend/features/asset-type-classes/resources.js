@@ -1,54 +1,112 @@
 let express = require('express');
 let router = express.Router();
-let AssetTypeClassesOrchestrator = require('./orchestrator');
+let assetTypeClassesOrchestrator = require('./orchestrator');
 let Pagination = require("../pagination");
 
-let assetOrch = new AssetTypeClassesOrchestrator();
+let orchestrator = new assetTypeClassesOrchestrator();
 
 router.get("/", function(req, res, next) {
 
-  let page = {
-    number: req.query.pageNumber,
-    size: req.query.pageSize,
-   items: 1
-  };
+  let number = getNumericValueOrDefault(req.query.pageNumber, 1);
+  let size = getNumericValueOrDefault(req.query.pageSize, 10);
+  let field = getStringValueOrDefault(req.query.sortField, "");
+  let direction = getStringValueOrDefault(req.query.sortOrder, "");
 
-  let sort = {
-    direction: req.query.sortDirection,
-    attributes: req.query.sortAttributes
-  };
-
-  let pagination = new Pagination(page, sort);
-
-  assetOrch.getAssetTypeClasses(pagination)
+  orchestrator
+  .getAssetTypeClasses(number, size, field, direction)
   .subscribe(assetTypeClasses => {
+    console.log(assetTypeClasses);
     res.send(JSON.stringify(assetTypeClasses));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
   });
 
-}).post("/", function (req, res, ndex) {
-  assetOrch.saveAssetTypeClass(req.body)
-  .subscribe(assetTypeClass => {
-    res.send(JSON.stringify(assetTypeClass));
-  });
 
-}).get("/:assetTypeClassId", function (req, res, ndex){
-  assetOrch.getAssetTypeClass(req.params.assetTypeClassId)
-  .subscribe(assetTypeClass => {
-    res.send(JSON.stringify(assetTypeClass));
-  });
-
-}).put("/", function (req, res, next) {
-  assetOrch.updateAssetTypeClass(req.body)
-  .subscribe(assetTypeClass => {
-    res.send(JSON.stringify(assetTypeClass));
-  });
-
-}).delete("/:assetTypeClassId", function (req, res, next) {
-  let assetTypeClassId = req.params.assetTypeClassId;
-  assetOrch.deleteAssetTypeClass(assetTypeClassId)
-  .subscribe(numRemoved => {
-    res.send(JSON.stringify(numRemoved));
-  });
 });
+
+router.get("/:assetTypeClassId", function (req, res, ndex){
+
+  let assetTypeClassId = req.params.assetTypeClassId;
+  orchestrator
+  .getAssetTypeClass(assetTypeClassId)
+  .subscribe(assetTypeClass => {
+    let body = JSON.stringify(assetTypeClass);
+    res.send(body);
+  }, error => {
+    res.send(JSON.stringify(error));
+  });
+
+});
+
+router.post("/", function (req, res, ndex) {
+  let assetTypeClass = req.body;
+  orchestrator
+  .saveAssetTypeClass(assetTypeClass)
+  .subscribe(assetTypeClass => {
+    res.send(JSON.stringify(assetTypeClass));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  })
+});
+
+router.put("/:assetTypeClassId", function (req, res, next) {
+  let assetTypeClassId = req.params.assetTypeClassId;
+  let assetTypeClass = req.body;
+  orchestrator
+    .updateAssetTypeClass(assetTypeClassId, assetTypeClass)
+    .subscribe(assetTypeClass => {
+      res.send(JSON.stringify(assetTypeClass));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
+
+})
+
+router.delete("/:assetTypeClassId", function (req, res, next) {
+  let assetTypeClassId = req.params.assetTypeClassId;
+  orchestrator
+    .deleteAssetTypeClass(assetTypeClassId)
+    .subscribe(assetTypeClass => {
+      res.send(JSON.stringify(assetTypeClass));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
+});
+
+function getNumericValueOrDefault(value, defaultValue) {
+  if (!value) {
+    return defaultValue;
+  }
+
+  if (isNaN(parseFloat(value))) {
+    return defaultValue;
+  }
+
+  if (!isFinite(value)) {
+    return defaultValue;
+  }
+
+  return value
+}
+
+function getStringValueOrDefault(strValue, defaultValue) {
+  if (!strValue && !defaultValue) {
+    return "";
+  }
+
+  if (!strValue && defaultValue) {
+    return defaultValue;
+  }
+
+  return strValue;
+}
 
 module.exports = router;

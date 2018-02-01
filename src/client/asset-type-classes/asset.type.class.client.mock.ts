@@ -6,10 +6,10 @@ import {AssetTypeClassStates} from "./asset.type.class.states";
 export class AssetTypeClassClientMock extends AssetTypeClassClient {
 
   public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassState> {
-   return Observable.of(new AssetTypeClassState());
+   return null;
   }
 
-  public getAssetTypeClasses(pageNumber?: number): Observable<AssetTypeClassStates> {
+  public getAssetTypeClasses(pageNumber: number, pageSize:number, sortOrder:string): Observable<AssetTypeClassStates> {
     return undefined;
   }
 
@@ -17,11 +17,11 @@ export class AssetTypeClassClientMock extends AssetTypeClassClient {
     return null;
   }
 
-  public deleteAssetTypeClass(assetTypeClassId: string): Observable<any> {
+  public deleteAssetTypeClass(assetTypeClassId: string): Observable<number> {
     return undefined;
   }
 
-  public updateAssetTypeClass(assetTypeClass: AssetTypeClassState): Observable<AssetTypeClassState> {
+  public updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClassState): Observable<number> {
     return null
   }
 }

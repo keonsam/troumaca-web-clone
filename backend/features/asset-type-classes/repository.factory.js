@@ -1,7 +1,7 @@
 let DatabaseAssetRepository = require("./database.repository");
 let RestClientRepository = require("./rest.client.repository");
 
-var useDatabase;
+var useDatabase = true;
 
 function assetTypeClassesRepositoryFactory(options) {
 
