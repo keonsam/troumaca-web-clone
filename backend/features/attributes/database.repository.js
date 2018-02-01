@@ -8,10 +8,15 @@ let DbUtil = require("../db.util");
 let hostname = 'troumaca.com';
 
 let theAttributesDb = path.resolve(__dirname, '..','..',) + '/nedb/attributes.db';
+let theDataTypesDb =  path.resolve(__dirname, '..','..',) + '/nedb/data-types.db';
 
 let db = {};
+
 db.attributes = new Datastore(theAttributesDb);
 db.attributes.loadDatabase(function (err) { console.log(err); });
+
+db.dataTypes = new Datastore(theDataTypesDb);
+db.dataTypes.loadDatabase(function (err) { console.log(err); });
 
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();
@@ -26,6 +31,37 @@ module.exports =  function DatabaseAttributeRepository() {
       db.attributes.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
         if (!err) {
           observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
+  this.getDataTypes = function () {
+  /*
+    // use this to add to the database
+    let toSave = {
+      "dataTypeId": "123",
+      "name": "test4"
+    }
+    toSave.dataTypeId = newUuidGenerator.generateUUID();
+    return Rx.Observable.create(function (observer) {
+      db.dataTypes.insert(toSave, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    }); */
+    return Rx.Observable.create(function (observer) {
+      db.dataTypes.find({}, function (err, docs) {
+        if (!err) {
+          console.log(docs);
+          observer.next(docs);
         } else {
           observer.error(err);
         }

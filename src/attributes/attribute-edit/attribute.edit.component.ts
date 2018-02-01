@@ -2,7 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {AttributeService} from "../attribute.service";
 import {Attribute} from "../attribute";
-import { ActivatedRoute } from '@angular/router';
+import {DataType} from "../data.type";
+import {ActivatedRoute} from '@angular/router';
 import {Router} from "@angular/router";
 
 @Component({
@@ -25,6 +26,7 @@ export class AttributeEditComponent implements OnInit {
   private _attributeEditForm: FormGroup;
 
   private attribute: Attribute;
+  private _dataTypes: DataType[];
 
   private _doNotDisplayFailureMessage:boolean;
 
@@ -56,10 +58,22 @@ export class AttributeEditComponent implements OnInit {
 
     this.attribute = new Attribute();
 
+    this.dataTypes = [];
     this.doNotDisplayFailureMessage = true;
   }
 
   ngOnInit(): void {
+    let that = this;
+    this.attributeService
+    .getDataTypes()
+    .subscribe(dataTypes => {
+      if (dataTypes) {
+        that.dataTypes = dataTypes.dataTypes;
+      }
+    }, onError => {
+      console.log(onError);
+    });
+
     this.sub = this.route.params.subscribe(params => {
        this.attributeId = params['attributeId'];
        this.attributeService.getAttributeById(this.attributeId)
@@ -113,6 +127,14 @@ export class AttributeEditComponent implements OnInit {
 
   set dataType(value: FormControl) {
     this._dataType = value;
+  }
+
+  get dataTypes(): DataType[] {
+    return this._dataTypes;
+  }
+
+  set dataTypes(value: DataType[]) {
+    this._dataTypes = value;
   }
 
   get unitOfMeasureId(): FormControl {

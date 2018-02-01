@@ -2,12 +2,17 @@ import {Observable} from "rxjs/Observable";
 import {AttributeRepository} from "./attribute.repository";
 import {Attribute} from "./attribute";
 import {Attributes} from "./attributes";
+import {DataTypes} from "./data.types";
 
 export class AttributeService {
 
   constructor(private attributeRepository:AttributeRepository) {
   }
 
+  public getDataTypes(): Observable<DataTypes> {
+    return this.attributeRepository.getDataTypes();
+  }
+  
   public getAttributes(pageNumber:number, pageSize:number, sortOrder:string):Observable<Attributes> {
     return this.attributeRepository.getAttributes(pageNumber, pageSize, sortOrder);
   }

@@ -15,7 +15,6 @@ router.get("/", function(req, res, next) {
   orchestrator
   .getAssetTypeClasses(number, size, field, direction)
   .subscribe(assetTypeClasses => {
-    console.log(assetTypeClasses);
     res.send(JSON.stringify(assetTypeClasses));
   }, error => {
     res.status(400);
