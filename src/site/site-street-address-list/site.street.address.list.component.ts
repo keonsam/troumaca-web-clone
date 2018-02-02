@@ -2,6 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {StreetAddress} from "../street.address";
 import {StreetAddresses} from "../street.addresses";
 import {SiteService} from "../site.service";
+import {Page} from "../../page/page";
+import {Sort} from "../../sort/sort";
 
 @Component({
   selector: 'site-street-address-list',
@@ -10,25 +12,22 @@ import {SiteService} from "../site.service";
 })
 export class SiteStreetAddressListComponent implements OnInit {
 
+  private streetAddressId: string;
   private _streetAddresses:StreetAddresses;
   private defaultPage:number = 1;
+  private defaultPageSize:number = 10;
+  private defaultSortOrder = "asc";
+  private _routerLinkCreatePhone:string = "/sites/street-addresses/create";
 
   constructor(private siteService:SiteService) {
-    this.streetAddresses = new StreetAddresses();
+    let newStreetAddresses = new StreetAddresses();
+    newStreetAddresses.page = new Page(0, 0, 0);
+    newStreetAddresses.sort = new Sort();
+    this.streetAddresses = newStreetAddresses;
   }
 
   ngOnInit(): void {
-    this.siteService
-      .getStreetAddresses(this.defaultPage)
-      .subscribe(next => {
-        console.log(next);
-        this.streetAddresses = next;
-      }, error => {
-        console.log(error);
-      }, () => {
-        console.log("complete");
-      });
-
+    this.getStreetAddresses();
   }
 
   get streetAddresses(): StreetAddresses {
@@ -39,7 +38,46 @@ export class SiteStreetAddressListComponent implements OnInit {
     this._streetAddresses = value;
   }
 
-  public createNew(event:Event) {
-
+  get routerLinkCreatePhone(): string {
+    return this._routerLinkCreatePhone;
   }
+
+  set routerLinkCreatePhone(value: string) {
+    this._routerLinkCreatePhone = value;
+  }
+
+  getStreetAddresses() {
+  this.siteService
+    .getStreetAddresses(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
+    .subscribe(next => {
+      console.log(next);
+      this.streetAddresses = next;
+    }, error => {
+      console.log(error);
+    }, () => {
+      console.log("complete");
+    });
+  }
+
+  onOpenModal(streetAddressId: string) {
+    this.streetAddressId = streetAddressId
+  }
+
+  onDelete() {
+    this.siteService
+    .deleteStreetAddress(this.streetAddressId)
+    .subscribe(value => {
+    this.getStreetAddresses();
+    }, error => {
+    console.log(error);
+    }, () => {
+    console.log("complete");
+    });
+  }
+
+  onRequestPage(pageNumber: number) {
+   this.defaultPage = pageNumber;
+   this.getStreetAddresses();
+  }
+
 }

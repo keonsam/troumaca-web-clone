@@ -1,6 +1,6 @@
-import {PhysicalSite} from "./physical.site";
+import {PostOfficeBox} from "./post.office.box";
 
-export class StreetAddress extends PhysicalSite {
+export class StreetAddress extends PostOfficeBox {
 
   private _streetNumber:string;
   private _street:string;

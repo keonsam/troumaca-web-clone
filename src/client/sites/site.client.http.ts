@@ -9,6 +9,7 @@ import {PostOfficeBoxStates} from "./post.office.box.states";
 import {PhoneStates} from "./phone.states";
 import {WebSiteStates} from "./web.site.states";
 import {PhoneState} from "./phone.state";
+import {StreetAddressState} from "./street.address.state";
 
 export class SiteClientHttp extends SiteClient {
 
@@ -18,7 +19,7 @@ export class SiteClientHttp extends SiteClient {
     super();
   }
 
-  public getStreetAddressStates(pageNumber: number): Observable<StreetAddressStates> {
+  public getStreetAddressStates(pageNumber: number, pageSize:number, sortOrder:string): Observable<StreetAddressStates> {
     let array = [];
     array.push(this.hostPort);
     array.push("/sites/physical-sites/street-addresses");
@@ -87,10 +88,19 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
+  public getStreetAddressState(siteId:string): Observable<StreetAddressState> {
+    let url = `${this.hostPort}/sites/physical-sites/street-addresses/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .get<StreetAddressState>(url, {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
   public getPhoneState(siteId:string): Observable<PhoneState> {
     let url = `${this.hostPort}/sites/virtual-sites/phones/${siteId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
-
     return this.httpClient
     .get<PhoneState>(url, {headers:headers})
     .map(data => {
@@ -188,11 +198,42 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
+  public addStreetAddress(streetAddressState: StreetAddressState): Observable<StreetAddressState> {
+    console.log(streetAddressState);
+    let url = `${this.hostPort}/sites/physical-sites/street-addresses`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .post(url, streetAddressState.toJson(), {headers: headers})
+    .map(data => {
+      return data;
+    });
+  }
+
+  public updateStreetAddress(siteId:string, streetAddressState: StreetAddressState): Observable<number> {
+    let url = `${this.hostPort}/sites/physical-sites/street-addresses/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .put(url, streetAddressState.toJson(), {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
   public updatePhone(siteId:string, phoneState: PhoneState): Observable<number> {
     let url = `${this.hostPort}/sites/virtual-sites/phones/${siteId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .put(url, phoneState.toJson(), {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
+  public deleteStreetAddress(siteId:string): Observable<number> {
+    let url = `${this.hostPort}/sites/physical-sites/street-addresses/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .delete(url, {headers:headers})
     .map(data => {
       return data;
     });

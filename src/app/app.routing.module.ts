@@ -22,10 +22,11 @@ import {SitePostOfficeBoxListComponent} from "../site/site-post-office-box-list/
 import {SiteEmailListComponent} from "../site/site-email-list/site.email.list.component";
 import {SiteWebListComponent} from "../site/site-web-list/site.web.list.component";
 import {SitePhoneListComponent} from "../site/site-phone-list/site.phone.list.component";
+import {SiteStreetAddressCreationComponent} from "../site/site-street-address-creation/site.street.address.creation.component";
+import {SiteStreetAddressEditComponent} from "../site/site-street-address-edit/site.street.address.edit.component";
 import {SiteStreetAddressListComponent} from "../site/site-street-address-list/site.street.address.list.component";
 import {SitePhoneCreationComponent} from "../site/site-phone-creation/site.phone.creation.component";
 import {SitePhoneEditComponent} from "../site/site-phone-edit/site.phone.edit.component";
-
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -60,6 +61,8 @@ const appRoutes: Routes = [
     { path: 'web-sites', component: SiteWebListComponent },
     { path: 'phones', component: SitePhoneListComponent},
     { path: 'phones/:siteId/edit', component: SitePhoneEditComponent},
+    { path: 'street-addresses/:siteId/edit', component: SiteStreetAddressEditComponent },
+    { path: 'street-addresses/create', component: SiteStreetAddressCreationComponent },
     { path: 'phones/create', component: SitePhoneCreationComponent},
     { path: 'create', component: SiteCreationComponent }
   ]},

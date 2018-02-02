@@ -1,8 +1,8 @@
 module.exports =  function ResponseShaper() {
   return {
-    shapePhonesResponse:function (data, pageNumber, pageSize, items, totalItems, sort) {
+    shapePhonesResponse:function (dataName, data, pageNumber, pageSize, items, totalItems, sort) {
       return {
-        phones:data,
+        [dataName]:data,
         page:{
           number:pageNumber,
           size:pageSize,

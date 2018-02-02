@@ -2,7 +2,7 @@ export class UnionOfPhysicalSiteState {
   private _siteId:string;
   private _streetNumber:string;
   private _street:string;
-  private _ostOfficeBoxNumber:string;
+  private _postOfficeBoxNumber:string;
   private _city:string;
   private _stateOrProvince:string;
   private _postalCode:string;
@@ -32,12 +32,12 @@ export class UnionOfPhysicalSiteState {
     this._street = value;
   }
 
-  get ostOfficeBoxNumber(): string {
-    return this._ostOfficeBoxNumber;
+  get postOfficeBoxNumber(): string {
+    return this._postOfficeBoxNumber;
   }
 
-  set ostOfficeBoxNumber(value: string) {
-    this._ostOfficeBoxNumber = value;
+  set postOfficeBoxNumber(value: string) {
+    this._postOfficeBoxNumber = value;
   }
 
   get city(): string {

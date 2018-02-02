@@ -1,6 +1,6 @@
-import {PhysicalSiteState} from "./physical.site.state";
+import {PostOfficeBoxState} from "./post.office.box.state";
 
-export class StreetAddressState extends PhysicalSiteState {
+export class StreetAddressState extends PostOfficeBoxState {
 
   private _streetNumber:string;
   private _street:string;
@@ -19,6 +19,20 @@ export class StreetAddressState extends PhysicalSiteState {
 
   set street(value: string) {
     this._street = value;
+  }
+
+  toJson() {
+    return {
+      siteId: this.siteId,
+      tenantId: this.tenantId,
+      streetNumber: this.streetNumber,
+      street: this.street,
+      postOfficeBoxNumber: this.postOfficeBoxNumber,
+      city: this.city,
+      stateOrProvince: this.stateOrProvince,
+      postalCode: this.postalCode,
+      country: this.country
+    }
   }
 
 }
