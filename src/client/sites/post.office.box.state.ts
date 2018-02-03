@@ -12,4 +12,15 @@ export class PostOfficeBoxState extends PhysicalSiteState {
     this._postOfficeBoxNumber = value;
   }
 
+  toJson() {
+    return {
+      siteId: this.siteId,
+      tenantId: this.tenantId,
+      postOfficeBoxNumber: this.postOfficeBoxNumber,
+      city: this.city,
+      stateOrProvince: this.stateOrProvince,
+      postalCode: this.postalCode,
+      country: this.country
+    }
+  }
 }

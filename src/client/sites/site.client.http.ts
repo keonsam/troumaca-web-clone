@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UnionOfPhysicalSiteStates} from "./union.of.physical.site.states";
 import {EmailStates} from "./email.states";
 import {StreetAddressStates} from "./street.address.states";
+import {PostOfficeBoxState} from "./post.office.box.state";
 import {PostOfficeBoxStates} from "./post.office.box.states";
 import {PhoneStates} from "./phone.states";
 import {WebSiteStates} from "./web.site.states";
@@ -42,7 +43,7 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public getPostOfficeBoxStates(pageNumber: number): Observable<PostOfficeBoxStates> {
+  public getPostOfficeBoxStates(pageNumber: number, pageSize:number, sortOrder:string): Observable<PostOfficeBoxStates> {
     let array = [];
     array.push(this.hostPort);
     array.push("/sites/physical-sites/post-office-boxes");
@@ -93,6 +94,16 @@ export class SiteClientHttp extends SiteClient {
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .get<StreetAddressState>(url, {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
+  public getPostOfficeBoxState(siteId:string): Observable<PostOfficeBoxState> {
+    let url = `${this.hostPort}/sites/physical-sites/post-office-boxes/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .get<PostOfficeBoxState>(url, {headers:headers})
     .map(data => {
       return data;
     });
@@ -199,11 +210,20 @@ export class SiteClientHttp extends SiteClient {
   }
 
   public addStreetAddress(streetAddressState: StreetAddressState): Observable<StreetAddressState> {
-    console.log(streetAddressState);
     let url = `${this.hostPort}/sites/physical-sites/street-addresses`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .post(url, streetAddressState.toJson(), {headers: headers})
+    .map(data => {
+      return data;
+    });
+  }
+
+  public addPostOfficeBox(postOfficeBoxState: PostOfficeBoxState): Observable<PostOfficeBoxState> {
+    let url = `${this.hostPort}/sites/physical-sites/post-office-boxes`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .post(url, postOfficeBoxState.toJson(), {headers: headers})
     .map(data => {
       return data;
     });
@@ -214,6 +234,16 @@ export class SiteClientHttp extends SiteClient {
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .put(url, streetAddressState.toJson(), {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
+  public updatePostOfficeBox(siteId:string, postOfficeBoxState: PostOfficeBoxState): Observable<number> {
+    let url = `${this.hostPort}/sites/physical-sites/post-office-boxes/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .put(url, postOfficeBoxState.toJson(), {headers:headers})
     .map(data => {
       return data;
     });
@@ -238,6 +268,16 @@ export class SiteClientHttp extends SiteClient {
       return data;
     });
   }
+
+  public deletePostOfficeBox(siteId:string): Observable<number> {
+    let url = `${this.hostPort}/sites/physical-sites/post-office-boxes/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .delete(url, {headers:headers})
+    .map(data => {
+      return data;
+    });
+}
 
   public deletePhone(siteId:string): Observable<number> {
     let url = `${this.hostPort}/sites/virtual-sites/phones/${siteId}`;

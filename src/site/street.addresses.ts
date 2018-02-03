@@ -1,9 +1,9 @@
-import {PhysicalSite} from "./physical.site";
+import {PostOfficeBox} from "./post.office.box";
 import {StreetAddress} from "./street.address";
 import {Page} from "../page/page";
 import {Sort} from "../sort/sort";
 
-export class StreetAddresses extends PhysicalSite {
+export class StreetAddresses extends PostOfficeBox {
 
   private _streetAddresses:StreetAddress[] = [];
   private _page: Page;
@@ -32,5 +32,5 @@ export class StreetAddresses extends PhysicalSite {
   set sort(value: Sort) {
     this._sort = value;
   }
-  
+
 }

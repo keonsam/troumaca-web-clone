@@ -11,6 +11,7 @@ import {AssetUnionOfPhysicalSites} from "../../assets/asset.union.of.physical.si
 import {UnionOfPhysicalSite} from "../../assets/asset.union.of.physical.site";
 import {Emails} from "../../site/emails";
 import {StreetAddresses} from "../../site/street.addresses";
+import {PostOfficeBox} from "../../site/post.office.box";
 import {PostOfficeBoxState} from "../../client/sites/post.office.box.state";
 import {PostOfficeBoxes} from "../../site/post.office.boxes";
 import {Phones} from "../../site/phones";
@@ -45,14 +46,17 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
 
   }
 
-  public getPostOfficeBoxes(pageNumber:number):Observable<PostOfficeBoxes> {
+  public getPostOfficeBoxes(pageNumber:number, pageSize:number, sortOrder:string):Observable<PostOfficeBoxes> {
     return this.siteClient
-    .getPostOfficeBoxStates(pageNumber)
+    .getPostOfficeBoxStates(pageNumber, pageSize, sortOrder)
     .map(values => {
       let postOfficeBoxes:PostOfficeBoxes = new PostOfficeBoxes();
       postOfficeBoxes.postOfficeBoxes = map(values.postOfficeBoxes, value => {
-        return mapObjectProps(value, new PostOfficeBoxes());
+        return mapObjectProps(value, new PostOfficeBox());
       });
+      postOfficeBoxes.page = mapObjectProps(values.page, new Page());
+      postOfficeBoxes.sort = mapObjectProps(values.sort, new Sort());
+
       return postOfficeBoxes;
     });
   }
@@ -74,6 +78,14 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     .getStreetAddressState(siteId)
     .map(value => {
        return mapObjectProps(value, new StreetAddress());
+    });
+  }
+
+  public getPostOfficeBox(siteId:string): Observable<PostOfficeBox> {
+    return this.siteClient
+    .getPostOfficeBoxState(siteId)
+    .map(value => {
+      return mapObjectProps(value, new PostOfficeBox());
     });
   }
 
@@ -141,16 +153,31 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     });
   }
 
-  public updateStreetAddress(siteId:string, streetAddress: StreetAddress): Observable<number>{
+  public addPostOfficeBox(postOfficeBox: PostOfficeBox): Observable<PostOfficeBox> {
+    return this.siteClient
+    .addPostOfficeBox(mapObjectProps(postOfficeBox, new PostOfficeBoxState()))
+    .map(postOfficeBoxState => {
+      return mapObjectProps(postOfficeBoxState, new PostOfficeBox());
+    });
+  }
+
+  public updateStreetAddress(siteId:string, streetAddress: StreetAddress): Observable<number> {
     return this.siteClient.updateStreetAddress(siteId, mapObjectProps(streetAddress, new StreetAddressState()));
   }
 
+  public updatePostOfficeBox(siteId:string, postOfficeBox: PostOfficeBox): Observable<number> {
+    return this.siteClient.updatePostOfficeBox(siteId, mapObjectProps(postOfficeBox, new PostOfficeBoxState()))
+  }
   public updatePhone(siteId:string, phone: Phone): Observable<number> {
     return this.siteClient.updatePhone(siteId, mapObjectProps(phone, new PhoneState()));
   }
 
   public deleteStreetAddress(siteId:string): Observable<number> {
     return this.siteClient.deleteStreetAddress(siteId);
+  }
+
+  public deletePostOfficeBox(siteId:string): Observable<number> {
+    return this.siteClient.deletePostOfficeBox(siteId);
   }
 
   public deletePhone(siteId:string): Observable<number> {

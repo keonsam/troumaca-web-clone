@@ -12,6 +12,8 @@ import {SiteCreationComponent} from "./site-creation/site.creation.component";
 import {SiteTopMenuComponent} from "./site-top-menu/site.top.menu.component";
 import {SiteEmailListComponent} from "./site-email-list/site.email.list.component";
 import {SitePhoneListComponent} from "./site-phone-list/site.phone.list.component";
+import {SitePostOfficeBoxCreationComponent} from "./site-post-office-box-creation/site.post.office.box.creation.component";
+import {SitePostOfficeBoxEditComponent} from "./site-post-office-box-edit/site.post.office.box.edit.component";
 import {SitePostOfficeBoxListComponent} from "./site-post-office-box-list/site.post.office.box.list.component";
 import {SiteStreetAddressListComponent} from "./site-street-address-list/site.street.address.list.component";
 import {SiteWebListComponent} from "./site-web-list/site.web.list.component";
@@ -44,6 +46,8 @@ import {SitePhoneEditComponent} from "./site-phone-edit/site.phone.edit.componen
     SitePhoneCreationComponent,
     SiteStreetAddressEditComponent,
     SitePhoneEditComponent,
+    SitePostOfficeBoxCreationComponent,
+    SitePostOfficeBoxEditComponent,
     SitePostOfficeBoxListComponent,
     SiteStreetAddressListComponent,
     SiteWebListComponent
@@ -69,6 +73,8 @@ import {SitePhoneEditComponent} from "./site-phone-edit/site.phone.edit.componen
     SitePhoneCreationComponent,
     SiteStreetAddressEditComponent,
     SitePhoneEditComponent,
+    SitePostOfficeBoxCreationComponent,
+    SitePostOfficeBoxEditComponent,
     SitePostOfficeBoxListComponent,
     SiteStreetAddressListComponent,
     SiteWebListComponent

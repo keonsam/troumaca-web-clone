@@ -7,6 +7,7 @@ import {Phones} from "./phones";
 import {WebSites} from "./web.sites";
 import {Phone} from "./phone";
 import {StreetAddress} from "./street.address";
+import {PostOfficeBox} from "./post.office.box";
 
 export class SiteService {
 
@@ -17,8 +18,8 @@ export class SiteService {
     return this.siteRepository.getStreetAddresses(pageNumber, pageSize, sortOrder);
   }
 
-  public getPostOfficeBoxes(pageNumber:number):Observable<PostOfficeBoxes> {
-    return this.siteRepository.getPostOfficeBoxes(pageNumber);
+  public getPostOfficeBoxes(pageNumber:number, pageSize:number, sortOrder:string):Observable<PostOfficeBoxes> {
+    return this.siteRepository.getPostOfficeBoxes(pageNumber, pageSize, sortOrder);
   }
 
   public getEmails(pageNumber:number):Observable<Emails> {
@@ -27,6 +28,10 @@ export class SiteService {
 
   public getStreetAddress(siteId: string): Observable<StreetAddress> {
     return this.siteRepository.getStreetAddress(siteId);
+  }
+
+  public getPostOfficeBox(siteId:string): Observable<PostOfficeBox> {
+    return this.siteRepository.getPostOfficeBox(siteId);
   }
 
   public getPhoneById(siteId:string):Observable<Phone> {
@@ -49,8 +54,16 @@ export class SiteService {
     return this.siteRepository.addStreetAddress(streetAddress);
   }
 
+  public addPostOfficeBox(postOfficeBox: PostOfficeBox): Observable<PostOfficeBox> {
+    return this.siteRepository.addPostOfficeBox(postOfficeBox);
+  }
+
   public updateStreetAddress(siteId:string, streetAddress: StreetAddress): Observable<number> {
     return this.siteRepository.updateStreetAddress(siteId, streetAddress);
+  }
+
+  public updatePostOfficeBox(siteId:string, postOfficeBox: PostOfficeBox): Observable<number> {
+    return this.siteRepository.updatePostOfficeBox(siteId, postOfficeBox);
   }
   public updatePhone(siteId:string, phone: Phone):Observable<number> {
     return this.siteRepository.updatePhone(siteId, phone);
@@ -58,6 +71,10 @@ export class SiteService {
 
   public deleteStreetAddress(siteId:string): Observable<number> {
     return this.siteRepository.deleteStreetAddress(siteId);
+  }
+
+  public deletePostOfficeBox(siteId:string): Observable<number> {
+    return this.siteRepository.deletePostOfficeBox(siteId);
   }
 
   public deletePhone(siteId:string):Observable<number> {
