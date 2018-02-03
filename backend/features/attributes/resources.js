@@ -15,7 +15,6 @@ router.get("/", function (req, res, next){
   orchestrator
   .getAttributes(number, size, field, direction)
   .subscribe(attributes => {
-    console.log(attributes);
     res.send(JSON.stringify(attributes));
   }, error => {
     res.status(400);
@@ -23,6 +22,18 @@ router.get("/", function (req, res, next){
     console.log(error);
   });
 
+});
+
+router.get("/data-types", function (req, res, next) {
+  orchestrator
+  .getDataTypes()
+  .subscribe(dataTypes => {
+    res.send(JSON.stringify(dataTypes));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  });
 });
 
 router.get("/:attributeId", function (req, res, next) {

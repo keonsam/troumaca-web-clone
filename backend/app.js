@@ -21,6 +21,7 @@ let asset = require('./routes/asset');
 let persons = require('./routes/parties/persons/persons');
 // let unionOfPhysicalSites = require('./routes/sites/physical-sites/union-of-physical-sites');
 // let emailSites = require("./routes/sites/virtual-sites/e-mail-sites");
+let dataTypes = require('./routes/attribute');
 
 let assetResource = require('./features/asset/resources');
 let assetTypeClassesResource = require('./features/asset-type-classes/resources');
@@ -37,6 +38,7 @@ app.use(cors());
 
 app.use('/assets', assets);
 app.use('/asset', asset);
+app.use('/data-types', dataTypes);
 // app.use('/lots', lots);
 // app.use('/asset-types', assetTypes);
 // app.use('/unit-of-measures', unitOfMeasures);
@@ -50,7 +52,6 @@ app.use('/v2/assets', assetResource);
 app.use('/asset-type-classes', assetTypeClassesResource);
 app.use('/sites', siteResource);
 app.use('/attributes', attributesResource);
-
 // app.set('view engine', 'ejs');
 
 // Needs to introduce a middle where that will check active session

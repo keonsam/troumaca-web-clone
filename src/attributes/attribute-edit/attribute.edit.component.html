@@ -16,7 +16,7 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="name">Name</label><input class="form-control" formControlName="name" placeholder="Name">
+                  <label for="name">Name</label><input class="form-control" formControlName="name" placeholder="Name" required="required">
                   <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
                 </div>
               </fieldset>
@@ -30,7 +30,11 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="data type">Data Type</label><input class="form-control" formControlName="dataType" placeholder="Data Type">
+                  <label for="date type">Data Type</label><br/>
+                  <select class="form-control" formControlName="dataType" name="dataType" required="required">
+                    <option value="" disabled selected>Select a Data Type</option>
+                    <option *ngFor="let dataType of dataTypes" [value]="dataType.dataTypeId">{{dataType.name}}</option>
+                  </select>
                   <div [hidden]="dataType.valid || dataType.pristine" class="alert alert-danger">Invalid Data Type.</div>
                 </div>
               </fieldset>

@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {AttributeService} from "../attribute.service";
 import {Attribute} from "../attribute";
+import {DataType} from "../data.type";
 import {Router} from "@angular/router";
 
 @Component({
@@ -18,9 +19,11 @@ export class AttributeCreationComponent implements OnInit {
   private _maximumValue: FormControl;
   private _minimumValue: FormControl;
 
+
   private _attributeForm: FormGroup;
 
   private attribute: Attribute;
+  private _dataTypes: DataType[];
 
   private _doNotDisplayFailureMessage:boolean;
 
@@ -65,10 +68,22 @@ export class AttributeCreationComponent implements OnInit {
       console.log(error2);
     });
 
+    this.dataTypes = [];
+
     this.doNotDisplayFailureMessage = true;
   }
 
   ngOnInit(): void {
+    let that = this;
+    this.attributeService
+    .getDataTypes()
+    .subscribe(dataTypes => {
+      if (dataTypes) {
+        that.dataTypes = dataTypes.dataTypes;
+      }
+    }, onError => {
+      console.log(onError);
+    });
   }
 
   get name(): FormControl {
@@ -93,6 +108,14 @@ export class AttributeCreationComponent implements OnInit {
 
   set dataType(value: FormControl) {
     this._dataType = value;
+  }
+
+  get dataTypes(): DataType[] {
+    return this._dataTypes;
+  }
+
+  set dataTypes(value: DataType[]) {
+    this._dataTypes = value;
   }
 
   get unitOfMeasureId(): FormControl {

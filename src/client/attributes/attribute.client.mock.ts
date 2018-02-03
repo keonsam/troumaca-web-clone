@@ -2,8 +2,14 @@ import {AttributeClient} from "./attribute.client";
 import {Observable} from "rxjs/Observable";
 import {AttributeState} from "./attribute.state";
 import {AttributeStates} from "./attribute.states";
+import {DataTypeStates} from "./data.type.states";
 
 export class AttributeClientMock extends AttributeClient {
+
+  public getDataTypes(): Observable<DataTypeStates> {
+    return null;
+  }
+  
   public getAttributesStates(pageNumber:number, pageSize:number, sortOrder:string): Observable<AttributeStates> {
     return undefined;
   }

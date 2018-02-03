@@ -8,6 +8,8 @@ import {AttributeClient} from "../../client/attributes/attribute.client";
 import {Attribute} from "../../attributes/attribute";
 import {Attributes} from "../../attributes/attributes";
 import {AttributeState} from "../../client/attributes/attribute.state";
+import {DataType} from "../../attributes/data.type";
+import {DataTypes} from "../../attributes/data.types";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 
@@ -17,6 +19,17 @@ export class AttributeRepositoryAdapter extends AttributeRepository {
     super();
   }
 
+  public getDataTypes(): Observable<DataTypes> {
+    return this.attributeClient
+    .getDataTypes()
+    .map(values => {
+      let dataTypes:DataTypes = new DataTypes();
+      dataTypes.dataTypes = map(values, value => {
+        return mapObjectProps(value, new DataType());
+      });
+      return dataTypes;
+    });
+  }
 
   public getAttributes(pageNumber:number, pageSize:number, sortOrder:string):Observable<Attributes> {
     return this.attributeClient
