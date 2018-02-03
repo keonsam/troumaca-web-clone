@@ -38,6 +38,7 @@ import {AssetTypeClassModule} from "../asset-type-classes/asset.type.class.modul
 import {SiteModule} from "../site/site.module";
 import {Ng2CompleterModule} from "ng2-completer";
 import {FormsModule} from "@angular/forms";
+import {PartyModule} from "../parties/party.module";
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import {FormsModule} from "@angular/forms";
     MenuModule,
     // routing,
     // HomeModule,
+    PartyModule,
     ClientModule,
     AdapterModule,
     // LoginModule,

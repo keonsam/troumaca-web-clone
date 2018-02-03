@@ -1,0 +1,23 @@
+furnish apartment
+2. received request
+3. verify furnishing items in stock
+4. assign furnishing to apartment
+5. schedule furnishing deliver date
+6. schedule furnishing setup date
+
+
+3a. furnishing items not in stock
+3a1 create a purchase order and submit it
+3a2 receive notification of the purchase order approval
+3a3 receive the purchased product
+3a3 continue at step 4 of main flow
+
+
+3a2a receive notification of the purchase order denial
+3a2a1 correct the and resubmit correctable purchase order
+
+
+3a2a1 ?
+
+
+

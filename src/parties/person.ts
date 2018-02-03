@@ -1,18 +1,11 @@
-export class PersonModel {
+import {Party} from "./party";
 
-  private _partyId:string;
+export class Person extends Party {
+
   private _firstName:string;
   private _middleName:string;
   private _lastName:string;
   private _dateOfBirth:Date;
-
-  get partyId(): string {
-    return this._partyId;
-  }
-
-  set partyId(value: string) {
-    this._partyId = value;
-  }
 
   get firstName(): string {
     return this._firstName;
