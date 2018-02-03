@@ -39,6 +39,13 @@ export class MenuClientMock extends MenuClient {
     assetTypesMenuState.title = 'asset-types-menu';
     assetTypesMenuState.menuItemStates = this.assetsMenuItems();
     this.menuMap.set(assetTypesMenuState.name, assetsMenuState);
+
+    let usersMenuState = new MenuState();
+    usersMenuState.name = 'users-menu';
+    usersMenuState.title = 'users-menu';
+    usersMenuState.menuItemStates = this.usersMenuItems();
+    this.menuMap.set(usersMenuState.name, usersMenuState);
+
   }
 
   // noinspection JSMethodCanBeStatic
@@ -115,11 +122,11 @@ export class MenuClientMock extends MenuClient {
   private assetsMenuItems() {
     return [
       // this.toMenuItem({id:'101', rank:'20', name: 'HOME', routeName: '/home', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id:'102', rank:'21', name: 'ASSETS', routeName: '/assets', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id:'102', rank:'21', name: 'TYPES', routeName: '/asset-types', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id:'102', rank:'21', name: 'ATTRIBUTES', routeName: '/attributes', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id:'102', rank:'21', name: 'CLASSES', routeName: '/asset-type-classes', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id:'102', rank:'21', name: 'SITES', routeName: '/sites', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id:'1021', rank:'21', name: 'ASSETS', routeName: '/assets', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id:'1022', rank:'22', name: 'TYPES', routeName: '/asset-types', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id:'1023', rank:'23', name: 'ATTRIBUTES', routeName: '/attributes', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id:'1024', rank:'24', name: 'CLASSES', routeName: '/asset-type-classes', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id:'1025', rank:'25', name: 'SITES', routeName: '/sites', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
     ];
   }
 
@@ -127,6 +134,10 @@ export class MenuClientMock extends MenuClient {
   }
 
   private usersMenuItems() {
+    return [
+      this.toMenuItem({id:'1031', rank:'31', name: 'Users', routeName: '/users', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id:'1032', rank:'32', name: 'Me', routeName: '/users/me', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
+    ];
   }
 
   private workOrdersMenuItems() {

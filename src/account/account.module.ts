@@ -9,7 +9,7 @@ import {AccountRepository} from "./account.repository";
 import {RouterModule} from "@angular/router";
 import {LeftMenuModule} from "../left-menu/left.menu.module";
 import {OrganizationsModule} from "../organizations/organizations.module";
-import {PersonsModule} from "../person/persons.module";
+import {PartyModule} from "../parties/party.module";
 import {SecurityModule} from "../security/security.module";
 
 @NgModule({
@@ -22,7 +22,7 @@ import {SecurityModule} from "../security/security.module";
     accountRouting,
     LeftMenuModule,
     OrganizationsModule,
-    PersonsModule,
+    PartyModule,
     SecurityModule
   ],
   declarations: [

@@ -1,7 +1,7 @@
-import {PersonRepository} from "../../person/person.repository";
+import {PersonRepository} from "../../parties/party.repository";
 import {PersonClient} from "../../client/parties/person.client";
 import {Observable} from "rxjs/Observable";
-import {PersonModel} from "../../person/person.model";
+import {Person} from "../../parties/person";
 import "rxjs/add/operator/map";
 import { map, reduce, somethingElse } from "underscore";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
@@ -15,23 +15,23 @@ export class PersonRepositoryAdapter extends PersonRepository implements AssetPe
     super();
   }
 
-  public getPersons(): Observable<PersonModel[]> {
+  public getPersons(): Observable<Person[]> {
     return this
       .personClient
       .getPersons()
       .map(persons => {
         return persons.map(personState => {
-          return mapObjectProps(personState, new PersonModel())
+          return mapObjectProps(personState, new Person())
         });
       });
   }
 
-  public getCurrentPerson(): Observable<PersonModel> {
+  public getCurrentPerson(): Observable<Person> {
     return this
       .personClient
       .getCurrentPerson()
       .map(person => {
-        return mapObjectProps(person, new PersonModel());
+        return mapObjectProps(person, new Person());
       });
   }
 
