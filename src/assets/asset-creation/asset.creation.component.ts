@@ -159,23 +159,6 @@ export class AssetCreationComponent implements OnInit {
         //that.quantityFormControlValue = value;
         that.asset.quantity = value;
       });
-
-  //   this.assetForm.get(this.unitOfMeasureFormControlName).valueChanges
-  //     .subscribe(value => {
-  //       that.unitOfMeasureFormControlValue = value;
-  //       that.asset.unitOfMeasureId = value;
-  //     });
-  //
-  //   this.assetForm.get(this.siteFormControlName).valueChanges
-  //     .subscribe(value => {
-  //       that.siteFormControlValue = value;
-  //       that.asset.quantity = value;
-  //     });
-  //
-  //   this.assetForm.get(this.personFormControlName).valueChanges
-  //     .subscribe(value => {
-  //       that.personFormControlValue = value;
-  //     });
   }
 
   private populateAssetTypeDropDown() {
@@ -484,17 +467,6 @@ export class AssetCreationComponent implements OnInit {
     return this.selectedAssetKindId.toUpperCase() === typeId.toUpperCase();
   }
 
-  onCreate() {
-    // two methods chose one see onSubmit method
-  /*  if (this.isDiscreteItem()) {
-      this.assetService.addDiscreteAsset(this.asset);
-    } else if(this.isInventory()) {
-      this.assetService.addInventoryAsset(this.asset);
-    } else {
-      console.log("Cannot create an unknown asset kind")
-    }*/
-  }
-
   onReset() {
     this.assetForm.reset();
   }
@@ -573,7 +545,7 @@ export class AssetCreationComponent implements OnInit {
     return !!(this.isDiscreteItem() && this.isValidDiscreteItem());
   }
 
-  onSubmit() {
+  onCreate() {
     if (this.isInventory() && this.isValidInventory()) {
       let assetInventory:Asset = new Asset(); // validate
       this.assetService.addInventoryAsset(this.asset)

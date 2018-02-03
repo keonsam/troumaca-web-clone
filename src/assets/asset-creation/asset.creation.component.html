@@ -7,7 +7,7 @@
       <div class="col-sm-12">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="assetForm" (ngSubmit)="onSubmit()" id="formValidate">
+            <form [formGroup]="assetForm" (ngSubmit)="onCreate()" id="formValidate">
               <h5 class="form-header">
                 New Asset Form
               </h5>
@@ -21,7 +21,7 @@
                   </select>
                 </div>
               </fieldset>
-
+              
               <fieldset class="form-group">
                 <div class="form-group">
                   <label for="">Asset Type</label>
@@ -106,7 +106,7 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [disabled]="!enableSubmit()" (click)="onCreate()" type="submit"> Submit</button>
+                <button class="btn btn-primary button1" [disabled]="!enableSubmit()" type="submit"> Create</button>
                 <button class="btn btn-white" type="cancel" (click)="onReset()"> Cancel</button>
               </div>
 

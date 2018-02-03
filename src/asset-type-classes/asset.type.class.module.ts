@@ -10,6 +10,7 @@ import {MenuModule} from "../menu/menu.module";
 import {AssetTypeClassListComponent} from './asset-type-class-list/asset.type.class.list.component';
 import {AssetTypeClassCreationComponent} from './asset-type-class-creation/asset.type.class.creation.component';
 import {AssetTypeClassTopMenuComponent} from './asset-type-class-top-menu/asset-type-class-top-menu.component';
+import {AssetTypeClassEditComponent} from './asset-type-class-edit/asset.type.class.edit.component';
 import {PagingModule} from "../paging/paging.module";
 import {SearchModule} from "../search/search.module";
 
@@ -28,7 +29,8 @@ import {SearchModule} from "../search/search.module";
     AssetTypeClassComponent,
     AssetTypeClassListComponent,
     AssetTypeClassCreationComponent,
-    AssetTypeClassTopMenuComponent
+    AssetTypeClassTopMenuComponent,
+    AssetTypeClassEditComponent
   ],
   providers: [{
     provide: AssetTypeClassService,
@@ -45,7 +47,8 @@ import {SearchModule} from "../search/search.module";
     AssetTypeClassComponent,
     AssetTypeClassListComponent,
     AssetTypeClassCreationComponent,
-    AssetTypeClassTopMenuComponent
+    AssetTypeClassTopMenuComponent,
+    AssetTypeClassEditComponent
   ]
 })
 export class AssetTypeClassModule {}

@@ -29,13 +29,13 @@ export class AppComponent implements OnInit{
   ];
 
   constructor(private router:Router) {
-    this.isLoggedIn = true;
-    this.styleMap.set("/", new AppDynamicStyle(true, false, false));
-    this.styleMap.set("/home", new AppDynamicStyle(true, false, false));
-    this.styleMap.set("/login", new AppDynamicStyle(false, false, true));
-    this.styleMap.set("default", new AppDynamicStyle(false, true, false));
+    // this.isLoggedIn = true;
+    // this.styleMap.set("/", new AppDynamicStyle(true, false, false));
+    // this.styleMap.set("/home", new AppDynamicStyle(true, false, false));
+    // this.styleMap.set("/login", new AppDynamicStyle(false, false, true));
+    // this.styleMap.set("default", new AppDynamicStyle(false, true, false));
 
-    this.appDynamicStyle = this.styleMap.get("default");
+    // this.appDynamicStyle = this.styleMap.get("default");
 
     // this.styleMap.set("home", "isSithSidePanel");
     // this.styleMap.set("login", "with-pattern");
@@ -46,24 +46,24 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    if (!this.isLoggedIn) {
-      this.router.navigate(['/login'])
-    }
+    // if (!this.isLoggedIn) {
+    //   this.router.navigate(['/login'])
+    // }
 
-    var that = this;
-    this.router
-    .events
-    .filter(event => event instanceof NavigationStart)
-    .subscribe((event:NavigationStart) => {
-      let url = event.url;
-      let newVar:AppDynamicStyle = that.styleMap.get(url);
-      if (newVar) {
-        that.appDynamicStyle = newVar;
-      } else {
-        that.appDynamicStyle = that.styleMap.get("default");
-      }
-      this.someClass = this.contains(url, this.withPatternRoutes);
-    });
+    // var that = this;
+    // this.router
+    // .events
+    // .filter(event => event instanceof NavigationStart)
+    // .subscribe((event:NavigationStart) => {
+    //   let url = event.url;
+    //   let newVar:AppDynamicStyle = that.styleMap.get(url);
+    //   if (newVar) {
+    //     that.appDynamicStyle = newVar;
+    //   } else {
+    //     that.appDynamicStyle = that.styleMap.get("default");
+    //   }
+    //   this.someClass = this.contains(url, this.withPatternRoutes);
+    // });
   }
 
   private contains(value:string, itemList:string[]):boolean {

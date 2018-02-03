@@ -1,21 +1,26 @@
 export class AssetTypeClass {
 
   private _assetTypeClassId:string;
+  private _tenantId: string;
   private _name:string;
   private _description:string;
+  private _createdOn:Date;
+  private _modifiedOn:Date;
 
-  constructor(assetTypeClassId?: string, name?:string, description?: string){
-    this._assetTypeClassId = assetTypeClassId;
-    this._name = name;
-    this._description = description;
-  }
-  
   get assetTypeClassId(): string {
     return this._assetTypeClassId;
   }
 
   set assetTypeClassId(value: string) {
     this._assetTypeClassId = value;
+  }
+
+  get tenantId(): string {
+    return this._tenantId;
+  }
+
+  set tenantId(value: string) {
+    this._tenantId = value;
   }
 
   get name(): string {
@@ -33,4 +38,21 @@ export class AssetTypeClass {
   set description(value: string) {
     this._description = value;
   }
+
+  get createdOn(): Date {
+    return this._createdOn;
+  }
+
+  set createdOn(value: Date) {
+    this._createdOn = value
+  }
+
+  get modifiedOn(): Date {
+    return this._modifiedOn;
+  }
+
+  set modifiedOn(value: Date) {
+    this._modifiedOn = value;
+  }
+  
 }

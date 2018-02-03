@@ -8,11 +8,23 @@ export class AssetTypeClassService {
   constructor(private assetTypeClassRepository: AssetTypeClassRepository) {
   }
 
-  public getAssetTypeClasses(pageNumber?: number):Observable<AssetTypeClasses> {
-    return this.assetTypeClassRepository.getAssetTypeClasses(pageNumber);
+  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass> {
+    return this.assetTypeClassRepository.getAssetTypeClass(assetTypeClassId);
+  }
+
+  public getAssetTypeClasses(pageNumber: number, pageSize:number, sortOrder:string):Observable<AssetTypeClasses> {
+    return this.assetTypeClassRepository.getAssetTypeClasses(pageNumber, pageSize, sortOrder);
   }
 
   public addAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass> {
     return this.assetTypeClassRepository.addAssetTypeClass(assetTypeClass);
+  }
+
+  public deleteAssetTypeClass(assetTypeClassId: string): Observable<number>{
+    return this.assetTypeClassRepository.deleteAssetTypeClass(assetTypeClassId);
+  }
+
+  public updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass): Observable<number> {
+    return this.assetTypeClassRepository.updateAssetTypeClass(assetTypeClassId, assetTypeClass);
   }
 }

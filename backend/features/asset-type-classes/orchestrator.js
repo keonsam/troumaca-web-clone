@@ -1,15 +1,48 @@
-let assetRepositoryFactory = require('./repository.factory')();
-let assetRepository = assetRepositoryFactory.createAssetRepository();
+let assetTypeClassesRepositoryFactory = require('./repository.factory')();
+let assetTypeClassesRepository = assetTypeClassesRepositoryFactory.createAssetRepository();
+let responseShaper = require("./response.shaper")();
 
-module.exports = function AssetOrchestrator() {
+module.exports = function AssetTypeClassesOrchestrator() {
 
   let that = this;
-  this.saveAssetTypeClass = function (assetTypeClass) {
-    return assetRepository.saveAssetTypeClass(assetTypeClass);
+
+  this.getAssetTypeClasses = function (number, size, field, direction) {
+    let sort = getSortOrderOrDefault(field, direction);
+    return assetTypeClassesRepository
+    .getAssetTypeClasses(number, size, sort)
+    .flatMap(value => {
+      return assetTypeClassesRepository
+        .getAssetTypeClassCount()
+        .map(count => {
+          return responseShaper.shapeAssetTypeClasssResponse(value, number, size, value.length, count, sort);
+        });
+    });
   };
 
-  this.getAssetTypeClasses = function (pagination) {
-   return assetRepository.getAssetTypeClasses(pagination);
+  this.getAssetTypeClass = function (assetTypeClassId) {
+    return assetTypeClassesRepository.getAssetTypeClass(assetTypeClassId);
   };
+
+  this.saveAssetTypeClass = function (assetTypeClass) {
+    return assetTypeClassesRepository.saveAssetTypeClass(assetTypeClass);
+  };
+
+  this.deleteAssetTypeClass = function (assetTypeClassId) {
+    return assetTypeClassesRepository.deleteAssetTypeClass(assetTypeClassId);
+  };
+
+  this.updateAssetTypeClass = function (assetTypeClassId, assetTypeClass) {
+    return assetTypeClassesRepository.updateAssetTypeClass(assetTypeClassId, assetTypeClass);
+  }
+
+  function getSortOrderOrDefault(field, direction) {
+    let sort = {};
+    if (field && direction) {
+      sort[field] = direction;
+      return sort;
+    } else {
+      return sort;
+    }
+  }
 
 };

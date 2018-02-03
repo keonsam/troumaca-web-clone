@@ -48,4 +48,21 @@ export class PhoneState extends VirtualSiteState {
     this._extension = value;
   }
 
+  toJson() {
+    return {
+      siteId:this.siteId,
+      name:this.name,
+      description:this.description,
+
+      createdOn:this.createdOn,
+      removedOn:this.removedOn,
+
+      countryCode:this.countryCode,
+      areaCode:this.areaCode,
+      exchange:this.exchange,
+      telephoneNumber:this.telephoneNumber,
+      extension:this.extension
+    }
+  }
+
 }

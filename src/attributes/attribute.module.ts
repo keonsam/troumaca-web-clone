@@ -8,9 +8,11 @@ import {AttributeRepository} from "./attribute.repository";
 import {RouterModule} from "@angular/router";
 import {MenuModule} from "../menu/menu.module";
 import {AttributeCreationComponent} from "./attribute-creation/attribute.creation.component";
+import {AttributeEditComponent} from "./attribute-edit/attribute.edit.component";
 import {AttributeListComponent} from "./attribute-list/attribute.list.component";
 import {AttributeTopMenuComponent} from "./attribute-top-menu/attribute.top.menu.component";
 import {SearchModule} from "../search/search.module";
+import {PagingModule} from "../paging/paging.module";
 
 @NgModule({
   imports: [
@@ -20,11 +22,13 @@ import {SearchModule} from "../search/search.module";
     FormsModule,
     ReactiveFormsModule,
     MenuModule,
-    SearchModule
+    SearchModule,
+    PagingModule
   ],
   declarations: [
     AttributeComponent,
     AttributeCreationComponent,
+    AttributeEditComponent,
     AttributeListComponent,
     AttributeTopMenuComponent
   ],
@@ -42,6 +46,7 @@ import {SearchModule} from "../search/search.module";
   exports: [
     AttributeComponent,
     AttributeCreationComponent,
+    AttributeEditComponent,
     AttributeListComponent,
     AttributeTopMenuComponent
   ]

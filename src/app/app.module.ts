@@ -45,7 +45,7 @@ import {FormsModule} from "@angular/forms";
     BrowserModule,
     Ng2CompleterModule,
     FormsModule,
-    // NgbModule.forRoot(),
+    NgbModule.forRoot(),
     HttpClientModule,
     MenuModule,
     // routing,

@@ -8,41 +8,78 @@
       <h6 class="element-header">
         Attribute Listing
       </h6>
-      <!--<div class="element-box">-->
+      <div class="element-box">
 
+        <!--
+        Todo: Search is a great feature that we will have however we might just hold off doing it for the first
+        Todo: release
+        -->
         <!--<search></search>-->
 
-        <!--<div class="table-responsive table-section">-->
-          <!--<table class="table table-striped table-lightfont table-full-width">-->
-            <!--<thead>-->
-            <!--<tr>-->
-              <!--<th class="classification">{{headerNames[0]}}</th>-->
-              <!--<th>{{headerNames[1]}}</th>-->
-              <!--<th class="description">{{headerNames[2]}}</th>-->
-            <!--</tr>-->
-            <!--</thead>-->
-            <!--<tfoot>-->
-            <!--<tr>-->
-              <!--<th class="classification">{{headerNames[0]}}</th>-->
-              <!--<th>{{headerNames[1]}}</th>-->
-              <!--<th class="description">{{headerNames[2]}}</th>-->
-            <!--</tr>-->
-            <!--</tfoot>-->
-            <!--<tbody>-->
-            <!--<tr role="row" *ngFor="let attribute of attributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">-->
-              <!--<td class="classification">{{attribute.name}}</td>-->
-              <!--<td>{{attributes.description}}</td>-->
-              <!--<td class="description">{{attribute.dataType}}</td>-->
-            <!--</tr>-->
-            <!--<tr *ngIf="attributes.attributes.length <= 0" class="odd">-->
-              <!--<td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>-->
-            <!--</tr>-->
-            <!--</tbody>-->
-          <!--</table>-->
-          <!--<paging [page]="attributes.page" (requestPage)="onRequestPage($event)"></paging>-->
-        <!--</div>-->
+        <div class="table-responsive table-section">
+          <table class="table table-striped table-lightfont table-full-width">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Format</th>
+                <th>Data Type</th>
+                <th>Unit Of Measure ID</th>
+                <th>Maximum Value</th>
+                <th>Minimum Value</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Name</th>
+                <th>Format</th>
+                <th>Data Type</th>
+                <th>Unit Of Measure ID</th>
+                <th>Maximum Value</th>
+                <th>Minimum Value</th>
+                <th>Actions</th>
+              </tr>
+            </tfoot>
+            <tbody>
+              <tr role="row" *ngFor="let attribute of attributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+                <td>{{attribute.name}}</td>
+                <td>{{attribute.format}}</td>
+                <td>{{attribute.dataType}}</td>
+                <td>{{attribute.unitOfMeasureId}}</td>
+                <td>{{attribute.maximumValue}}</td>
+                <td>{{attribute.minimumValue}}</td>
+                <td class="row-actions">
+                  <a [routerLink]="['/attributes', attribute.attributeId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(attribute.attributeId);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+                </td>
+              </tr>
+              <tr *ngIf="attributes.attributes.length <= 0" class="odd">
+                <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+              </tr>
+            </tbody>
+          </table>
+          <div aria-labelledby="DeleteModalLabel" class="modal fade" id="DeleteModal1" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+           <div class="modal-dialog" role="document">
+            <div class="modal-content">
+             <div class="modal-header">
+              <h5 class="modal-title" id="DeleteModalLabel">
+               Delete Asset Type Class
+              </h5>
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
+             </div>
+             <div class="modal-body">
+             <p>Are you sure you want to delete this?</p>
+             </div>
+                <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
+                <button class="btn btn-danger" type="button" data-dismiss="modal" (click)="onDelete()"> Delete</button>
+               </div>
+              </div>
+             </div>
+           </div>
+          <paging [page]="attributes.page" (requestPage)="onRequestPage($event)"></paging>
+        </div>
 
-      <!--</div>-->
+      </div>
     </div>
   </div>
 </div>

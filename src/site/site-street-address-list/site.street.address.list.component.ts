@@ -39,4 +39,7 @@ export class SiteStreetAddressListComponent implements OnInit {
     this._streetAddresses = value;
   }
 
+  public createNew(event:Event) {
+
+  }
 }

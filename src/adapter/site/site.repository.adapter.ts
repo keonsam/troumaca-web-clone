@@ -15,6 +15,11 @@ import {PostOfficeBoxState} from "../../client/sites/post.office.box.state";
 import {PostOfficeBoxes} from "../../site/post.office.boxes";
 import {Phones} from "../../site/phones";
 import {WebSites} from "../../site/web.sites";
+import {Phone} from "../../site/phone";
+import {PhoneState} from "../../client/sites/phone.state";
+import {WebSite} from "../../site/web.site";
+import {Page} from "../../page/page";
+import {Sort} from "../../sort/sort";
 
 export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRepository {
 
@@ -58,14 +63,26 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     });
   }
 
-  public getPhones(pageNumber:number):Observable<Phones> {
+  public getPhone(siteId:string):Observable<Phone> {
     return this.siteClient
-    .getPhoneStates(pageNumber)
+    .getPhoneState(siteId)
+    .map(value => {
+       return mapObjectProps(value, new Phone());
+    });
+  }
+
+  public getPhones(pageNumber:number, pageSize:number, sortOrder:string):Observable<Phones> {
+    return this.siteClient
+    .getPhoneStates(pageNumber, pageSize, sortOrder)
     .map(values => {
       let phones:Phones = new Phones();
       phones.phones = map(values.phones, value => {
-        return mapObjectProps(value, new Phones());
+        let phone = mapObjectProps(value, new Phone());
+        return phone;
       });
+
+      phones.page = mapObjectProps(values.page, new Page());
+      phones.sort = mapObjectProps(values.sort, new Sort());
       return phones;
     });
   }
@@ -76,7 +93,7 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     .map(values => {
       let webSites:WebSites = new WebSites();
       webSites.webSites = map(values.webSites, value => {
-        return mapObjectProps(value, new WebSites());
+        return mapObjectProps(value, new WebSite());
       });
       return webSites;
     });
@@ -92,6 +109,22 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
         });
         return unionOfPhysicalSites;
       });
+  }
+
+  public addPhone(phone:Phone):Observable<Phone> {
+    return this.siteClient
+    .addPhone(mapObjectProps(phone, new PhoneState()))
+    .map(phoneState => {
+      return mapObjectProps(phoneState, new Phone());
+    })
+  }
+
+  public updatePhone(siteId:string, phone: Phone): Observable<number> {
+    return this.siteClient.updatePhone(siteId, mapObjectProps(phone, new PhoneState()));
+  }
+
+  public deletePhone(siteId:string): Observable<number> {
+    return this.siteClient.deletePhone(siteId);
   }
 
 }

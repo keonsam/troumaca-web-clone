@@ -1,9 +1,9 @@
 let DatabaseAssetRepository = require("./database.repository");
 let RestClientRepository = require("./rest.client.repository");
 
-var useDatabase;
+var useDatabase = true;
 
-function assetRepositoryFactory(options) {
+function assetTypeClassesRepositoryFactory(options) {
 
   if (options) {
     useDatabase = options.useDatabase;
@@ -20,4 +20,4 @@ function assetRepositoryFactory(options) {
   }
 }
 
-module.exports = assetRepositoryFactory;
+module.exports = assetTypeClassesRepositoryFactory;

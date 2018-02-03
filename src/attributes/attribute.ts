@@ -9,7 +9,7 @@ export class Attribute {
   // replace with unit of measure
   private _unitOfMeasureId:string;
   private _maximumValue:string;
-  private _minimumvalue:string;
+  private _minimumValue:string;
   private _createdOn:Date;
   private _modifiedOn:Date;
 
@@ -69,12 +69,12 @@ export class Attribute {
     this._maximumValue = value;
   }
 
-  get minimumvalue(): string {
-    return this._minimumvalue;
+  get minimumValue(): string {
+    return this._minimumValue;
   }
 
-  set minimumvalue(value: string) {
-    this._minimumvalue = value;
+  set minimumValue(value: string) {
+    this._minimumValue = value;
   }
 
   get createdOn(): Date {
