@@ -25,6 +25,8 @@ import {SitePhoneListComponent} from "../site/site-phone-list/site.phone.list.co
 import {SiteStreetAddressListComponent} from "../site/site-street-address-list/site.street.address.list.component";
 import {SitePhoneCreationComponent} from "../site/site-phone-creation/site.phone.creation.component";
 import {SitePhoneEditComponent} from "../site/site-phone-edit/site.phone.edit.component";
+import {PersonListComponent} from "../parties/persons/person-list/person.list.component";
+import {PartyComponent} from "../parties/party.component";
 
 
 const appRoutes: Routes = [
@@ -41,27 +43,31 @@ const appRoutes: Routes = [
       { path: 'create', component: AssetTypeCreationComponent }
   ]},
   { path: 'asset-type-classes', component: AssetTypeClassComponent, children:[
-    { path: '', redirectTo: 'listing', pathMatch: 'full'},
+    { path: '', redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: AssetTypeClassListComponent },
     { path: 'create', component: AssetTypeClassCreationComponent },
     { path: ':assetTypeClassId/edit', component: AssetTypeClassEditComponent }
   ]},
   { path: 'attributes', component: AttributeComponent, children:[
-      { path: '', redirectTo: 'listing', pathMatch: 'full'},
+      { path: '', redirectTo: 'listing', pathMatch: 'full' },
       { path: 'listing', component: AttributeListComponent },
       { path: 'create', component: AttributeCreationComponent },
       { path: ':attributeId/edit', component: AttributeEditComponent }
   ]},
   { path: 'sites', component: SiteComponent, children:[
-    { path: '', redirectTo: 'street-addresses', pathMatch: 'full'},
+    { path: '', redirectTo: 'street-addresses', pathMatch: 'full' },
     { path: 'street-addresses', component: SiteStreetAddressListComponent },
     { path: 'post-office-boxes', component: SitePostOfficeBoxListComponent },
     { path: 'emails', component: SiteEmailListComponent },
     { path: 'web-sites', component: SiteWebListComponent },
-    { path: 'phones', component: SitePhoneListComponent},
-    { path: 'phones/:siteId/edit', component: SitePhoneEditComponent},
-    { path: 'phones/create', component: SitePhoneCreationComponent},
+    { path: 'phones', component: SitePhoneListComponent },
+    { path: 'phones/:siteId/edit', component: SitePhoneEditComponent },
+    { path: 'phones/create', component: SitePhoneCreationComponent },
     { path: 'create', component: SiteCreationComponent }
+  ]},
+  { path: 'parties', component: PartyComponent, children:[
+    { path: '', redirectTo: 'persons', pathMatch: 'full' },
+    { path: 'persons', component: PersonListComponent }
   ]},
   { path: '**', component: PageNotFoundComponent },
 ];

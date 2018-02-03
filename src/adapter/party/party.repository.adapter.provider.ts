@@ -3,7 +3,7 @@ import {OrganizationRepository} from "../../organizations/organization.repositor
 import {OrganizationRepositoryAdapter} from "./organization.repository.adapter";
 
 import {PersonClient} from "../../client/parties/person.client";
-import {PersonRepository} from "../../person/person.repository";
+import {PersonRepository} from "../../parties/party.repository";
 import {PersonRepositoryAdapter} from "./person.repository.adapter";
 import {AssetPersonRepository} from "../../assets/asset.person.repository";
 
