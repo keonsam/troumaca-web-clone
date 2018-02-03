@@ -2,12 +2,19 @@ import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {PersonsComponent} from "./persons.component";
-import {PersonService} from "./person.service";
-import {PersonRepository} from "./person.repository";
+import {PartyComponent} from "./party.component";
+import {PersonService} from "./party.service";
+import {PersonRepository} from "./party.repository";
 import {RouterModule} from "@angular/router";
-import {PersonModule} from "./create-new/person.module";
-import {MeModule} from "./me/me.module";
+import {PersonComponent} from "./persons/person-creation/person.component";
+import {MeComponent} from "./persons/person-me/me.component";
+import {PersonListComponent} from "./persons/person-list/person.list.component";
+import {MenuModule} from "../menu/menu.module";
+// import {MeModule} from "./me/me.module";
+// ,
+// MeModule
+// ,
+// PersonModule
 
 @NgModule({
   imports: [
@@ -16,11 +23,13 @@ import {MeModule} from "./me/me.module";
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    PersonModule,
-    MeModule
+    MenuModule
   ],
   declarations: [
-    PersonsComponent
+    PartyComponent,
+    PersonComponent,
+    PersonListComponent,
+    MeComponent
   ],
   providers: [{
     provide: PersonService,
@@ -34,7 +43,10 @@ import {MeModule} from "./me/me.module";
     deps: [PersonRepository]
   }],
   exports: [
-    PersonsComponent
+    PartyComponent,
+    PersonComponent,
+    PersonListComponent,
+    MeComponent
   ]
 })
-export class PersonsModule {}
+export class PartyModule {}

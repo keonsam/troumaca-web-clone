@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
-import {PersonService} from "../person.service";
-import {PersonModel} from "../person.model";
+import {PersonService} from "../../party.service";
+import {Person} from "../../person";
 
 @Component({
   selector: 'me',
@@ -9,7 +9,7 @@ import {PersonModel} from "../person.model";
 })
 export class MeComponent implements OnInit {
 
-  private _me:PersonModel;
+  private _me:Person;
 
   constructor(private personService:PersonService) {
   }
@@ -19,16 +19,16 @@ export class MeComponent implements OnInit {
     this
       .personService
       .getCurrentPerson()
-      .subscribe(personModel => {
-        that.me =  personModel;
+      .subscribe(person => {
+        that.me =  person;
       });
   }
 
-  get me(): PersonModel {
+  get me(): Person {
     return this._me;
   }
 
-  set me(value: PersonModel) {
+  set me(value: Person) {
     this._me = value;
   }
 
