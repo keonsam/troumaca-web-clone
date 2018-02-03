@@ -1,0 +1,4 @@
+{"streetNumber":123,"street":"Sesame Street","siteId":"a6c22cfd-da38-457c-a268-efda84c002c4","_id":"CYgAmpQIR33WcPfF"}
+{"streetNumber":1234,"street":"My Street","siteId":"0d7ff9eb-ed2c-4943-9374-74dfd82b63fb","_id":"Cl8GHyrgBCZ2gEnv"}
+{"siteId":"0d7ff9eb-ed2c-4943-9374-74dfd82b63fb","streetNumber":12345,"street":"My Street","_id":"Cl8GHyrgBCZ2gEnv"}
+{"$$deleted":true,"_id":"Cl8GHyrgBCZ2gEnv"}

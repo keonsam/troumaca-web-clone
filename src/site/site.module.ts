@@ -16,8 +16,10 @@ import {SitePostOfficeBoxListComponent} from "./site-post-office-box-list/site.p
 import {SiteStreetAddressListComponent} from "./site-street-address-list/site.street.address.list.component";
 import {SiteWebListComponent} from "./site-web-list/site.web.list.component";
 import {SearchModule} from "../search/search.module";
+import {SiteStreetAddressCreationComponent} from "./site-street-address-creation/site.street.address.creation.component";
 import {SitePhoneCreationComponent} from "./site-phone-creation/site.phone.creation.component";
 import {PagingModule} from "../paging/paging.module";
+import {SiteStreetAddressEditComponent} from "./site-street-address-edit/site.street.address.edit.component";
 import {SitePhoneEditComponent} from "./site-phone-edit/site.phone.edit.component";
 
 @NgModule({
@@ -38,7 +40,9 @@ import {SitePhoneEditComponent} from "./site-phone-edit/site.phone.edit.componen
     SiteTopMenuComponent,
     SiteEmailListComponent,
     SitePhoneListComponent,
+    SiteStreetAddressCreationComponent,
     SitePhoneCreationComponent,
+    SiteStreetAddressEditComponent,
     SitePhoneEditComponent,
     SitePostOfficeBoxListComponent,
     SiteStreetAddressListComponent,
@@ -59,9 +63,11 @@ import {SitePhoneEditComponent} from "./site-phone-edit/site.phone.edit.componen
     SiteComponent,
     SiteCreationComponent,
     SiteTopMenuComponent,
+    SiteStreetAddressCreationComponent,
     SiteEmailListComponent,
     SitePhoneListComponent,
     SitePhoneCreationComponent,
+    SiteStreetAddressEditComponent,
     SitePhoneEditComponent,
     SitePostOfficeBoxListComponent,
     SiteStreetAddressListComponent,

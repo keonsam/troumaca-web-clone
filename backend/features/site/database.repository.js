@@ -7,11 +7,16 @@ let DbUtil = require("../db.util");
 
 let hostname = 'troumaca.com';
 
+let theStreetAddressesDb = path.resolve(__dirname, '..','..',) + '/nedb/street-addresses.db';
 let theTelephoneDb = path.resolve(__dirname, '..','..',) + '/nedb/telephones.db';
 let theEmailDb = path.resolve(__dirname, '..','..',) + '/nedb/emails.db';
 let theWebSiteDb = path.resolve(__dirname, '..','..',) + '/nedb/web-sites.db';
 
 let db = {};
+
+db.streetAddresses = new Datastore(theStreetAddressesDb);
+db.streetAddresses.loadDatabase(function (err) { console.log(err); });
+
 db.telephones = new Datastore(theTelephoneDb);
 db.telephones.loadDatabase(function (err) { console.log(err); });
 
@@ -22,28 +27,26 @@ db.websites = new Datastore(theWebSiteDb);
 db.websites.loadDatabase(function (err) { console.log(err); });
 
 
-function calculateSkip(page, size) {
-  if (page <= 1) {
-    return 0;
-  } else {
-    return ((page -1) * size);
-  }
-}
-
-function buildPagedSiteListResponse(page, sort, Sites) {
-  return {
-    page:page,
-    sort:sort,
-    Sites:Sites
-  }
-}
-
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();
 
 module.exports =  function DatabaseSiteRepository() {
 
   let defaultPageSize = 10;
+
+  this.saveStreetAddress = function (streetAddress) {
+    streetAddress.siteId = newUuidGenerator.generateUUID();
+    return Rx.Observable.create(function (observer) {
+      db.streetAddresses.insert(streetAddress, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
 
   this.saveTelephone = function (phone) {
     phone.siteId = newUuidGenerator.generateUUID();
@@ -60,11 +63,40 @@ module.exports =  function DatabaseSiteRepository() {
 
   };
 
+  this.getStreetAddress = function (siteId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.streetAddresses.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   this.getTelephoneBySiteId = function (siteId) {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["siteId"] = siteId;
       db.telephones.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.getStreetAddresses = function (pageNumber, pageSize, order) {
+    return Rx.Observable.create(function (observer) {
+      let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
+      db.streetAddresses.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -89,6 +121,19 @@ module.exports =  function DatabaseSiteRepository() {
     });
   };
 
+  this.getStreetAddressCount = function () {
+    return Rx.Observable.create(function (observer) {
+      db.streetAddresses.count({}, function (err, count) {
+        if (!err) {
+          observer.next(count);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   this.getTelephoneCount = function () {
     return Rx.Observable.create(function (observer) {
       db.telephones.count({}, function (err, count) {
@@ -102,6 +147,21 @@ module.exports =  function DatabaseSiteRepository() {
     });
   };
 
+  this.updateStreetAddress = function (siteId, streetAddress) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.streetAddresses.update(query, streetAddress, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
+
   this.updateTelephone = function (siteId, phone) {
     return Rx.Observable.create(function (observer) {
       let query = {};
@@ -109,6 +169,21 @@ module.exports =  function DatabaseSiteRepository() {
       db.telephones.update(query, phone, {}, function (err, numReplaced) {
         if (!err) {
           observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
+
+  this.deleteStreetAddress = function (siteId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.streetAddresses.remove(query, {}, function (err, numRemoved) {
+        if (!err) {
+          observer.next(numRemoved);
         } else {
           observer.error(err);
         }

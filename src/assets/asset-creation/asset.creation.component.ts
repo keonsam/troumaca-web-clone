@@ -55,7 +55,7 @@ export class AssetCreationComponent implements OnInit {
   private selectedAssetKindId:string;
   private pageSize:number;
   private asset:Asset;
-t
+
   constructor(private  assetService:AssetService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder) {

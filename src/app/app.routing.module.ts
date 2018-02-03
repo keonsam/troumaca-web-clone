@@ -22,12 +22,13 @@ import {SitePostOfficeBoxListComponent} from "../site/site-post-office-box-list/
 import {SiteEmailListComponent} from "../site/site-email-list/site.email.list.component";
 import {SiteWebListComponent} from "../site/site-web-list/site.web.list.component";
 import {SitePhoneListComponent} from "../site/site-phone-list/site.phone.list.component";
+import {SiteStreetAddressCreationComponent} from "../site/site-street-address-creation/site.street.address.creation.component";
+import {SiteStreetAddressEditComponent} from "../site/site-street-address-edit/site.street.address.edit.component";
 import {SiteStreetAddressListComponent} from "../site/site-street-address-list/site.street.address.list.component";
 import {SitePhoneCreationComponent} from "../site/site-phone-creation/site.phone.creation.component";
 import {SitePhoneEditComponent} from "../site/site-phone-edit/site.phone.edit.component";
 import {PersonListComponent} from "../parties/persons/person-list/person.list.component";
 import {PartyComponent} from "../parties/party.component";
-
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -57,13 +58,14 @@ const appRoutes: Routes = [
   { path: 'sites', component: SiteComponent, children:[
     { path: '', redirectTo: 'street-addresses', pathMatch: 'full' },
     { path: 'street-addresses', component: SiteStreetAddressListComponent },
+    { path: 'street-addresses/:siteId/edit', component: SiteStreetAddressEditComponent },
+    { path: 'street-addresses/create', component: SiteStreetAddressCreationComponent },    
     { path: 'post-office-boxes', component: SitePostOfficeBoxListComponent },
     { path: 'emails', component: SiteEmailListComponent },
     { path: 'web-sites', component: SiteWebListComponent },
-    { path: 'phones', component: SitePhoneListComponent },
-    { path: 'phones/:siteId/edit', component: SitePhoneEditComponent },
-    { path: 'phones/create', component: SitePhoneCreationComponent },
-    { path: 'create', component: SiteCreationComponent }
+    { path: 'phones', component: SitePhoneListComponent},
+    { path: 'phones/:siteId/edit', component: SitePhoneEditComponent},
+    { path: 'phones/create', component: SitePhoneCreationComponent}
   ]},
   { path: 'parties', component: PartyComponent, children:[
     { path: '', redirectTo: 'persons', pathMatch: 'full' },

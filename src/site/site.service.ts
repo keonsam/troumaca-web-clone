@@ -6,14 +6,15 @@ import {PostOfficeBoxes} from "./post.office.boxes";
 import {Phones} from "./phones";
 import {WebSites} from "./web.sites";
 import {Phone} from "./phone";
+import {StreetAddress} from "./street.address";
 
 export class SiteService {
 
   constructor(private siteRepository: SiteRepository) {
   }
 
-  public getStreetAddresses(pageNumber:number):Observable<StreetAddresses> {
-    return this.siteRepository.getStreetAddresses(pageNumber);
+  public getStreetAddresses(pageNumber:number, pageSize:number, sortOrder:string):Observable<StreetAddresses> {
+    return this.siteRepository.getStreetAddresses(pageNumber, pageSize, sortOrder);
   }
 
   public getPostOfficeBoxes(pageNumber:number):Observable<PostOfficeBoxes> {
@@ -22,6 +23,10 @@ export class SiteService {
 
   public getEmails(pageNumber:number):Observable<Emails> {
     return this.siteRepository.getEmails(pageNumber);
+  }
+
+  public getStreetAddress(siteId: string): Observable<StreetAddress> {
+    return this.siteRepository.getStreetAddress(siteId);
   }
 
   public getPhoneById(siteId:string):Observable<Phone> {
@@ -40,8 +45,19 @@ export class SiteService {
     return this.siteRepository.addPhone(phone);
   }
 
+  public addStreetAddress(streetAddress: StreetAddress) : Observable<StreetAddress> {
+    return this.siteRepository.addStreetAddress(streetAddress);
+  }
+
+  public updateStreetAddress(siteId:string, streetAddress: StreetAddress): Observable<number> {
+    return this.siteRepository.updateStreetAddress(siteId, streetAddress);
+  }
   public updatePhone(siteId:string, phone: Phone):Observable<number> {
     return this.siteRepository.updatePhone(siteId, phone);
+  }
+
+  public deleteStreetAddress(siteId:string): Observable<number> {
+    return this.siteRepository.deleteStreetAddress(siteId);
   }
 
   public deletePhone(siteId:string):Observable<number> {

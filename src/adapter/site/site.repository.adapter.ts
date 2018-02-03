@@ -18,6 +18,8 @@ import {WebSites} from "../../site/web.sites";
 import {Phone} from "../../site/phone";
 import {PhoneState} from "../../client/sites/phone.state";
 import {WebSite} from "../../site/web.site";
+import {StreetAddress} from "../../site/street.address";
+import {StreetAddressState} from "../../client/sites/street.address.state";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 
@@ -27,16 +29,20 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     super();
   }
 
-  public getStreetAddresses(pageNumber: number): Observable<StreetAddresses> {
+  public getStreetAddresses(pageNumber: number, pageSize:number, sortOrder:string): Observable<StreetAddresses> {
     return this.siteClient
-    .getStreetAddressStates(pageNumber)
+    .getStreetAddressStates(pageNumber, pageSize, sortOrder)
     .map(values => {
       let streetAddresses:StreetAddresses = new StreetAddresses();
       streetAddresses.streetAddresses = map(values.streetAddresses, value => {
-        return mapObjectProps(value, new StreetAddresses());
+        return mapObjectProps(value, new StreetAddress());
       });
+      streetAddresses.page = mapObjectProps(values.page, new Page());
+      streetAddresses.sort = mapObjectProps(values.sort, new Sort());
+
       return streetAddresses;
     });
+
   }
 
   public getPostOfficeBoxes(pageNumber:number):Observable<PostOfficeBoxes> {
@@ -60,6 +66,14 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
         return mapObjectProps(value, new Emails());
       });
       return emails;
+    });
+  }
+
+  public getStreetAddress(siteId:string): Observable<StreetAddress> {
+    return this.siteClient
+    .getStreetAddressState(siteId)
+    .map(value => {
+       return mapObjectProps(value, new StreetAddress());
     });
   }
 
@@ -116,11 +130,27 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     .addPhone(mapObjectProps(phone, new PhoneState()))
     .map(phoneState => {
       return mapObjectProps(phoneState, new Phone());
-    })
+    });
+  }
+
+  public addStreetAddress(streetAddress: StreetAddress): Observable<StreetAddress> {
+    return this.siteClient
+    .addStreetAddress(mapObjectProps(streetAddress, new StreetAddressState()))
+    .map(streetAddressState => {
+      return mapObjectProps(streetAddressState, new StreetAddress());
+    });
+  }
+
+  public updateStreetAddress(siteId:string, streetAddress: StreetAddress): Observable<number>{
+    return this.siteClient.updateStreetAddress(siteId, mapObjectProps(streetAddress, new StreetAddressState()));
   }
 
   public updatePhone(siteId:string, phone: Phone): Observable<number> {
     return this.siteClient.updatePhone(siteId, mapObjectProps(phone, new PhoneState()));
+  }
+
+  public deleteStreetAddress(siteId:string): Observable<number> {
+    return this.siteClient.deleteStreetAddress(siteId);
   }
 
   public deletePhone(siteId:string): Observable<number> {
