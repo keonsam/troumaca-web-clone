@@ -17,7 +17,7 @@ export class SiteStreetAddressListComponent implements OnInit {
   private defaultPage:number = 1;
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
-  private _routerLinkCreatePhone:string = "/sites/street-addresses/create";
+  private _routerLinkCreateStreetAddress:string = "/sites/street-addresses/create";
 
   constructor(private siteService:SiteService) {
     let newStreetAddresses = new StreetAddresses();
@@ -38,12 +38,12 @@ export class SiteStreetAddressListComponent implements OnInit {
     this._streetAddresses = value;
   }
 
-  get routerLinkCreatePhone(): string {
-    return this._routerLinkCreatePhone;
+  get routerLinkCreateStreetAddress(): string {
+    return this._routerLinkCreateStreetAddress;
   }
 
-  set routerLinkCreatePhone(value: string) {
-    this._routerLinkCreatePhone = value;
+  set routerLinkCreateStreetAddress(value: string) {
+    this._routerLinkCreateStreetAddress = value;
   }
 
   getStreetAddresses() {

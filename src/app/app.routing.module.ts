@@ -18,6 +18,8 @@ import {SiteCreationComponent} from "../site/site-creation/site.creation.compone
 import {AttributeListComponent} from "../attributes/attribute-list/attribute.list.component";
 import {AttributeCreationComponent} from "../attributes/attribute-creation/attribute.creation.component";
 import {AttributeEditComponent} from "../attributes/attribute-edit/attribute.edit.component";
+import {SitePostOfficeBoxCreationComponent} from "../site/site-post-office-box-creation/site.post.office.box.creation.component";
+import {SitePostOfficeBoxEditComponent} from "../site/site-post-office-box-edit/site.post.office.box.edit.component";
 import {SitePostOfficeBoxListComponent} from "../site/site-post-office-box-list/site.post.office.box.list.component";
 import {SiteEmailListComponent} from "../site/site-email-list/site.email.list.component";
 import {SiteWebListComponent} from "../site/site-web-list/site.web.list.component";
@@ -63,6 +65,9 @@ const appRoutes: Routes = [
     { path: 'phones/:siteId/edit', component: SitePhoneEditComponent},
     { path: 'street-addresses/:siteId/edit', component: SiteStreetAddressEditComponent },
     { path: 'street-addresses/create', component: SiteStreetAddressCreationComponent },
+    { path: 'post-office-boxes/create', component: SitePostOfficeBoxCreationComponent },
+    { path: 'post-office-boxes/:siteId/edit', component: SitePostOfficeBoxEditComponent },
+
     { path: 'phones/create', component: SitePhoneCreationComponent},
     { path: 'create', component: SiteCreationComponent }
   ]},

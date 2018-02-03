@@ -11,11 +11,15 @@ let theStreetAddressesDb = path.resolve(__dirname, '..','..',) + '/nedb/street-a
 let theTelephoneDb = path.resolve(__dirname, '..','..',) + '/nedb/telephones.db';
 let theEmailDb = path.resolve(__dirname, '..','..',) + '/nedb/emails.db';
 let theWebSiteDb = path.resolve(__dirname, '..','..',) + '/nedb/web-sites.db';
+let thePostOfficeBoxesDb = path.resolve(__dirname, '..','..',) + '/nedb/post-office-boxes.db';
 
 let db = {};
 
 db.streetAddresses = new Datastore(theStreetAddressesDb);
 db.streetAddresses.loadDatabase(function (err) { console.log(err); });
+
+db.postOfficeBoxes = new Datastore(thePostOfficeBoxesDb);
+db.postOfficeBoxes.loadDatabase(function (err) { console.log(err); });
 
 db.telephones = new Datastore(theTelephoneDb);
 db.telephones.loadDatabase(function (err) { console.log(err); });
@@ -38,6 +42,20 @@ module.exports =  function DatabaseSiteRepository() {
     streetAddress.siteId = newUuidGenerator.generateUUID();
     return Rx.Observable.create(function (observer) {
       db.streetAddresses.insert(streetAddress, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.savePostOfficeBox = function (postOfficeBox) {
+    postOfficeBox.siteId = newUuidGenerator.generateUUID();
+    return Rx.Observable.create(function (observer) {
+      db.postOfficeBoxes.insert(postOfficeBox, function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -78,6 +96,21 @@ module.exports =  function DatabaseSiteRepository() {
     });
   };
 
+  this.getPostOfficeBox = function (siteId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.postOfficeBoxes.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
   this.getTelephoneBySiteId = function (siteId) {
     return Rx.Observable.create(function (observer) {
       let query = {};
@@ -107,6 +140,20 @@ module.exports =  function DatabaseSiteRepository() {
     });
   };
 
+  this.getPostOfficeBoxes = function (pageNumber, pageSize, order) {
+    return Rx.Observable.create(function (observer) {
+      let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
+      db.postOfficeBoxes.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   this.getTelephones = function (pageNumber, pageSize, order) {
     return Rx.Observable.create(function (observer) {
       let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
@@ -124,6 +171,19 @@ module.exports =  function DatabaseSiteRepository() {
   this.getStreetAddressCount = function () {
     return Rx.Observable.create(function (observer) {
       db.streetAddresses.count({}, function (err, count) {
+        if (!err) {
+          observer.next(count);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.getPostOfficeBoxCount = function () {
+    return Rx.Observable.create(function (observer) {
+      db.postOfficeBoxes.count({}, function (err, count) {
         if (!err) {
           observer.next(count);
         } else {
@@ -162,6 +222,21 @@ module.exports =  function DatabaseSiteRepository() {
     });
   };
 
+  this.updatePostOfficeBox = function (siteId, postOfficeBox) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.postOfficeBoxes.update(query, postOfficeBox, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  }
+
   this.updateTelephone = function (siteId, phone) {
     return Rx.Observable.create(function (observer) {
       let query = {};
@@ -182,6 +257,21 @@ module.exports =  function DatabaseSiteRepository() {
       let query = {};
       query["siteId"] = siteId;
       db.streetAddresses.remove(query, {}, function (err, numRemoved) {
+        if (!err) {
+          observer.next(numRemoved);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
+
+  this.deletePostOfficeBox = function (siteId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.postOfficeBoxes.remove(query, {}, function (err, numRemoved) {
         if (!err) {
           observer.next(numRemoved);
         } else {

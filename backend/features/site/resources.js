@@ -18,6 +18,19 @@ router.post("/physical-sites/street-addresses", function (req, res, next) {
   })
 });
 
+router.post("/physical-sites/post-office-boxes", function (req, res, next) {
+  let postOfficeBox = req.body;
+  orchestrator
+  .savePostOfficeBox(postOfficeBox)
+  .subscribe(postOfficeBox => {
+    res.send(JSON.stringify(postOfficeBox));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  })
+});
+
 router.post("/virtual-sites/phones/", function (req, res, next) {
 
   let phone = req.body;
@@ -33,6 +46,7 @@ router.post("/virtual-sites/phones/", function (req, res, next) {
 
 });
 
+
 router.get("/physical-sites/street-addresses", function (req, res, next) {
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
   let size = getNumericValueOrDefault(req.query.pageSize, 10);
@@ -44,6 +58,25 @@ router.get("/physical-sites/street-addresses", function (req, res, next) {
   .subscribe(streetAddresses => {
     console.log(streetAddresses);
     res.send(JSON.stringify(streetAddresses));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  });
+
+});
+
+router.get("/physical-sites/post-office-boxes", function (req, res, next) {
+  let number = getNumericValueOrDefault(req.query.pageNumber, 1);
+  let size = getNumericValueOrDefault(req.query.pageSize, 10);
+  let field = getStringValueOrDefault(req.query.sortField, "");
+  let direction = getStringValueOrDefault(req.query.sortOrder, "");
+
+  orchestrator
+  .getPostOfficeBoxes(number, size, field, direction)
+  .subscribe(PostOfficeBoxes => {
+    console.log(PostOfficeBoxes);
+    res.send(JSON.stringify(PostOfficeBoxes));
   }, error => {
     res.status(400);
     res.send(error);
@@ -84,6 +117,19 @@ router.get("/physical-sites/street-addresses/:siteId", function (req, res, next)
   });
 });
 
+router.get("/physical-sites/post-office-boxes/:siteId", function (req, res, next) {
+  let siteId = req.params.siteId;
+
+  orchestrator
+  .getPostOfficeBox(siteId)
+  .subscribe(postOfficeBox => {
+    let body = JSON.stringify(postOfficeBox);
+    res.send(body);
+  }, error => {
+    res.send(JSON.stringify(error));
+  });
+});
+
 router.get("/virtual-sites/phones/:siteId/", function (req, res, next) {
 
   let siteId = req.params.siteId;
@@ -114,6 +160,21 @@ router.put("/physical-sites/street-addresses/:siteId", function (req, res, next)
 
 });
 
+router.put("/physical-sites/post-office-boxes/:siteId", function (req, res, next) {
+  let siteId = req.params.siteId;
+  let postOfficeBox = req.body;
+  orchestrator
+    .updatePostOfficeBox(siteId, postOfficeBox)
+    .subscribe(postOfficeBox => {
+      res.send(JSON.stringify(postOfficeBox));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
+
+});
+
 router.put("/virtual-sites/phones/:siteId/", function (req, res, next) {
 
   let siteId = req.params.siteId;
@@ -134,6 +195,19 @@ router.delete("/physical-sites/street-addresses/:siteId", function (req, res, ne
   let siteId = req.params.siteId;
   orchestrator
     .deleteStreetAddress(siteId)
+    .subscribe(numRemoved => {
+      res.send(JSON.stringify(numRemoved));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
+});
+
+router.delete("/physical-sites/post-office-boxes/:siteId", function (req, res, next) {
+  let siteId = req.params.siteId;
+  orchestrator
+    .deletePostOfficeBox(siteId)
     .subscribe(numRemoved => {
       res.send(JSON.stringify(numRemoved));
     }, error => {

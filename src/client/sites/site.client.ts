@@ -2,6 +2,7 @@ import {Observable} from "rxjs/Observable";
 import {UnionOfPhysicalSiteStates} from "./union.of.physical.site.states";
 import {EmailStates} from "./email.states";
 import {StreetAddressStates} from "./street.address.states";
+import {PostOfficeBoxState} from "./post.office.box.state";
 import {PostOfficeBoxStates} from "./post.office.box.states";
 import {PhoneStates} from "./phone.states";
 import {WebSiteStates} from "./web.site.states";
@@ -13,21 +14,25 @@ export abstract class SiteClient {
   public abstract findUnionOfPhysicalSiteStates(searchStr:string, pageSize:number):Observable<UnionOfPhysicalSiteStates>;
 
   public abstract getStreetAddressStates(pageNumber: number, pageSize:number, sortOrder:string):Observable<StreetAddressStates>;
-  public abstract getPostOfficeBoxStates(pageNumber: number):Observable<PostOfficeBoxStates>;
+  public abstract getPostOfficeBoxStates(pageNumber: number, pageSize:number, sortOrder:string):Observable<PostOfficeBoxStates>;
 
   public abstract getEmailStates(pageNumber:number):Observable<EmailStates>;
   public abstract getPhoneStates(pageNumber:number, pageSize:number, sortOrder:string):Observable<PhoneStates>;
   public abstract getStreetAddressState(siteId:string): Observable<StreetAddressState>;
+  public abstract getPostOfficeBoxState(siteId:string): Observable<PostOfficeBoxState>;
   public abstract getPhoneState(siteId:string):Observable<PhoneState>;
   public abstract getWebSiteStates(pageNumber:number):Observable<WebSiteStates>;
 
   public abstract addPhone(phoneState:PhoneState):Observable<PhoneState>;
   public abstract addStreetAddress(streetAddressState: StreetAddressState): Observable<StreetAddressState>;
+  public abstract addPostOfficeBox(postOfficeBoxState: PostOfficeBoxState): Observable<PostOfficeBoxState>;
 
   public abstract updateStreetAddress(siteId:string, streetAddressState: StreetAddressState): Observable<number>;
+  public abstract updatePostOfficeBox(siteId:string, postOfficeBoxState: PostOfficeBoxState): Observable<number>;
   public abstract updatePhone(siteId:string, phoneState:PhoneState):Observable<number>;
 
   public abstract deleteStreetAddress(siteId:string): Observable<number>;
+  public abstract deletePostOfficeBox(siteId:string): Observable<number>;
   public abstract deletePhone(siteId:string):Observable<number>;
 
 }
