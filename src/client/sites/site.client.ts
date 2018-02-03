@@ -5,6 +5,7 @@ import {StreetAddressStates} from "./street.address.states";
 import {PostOfficeBoxStates} from "./post.office.box.states";
 import {PhoneStates} from "./phone.states";
 import {WebSiteStates} from "./web.site.states";
+import {PhoneState} from "./phone.state";
 
 export abstract class SiteClient {
 
@@ -14,7 +15,12 @@ export abstract class SiteClient {
   public abstract getPostOfficeBoxStates(pageNumber: number):Observable<PostOfficeBoxStates>;
 
   public abstract getEmailStates(pageNumber:number):Observable<EmailStates>;
-  public abstract getPhoneStates(pageNumber:number):Observable<PhoneStates>;
+  public abstract getPhoneStates(pageNumber:number, pageSize:number, sortOrder:string):Observable<PhoneStates>;
+  public abstract getPhoneState(siteId:string):Observable<PhoneState>;
   public abstract getWebSiteStates(pageNumber:number):Observable<WebSiteStates>;
+
+  public abstract addPhone(phoneState:PhoneState):Observable<PhoneState>;
+  public abstract updatePhone(siteId:string, phoneState:PhoneState):Observable<number>;
+  public abstract deletePhone(siteId:string):Observable<number>;
 
 }

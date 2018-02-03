@@ -16,17 +16,21 @@ import {SitePostOfficeBoxListComponent} from "./site-post-office-box-list/site.p
 import {SiteStreetAddressListComponent} from "./site-street-address-list/site.street.address.list.component";
 import {SiteWebListComponent} from "./site-web-list/site.web.list.component";
 import {SearchModule} from "../search/search.module";
+import {SitePhoneCreationComponent} from "./site-phone-creation/site.phone.creation.component";
+import {PagingModule} from "../paging/paging.module";
+import {SitePhoneEditComponent} from "./site-phone-edit/site.phone.edit.component";
 
 @NgModule({
   imports: [
     CommonModule,
     NgbModule,
-    FormsModule,
+    // FormsModule,
     RouterModule,
     ReactiveFormsModule,
     siteRouting,
     MenuModule,
-    SearchModule
+    SearchModule,
+    PagingModule
   ],
   declarations: [
     SiteComponent,
@@ -34,6 +38,8 @@ import {SearchModule} from "../search/search.module";
     SiteTopMenuComponent,
     SiteEmailListComponent,
     SitePhoneListComponent,
+    SitePhoneCreationComponent,
+    SitePhoneEditComponent,
     SitePostOfficeBoxListComponent,
     SiteStreetAddressListComponent,
     SiteWebListComponent
@@ -55,6 +61,8 @@ import {SearchModule} from "../search/search.module";
     SiteTopMenuComponent,
     SiteEmailListComponent,
     SitePhoneListComponent,
+    SitePhoneCreationComponent,
+    SitePhoneEditComponent,
     SitePostOfficeBoxListComponent,
     SiteStreetAddressListComponent,
     SiteWebListComponent

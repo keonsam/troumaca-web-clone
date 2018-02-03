@@ -1,0 +1,41 @@
+<div class="content-i asset-container">
+
+  <asset-type-class-top-menu></asset-type-class-top-menu>
+
+  <div class="content-box">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="element-wrapper">
+          <div class="element-box">
+            <form [formGroup]="assetTypeClassEditForm" (ngSubmit)="onSubmit()" id="formValidate">
+              <h5 class="form-header">
+                New Asset Type Class Form
+              </h5>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="">Name</label><input class="form-control" formControlName="name"  data-error="Your Name is invalid" placeholder="Name" required="required" type="text">
+                  <div class="help-block form-text with-errors form-control-feedback"></div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="">Description</label><input class="form-control" formControlName="description" data-error="Your Description is invalid" placeholder="Description" required="required" type="text">
+                  <div class="help-block form-text with-errors form-control-feedback"></div>
+                </div>
+              </fieldset>
+
+              <div class="form-buttons-w">
+                <button class="btn btn-primary button1" [disabled]="!enableSubmit()" (click)="onCreate()" type="submit"> Submit</button>
+                <button class="btn btn-white" type="cancel" (click)="onReset()"> Cancel</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,15 +1,27 @@
-let assetRepositoryFactory = require('./repository.factory')();
-let assetRepository = assetRepositoryFactory.createAssetRepository();
+let assetTypeClassesRepositoryFactory = require('./repository.factory')();
+let assetTypeClassesRepository = assetTypeClassesRepositoryFactory.createAssetRepository();
 
-module.exports = function AssetOrchestrator() {
+module.exports = function AssetTypeClassesOrchestrator() {
 
   let that = this;
+
   this.saveAssetTypeClass = function (assetTypeClass) {
-    return assetRepository.saveAssetTypeClass(assetTypeClass);
+    return assetTypeClassesRepository.saveAssetTypeClass(assetTypeClass);
+  };
+
+  this.getAssetTypeClass = function (assetTypeClassId) {
+    return assetTypeClassesRepository.getAssetTypeClass(assetTypeClassId);
   };
 
   this.getAssetTypeClasses = function (pagination) {
-   return assetRepository.getAssetTypeClasses(pagination);
+   return assetTypeClassesRepository.getAssetTypeClasses(pagination);
   };
 
+  this.deleteAssetTypeClass = function (assetTypeClassId) {
+    return assetTypeClassesRepository.deleteAssetTypeClass(assetTypeClassId);
+  };
+
+  this.updateAssetTypeClass = function (assetTypeClass) {
+    return assetTypeClassesRepository.updateAssetTypeClass(assetTypeClass);
+  }
 };

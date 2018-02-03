@@ -1,6 +1,6 @@
-<div class="controls-below-table paging-section">
+<div *ngIf="pagingDisplayOn" class="controls-below-table paging-section">
   <div class="table-records-info">
-    Showing records {{minPageNumber}} - {{maxPageNumber}}
+    Showing records {{recordsStart}} - {{recordsEnd}}
   </div>
   <div class="table-records-pages">
     <ul>

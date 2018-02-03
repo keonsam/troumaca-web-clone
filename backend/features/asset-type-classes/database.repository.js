@@ -1,25 +1,22 @@
-let uuidv5 = require('uuid/v5');
 let Datastore = require('nedb');
 let Rx = require("rxjs");
-var path = require('path'),
-    __parentDir = path.resolve(__dirname, '..','..',) + '/nedb/asset-type-classes.db';
+let UUIDGenerator = require("../uuid.generator");
+let DbUtil = require('../db.util');
+let path = require('path');
+let theAssetTypeClassesDb = path.resolve(__dirname, '..','..',) + '/nedb/asset-type-classes.db';
 
-let hostname = 'troumaca.com';
 
 let db = {};
-db.assetTypeClasses = new Datastore(__parentDir);
-db.assetTypeClasses.loadDatabase(function (err) {    // Callback is optional
-  // Now commands will be executed
-  console.log(err);
-});
+db.assetTypeClasses = new Datastore(theAssetTypeClassesDb);
+db.assetTypeClasses.loadDatabase(function (err) { console.log(err); });
 
-function calculateSkip(page, size) {
-  if (page <= 1) {
-    return 0;
-  } else {
-    return ((page -1) * size);
-  }
-}
+// function calculateSkip(page, size) {
+//   if (page <= 1) {
+//     return 0;
+//   } else {
+//     return ((page -1) * size);
+//   }
+// }
 
 function buildPagedAssetListResponse(page, sort, assetTypeClasses) {
   return {
@@ -29,10 +26,12 @@ function buildPagedAssetListResponse(page, sort, assetTypeClasses) {
   }
 }
 
+let newUuidGenerator = new UUIDGenerator();
+let dbUtil = new DbUtil();
 
 module.exports =  function DatabaseAssetRepository() {
   this.saveAssetTypeClass = function (assetTypeClass) {
-    assetTypeClass.assetTypeClassId = uuidv5(hostname, uuidv5.DNS);
+    assetTypeClass.assetTypeClassId = newUuidGenerator.generateUUID();
     return Rx.Observable.create(function (observer) {
       db.assetTypeClasses.insert(assetTypeClass, function (err, doc) {
         if (err) {
@@ -43,7 +42,23 @@ module.exports =  function DatabaseAssetRepository() {
         console.log('Inserted', doc.name, 'with ID', doc._id);
       });
     });
+  };
 
+  this.getAssetTypeClass = function(assetTypeClassId) {
+    return Rx.Observable.create(function (observer) {
+      try {
+        db.assetTypeClasses.findOne({assetTypeClassId}, function (err, docs) {
+          if (err) {
+            observer.error(err);
+          } else {
+            console.log(docs);
+            observer.next(docs);
+          }
+        });
+      } catch (error) {
+        observer.error(error);
+      }
+    });
   };
 
   this.getAssetTypeClasses = function (pagination) {
@@ -61,13 +76,14 @@ module.exports =  function DatabaseAssetRepository() {
 
         let sortAttribute = sort.attributes;
         let sortDirection = sort.direction;
-        let calculateSkip2 = calculateSkip(page.number, page.size);
+        //let calculateSkip2 = calculateSkip(page.number, page.size);
 
         db.assetTypeClasses.count({}, function (err, count) {
          page.items = count;
         });
 
-        db.assetTypeClasses.find({}).skip(calculateSkip2).limit(page.size).exec(function (err, docs) {
+        let skip = dbUtil.calcSkip(page.number, page.size, 10);
+        db.assetTypeClasses.find({}).skip(skip).limit(page.size).exec(function (err, docs) {
           if (err) {
             observer.error(err);
           } else {
@@ -80,4 +96,28 @@ module.exports =  function DatabaseAssetRepository() {
       }
     });
   }
+
+  this.deleteAssetTypeClass= function(assetTypeClassId) {
+    return Rx.Observable.create(function (observer) {
+      db.assetTypeClasses.remove({assetTypeClassId}, function (err, numRemoved) {
+        if (err) {
+          observer.error(err);
+        } else {
+          observer.next(numRemoved);
+        }
+      });
+    });
+ };
+
+ this.updateAssetTypeClass = function(assetTypeClass) {
+   return Rx.Observable.create(function (observer) {
+     db.assetTypeClasses.update({assetTypeClassId: assetTypeClass.assetTypeClassId},{$set: assetTypeClass},{}, function (err, numAffected, affectedDocuments, upsert) {
+       if (err) {
+         observer.error(err);
+       } else {
+         observer.next(numAffected);
+       }
+     });
+   });
+ }
 };

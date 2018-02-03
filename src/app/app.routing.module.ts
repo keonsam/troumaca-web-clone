@@ -13,6 +13,7 @@ import {AssetTypeListComponent} from "../asset-types/asset-type-list/asset.type.
 import {AssetTypeCreationComponent} from "../asset-types/asset-type-creation/asset.type.creation.component";
 import {AssetTypeClassCreationComponent} from "../asset-type-classes/asset-type-class-creation/asset.type.class.creation.component";
 import {AssetTypeClassListComponent} from "../asset-type-classes/asset-type-class-list/asset.type.class.list.component";
+import {AssetTypeClassEditComponent} from "../asset-type-classes/asset-type-class-edit/asset.type.class.edit.component";
 import {SiteCreationComponent} from "../site/site-creation/site.creation.component";
 import {AttributeListComponent} from "../attributes/attribute-list/attribute.list.component";
 import {AttributeCreationComponent} from "../attributes/attribute-creation/attribute.creation.component";
@@ -21,6 +22,9 @@ import {SiteEmailListComponent} from "../site/site-email-list/site.email.list.co
 import {SiteWebListComponent} from "../site/site-web-list/site.web.list.component";
 import {SitePhoneListComponent} from "../site/site-phone-list/site.phone.list.component";
 import {SiteStreetAddressListComponent} from "../site/site-street-address-list/site.street.address.list.component";
+import {SitePhoneCreationComponent} from "../site/site-phone-creation/site.phone.creation.component";
+import {SitePhoneEditComponent} from "../site/site-phone-edit/site.phone.edit.component";
+
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -38,7 +42,8 @@ const appRoutes: Routes = [
   { path: 'asset-type-classes', component: AssetTypeClassComponent, children:[
     { path: '', redirectTo: 'listing', pathMatch: 'full'},
     { path: 'listing', component: AssetTypeClassListComponent },
-    { path: 'create', component: AssetTypeClassCreationComponent }
+    { path: 'create', component: AssetTypeClassCreationComponent },
+    { path: ':id/edit', component: AssetTypeClassEditComponent }
   ]},
   { path: 'attributes', component: AttributeComponent, children:[
       { path: '', redirectTo: 'listing', pathMatch: 'full'},
@@ -51,7 +56,9 @@ const appRoutes: Routes = [
     { path: 'post-office-boxes', component: SitePostOfficeBoxListComponent },
     { path: 'emails', component: SiteEmailListComponent },
     { path: 'web-sites', component: SiteWebListComponent },
-    { path: 'phones', component: SitePhoneListComponent },
+    { path: 'phones', component: SitePhoneListComponent},
+    { path: 'phones/:siteId/edit', component: SitePhoneEditComponent},
+    { path: 'phones/create', component: SitePhoneCreationComponent},
     { path: 'create', component: SiteCreationComponent }
   ]},
   { path: '**', component: PageNotFoundComponent },

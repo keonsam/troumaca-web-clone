@@ -4,6 +4,7 @@ import {AttributeClient} from "../../client/attributes/attribute.client";
 import {Observable} from "rxjs/Observable";
 import {Attribute} from "../../attributes/attribute";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
+import {AttributeState} from "../../client/attributes/attribute.state";
 
 export class AttributeRepositoryAdapter extends AttributeRepository {
 
@@ -48,6 +49,14 @@ export class AttributeRepositoryAdapter extends AttributeRepository {
           return null;
         });
       });
+  }
+
+  public addAttribute(attribute:Attribute):Observable<Attribute> {
+    return this.attributeClient
+    .addAttribute(mapObjectProps(attribute, new AttributeState()))
+    .map(attributeState => {
+      return mapObjectProps(attributeState, new Attribute());
+    })
   }
 
 }

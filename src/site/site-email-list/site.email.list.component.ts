@@ -11,6 +11,7 @@ export class SiteEmailListComponent implements OnInit {
 
   private _emails:Emails;
   private defaultPage:number = 1;
+  private _routerLinkCreateEmail:string = "/sites/emails/create";
 
   constructor(private siteService:SiteService) {
     this.emails = new Emails();
@@ -18,14 +19,14 @@ export class SiteEmailListComponent implements OnInit {
 
   ngOnInit(): void {
     this.siteService.getEmails(this.defaultPage)
-      .subscribe(next => {
-        console.log(next);
-        this.emails = next;
-      }, error => {
-        console.log(error);
-      }, () => {
-        console.log("complete");
-      });
+    .subscribe(next => {
+      console.log(next);
+      this.emails = next;
+    }, error => {
+      console.log(error);
+    }, () => {
+      console.log("complete");
+    });
   }
 
   get emails(): Emails {
@@ -36,4 +37,11 @@ export class SiteEmailListComponent implements OnInit {
     this._emails = value;
   }
 
+  get routerLinkCreateEmail(): string {
+    return this._routerLinkCreateEmail;
+  }
+
+  set routerLinkCreateEmail(value: string) {
+    this._routerLinkCreateEmail = value;
+  }
 }

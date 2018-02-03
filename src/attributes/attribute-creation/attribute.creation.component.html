@@ -7,108 +7,59 @@
       <div class="col-sm-12">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="assetForm" (ngSubmit)="onSubmit()" id="formValidate">
+            <form [formGroup]="attributeForm" (ngSubmit)="onCreate()">
               <h5 class="form-header">
                 New Attribute Form
               </h5>
 
-              <!--<fieldset class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Asset Kind</label><br/>-->
-              <!--<select class="form-control" formControlName="assetKind" name="assetKind">-->
-              <!--<option value="" disabled selected>Select an Asset Kind</option>-->
-              <!--<option *ngFor="let assetKind of assetKinds" [value]="assetKind.assetKindId">{{assetKind.name}}</option>-->
-              <!--</select>-->
-              <!--</div>-->
-              <!--</fieldset>-->
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to create site.</div>
 
-              <!--<fieldset class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Asset Type</label>-->
-              <!--<ng2-completer [datasource]="assetTypeDataService"-->
-              <!--[minSearchLength]="0"-->
-              <!--[maxChars]="4"-->
-              <!--[inputClass]="'form-control'"-->
-              <!--[placeholder]="'Search for Asset Type'"-->
-              <!--[matchClass]="'match'"-->
-              <!--formControlName="assetType"-->
-              <!--[autofocus]="true"-->
-              <!--[textSearching]="false"-->
-              <!--(selected)="onAssetTypeSelect($event)">-->
-              <!--</ng2-completer>-->
-              <!--</div>-->
-              <!--</fieldset>-->
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="name">Name</label><input class="form-control" formControlName="name" placeholder="Name">
+                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
+                </div>
+              </fieldset>
 
-              <!--<fieldset *ngIf="isDiscreteItem()" class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Serial Number</label><input class="form-control" formControlName="serialNumber"  data-error="Your email address is invalid" placeholder="Serial Number" required="required" type="text">-->
-              <!--<div class="help-block form-text with-errors form-control-feedback"></div>-->
-              <!--</div>-->
-              <!--</fieldset>-->
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="format">Format</label><input class="form-control" formControlName="format" placeholder="Format">
+                  <div [hidden]="format.valid || format.pristine" class="alert alert-danger">Invalid format.</div>
+                </div>
+              </fieldset>
 
-              <!--<fieldset *ngIf="isInventory()" class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Quantity</label><input class="form-control" formControlName="quantity" data-error="Your email address is invalid" placeholder="Quantity" required="required" type="number">-->
-              <!--<div class="help-block form-text with-errors form-control-feedback"></div>-->
-              <!--</div>-->
-              <!--</fieldset>-->
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="data type">Data Type</label><input class="form-control" formControlName="dataType" placeholder="Data Type">
+                  <div [hidden]="dataType.valid || dataType.pristine" class="alert alert-danger">Invalid Data Type.</div>
+                </div>
+              </fieldset>
 
-              <!--<fieldset *ngIf="isInventory()" class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Unit Of Measure</label>-->
-              <!--<ng2-completer [datasource]="unitOfMeasureDataService"-->
-              <!--[minSearchLength]="0"-->
-              <!--[maxChars]="4"-->
-              <!--[inputClass]="'form-control'"-->
-              <!--[placeholder]="'Search for Unit Of Measure'"-->
-              <!--[matchClass]="'match'"-->
-              <!--formControlName="unitOfMeasure"-->
-              <!--[autofocus]="true"-->
-              <!--[textSearching]="false"-->
-              <!--(selected)="onUnitOfMeasureSelect($event)">-->
-              <!--</ng2-completer>-->
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="unit of measure Id">Unit Of Measure ID</label><input class="form-control" formControlName="unitOfMeasureId" placeholder="Unit of Measure ID">
+                  <div [hidden]="unitOfMeasureId.valid || unitOfMeasureId.pristine" class="alert alert-danger">Invalid Unit Of Measure ID.</div>
+                </div>
+              </fieldset>
 
-              <!--</div>-->
-              <!--</fieldset>-->
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="maximum value">Maximum Value</label><input class="form-control" formControlName="maximumValue" placeholder="Maximum Value">
+                  <div [hidden]="maximumValue.valid || maximumValue.pristine" class="alert alert-danger">Invalid Maximum Value.</div>
+                </div>
+              </fieldset>
 
-              <!--<fieldset class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Assignee</label>-->
-              <!--<ng2-completer [datasource]="personDataService"-->
-              <!--[minSearchLength]="0"-->
-              <!--[maxChars]="4"-->
-              <!--[inputClass]="'form-control'"-->
-              <!--[placeholder]="'Search for Person'"-->
-              <!--[matchClass]="'match'"-->
-              <!--formControlName="person"-->
-              <!--[autofocus]="true"-->
-              <!--[textSearching]="false"-->
-              <!--(selected)="onPersonSelect($event)">-->
-              <!--</ng2-completer>-->
-              <!--</div>-->
-              <!--</fieldset>-->
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="minimum value">Minimum Value</label><input class="form-control" formControlName="minimumValue" placeholder="Minimum Value">
+                  <div [hidden]="minimumValue.valid || minimumValue.pristine" class="alert alert-danger">Invalid Minimum Value.</div>
+                </div>
+              </fieldset>
 
-              <!--<fieldset class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Site</label>-->
-              <!--<ng2-completer [datasource]="siteDataService"-->
-              <!--[minSearchLength]="0"-->
-              <!--[maxChars]="4"-->
-              <!--[inputClass]="'form-control'"-->
-              <!--[placeholder]="'Search for Site'"-->
-              <!--[matchClass]="'match'"-->
-              <!--formControlName="site"-->
-              <!--[autofocus]="true"-->
-              <!--[textSearching]="false"-->
-              <!--(selected)="onPhysicalSiteSelect($event)">-->
-              <!--</ng2-completer>-->
-              <!--</div>-->
-              <!--</fieldset>-->
-
-              <!--<div class="form-buttons-w">-->
-              <!--<button class="btn btn-primary button1" [disabled]="!enableSubmit()" (click)="onCreate()" type="submit"> Submit</button>-->
-              <!--<button class="btn btn-white" type="cancel" (click)="onReset()"> Cancel</button>-->
-              <!--</div>-->
+              <div class="form-buttons-w">
+                <button class="btn btn-primary button1" [disabled]="!attributeForm.valid" type="submit"> Create</button>
+                <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>
+              </div>
 
             </form>
           </div>

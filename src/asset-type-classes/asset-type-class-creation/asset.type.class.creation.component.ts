@@ -16,7 +16,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
   private _assetTypeClassForm:FormGroup;
 
   constructor(private assetTypeClassService:AssetTypeClassService,
-              private completerService: CompleterService,
               private formBuilder: FormBuilder) {
 
     this.name = new FormControl("", Validators.required);

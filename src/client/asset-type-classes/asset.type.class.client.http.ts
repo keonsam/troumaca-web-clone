@@ -6,6 +6,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {JsonConvert, OperationMode, ValueCheckingMode} from "json2typescript";
 import {AssetTypeClassStates} from "./asset.type.class.states";
 
+
 export class AssetTypeClassClientHttp extends AssetTypeClassClient {
 
   private jsonConvert: JsonConvert;
@@ -20,6 +21,19 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
     this.jsonConvert.operationMode = OperationMode.LOGGING; // print some debug data
     this.jsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
     this.jsonConvert.valueCheckingMode = ValueCheckingMode.DISALLOW_NULL; // never allow null
+  }
+
+  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassState>{
+    let array = [];
+    console.log(assetTypeClassId);
+    array.push(this.hostPort);
+    array.push("/asset-type-classes/");
+    array.push(assetTypeClassId);
+    return this.http.get(array.join(""), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
   }
 
   public getAssetTypeClasses(pageNumber?: number): Observable<AssetTypeClassStates> {
@@ -55,6 +69,29 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
     array.push(this.hostPort);
     array.push("/asset-type-classes");
     return this.http.post(array.join(""), assetTypeClassState.toJson(), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+
+  public deleteAssetTypeClass(assetTypeClassId: string): Observable<any> {
+    console.log("working");
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/asset-type-classes/");
+    array.push(assetTypeClassId);
+    return this.http.delete(array.join(""),{
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+  public updateAssetTypeClass(assetTypeClassState: AssetTypeClassState): Observable<AssetTypeClassState> {
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/asset-type-classes");
+    return this.http.put(array.join(""),assetTypeClassState.toJson(),{
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
