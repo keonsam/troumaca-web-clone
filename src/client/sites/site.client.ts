@@ -24,6 +24,7 @@ export abstract class SiteClient {
   public abstract getStreetAddressState(siteId:string): Observable<StreetAddressState>;
   public abstract getPostOfficeBoxState(siteId:string): Observable<PostOfficeBoxState>;
   public abstract getEmailState(siteId:string): Observable<EmailState>;
+  public abstract getWebSiteState(siteId:string): Observable<WebSiteState>;
   public abstract getPhoneState(siteId:string):Observable<PhoneState>;
 
 
@@ -36,6 +37,7 @@ export abstract class SiteClient {
   public abstract updateStreetAddress(siteId:string, streetAddressState: StreetAddressState): Observable<number>;
   public abstract updatePostOfficeBox(siteId:string, postOfficeBoxState: PostOfficeBoxState): Observable<number>;
   public abstract updateEmail(siteId:string, emailState: EmailState): Observable<number>;
+  public abstract updateWebSite(siteId:string, webSiteState: WebSiteState): Observable<number>;
   public abstract updatePhone(siteId:string, phoneState:PhoneState):Observable<number>;
 
   public abstract deleteStreetAddress(siteId:string): Observable<number>;

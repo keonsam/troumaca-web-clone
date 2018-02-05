@@ -12,6 +12,9 @@ import {Router} from "@angular/router";
 export class SiteStreetAddressCreationComponent implements OnInit {
 
   private _name: FormControl;
+  private _suiteOrApartment: FormControl;
+  private _floor: FormControl;
+  private _suiteOrApartmentNumber: FormControl;
   private _description: FormControl;
   private _streetNumber: FormControl;
   private _street: FormControl;
@@ -31,6 +34,9 @@ export class SiteStreetAddressCreationComponent implements OnInit {
               private router: Router) {
 
      this.name = new FormControl("", [Validators.required]);
+     this.suiteOrApartment = new FormControl("", [Validators.required]);
+     this.floor = new FormControl("", [Validators.required]);
+     this.suiteOrApartmentNumber = new FormControl("", [Validators.required]);
      this.description = new FormControl("");
      this.streetNumber = new FormControl("");
      this.street = new FormControl("", [Validators.required]);
@@ -41,6 +47,9 @@ export class SiteStreetAddressCreationComponent implements OnInit {
 
      this.siteStreetAddressForm = formBuilder.group({
        "name": this.name,
+       "suiteOrApartment": this.suiteOrApartment,
+       "floor": this.floor,
+       "suiteOrApartmentNumber": this.suiteOrApartmentNumber,
        "description": this.description,
        "streetNumber": this.streetNumber,
        "street": this.street,
@@ -56,6 +65,9 @@ export class SiteStreetAddressCreationComponent implements OnInit {
      .valueChanges
      .subscribe(value => {
        this.streetAddress.name = value.name;
+       this.streetAddress.suiteOrApartment = value.suiteOrApartment;
+       this.streetAddress.floor = value.floor;
+       this.streetAddress.suiteOrApartmentNumber = value.suiteOrApartmentNumber;
        this.streetAddress.description = value.description;
        this.streetAddress.streetNumber = value.streetNumber;
        this.streetAddress.street = value.street;
@@ -80,6 +92,30 @@ export class SiteStreetAddressCreationComponent implements OnInit {
 
   set name(value: FormControl) {
     this._name = value;
+  }
+
+  get suiteOrApartment(): FormControl {
+    return this._suiteOrApartment;
+  }
+
+  set suiteOrApartment(value: FormControl) {
+    this._suiteOrApartment = value;
+  }
+
+  get floor(): FormControl {
+    return this._floor;
+  }
+
+  set floor(value: FormControl) {
+    this._floor = value;
+  }
+
+  get suiteOrApartmentNumber(): FormControl {
+    return this._suiteOrApartmentNumber;
+  }
+
+  set suiteOrApartmentNumber(value: FormControl) {
+    this._suiteOrApartmentNumber = value;
   }
 
   get description(): FormControl {

@@ -45,6 +45,10 @@ export class SiteService {
     return this.siteRepository.getEmail(siteId);
   }
 
+  public getWebSite(siteId:string): Observable<WebSite> {
+    return this.siteRepository.getWebSite(siteId);
+  }
+
   public getPhoneById(siteId:string):Observable<Phone> {
     return this.siteRepository.getPhone(siteId);
   }
@@ -83,6 +87,10 @@ export class SiteService {
 
   public updateEmail(siteId:string, email: Email): Observable<number> {
     return this.siteRepository.updateEmail(siteId, email);
+  }
+
+  public updateWebSite(siteId:string, webSite: WebSite): Observable<number> {
+    return this.siteRepository.updateWebSite(siteId, webSite);
   }
 
   public updatePhone(siteId:string, phone: Phone):Observable<number> {

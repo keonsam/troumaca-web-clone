@@ -41,6 +41,10 @@ module.exports = function SiteOrchestrator() {
     return siteRepository.getEmail(siteId);
   }
 
+  this.getWebSite = function (siteId) {
+    return siteRepository.getWebSite(siteId);
+  }
+
   this.getTelephoneBySiteId = function (siteId) {
     return siteRepository.getTelephoneBySiteId(siteId);
   };
@@ -120,6 +124,10 @@ module.exports = function SiteOrchestrator() {
 
   this.updateEmail = function (siteId, email) {
     return siteRepository.updateEmail(siteId, email);
+  }
+
+  this.updateWebSite = function (siteId, webSite) {
+    return siteRepository.updateWebSite(siteId, webSite);
   }
 
   this.updateTelephone = function (siteId, phone) {

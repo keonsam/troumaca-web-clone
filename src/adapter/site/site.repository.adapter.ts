@@ -116,6 +116,14 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     });
   }
 
+  public getWebSite(siteId:string): Observable<WebSite> {
+    return this.siteClient
+    .getWebSiteState(siteId)
+    .map(value => {
+      return mapObjectProps(value, new WebSite());
+    });
+  }
+
   public getPhone(siteId:string):Observable<Phone> {
     return this.siteClient
     .getPhoneState(siteId)
@@ -202,6 +210,10 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
 
   public updateEmail(siteId:string, email: Email): Observable<number> {
     return this.siteClient.updateEmail(siteId, mapObjectProps(email, new EmailState()))
+  }
+
+  public updateWebSite(siteId:string, webSite: WebSite): Observable<number> {
+    return this.siteClient.updateWebSite(siteId, mapObjectProps(webSite, new WebSiteState()))
   }
 
   public updatePhone(siteId:string, phone: Phone): Observable<number> {

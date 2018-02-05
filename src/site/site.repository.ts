@@ -20,6 +20,7 @@ export abstract class SiteRepository {
   abstract getStreetAddress(siteId:string): Observable<StreetAddress>;
   abstract getPostOfficeBox(siteId:string): Observable<PostOfficeBox>;
   abstract getEmail(siteId:string): Observable<Email>;
+  abstract getWebSite(siteId:string): Observable<WebSite>;
   abstract getPhone(siteId:string):Observable<Phone>;
 
   abstract addPhone(phone:Phone):Observable<Phone>;
@@ -31,6 +32,7 @@ export abstract class SiteRepository {
   abstract updateStreetAddress(siteId:string, streetAddress:StreetAddress): Observable<number>;
   abstract updatePostOfficeBox(siteId:string, postOfficeBox:PostOfficeBox): Observable<number>;
   abstract updateEmail(siteId:string, email:Email): Observable<number>;
+  abstract updateWebSite(siteId:string, webSite:WebSite): Observable<number>;
   abstract updatePhone(siteId:string, phone:Phone):Observable<number>;
 
   abstract deleteStreetAddress(siteId:string): Observable<number>;

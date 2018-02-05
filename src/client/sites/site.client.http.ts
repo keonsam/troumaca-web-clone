@@ -176,6 +176,16 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
+  public getWebSiteState(siteId:string): Observable<WebSiteState> {
+    let url = `${this.hostPort}/sites/virtual-sites/web-sites/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .get<WebSiteState>(url, {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
   public getPhoneState(siteId:string): Observable<PhoneState> {
     let url = `${this.hostPort}/sites/virtual-sites/phones/${siteId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
@@ -318,6 +328,16 @@ export class SiteClientHttp extends SiteClient {
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .put(url, emailState.toJson(), {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
+  public updateWebSite(siteId:string, webSiteState: WebSiteState): Observable<number> {
+    let url = `${this.hostPort}/sites/virtual-sites/web-sites/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .put(url, webSiteState.toJson(), {headers:headers})
     .map(data => {
       return data;
     });

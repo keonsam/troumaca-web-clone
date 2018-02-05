@@ -18,6 +18,9 @@
             <thead>
             <tr>
               <th>Street Address Name</th>
+              <th>Suite Or Apartment</th>
+              <th>floor</th>
+              <th>Suite Or Apartment Number</th>
               <th>Description</th>
               <th>Street Number</th>
               <th>Street</th>
@@ -30,7 +33,10 @@
             </thead>
             <tfoot>
             <tr>
-              <th>Site Name</th>
+              <th>Street Address Name</th>
+              <th>Suite Or Apartment</th>
+              <th>floor</th>
+              <th>Suite Or Apartment Number</th>
               <th>Description</th>
               <th>Street Number</th>
               <th>Street</th>
@@ -44,6 +50,9 @@
             <tbody>
             <tr role="row" *ngFor="let streetAddress of streetAddresses.streetAddresses; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
               <td>{{streetAddress.name}}</td>
+              <td>{{streetAddress.suiteOrApartment}}</td>
+              <td>{{streetAddress.floor}}</td>
+              <td>{{streetAddress.suiteOrApartmentNumber}}</td>
               <td>{{streetAddress.description}}</td>
               <td>{{streetAddress.streetNumber}}</td>
               <td>{{streetAddress.street}}</td>

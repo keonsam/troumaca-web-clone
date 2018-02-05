@@ -208,6 +208,21 @@ router.get("/virtual-sites/emails/:siteId/", function (req, res, next) {
 
 });
 
+router.get("/virtual-sites/web-sites/:siteId/", function (req, res, next) {
+
+  let siteId = req.params.siteId;
+
+  orchestrator
+  .getWebSite(siteId)
+  .subscribe(webSite => {
+    let body = JSON.stringify(webSite);
+    res.send(body);
+  }, error => {
+    res.send(JSON.stringify(error));
+  });
+
+});
+
 router.get("/virtual-sites/phones/:siteId/", function (req, res, next) {
 
   let siteId = req.params.siteId;
@@ -261,6 +276,22 @@ router.put("/virtual-sites/emails/:siteId/", function (req, res, next) {
     .updateEmail(siteId, email)
     .subscribe(email => {
       res.send(JSON.stringify(email));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
+
+});
+
+router.put("/virtual-sites/web-sites/:siteId/", function (req, res, next) {
+
+  let siteId = req.params.siteId;
+  let webSite = req.body;
+  orchestrator
+    .updateWebSite(siteId, webSite)
+    .subscribe(webSite => {
+      res.send(JSON.stringify(webSite));
     }, error => {
       res.status(400);
       res.send(error);

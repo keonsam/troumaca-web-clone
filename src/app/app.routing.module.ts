@@ -25,6 +25,7 @@ import {SiteEmailCreationComponent} from "../site/site-email-creation/site.email
 import {SiteEmailEditComponent} from "../site/site-email-edit/site.email.edit.component";
 import {SiteEmailListComponent} from "../site/site-email-list/site.email.list.component";
 import {SiteWebCreationComponent} from "../site/site-web-creation/site.web.creation.component";
+import {SiteWebEditComponent} from "../site/site-web-edit/site.web.edit.component";
 import {SiteWebListComponent} from "../site/site-web-list/site.web.list.component";
 import {SitePhoneListComponent} from "../site/site-phone-list/site.phone.list.component";
 import {SiteStreetAddressCreationComponent} from "../site/site-street-address-creation/site.street.address.creation.component";
@@ -73,6 +74,7 @@ const appRoutes: Routes = [
     { path: 'emails/:siteId/edit', component: SiteEmailEditComponent },
     { path: 'web-sites', component: SiteWebListComponent },
     { path: 'web-sites/create', component: SiteWebCreationComponent },
+    { path: 'web-sites/:siteId/edit', component: SiteWebEditComponent },
     { path: 'phones', component: SitePhoneListComponent},
     { path: 'phones/:siteId/edit', component: SitePhoneEditComponent},
     { path: 'phones/create', component: SitePhoneCreationComponent}

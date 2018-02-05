@@ -156,6 +156,21 @@ module.exports =  function DatabaseSiteRepository() {
     });
   };
 
+  this.getWebSite = function (siteId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.websites.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   this.getTelephoneBySiteId = function (siteId) {
     return Rx.Observable.create(function (observer) {
       let query = {};
@@ -341,6 +356,21 @@ module.exports =  function DatabaseSiteRepository() {
       let query = {};
       query["siteId"] = siteId;
       db.emails.update(query, email, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
+
+  this.updateWebSite = function (siteId, webSite) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.websites.update(query, webSite, {}, function (err, numReplaced) {
         if (!err) {
           observer.next(numReplaced);
         } else {

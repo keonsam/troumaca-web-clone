@@ -15,6 +15,9 @@ export class SiteStreetAddressEditComponent implements OnInit {
   private siteId: string;
   private sub: any;
   private _name: FormControl;
+  private _suiteOrApartment: FormControl;
+  private _floor: FormControl;
+  private _suiteOrApartmentNumber: FormControl;
   private _description: FormControl;
   private _streetNumber: FormControl;
   private _street: FormControl;
@@ -35,6 +38,9 @@ export class SiteStreetAddressEditComponent implements OnInit {
               private router: Router) {
 
      this.name = new FormControl("", [Validators.required]);
+     this.suiteOrApartment = new FormControl("", [Validators.required]);
+     this.floor = new FormControl("", [Validators.required]);
+     this.suiteOrApartmentNumber = new FormControl("", [Validators.required]);
      this.description = new FormControl("");
      this.streetNumber = new FormControl("");
      this.street = new FormControl("", [Validators.required]);
@@ -46,6 +52,9 @@ export class SiteStreetAddressEditComponent implements OnInit {
 
      this.siteStreetAddressEditForm = formBuilder.group({
        "name": this.name,
+       "suiteOrApartment": this.suiteOrApartment,
+       "floor": this.floor,
+       "suiteOrApartmentNumber": this.suiteOrApartmentNumber,
        "description": this.description,
        "streetNumber": this.streetNumber,
        "street": this.street,
@@ -75,6 +84,9 @@ export class SiteStreetAddressEditComponent implements OnInit {
        this.siteService.getStreetAddress(this.siteId)
        .subscribe(streetAddress =>{
         this.name.setValue(streetAddress.name);
+        this.suiteOrApartment.setValue(streetAddress.suiteOrApartment);
+        this.floor.setValue(streetAddress.floor);
+        this.suiteOrApartmentNumber.setValue(streetAddress.suiteOrApartmentNumber);
         this.description.setValue(streetAddress.description);
         this.streetNumber.setValue(streetAddress.streetNumber);
         this.street.setValue(streetAddress.street);
@@ -104,6 +116,30 @@ export class SiteStreetAddressEditComponent implements OnInit {
 
   set name(value: FormControl) {
     this._name = value;
+  }
+
+  get suiteOrApartment(): FormControl {
+    return this._suiteOrApartment;
+  }
+
+  set suiteOrApartment(value: FormControl) {
+    this._suiteOrApartment = value;
+  }
+
+  get floor(): FormControl {
+    return this._floor;
+  }
+
+  set floor(value: FormControl) {
+    this._floor = value;
+  }
+
+  get suiteOrApartmentNumber(): FormControl {
+    return this._suiteOrApartmentNumber;
+  }
+
+  set suiteOrApartmentNumber(value: FormControl) {
+    this._suiteOrApartmentNumber = value;
   }
 
   get description(): FormControl {
@@ -161,7 +197,7 @@ export class SiteStreetAddressEditComponent implements OnInit {
   set country(value: FormControl) {
     this._country = value;
   }
-  
+
   get siteStreetAddressEditForm(): FormGroup {
     return this._siteStreetAddressEditForm;
   }
@@ -180,6 +216,9 @@ export class SiteStreetAddressEditComponent implements OnInit {
 
   setStreetAddressValue(value) {
     this.streetAddress.name = value.name;
+    this.streetAddress.suiteOrApartment = value.suiteOrApartment;
+    this.streetAddress.floor = value.floor;
+    this.streetAddress.suiteOrApartmentNumber = value.suiteOrApartmentNumber;
     this.streetAddress.description = value.description;
     this.streetAddress.streetNumber = value.streetNumber;
     this.streetAddress.street = value.street;
