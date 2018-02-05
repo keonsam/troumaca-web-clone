@@ -6,6 +6,8 @@ export class PhysicalSiteState extends SiteState {
   private _stateOrProvince:string;
   private _postalCode:string;
   private _country:string;
+  private _createdOn: Date;
+  private _modifiedOn: Date;
 
   get city(): string {
     return this._city;
@@ -37,6 +39,22 @@ export class PhysicalSiteState extends SiteState {
 
   set country(value: string) {
     this._country = value;
+  }
+
+  get createdOn(): Date {
+    return this._createdOn;
+  }
+
+  set createdOn(value: Date) {
+    this._createdOn = value;
+  }
+
+  get modifiedOn(): Date {
+    return this._modifiedOn;
+  }
+
+  set modifiedOn(value: Date) {
+    this._modifiedOn = value;
   }
 
 }

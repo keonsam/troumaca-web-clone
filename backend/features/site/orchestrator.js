@@ -17,6 +17,14 @@ module.exports = function SiteOrchestrator() {
     return siteRepository.savePostOfficeBox(postOfficeBox);
   };
 
+  this.saveEmail = function (email) {
+    return siteRepository.saveEmail(email);
+  };
+
+  this.saveWebSite = function (webSite) {
+    return siteRepository.saveWebSite(webSite);
+  };
+
   this.saveTelephone =  function(telephone) {
     return siteRepository.saveTelephone(telephone);
   };
@@ -27,6 +35,10 @@ module.exports = function SiteOrchestrator() {
 
   this.getPostOfficeBox = function (siteId) {
     return siteRepository.getPostOfficeBox(siteId);
+  }
+
+  this.getEmail = function (siteId) {
+    return siteRepository.getEmail(siteId);
   }
 
   this.getTelephoneBySiteId = function (siteId) {
@@ -59,6 +71,32 @@ module.exports = function SiteOrchestrator() {
     });
   };
 
+  this.getEmails = function (number, size, field, direction) {
+    let sort = getSortOrderOrDefault(field, direction);
+    return siteRepository
+    .getEmails(number, size, sort)
+    .flatMap(value => {
+      return siteRepository
+        .getEmailCount()
+        .map(count => {
+          return responseShaper.shapePhonesResponse("emails", value, number, size, value.length, count, sort);
+        });
+    });
+  };
+
+  this.getWebSites = function (number, size, field, direction) {
+    let sort = getSortOrderOrDefault(field, direction);
+    return siteRepository
+    .getWebSites(number, size, sort)
+    .flatMap(value => {
+      return siteRepository
+        .getWebSiteCount()
+        .map(count => {
+          return responseShaper.shapePhonesResponse("webSites", value, number, size, value.length, count, sort);
+        });
+    });
+  };
+
   this.getTelephones = function (number, size, field, direction) {
     let sort = getSortOrderOrDefault(field, direction);
     return siteRepository
@@ -80,6 +118,10 @@ module.exports = function SiteOrchestrator() {
     return siteRepository.updatePostOfficeBox(siteId, postOfficeBox);
   }
 
+  this.updateEmail = function (siteId, email) {
+    return siteRepository.updateEmail(siteId, email);
+  }
+
   this.updateTelephone = function (siteId, phone) {
     return siteRepository.updateTelephone(siteId, phone);
   };
@@ -90,6 +132,14 @@ module.exports = function SiteOrchestrator() {
 
   this.deletePostOfficeBox = function (siteId) {
     return siteRepository.deletePostOfficeBox(siteId);
+  };
+
+  this.deleteEmail = function (siteId) {
+    return siteRepository.deleteEmail(siteId);
+  };
+
+  this.deleteWebSite = function (siteId) {
+    return siteRepository.deleteWebSite(siteId);
   };
 
   this.deleteTelephone = function (siteId) {

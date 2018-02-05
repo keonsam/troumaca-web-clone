@@ -21,7 +21,10 @@ import {AttributeEditComponent} from "../attributes/attribute-edit/attribute.edi
 import {SitePostOfficeBoxCreationComponent} from "../site/site-post-office-box-creation/site.post.office.box.creation.component";
 import {SitePostOfficeBoxEditComponent} from "../site/site-post-office-box-edit/site.post.office.box.edit.component";
 import {SitePostOfficeBoxListComponent} from "../site/site-post-office-box-list/site.post.office.box.list.component";
+import {SiteEmailCreationComponent} from "../site/site-email-creation/site.email.creation.component";
+import {SiteEmailEditComponent} from "../site/site-email-edit/site.email.edit.component";
 import {SiteEmailListComponent} from "../site/site-email-list/site.email.list.component";
+import {SiteWebCreationComponent} from "../site/site-web-creation/site.web.creation.component";
 import {SiteWebListComponent} from "../site/site-web-list/site.web.list.component";
 import {SitePhoneListComponent} from "../site/site-phone-list/site.phone.list.component";
 import {SiteStreetAddressCreationComponent} from "../site/site-street-address-creation/site.street.address.creation.component";
@@ -61,12 +64,15 @@ const appRoutes: Routes = [
     { path: '', redirectTo: 'street-addresses', pathMatch: 'full' },
     { path: 'street-addresses', component: SiteStreetAddressListComponent },
     { path: 'street-addresses/:siteId/edit', component: SiteStreetAddressEditComponent },
-    { path: 'street-addresses/create', component: SiteStreetAddressCreationComponent },    
+    { path: 'street-addresses/create', component: SiteStreetAddressCreationComponent },
     { path: 'post-office-boxes', component: SitePostOfficeBoxListComponent },
     { path: 'post-office-boxes/create', component: SitePostOfficeBoxCreationComponent },
-    { path: 'post-office-boxes/:siteId/edit', component: SitePostOfficeBoxEditComponent },    
+    { path: 'post-office-boxes/:siteId/edit', component: SitePostOfficeBoxEditComponent },
     { path: 'emails', component: SiteEmailListComponent },
+    { path: 'emails/create', component: SiteEmailCreationComponent },
+    { path: 'emails/:siteId/edit', component: SiteEmailEditComponent },
     { path: 'web-sites', component: SiteWebListComponent },
+    { path: 'web-sites/create', component: SiteWebCreationComponent },
     { path: 'phones', component: SitePhoneListComponent},
     { path: 'phones/:siteId/edit', component: SitePhoneEditComponent},
     { path: 'phones/create', component: SitePhoneCreationComponent}

@@ -7,18 +7,18 @@ let DbUtil = require("../db.util");
 
 let hostname = 'troumaca.com';
 
-let theStreetAddressesDb = path.resolve(__dirname, '..','..',) + '/nedb/street-addresses.db';
+let theStreetAddressDb = path.resolve(__dirname, '..','..',) + '/nedb/street-addresses.db';
 let theTelephoneDb = path.resolve(__dirname, '..','..',) + '/nedb/telephones.db';
 let theEmailDb = path.resolve(__dirname, '..','..',) + '/nedb/emails.db';
 let theWebSiteDb = path.resolve(__dirname, '..','..',) + '/nedb/web-sites.db';
-let thePostOfficeBoxesDb = path.resolve(__dirname, '..','..',) + '/nedb/post-office-boxes.db';
+let thePostOfficeBoxDb = path.resolve(__dirname, '..','..',) + '/nedb/post-office-boxes.db';
 
 let db = {};
 
-db.streetAddresses = new Datastore(theStreetAddressesDb);
+db.streetAddresses = new Datastore(theStreetAddressDb);
 db.streetAddresses.loadDatabase(function (err) { console.log(err); });
 
-db.postOfficeBoxes = new Datastore(thePostOfficeBoxesDb);
+db.postOfficeBoxes = new Datastore(thePostOfficeBoxDb);
 db.postOfficeBoxes.loadDatabase(function (err) { console.log(err); });
 
 db.telephones = new Datastore(theTelephoneDb);
@@ -66,6 +66,36 @@ module.exports =  function DatabaseSiteRepository() {
     });
   };
 
+  this.saveEmail = function (email) {
+    email.siteId = newUuidGenerator.generateUUID();
+    return Rx.Observable.create(function (observer) {
+      db.emails.insert(email, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+
+  };
+
+  this.saveWebSite = function (webSite) {
+    webSite.siteId = newUuidGenerator.generateUUID();
+    return Rx.Observable.create(function (observer) {
+      db.websites.insert(webSite, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+
+  };
+
   this.saveTelephone = function (phone) {
     phone.siteId = newUuidGenerator.generateUUID();
     return Rx.Observable.create(function (observer) {
@@ -109,7 +139,22 @@ module.exports =  function DatabaseSiteRepository() {
         observer.complete();
       });
     });
-  }
+  };
+
+  this.getEmail = function (siteId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.emails.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
 
   this.getTelephoneBySiteId = function (siteId) {
     return Rx.Observable.create(function (observer) {
@@ -154,6 +199,34 @@ module.exports =  function DatabaseSiteRepository() {
     });
   };
 
+  this.getEmails = function (pageNumber, pageSize, order) {
+    return Rx.Observable.create(function (observer) {
+      let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
+      db.emails.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.getWebSites = function (pageNumber, pageSize, order) {
+    return Rx.Observable.create(function (observer) {
+      let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
+      db.websites.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   this.getTelephones = function (pageNumber, pageSize, order) {
     return Rx.Observable.create(function (observer) {
       let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
@@ -184,6 +257,32 @@ module.exports =  function DatabaseSiteRepository() {
   this.getPostOfficeBoxCount = function () {
     return Rx.Observable.create(function (observer) {
       db.postOfficeBoxes.count({}, function (err, count) {
+        if (!err) {
+          observer.next(count);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.getEmailCount = function () {
+    return Rx.Observable.create(function (observer) {
+      db.emails.count({}, function (err, count) {
+        if (!err) {
+          observer.next(count);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.getWebSiteCount = function () {
+    return Rx.Observable.create(function (observer) {
+      db.websites.count({}, function (err, count) {
         if (!err) {
           observer.next(count);
         } else {
@@ -235,7 +334,22 @@ module.exports =  function DatabaseSiteRepository() {
         observer.complete();
       })
     });
-  }
+  };
+
+  this.updateEmail = function (siteId, email) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.emails.update(query, email, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
 
   this.updateTelephone = function (siteId, phone) {
     return Rx.Observable.create(function (observer) {
@@ -272,6 +386,36 @@ module.exports =  function DatabaseSiteRepository() {
       let query = {};
       query["siteId"] = siteId;
       db.postOfficeBoxes.remove(query, {}, function (err, numRemoved) {
+        if (!err) {
+          observer.next(numRemoved);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
+
+  this.deleteEmail = function (siteId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.emails.remove(query, {}, function (err, numRemoved) {
+        if (!err) {
+          observer.next(numRemoved);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
+
+  this.deleteWebSite = function (siteId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["siteId"] = siteId;
+      db.websites.remove(query, {}, function (err, numRemoved) {
         if (!err) {
           observer.next(numRemoved);
         } else {

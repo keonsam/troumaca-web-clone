@@ -1,9 +1,8 @@
-import {PostOfficeBox} from "./post.office.box";
 import {StreetAddress} from "./street.address";
 import {Page} from "../page/page";
 import {Sort} from "../sort/sort";
 
-export class StreetAddresses extends PostOfficeBox {
+export class StreetAddresses {
 
   private _streetAddresses:StreetAddress[] = [];
   private _page: Page;

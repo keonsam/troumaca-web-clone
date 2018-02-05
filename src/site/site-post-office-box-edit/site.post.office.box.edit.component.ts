@@ -14,7 +14,13 @@ export class SitePostOfficeBoxEditComponent implements OnInit {
 
   private siteId: string;
   private sub: any;
+  private _name: FormControl;
+  private _description: FormControl;
   private _postOfficeBoxNumber: FormControl;
+  private _city: FormControl;
+  private _stateOrProvince: FormControl;
+  private _postalCode: FormControl;
+  private _country: FormControl;
 
 
   private _sitePostOfficeBoxEditForm: FormGroup;
@@ -28,11 +34,23 @@ export class SitePostOfficeBoxEditComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router) {
 
+     this.name = new FormControl("", [Validators.required]);
+     this.description = new FormControl("");
      this.postOfficeBoxNumber = new FormControl("", [Validators.required]);
+     this.city = new FormControl("", [Validators.required]);
+     this.stateOrProvince = new FormControl("", [Validators.required]);
+     this.postalCode = new FormControl("", [Validators.required]);
+     this.country = new FormControl("", [Validators.required]);
 
 
      this.sitePostOfficeBoxEditForm = formBuilder.group({
-       "postOfficeBoxNumber": this.postOfficeBoxNumber
+       "name": this.name,
+       "description": this.description,
+       "postOfficeBoxNumber": this.postOfficeBoxNumber,
+       "city": this.city,
+       "stateOrProvince": this.stateOrProvince,
+       "postalCode": this.postalCode,
+       "country": this.country
      });
 
      this.postOfficeBox = new PostOfficeBox();
@@ -40,7 +58,7 @@ export class SitePostOfficeBoxEditComponent implements OnInit {
      this.sitePostOfficeBoxEditForm
      .valueChanges
      .subscribe(value => {
-       this.postOfficeBox.postOfficeBoxNumber = value.postOfficeBoxNumber;
+       this.setPostOfficeBoxValue(value);
        console.log(value);
      }, error2 => {
        console.log(error2);
@@ -54,14 +72,21 @@ export class SitePostOfficeBoxEditComponent implements OnInit {
        this.siteId = params['siteId'];
        this.siteService.getPostOfficeBox(this.siteId)
        .subscribe(postOfficeBox =>{
+        this.name.setValue(postOfficeBox.name);
+        this.description.setValue(postOfficeBox.description);
         this.postOfficeBoxNumber.setValue(postOfficeBox.postOfficeBoxNumber);
+        this.city.setValue(postOfficeBox.city);
+        this.stateOrProvince.setValue(postOfficeBox.stateOrProvince);
+        this.postalCode.setValue(postOfficeBox.postalCode);
+        this.country.setValue(postOfficeBox.country);
+        this.postOfficeBox = postOfficeBox;
       }, error => {
         console.log(error);
       }, () => {
         this.sitePostOfficeBoxEditForm
         .valueChanges
         .subscribe(value => {
-          this.postOfficeBox.postOfficeBoxNumber = value.postOfficeBoxNumber;
+          this.setPostOfficeBoxValue(value);
           console.log(value);
         }, error2 => {
           console.log(error2);
@@ -70,12 +95,60 @@ export class SitePostOfficeBoxEditComponent implements OnInit {
     });
   }
 
+  get name(): FormControl {
+    return this._name;
+  }
+
+  set name(value: FormControl) {
+    this._name = value;
+  }
+
+  get description(): FormControl {
+    return this._description;
+  }
+
+  set description(value: FormControl) {
+    this._description = value;
+  }
+
   get postOfficeBoxNumber(): FormControl {
     return this._postOfficeBoxNumber;
   }
 
   set postOfficeBoxNumber(value: FormControl) {
     this._postOfficeBoxNumber = value
+  }
+
+  get city(): FormControl {
+    return this._city;
+  }
+
+  set city(value: FormControl) {
+    this._city = value;
+  }
+
+  get stateOrProvince() : FormControl {
+    return this._stateOrProvince;
+  }
+
+  set stateOrProvince(value: FormControl) {
+    this._stateOrProvince = value;
+  }
+
+  get postalCode(): FormControl {
+    return this._postalCode;
+  }
+
+  set postalCode(value: FormControl) {
+    this._postalCode = value;
+  }
+
+  get country(): FormControl {
+    return this._country;
+  }
+
+  set country(value: FormControl) {
+    this._country = value;
   }
 
   get sitePostOfficeBoxEditForm(): FormGroup {
@@ -92,6 +165,16 @@ export class SitePostOfficeBoxEditComponent implements OnInit {
 
   set doNotDisplayFailureMessage(value: boolean) {
     this._doNotDisplayFailureMessage = value;
+  }
+
+  setPostOfficeBoxValue(value) {
+    this.postOfficeBox.name = value.name;
+    this.postOfficeBox.description = value.description;
+    this.postOfficeBox.postOfficeBoxNumber = value.postOfficeBoxNumber;
+    this.postOfficeBox.city = value.city;
+    this.postOfficeBox.stateOrProvince = value.stateOrProvince;
+    this.postOfficeBox.postalCode = value.postalCode;
+    this.postOfficeBox.country = value.country;
   }
 
   onCreate() {

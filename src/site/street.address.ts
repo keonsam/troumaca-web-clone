@@ -1,9 +1,10 @@
-import {PostOfficeBox} from "./post.office.box";
+import {PhysicalSite} from "./physical.site";
 
-export class StreetAddress extends PostOfficeBox {
+export class StreetAddress extends PhysicalSite {
 
   private _streetNumber:string;
   private _street:string;
+
 
   get streetNumber(): string {
     return this._streetNumber;
@@ -20,5 +21,6 @@ export class StreetAddress extends PostOfficeBox {
   set street(value: string) {
     this._street = value;
   }
+
 
 }

@@ -17,6 +17,7 @@ export class AssetTypeClassListComponent implements OnInit {
   private defaultPage:number = 1;
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
+  private _routerLinkCreateAssetTypeClass:string = "/asset-type-classes/create";
 
  constructor(private assetTypeClassService: AssetTypeClassService,
              private zone:NgZone) {
@@ -52,6 +53,14 @@ export class AssetTypeClassListComponent implements OnInit {
 
   set assetTypeClasses(value: AssetTypeClasses) {
     this._assetTypeClasses = value;
+  }
+
+  get routerLinkCreateAssetTypeClass(): string {
+    return this._routerLinkCreateAssetTypeClass;
+  }
+
+  set routerLinkCreateAssetTypeClass(value: string) {
+    this._routerLinkCreateAssetTypeClass = value;
   }
 
   onResize(event) {
