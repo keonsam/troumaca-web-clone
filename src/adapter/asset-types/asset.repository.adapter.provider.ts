@@ -1,5 +1,5 @@
 
-import {AssetTypesClient} from "../../client/asset-types/asset.types.client";
+import {AssetTypesClient} from "../../client/asset-type/asset.types.client";
 import {AssetTypeRepository} from "../../asset-types/asset.type.repository";
 import {AssetTypeRepositoryAdapter} from "./asset.repository.adapter";
 

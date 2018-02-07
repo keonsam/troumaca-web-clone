@@ -1,6 +1,6 @@
 import {UnitOfMeasureRepositoryAdapter} from "./unit.of.measure.repository.adapter";
 import {AssetUnitOfMeasureRepository} from "../../assets/assset.unit.of.measure.repository";
-import {UnitOfMeasureClient} from "../../client/unit-of-measures/unit.of.measure.client";
+import {UnitOfMeasureClient} from "../../client/unit-of-measure/unit.of.measure.client";
 
 export function unitOfMeasureRepositoryProviderFactory (unitOfMeasureClient:UnitOfMeasureClient):AssetUnitOfMeasureRepository {
   let assetUnitOfMeasureRepository: AssetUnitOfMeasureRepository;

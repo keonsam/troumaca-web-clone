@@ -1,17 +1,17 @@
-import {PersonRepository} from "./party.repository";
+import {PartyRepository} from "./party.repository";
 import {Observable} from "rxjs/Observable";
 import {Person} from "./person";
 
-export class PersonService {
+export class PartyService {
 
-  constructor(private personRepository: PersonRepository) {
+  constructor(private partyRepository: PartyRepository) {
   }
 
   public getPersons():Observable<Person[]> {
-    return this.personRepository.getPersons();
+    return this.partyRepository.getPersons();
   }
 
   public getCurrentPerson():Observable<Person> {
-    return this.personRepository.getCurrentPerson();
+    return this.partyRepository.getCurrentPerson();
   }
 }

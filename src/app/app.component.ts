@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NavigationStart, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from "@angular/router";
 import "rxjs/add/operator/filter";
 import {AppDynamicStyle} from "./app.dynamic.style";
 
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit{
     "register"
   ];
 
-  constructor(private router:Router) {
+  constructor(private router:Router, route:ActivatedRoute) {
     // this.isLoggedIn = true;
     // this.styleMap.set("/", new AppDynamicStyle(true, false, false));
     // this.styleMap.set("/home", new AppDynamicStyle(true, false, false));
@@ -40,8 +40,6 @@ export class AppComponent implements OnInit{
     // this.styleMap.set("home", "isSithSidePanel");
     // this.styleMap.set("login", "with-pattern");
     // this.styleMap.set("default", "no-padding-content");
-
-
 
   }
 
@@ -64,6 +62,7 @@ export class AppComponent implements OnInit{
     //   }
     //   this.someClass = this.contains(url, this.withPatternRoutes);
     // });
+
   }
 
   private contains(value:string, itemList:string[]):boolean {
