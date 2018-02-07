@@ -6,7 +6,7 @@ import {AssetState} from "./asset.state";
 // import {AssetTypeStates} from "./asset.type.states";
 
 export class AssetClientMock extends AssetClient {
-  getAssets(pageNumber:number): Observable<AssetStates> {
+  getAssets(pageNumber:number, pageSize:number, sortOrder:string): Observable<AssetStates> {
     return undefined;
   }
 
@@ -18,11 +18,8 @@ export class AssetClientMock extends AssetClient {
   //   return null;
   // }
 
-  public addInventoryAsset(assetState: AssetState): Observable<AssetState> {
+  public addAsset(assetState: AssetState): Observable<AssetState> {
     return null;
   }
 
-  public addDiscreteAsset(assetState: AssetState): Observable<AssetState> {
-    return null;
-  }
 }

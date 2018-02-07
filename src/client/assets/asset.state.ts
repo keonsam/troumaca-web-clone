@@ -1,5 +1,8 @@
 import {AssetTypeState} from "../asset-types/asset.type.state";
-import {AssetTypeClassState} from "../asset-types/asset.type.class.state";
+//import {AssetTypeClassState} from "../asset-types/asset.type.class.state";
+import {UnitOfMeasureState} from "./asset.unit.of.measure.state";
+import {AssetPersonState} from "./asset.person.state";
+import {SiteState} from "./asset.site.state";
 import {JsonObject, JsonProperty} from "json2typescript";
 
 @JsonObject
@@ -11,12 +14,13 @@ export class AssetState {
   private _serialNumber:string;
   private _description:string;
   private _quantity:number;
-  private _unitOfMeasure:string;
-  private _lotNumber:string;
-  private _site: string;
-  private _person: string;
 
-  private _assetTypeClass: AssetTypeClassState;
+  private _unitOfMeasure: UnitOfMeasureState;
+  //private _lotNumber:string;
+  private _site: SiteState;
+  private _person: AssetPersonState;
+
+  //private _assetTypeClass: AssetTypeClassState;
   private _assetType: AssetTypeState;
 
   get assetId(): string {
@@ -58,29 +62,29 @@ export class AssetState {
     this._quantity = value;
   }
 
-  get unitOfMeasure(): string {
+  get unitOfMeasure(): UnitOfMeasureState {
     return this._unitOfMeasure;
   }
 
-  set unitOfMeasure(value: string) {
+  set unitOfMeasure(value: UnitOfMeasureState) {
     this._unitOfMeasure = value;
   }
 
-  get lotNumber(): string {
+  /*get lotNumber(): string {
     return this._lotNumber;
   }
 
   set lotNumber(value: string) {
     this._lotNumber = value;
-  }
+  }*/
 
-  get assetTypeClass(): AssetTypeClassState {
+  /*get assetTypeClass(): AssetTypeClassState {
     return this._assetTypeClass;
   }
 
   set assetTypeClass(value: AssetTypeClassState) {
     this._assetTypeClass = value;
-  }
+  } */
 
   get assetType(): AssetTypeState {
     return this._assetType;
@@ -89,19 +93,19 @@ export class AssetState {
   set assetType(value: AssetTypeState) {
     this._assetType = value;
   }
-  get person(): string {
+  get person(): AssetPersonState {
     return this._person;
   }
 
-  set person(value: string) {
+  set person(value: AssetPersonState) {
     this._person = value
   }
 
-  get site(): string {
+  get site(): SiteState {
     return this._site;
   }
 
-  set site(value: string) {
+  set site(value: SiteState) {
     this._site = value;
   }
 
@@ -113,9 +117,10 @@ export class AssetState {
       description: this.description,
       quantity: this.quantity,
       unitOfMeasure: this.unitOfMeasure,
-      lotNumber: this.lotNumber,
+      person: this.person,
+      //lotNumber: this.lotNumber,
       site: this.site,
-      assetTypeClass: (this.assetTypeClass ? this.assetTypeClass : "")
+      //assetTypeClass: (this.assetTypeClass ? this.assetTypeClass : "")
     }
   }
 

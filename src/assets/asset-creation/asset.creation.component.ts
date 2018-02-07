@@ -2,22 +2,28 @@ import {Component, OnInit} from "@angular/core";
 import {AssetService} from "../asset.service";
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {AssetKind} from "../asset.kind";
+
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/filter";
 import {Asset} from "../asset";
 import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
+import {AssetKind} from "../asset.kind";
 import {AssetType} from "../asset.type";
+import {UnitOfMeasure} from "../asset.unit.of.measure";
+import {AssetPerson} from "../asset.person";
+import {Site} from "../asset.site";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'asset-creation',
   templateUrl: './asset.creation.component.html',
   styleUrls: ['./asset.creation.component.css']
 })
+
 export class AssetCreationComponent implements OnInit {
 
   private _assetKindFormControlName: string;
-  private _assetKind: FormControl;
+  private _assetKindId: FormControl;
 
   private _assetTypeFormControlName: string;
   private _assetType: FormControl;
@@ -36,6 +42,8 @@ export class AssetCreationComponent implements OnInit {
 
   private _personFormControlName: string;
   private _person: FormControl;
+
+  private _description: FormControl;
 
   private _assetForm:FormGroup;
 
@@ -56,17 +64,21 @@ export class AssetCreationComponent implements OnInit {
   private pageSize:number;
   private asset:Asset;
 
+  private _doNotDisplayFailureMessage:boolean;
+
   constructor(private  assetService:AssetService,
               private completerService: CompleterService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private router: Router) {
 
-    this.assetKind = new FormControl("", Validators.required);
-    this.assetType = new FormControl("", Validators.required);
-    this.serialNumber = new FormControl("");
-    this.quantity = new FormControl("");
+    this.assetKindId = new FormControl("", [Validators.required]);
+    this.assetType = new FormControl("", [Validators.required]);
+    this.serialNumber = new FormControl("", [Validators.required]);
+    this.quantity = new FormControl("", [Validators.required]);
     this.unitOfMeasure = new FormControl("");
     this.site = new FormControl("");
     this.person = new FormControl("");
+    this.description = new FormControl("");
 
     this.assetKindFormControlName = "assetKind";
     this.assetTypeFormControlName = "assetType";
@@ -77,13 +89,14 @@ export class AssetCreationComponent implements OnInit {
     this.personFormControlName = "person";
 
     this.assetForm = formBuilder.group({
-      "assetKind": this.assetKind,
+      "assetKindId": this.assetKindId,
       "assetType": this.assetType,
       "serialNumber": this.serialNumber,
       "quantity": this.quantity,
       "unitOfMeasure": this.unitOfMeasure,
+      "person": this.person,
       "site": this.site,
-      "person": this.person
+      "description": this.description
     });
 
     this.selectedAssetKindId = "";
@@ -93,9 +106,29 @@ export class AssetCreationComponent implements OnInit {
 
     let asset = new Asset();
     asset.assetType = new AssetType();
-    asset.assetTypeClass = new AssetTypeClass();
+    asset.unitOfMeasure = new UnitOfMeasure();
+    asset.person = new AssetPerson();
+    asset.site = new Site();
+    //asset.assetTypeClass = new AssetTypeClass();
     this.asset = asset;
 
+    this.assetForm
+    .valueChanges
+    .subscribe(value => {
+      this.asset.assetKindId = value.assetKindId;
+      this.asset.assetType = value.assetType;
+      this.asset.serialNumber = value.serialNumber;
+      this.asset.quantity = value.quantity;
+      this.asset.unitOfMeasure = value.unitOfMeasure;
+      this.asset.person = value.person;
+      this.asset.site = value.site;
+      this.asset.description = value.description;
+      console.log(value);
+    }, error2 => {
+      console.log(error2);
+    });
+
+    this.doNotDisplayFailureMessage = true;
   }
 
   ngOnInit(): void {
@@ -304,7 +337,6 @@ export class AssetCreationComponent implements OnInit {
     this._searchStr = value;
   }
 
-
   get assetTypeDataService(): CompleterData {
     return this._assetTypeDataService;
   }
@@ -337,12 +369,12 @@ export class AssetCreationComponent implements OnInit {
     this._personDataService = value;
   }
 
-  get assetKind(): FormControl {
-    return this._assetKind;
+  get assetKindId(): FormControl {
+    return this._assetKindId;
   }
 
-  set assetKind(value: FormControl) {
-    this._assetKind = value;
+  set assetKindId(value: FormControl) {
+    this._assetKindId = value;
   }
 
   get assetType(): FormControl {
@@ -391,6 +423,14 @@ export class AssetCreationComponent implements OnInit {
 
   set person(value: FormControl) {
     this._person = value;
+  }
+
+  get description(): FormControl {
+    return this._description;
+  }
+
+  set description(value: FormControl) {
+    this._description = value;
   }
 
   get assetKinds(): AssetKind[] {
@@ -457,6 +497,14 @@ export class AssetCreationComponent implements OnInit {
     this._personFormControlName = value;
   }
 
+  get doNotDisplayFailureMessage(): boolean {
+    return this._doNotDisplayFailureMessage;
+  }
+
+  set doNotDisplayFailureMessage(value: boolean) {
+    this._doNotDisplayFailureMessage = value;
+  }
+
   isInventory() {
     let typeId = "65694257-0aa8-4fb6-abb7-e6c7b83cf4f2";
     return this.selectedAssetKindId.toUpperCase() === typeId.toUpperCase();
@@ -475,96 +523,48 @@ export class AssetCreationComponent implements OnInit {
     if (selected) {
       //this.assetTypeFormControlValue = selected.originalObject.assetTypeId;
       //this.asset.assetKindId = selected.originalObject.assetTypeId;
-      this.asset.assetType.assetTypeId = selected.originalObject.assetTypeId;
+      this.asset.assetType = selected.originalObject;
     }
   }
 
   onUnitOfMeasureSelect(selected: CompleterItem) {
     if (selected) {
       // this.unitOfMeasureFormControlValue = selected.originalObject.unitOfMeasureId;
-      this.asset.unitOfMeasure.unitOfMeasureId = selected.originalObject.unitOfMeasureId;
+      this.asset.unitOfMeasure.unitOfMeasureId = selected.originalObject;
     }
   }
 
   onPhysicalSiteSelect(selected: CompleterItem) {
     if (selected) {
     //  this.siteFormControlValue = selected.originalObject.siteId;
-      this.asset.site = selected.originalObject.siteId;
+      this.asset.site = selected.originalObject;
     }
   }
 
   onPersonSelect(selected: CompleterItem) {
     if (selected) {
     //  this.personFormControlValue = selected.originalObject.partyId;
-      this.asset.person = selected.originalObject.partyId;
+      this.asset.person = selected.originalObject;
     }
-  }
-
-  isValidInventory() {
-
-    if (!this.asset.assetKindId) {
-      return false;
-    }
-
-    if (!this.asset.assetType.assetTypeId) {
-      return false;
-    }
-
-    if (!this.asset.quantity) {
-      return false;
-    }
-
-    if (!this.asset.unitOfMeasure.unitOfMeasureId) {
-      return false;
-    }
-
-    return this.asset.site ? true:false;
-  }
-
-  isValidDiscreteItem() {
-
-    if (!this.asset.assetKindId) {
-      return false;
-    }
-
-    if (!this.asset.assetType.assetTypeId) {
-      return false;
-    }
-
-    if (!this.asset.serialNumber) {
-      return false;
-    }
-    return this.asset.site ? true:false;
-  }
-
-  enableSubmit() {
-
-    if (this.isInventory() && this.isValidInventory()) {
-      return true;
-    }
-    return !!(this.isDiscreteItem() && this.isValidDiscreteItem());
   }
 
   onCreate() {
-    if (this.isInventory() && this.isValidInventory()) {
-      let assetInventory:Asset = new Asset(); // validate
-      this.assetService.addInventoryAsset(this.asset)
+    this.doNotDisplayFailureMessage = true;
+      this.assetService.addAsset(this.asset)
       .subscribe(value => {
-        console.log(value);
+        if (value && value.assetId) {
+          this.router.navigate(['/assets']);
+        } else {
+          this.doNotDisplayFailureMessage = false;
+        }
       }, error => {
         console.log(error);
+        this.doNotDisplayFailureMessage = false;
       });
-
-    } else if (this.isDiscreteItem() && this.isValidDiscreteItem()) {
-      let assetDiscrete:Asset = new Asset(); // validate
-      this.assetService.addDiscreteAsset(this.asset)
-        .subscribe(value => {
-          console.log(value);
-        }, error => {
-          console.log(error);
-        });;
-
-    }
-    console.log("onSubmit");
   }
+
+  cancel() {
+    this.router.navigate(['/assets']);
+  }
+
 }

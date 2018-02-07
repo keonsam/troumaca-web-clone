@@ -9,7 +9,7 @@
           <div class="element-box">
             <form [formGroup]="assetTypeClassEditForm" (ngSubmit)="onCreate()" id="formValidate">
               <h5 class="form-header">
-                New Asset Type Class Form
+                Edit Asset Type Class Form
               </h5>
 
               <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to edit asset type class.</div>
@@ -29,7 +29,7 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [disabled]="!assetTypeClassEditForm.valid" type="submit"> Submit</button>
+                <button class="btn btn-primary button1" [disabled]="!assetTypeClassEditForm.valid" type="submit"> Save</button>
                 <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>
               </div>
 

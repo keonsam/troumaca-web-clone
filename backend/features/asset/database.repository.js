@@ -2,8 +2,10 @@ let uuidv5 = require('uuid/v5');
 let Datastore = require('nedb');
 let Rx = require("rxjs");
 let path = require('path');
-let theAssetDb = path.resolve(__dirname, '..','..',) + '/nedb/assets.db';
+let UUIDGenerator = require("../uuid.generator");
+let DbUtil = require("../db.util");
 
+let theAssetDb = path.resolve(__dirname, '..','..',) + '/nedb/assets.db';
 
 let hostname = 'troumaca.com';
 
@@ -11,26 +13,13 @@ let db = {};
 db.assets = new Datastore(theAssetDb);
 db.assets.loadDatabase(function (err) { console.log(err); });
 
-function calculateSkip(page, size) {
-  if (page <= 1) {
-    return 0;
-  } else {
-    return ((page -1) * size);
-  }
-}
-
-function buildPagedAssetListResponse(page, sort, assets) {
-  return {
-    page:page,
-    sort:sort,
-    assets:assets
-  }
-}
+let newUuidGenerator = new UUIDGenerator();
+let dbUtil = new DbUtil();
 
 module.exports =  function DatabaseAssetRepository() {
 
   this.saveAsset = function (asset) {
-    asset.assetId = uuidv5(hostname, uuidv5.DNS);
+    asset.assetId = newUuidGenerator.generateUUID();
     return Rx.Observable.create(function (observer) {
       db.assets.insert(asset, function (err, doc) {
         if (err) {
@@ -38,48 +27,36 @@ module.exports =  function DatabaseAssetRepository() {
         } else {
           observer.next(asset);
         }
-        console.log('Inserted', doc.name, 'with ID', doc._id);
+        observer.complete();
       });
     });
   };
 
-  this.saveTelephone = function (telephone) {
-
-  };
-
-  this.getAssets = function (pagination) {
+  this.getAssets = function (pageNumber, pageSize, order) {
     return Rx.Observable.create(function (observer) {
-      try {
-        let paginationCopy = JSON.parse(JSON.stringify(pagination));
-
-        let page = paginationCopy.page;
-        page.number = parseInt(isNaN(pagination.page.number) ? 1 : pagination.page.number);
-        page.size = parseInt(isNaN(pagination.page.size) ? 5 : pagination.page.size);
-        //page.items = 20;
-
-        let sort = paginationCopy.sort;
-        sort.direction = (pagination.sort.direction ? pagination.sort.direction : "asc");
-        sort.attributes = (pagination.sort.attributes ? pagination.sort.attributes : ["name"]);
-
-        let sortAttribute = sort.attributes;
-        let sortDirection = sort.direction;
-        let calculateSkip2 = calculateSkip(page.number, page.size);
-
-        db.assets.count({}, function (err, count) {
-         page.items = count;
-        });
-
-        db.assets.find({}).skip(calculateSkip2).limit(page.size).exec(function (err, docs) {
-          if (err) {
-            observer.error(err);
-          } else {
-            const pagedAssetListResponse = buildPagedAssetListResponse(page, sort, docs);
-            observer.next(pagedAssetListResponse);
-          }
-        });
-      } catch (error) {
-        observer.error(error);
-      }
+      let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
+      db.assets.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
     });
-  }
 };
+
+this.getAssetCount = function () {
+  return Rx.Observable.create(function (observer) {
+    db.assets.count({}, function (err, count) {
+      if (!err) {
+        observer.next(count);
+      } else {
+        observer.error(err);
+      }
+      observer.complete();
+    });
+  });
+};
+
+}

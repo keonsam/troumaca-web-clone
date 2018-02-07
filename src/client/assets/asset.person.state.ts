@@ -1,4 +1,4 @@
-export class AssetPerson {
+export class AssetPersonState {
 
   private _partyId:string;
   private _firstName:string;

@@ -23,14 +23,28 @@ export class AssetClientHttp extends AssetClient {
   }
 
 
-  public getAssets(pageNumber:number): Observable<AssetStates> {
+  public getAssets(pageNumber:number, pageSize:number, sortOrder:string): Observable<AssetStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/v2/assets");
-    console.log(array);
+    array.push("/assets");
+
+    let queryStr = [];
+
     if (pageNumber) {
+      queryStr.push("pageNumber=" + pageNumber);
+    }
+
+    if (pageSize) {
+      queryStr.push("pageSize=" + pageSize);
+    }
+
+    if (sortOrder) {
+      queryStr.push("sortOrder=" + sortOrder);
+    }
+
+    if (queryStr.length > 0) {
       array.push("?");
-      array.push("pageNumber=" + pageNumber);
+      array.push(queryStr.join("&"));
     }
 
     return this.http.get<AssetStates>(array.join(""), {
@@ -63,10 +77,11 @@ export class AssetClientHttp extends AssetClient {
     });
   }
 
-  public addInventoryAsset(assetState: AssetState): Observable<AssetState> {
+  public addAsset(assetState: AssetState): Observable<AssetState> {
     let array = [];
+
     array.push(this.hostPort);
-    array.push("/v2/assets");
+    array.push("/assets");
 
     return this.http.post(array.join(""), assetState.toJson(), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
@@ -75,15 +90,4 @@ export class AssetClientHttp extends AssetClient {
     });
   }
 
-  public addDiscreteAsset(assetState: AssetState): Observable<AssetState> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/v2/assets");
-
-    return this.http.post(array.join(""), assetState.toJson(), {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
-      return data;
-    });
-  }
 }

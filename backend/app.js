@@ -16,10 +16,10 @@ let bodyParser = require('body-parser');
 let assets = require('./routes/assets');
 let asset = require('./routes/asset');
 // let lots = require('./routes/lots');
-// let assetTypes = require('./routes/asset-types');
-// let unitOfMeasures = require('./routes/unit-of-measures');
+ let assetTypes = require('./routes/asset-types');
+let unitOfMeasures = require('./routes/unit-of-measures');
 let persons = require('./routes/parties/persons/persons');
-// let unionOfPhysicalSites = require('./routes/sites/physical-sites/union-of-physical-sites');
+let unionOfPhysicalSites = require('./routes/sites/physical-sites/union-of-physical-sites');
 // let emailSites = require("./routes/sites/virtual-sites/e-mail-sites");
 
 let assetResource = require('./features/asset/resources');
@@ -35,18 +35,18 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 app.use(cors());
 
-app.use('/assets', assets);
+//app.use('/assets', assets);
 app.use('/asset', asset);
 // app.use('/lots', lots);
-// app.use('/asset-types', assetTypes);
-// app.use('/unit-of-measures', unitOfMeasures);
+app.use('/asset-types', assetTypes);
+app.use('/unit-of-measures', unitOfMeasures);
 
-// app.use('/sites/physical-sites', unionOfPhysicalSites);
+app.use('/sites/physical-sites', unionOfPhysicalSites);
 // app.use('/sites/virtual-sites', emailSites);
 // app.use('/sites/virtual-sites/phones', telephonicSites);
 
 app.use('/parties/persons', persons);
-app.use('/v2/assets', assetResource);
+app.use('/assets', assetResource);
 app.use('/asset-type-classes', assetTypeClassesResource);
 app.use('/sites', siteResource);
 app.use('/attributes', attributesResource);

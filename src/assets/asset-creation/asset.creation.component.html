@@ -1,6 +1,6 @@
 <div class="content-i">
 
-  <asset-top-menu></asset-top-menu>
+  <!-- <asset-top-menu></asset-top-menu> -->
 
   <div class="content-box">
     <div class="row">
@@ -12,16 +12,19 @@
                 New Asset Form
               </h5>
 
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to create asset.</div>
+
               <fieldset class="form-group">
                 <div class="form-group">
                   <label for="">Asset Kind</label><br/>
-                  <select class="form-control" formControlName="assetKind" name="assetKind">
+                  <select class="form-control" formControlName="assetKindId" name="assetKind">
                     <option value="" disabled selected>Select an Asset Kind</option>
                     <option *ngFor="let assetKind of assetKinds" [value]="assetKind.assetKindId">{{assetKind.name}}</option>
                   </select>
+                  <div [hidden]="assetKindId.valid || assetKindId.pristine" class="alert alert-danger">Please Select an Asset Kind.</div>
                 </div>
               </fieldset>
-              
+
               <fieldset class="form-group">
                 <div class="form-group">
                   <label for="">Asset Type</label>
@@ -42,14 +45,14 @@
               <fieldset *ngIf="isDiscreteItem()" class="form-group">
                 <div class="form-group">
                   <label for="">Serial Number</label><input class="form-control" formControlName="serialNumber"  data-error="Your email address is invalid" placeholder="Serial Number" required="required" type="text">
-                  <div class="help-block form-text with-errors form-control-feedback"></div>
+                  <div [hidden]="serialNumber.valid || serialNumber.pristine" class="alert alert-danger">Please Enter a Serial Number.</div>
                 </div>
               </fieldset>
 
               <fieldset *ngIf="isInventory()" class="form-group">
                 <div class="form-group">
                   <label for="">Quantity</label><input class="form-control" formControlName="quantity" data-error="Your email address is invalid" placeholder="Quantity" required="required" type="number">
-                  <div class="help-block form-text with-errors form-control-feedback"></div>
+                  <div [hidden]="quantity.valid || quantity.pristine" class="alert alert-danger">Please Enter an Quantity.</div>
                 </div>
               </fieldset>
 
@@ -67,7 +70,6 @@
                                  [textSearching]="false"
                                  (selected)="onUnitOfMeasureSelect($event)">
                   </ng2-completer>
-
                 </div>
               </fieldset>
 
@@ -105,8 +107,15 @@
                 </div>
               </fieldset>
 
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="description">Description</label><textarea class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
+                  <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
+                </div>
+              </fieldset>
+
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [disabled]="!enableSubmit()" type="submit"> Create</button>
+                <button class="btn btn-primary button1" [disabled]="!assetForm.valid" type="submit"> Create</button>
                 <button class="btn btn-white" type="cancel" (click)="onReset()"> Cancel</button>
               </div>
 

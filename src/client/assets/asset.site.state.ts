@@ -1,4 +1,4 @@
-export class Site {
+export class SiteState {
   private _siteId:string;
   private _siteName: string;
 
@@ -17,5 +17,5 @@ export class Site {
   set siteName(value: string) {
     this._siteName = value;
   }
-  
+
 }
