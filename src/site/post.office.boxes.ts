@@ -1,9 +1,8 @@
-import {PhysicalSite} from "./physical.site"
 import {PostOfficeBox} from "./post.office.box";
 import {Page} from "../page/page";
 import {Sort} from "../sort/sort";
 
-export class PostOfficeBoxes extends PhysicalSite {
+export class PostOfficeBoxes {
 
   private _postOfficeBoxes:PostOfficeBox[] = [];
   private _page:Page;

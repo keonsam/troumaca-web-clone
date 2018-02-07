@@ -17,6 +17,7 @@ export class AttributeListComponent implements OnInit {
   private defaultPage:number = 1;
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
+  private _routerLinkCreateAttribute:string = "/attributes/create";
 
   constructor(private attributeService: AttributeService,
               private router: Router) {
@@ -52,6 +53,14 @@ export class AttributeListComponent implements OnInit {
     this._attributes = value;
   }
 
+  get routerLinkCreateAttribute(): string {
+    return this._routerLinkCreateAttribute;
+  }
+
+  set routerLinkCreateAttribute(value: string) {
+    this._routerLinkCreateAttribute = value;
+  }
+
   onOpenModal(attributeId: string) {
     this.attributeId = attributeId
   }
@@ -70,6 +79,6 @@ export class AttributeListComponent implements OnInit {
 
   onRequestPage(pageNumber:number) {
    this.defaultPage = pageNumber;
-   this.getAttributes();   
+   this.getAttributes();
   }
 }

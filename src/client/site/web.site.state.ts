@@ -12,4 +12,17 @@ export class WebSiteState extends VirtualSiteState {
     this._uniformResourceIdentifer = value;
   }
 
+  toJson() {
+    return {
+      siteId: this.siteId,
+      tenantId: this.tenantId,
+      name: this.name,
+      description: this.description,
+
+      uniformResourceIdentifer: this.uniformResourceIdentifer,
+
+      createdOn: this.createdOn,
+      removedOn: this.removedOn
+    }
+  }
 }

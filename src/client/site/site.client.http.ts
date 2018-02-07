@@ -3,11 +3,13 @@ import {UUIDGenerator} from "../../uuid.generator";
 import {Observable} from "rxjs/Observable";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UnionOfPhysicalSiteStates} from "./union.of.physical.site.states";
+import {EmailState} from "./email.state";
 import {EmailStates} from "./email.states";
 import {StreetAddressStates} from "./street.address.states";
 import {PostOfficeBoxState} from "./post.office.box.state";
 import {PostOfficeBoxStates} from "./post.office.box.states";
 import {PhoneStates} from "./phone.states";
+import {WebSiteState} from "./web.site.state";
 import {WebSiteStates} from "./web.site.states";
 import {PhoneState} from "./phone.state";
 import {StreetAddressState} from "./street.address.state";
@@ -29,6 +31,14 @@ export class SiteClientHttp extends SiteClient {
 
     if (pageNumber) {
       queryStr.push("pageNumber=" + pageNumber);
+    }
+
+    if (pageSize) {
+      queryStr.push("pageSize=" + pageSize);
+    }
+
+    if (sortOrder) {
+      queryStr.push("sortOrder=" + sortOrder);
     }
 
     if (queryStr.length > 0) {
@@ -54,6 +64,14 @@ export class SiteClientHttp extends SiteClient {
       queryStr.push("pageNumber=" + pageNumber);
     }
 
+    if (pageSize) {
+      queryStr.push("pageSize=" + pageSize);
+    }
+
+    if (sortOrder) {
+      queryStr.push("sortOrder=" + sortOrder);
+    }
+
     if (queryStr.length > 0) {
       array.push("?");
       array.push(queryStr.join("&"));
@@ -66,7 +84,7 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public getEmailStates(pageNumber:number):Observable<EmailStates> {
+  public getEmailStates(pageNumber:number, pageSize:number, sortOrder:string):Observable<EmailStates> {
     let array = [];
     array.push(this.hostPort);
     array.push("/sites/virtual-sites/emails");
@@ -77,12 +95,51 @@ export class SiteClientHttp extends SiteClient {
       queryStr.push("pageNumber=" + pageNumber);
     }
 
+    if (pageSize) {
+      queryStr.push("pageSize=" + pageSize);
+    }
+
+    if (sortOrder) {
+      queryStr.push("sortOrder=" + sortOrder);
+    }
+
     if (queryStr.length > 0) {
       array.push("?");
       array.push(queryStr.join("&"));
     }
 
     return this.httpClient.get<EmailStates>(array.join(""), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+
+  public getWebSiteStates(pageNumber:number, pageSize:number, sortOrder:string):Observable<WebSiteStates> {
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/sites/virtual-sites/web-sites");
+
+    let queryStr = [];
+
+    if (pageNumber) {
+      queryStr.push("pageNumber=" + pageNumber);
+    }
+
+    if (pageSize) {
+      queryStr.push("pageSize=" + pageSize);
+    }
+
+    if (sortOrder) {
+      queryStr.push("sortOrder=" + sortOrder);
+    }
+
+    if (queryStr.length > 0) {
+      array.push("?");
+      array.push(queryStr.join("&"));
+    }
+
+    return this.httpClient.get<WebSiteStates>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
@@ -104,6 +161,26 @@ export class SiteClientHttp extends SiteClient {
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .get<PostOfficeBoxState>(url, {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
+  public getEmailState(siteId:string): Observable<EmailState> {
+    let url = `${this.hostPort}/sites/virtual-sites/emails/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .get<EmailState>(url, {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
+  public getWebSiteState(siteId:string): Observable<WebSiteState> {
+    let url = `${this.hostPort}/sites/virtual-sites/web-sites/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .get<WebSiteState>(url, {headers:headers})
     .map(data => {
       return data;
     });
@@ -144,29 +221,6 @@ export class SiteClientHttp extends SiteClient {
     }
 
     return this.httpClient.get<PhoneStates>(array.join(""), {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
-      return data;
-    });
-  }
-
-  public getWebSiteStates(pageNumber: number): Observable<WebSiteStates> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/sites/virtual-sites/web-sites");
-
-    let queryStr = [];
-
-    if (pageNumber) {
-      queryStr.push("pageNumber=" + pageNumber);
-    }
-
-    if (queryStr.length > 0) {
-      array.push("?");
-      array.push(queryStr.join("&"));
-    }
-
-    return this.httpClient.get<WebSiteStates>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
@@ -229,6 +283,26 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
+  public addEmail(emailstate: EmailState): Observable<EmailState> {
+    let url = `${this.hostPort}/sites/virtual-sites/emails`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .post(url, emailstate.toJson(), {headers: headers})
+    .map(data => {
+      return data;
+    });
+  }
+
+  public addWebSite(webSiteState: WebSiteState): Observable<WebSiteState> {
+    let url = `${this.hostPort}/sites/virtual-sites/web-sites`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .post(url, webSiteState.toJson(), {headers: headers})
+    .map(data => {
+      return data;
+    });
+  }
+
   public updateStreetAddress(siteId:string, streetAddressState: StreetAddressState): Observable<number> {
     let url = `${this.hostPort}/sites/physical-sites/street-addresses/${siteId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
@@ -244,6 +318,26 @@ export class SiteClientHttp extends SiteClient {
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .put(url, postOfficeBoxState.toJson(), {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
+  public updateEmail(siteId:string, emailState: EmailState): Observable<number> {
+    let url = `${this.hostPort}/sites/virtual-sites/emails/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .put(url, emailState.toJson(), {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
+  public updateWebSite(siteId:string, webSiteState: WebSiteState): Observable<number> {
+    let url = `${this.hostPort}/sites/virtual-sites/web-sites/${siteId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .put(url, webSiteState.toJson(), {headers:headers})
     .map(data => {
       return data;
     });
@@ -277,6 +371,26 @@ export class SiteClientHttp extends SiteClient {
     .map(data => {
       return data;
     });
+}
+
+public deleteEmail(siteId:string): Observable<number> {
+  let url = `${this.hostPort}/sites/virtual-sites/emails/${siteId}`;
+  let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+  return this.httpClient
+  .delete(url, {headers:headers})
+  .map(data => {
+    return data;
+  });
+}
+
+public deleteWebSite(siteId:string): Observable<number> {
+  let url = `${this.hostPort}/sites/virtual-sites/web-sites/${siteId}`;
+  let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+  return this.httpClient
+  .delete(url, {headers:headers})
+  .map(data => {
+    return data;
+  });
 }
 
   public deletePhone(siteId:string): Observable<number> {

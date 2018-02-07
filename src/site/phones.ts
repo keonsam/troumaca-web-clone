@@ -1,9 +1,8 @@
-import {VirtualSite} from "./virtual.site";
 import {Phone} from "./phone";
 import {Page} from "../page/page";
 import {Sort} from "../sort/sort";
 
-export class Phones extends VirtualSite {
+export class Phones  {
 
   private _phones:Phone[] = [];
   private _page:Page;

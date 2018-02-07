@@ -16,20 +16,37 @@
         <table class="table table-striped table-lightfont table-full-width">
           <thead>
           <tr>
+            <th>Post Office Box Name</th>
+            <th>Description</th>
             <th>Post Office Box Number</th>
+            <th>City</th>
+            <th>State or Province</th>
+            <th>Postal Code</th>
+            <th>Country</th>
             <th>Actions</th>
           </tr>
           </thead>
           <tfoot>
           <tr>
+            <th>Post Office Box Name</th>
+            <th>Description</th>
             <th>Post Office Box Number</th>
+            <th>City</th>
+            <th>State or Province</th>
+            <th>Postal Code</th>
+            <th>Country</th>
             <th>Actions</th>
           </tr>
           </tfoot>
           <tbody>
-          <tr>
           <tr role="row" *ngFor="let postOfficeBox of postOfficeBoxes.postOfficeBoxes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+            <td>{{postOfficeBox.name}}</td>
+            <td>{{postOfficeBox.description}}</td>
             <td>{{postOfficeBox.postOfficeBoxNumber}}</td>
+            <td>{{postOfficeBox.city}}</td>
+            <td>{{postOfficeBox.stateOrProvince}}</td>
+            <td>{{postOfficeBox.postalCode}}</td>
+            <td>{{postOfficeBox.country}}</td>
             <td class="row-actions">
               <a [routerLink]="['/sites/post-office-boxes', postOfficeBox.siteId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(postOfficeBox.siteId);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
             </td>
@@ -44,7 +61,7 @@
           <div class="modal-content">
            <div class="modal-header">
             <h5 class="modal-title" id="DeleteModalLabel">
-             Delete Asset Type Class
+             Delete Post Office Box
             </h5>
             <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
            </div>

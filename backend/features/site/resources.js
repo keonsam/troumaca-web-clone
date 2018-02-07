@@ -31,6 +31,35 @@ router.post("/physical-sites/post-office-boxes", function (req, res, next) {
   })
 });
 
+router.post("/virtual-sites/emails", function (req, res, next) {
+  let email = req.body;
+  orchestrator
+  .saveEmail(email)
+  .subscribe(email => {
+    console.log(email);
+    res.send(JSON.stringify(email));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  })
+});
+
+router.post("/virtual-sites/web-sites/", function (req, res, next) {
+
+  let webSite = req.body;
+  orchestrator
+  .saveWebSite(webSite)
+  .subscribe(webSite => {
+    res.send(JSON.stringify(webSite));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  })
+
+});
+
 router.post("/virtual-sites/phones/", function (req, res, next) {
 
   let phone = req.body;
@@ -46,7 +75,6 @@ router.post("/virtual-sites/phones/", function (req, res, next) {
 
 });
 
-
 router.get("/physical-sites/street-addresses", function (req, res, next) {
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
   let size = getNumericValueOrDefault(req.query.pageSize, 10);
@@ -56,7 +84,6 @@ router.get("/physical-sites/street-addresses", function (req, res, next) {
   orchestrator
   .getStreetAddresses(number, size, field, direction)
   .subscribe(streetAddresses => {
-    console.log(streetAddresses);
     res.send(JSON.stringify(streetAddresses));
   }, error => {
     res.status(400);
@@ -75,8 +102,44 @@ router.get("/physical-sites/post-office-boxes", function (req, res, next) {
   orchestrator
   .getPostOfficeBoxes(number, size, field, direction)
   .subscribe(PostOfficeBoxes => {
-    console.log(PostOfficeBoxes);
     res.send(JSON.stringify(PostOfficeBoxes));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  });
+
+});
+
+router.get("/virtual-sites/emails", function (req, res, next) {
+  let number = getNumericValueOrDefault(req.query.pageNumber, 1);
+  let size = getNumericValueOrDefault(req.query.pageSize, 10);
+  let field = getStringValueOrDefault(req.query.sortField, "");
+  let direction = getStringValueOrDefault(req.query.sortOrder, "");
+
+  orchestrator
+  .getEmails(number, size, field, direction)
+  .subscribe(emails => {
+    res.send(JSON.stringify(emails));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  });
+
+});
+
+router.get("/virtual-sites/web-sites", function (req, res, next) {
+  let number = getNumericValueOrDefault(req.query.pageNumber, 1);
+  let size = getNumericValueOrDefault(req.query.pageSize, 10);
+  let field = getStringValueOrDefault(req.query.sortField, "");
+  let direction = getStringValueOrDefault(req.query.sortOrder, "");
+
+  orchestrator
+  .getWebSites(number, size, field, direction)
+  .subscribe(webSites => {
+    console.log(webSites);
+    res.send(JSON.stringify(webSites));
   }, error => {
     res.status(400);
     res.send(error);
@@ -130,6 +193,36 @@ router.get("/physical-sites/post-office-boxes/:siteId", function (req, res, next
   });
 });
 
+router.get("/virtual-sites/emails/:siteId/", function (req, res, next) {
+
+  let siteId = req.params.siteId;
+
+  orchestrator
+  .getEmail(siteId)
+  .subscribe(email => {
+    let body = JSON.stringify(email);
+    res.send(body);
+  }, error => {
+    res.send(JSON.stringify(error));
+  });
+
+});
+
+router.get("/virtual-sites/web-sites/:siteId/", function (req, res, next) {
+
+  let siteId = req.params.siteId;
+
+  orchestrator
+  .getWebSite(siteId)
+  .subscribe(webSite => {
+    let body = JSON.stringify(webSite);
+    res.send(body);
+  }, error => {
+    res.send(JSON.stringify(error));
+  });
+
+});
+
 router.get("/virtual-sites/phones/:siteId/", function (req, res, next) {
 
   let siteId = req.params.siteId;
@@ -175,6 +268,38 @@ router.put("/physical-sites/post-office-boxes/:siteId", function (req, res, next
 
 });
 
+router.put("/virtual-sites/emails/:siteId/", function (req, res, next) {
+
+  let siteId = req.params.siteId;
+  let email = req.body;
+  orchestrator
+    .updateEmail(siteId, email)
+    .subscribe(email => {
+      res.send(JSON.stringify(email));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
+
+});
+
+router.put("/virtual-sites/web-sites/:siteId/", function (req, res, next) {
+
+  let siteId = req.params.siteId;
+  let webSite = req.body;
+  orchestrator
+    .updateWebSite(siteId, webSite)
+    .subscribe(webSite => {
+      res.send(JSON.stringify(webSite));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
+
+});
+
 router.put("/virtual-sites/phones/:siteId/", function (req, res, next) {
 
   let siteId = req.params.siteId;
@@ -208,6 +333,32 @@ router.delete("/physical-sites/post-office-boxes/:siteId", function (req, res, n
   let siteId = req.params.siteId;
   orchestrator
     .deletePostOfficeBox(siteId)
+    .subscribe(numRemoved => {
+      res.send(JSON.stringify(numRemoved));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
+});
+
+router.delete("/virtual-sites/emails/:siteId", function (req, res, next) {
+  let siteId = req.params.siteId;
+  orchestrator
+    .deleteEmail(siteId)
+    .subscribe(numRemoved => {
+      res.send(JSON.stringify(numRemoved));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
+});
+
+router.delete("/virtual-sites/web-sites/:siteId", function (req, res, next) {
+  let siteId = req.params.siteId;
+  orchestrator
+    .deleteWebSite(siteId)
     .subscribe(numRemoved => {
       res.send(JSON.stringify(numRemoved));
     }, error => {

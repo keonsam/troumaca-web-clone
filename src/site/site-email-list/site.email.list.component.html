@@ -1,16 +1,16 @@
-<div class="content-i asset-container">
+<div class="content-i email-container">
 
-  <site-top-menu></site-top-menu>
+ <site-top-menu></site-top-menu>
 
   <div class="content-box">
 
     <div class="element-wrapper">
       <h6 class="element-header">
-        Email Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" [routerLink]="routerLinkCreatePhone" href="#">New</a></object>
+        Email Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" [routerLink]="routerLinkCreateEmail" href="#">New</a></object>
       </h6>
       <div class="element-box">
 
-        <search></search>
+        <!--<search></search> -->
 
         <div class="table-responsive table-section">
           <table class="table table-striped table-lightfont table-full-width">
@@ -21,6 +21,7 @@
               <th>Domain Name</th>
               <th>Email Address</th>
               <th>Created On</th>
+              <th>Actions</th>
             </tr>
             </thead>
             <tfoot>
@@ -30,22 +31,45 @@
               <th>Domain Name</th>
               <th>Email Address</th>
               <th>Created On</th>
+              <th>Actions</th>
             </tr>
             </tfoot>
             <tbody>
-            <tr>
-            <!--<tr role="row" *ngFor="let asset of assets.assets; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">-->
-              <!--<td class="classification">{{asset.assetTypeClass.name}}</td>-->
-              <!--<td>{{asset.assetType.name}}</td>-->
-              <!--<td class="description">{{asset.description}}</td>-->
+            <tr role="row" *ngFor="let email of emails.emails; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+              <td>{{email.name}}</td>
+              <td >{{email.description}}</td>
+              <td>{{email.domainName}}</td>
+              <td>{{email.emailAddress}}</td>
+              <td>{{email.createdOn}}</td>
+              <td class="row-actions">
+                <a [routerLink]="['/sites/emails', email.siteId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(email.siteId);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+              </td>
             </tr>
-            <tr>
-            <!--<tr *ngIf="assets.assets.length <= 0" class="odd">-->
-              <!--<td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>-->
+            <tr *ngIf="emails.emails.length <= 0" class="odd">
+              <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
             </tr>
             </tbody>
           </table>
-          <!--<paging [page]="assets.page" (requestPage)="onRequestPage($event)"></paging>-->
+          <div aria-labelledby="DeleteModalLabel" class="modal fade bd-example-modal-sm" id="DeleteModal1" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+           <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+             <div class="modal-header">
+              <h5 class="modal-title" id="DeleteModalLabel">
+               Delete Email
+              </h5>
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
+             </div>
+             <div class="modal-body">
+             <p>Are you sure you want to delete this?</p>
+             </div>
+                <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
+                <button class="btn btn-danger" type="button" data-dismiss="modal" (click)="onDelete()"> Delete</button>
+               </div>
+              </div>
+             </div>
+           </div>
+          <paging [page]="emails.page" (requestPage)="onRequestPage($event)"></paging>
         </div>
 
       </div>

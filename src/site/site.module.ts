@@ -9,12 +9,16 @@ import {siteRouting} from "./site.routing";
 import {RouterModule} from "@angular/router";
 import {MenuModule} from "../menu/menu.module";
 import {SiteTopMenuComponent} from "./site-top-menu/site.top.menu.component";
+import {SiteEmailCreationComponent} from "./site-email-creation/site.email.creation.component";
+import {SiteEmailEditComponent} from "./site-email-edit/site.email.edit.component";
 import {SiteEmailListComponent} from "./site-email-list/site.email.list.component";
 import {SitePhoneListComponent} from "./site-phone-list/site.phone.list.component";
 import {SitePostOfficeBoxCreationComponent} from "./site-post-office-box-creation/site.post.office.box.creation.component";
 import {SitePostOfficeBoxEditComponent} from "./site-post-office-box-edit/site.post.office.box.edit.component";
 import {SitePostOfficeBoxListComponent} from "./site-post-office-box-list/site.post.office.box.list.component";
 import {SiteStreetAddressListComponent} from "./site-street-address-list/site.street.address.list.component";
+import {SiteWebCreationComponent} from "./site-web-creation/site.web.creation.component";
+import {SiteWebEditComponent} from "./site-web-edit/site.web.edit.component";
 import {SiteWebListComponent} from "./site-web-list/site.web.list.component";
 import {SearchModule} from "../search/search.module";
 import {SiteStreetAddressCreationComponent} from "./site-street-address-creation/site.street.address.creation.component";
@@ -38,6 +42,8 @@ import {SitePhoneEditComponent} from "./site-phone-edit/site.phone.edit.componen
   declarations: [
     SiteComponent,
     SiteTopMenuComponent,
+    SiteEmailCreationComponent,
+    SiteEmailEditComponent,
     SiteEmailListComponent,
     SitePhoneListComponent,
     SiteStreetAddressCreationComponent,
@@ -48,6 +54,8 @@ import {SitePhoneEditComponent} from "./site-phone-edit/site.phone.edit.componen
     SitePostOfficeBoxEditComponent,
     SitePostOfficeBoxListComponent,
     SiteStreetAddressListComponent,
+    SiteWebCreationComponent,
+    SiteWebEditComponent,
     SiteWebListComponent
   ],
   providers: [{
@@ -65,6 +73,8 @@ import {SitePhoneEditComponent} from "./site-phone-edit/site.phone.edit.componen
     SiteComponent,
     SiteTopMenuComponent,
     SiteStreetAddressCreationComponent,
+    SiteEmailCreationComponent,
+    SiteEmailEditComponent,
     SiteEmailListComponent,
     SitePhoneListComponent,
     SitePhoneCreationComponent,
@@ -74,6 +84,8 @@ import {SitePhoneEditComponent} from "./site-phone-edit/site.phone.edit.componen
     SitePostOfficeBoxEditComponent,
     SitePostOfficeBoxListComponent,
     SiteStreetAddressListComponent,
+    SiteWebCreationComponent,
+    SiteWebEditComponent,
     SiteWebListComponent
   ]
 })

@@ -16,11 +16,17 @@ export class PostOfficeBoxState extends PhysicalSiteState {
     return {
       siteId: this.siteId,
       tenantId: this.tenantId,
+      name: this.name,
+      description: this.description,
+
       postOfficeBoxNumber: this.postOfficeBoxNumber,
+
       city: this.city,
       stateOrProvince: this.stateOrProvince,
       postalCode: this.postalCode,
-      country: this.country
+      country: this.country,
+      createdOn: this.createdOn,
+      modifiedOn: this.modifiedOn
     }
   }
 }

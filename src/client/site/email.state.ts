@@ -21,4 +21,19 @@ export class EmailState extends VirtualSiteState {
     this._emailAddress = value;
   }
 
+  toJson() {
+    return {
+      siteId: this.siteId,
+      tenantId: this.tenantId,
+      name: this.name,
+      description: this.description,
+
+      domainName: this.domainName,
+      emailAddress: this.emailAddress,
+
+      createdOn: this.createdOn,
+      removedOn: this.removedOn
+    }
+  }
+
 }
