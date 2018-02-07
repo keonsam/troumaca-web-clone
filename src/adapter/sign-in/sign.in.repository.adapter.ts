@@ -4,7 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {Session} from "../../login/sign-in/session";
 import "rxjs/add/operator/map";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
-import {AuthenticationClient} from "../../client/credentials/authentication.client";
+import {AuthenticationClient} from "../../client/credential/authentication.client";
 
 export class SignInRepositoryAdapter extends SignInRepository {
 

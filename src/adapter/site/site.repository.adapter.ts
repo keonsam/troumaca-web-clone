@@ -1,5 +1,5 @@
 import "rxjs/add/operator/map";
-import {SiteClient} from "../../client/sites/site.client";
+import {SiteClient} from "../../client/site/site.client";
 import {SiteRepository} from "../../site/site.repository";
 import {AssetSiteRepository} from "../../assets/asset.site.repository";
 
@@ -12,15 +12,15 @@ import {UnionOfPhysicalSite} from "../../assets/asset.union.of.physical.site";
 import {Emails} from "../../site/emails";
 import {StreetAddresses} from "../../site/street.addresses";
 import {PostOfficeBox} from "../../site/post.office.box";
-import {PostOfficeBoxState} from "../../client/sites/post.office.box.state";
+import {PostOfficeBoxState} from "../../client/site/post.office.box.state";
 import {PostOfficeBoxes} from "../../site/post.office.boxes";
 import {Phones} from "../../site/phones";
 import {WebSites} from "../../site/web.sites";
 import {Phone} from "../../site/phone";
-import {PhoneState} from "../../client/sites/phone.state";
+import {PhoneState} from "../../client/site/phone.state";
 import {WebSite} from "../../site/web.site";
 import {StreetAddress} from "../../site/street.address";
-import {StreetAddressState} from "../../client/sites/street.address.state";
+import {StreetAddressState} from "../../client/site/street.address.state";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 

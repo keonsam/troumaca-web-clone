@@ -1,6 +1,6 @@
 import "rxjs/add/operator/map";
 import {AssetTypeRepository} from "../../asset-types/asset.type.repository";
-import {AssetTypesClient} from "../../client/asset-types/asset.types.client";
+import {AssetTypesClient} from "../../client/asset-type/asset.types.client";
 import {Observable} from "rxjs/Observable";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
 import { _ } from "underscore";

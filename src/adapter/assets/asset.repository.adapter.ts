@@ -1,7 +1,7 @@
 import "rxjs/add/operator/map";
 import {Observable} from "rxjs/Observable";
 import {AssetRepository} from "../../assets/asset.repository";
-import {AssetClient} from "../../client/assets/asset.client";
+import {AssetClient} from "../../client/asset/asset.client";
 import {Asset} from "../../assets/asset";
 import { map, reduce, somethingElse } from "underscore";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
@@ -12,7 +12,7 @@ import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
 import {AssetKinds} from "assets/asset.kinds";
 import {AssetKind} from "../../assets/asset.kind";
 import {AssetType} from "../../assets/asset.type";
-import {AssetState} from "../../client/assets/asset.state";
+import {AssetState} from "../../client/asset/asset.state";
 
 export class AssetRepositoryAdapter extends AssetRepository {
 

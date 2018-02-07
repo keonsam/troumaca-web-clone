@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {PersonService} from "../../party.service";
+import {PartyService} from "../../party.service";
 import {Person} from "../../person";
 
 @Component({
@@ -11,13 +11,13 @@ export class MeComponent implements OnInit {
 
   private _me:Person;
 
-  constructor(private personService:PersonService) {
+  constructor(private partyService:PartyService) {
   }
 
   ngOnInit(): void {
     var that = this;
     this
-      .personService
+      .partyService
       .getCurrentPerson()
       .subscribe(person => {
         that.me =  person;

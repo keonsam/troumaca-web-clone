@@ -1,5 +1,5 @@
 
-import {AttributeClient} from "../../client/attributes/attribute.client";
+import {AttributeClient} from "../../client/attribute/attribute.client";
 import {AttributeRepository} from "../../attributes/attribute.repository";
 import {AttributeRepositoryAdapter} from "./attributes.repository.adapter";
 

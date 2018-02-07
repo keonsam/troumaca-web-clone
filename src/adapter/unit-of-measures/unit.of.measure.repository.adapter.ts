@@ -4,7 +4,7 @@ import { map, reduce, somethingElse } from "underscore";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
 import {AssetUnitOfMeasureRepository} from "../../assets/assset.unit.of.measure.repository";
 import {UnitOfMeasures} from "../../assets/asset.unit.of.measures";
-import {UnitOfMeasureClient} from "../../client/unit-of-measures/unit.of.measure.client";
+import {UnitOfMeasureClient} from "../../client/unit-of-measure/unit.of.measure.client";
 import {UnitOfMeasure} from "../../assets/asset.unit.of.measure";
 
 export class UnitOfMeasureRepositoryAdapter extends AssetUnitOfMeasureRepository {

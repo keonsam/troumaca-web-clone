@@ -123,7 +123,7 @@ export class PagingComponent implements OnInit {
   }
 
   get recordsStart():number {
-    if (this.page.number && this.page.number > 0 && this.page.size && this.page.size > 0) {
+    if (this.page && this.page.number && this.page.number > 0 && this.page.size && this.page.size > 0) {
       return ((this.page.number -1) * this.page.size) + 1;
     } else {
       return 0;
@@ -131,7 +131,7 @@ export class PagingComponent implements OnInit {
   }
 
   get recordsEnd():number {
-    if (this.page.number && this.page.number > 0 && this.page.size && this.page.size > 0) {
+    if (this.page && this.page.number && this.page.number > 0 && this.page.size && this.page.size > 0) {
       return ((this.page.number -1) * this.page.size) + this.page.items;
     } else {
       return 0;
