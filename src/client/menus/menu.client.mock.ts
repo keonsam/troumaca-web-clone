@@ -46,6 +46,11 @@ export class MenuClientMock extends MenuClient {
     usersMenuState.menuItemStates = this.usersMenuItems();
     this.menuMap.set(usersMenuState.name, usersMenuState);
 
+    let organizationsMenuState = new MenuState();
+    organizationsMenuState.name = 'organizations-menu';
+    organizationsMenuState.title = 'organizations-menu';
+    organizationsMenuState.menuItemStates = this.organizationsMenuItems2();
+    this.menuMap.set(organizationsMenuState.name, organizationsMenuState);
   }
 
   // noinspection JSMethodCanBeStatic
@@ -135,8 +140,16 @@ export class MenuClientMock extends MenuClient {
 
   private usersMenuItems() {
     return [
-      this.toMenuItem({id:'1031', rank:'31', name: 'Users', routeName: '/users', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id:'1032', rank:'32', name: 'Me', routeName: '/users/me', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
+      this.toMenuItem({id:'1031', rank:'31', name: 'Users', routeName: '/parties/users', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
+    , this.toMenuItem({id:'1032', rank:'32', name: 'Me', routeName: '/parties/users/me', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
+    ];
+  }
+
+  private organizationsMenuItems2() {
+    return [
+      this.toMenuItem({id:'1041', rank:'31', name: 'Company', routeName: 'organizations/company', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
+    // , this.toMenuItem({id:'1042', rank:'32', name: 'Customers', routeName: 'customers', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: false, secured: false})
+    // , this.toMenuItem({id:'1042', rank:'32', name: 'Vendors', routeName: 'vendors', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: false, secured: false})
     ];
   }
 
@@ -189,7 +202,8 @@ export class MenuClientMock extends MenuClient {
     // orgMenuState.rank = 10;
     // orgMenuState.title = "Organization";
     // orgMenuState.id = "1000";
-    // orgMenuState.menuItemStates = this.organizationsMenuItems(this.organizationsSubMenu(this.createNewOrganizationSubMenuItems()));
+    // orgMenuState.menuItemStates = this.
+    // (this.organizationsSubMenu(this.createNewOrganizationSubMenuItems()));
 
     // let myInfoMenuState:MenuState = new MenuState();
     // myInfoMenuState.rank = 20;

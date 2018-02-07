@@ -1,4 +1,4 @@
-import {AuthenticationClient} from "../../client/credentials/authentication.client";
+import {AuthenticationClient} from "../../client/credential/authentication.client";
 import {ChangePasswordRepository} from "../../security/change-password/change.password.repository";
 import {ChangePasswordRepositoryAdapter} from "./change.password.repository.adapter";
 

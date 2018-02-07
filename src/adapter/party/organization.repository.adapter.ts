@@ -1,5 +1,5 @@
 import {OrganizationRepository} from "../../organizations/organization.repository";
-import {OrganizationClient} from "../../client/parties/organization.client";
+import {OrganizationClient} from "../../client/party/organization.client";
 import {Observable} from "rxjs/Observable";
 import {OrganizationModel} from "../../organizations/organization.model";
 import "rxjs/add/operator/map";

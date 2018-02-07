@@ -4,10 +4,10 @@ import {Observable} from "rxjs/Observable";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
 
 import {AttributeRepository} from "../../attributes/attribute.repository";
-import {AttributeClient} from "../../client/attributes/attribute.client";
+import {AttributeClient} from "../../client/attribute/attribute.client";
 import {Attribute} from "../../attributes/attribute";
 import {Attributes} from "../../attributes/attributes";
-import {AttributeState} from "../../client/attributes/attribute.state";
+import {AttributeState} from "../../client/attribute/attribute.state";
 import {DataType} from "../../attributes/data.type";
 import {DataTypes} from "../../attributes/data.types";
 import {Page} from "../../page/page";

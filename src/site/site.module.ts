@@ -1,14 +1,13 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 import {SiteComponent} from "./site.component";
 import {SiteService} from "./site.service";
 import {SiteRepository} from "./site.repository";
 import {siteRouting} from "./site.routing";
 import {RouterModule} from "@angular/router";
 import {MenuModule} from "../menu/menu.module";
-import {SiteCreationComponent} from "./site-creation/site.creation.component";
 import {SiteTopMenuComponent} from "./site-top-menu/site.top.menu.component";
 import {SiteEmailCreationComponent} from "./site-email-creation/site.email.creation.component";
 import {SiteEmailEditComponent} from "./site-email-edit/site.email.edit.component";
@@ -42,7 +41,6 @@ import {SitePhoneEditComponent} from "./site-phone-edit/site.phone.edit.componen
   ],
   declarations: [
     SiteComponent,
-    SiteCreationComponent,
     SiteTopMenuComponent,
     SiteEmailCreationComponent,
     SiteEmailEditComponent,
@@ -73,7 +71,6 @@ import {SitePhoneEditComponent} from "./site-phone-edit/site.phone.edit.componen
   }],
   exports: [
     SiteComponent,
-    SiteCreationComponent,
     SiteTopMenuComponent,
     SiteStreetAddressCreationComponent,
     SiteEmailCreationComponent,

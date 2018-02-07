@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {Person} from "../../person";
-import {PersonService} from "../../party.service";
+import {PartyService} from "../../party.service";
 
 @Component({
   selector: 'person-list',

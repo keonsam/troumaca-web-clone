@@ -17,7 +17,7 @@ export class TopMenuComponent implements OnInit {
   private _menuName:string;
   private _displaySearchBox:boolean;
 
-  constructor(private eventService:EventService, private menuService:MenuService, private cd: ChangeDetectorRef) {
+  constructor(private eventService:EventService, private menuService:MenuService) {
     this.title = "Troumaca";
     this.isLoggedIn = false;
     this.menuModel = new MenuModel();
@@ -68,6 +68,7 @@ export class TopMenuComponent implements OnInit {
   @Input()
   set menuName(value: string) {
     this._menuName = value;
+    this.getMenu(value);
   }
 
 
@@ -91,14 +92,13 @@ export class TopMenuComponent implements OnInit {
   }
 
   getMenu(menuName:string) {
+    console.log("getMenu(" + menuName + ")");
     let that = this;
     this.menuService.getMenuByName(menuName).subscribe(function (menu) {
       that.menuModel.menuItemModels = [];
       menu.menuItemModels.forEach(value => {
         that.menuModel.menuItemModels.push(value);
       });
-
-      that.cd.markForCheck();
     });
   }
 
