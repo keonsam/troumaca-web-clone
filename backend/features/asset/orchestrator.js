@@ -23,4 +23,14 @@ module.exports = function AssetOrchestrator() {
     });
   };
 
+  function getSortOrderOrDefault(field, direction) {
+    let sort = {};
+    if (field && direction) {
+      sort[field] = direction;
+      return sort;
+    } else {
+      return sort;
+    }
+  }
+  
 };

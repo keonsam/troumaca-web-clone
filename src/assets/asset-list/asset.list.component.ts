@@ -43,6 +43,7 @@ export class AssetListComponent implements OnInit {
     });
   }
 
+
   get assets(): Assets {
     return this._assets;
   }

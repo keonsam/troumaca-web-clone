@@ -16,6 +16,8 @@ db.assets.loadDatabase(function (err) { console.log(err); });
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();
 
+let defaultPageSize = 10;
+
 module.exports =  function DatabaseAssetRepository() {
 
   this.saveAsset = function (asset) {

@@ -28,5 +28,33 @@ router.post("/", function (req, res, ndex) {
 
 });
 
+function getNumericValueOrDefault(value, defaultValue) {
+  if (!value) {
+    return defaultValue;
+  }
+
+  if (isNaN(parseFloat(value))) {
+    return defaultValue;
+  }
+
+  if (!isFinite(value)) {
+    return defaultValue;
+  }
+
+  return value
+}
+
+function getStringValueOrDefault(strValue, defaultValue) {
+  if (!strValue && !defaultValue) {
+    return "";
+  }
+
+  if (!strValue && defaultValue) {
+    return defaultValue;
+  }
+
+  return strValue;
+}
+
 
 module.exports = router;
