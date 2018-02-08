@@ -51,6 +51,13 @@ export class MenuClientMock extends MenuClient {
     organizationsMenuState.title = 'organizations-menu';
     organizationsMenuState.menuItemStates = this.organizationsMenuItems2();
     this.menuMap.set(organizationsMenuState.name, organizationsMenuState);
+
+    let homesMenuState = new MenuState();
+    homesMenuState.name = 'home-menu';
+    homesMenuState.title = 'home-menu';
+    homesMenuState.menuItemStates = this.homeMenuItems();
+    this.menuMap.set(homesMenuState.name, homesMenuState);
+
   }
 
   // noinspection JSMethodCanBeStatic
@@ -150,6 +157,12 @@ export class MenuClientMock extends MenuClient {
       this.toMenuItem({id:'1041', rank:'31', name: 'Company', routeName: 'organizations/company', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
     // , this.toMenuItem({id:'1042', rank:'32', name: 'Customers', routeName: 'customers', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: false, secured: false})
     // , this.toMenuItem({id:'1042', rank:'32', name: 'Vendors', routeName: 'vendors', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: false, secured: false})
+    ];
+  }
+
+
+  private homeMenuItems() {
+    return [
     ];
   }
 
