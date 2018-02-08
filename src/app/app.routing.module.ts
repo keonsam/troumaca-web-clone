@@ -7,6 +7,7 @@ import {AssetTypeComponent} from "../asset-types/asset.type.component";
 import {AttributeComponent} from "../attributes/attribute.component";
 import {AssetTypeClassComponent} from "../asset-type-classes/asset.type.class.component";
 import {SiteComponent} from "../site/site.component";
+import {AssetEditComponent} from "../assets/asset-edit/asset.edit.component";
 import {AssetListComponent} from "../assets/asset-list/asset.list.component";
 import {AssetCreationComponent} from "../assets/asset-creation/asset.creation.component";
 import {AssetTypeListComponent} from "../asset-types/asset-type-list/asset.type.list.component";
@@ -42,7 +43,8 @@ const appRoutes: Routes = [
   { path: 'assets', component: AssetComponent, children: [
     { path: '',redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: AssetListComponent },
-    { path: 'create', component: AssetCreationComponent }
+    { path: 'create', component: AssetCreationComponent },
+    { path: ':assetId/edit', component: AssetEditComponent }
   ]},
   { path: 'asset-types', component: AssetTypeComponent,  children: [
       { path: '',redirectTo: 'listing', pathMatch: 'full' },

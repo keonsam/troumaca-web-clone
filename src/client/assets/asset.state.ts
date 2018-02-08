@@ -1,8 +1,8 @@
 import {AssetTypeState} from "../asset-types/asset.type.state";
 //import {AssetTypeClassState} from "../asset-types/asset.type.class.state";
-import {UnitOfMeasureState} from "./asset.unit.of.measure.state";
-import {AssetPersonState} from "./asset.person.state";
-import {SiteState} from "./asset.site.state";
+import {UnitOfMeasureState} from "../unit-of-measures/unit.of.measure.state";
+import {PersonState} from "../parties/person.state";
+import {SiteState} from "../sites/site.state";
 import {JsonObject, JsonProperty} from "json2typescript";
 
 @JsonObject
@@ -10,6 +10,7 @@ export class AssetState {
 
   @JsonProperty("assetId", String)
   private _assetId:string;
+  private _tenantId: string;
   private _assetKindId: string;
   private _serialNumber:string;
   private _description:string;
@@ -18,10 +19,13 @@ export class AssetState {
   private _unitOfMeasure: UnitOfMeasureState;
   //private _lotNumber:string;
   private _site: SiteState;
-  private _person: AssetPersonState;
+  private _person: PersonState;
 
   //private _assetTypeClass: AssetTypeClassState;
   private _assetType: AssetTypeState;
+
+  private _createdOn: string;
+  private _modifiedOn: string;
 
   get assetId(): string {
     return this._assetId;
@@ -30,6 +34,15 @@ export class AssetState {
   set assetId(value: string) {
     this._assetId = value;
   }
+
+  get tenantId(): string {
+    return this._tenantId;
+  }
+
+  set tenantId(value: string) {
+    this._tenantId = value;
+  }
+
   get assetKindId(): string {
     return this._assetKindId;
   }
@@ -93,11 +106,11 @@ export class AssetState {
   set assetType(value: AssetTypeState) {
     this._assetType = value;
   }
-  get person(): AssetPersonState {
+  get person(): PersonState {
     return this._person;
   }
 
-  set person(value: AssetPersonState) {
+  set person(value: PersonState) {
     this._person = value
   }
 
@@ -109,10 +122,28 @@ export class AssetState {
     this._site = value;
   }
 
+  get createdOn(): string {
+    return this._createdOn;
+  }
+
+  set createdOn(value: string) {
+    this._createdOn = value;
+  }
+
+  get modifiedOn(): string {
+    return this._modifiedOn;
+  }
+
+  set modifiedOn(value: string) {
+    this._modifiedOn = value;
+  }
+
   toJson() {
     return {
       assetId: this.assetId,
+      tenantId: this.tenantId,
       assetKindId: this.assetKindId,
+      assetType: this.assetType,
       serialNumber: this.serialNumber,
       description: this.description,
       quantity: this.quantity,
@@ -120,7 +151,9 @@ export class AssetState {
       person: this.person,
       //lotNumber: this.lotNumber,
       site: this.site,
-      //assetTypeClass: (this.assetTypeClass ? this.assetTypeClass : "")
+      createdOn: this.createdOn,
+      modifiedOn: this.modifiedOn
+     //assetTypeClass: (this.assetTypeClass ? this.assetTypeClass : "")
     }
   }
 

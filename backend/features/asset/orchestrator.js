@@ -23,14 +23,26 @@ module.exports = function AssetOrchestrator() {
     });
   };
 
-  function getSortOrderOrDefault(field, direction) {
-    let sort = {};
-    if (field && direction) {
-      sort[field] = direction;
-      return sort;
-    } else {
-      return sort;
-    }
+  this.getAssetById = function (assetId) {
+    return assetRepository.getAssetById(assetId);
   }
-  
+
+  this.updateAsset = function (assetId, asset) {
+    return assetRepository.updateAsset(assetId, asset);
+  }
+
+  this.deleteAsset = function (assetId) {
+    return assetRepository.deleteAsset(assetId);
+  };
+
 };
+
+function getSortOrderOrDefault(field, direction) {
+  let sort = {};
+  if (field && direction) {
+    sort[field] = direction;
+    return sort;
+  } else {
+    return sort;
+  }
+}

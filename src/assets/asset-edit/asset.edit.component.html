@@ -7,12 +7,12 @@
       <div class="col-sm-12">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="assetForm" (ngSubmit)="onCreate()" id="formValidate">
+            <form [formGroup]="assetEditForm" (ngSubmit)="onCreate()" id="formValidate">
               <h5 class="form-header">
-                New Asset Form
+                Edit Asset Form
               </h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to create asset.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to edit asset.</div>
 
               <fieldset class="form-group">
                 <div class="form-group">
@@ -115,7 +115,7 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" type="submit"> Create</button>
+                <button class="btn btn-primary button1" type="submit"> Save</button>
                 <button class="btn btn-white" type="cancel" (click)="onReset()"> Cancel</button>
               </div>
 

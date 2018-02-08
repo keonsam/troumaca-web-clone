@@ -12,6 +12,7 @@ import {Router} from "@angular/router";
 })
 export class AssetListComponent implements OnInit {
 
+
   private assetId: string;
   private _assets: Assets;
   private defaultPage:number = 1;
@@ -65,7 +66,7 @@ export class AssetListComponent implements OnInit {
   }
 
   onDelete() {
-    /*this.assetService
+    this.assetService
     .deleteAsset(this.assetId)
     .subscribe(value => {
     this.getAssets();
@@ -73,7 +74,7 @@ export class AssetListComponent implements OnInit {
     console.log(error);
     }, () => {
     console.log("complete");
-  }); */
+  });
   }
 
   onRequestPage(pageNumber:number) {

@@ -49,6 +49,14 @@ export class AssetRepositoryAdapter extends AssetRepository {
     });
   }
 
+  public getAsset(assetId: string): Observable<Asset> {
+    return this.assetClient
+      .getAssetState(assetId)
+      .map(value => {
+         return mapObjectProps(value, new Asset());
+      });
+  }
+
   public getAssetKinds(): Observable<AssetKinds> {
     return this.assetClient
     .getAssetKinds()
@@ -69,7 +77,13 @@ export class AssetRepositoryAdapter extends AssetRepository {
     });
   }
 
+  public updateAsset(assetId: string, asset: Asset): Observable<number> {
+    return this.assetClient.updateAsset(assetId, mapObjectProps(asset, new AssetState()));
+  }
 
+  public deleteAsset(assetId: string): Observable<number> {
+    return this.assetClient.deleteAsset(assetId);
+  }
 
 // public findAssetTypes(searchStr:string): Observable<AssetTypes> {
   //   return this.assetClient

@@ -14,6 +14,10 @@ export class AssetClientMock extends AssetClient {
     return null;
   }
 
+  getAssetState(assetId: string): Observable<AssetState> {
+    return null;
+  }
+
   // public findAssetTypes(searchStr: string): Observable<AssetTypeStates> {
   //   return null;
   // }
@@ -22,4 +26,12 @@ export class AssetClientMock extends AssetClient {
     return null;
   }
 
+  public updateAsset(assetId: string, asset: AssetState): Observable<number> {
+   return null;
+ }
+
+ public deleteAsset(assetId: string): Observable<number> {
+   return null;
+ }
+ 
 }

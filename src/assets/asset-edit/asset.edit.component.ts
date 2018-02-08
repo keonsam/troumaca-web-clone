@@ -12,15 +12,19 @@ import {AssetType} from "../asset.type";
 import {UnitOfMeasure} from "../asset.unit.of.measure";
 import {AssetPerson} from "../asset.person";
 import {Site} from "../asset.site";
+import {ActivatedRoute} from '@angular/router';
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'asset-creation',
-  templateUrl: './asset.creation.component.html',
-  styleUrls: ['./asset.creation.component.css']
+  selector: 'asset-edit',
+  templateUrl: './asset.edit.component.html',
+  styleUrls: ['./asset.edit.component.css']
 })
 
-export class AssetCreationComponent implements OnInit {
+export class AssetEditComponent implements OnInit {
+
+  private assetId: string;
+  private sub: any;
 
   private _assetKindFormControlName: string;
   private _assetKindId: FormControl;
@@ -45,7 +49,7 @@ export class AssetCreationComponent implements OnInit {
 
   private _description: FormControl;
 
-  private _assetForm:FormGroup;
+  private _assetEditForm:FormGroup;
 
   private _assetKinds: AssetKind[];
   private _searchStr: string;
@@ -69,6 +73,7 @@ export class AssetCreationComponent implements OnInit {
   constructor(private  assetService:AssetService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder,
+              private route: ActivatedRoute,
               private router: Router) {
 
     this.assetKindId = new FormControl("", [Validators.required]);
@@ -88,7 +93,7 @@ export class AssetCreationComponent implements OnInit {
     this.siteFormControlName = "site";
     this.personFormControlName = "person";
 
-    this.assetForm = formBuilder.group({
+    this.assetEditForm = formBuilder.group({
       "assetKindId": this.assetKindId,
       "assetType": this.assetType,
       "serialNumber": this.serialNumber,
@@ -112,7 +117,7 @@ export class AssetCreationComponent implements OnInit {
     //asset.assetTypeClass = new AssetTypeClass();
     this.asset = asset;
 
-   this.assetForm
+   this.assetEditForm
     .valueChanges
     .subscribe(value => {
       this.asset.assetKindId = value.assetKindId;
@@ -142,6 +147,36 @@ export class AssetCreationComponent implements OnInit {
     this.controlSubscriptions();
 
     this.createAndPopulateDropDowns();
+
+    this.sub = this.route.params.subscribe(params => {
+       this.assetId = params['assetId'];
+       this.assetService.getAssetById(this.assetId)
+       .subscribe(asset =>{
+        this.assetKindId.setValue(asset.assetKindId);
+        this.assetType.setValue(asset.assetType.name);
+        this.serialNumber.setValue(asset.serialNumber);
+        this.quantity.setValue(asset.quantity);
+        this.unitOfMeasure.setValue(asset.unitOfMeasure.name);
+        this.site.setValue(asset.site.name);
+        this.person.setValue(asset.person.name);
+        this.description.setValue(asset.description);
+        this.asset = asset;
+      }, error => {
+        console.log(error);
+      }, () => {
+        this.assetEditForm
+        .valueChanges
+        .subscribe(value => {
+          this.asset.assetKindId = value.assetKindId;
+          this.asset.serialNumber = value.serialNumber;
+          this.asset.quantity = value.quantity;
+          this.asset.description = value.description;
+          console.log(value);
+        }, error2 => {
+          console.log(error2);
+        });
+      })
+    });
   }
 
   private createAndPopulateDropDowns() {
@@ -158,32 +193,32 @@ export class AssetCreationComponent implements OnInit {
 
   private controlSubscriptions() {
     let that = this;
-    this.assetForm.get(this.assetKindFormControlName).valueChanges
+    this.assetEditForm.get(this.assetKindFormControlName).valueChanges
       .subscribe(value => {
         that.selectedAssetKindId = value;
         //this.assetKindFormControlValue = value;
         this.asset.assetKindId = value;
       });
 
-    // this.assetForm.get(this.assetKindFormControlName).valueChanges
+    // this.assetEditForm.get(this.assetKindFormControlName).valueChanges
     //   .subscribe(value => {
     //     that.assetKindFormControlValue = value;
     //     that.asset.assetKindId = value;
     //   });
 
-  //   this.assetForm.get(this.assetTypeFormControlName).valueChanges
+  //   this.assetEditForm.get(this.assetTypeFormControlName).valueChanges
   //     .subscribe(value => {
   //       that.assetTypeFormControlValue = value;
   //       that.asset.assetType.assetTypeId = value;
   //     });
 
-    this.assetForm.get(this.serialNumberFormControlName).valueChanges
+    this.assetEditForm.get(this.serialNumberFormControlName).valueChanges
       .subscribe(value => {
         //that.serialNumberFormControlValue = value;
         that.asset.serialNumber = value;
       });
 
-    this.assetForm.get(this.quantityFormControlName).valueChanges
+    this.assetEditForm.get(this.quantityFormControlName).valueChanges
       .subscribe(value => {
         //that.quantityFormControlValue = value;
         that.asset.quantity = value;
@@ -192,7 +227,7 @@ export class AssetCreationComponent implements OnInit {
 
   private populateAssetTypeDropDown() {
     let that = this;
-    this.assetForm.get(this.assetKindFormControlName).valueChanges
+    this.assetEditForm.get(this.assetKindFormControlName).valueChanges
       .debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -220,7 +255,7 @@ export class AssetCreationComponent implements OnInit {
 
   private populateUnitOfMeasureDropDown() {
     let that = this;
-    this.assetForm.get(this.unitOfMeasureFormControlName).valueChanges
+    this.assetEditForm.get(this.unitOfMeasureFormControlName).valueChanges
       .debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -249,7 +284,7 @@ export class AssetCreationComponent implements OnInit {
 
   private populateSiteDropDown() {
     let that = this;
-    this.assetForm.get(this.siteFormControlName).valueChanges
+    this.assetEditForm.get(this.siteFormControlName).valueChanges
       .debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -283,7 +318,7 @@ export class AssetCreationComponent implements OnInit {
 
   private populatePersonDropDown() {
     let that = this;
-    this.assetForm.get(this.personFormControlName).valueChanges
+    this.assetEditForm.get(this.personFormControlName).valueChanges
       .debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -309,12 +344,12 @@ export class AssetCreationComponent implements OnInit {
       });
   }
 
-  get assetForm(): FormGroup {
-    return this._assetForm;
+  get assetEditForm(): FormGroup {
+    return this._assetEditForm;
   }
 
-  set assetForm(value: FormGroup) {
-    this._assetForm = value;
+  set assetEditForm(value: FormGroup) {
+    this._assetEditForm = value;
   }
 
   get placeholder(): string {
@@ -512,11 +547,12 @@ export class AssetCreationComponent implements OnInit {
   }
 
   onReset() {
-    this.assetForm.reset();
+    this.assetEditForm.reset();
   }
 
   onAssetTypeSelect(selected: CompleterItem) {
     if (selected) {
+      this.assetType = selected.originalObject.name;
       //this.assetTypeFormControlValue = selected.originalObject.assetTypeId;
       //this.asset.assetKindId = selected.originalObject.assetTypeId;
       this.asset.assetType = selected.originalObject;
@@ -526,7 +562,7 @@ export class AssetCreationComponent implements OnInit {
   onUnitOfMeasureSelect(selected: CompleterItem) {
     if (selected) {
       // this.unitOfMeasureFormControlValue = selected.originalObject.unitOfMeasureId;
-      console.log(selected.originalObject);
+      this.unitOfMeasure
       this.asset.unitOfMeasure = selected.originalObject;
     }
   }
@@ -547,20 +583,21 @@ export class AssetCreationComponent implements OnInit {
   }
 
   onCreate() {
-
+    console.log(this.asset);
     this.doNotDisplayFailureMessage = true;
-
-      this.assetService.addAsset(this.asset)
-      .subscribe(value => {
-        if (value && value.assetId) {
-          this.router.navigate(['/assets']);
-        } else {
-          this.doNotDisplayFailureMessage = false;
-        }
-      }, error => {
-        console.log(error);
+    this.assetService
+    .updateAsset(this.assetId, this.asset)
+    .subscribe(value => {
+      if (value) {
+        this.router.navigate(['/assets']);
+      } else {
         this.doNotDisplayFailureMessage = false;
-      });
+      }
+    }, error => {
+      console.log(error);
+      this.doNotDisplayFailureMessage = false;
+    });
+
   }
 
   cancel() {

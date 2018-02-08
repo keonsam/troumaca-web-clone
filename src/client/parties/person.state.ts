@@ -1,6 +1,7 @@
 export class PersonState {
 
   private _partyId:string;
+  private _name: string;
   private _firstName:string;
   private _middleName:string;
   private _lastName:string;
@@ -12,6 +13,14 @@ export class PersonState {
 
   set partyId(value: string) {
     this._partyId = value;
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  set name(value: string) {
+    this._name = value;
   }
 
   get firstName(): string {

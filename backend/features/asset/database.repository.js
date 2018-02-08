@@ -61,4 +61,48 @@ this.getAssetCount = function () {
   });
 };
 
+this.getAssetById = function (assetId) {
+  return Rx.Observable.create(function (observer) {
+    let query = {};
+    query["assetId"] = assetId;
+    db.assets.findOne(query, function (err, doc) {
+      if (!err) {
+        observer.next(doc);
+      } else {
+        observer.error(err);
+      }
+      observer.complete();
+    });
+  });
+};
+
+this.updateAsset = function (assetId, asset) {
+  return Rx.Observable.create(function (observer) {
+    let query = {};
+    query["assetId"] = assetId;
+    db.assets.update(query, asset, {}, function (err, numReplaced) {
+      if (!err) {
+        observer.next(numReplaced);
+      } else {
+        observer.error(err);
+      }
+      observer.complete();
+    })
+  });
+};
+
+this.deleteAsset = function (assetId) {
+  return Rx.Observable.create(function (observer) {
+    let query = {};
+    query["assetId"] = assetId;
+    db.assets.remove(query, {}, function (err, numRemoved) {
+      if (!err) {
+        observer.next(numRemoved);
+      } else {
+        observer.error(err);
+      }
+      observer.complete();
+    })
+  });
+};
 }

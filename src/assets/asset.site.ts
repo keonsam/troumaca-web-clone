@@ -1,6 +1,6 @@
 export class Site {
   private _siteId:string;
-  private _siteName: string;
+  private _name: string;
 
   get siteId(): string {
     return this._siteId;
@@ -10,12 +10,12 @@ export class Site {
     this._siteId = value;
   }
 
-  get siteName(): string {
-    return this._siteName;
+  get name(): string {
+    return this._name;
   }
 
-  set siteName(value: string) {
-    this._siteName = value;
+  set name(value: string) {
+    this._name = value;
   }
-  
+
 }

@@ -10,7 +10,7 @@
       </h6>
       <div class="element-box">
 
-        <search></search>
+      <!--  <search></search> -->
 
         <div class="table-responsive table-section">
           <table class="table table-striped table-lightfont table-full-width">
@@ -23,6 +23,7 @@
                 <th>Unit Of Measure</th>
                 <th>Assignee</th>
                 <th>Site</th>
+                <th>Description</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -35,20 +36,22 @@
                 <th>Unit Of Measure</th>
                 <th>Assignee</th>
                 <th>Site</th>
+                <th>Description</th>
                 <th>Actions</th>
               </tr>
             </tfoot>
             <tbody>
               <tr role="row" *ngFor="let asset of assets.assets; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-                <td>{{asset.assetKind.name}}</td>
+                <td>{{asset.assetKindId}}</td>
                 <td>{{asset.assetType.name}}</td>
                 <td>{{asset.serialNumber}}</td>
-                <td>{{assets.quantity}}</td>
-                <td>{{assets.unitOfMeasure.name}}</td>
-                <td>{{assets.person.fullName}}</td>
-                <td>{{assets.site.name}}</td>
+                <td>{{asset.quantity}}</td>
+                <td>{{asset.unitOfMeasure.name}}</td>
+                <td>{{asset.person.name}}</td>
+                <td>{{asset.site.name}}</td>
+                <td>{{asset.description}}</td>
                 <td class="row-actions">
-                  <a [routerLink]="['/assets', assets.assetId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(assets.assetId);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+                  <a [routerLink]="['/assets', asset.assetId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(asset.assetId);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
                 </td>
               </tr>
               <tr *ngIf="assets.assets.length <= 0" class="odd">

@@ -9,6 +9,7 @@ import {AssetPerson} from "./asset.person";
 export class Asset {
 
   private _assetId:string;
+  private _tenantId:string;
   private _assetKindId: string;
   private _serialNumber:string;
   private _description:string;
@@ -20,6 +21,9 @@ export class Asset {
   private _site: Site;
   //private _assetTypeClass: AssetTypeClass;
   private _assetType: AssetType;
+
+  private _createdOn: string;
+  private _modifiedOn: string;
 
 
   constructor() {
@@ -37,6 +41,14 @@ export class Asset {
 
   set assetId(value: string) {
     this._assetId = value;
+  }
+
+  get tenantId(): string {
+    return this._tenantId;
+  }
+
+  set tenantId(value: string) {
+    this._tenantId = value;
   }
 
   get assetKindId(): string {
@@ -117,6 +129,22 @@ export class Asset {
 
   set site(value: Site) {
     this._site = value;
+  }
+
+  get createdOn(): string {
+    return this._createdOn;
+  }
+
+  set createdOn(value: string) {
+    this._createdOn = value;
+  }
+
+  get modifiedOn(): string {
+    return this._modifiedOn;
+  }
+
+  set modifiedOn(value: string) {
+    this._modifiedOn = value;
   }
 
 }

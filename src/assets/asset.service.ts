@@ -26,6 +26,10 @@ export class AssetService {
     return this.assetRepository.getAssets(pageNumber, pageSize, sortOrder);
   }
 
+  public getAssetById(assetId: string): Observable<Asset> {
+    return this.assetRepository.getAsset(assetId);
+  }
+
   public getAssetKinds():Observable<AssetKinds> {
     return this.assetRepository.getAssetKinds();
   }
@@ -48,6 +52,14 @@ export class AssetService {
 
   public addAsset(assetModel:Asset):Observable<Asset> {
     return this.assetRepository.addAsset(assetModel);
+  }
+
+  public updateAsset(assetId: string, asset: Asset): Observable<number> {
+    return this.assetRepository.updateAsset(assetId, asset);
+  }
+
+  public deleteAsset(assetId: string): Observable<number> {
+    return this.assetRepository.deleteAsset(assetId);
   }
 
 }
