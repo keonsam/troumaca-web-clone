@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {MenuModel} from "../menu.model";
 import {MenuService} from "../menu.service";
 import {EventName, EventService} from "../../event/event.service";
