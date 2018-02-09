@@ -1,6 +1,8 @@
-import {Component, OnInit} from "@angular/core";
+import {ChangeDetectorRef, Component, Input, OnInit, Output} from "@angular/core";
 import {Person} from "./person";
-import {PersonService} from "./party.service";
+import {PartyService} from "./party.service";
+import {PartyEventService} from "./party.event.service";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'party',
@@ -10,20 +12,39 @@ import {PersonService} from "./party.service";
 export class PartyComponent implements OnInit {
 
   private _persons:Person[];
+  private _dynamicMenuName: string;
 
-  constructor(private personService: PersonService) {
+  constructor(private partyService: PartyService,
+              private partyEventService:PartyEventService,
+              private router:Router) {
+    this.router.events
+      .filter((event: any) => event instanceof NavigationEnd)
+      .subscribe(() => {
+        var root = this.router.routerState.snapshot.root;
+        var counter = 0;
+        while (root) {
+          counter++;
+          if (root.children && root.children.length) {
+            root = root.children[0];
+          } else if (root.data && root.data["menuName"]) {
+            this.dynamicMenuName = root.data["menuName"];
+            return;
+          } else {
+            return;
+          }
+        }
+      });
   }
 
   ngOnInit(): void {
-    // var that = this;
-    // this
-    //   .personService
-    //   .getPersons()
-    //   .subscribe(persons => {
-    //     if (persons) {
-    //       that.persons = persons;
-    //     }
-    //   });
+  }
+
+  get dynamicMenuName(): string {
+    return this._dynamicMenuName;
+  }
+
+  set dynamicMenuName(value: string) {
+    this._dynamicMenuName = value;
   }
 
   get persons(): Person[] {

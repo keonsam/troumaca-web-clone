@@ -3,18 +3,30 @@ import {CommonModule} from "@angular/common";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {PartyComponent} from "./party.component";
-import {PersonService} from "./party.service";
-import {PersonRepository} from "./party.repository";
+import {PartyService} from "./party.service";
+import {PartyRepository} from "./party.repository";
 import {RouterModule} from "@angular/router";
 import {PersonComponent} from "./persons/person-creation/person.component";
 import {MeComponent} from "./persons/person-me/me.component";
 import {PersonListComponent} from "./persons/person-list/person.list.component";
 import {MenuModule} from "../menu/menu.module";
-// import {MeModule} from "./me/me.module";
-// ,
-// MeModule
-// ,
-// PersonModule
+import {OrganizationListComponent} from "./organizations/organization-list/organization.list.component";
+import {OrganizationEditComponent} from "./organizations/organization-edit/organization.edit.component";
+import {OrganizationCreationComponent} from "./organizations/organization-creation/organization.creation.component";
+import {OrganizationCompanyComponent} from "./organizations/organization-company/organization.company.component";
+import {OrganizationTopMenuComponent} from "./organizations/organization-top-menu/organization.top.menu.component";
+import {CustomerListComponent} from "./customers/customer-list/customer.list.component";
+import {PagingModule} from "../paging/paging.module";
+import {CustomerTopMenuComponent} from "./customers/customer-top-menu/customer.top.menu.component";
+import {VendorTopMenuComponent} from "./vndors/vendor-top-menu/vendor.top.menu.component";
+import {VendorListComponent} from "./vndors/vendor-list/vendor.list.component";
+import {EmployeeListComponent} from "./employees/employee-list/employee.list.component";
+import {EmployeeTopMenuComponent} from "./employees/employee-top-menu/employee.top.menu.component";
+import {UserListComponent} from "./users/user-list/user.list.component";
+import {UserTopMenuComponent} from "./users/user-top-menu/user.top.menu.component";
+import {UserEditComponent} from "./users/user-edit/user.edit.component";
+import {UserCreationComponent} from "./users/user-creation/user.creation.component";
+import {PartyEventService} from "./party.event.service";
 
 @NgModule({
   imports: [
@@ -23,29 +35,61 @@ import {MenuModule} from "../menu/menu.module";
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    PagingModule,
     MenuModule
   ],
   declarations: [
     PartyComponent,
     PersonComponent,
     PersonListComponent,
+    OrganizationListComponent,
+    OrganizationEditComponent,
+    OrganizationCreationComponent,
+    OrganizationCompanyComponent,
+    OrganizationTopMenuComponent,
+    CustomerListComponent,
+    CustomerTopMenuComponent,
+    VendorTopMenuComponent,
+    VendorListComponent,
+    EmployeeTopMenuComponent,
+    EmployeeListComponent,
+    UserTopMenuComponent,
+    UserListComponent,
+    UserEditComponent,
+    UserCreationComponent,
     MeComponent
   ],
   providers: [{
-    provide: PersonService,
-    useFactory(personRepository:PersonRepository) {
-      let personService: PersonService;
-      if (!personService) {
-        personService = new PersonService(personRepository);
+    provide: PartyService,
+    useFactory(partyRepository:PartyRepository) {
+      let partyService: PartyService;
+      if (!partyService) {
+        partyService = new PartyService(partyRepository);
       }
-      return personService;
+      return partyService;
     },
-    deps: [PersonRepository]
-  }],
+    deps: [PartyRepository]
+  }, PartyEventService
+  ],
   exports: [
     PartyComponent,
     PersonComponent,
     PersonListComponent,
+    OrganizationListComponent,
+    OrganizationEditComponent,
+    OrganizationCreationComponent,
+    OrganizationCompanyComponent,
+    OrganizationTopMenuComponent,
+    CustomerListComponent,
+    CustomerTopMenuComponent,
+    VendorTopMenuComponent,
+    VendorListComponent,
+    EmployeeTopMenuComponent,
+    EmployeeListComponent,
+    UserTopMenuComponent,
+    UserListComponent,
+    UserEditComponent,
+    UserCreationComponent,
     MeComponent
   ]
 })

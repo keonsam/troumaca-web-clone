@@ -1,6 +1,6 @@
 import {ForgotPasswordRepositoryAdapter} from "./forgot.password.repository.adapter";
 import {ForgotPasswordRepository} from "../../login/forgot-password/forgot.password.repository";
-import {AuthenticationClient} from "../../client/credentials/authentication.client";
+import {AuthenticationClient} from "../../client/credential/authentication.client";
 
 export function forgotPasswordRepositoryProviderFactory (loginClient:AuthenticationClient):ForgotPasswordRepository {
   let forgotPasswordRepositoryAdapter: ForgotPasswordRepositoryAdapter;

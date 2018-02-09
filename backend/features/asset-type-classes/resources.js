@@ -1,7 +1,6 @@
 let express = require('express');
 let router = express.Router();
 let assetTypeClassesOrchestrator = require('./orchestrator');
-let Pagination = require("../pagination");
 
 let orchestrator = new assetTypeClassesOrchestrator();
 

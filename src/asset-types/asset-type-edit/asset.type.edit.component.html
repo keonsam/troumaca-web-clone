@@ -1,0 +1,71 @@
+<div class="content-i asset-container">
+
+<!--  <asset-type-top-menu></asset-type-top-menu> -->
+
+  <div class="content-box">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="element-wrapper">
+          <div class="element-box">
+            <form [formGroup]="assetTypeEditForm" (ngSubmit)="onCreate()" id="formValidate">
+              <h5 class="form-header">
+                Edit Asset Type Form
+              </h5>
+
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to edit asset type class.</div>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Asset Type Class Id">Asset Type Class Id</label><input class="form-control" formControlName="assetTypeClassId" placeholder="Asset Type Class Id" required="required" type="text">
+                  <div [hidden]="assetTypeClassId.valid || assetTypeClassId.pristine" class="alert alert-danger">Invalid asset Type Class Id.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Name">Name</label><input class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
+                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Model Number">Model Number</label><input class="form-control" formControlName="modelNumber" placeholder="Model Number" type="text">
+                  <div [hidden]="modelNumber.valid || modelNumber.pristine" class="alert alert-danger">Invalid model number.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Material Code">Material Code</label><input class="form-control" formControlName="materialCode" placeholder="Material Code" type="text">
+                  <div [hidden]="materialCode.valid || materialCode.pristine" class="alert alert-danger">Invalid material code.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Unit Of Measure Id">Unit Of Measure Id</label><input class="form-control" formControlName="unitOfMeasureId" placeholder="Unit Of Measure Id" type="text">
+                  <div [hidden]="unitOfMeasureId.valid || unitOfMeasureId.pristine" class="alert alert-danger">Invalid unit of measure Id.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="description">Description</label><input class="form-control" formControlName="description" placeholder="Description" type="text">
+                  <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
+                </div>
+              </fieldset>
+
+              <div class="form-buttons-w">
+                <button class="btn btn-primary button1" [disabled]="!assetTypeEditForm.valid" type="submit"> Submit</button>
+                <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,11 +1,11 @@
-import {OrganizationClient} from "../../client/parties/organization.client";
+import {OrganizationClient} from "../../client/party/organization.client";
 import {OrganizationRepository} from "../../organizations/organization.repository";
 import {OrganizationRepositoryAdapter} from "./organization.repository.adapter";
 
-import {PersonClient} from "../../client/parties/person.client";
-import {PersonRepository} from "../../parties/party.repository";
-import {PersonRepositoryAdapter} from "./person.repository.adapter";
+import {PersonClient} from "../../client/party/person.client";
+import {PartyRepository} from "../../parties/party.repository";
 import {AssetPersonRepository} from "../../assets/asset.person.repository";
+import {PartyRepositoryAdapter} from "./party.repository.adapter";
 
 export function organizationRepositoryProviderFactory (organizationClient:OrganizationClient):OrganizationRepository {
   let organizationRepositoryAdapter: OrganizationRepositoryAdapter;
@@ -15,12 +15,12 @@ export function organizationRepositoryProviderFactory (organizationClient:Organi
   return organizationRepositoryAdapter;
 }
 
-export function personRepositoryProviderFactory (personClient:PersonClient):PersonRepository {
-  let personRepositoryAdapter: PersonRepositoryAdapter;
-  if (!personRepositoryAdapter) {
-    personRepositoryAdapter = new PersonRepositoryAdapter(personClient);
+export function partyRepositoryProviderFactory (personClient:PersonClient):PartyRepository {
+  let partyRepositoryAdapter: PartyRepositoryAdapter;
+  if (!partyRepositoryAdapter) {
+    partyRepositoryAdapter = new PartyRepositoryAdapter(personClient);
   }
-  return personRepositoryAdapter;
+  return partyRepositoryAdapter;
 }
 
 export let organizationRepositoryProvider = {
@@ -29,14 +29,14 @@ export let organizationRepositoryProvider = {
   deps: [OrganizationClient]
 };
 
-export let personRepositoryProvider = {
-  provide: PersonRepository,
-  useFactory: personRepositoryProviderFactory,
+export let partyRepositoryProvider = {
+  provide: PartyRepository,
+  useFactory: partyRepositoryProviderFactory,
   deps: [PersonClient]
 };
 
 export let assetPersonRepositoryProvider = {
   provide: AssetPersonRepository,
-  useFactory: personRepositoryProviderFactory,
+  useFactory: partyRepositoryProviderFactory,
   deps: [PersonClient]
 };

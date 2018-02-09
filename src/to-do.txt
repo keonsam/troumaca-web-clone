@@ -1,0 +1,1 @@
+1. Make all external data objects context specific.  For example party in Session in party should be PartySession.

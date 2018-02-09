@@ -1,114 +1,65 @@
 <div class="content-i asset-container">
 
-  <asset-type-top-menu></asset-type-top-menu>
+<!--  <asset-type-top-menu></asset-type-top-menu> -->
 
   <div class="content-box">
     <div class="row">
       <div class="col-sm-12">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="assetForm" (ngSubmit)="onSubmit()" id="formValidate">
+            <form [formGroup]="assetTypeForm" (ngSubmit)="onCreate()" id="formValidate">
               <h5 class="form-header">
-                New Asset Form
+                New Asset Type Form
               </h5>
 
-              <!--<fieldset class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Asset Kind</label><br/>-->
-              <!--<select class="form-control" formControlName="assetKind" name="assetKind">-->
-              <!--<option value="" disabled selected>Select an Asset Kind</option>-->
-              <!--<option *ngFor="let assetKind of assetKinds" [value]="assetKind.assetKindId">{{assetKind.name}}</option>-->
-              <!--</select>-->
-              <!--</div>-->
-              <!--</fieldset>-->
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to create asset type class.</div>
 
-              <!--<fieldset class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Asset Type</label>-->
-              <!--<ng2-completer [datasource]="assetTypeDataService"-->
-              <!--[minSearchLength]="0"-->
-              <!--[maxChars]="4"-->
-              <!--[inputClass]="'form-control'"-->
-              <!--[placeholder]="'Search for Asset Type'"-->
-              <!--[matchClass]="'match'"-->
-              <!--formControlName="assetType"-->
-              <!--[autofocus]="true"-->
-              <!--[textSearching]="false"-->
-              <!--(selected)="onAssetTypeSelect($event)">-->
-              <!--</ng2-completer>-->
-              <!--</div>-->
-              <!--</fieldset>-->
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Asset Type Class Id">Asset Type Class Id</label><input class="form-control" formControlName="assetTypeClassId" placeholder="Asset Type Class Id" required="required" type="text">
+                  <div [hidden]="assetTypeClassId.valid || assetTypeClassId.pristine" class="alert alert-danger">Invalid asset Type Class Id.</div>
+                </div>
+              </fieldset>
 
-              <!--<fieldset *ngIf="isDiscreteItem()" class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Serial Number</label><input class="form-control" formControlName="serialNumber"  data-error="Your email address is invalid" placeholder="Serial Number" required="required" type="text">-->
-              <!--<div class="help-block form-text with-errors form-control-feedback"></div>-->
-              <!--</div>-->
-              <!--</fieldset>-->
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Name">Name</label><input class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
+                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
+                </div>
+              </fieldset>
 
-              <!--<fieldset *ngIf="isInventory()" class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Quantity</label><input class="form-control" formControlName="quantity" data-error="Your email address is invalid" placeholder="Quantity" required="required" type="number">-->
-              <!--<div class="help-block form-text with-errors form-control-feedback"></div>-->
-              <!--</div>-->
-              <!--</fieldset>-->
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Model Number">Model Number</label><input class="form-control" formControlName="modelNumber" placeholder="Model Number" type="text">
+                  <div [hidden]="modelNumber.valid || modelNumber.pristine" class="alert alert-danger">Invalid model number.</div>
+                </div>
+              </fieldset>
 
-              <!--<fieldset *ngIf="isInventory()" class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Unit Of Measure</label>-->
-              <!--<ng2-completer [datasource]="unitOfMeasureDataService"-->
-              <!--[minSearchLength]="0"-->
-              <!--[maxChars]="4"-->
-              <!--[inputClass]="'form-control'"-->
-              <!--[placeholder]="'Search for Unit Of Measure'"-->
-              <!--[matchClass]="'match'"-->
-              <!--formControlName="unitOfMeasure"-->
-              <!--[autofocus]="true"-->
-              <!--[textSearching]="false"-->
-              <!--(selected)="onUnitOfMeasureSelect($event)">-->
-              <!--</ng2-completer>-->
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Material Code">Material Code</label><input class="form-control" formControlName="materialCode" placeholder="Material Code" type="text">
+                  <div [hidden]="materialCode.valid || materialCode.pristine" class="alert alert-danger">Invalid material code.</div>
+                </div>
+              </fieldset>
 
-              <!--</div>-->
-              <!--</fieldset>-->
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Unit Of Measure Id">Unit Of Measure Id</label><input class="form-control" formControlName="unitOfMeasureId" placeholder="Unit Of Measure Id" type="text">
+                  <div [hidden]="unitOfMeasureId.valid || unitOfMeasureId.pristine" class="alert alert-danger">Invalid unit of measure Id.</div>
+                </div>
+              </fieldset>
 
-              <!--<fieldset class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Assignee</label>-->
-              <!--<ng2-completer [datasource]="personDataService"-->
-              <!--[minSearchLength]="0"-->
-              <!--[maxChars]="4"-->
-              <!--[inputClass]="'form-control'"-->
-              <!--[placeholder]="'Search for Person'"-->
-              <!--[matchClass]="'match'"-->
-              <!--formControlName="person"-->
-              <!--[autofocus]="true"-->
-              <!--[textSearching]="false"-->
-              <!--(selected)="onPersonSelect($event)">-->
-              <!--</ng2-completer>-->
-              <!--</div>-->
-              <!--</fieldset>-->
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="description">Description</label><input class="form-control" formControlName="description" placeholder="Description" type="text">
+                  <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
+                </div>
+              </fieldset>
 
-              <!--<fieldset class="form-group">-->
-              <!--<div class="form-group">-->
-              <!--<label for="">Site</label>-->
-              <!--<ng2-completer [datasource]="siteDataService"-->
-              <!--[minSearchLength]="0"-->
-              <!--[maxChars]="4"-->
-              <!--[inputClass]="'form-control'"-->
-              <!--[placeholder]="'Search for Site'"-->
-              <!--[matchClass]="'match'"-->
-              <!--formControlName="site"-->
-              <!--[autofocus]="true"-->
-              <!--[textSearching]="false"-->
-              <!--(selected)="onPhysicalSiteSelect($event)">-->
-              <!--</ng2-completer>-->
-              <!--</div>-->
-              <!--</fieldset>-->
-
-              <!--<div class="form-buttons-w">-->
-              <!--<button class="btn btn-primary button1" [disabled]="!enableSubmit()" (click)="onCreate()" type="submit"> Submit</button>-->
-              <!--<button class="btn btn-white" type="cancel" (click)="onReset()"> Cancel</button>-->
-              <!--</div>-->
+              <div class="form-buttons-w">
+                <button class="btn btn-primary button1" [disabled]="!assetTypeForm.valid" type="submit"> Submit</button>
+                <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>
+              </div>
 
             </form>
           </div>

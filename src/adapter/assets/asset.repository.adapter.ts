@@ -1,7 +1,7 @@
 import "rxjs/add/operator/map";
 import {Observable} from "rxjs/Observable";
 import {AssetRepository} from "../../assets/asset.repository";
-import {AssetClient} from "../../client/assets/asset.client";
+import {AssetClient} from "../../client/asset/asset.client";
 import {Asset} from "../../assets/asset";
 import { map, reduce, somethingElse } from "underscore";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
@@ -15,7 +15,7 @@ import {AssetType} from "../../assets/asset.type";
 import {AssetPerson} from "../../assets/asset.person";
 import {UnitOfMeasure} from "../../assets/asset.unit.of.measure";
 import {Site} from "../../assets/asset.site";
-import {AssetState} from "../../client/assets/asset.state";
+import {AssetState} from "../../client/asset/asset.state";
 
 export class AssetRepositoryAdapter extends AssetRepository {
 
@@ -43,8 +43,6 @@ export class AssetRepositoryAdapter extends AssetRepository {
       });
      assetModels.page = mapObjectProps(values.page, new Page());
      assetModels.sort = mapObjectProps(values.sort, new Sort());
-
-     console.log(assetModels);
       return assetModels;
     });
   }

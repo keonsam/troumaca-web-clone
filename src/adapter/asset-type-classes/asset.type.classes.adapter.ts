@@ -1,6 +1,6 @@
 import "rxjs/add/operator/map";
 import {AssetTypeClassRepository} from "../../asset-type-classes/asset.type.class.repository";
-import {AssetTypeClassClient} from "../../client/asset-type-classes/asset.type.class.client";
+import {AssetTypeClassClient} from "../../client/asset-type-class/asset.type.class.client";
 import {Observable} from "rxjs/Observable";
 // import {AssetTypeModel} from "../../asset-types/asset.types.model";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
@@ -8,7 +8,7 @@ import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
 // import {AssetTypeClassModel} from "../../asset-types/asset.type.class.model";
 // import {AssetTypeAttributeModel} from "../../attributes/asset.type.attribute.model";
 // import {AssetTypeAttributeValueModel} from "../../attributes/asset.type.attribute.value.model";
-import {AssetTypeClassState} from "../../client/asset-type-classes/asset.type.class.state";
+import {AssetTypeClassState} from "../../client/asset-type-class/asset.type.class.state";
 import { map, reduce, somethingElse } from "underscore";
 import {AssetTypeClasses} from "../../asset-type-classes/asset.type.classes";
 import {Page} from "../../page/page";

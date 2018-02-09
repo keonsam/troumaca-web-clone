@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {CompleterService} from "ng2-completer";
+//import {CompleterService} from "ng2-completer";
 import {AssetTypeClassService} from "../asset.type.class.service";
 import {AssetTypeClass} from "../asset.type.class";
 import {ActivatedRoute} from '@angular/router';
@@ -25,7 +25,7 @@ export class AssetTypeClassEditComponent implements OnInit {
   private _doNotDisplayFailureMessage:boolean;
 
   constructor(private assetTypeClassService:AssetTypeClassService,
-              private completerService: CompleterService,
+            //  private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {

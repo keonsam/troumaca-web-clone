@@ -8,6 +8,14 @@ export class AssetTypeClasses {
   private _attributeAssignmentId:string;
   private _attributes:AssetAttribute;
 
+  constructor(assetTypeClassId?:string, name?: string, description?: string, attributeAssignmentId?: string, attributes?: AssetAttribute){
+    this._assetTypeClassId = assetTypeClassId;
+    this._name = name;
+    this._description = description;
+    this._attributeAssignmentId = attributeAssignmentId;
+    this._attributes = attributes;
+  }
+
   get assetTypeClassId(): string {
     return this._assetTypeClassId;
   }

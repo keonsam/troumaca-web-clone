@@ -16,7 +16,7 @@ let bodyParser = require('body-parser');
 let assets = require('./routes/assets');
 let asset = require('./routes/asset');
 // let lots = require('./routes/lots');
- let assetTypes = require('./routes/asset-types');
+let assetTypes = require('./routes/asset-types');
 let unitOfMeasures = require('./routes/unit-of-measures');
 let persons = require('./routes/parties/persons/persons');
 let unionOfPhysicalSites = require('./routes/sites/physical-sites/union-of-physical-sites');
@@ -26,6 +26,8 @@ let assetResource = require('./features/asset/resources');
 let assetTypeClassesResource = require('./features/asset-type-classes/resources');
 let siteResource = require('./features/site/resources');
 let attributesResource = require('./features/attributes/resources');
+let assetsResource = require('./features/asset-types/resources');
+
 let app = express();
 
 app.use(logger('dev'));
@@ -38,7 +40,7 @@ app.use(cors());
 //app.use('/assets', assets);
 app.use('/asset', asset);
 // app.use('/lots', lots);
-app.use('/asset-types', assetTypes);
+//app.use('/asset-types', assetTypes);
 app.use('/unit-of-measures', unitOfMeasures);
 
 app.use('/sites/physical-sites', unionOfPhysicalSites);
@@ -50,6 +52,7 @@ app.use('/assets', assetResource);
 app.use('/asset-type-classes', assetTypeClassesResource);
 app.use('/sites', siteResource);
 app.use('/attributes', attributesResource);
+app.use('/asset-types', assetsResource);
 // app.set('view engine', 'ejs');
 
 // Needs to introduce a middle where that will check active session

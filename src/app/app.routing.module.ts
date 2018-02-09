@@ -12,10 +12,10 @@ import {AssetListComponent} from "../assets/asset-list/asset.list.component";
 import {AssetCreationComponent} from "../assets/asset-creation/asset.creation.component";
 import {AssetTypeListComponent} from "../asset-types/asset-type-list/asset.type.list.component";
 import {AssetTypeCreationComponent} from "../asset-types/asset-type-creation/asset.type.creation.component";
+import {AssetTypeEditComponent} from "../asset-types/asset-type-edit/asset.type.edit.component";
 import {AssetTypeClassCreationComponent} from "../asset-type-classes/asset-type-class-creation/asset.type.class.creation.component";
 import {AssetTypeClassListComponent} from "../asset-type-classes/asset-type-class-list/asset.type.class.list.component";
 import {AssetTypeClassEditComponent} from "../asset-type-classes/asset-type-class-edit/asset.type.class.edit.component";
-import {SiteCreationComponent} from "../site/site-creation/site.creation.component";
 import {AttributeListComponent} from "../attributes/attribute-list/attribute.list.component";
 import {AttributeCreationComponent} from "../attributes/attribute-creation/attribute.creation.component";
 import {AttributeEditComponent} from "../attributes/attribute-edit/attribute.edit.component";
@@ -34,8 +34,13 @@ import {SiteStreetAddressEditComponent} from "../site/site-street-address-edit/s
 import {SiteStreetAddressListComponent} from "../site/site-street-address-list/site.street.address.list.component";
 import {SitePhoneCreationComponent} from "../site/site-phone-creation/site.phone.creation.component";
 import {SitePhoneEditComponent} from "../site/site-phone-edit/site.phone.edit.component";
-import {PersonListComponent} from "../parties/persons/person-list/person.list.component";
 import {PartyComponent} from "../parties/party.component";
+import {OrganizationListComponent} from "../parties/organizations/organization-list/organization.list.component";
+import {OrganizationCompanyComponent} from "../parties/organizations/organization-company/organization.company.component";
+import {CustomerListComponent} from "../parties/customers/customer-list/customer.list.component";
+import {VendorListComponent} from "../parties/vndors/vendor-list/vendor.list.component";
+import {EmployeeListComponent} from "../parties/employees/employee-list/employee.list.component";
+import {UserListComponent} from "../parties/users/user-list/user.list.component";
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -49,7 +54,8 @@ const appRoutes: Routes = [
   { path: 'asset-types', component: AssetTypeComponent,  children: [
       { path: '',redirectTo: 'listing', pathMatch: 'full' },
       { path: 'listing', component: AssetTypeListComponent },
-      { path: 'create', component: AssetTypeCreationComponent }
+      { path: 'create', component: AssetTypeCreationComponent },
+      { path: ':assetTypeId/edit', component: AssetTypeEditComponent },
   ]},
   { path: 'asset-type-classes', component: AssetTypeClassComponent, children:[
     { path: '', redirectTo: 'listing', pathMatch: 'full' },
@@ -82,12 +88,18 @@ const appRoutes: Routes = [
     { path: 'phones/create', component: SitePhoneCreationComponent}
   ]},
   { path: 'parties', component: PartyComponent, children:[
-    { path: '', redirectTo: 'persons', pathMatch: 'full' },
-    { path: 'persons', component: PersonListComponent }
+    { path: '', redirectTo: 'organizations/company', pathMatch: 'full' },
+    { path: 'organizations/company', component: OrganizationCompanyComponent, data:{menuName:'organizations-menu'} },
+    { path: 'users', component: UserListComponent, data:{menuName:'users-menu'} }
   ]},
   { path: '**', component: PageNotFoundComponent },
 ];
 
+// { path: 'organizations', component: OrganizationListComponent },
+// { path: 'customers', component: CustomerListComponent },
+// { path: 'vendors', component: VendorListComponent },
+// { path: 'vendors/employees', component: EmployeeListComponent },
+// { path: 'customers/employees', component: EmployeeListComponent },
 
 @NgModule({
   imports: [

@@ -7,10 +7,13 @@ export class AssetType {
   private _description:string;
   private _name:string;
   private _materialCode:string;
-  private _unitOfMeasure:string;
+  private _unitOfMeasureId:string;
   private _assetTypeClass:AssetTypeClasses;
 
-
+  constructor() {
+    this._assetTypeClass = new AssetTypeClasses();
+    
+  }
   get assetTypeId(): string {
     return this._assetTypeId;
   }
@@ -51,17 +54,18 @@ export class AssetType {
     this._materialCode = value;
   }
 
-  get unitOfMeasure(): string {
-    return this._unitOfMeasure;
+  get unitOfMeasureId(): string {
+    return this._unitOfMeasureId;
   }
 
-  set unitOfMeasure(value: string) {
-    this._unitOfMeasure = value;
+  set unitOfMeasureId(value: string) {
+    this._unitOfMeasureId = value;
   }
 
   get assetTypeClass(): AssetTypeClasses {
     return this._assetTypeClass;
   }
+
 
   set assetTypeClass(value: AssetTypeClasses) {
     this._assetTypeClass = value;

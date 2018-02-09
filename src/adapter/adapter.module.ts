@@ -5,7 +5,7 @@ import {reportRepositoryProvider} from "./report/report.repository.adapter.provi
 import {signUpRepositoryProvider} from "./sign-up/sign.up.repository.adapter.provider";
 import {signInRepositoryProvider} from "./sign-in/sign.in.repository.adapter.provider";
 import {forgotPasswordRepositoryProvider} from "./forgot-password/forgot.password.repository.adapter.provider";
-import {organizationRepositoryProvider, personRepositoryProvider, assetPersonRepositoryProvider} from "./party/party.repository.adapter.provider";
+import {organizationRepositoryProvider, partyRepositoryProvider, assetPersonRepositoryProvider} from "./party/party.repository.adapter.provider";
 import {securityRepositoryProvider} from "./security/security.repository.provider";
 import {authenticationRepositoryProvider} from "./login/login.repository.adapter.provider";
 import {changePasswordRepositoryProvider} from "./change-password/change.password.repository.adapter.provider";
@@ -35,7 +35,7 @@ import {unitOfMeasureRepositoryProvider} from "./unit-of-measures/unit.of.measur
     signInRepositoryProvider,
     forgotPasswordRepositoryProvider,
     organizationRepositoryProvider,
-    personRepositoryProvider,
+    partyRepositoryProvider,
     securityRepositoryProvider,
     authenticationRepositoryProvider,
     changePasswordRepositoryProvider,

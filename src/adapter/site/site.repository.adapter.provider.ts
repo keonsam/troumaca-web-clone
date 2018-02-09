@@ -1,5 +1,5 @@
 import {SiteRepositoryAdapter} from "./site.repository.adapter";
-import {SiteClient} from "../../client/sites/site.client";
+import {SiteClient} from "../../client/site/site.client";
 import {SiteRepository} from "../../site/site.repository";
 import {AssetSiteRepository} from "../../assets/asset.site.repository";
 
