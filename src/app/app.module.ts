@@ -39,6 +39,7 @@ import {SiteModule} from "../site/site.module";
 import {Ng2CompleterModule} from "ng2-completer";
 import {FormsModule} from "@angular/forms";
 import {PartyModule} from "../parties/party.module";
+import {ContractModule} from "../contracts/contract.module";
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import {PartyModule} from "../parties/party.module";
     AttributeModule,
     AssetTypeClassModule,
     SiteModule,
+    ContractModule,
     AppRoutingModule
   ],
   declarations: [

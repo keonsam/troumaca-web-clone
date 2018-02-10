@@ -39,6 +39,8 @@ import {CustomerListComponent} from "../parties/customers/customer-list/customer
 import {VendorListComponent} from "../parties/vndors/vendor-list/vendor.list.component";
 import {EmployeeListComponent} from "../parties/employees/employee-list/employee.list.component";
 import {UserListComponent} from "../parties/users/user-list/user.list.component";
+import {ContractComponent} from "../contracts/contract.component";
+import {OrderListComponent} from "../contracts/orders/order.list.component";
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -87,6 +89,10 @@ const appRoutes: Routes = [
     { path: '', redirectTo: 'organizations/company', pathMatch: 'full' },
     { path: 'organizations/company', component: OrganizationCompanyComponent, data:{menuName:'organizations-menu'} },
     { path: 'users', component: UserListComponent, data:{menuName:'users-menu'} }
+  ]},
+  { path: 'contracts', component: ContractComponent, children:[
+    { path: '', redirectTo: 'orders', pathMatch: 'full' },
+    { path: 'orders', component: OrderListComponent, data:{menuName:'orders-menu'} }
   ]},
   { path: '**', component: PageNotFoundComponent },
 ];

@@ -21,6 +21,7 @@ import {assetTypeRepositoryProvider} from "./asset-types/asset.repository.adapte
 import {attributeRepositoryProvider} from "./attributes/attributes.repository.adapter.provider";
 import {assetTypeClassRepositoryProvider} from "./asset-type-classes/asset.type.classes.adapter.provider";
 import {unitOfMeasureRepositoryProvider} from "./unit-of-measures/unit.of.measure.repository.adapter.provider";
+import {contractRepositoryProvider} from "./contracts/contracts.repository.adapter.provider";
 
 @NgModule({
   imports:      [],
@@ -52,7 +53,8 @@ import {unitOfMeasureRepositoryProvider} from "./unit-of-measures/unit.of.measur
     attributeRepositoryProvider,
     assetTypeClassRepositoryProvider,
     unitOfMeasureRepositoryProvider,
-    assetPersonRepositoryProvider
+    assetPersonRepositoryProvider,
+    contractRepositoryProvider
   ]
 })
 export class AdapterModule { }
