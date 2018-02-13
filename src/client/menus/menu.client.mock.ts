@@ -64,6 +64,12 @@ export class MenuClientMock extends MenuClient {
     ordersMenuState.menuItemStates = this.ordersMenuItems();
     this.menuMap.set(ordersMenuState.name, ordersMenuState);
 
+    let quoatesMenuState = new MenuState();
+    quoatesMenuState.name = 'quotes-menu';
+    quoatesMenuState.title = 'quotes-menu';
+    quoatesMenuState.menuItemStates = this.quotesMenuItems();
+    this.menuMap.set(quoatesMenuState.name, quoatesMenuState);
+
   }
 
   // noinspection JSMethodCanBeStatic
@@ -174,10 +180,18 @@ export class MenuClientMock extends MenuClient {
 
   private ordersMenuItems() {
     return [
-      this.toMenuItem({id:'1061', rank:'31', name: 'Orders', routeName: 'orders', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id:'1061', rank:'31', name: 'Sales', routeName: 'orders/sales', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id:'1062', rank:'32', name: 'Purchases', routeName: 'orders/purchases', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id:'1063', rank:'33', name: 'Fulfillments', routeName: 'orders/fulfillments', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
+      this.toMenuItem({id:'1061', rank:'31', name: 'Contracts', routeName: 'listing', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      // this.toMenuItem({id:'1062', rank:'32', name: 'Orders', routeName: 'orders', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id:'1063', rank:'33', name: 'Sales', routeName: 'sales', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id:'1064', rank:'34', name: 'Purchases', routeName: 'purchases', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id:'1065', rank:'35', name: 'Fulfillments', routeName: 'fulfillments', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id:'1066', rank:'35', name: 'Invoices', routeName: 'invoices', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
+    ];
+  }
+
+  private quotesMenuItems() {
+    return [
+      this.toMenuItem({id:'1061', rank:'31', name: 'Quotes', routeName: 'listing', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
     ];
   }
 

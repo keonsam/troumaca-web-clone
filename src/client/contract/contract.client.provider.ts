@@ -6,7 +6,6 @@ import {HttpClient} from "@angular/common/http";
 
 
 export function contractClientFactory (appConfig: AppConfig, httpClient:HttpClient, uuidGenerator: UUIDGenerator):ContractClient {
-
   return new ContractClientHttp(uuidGenerator, httpClient, appConfig.apiEndpoint);
 }
 

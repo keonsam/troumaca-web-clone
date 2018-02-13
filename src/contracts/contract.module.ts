@@ -8,9 +8,12 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ContractComponent} from "./contract.component";
 import {ContractService} from "./contract.service";
 import {ContractRepository} from "./contract.repository";
-import {PurchaseOrderComponent} from "./orders/purchase/purchase.order.component";
-import {OrderFulfillmentComponent} from "./orders/fulfillment/order.fulfillment.component";
+import {PurchaseOrderListComponent} from "./orders/purchases/purchase.order.list.component";
+import {OrderFulfillmentListComponent} from "./orders/fulfillments/order.fulfillment.list.component";
 import {OrderListComponent} from "./orders/order.list.component";
+import {SaleOrderListComponent} from "./orders/sales/sale.order.list.component";
+import {ContractListComponent} from "./contract-list/contract.list.component";
+import {OrderInvoiceListComponent} from "./orders/invoices/order.invoice.list.component";
 
 @NgModule({
   imports: [
@@ -24,9 +27,12 @@ import {OrderListComponent} from "./orders/order.list.component";
   ],
   declarations: [
     ContractComponent,
-    PurchaseOrderComponent,
-    OrderFulfillmentComponent,
-    OrderListComponent
+    PurchaseOrderListComponent,
+    OrderFulfillmentListComponent,
+    OrderListComponent,
+    SaleOrderListComponent,
+    ContractListComponent,
+    OrderInvoiceListComponent
   ],
   providers: [{
     provide: ContractService,
@@ -41,9 +47,12 @@ import {OrderListComponent} from "./orders/order.list.component";
   }],
   exports: [
     ContractComponent,
-    PurchaseOrderComponent,
-    OrderFulfillmentComponent,
-    OrderListComponent
+    PurchaseOrderListComponent,
+    OrderFulfillmentListComponent,
+    OrderListComponent,
+    SaleOrderListComponent,
+    ContractListComponent,
+    OrderInvoiceListComponent
   ]
 })
 

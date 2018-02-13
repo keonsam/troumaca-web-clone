@@ -96,9 +96,11 @@ export class TopMenuComponent implements OnInit {
     let that = this;
     this.menuService.getMenuByName(menuName).subscribe(function (menu) {
       that.menuModel.menuItemModels = [];
-      menu.menuItemModels.forEach(value => {
-        that.menuModel.menuItemModels.push(value);
-      });
+      if (menu.menuItemModels) {
+        menu.menuItemModels.forEach(value => {
+          that.menuModel.menuItemModels.push(value);
+        });
+      }
     });
   }
 

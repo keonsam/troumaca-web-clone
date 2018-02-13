@@ -61,15 +61,15 @@ import {PartyEventService} from "./party.event.service";
   ],
   providers: [{
     provide: PartyService,
-    useFactory(partyRepository:PartyRepository) {
-      let partyService: PartyService;
-      if (!partyService) {
-        partyService = new PartyService(partyRepository);
-      }
-      return partyService;
-    },
-    deps: [PartyRepository]
-  }, PartyEventService
+      useFactory(partyRepository:PartyRepository) {
+        let partyService: PartyService;
+        if (!partyService) {
+          partyService = new PartyService(partyRepository);
+        }
+        return partyService;
+      },
+      deps: [PartyRepository]
+    }, PartyEventService
   ],
   exports: [
     PartyComponent,
