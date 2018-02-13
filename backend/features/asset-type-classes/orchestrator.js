@@ -6,6 +6,10 @@ module.exports = function AssetTypeClassesOrchestrator() {
 
   let that = this;
 
+  this.getDataTypes = function () {
+    return assetTypeClassesRepository.getDataTypes();
+  }
+
   this.getAssetTypeClasses = function (number, size, field, direction) {
     let sort = getSortOrderOrDefault(field, direction);
     return assetTypeClassesRepository
@@ -14,7 +18,33 @@ module.exports = function AssetTypeClassesOrchestrator() {
       return assetTypeClassesRepository
         .getAssetTypeClassCount()
         .map(count => {
-          return responseShaper.shapeAssetTypeClasssResponse(value, number, size, value.length, count, sort);
+          return responseShaper.shapeAssetTypeClasssResponse("assetTypeClasses",value, number, size, value.length, count, sort);
+        });
+    });
+  };
+
+  this.getAvailableAttributes = function (number, size, field, direction, assignedArray) {
+    let sort = getSortOrderOrDefault(field, direction);
+    return assetTypeClassesRepository
+    .getAvailableAttributes(number, size, sort, assignedArray)
+    .flatMap(value => {
+      return assetTypeClassesRepository
+        .getAvailableAttributeCount()
+        .map(count => {
+          return responseShaper.shapeAssetTypeClasssResponse("attributes",value, number, size, value.length, count, sort);
+        });
+    });
+  };
+
+  this.getAssignedAttributes = function (number, size, field, direction, assignedArray) {
+    let sort = getSortOrderOrDefault(field, direction);
+    return assetTypeClassesRepository
+    .getAssignedAttributes(number, size, sort, assignedArray)
+    .flatMap(value => {
+      return assetTypeClassesRepository
+        .getAvailableAttributeCount()
+        .map(count => {
+          return responseShaper.shapeAssetTypeClasssResponse("attributes",value, number, size, value.length, count, sort);
         });
     });
   };
@@ -23,17 +53,33 @@ module.exports = function AssetTypeClassesOrchestrator() {
     return assetTypeClassesRepository.getAssetTypeClass(assetTypeClassId);
   };
 
+  this.getAvailableAttribute = function (attributeId) {
+    return assetTypeClassesRepository.getAvailableAttribute(attributeId);
+  };
+
   this.saveAssetTypeClass = function (assetTypeClass) {
     return assetTypeClassesRepository.saveAssetTypeClass(assetTypeClass);
+  };
+
+  this.saveAvailableAttribute = function (availableAttribute) {
+    return assetTypeClassesRepository.saveAvailableAttribute(availableAttribute);
   };
 
   this.deleteAssetTypeClass = function (assetTypeClassId) {
     return assetTypeClassesRepository.deleteAssetTypeClass(assetTypeClassId);
   };
 
+  this.deleteAvailableAttribute = function (attributeId) {
+    return assetTypeClassesRepository.deleteAvailableAttribute(attributeId);
+  };
+
   this.updateAssetTypeClass = function (assetTypeClassId, assetTypeClass) {
     return assetTypeClassesRepository.updateAssetTypeClass(assetTypeClassId, assetTypeClass);
-  }
+  };
+
+  this.updateAvailableAttribute = function (attributeId, attribute) {
+    return assetTypeClassesRepository.updateAvailableAttribute(attributeId, attribute);
+  };
 
   function getSortOrderOrDefault(field, direction) {
     let sort = {};

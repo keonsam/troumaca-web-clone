@@ -7,6 +7,7 @@ export class AssetTypeClassState {
   private _tenantId:string;
   private _name:string;
   private _description:string;
+  private _assignedAttributes: string[];
   private _createdOn:Date;
   private _modifiedOn:Date
 
@@ -42,6 +43,14 @@ export class AssetTypeClassState {
     this._description = value;
   }
 
+  get assignedAttributes(): string[] {
+    return this._assignedAttributes;
+  }
+
+  set assignedAttributes(value: string[]) {
+    this._assignedAttributes = value;
+  }
+
   get createdOn(): Date {
     return this._createdOn;
   }
@@ -64,9 +73,10 @@ export class AssetTypeClassState {
      tenantId: this.tenantId,
      name: this.name,
      description: this.description,
+     attributeId: this.assignedAttributes,
      createdOn: this.createdOn,
      modifiedOn: this.modifiedOn
    }
  }
- 
+
 }

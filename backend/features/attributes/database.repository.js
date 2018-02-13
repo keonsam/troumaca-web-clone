@@ -4,19 +4,19 @@ let Rx = require("rxjs");
 let path = require('path');
 let UUIDGenerator = require("../uuid.generator");
 let DbUtil = require("../db.util");
-
+let db = require("../db2.js")
 let hostname = 'troumaca.com';
 
-let theAttributesDb = path.resolve(__dirname, '..','..',) + '/nedb/attributes.db';
-let theDataTypesDb =  path.resolve(__dirname, '..','..',) + '/nedb/data-types.db';
+//let theAttributesDb = path.resolve(__dirname, '..','..',) + '/nedb/attributes.db';
+//let theDataTypesDb =  path.resolve(__dirname, '..','..',) + '/nedb/data-types.db';
 
-let db = {};
+//let db = {};
 
-db.attributes = new Datastore(theAttributesDb);
-db.attributes.loadDatabase(function (err) { console.log(err); });
+//db.attributes = new Datastore(theAttributesDb);
+//db.attributes.loadDatabase(function (err) { console.log(err); });
 
-db.dataTypes = new Datastore(theDataTypesDb);
-db.dataTypes.loadDatabase(function (err) { console.log(err); });
+//db.dataTypes = new Datastore(theDataTypesDb);
+//db.dataTypes.loadDatabase(function (err) { console.log(err); });
 
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();
@@ -60,7 +60,6 @@ module.exports =  function DatabaseAttributeRepository() {
     return Rx.Observable.create(function (observer) {
       db.dataTypes.find({}, function (err, docs) {
         if (!err) {
-          console.log(docs);
           observer.next(docs);
         } else {
           observer.error(err);

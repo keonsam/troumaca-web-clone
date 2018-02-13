@@ -75,7 +75,7 @@ export class AssetCreationComponent implements OnInit {
     this.assetType = new FormControl("", [Validators.required]);
     this.serialNumber = new FormControl("", [Validators.required]);
     this.quantity = new FormControl("", [Validators.required]);
-    this.unitOfMeasure = new FormControl("");
+    this.unitOfMeasure = new FormControl("",);
     this.site = new FormControl("");
     this.person = new FormControl("");
     this.description = new FormControl("");
@@ -120,6 +120,7 @@ export class AssetCreationComponent implements OnInit {
       this.asset.quantity = value.quantity;
       this.asset.description = value.description;
       console.log(value);
+      console.log(this.assetForm);
     }, error2 => {
       console.log(error2);
     });
