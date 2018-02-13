@@ -20,6 +20,8 @@ import {assetTypeClassClientProvider} from "./asset-type-class/asset.type.class.
 import {HttpClientModule} from "@angular/common/http";
 import {BrowserModule} from "@angular/platform-browser";
 import {unitOfMeasureClientProvider} from "./unit-of-measure/unit.of.measure.client.provider";
+import {contractClientProvider} from "./contract/contract.client.provider";
+import {quoteClientProvider} from "./quote/quote.client.provider";
 
 @NgModule({
   imports:      [
@@ -47,7 +49,9 @@ import {unitOfMeasureClientProvider} from "./unit-of-measure/unit.of.measure.cli
     assetTypesClientProvider,
     attributeClientProvider,
     assetTypeClassClientProvider,
-    unitOfMeasureClientProvider
+    unitOfMeasureClientProvider,
+    contractClientProvider,
+    quoteClientProvider
   ]
 })
 export class ClientModule { }

@@ -39,6 +39,15 @@ import {CustomerListComponent} from "../parties/customers/customer-list/customer
 import {VendorListComponent} from "../parties/vndors/vendor-list/vendor.list.component";
 import {EmployeeListComponent} from "../parties/employees/employee-list/employee.list.component";
 import {UserListComponent} from "../parties/users/user-list/user.list.component";
+import {ContractComponent} from "../contracts/contract.component";
+import {OrderListComponent} from "../contracts/orders/order.list.component";
+import {SaleOrderListComponent} from "../contracts/orders/sales/sale.order.list.component";
+import {PurchaseOrderListComponent} from "../contracts/orders/purchases/purchase.order.list.component";
+import {OrderFulfillmentListComponent} from "../contracts/orders/fulfillments/order.fulfillment.list.component";
+import {ContractListComponent} from "../contracts/contract-list/contract.list.component";
+import {OrderInvoiceListComponent} from "../contracts/orders/invoices/order.invoice.list.component";
+import {QuoteComponent} from "../quotes/quote.component";
+import {QuoteListComponent} from "../quotes/quote-list/quote.list.component";
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -88,7 +97,24 @@ const appRoutes: Routes = [
     { path: 'organizations/company', component: OrganizationCompanyComponent, data:{menuName:'organizations-menu'} },
     { path: 'users', component: UserListComponent, data:{menuName:'users-menu'} }
   ]},
-  { path: '**', component: PageNotFoundComponent },
+  { path: 'contracts', component: ContractComponent, children:[
+    { path: '', redirectTo: 'orders', pathMatch: 'full' },
+    { path: 'listing', component: ContractListComponent, data:{menuName:'orders-menu'}},
+    { path: 'orders', component: OrderListComponent, data:{menuName:'orders-menu'}},
+    { path: 'sales', component: SaleOrderListComponent, data:{menuName:'orders-menu'}},
+    { path: 'purchases', component: PurchaseOrderListComponent, data:{menuName:'orders-menu'}},
+    { path: 'fulfillments', component: OrderFulfillmentListComponent, data:{menuName:'orders-menu'}},
+    { path: 'invoices', component: OrderInvoiceListComponent, data:{menuName:'orders-menu'}}
+  ]},
+  {
+    path: 'quotes', component: QuoteComponent, children:[
+      { path: '', redirectTo: 'listing', pathMatch: 'full' },
+      { path: 'listing', component: QuoteListComponent, data:{menuName:'quotes-menu'}},
+    ]
+  },
+  {path: 'shipping', redirectTo: '/contracts/sales', pathMatch: 'full'},
+  {path: 'receiving', redirectTo: '/contracts/purchases', pathMatch: 'full'},
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 // { path: 'organizations', component: OrganizationListComponent },

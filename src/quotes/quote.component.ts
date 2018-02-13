@@ -1,22 +1,19 @@
-import {ChangeDetectorRef, Component, Input, OnInit, Output} from "@angular/core";
-import {Person} from "./person";
-import {PartyService} from "./party.service";
-import {PartyEventService} from "./party.event.service";
+import {Component, OnInit} from "@angular/core";
+import {QuoteService} from "./quote.service";
 import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
-  selector: 'party',
-  templateUrl:'./party.component.html',
-  styleUrls: ['./party.component.css']
+  selector: 'quote',
+  templateUrl:'./quote.component.html',
+  styleUrls: ['./quote.component.css']
 })
-export class PartyComponent implements OnInit {
+export class QuoteComponent implements OnInit {
 
-  private _persons:Person[];
-  private _dynamicMenuName: string;
+  private _dynamicMenuName:string;
 
-  constructor(private partyService: PartyService,
-              private partyEventService:PartyEventService,
+  constructor(private quoteService:QuoteService,
               private router:Router) {
+
     this.router.events
       .filter((event: any) => event instanceof NavigationEnd)
       .subscribe(() => {
@@ -33,10 +30,8 @@ export class PartyComponent implements OnInit {
             return;
           }
         }
-      });
-  }
+      })
 
-  ngOnInit(): void {
   }
 
   get dynamicMenuName(): string {
@@ -47,12 +42,7 @@ export class PartyComponent implements OnInit {
     this._dynamicMenuName = value;
   }
 
-  get persons(): Person[] {
-    return this._persons;
-  }
-
-  set persons(value: Person[]) {
-    this._persons = value;
+  ngOnInit(): void {
   }
 
 }
