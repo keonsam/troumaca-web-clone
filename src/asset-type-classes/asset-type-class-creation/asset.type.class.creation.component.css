@@ -1306,8 +1306,50 @@ li {
   }
 }
 
-col-sm-12 {
-  padding-left: 0;
-  padding-right: 0;
+.col-sm-12 {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+@media (min-width: 360px) {
+  .col-sm-12 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+@media (min-width: 576px) {
+  .col-sm-12 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .col-sm-12 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-sm-12 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-sm-12 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+@media (min-width: 1450px) {
+  .col-sm-12 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
 /* End of troumaca overrides */
