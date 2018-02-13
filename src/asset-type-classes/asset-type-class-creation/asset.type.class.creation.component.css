@@ -433,69 +433,6 @@ legend:before {
   margin-bottom: 1rem;
 }
 
-
-/*
-  Troumaca overrides etc.
-*/
-
-li {
-  float: left;
-}
-
-.outer {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.inner {
-  padding-right: 20px;
-}
-
-.btn-white, .all-wrapper .fc-button {
-  color: #333;
-  background-color: #fff;
-  border-color: rgba(0, 0, 0, 0.5);
-}
-
-.btn-white:hover, .all-wrapper .fc-button:hover {
-  color: #333;
-  background-color: #e6e5e5;
-  border-color: rgba(0, 0, 0, 0.5);
-}
-
-.btn-white:focus, .all-wrapper .fc-button:focus, .btn-white.focus, .all-wrapper .focus.fc-button {
-  -webkit-box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
-}
-
-.btn-white.disabled, .all-wrapper .disabled.fc-button, .btn-white:disabled, .all-wrapper .fc-button:disabled {
-  background-color: #fff;
-  border-color: rgba(0, 0, 0, 0.5);
-}
-
-.btn-white:active, .all-wrapper .fc-button:active, .btn-white.active, .all-wrapper .active.fc-button,
-.show > .btn-white.dropdown-toggle, .all-wrapper
-.show > .dropdown-toggle.fc-button {
-  color: #333;
-  background-color: #e6e5e5;
-  background-image: none;
-  border-color: rgba(0, 0, 0, 0.5);
-}
-
-.button1 {
-  margin-right: 1rem;
-}
-
-.ng-valid[required], .ng-valid.required  {
-  border-left: 5px solid #42A948; /* green */
-}
-.ng-invalid:not(form)  {
-  border-left: 5px solid #a94442; /* red */
-}
-
 /* table section css*/
 
 .with-side-panel .content-i {
@@ -1205,3 +1142,172 @@ tfoot tr {
 }
 
 /* End of table section css */
+
+/*
+  Troumaca overrides etc.
+*/
+
+li {
+  float: left;
+}
+
+.outer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.inner {
+  padding-right: 20px;
+}
+
+.btn-white, .all-wrapper .fc-button {
+  color: #333;
+  background-color: #fff;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+.btn-white:hover, .all-wrapper .fc-button:hover {
+  color: #333;
+  background-color: #e6e5e5;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+.btn-white:focus, .all-wrapper .fc-button:focus, .btn-white.focus, .all-wrapper .focus.fc-button {
+  -webkit-box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.btn-white.disabled, .all-wrapper .disabled.fc-button, .btn-white:disabled, .all-wrapper .fc-button:disabled {
+  background-color: #fff;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+.btn-white:active, .all-wrapper .fc-button:active, .btn-white.active, .all-wrapper .active.fc-button,
+.show > .btn-white.dropdown-toggle, .all-wrapper
+.show > .dropdown-toggle.fc-button {
+  color: #333;
+  background-color: #e6e5e5;
+  background-image: none;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+.button1 {
+  margin-right: 1rem;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+
+.lgModal > .modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    outline: 0;
+}
+
+.lgModal > .modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
+
+.lgModal > .modal-content {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+}
+
+.lgModal > .modal-open {
+  overflow: hidden;
+}
+
+.lgModal > .modal.fade .modal-dialog {
+  -webkit-transition: -webkit-transform 0.3s ease-out;
+  transition: -webkit-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
+  -webkit-transform: translate(0, -25%);
+          transform: translate(0, -25%);
+}
+
+.lgModal > .modal.show .modal-dialog {
+  -webkit-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
+
+.lgModal > .modal-open .modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.lgModal > .modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000;
+}
+
+.lgModal > .modal-backdrop.fade {
+  opacity: 0;
+}
+
+.lgModal > .modal-backdrop.show {
+  opacity: 0.5;
+}
+
+.lgModal > .modal-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}
+.lgModal > .modal-content {
+  -webkit-box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.5);
+          box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 576px) {
+  .lgModal > .modal-dialog {
+    max-width: 500px;
+    margin: 30px auto;
+  }
+}
+
+
+@media (min-width: 992px) {
+  .lgModal > .modal-lg {
+    max-width: 800px;
+  }
+}
+
+col-sm-12 {
+  padding-left: 0;
+  padding-right: 0;
+}
+/* End of troumaca overrides */

@@ -5,3 +5,5 @@
 {"name":"testattr","description":"attribute testing","attributeId":["823f735b-ac88-4ddd-9d3d-5e58f4b85d64","1a057e32-09a4-43c0-9f3c-9114bec3aec3","61ed4c21-c9d9-4348-b32c-d277d3e90a3c","44b8e347-a001-4b9e-b02d-5aed59c002fd"],"assetTypeClassId":"72d2045b-abd4-4af8-a548-b7e20e645f48","_id":"nBuV2SXDaYkGATgt"}
 {"name":"test","description":"attribute test","assetTypeClassId":"cf757a41-c3d1-41b2-9657-91c02d768929","_id":"wequL9miUMMKWSZx"}
 {"name":"test2","description":"attribute testing","assetTypeClassId":"990b162a-6917-4f59-81c0-3ef413cad831","_id":"zcdraQGQUcCXpG7P"}
+{"name":"Usethisfortest","description":"tvtest","assignedAttributes":["3e866743-37cf-46ff-8a0f-1874aca9ae8e","44b8e347-a001-4b9e-b02d-5aed59c002fd","25c69a6a-9cd8-4a13-8a0a-2a03f0c9ef46"],"assetTypeClassId":"685b6d61-63d9-49dc-9988-067ec09b107a","_id":"qa9aAEBl81JHI7CI"}
+{"assetTypeClassId":"685b6d61-63d9-49dc-9988-067ec09b107a","name":"Usethisfortest","description":"tvtest","assignedAttributes":["3e866743-37cf-46ff-8a0f-1874aca9ae8e"],"_id":"qa9aAEBl81JHI7CI"}

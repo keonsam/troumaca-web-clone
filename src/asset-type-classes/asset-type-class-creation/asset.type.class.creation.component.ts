@@ -11,7 +11,6 @@ import {DataType} from "../../attributes/data.type";
 import {Attribute} from "../../attributes/attribute";
 import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
-
 @Component({
   selector: 'asset-type-class-creation',
   templateUrl: './asset.type.class.creation.component.html',
@@ -456,7 +455,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
   }
 
   open(content) {
-    this.modalReference = this.modalService.open(content);
+    this.modalReference = this.modalService.open(content, {windowClass: "lgModal", size: 'lg'});
     this.modalReference.result.then((result) => {
     }, (reason) => {
       if(reason === ModalDismissReasons.BACKDROP_CLICK || ModalDismissReasons.ESC) {
@@ -510,10 +509,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
     });
   }
 
-  cancel() {
-    this.router.navigate(['/asset-type-classes']);
-  }
-
   onCreate2() {
     this.doNotDisplayFailureMessage2 = true;
     if(this.newOrEdit == "New"){
@@ -547,13 +542,16 @@ export class AssetTypeClassCreationComponent implements OnInit {
         this.doNotDisplayFailureMessage2 = false;
       });
   }
- }
-
+  }
 
   onResetForm() {
     this.attribute = new Attribute();
     this.attributeForm.reset();
- }
+  }
+
+  cancel() {
+    this.router.navigate(['/asset-type-classes']);
+  }
 
   /* onCreate3() {
     this.doNotDisplayFailureMessage3 = true;

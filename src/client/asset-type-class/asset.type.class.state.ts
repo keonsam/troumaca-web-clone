@@ -73,7 +73,7 @@ export class AssetTypeClassState {
      tenantId: this.tenantId,
      name: this.name,
      description: this.description,
-     attributeId: this.assignedAttributes,
+     assignedAttributes: this.assignedAttributes,
      createdOn: this.createdOn,
      modifiedOn: this.modifiedOn
    }
