@@ -8,10 +8,13 @@ import {mapObjectProps} from "../../mapper/object.property.mapper";
 import {Assets} from "../../assets/assets";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
-import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
+//import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
 import {AssetKinds} from "assets/asset.kinds";
 import {AssetKind} from "../../assets/asset.kind";
 import {AssetType} from "../../assets/asset.type";
+import {AssetPerson} from "../../assets/asset.person";
+import {UnitOfMeasure} from "../../assets/asset.unit.of.measure";
+import {Site} from "../../assets/asset.site";
 import {AssetState} from "../../client/asset/asset.state";
 
 export class AssetRepositoryAdapter extends AssetRepository {
@@ -24,24 +27,32 @@ export class AssetRepositoryAdapter extends AssetRepository {
     return null;
   }
 
-  public getAssets(pageNumber:number): Observable<Assets> {
+  public getAssets(pageNumber:number, pageSize:number, sortOrder:string): Observable<Assets> {
     return this.assetClient
-    .getAssets(pageNumber)
+    .getAssets(pageNumber, pageSize, sortOrder)
     .map(values => {
       let assetModels:Assets = new Assets();
       assetModels.assets = map(values.assets, value => {
-        let assetModel:Asset = mapObjectProps(value.assetTypeClass, new Asset());
-        assetModel.assetTypeClass = mapObjectProps(value.assetType, new AssetTypeClass());
-        assetModel.assetType = mapObjectProps(value, new AssetType());
-
+        let assetModel:Asset = mapObjectProps(value, new Asset());
+        //assetModel.assetTypeClass = mapObjectPropAs(value.assetType, new AssetTypeClass());
+        assetModel.assetType = mapObjectProps(value.assetType, new AssetType());
+        assetModel.unitOfMeasure = mapObjectProps(value.unitOfMeasure, new UnitOfMeasure());
+        assetModel.person = mapObjectProps(value.person, new AssetPerson());
+        assetModel.site = mapObjectProps(value.site, new Site());
         return assetModel;
       });
      assetModels.page = mapObjectProps(values.page, new Page());
      assetModels.sort = mapObjectProps(values.sort, new Sort());
-
-     console.log(assetModels);
       return assetModels;
     });
+  }
+
+  public getAsset(assetId: string): Observable<Asset> {
+    return this.assetClient
+      .getAssetState(assetId)
+      .map(value => {
+         return mapObjectProps(value, new Asset());
+      });
   }
 
   public getAssetKinds(): Observable<AssetKinds> {
@@ -56,20 +67,20 @@ export class AssetRepositoryAdapter extends AssetRepository {
     });
   }
 
-  public addInventoryAsset(asset: Asset): Observable<Asset> {
+  public addAsset(asset: Asset): Observable<Asset> {
     return this.assetClient
-    .addInventoryAsset(mapObjectProps(asset, new AssetState()))
+    .addAsset(mapObjectProps(asset, new AssetState()))
     .map(value => {
       return mapObjectProps(value, new Asset());
     });
   }
 
-  public addDiscreteAsset(asset: Asset): Observable<Asset> {
-    return this.assetClient
-    .addDiscreteAsset(mapObjectProps(asset, new AssetState()))
-    .map(value => {
-      return mapObjectProps(value, new Asset());
-    });
+  public updateAsset(assetId: string, asset: Asset): Observable<number> {
+    return this.assetClient.updateAsset(assetId, mapObjectProps(asset, new AssetState()));
+  }
+
+  public deleteAsset(assetId: string): Observable<number> {
+    return this.assetClient.deleteAsset(assetId);
   }
 
 // public findAssetTypes(searchStr:string): Observable<AssetTypes> {

@@ -31,11 +31,11 @@ export class AttributeCreationComponent implements OnInit {
               private formBuilder: FormBuilder,
               private router: Router) {
 
-    this.name = new FormControl("");
+    this.name = new FormControl("", [Validators.required]);
 
     this.format = new FormControl("");
 
-    this.dataType = new FormControl("");
+    this.dataType = new FormControl("",[Validators.required]);
 
     this.unitOfMeasureId = new FormControl("");
 

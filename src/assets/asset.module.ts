@@ -9,6 +9,7 @@ import {RouterModule} from "@angular/router";
 import {MenuModule} from "../menu/menu.module";
 import {PagingModule} from "../paging/paging.module";
 import {SearchModule} from "../search/search.module";
+import {AssetEditComponent} from "./asset-edit/asset.edit.component";
 import {AssetListComponent} from "./asset-list/asset.list.component";
 import {AssetTopMenuComponent} from "./asset-top-menu/asset.top.menu.component";
 import {AssetCreationComponent} from "./asset-creation/asset.creation.component";
@@ -33,6 +34,7 @@ import {AssetPersonRepository} from "./asset.person.repository";
   ],
   declarations: [
     AssetComponent,
+    AssetEditComponent,
     AssetListComponent,
     AssetTopMenuComponent,
     AssetCreationComponent
@@ -59,6 +61,7 @@ import {AssetPersonRepository} from "./asset.person.repository";
   }],
   exports: [
     AssetComponent,
+    AssetEditComponent,
     AssetListComponent,
     AssetTopMenuComponent,
     AssetCreationComponent

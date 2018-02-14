@@ -1,7 +1,6 @@
 let express = require('express');
 let router = express.Router();
 let attributeOrchestrator = require('./orchestrator');
-let Pagination = require("../pagination");
 
 let orchestrator = new attributeOrchestrator();
 

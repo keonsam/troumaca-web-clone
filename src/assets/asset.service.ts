@@ -22,8 +22,12 @@ export class AssetService {
               private assetPersonRepository:AssetPersonRepository) {
   }
 
-  public getAssets(pageNumber?:number):Observable<Assets> {
-    return this.assetRepository.getAssets(pageNumber);
+  public getAssets(pageNumber:number, pageSize:number, sortOrder:string):Observable<Assets> {
+    return this.assetRepository.getAssets(pageNumber, pageSize, sortOrder);
+  }
+
+  public getAssetById(assetId: string): Observable<Asset> {
+    return this.assetRepository.getAsset(assetId);
   }
 
   public getAssetKinds():Observable<AssetKinds> {
@@ -46,12 +50,16 @@ export class AssetService {
     return this.assetPersonRepository.findPersons(searchStr, pageSize);
   }
 
-  public addInventoryAsset(assetModel:Asset):Observable<Asset> {
-    return this.assetRepository.addInventoryAsset(assetModel);
+  public addAsset(assetModel:Asset):Observable<Asset> {
+    return this.assetRepository.addAsset(assetModel);
   }
 
-  public addDiscreteAsset(assetModel:Asset):Observable<Asset> {
-    return this.assetRepository.addDiscreteAsset(assetModel);
+  public updateAsset(assetId: string, asset: Asset): Observable<number> {
+    return this.assetRepository.updateAsset(assetId, asset);
+  }
+
+  public deleteAsset(assetId: string): Observable<number> {
+    return this.assetRepository.deleteAsset(assetId);
   }
 
 }

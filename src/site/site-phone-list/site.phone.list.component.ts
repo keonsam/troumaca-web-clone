@@ -11,6 +11,7 @@ import {Sort} from "../../sort/sort";
 })
 export class SitePhoneListComponent implements OnInit {
 
+  private siteId: string;
   private _phones:Phones;
   private defaultPage:number = 1;
   private defaultPageSize:number = 10;
@@ -25,16 +26,7 @@ export class SitePhoneListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.siteService
-    .getPhones(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
-    .subscribe(next => {
-      console.log(next);
-      this.phones = next;
-    }, error => {
-      console.log(error);
-    }, () => {
-      console.log("complete");
-    });
+    this.getPhones();
   }
 
   get phones(): Phones {
@@ -53,8 +45,38 @@ export class SitePhoneListComponent implements OnInit {
     this._routerLinkCreatePhone = value;
   }
 
-  onDelete() {
+  getPhones() {
+    this.siteService
+    .getPhones(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
+    .subscribe(next => {
+      console.log(next);
+      this.phones = next;
+    }, error => {
+      console.log(error);
+    }, () => {
+      console.log("complete");
+    });
+  }
 
+  onOpenModal(siteId: string) {
+    this.siteId = siteId;
+  }
+
+  onDelete() {
+    this.siteService
+    .deletePhone(this.siteId)
+    .subscribe(value => {
+    this.getPhones();
+    }, error => {
+    console.log(error);
+    }, () => {
+    console.log("complete");
+    });
+  }
+
+  onRequestPage(pageNumber: number) {
+   this.defaultPage = pageNumber;
+   this.getPhones();
   }
 
 }

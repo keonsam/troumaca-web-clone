@@ -15,8 +15,8 @@ export class AssetTypeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.assetTypeService
-      .getAssetTypes()
+   /*  this.assetTypeService
+      .getAssetTypes(pageNumber:number, pageSize:number, sortOrder:string)
       .subscribe(assetTypes => {
         console.log(assetTypes);
         this._assetTypes = assetTypes;
@@ -24,7 +24,7 @@ export class AssetTypeComponent implements OnInit {
 
       }, () => {
 
-      });
+      }); */
   }
 
   get assetTypes(): AssetType[] {

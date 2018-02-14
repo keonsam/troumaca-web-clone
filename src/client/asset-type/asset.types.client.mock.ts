@@ -21,16 +21,19 @@ export class AssetTypesClientMock extends AssetTypesClient {
     super();
   }
 
-  getAssetTypes(): Observable<AssetTypeState[]> {
-    return this.http
-      .get<AssetTypeState[]>(URI_API)
-      .catch((error: any) => {
-        return Observable.throw(error.json());
-      });
+  public getAssetTypes(pageNumber:number, pageSize:number, sortOrder:string): Observable<AssetTypeStates> {
+    return null;
+  }
 
+  public getAssetTypeState(assetTypeId: string): Observable<AssetTypeState> {
+    return null;
   }
 
   public findAssetTypes(searchStr: string, pageSize:number): Observable<AssetTypeStates> {
+    return null;
+  }
+
+  public addAssetTypeState(assetTypeState: AssetTypeState): Observable<AssetTypeState> {
     return null;
   }
 
@@ -47,5 +50,12 @@ export class AssetTypesClientMock extends AssetTypesClient {
     return assetTypeAttributeState;
   }
 
+  public deleteAssetType(assetTypeId: string): Observable<number> {
+   return null;
+  }
 
+  public updateAssetType(assetTypeId: string, assetTypeState: AssetTypeState): Observable<number> {
+    return null;
+  }
+  
 }

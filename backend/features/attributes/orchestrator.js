@@ -22,6 +22,7 @@ module.exports = function AttributeOrchestrator() {
   this.getDataTypes = function () {
     return attributeRepository.getDataTypes();
   }
+
   this.getAttributeById = function (attributeId) {
     return attributeRepository.getAttributeById(attributeId);
   }

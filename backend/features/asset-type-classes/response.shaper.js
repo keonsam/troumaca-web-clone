@@ -1,8 +1,8 @@
 module.exports =  function ResponseShaper() {
   return {
-    shapeAssetTypeClasssResponse:function (data, pageNumber, pageSize, items, totalItems, sort) {
+    shapeAssetTypeClasssResponse:function (dataName, data, pageNumber, pageSize, items, totalItems, sort) {
       return {
-        assetTypeClasses:data,
+        [dataName]:data,
         page:{
           number:pageNumber,
           size:pageSize,

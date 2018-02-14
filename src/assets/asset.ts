@@ -1,32 +1,38 @@
 import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
 import {AssetType} from "assets/asset.type";
-//import {Site} from "./asset.site";
+import {Site} from "./asset.site";
 import {Lot} from "./asset.lot";
 import {UnitOfMeasure} from "./asset.unit.of.measure";
-//import {AssetPerson} from "./asset.person";
+import {AssetPerson} from "./asset.person";
 //import {AssetKind} from "./asset.kind";
 
 export class Asset {
 
   private _assetId:string;
-  private _assetKindId:string;
+  private _tenantId:string;
+  private _assetKindId: string;
   private _serialNumber:string;
   private _description:string;
   private _quantity:string;
   private _unitOfMeasure:UnitOfMeasure;
-  private _lot:Lot;
-  private _person: string;
+  //private _lot:Lot;
+  private _person: AssetPerson;
 
-  private _site: string;
-  private _assetTypeClass: AssetTypeClass;
+  private _site: Site;
+  //private _assetTypeClass: AssetTypeClass;
   private _assetType: AssetType;
+
+  private _createdOn: string;
+  private _modifiedOn: string;
 
 
   constructor() {
     this._unitOfMeasure = new UnitOfMeasure();
-    this._assetTypeClass = new AssetTypeClass();
+    //this._assetTypeClass = new AssetTypeClass();
     this._assetType = new AssetType();
-    this._lot = new Lot();
+    //this._lot = new Lot();
+    this._person = new AssetPerson();
+    this._site = new Site();
   }
 
   get assetId(): string {
@@ -35,6 +41,14 @@ export class Asset {
 
   set assetId(value: string) {
     this._assetId = value;
+  }
+
+  get tenantId(): string {
+    return this._tenantId;
+  }
+
+  set tenantId(value: string) {
+    this._tenantId = value;
   }
 
   get assetKindId(): string {
@@ -77,13 +91,13 @@ export class Asset {
     this._unitOfMeasure = value;
   }
 
-  get assetTypeClass(): AssetTypeClass {
+  /*get assetTypeClass(): AssetTypeClass {
     return this._assetTypeClass;
   }
 
   set assetTypeClass(value: AssetTypeClass) {
     this._assetTypeClass = value;
-  }
+  } */
 
   get assetType(): AssetType {
     return this._assetType;
@@ -93,28 +107,44 @@ export class Asset {
     this._assetType = value;
   }
 
-  get lot(): Lot {
+  /*get lot(): Lot {
     return this._lot;
   }
 
   set lotId(value: Lot) {
     this._lot = value;
-  }
+  }*/
 
-  get person(): string {
+  get person(): AssetPerson {
   return  this._person;
   }
 
-  set person(value: string) {
+  set person(value: AssetPerson) {
     this._person = value
   }
 
-  get site(): string {
+  get site(): Site {
     return this._site;
   }
 
-  set site(value: string) {
+  set site(value: Site) {
     this._site = value;
+  }
+
+  get createdOn(): string {
+    return this._createdOn;
+  }
+
+  set createdOn(value: string) {
+    this._createdOn = value;
+  }
+
+  get modifiedOn(): string {
+    return this._modifiedOn;
+  }
+
+  set modifiedOn(value: string) {
+    this._modifiedOn = value;
   }
 
 }

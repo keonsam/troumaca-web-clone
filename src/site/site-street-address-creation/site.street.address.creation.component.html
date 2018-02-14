@@ -41,9 +41,9 @@
                 </div>
               </fieldset>
 
-              <fieldset *ngIf="suiteOrApartment" class="form-group">
+              <fieldset *ngIf="suiteOrApartment.value" class="form-group">
                 <div class="form-group">
-                  <label for="Suite or Apartment Number">{{suiteOrApartment.value}} Number</label><input class="form-control" formControlName="suiteOrApartmentNumber" placeholder="Suite Or Apartment" required type="number">
+                  <label for="Suite or Apartment Number">{{suiteOrApartment.value}} Number</label><input class="form-control" formControlName="suiteOrApartmentNumber" placeholder="Suite Or Apartment Number" required type="number">
                   <div [hidden]="suiteOrApartmentNumber.valid || suiteOrApartmentNumber.pristine" class="alert alert-danger">Invalid {{suiteOrApartment.value}} Number.</div>
                 </div>
               </fieldset>

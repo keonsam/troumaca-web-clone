@@ -49,7 +49,7 @@
                   <!--<a [routerLink]="['/sites/phones', phone.siteId, 'edit']" href="#"><i class="os-icon os-icon-pencil-2"></i></a><a class="danger" (click)="onDelete();false;" href="#"><i class="os-icon os-icon-database-remove"></i></a>-->
                 <!--</td>-->
                 <td class="row-actions">
-                  <a [routerLink]="['/sites/phones', phone.siteId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" (click)="onDelete();false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+                  <a [routerLink]="['/sites/phones', phone.siteId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" (click)="onOpenModal(phone.siteId);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
                 </td>
               </tr>
               <tr *ngIf="phones.phones.length <= 0" class="odd">
@@ -57,6 +57,25 @@
               </tr>
             </tbody>
           </table>
+          <div aria-labelledby="DeleteModalLabel" class="modal fade bd-example-modal-sm" id="DeleteModal1" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+           <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+             <div class="modal-header">
+              <h5 class="modal-title" id="DeleteModalLabel">
+               Delete Phone
+              </h5>
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
+             </div>
+             <div class="modal-body">
+             <p>Are you sure you want to delete this?</p>
+             </div>
+                <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
+                <button class="btn btn-danger" type="button" data-dismiss="modal" (click)="onDelete()"> Delete</button>
+               </div>
+              </div>
+             </div>
+           </div>
           <paging [page]="phones.page" (requestPage)="onRequestPage($event)"></paging>
         </div>
 

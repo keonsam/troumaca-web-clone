@@ -1,9 +1,10 @@
 export class AssetPerson {
 
   private _partyId:string;
+  private _name: string;
   private _firstName:string;
   private _middleName:string;
-  private _lastName:String;
+  private _lastName: string;
   private _birthDate:Date;
 
   /*constructor(partyId?:string, firstName?:string, middleName?:string, lastName?: string, birthDate?: Date){
@@ -22,6 +23,14 @@ export class AssetPerson {
     this._partyId = value;
   }
 
+  get name(): string {
+    return this._name;
+  }
+
+  set name(value: string) {
+    this._name = value;
+  }
+
   get firstName(): string {
     return this._firstName;
   }
@@ -38,11 +47,11 @@ export class AssetPerson {
     this._middleName = value;
   }
 
-  get lastName(): String {
+  get lastName(): string {
     return this._lastName;
   }
 
-  set lastName(value: String) {
+  set lastName(value: string) {
     this._lastName = value;
   }
 

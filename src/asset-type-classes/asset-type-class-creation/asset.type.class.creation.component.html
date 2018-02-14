@@ -4,7 +4,8 @@
 
   <div class="content-box">
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col-lg-8 col-xxl-6">
+        <div class="col-sm-12">
         <div class="element-wrapper">
           <div class="element-box">
             <form [formGroup]="assetTypeClassForm" (ngSubmit)="onCreate()" id="formValidate">
@@ -37,7 +38,256 @@
           </div>
         </div>
       </div>
+      <!-- Start of Assigned Attributes -->
+      <div class="col-sm-12">
+        <div class="element-box">
+          <h6>
+            Assigned Attributes
+          </h6>
+          <div class="table-responsive table-section">
+            <table class="table table-striped table-lightfont table-full-width">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>data Type</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Name</th>
+                  <th>data Type</th>
+                  <th>Actions</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr role="row" *ngFor="let attribute of assignedAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedDoubleClick(attribute.attributeId)">
+                  <td>{{attribute.name}}</td>
+                  <td>{{attribute.dataType}}</td>
+                  <td class="row-actions">
+                    <a (click)="onOpenFormModal(attribute.attributeId); onNewOrEdit('Edit'); open(content)"><i class="os-icon os-icon-ui-49"></i></a><a  class="danger" (click)="onAssignedDoubleClick(attribute.attributeId)" ><i class="os-icon os-icon-ui-15"></i></a>
+                  </td>
+                </tr>
+                <tr *ngIf="assignedAttributes.attributes.length <= 0" class="odd">
+                  <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No Assigned Attributes</td>
+                </tr>
+             </tbody>
+            </table>
+            <paging [page]="assignedAttributes.page" (requestPage)="onAssignedRequestPage($event)"></paging>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- End of Assigned Attributes -->
+
+      <!-- Start of the available attributes table -->
+      <div class="col-lg-4 col-xxl-3">
+        <div class="element-box">
+          <h6>
+            Available Attributes <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" href="javascript:void(0);" (click)="onNewOrEdit('New'); open(content)">New</a></object>
+          </h6>
+          <div class="table-responsive table-section">
+            <table class="table table-striped table-lightfont table-full-width">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>data Type</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Name</th>
+                  <th>data Type</th>
+                  <th>Actions</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr role="row" *ngFor="let attribute of availableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAvailableDoubleClick(attribute.attributeId)">
+                  <td>{{attribute.name}}</td>
+                  <td>{{attribute.dataType}}</td>
+                  <td class="row-actions">
+                    <a (click)="onOpenFormModal(attribute.attributeId); onNewOrEdit('Edit'); open(content)" data-toggle="modal"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenDeleteModal(attribute.attributeId)" ><i class="os-icon os-icon-ui-15"></i></a>
+                  </td>
+                </tr>
+                <tr *ngIf="availableAttributes.attributes.length <= 0" class="odd">
+                  <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No Available Attributes</td>
+                </tr>
+              </tbody>
+            </table>
+            <paging [page]="availableAttributes.page" (requestPage)="onAvailableRequestPage($event)"></paging>
+          </div>
+        </div>
+      </div>
+      <!-- End of the available attributes table -->
+
+      <!-- delete from database modal -->
+      <div aria-labelledby="DeleteModalLabel" class="modal fade bd-example-modal-sm" id="DeleteModal1" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="DeleteModalLabel">
+                Delete Attribute
+              </h5>
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you want to delete this?</p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
+              <button class="btn btn-danger" type="button" data-dismiss="modal" (click)="onDelete()"> Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of delete from database modal -->
+
+      <!-- create attribute modal -->
+      <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateModalLabel">
+            {{newOrEdit}} Attribute Form
+        </h5>
+        <button aria-label="Close" class="close" type="button" (click)="d(); onResetForm()"><span aria-hidden="true"> &times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="attributeForm">
+
+          <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">Failed to {{newOrEdit === "New" ? "create": "edit"}} attribute.</div>
+
+          <fieldset class="form-group">
+            <div class="form-group">
+              <label for="Attribute Name">Name</label><input class="form-control" formControlName="attributeName" placeholder="Name" required="required">
+              <div [hidden]="attributeName.valid || attributeName.pristine" class="alert alert-danger">Invalid name.</div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="form-group">
+              <label for="Attribute Format">Format</label><input class="form-control" formControlName="format" placeholder="Format">
+              <div [hidden]="format.valid || format.pristine" class="alert alert-danger">Invalid format.</div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="form-group">
+              <label for="Attribute Date Type">Data Type</label><br/>
+              <select class="form-control" formControlName="dataType" name="dataType" required="required">
+                <option value="" disabled selected>Select a Data Type</option>
+                <option *ngFor="let dataType of dataTypes" [value]="dataType.dataTypeId">{{dataType.name}}</option>
+              </select>
+              <div [hidden]="dataType.valid || dataType.pristine" class="alert alert-danger">Invalid Data Type.</div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="form-group">
+              <label for="Attribute Unit Of Measure Id">Unit Of Measure ID</label><input class="form-control" formControlName="unitOfMeasureId" placeholder="Unit of Measure ID">
+              <div [hidden]="unitOfMeasureId.valid || unitOfMeasureId.pristine" class="alert alert-danger">Invalid Unit Of Measure ID.</div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="form-group">
+              <label for="Attribute Maximum Value">Maximum Value</label><input class="form-control" formControlName="maximumValue" placeholder="Maximum Value" type="number">
+              <div [hidden]="maximumValue.valid || maximumValue.pristine" class="alert alert-danger">Invalid Maximum Value.</div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="form-group">
+              <label for="Attribute Minimum Value">Minimum Value</label><input class="form-control" formControlName="minimumValue" placeholder="Minimum Value" type="number">
+              <div [hidden]="minimumValue.valid || minimumValue.pristine" class="alert alert-danger">Invalid Minimum Value.</div>
+            </div>
+          </fieldset>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="button" (click)="onCreate2()" [disabled]="!attributeForm.valid"> {{newOrEdit == "New" ? "Create": "Save"}}</button>
+        <button class="btn btn-secondary" data-dismiss="modal" type="button" (click)="c(); onResetForm()"> Close</button>
+      </div>
+    </ng-template>
+      <!-- end of create attribute modal -->
+
+     <!-- start of edit attribute modal -->
+
+    <!-- <div aria-hidden="true" aria-labelledby="attributeFormModal1" id="attributeFormModal1" class="modal fade bd-example-modal-lg" role="dialog" tabindex="-1">
+       <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+           <div class="modal-header">
+             <h5 class="modal-title" id="updateModalLabel1">
+               Modal title
+             </h5>
+             <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> &times;</span></button>
+           </div>
+           <div class="modal-body">
+             <form [formGroup]="attributeEditForm">
+               <h5 class="form-header">
+                 Edit Attribute Form
+               </h5>
+
+               <div [hidden]="doNotDisplayFailureMessage3" class="alert alert-danger">Failed to create attribute.</div>
+
+               <fieldset class="form-group">
+                 <div class="form-group">
+                   <label for="Edit Attribute Name">Name</label><input class="form-control" formControlName="attributeNameEdit" placeholder="Name" required="required">
+                   <div [hidden]="attributeNameEdit.valid || attributeNameEdit.pristine" class="alert alert-danger">Invalid name.</div>
+                 </div>
+               </fieldset>
+
+               <fieldset class="form-group">
+                 <div class="form-group">
+                   <label for="Edit Attribute Format">Format</label><input class="form-control" formControlName="formatEdit" placeholder="Format">
+                   <div [hidden]="formatEdit.valid || formatEdit.pristine" class="alert alert-danger">Invalid format.</div>
+                 </div>
+               </fieldset>
+
+               <fieldset class="form-group">
+                 <div class="form-group">
+                   <label for="Edit Attribute Date Type">Data Type</label><br/>
+                   <select class="form-control" formControlName="dataTypeEdit" name="dataTypeEdit" required="required">
+                     <option value="" disabled selected>Select a Data Type</option>
+                     <option *ngFor="let dataType of dataTypes" [value]="dataType.dataTypeId">{{dataType.name}}</option>
+                   </select>
+                   <div [hidden]="dataTypeEdit.valid || dataTypeEdit.pristine" class="alert alert-danger">Invalid Data Type.</div>
+                 </div>
+               </fieldset>
+
+               <fieldset class="form-group">
+                 <div class="form-group">
+                   <label for="Edit Attribute Unit Of Measure Id">Unit Of Measure ID</label><input class="form-control" formControlName="unitOfMeasureIdEdit" placeholder="Unit of Measure ID">
+                   <div [hidden]="unitOfMeasureIdEdit.valid || unitOfMeasureIdEdit.pristine" class="alert alert-danger">Invalid Unit Of Measure ID.</div>
+                 </div>
+               </fieldset>
+
+               <fieldset class="form-group">
+                 <div class="form-group">
+                   <label for="Edit Attribute Maximum Value">Maximum Value</label><input class="form-control" formControlName="maximumValueEdit" placeholder="Maximum Value" type="number">
+                   <div [hidden]="maximumValueEdit.valid || maximumValueEdit.pristine" class="alert alert-danger">Invalid Maximum Value.</div>
+                 </div>
+               </fieldset>
+
+               <fieldset class="form-group">
+                 <div class="form-group">
+                   <label for="Edit Attribute Minimum Value">Minimum Value</label><input class="form-control" formControlName="minimumValueEdit" placeholder="Minimum Value" type="number">
+                   <div [hidden]="minimumValueEdit.valid || minimumValueEdit.pristine" class="alert alert-danger">Invalid Minimum Value.</div>
+                 </div>
+               </fieldset>
+
+             </form>
+           </div>
+           <div class="modal-footer">
+             <button class="btn btn-primary" type="button" data-dismiss="modal" (click)="onCreate3()" disabled="!attributeEditForm.valid"> Create</button>
+             <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
+           </div>
+         </div>
+       </div>
+     </div> -->
+
+     <!-- End of edit attribute modal -->
+
     </div>
   </div>
-
 </div>

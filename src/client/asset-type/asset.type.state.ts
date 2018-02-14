@@ -8,8 +8,9 @@ export class AssetTypeState {
   private _description:string;
   private _name:string;
   private _materialCode:string;
-  private _unitOfMeasure:string;
+  private _unitOfMeasureId:string;
   private _assetTypeClass:AssetTypeClassState;
+
 
 
   get assetTypeId(): string {
@@ -68,12 +69,24 @@ export class AssetTypeState {
     this._materialCode = value;
   }
 
-  get unitOfMeasure(): string {
-    return this._unitOfMeasure;
+  get unitOfMeasureId(): string {
+    return this._unitOfMeasureId;
   }
 
-  set unitOfMeasure(value: string) {
-    this._unitOfMeasure = value;
+  set unitOfMeasureId(value: string) {
+    this._unitOfMeasureId = value;
+  }
+
+  toJson() {
+    return {
+      assetTypeId: this.assetTypeId,
+      assetTypeClass: this.assetTypeClass,
+      name: this.name,
+      description: this.description,
+      modelNumber: this.modelNumber,
+      materialCode: this.materialCode,
+      unitOfMeasureId: this.unitOfMeasureId
+    }
   }
 
 }
