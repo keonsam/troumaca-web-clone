@@ -14,21 +14,20 @@ export class AuthenticationClientMock extends AuthenticationClient {
   authenticate(emailOrPhone: string, password: string): Observable<AuthenticationSessionState> {
     let username:string = "mfwilliams@gmail.com";
     let pWord:string = "password";
-    return Observable
-      .of(emailOrPhone && emailOrPhone == username && password && password == pWord)
-      .map(value => {
+    var that = this;
+    return Observable.create(function(observer) {
 
-        if (!value) {
-          return Observable.throw(new Error('Invalid credentials'));
+        if (!(emailOrPhone && emailOrPhone == username && password && password == pWord)) {
+          observer.error('Invalid credentials');
+        } else {
+          let sessionState:AuthenticationSessionState = new AuthenticationSessionState();
+          sessionState.sessionId = that.uuidGenerator.generateUUID();
+          sessionState.created = new Date();
+          sessionState.modified = new Date();
+          sessionState.partyId = that.uuidGenerator.generateUUID();
+          sessionState.data = new Map<string, Object>();
+          observer.next(sessionState);
         }
-
-        let sessionState:AuthenticationSessionState = new AuthenticationSessionState();
-        sessionState.sessionId = this.uuidGenerator.generateUUID();
-        sessionState.created = new Date();
-        sessionState.modified = new Date();
-        sessionState.partyId = this.uuidGenerator.generateUUID();
-        sessionState.data = new Map<string, Object>();
-        return sessionState;
       });
 
   }

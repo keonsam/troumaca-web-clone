@@ -93,7 +93,7 @@ export class AssetClientHttp extends AssetClient {
     array.push(this.hostPort);
     array.push("/assets");
 
-    return this.http.post(array.join(""), assetState.toJson(), {
+    return this.http.post<AssetState>(array.join(""), assetState.toJson(), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
@@ -104,7 +104,7 @@ export class AssetClientHttp extends AssetClient {
     let url = `${this.hostPort}/assets/${assetId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.http
-    .put(url, assetState.toJson(), {headers:headers})
+    .put<number>(url, assetState.toJson(), {headers:headers})
     .map(data => {
       return data;
     });
@@ -114,7 +114,7 @@ export class AssetClientHttp extends AssetClient {
     let url = `${this.hostPort}/assets/${assetId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.http
-    .delete(url, {headers:headers})
+    .delete<number>(url, {headers:headers})
     .map(data => {
       return data;
     });

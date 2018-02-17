@@ -68,7 +68,7 @@ export class AttributeClientHttp extends AttributeClient {
     let url = `${this.hostPort}/attributes`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post(url, attributeState.toJson(), {headers: headers})
+    .post<AttributeState>(url, attributeState.toJson(), {headers: headers})
     .map(data => {
       return data;
     });
@@ -78,7 +78,7 @@ export class AttributeClientHttp extends AttributeClient {
    let url = `${this.hostPort}/attributes/${attributeId}`;
    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
    return this.httpClient
-   .put(url, attributeState.toJson(), {headers:headers})
+   .put<number>(url, attributeState.toJson(), {headers:headers})
    .map(data => {
      return data;
    });
@@ -88,7 +88,7 @@ export class AttributeClientHttp extends AttributeClient {
    let url = `${this.hostPort}/attributes/${attributeId}`;
    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
    return this.httpClient
-   .delete(url, {headers:headers})
+   .delete<number>(url, {headers:headers})
    .map(data => {
      return data;
    });

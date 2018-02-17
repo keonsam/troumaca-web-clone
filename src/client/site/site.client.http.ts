@@ -257,7 +257,7 @@ export class SiteClientHttp extends SiteClient {
     let url = `${this.hostPort}/sites/virtual-sites/phones`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post(url, phoneState.toJson(), {headers: headers})
+    .post<PhoneState>(url, phoneState.toJson(), {headers: headers})
     .map(data => {
       return data;
     });
@@ -267,7 +267,7 @@ export class SiteClientHttp extends SiteClient {
     let url = `${this.hostPort}/sites/physical-sites/street-addresses`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post(url, streetAddressState.toJson(), {headers: headers})
+    .post<StreetAddressState>(url, streetAddressState.toJson(), {headers: headers})
     .map(data => {
       return data;
     });
@@ -277,7 +277,7 @@ export class SiteClientHttp extends SiteClient {
     let url = `${this.hostPort}/sites/physical-sites/post-office-boxes`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post(url, postOfficeBoxState.toJson(), {headers: headers})
+    .post<PostOfficeBoxState>(url, postOfficeBoxState.toJson(), {headers: headers})
     .map(data => {
       return data;
     });
@@ -287,7 +287,7 @@ export class SiteClientHttp extends SiteClient {
     let url = `${this.hostPort}/sites/virtual-sites/emails`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post(url, emailstate.toJson(), {headers: headers})
+    .post<EmailState>(url, emailstate.toJson(), {headers: headers})
     .map(data => {
       return data;
     });
@@ -297,7 +297,7 @@ export class SiteClientHttp extends SiteClient {
     let url = `${this.hostPort}/sites/virtual-sites/web-sites`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post(url, webSiteState.toJson(), {headers: headers})
+    .post<WebSiteState>(url, webSiteState.toJson(), {headers: headers})
     .map(data => {
       return data;
     });
@@ -307,7 +307,7 @@ export class SiteClientHttp extends SiteClient {
     let url = `${this.hostPort}/sites/physical-sites/street-addresses/${siteId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .put(url, streetAddressState.toJson(), {headers:headers})
+    .put<number>(url, streetAddressState.toJson(), {headers:headers})
     .map(data => {
       return data;
     });
@@ -317,7 +317,7 @@ export class SiteClientHttp extends SiteClient {
     let url = `${this.hostPort}/sites/physical-sites/post-office-boxes/${siteId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .put(url, postOfficeBoxState.toJson(), {headers:headers})
+    .put<number>(url, postOfficeBoxState.toJson(), {headers:headers})
     .map(data => {
       return data;
     });
@@ -327,7 +327,7 @@ export class SiteClientHttp extends SiteClient {
     let url = `${this.hostPort}/sites/virtual-sites/emails/${siteId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .put(url, emailState.toJson(), {headers:headers})
+    .put<number>(url, emailState.toJson(), {headers:headers})
     .map(data => {
       return data;
     });
@@ -337,7 +337,7 @@ export class SiteClientHttp extends SiteClient {
     let url = `${this.hostPort}/sites/virtual-sites/web-sites/${siteId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .put(url, webSiteState.toJson(), {headers:headers})
+    .put<number>(url, webSiteState.toJson(), {headers:headers})
     .map(data => {
       return data;
     });
@@ -347,7 +347,7 @@ export class SiteClientHttp extends SiteClient {
     let url = `${this.hostPort}/sites/virtual-sites/phones/${siteId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .put(url, phoneState.toJson(), {headers:headers})
+    .put<number>(url, phoneState.toJson(), {headers:headers})
     .map(data => {
       return data;
     });
@@ -357,7 +357,7 @@ export class SiteClientHttp extends SiteClient {
     let url = `${this.hostPort}/sites/physical-sites/street-addresses/${siteId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .delete(url, {headers:headers})
+    .delete<number>(url, {headers:headers})
     .map(data => {
       return data;
     });
@@ -367,7 +367,7 @@ export class SiteClientHttp extends SiteClient {
     let url = `${this.hostPort}/sites/physical-sites/post-office-boxes/${siteId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .delete(url, {headers:headers})
+    .delete<number>(url, {headers:headers})
     .map(data => {
       return data;
     });
@@ -377,7 +377,7 @@ public deleteEmail(siteId:string): Observable<number> {
   let url = `${this.hostPort}/sites/virtual-sites/emails/${siteId}`;
   let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
   return this.httpClient
-  .delete(url, {headers:headers})
+  .delete<number>(url, {headers:headers})
   .map(data => {
     return data;
   });
@@ -387,7 +387,7 @@ public deleteWebSite(siteId:string): Observable<number> {
   let url = `${this.hostPort}/sites/virtual-sites/web-sites/${siteId}`;
   let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
   return this.httpClient
-  .delete(url, {headers:headers})
+  .delete<number>(url, {headers:headers})
   .map(data => {
     return data;
   });
@@ -397,7 +397,7 @@ public deleteWebSite(siteId:string): Observable<number> {
     let url = `${this.hostPort}/sites/virtual-sites/phones/${siteId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .delete(url, {headers:headers})
+    .delete<number>(url, {headers:headers})
     .map(data => {
       return data;
     });
