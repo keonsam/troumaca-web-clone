@@ -1,0 +1,9 @@
+order verification,
+processing,
+picking,
+packing,
+shipping,
+receiving,
+storage,
+inventory management,
+record keeping

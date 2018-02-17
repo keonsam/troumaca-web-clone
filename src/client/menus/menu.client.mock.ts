@@ -70,6 +70,12 @@ export class MenuClientMock extends MenuClient {
     quoatesMenuState.menuItemStates = this.quotesMenuItems();
     this.menuMap.set(quoatesMenuState.name, quoatesMenuState);
 
+    // shipments-menu
+    let shipmentsMenuState = new MenuState();
+    shipmentsMenuState.name = 'shipments-menu';
+    shipmentsMenuState.title = 'shipments-menu';
+    shipmentsMenuState.menuItemStates = this.shipmentsMenuItems();
+    this.menuMap.set(shipmentsMenuState.name, shipmentsMenuState);
   }
 
   // noinspection JSMethodCanBeStatic
@@ -192,6 +198,12 @@ export class MenuClientMock extends MenuClient {
   private quotesMenuItems() {
     return [
       this.toMenuItem({id:'1061', rank:'31', name: 'Quotes', routeName: 'listing', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
+    ];
+  }
+
+  private shipmentsMenuItems() {
+    return [
+      this.toMenuItem({id:'1061', rank:'31', name: 'Shipments', routeName: 'listing', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
     ];
   }
 

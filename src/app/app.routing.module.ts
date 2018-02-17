@@ -35,11 +35,7 @@ import {SiteStreetAddressListComponent} from "../site/site-street-address-list/s
 import {SitePhoneCreationComponent} from "../site/site-phone-creation/site.phone.creation.component";
 import {SitePhoneEditComponent} from "../site/site-phone-edit/site.phone.edit.component";
 import {PartyComponent} from "../parties/party.component";
-import {OrganizationListComponent} from "../parties/organizations/organization-list/organization.list.component";
 import {OrganizationCompanyComponent} from "../parties/organizations/organization-company/organization.company.component";
-import {CustomerListComponent} from "../parties/customers/customer-list/customer.list.component";
-import {VendorListComponent} from "../parties/vndors/vendor-list/vendor.list.component";
-import {EmployeeListComponent} from "../parties/employees/employee-list/employee.list.component";
 import {UserListComponent} from "../parties/users/user-list/user.list.component";
 import {ContractComponent} from "../contracts/contract.component";
 import {OrderListComponent} from "../contracts/orders/order.list.component";
@@ -50,9 +46,13 @@ import {ContractListComponent} from "../contracts/contract-list/contract.list.co
 import {OrderInvoiceListComponent} from "../contracts/orders/invoices/order.invoice.list.component";
 import {QuoteComponent} from "../quotes/quote.component";
 import {QuoteListComponent} from "../quotes/quote-list/quote.list.component";
+import {ShipmentListComponent} from "../shipments/shipment-list/shipment.list.component";
+import {ShipmentCreationComponent} from "../shipments/shipment-creation/shipment.creation.component";
+import {ShipmentEditComponent} from "../shipments/shipment-edit/shipment.edit.component";
+import {ShipmentComponent} from "../shipments/shipment.component";
 
 const appRoutes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: LobbyHomeComponent },
   { path: 'assets', component: AssetComponent, children: [
     { path: '',redirectTo: 'listing', pathMatch: 'full' },
@@ -61,10 +61,10 @@ const appRoutes: Routes = [
     { path: ':assetId/edit', component: AssetEditComponent }
   ]},
   { path: 'asset-types', component: AssetTypeComponent,  children: [
-      { path: '',redirectTo: 'listing', pathMatch: 'full' },
-      { path: 'listing', component: AssetTypeListComponent },
-      { path: 'create', component: AssetTypeCreationComponent },
-      { path: ':assetTypeId/edit', component: AssetTypeEditComponent },
+    { path: '',redirectTo: 'listing', pathMatch: 'full' },
+    { path: 'listing', component: AssetTypeListComponent },
+    { path: 'create', component: AssetTypeCreationComponent },
+    { path: ':assetTypeId/edit', component: AssetTypeEditComponent },
   ]},
   { path: 'asset-type-classes', component: AssetTypeClassComponent, children:[
     { path: '', redirectTo: 'listing', pathMatch: 'full' },
@@ -73,10 +73,10 @@ const appRoutes: Routes = [
     { path: ':assetTypeClassId/edit', component: AssetTypeClassEditComponent }
   ]},
   { path: 'attributes', component: AttributeComponent, children:[
-      { path: '', redirectTo: 'listing', pathMatch: 'full' },
-      { path: 'listing', component: AttributeListComponent },
-      { path: 'create', component: AttributeCreationComponent },
-      { path: ':attributeId/edit', component: AttributeEditComponent }
+    { path: '', redirectTo: 'listing', pathMatch: 'full' },
+    { path: 'listing', component: AttributeListComponent },
+    { path: 'create', component: AttributeCreationComponent },
+    { path: ':attributeId/edit', component: AttributeEditComponent }
   ]},
   { path: 'sites', component: SiteComponent, children:[
     { path: '', redirectTo: 'street-addresses', pathMatch: 'full' },
@@ -110,14 +110,16 @@ const appRoutes: Routes = [
     { path: 'fulfillments', component: OrderFulfillmentListComponent, data:{menuName:'orders-menu'}},
     { path: 'invoices', component: OrderInvoiceListComponent, data:{menuName:'orders-menu'}}
   ]},
-  {
-    path: 'quotes', component: QuoteComponent, children:[
-      { path: '', redirectTo: 'listing', pathMatch: 'full' },
-      { path: 'listing', component: QuoteListComponent, data:{menuName:'quotes-menu'}},
-    ]
-  },
-  {path: 'shipping', redirectTo: '/contracts/sales', pathMatch: 'full'},
-  {path: 'receiving', redirectTo: '/contracts/purchases', pathMatch: 'full'},
+  { path: 'quotes', component: QuoteComponent, children:[
+    { path: '', redirectTo: 'listing', pathMatch: 'full' },
+    { path: 'listing', component: QuoteListComponent, data:{menuName:'quotes-menu'}},
+  ]},
+  { path: 'shipments', component:ShipmentComponent, children:[
+    { path: '', redirectTo: 'listing', pathMatch: 'full' },
+    { path: 'listing', component: ShipmentListComponent, data:{menuName:'shipments-menu'}},
+    { path: 'create', component: ShipmentCreationComponent, data:{menuName:'shipments-menu'} },
+    { path: ':shipmentId/edit', component: ShipmentEditComponent, data:{menuName:'shipments-menu'} }
+  ]},
   { path: '**', component: PageNotFoundComponent }
 ];
 
