@@ -95,7 +95,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     let url = `${this.hostPort}/asset-types`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post(url, assetTypeState.toJson(), {headers: headers})
+    .post<AssetTypeState>(url, assetTypeState.toJson(), {headers: headers})
     .map(data => {
       return data;
     });
@@ -105,7 +105,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     let url = `${this.hostPort}/asset-types/${assetTypeId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .delete(url, {headers:headers})
+    .delete<number>(url, {headers:headers})
     .map(data => {
       return data;
     });
@@ -115,7 +115,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     let url = `${this.hostPort}/asset-types/${assetTypeId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .put(url, assetTypeState.toJson(), {headers:headers})
+    .put<number>(url, assetTypeState.toJson(), {headers:headers})
     .map(data => {
       return data;
     });
