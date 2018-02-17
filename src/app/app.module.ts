@@ -41,6 +41,7 @@ import {FormsModule} from "@angular/forms";
 import {PartyModule} from "../parties/party.module";
 import {ContractModule} from "../contracts/contract.module";
 import {QuoteModule} from "../quotes/quote.module";
+import {ShipmentModule} from "../shipments/shipment.module";
 
 
 @NgModule({
@@ -77,7 +78,8 @@ import {QuoteModule} from "../quotes/quote.module";
     SiteModule,
     ContractModule,
     QuoteModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ShipmentModule
   ],
   declarations: [
     AppComponent,

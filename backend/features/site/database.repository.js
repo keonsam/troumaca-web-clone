@@ -5,8 +5,6 @@ let path = require('path');
 let UUIDGenerator = require("../uuid.generator");
 let DbUtil = require("../db.util");
 
-let hostname = 'troumaca.com';
-
 let theStreetAddressDb = path.resolve(__dirname, '..','..',) + '/nedb/street-addresses.db';
 let theTelephoneDb = path.resolve(__dirname, '..','..',) + '/nedb/telephones.db';
 let theEmailDb = path.resolve(__dirname, '..','..',) + '/nedb/emails.db';
@@ -472,9 +470,9 @@ module.exports =  function DatabaseSiteRepository() {
   };
 
   this.saveSite = function (Site) {
-    Site.SiteId = uuidv5(hostname, uuidv5.DNS);
+    Site.siteId = newUuidGenerator.generateUUID();
     return Rx.Observable.create(function (observer) {
-      db.Sites.insert(Site, function (err, doc) {
+      db.sites.insert(Site, function (err, doc) {
         if (err) {
           observer.error(err);
         } else {
@@ -482,7 +480,6 @@ module.exports =  function DatabaseSiteRepository() {
         }
       });
     });
-
   };
 
   this.getSites = function (pagination) {
@@ -520,4 +517,5 @@ module.exports =  function DatabaseSiteRepository() {
       }
     });
   }
+
 };
