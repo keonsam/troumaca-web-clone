@@ -406,7 +406,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this.assetTypeClassService
     .getAssignedAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
     .subscribe(next => {
-      console.log(next);
       this.assignedAttributes = next;
     }, error => {
       console.log(error);

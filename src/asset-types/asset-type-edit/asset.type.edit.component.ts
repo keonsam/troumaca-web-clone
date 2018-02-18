@@ -1,11 +1,17 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-//import {CompleterService} from "ng2-completer";
+import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
+
+import "rxjs/add/operator/debounceTime";
+import "rxjs/add/operator/filter";
 import {AssetTypeService} from "../asset.type.service";
-import {AssetType} from "../../assets/asset.type";
+import {AssetType} from "../asset.type";
+import {Value} from "../value";
+import {Values} from "../values";
+import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
+import {Attributes} from "../../attributes/attributes";
 import {ActivatedRoute} from '@angular/router';
 import {Router} from "@angular/router";
-import {AssetTypeClasses} from "../../assets/asset.type.classes";
 
 @Component({
   selector: 'asset-type-edit',
@@ -25,11 +31,22 @@ export class AssetTypeEditComponent implements OnInit {
 
   private _assetTypeEditForm:FormGroup;
 
-  private assetType: AssetType;
+  private _assetTypeClassIdDataService: CompleterData;
 
+  private assetType: AssetType;
+  private _assignedAttributes: Attributes;
+
+  private _values: Values;
+
+  private pageSize:number = 15;
+  private deleteError: boolean = false;
   private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage2:boolean;
+  private _doNotDisplayFailureMessage3:boolean;
+  private errorCount: number = 0;
 
   constructor(private assetTypeService:AssetTypeService,
+              private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
@@ -60,25 +77,32 @@ export class AssetTypeEditComponent implements OnInit {
       });
 
     let assetType = new AssetType();
-    assetType.assetTypeClass = new AssetTypeClasses();
+    assetType.assetTypeClass = new AssetTypeClass();
     this.assetType = assetType;
 
+    this.assignedAttributes = new Attributes();
+    this.values = new Values();
+
     this.doNotDisplayFailureMessage = true;
+    this.doNotDisplayFailureMessage2 = true;
 
   }
 
   ngOnInit(): void {
+    let that = this;
+
     this.sub = this.route.params.subscribe(params => {
        this.assetTypeId = params['assetTypeId'];
        this.assetTypeService.getAssetType(this.assetTypeId)
        .subscribe(assetType =>{
-        this.assetTypeClassId.setValue(assetType.assetTypeClass.assetTypeClassId);
+        this.assetTypeClassId.setValue(assetType.assetTypeClass.name);
         this.name.setValue(assetType.name);
         this.description.setValue(assetType.description);
         this.modelNumber.setValue(assetType.modelNumber);
         this.materialCode.setValue(assetType.materialCode);
         this.unitOfMeasureId.setValue(assetType.unitOfMeasureId);
         this.assetType = assetType;
+        this.getValues();
       }, error => {
         console.log(error);
       }, () => {
@@ -93,6 +117,56 @@ export class AssetTypeEditComponent implements OnInit {
       })
     });
 
+    this.populateAssetTypeClassIdDropDown();
+  }
+
+  private populateAssetTypeClassIdDropDown() {
+    this.assetTypeClassIdDataService = this.completerService.local([], 'name', 'name');
+    let that = this;
+    this.assetTypeEditForm.get("assetTypeClassId").valueChanges
+      .debounceTime(1000) // debounce
+      .filter(value => { // filter out empty values
+        return !!(value);
+      })
+      .subscribe(value => {
+        console.log("value: " + value);
+        that.assetTypeService
+          .findAssetTypeClassId(value, that.pageSize) // send search request to the backend
+          .map(value2 => { // convert results to dropdown data
+            return value2.assetTypeClasses.map(v2 => {
+              return {
+                assetTypeClassId: v2.assetTypeClassId,
+                name: v2.name,
+                attributeId: v2.assignedAttributes
+              };
+            })
+          })
+          .subscribe(next => { // update the data
+            console.log("findAssetTypeClassId next - " + next);
+            this.assetTypeClassIdDataService = this.completerService.local(next, 'name', 'name');
+          }, error => {
+            console.log("findAssetTypeClassId error - " + error);
+          });
+      });
+  }
+
+  private getValues() {
+    this.assetTypeService
+    .getValues(this.assetTypeId)
+    .subscribe(next => {
+      console.log(next);
+      let assignedArray = [];
+      this.values = next;
+      this.values.values.forEach(value => {
+        assignedArray.push(value.attributeId);
+      });
+
+      this.getAttributes(assignedArray);
+    }, error => {
+      console.log(error);
+    }, () => {
+      console.log("complete");
+    });
   }
 
   get assetTypeClassId(): FormControl {
@@ -143,12 +217,36 @@ export class AssetTypeEditComponent implements OnInit {
     this._unitOfMeasureId = value;
   }
 
+  get assetTypeClassIdDataService(): CompleterData {
+    return this._assetTypeClassIdDataService;
+  }
+
+  set assetTypeClassIdDataService(value: CompleterData) {
+    this._assetTypeClassIdDataService = value;
+  }
+
   get assetTypeEditForm(): FormGroup {
     return this._assetTypeEditForm;
   }
 
   set assetTypeEditForm(value: FormGroup) {
     this._assetTypeEditForm = value;
+  }
+
+  get assignedAttributes(): Attributes {
+    return this._assignedAttributes;
+  }
+
+  set assignedAttributes(value: Attributes) {
+    this._assignedAttributes = value;
+  }
+
+  get values(): Values {
+    return this._values;
+  }
+
+  set values(value: Values) {
+    this._values = value;
   }
 
   get doNotDisplayFailureMessage(): boolean {
@@ -159,8 +257,23 @@ export class AssetTypeEditComponent implements OnInit {
     this._doNotDisplayFailureMessage = value;
   }
 
+  get doNotDisplayFailureMessage2(): boolean {
+    return this._doNotDisplayFailureMessage2;
+  }
+
+  set doNotDisplayFailureMessage2(value: boolean) {
+    this._doNotDisplayFailureMessage2 = value;
+  }
+
+  onAssetTypeClassIdSelect(selected: CompleterItem) {
+    if (selected) {
+      this.assetType.assetTypeClass = selected.originalObject;
+      this.getAttributes(selected.originalObject.attributeId);
+    }
+  }
+
+
   setAssetTypeValue(value) {
-    this.assetType.assetTypeClass = new AssetTypeClasses(value.assetTypeClassId);
     this.assetType.name = value.name;
     this.assetType.description = value.description;
     this.assetType.modelNumber = value.modelNumber;
@@ -168,22 +281,111 @@ export class AssetTypeEditComponent implements OnInit {
     this.assetType.unitOfMeasureId = value.unitOfMeasureId;
   }
 
-  onCreate() {
-    console.log(this.assetType);
-    this.doNotDisplayFailureMessage = true;
+  getAttributes(assignedArray: string[],) {
+
     this.assetTypeService
-    .updateAssetType(this.assetTypeId,this.assetType)
-    .subscribe(value => {
-      console.log(value);
-      if (value) {
-        this.router.navigate(['/asset-types']);
-      } else {
-        this.doNotDisplayFailureMessage = false;
-      }
+    .getAttributes(assignedArray)
+    .subscribe(next => {
+      this.assignedAttributes = next;
+      this.assignedAttributes.attributes.forEach((value, i) => {
+        if((this.values.values.findIndex(x => x.attributeId == value.attributeId)) == -1){
+          this.values.values.push(new Value(value.attributeId, ""));
+          console.log(this.values.values);
+         }
+          let index = this.values.values.findIndex(x => x.attributeId == value.attributeId);
+          let editValue = this.values.values[index].text ?  this.values.values[index].text: "";
+          if(!this.assetTypeEditForm[value.attributeId]){
+           this.assetTypeEditForm.addControl(value.attributeId, new FormControl(editValue,Validators.required));
+         }
+
+          this.assetTypeEditForm.get(value.attributeId).valueChanges
+          .subscribe(value2 => {
+            this.values.values[index].text = value2;
+          }, error2 => {
+            console.log(error2);
+          });
+
+      });
     }, error => {
       console.log(error);
-      this.doNotDisplayFailureMessage = false;
     });
+  }
+
+  updateValues() {
+    console.log(this.values.values);
+    for(let i= this.errorCount; i < this.values.values.length; i++){
+      if(!this.values.values[i].valueId) {
+        this.values.values[i].assetTypeId = this.assetTypeId;
+        this.assetTypeService
+        .addValue(this.values.values[i])
+        .subscribe(value => {
+          if(value && value.valueId){
+            if(i == this.values.values.length -1){
+              this.router.navigate(['/asset-types']);
+            }
+          }else {
+            this.errorCount = i;
+            this.doNotDisplayFailureMessage2 = false;
+            return false;
+          }
+        }, error => {
+          console.log(error);
+          this.doNotDisplayFailureMessage2 = false;
+        });
+
+      }else {
+        this.assetTypeService
+        .updateValue(this.values.values[i])
+        .subscribe(value => {
+          if(value) {
+            if(i == this.values.values.length -1){
+            this.router.navigate(['/asset-types']);
+          }
+          }else {
+            this.errorCount = i;
+            this.doNotDisplayFailureMessage2 = false;
+            return false;
+          }
+        }, error => {
+          console.log(error);
+          this.doNotDisplayFailureMessage2 = false;
+        });
+
+      }
+   }
+ }
+
+  removeValues() {
+    this.values.values = this.values.values.filter(value => {
+      if(this.assignedAttributes.attributes.findIndex(x => x.attributeId == value.attributeId) !== -1){
+          return value;
+        }else {
+          this.assetTypeService.deleteValue(value.valueId);
+        }
+    });
+  }
+
+  onCreate() {
+    this.doNotDisplayFailureMessage = true;
+    this.doNotDisplayFailureMessage2 = true;
+
+    this.removeValues();
+    if(this.errorCount > 0){
+      this.updateValues();
+    }else {
+      this.assetTypeService
+      .updateAssetType(this.assetTypeId,this.assetType)
+      .subscribe(value => {
+        if (value) {
+          this.updateValues();
+        } else {
+          this.doNotDisplayFailureMessage = false;
+        }
+      }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage = false;
+      });
+    }
   }
 
   cancel() {

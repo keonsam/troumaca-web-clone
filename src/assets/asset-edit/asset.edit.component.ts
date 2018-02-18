@@ -8,7 +8,7 @@ import "rxjs/add/operator/filter";
 import {Asset} from "../asset";
 import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
 import {AssetKind} from "../asset.kind";
-import {AssetType} from "../asset.type";
+import {AssetType} from "../../asset-types/asset.type";
 import {UnitOfMeasure} from "../asset.unit.of.measure";
 import {AssetPerson} from "../asset.person";
 import {Site} from "../asset.site";

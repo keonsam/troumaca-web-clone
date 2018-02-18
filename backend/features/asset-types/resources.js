@@ -23,6 +23,51 @@ router.get("/", function (req, res, next){
 
 });
 
+router.get("/attributes", function (req, res, next) {
+  let assignedArray = req.query.assignedArray.split(",");
+
+  orchestrator
+  .getAttributes(assignedArray)
+  .subscribe(attributes => {
+    res.send(JSON.stringify(attributes));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  });
+
+});
+
+router.get("/asset-type-classes", function (req, res, next) {
+  let searchStr =  req.query.q;
+  let pageSize = req.query.pageSize;
+
+  orchestrator
+  .getAssetTypeClassId(searchStr, pageSize)
+  .subscribe(assetTypeClasses => {
+    let body = JSON.stringify(assetTypeClasses);
+    res.send(body);
+  }, error => {
+    res.send(JSON.stringify(error));
+  });
+
+});
+
+
+router.get("/values", function (req, res, next) {
+  let assetTypeId =  req.query.assetTypeId;
+
+  orchestrator
+  .getValues(assetTypeId)
+  .subscribe(values => {
+    let body = JSON.stringify(values);
+    res.send(body);
+  }, error => {
+    res.send(JSON.stringify(error));
+  });
+
+});
+
 router.get("/:assetTypeId", function (req, res, next) {
 
   let assetTypeId = req.params.assetTypeId;
@@ -51,6 +96,35 @@ router.post("/", function (req, res, next){
   })
 });
 
+router.post("/values", function (req, res, next) {
+  let value = req.body;
+
+  orchestrator
+  .saveValue(value)
+  .subscribe(value => {
+    res.send(JSON.stringify(value));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  })
+});
+
+router.put("/values/:valueId", function (req, res, next) {
+  let valueId = req.params.valueId;
+  let value = req.body;
+  orchestrator
+    .updateValue(valueId, value)
+    .subscribe(numUpdated => {
+      res.send(JSON.stringify(numUpdated));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
+
+});
+
 router.put("/:assetTypeId", function (req, res, next) {
   let assetTypeId = req.params.assetTypeId;
   let assetType = req.body;
@@ -66,6 +140,19 @@ router.put("/:assetTypeId", function (req, res, next) {
 
 });
 
+router.delete("/values/:valueId", function (req, res, next) {
+  let valueId = req.params.valueId;
+
+  orchestrator
+    .deleteValue(valueId)
+    .subscribe(numRemoved => {
+      res.send(JSON.stringify(numRemoved));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
+});
 router.delete("/:assetTypeId", function (req, res, next) {
   let assetTypeId = req.params.assetTypeId;
   orchestrator

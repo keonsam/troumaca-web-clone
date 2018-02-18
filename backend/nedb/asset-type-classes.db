@@ -1,8 +1,3 @@
-{"name":"rsj","description":"dsdn","assetTypeClassId":"0fb64e45-8d34-409d-a0ff-b166121103b4","_id":"KCYX0aE1o7XzdpYQ"}
-{"assetTypeClassId":"1a3c08fe-07c2-4472-b84f-be3e03b0afe1","name":"test2","description":"Car","_id":"LERNyvFEoAwBOdYb"}
-{"assetTypeClassId":"c971f972-9728-4aca-8b42-79d32e281be1","name":"Desk","description":"home","_id":"WU39pYYZB3NYWecb"}
-{"name":"testattr","description":"attribute testing","attributeId":["823f735b-ac88-4ddd-9d3d-5e58f4b85d64","1a057e32-09a4-43c0-9f3c-9114bec3aec3","61ed4c21-c9d9-4348-b32c-d277d3e90a3c","44b8e347-a001-4b9e-b02d-5aed59c002fd"],"assetTypeClassId":"98e067df-f67f-457a-aaf9-59b203d48b6c","_id":"ffmOuhLj7nWym60C"}
-{"name":"testattr","description":"attribute testing","attributeId":["823f735b-ac88-4ddd-9d3d-5e58f4b85d64","1a057e32-09a4-43c0-9f3c-9114bec3aec3","61ed4c21-c9d9-4348-b32c-d277d3e90a3c","44b8e347-a001-4b9e-b02d-5aed59c002fd"],"assetTypeClassId":"72d2045b-abd4-4af8-a548-b7e20e645f48","_id":"nBuV2SXDaYkGATgt"}
-{"assetTypeClassId":"685b6d61-63d9-49dc-9988-067ec09b107a","name":"Usethisfortest","description":"tvtest","assignedAttributes":["3e866743-37cf-46ff-8a0f-1874aca9ae8e"],"_id":"qa9aAEBl81JHI7CI"}
-{"name":"test","description":"attribute test","assetTypeClassId":"cf757a41-c3d1-41b2-9657-91c02d768929","_id":"wequL9miUMMKWSZx"}
-{"name":"test2","description":"attribute testing","assetTypeClassId":"990b162a-6917-4f59-81c0-3ef413cad831","_id":"zcdraQGQUcCXpG7P"}
+{"name":"Desktop","description":"home desktop","assignedAttributes":["8c3d6eaf-eca6-4afc-8704-a90004c13344","bda83c21-1155-4039-aeea-e7d799246c44","81e3e858-57d0-4c2a-9eae-f19e3aa853aa"],"assetTypeClassId":"61876eda-19a3-40f2-8d89-1b7a5a1c8cd5","_id":"HammEHYQ6kcl8zam"}
+{"name":"Super Computer","description":"work power","assignedAttributes":["bda83c21-1155-4039-aeea-e7d799246c44","81e3e858-57d0-4c2a-9eae-f19e3aa853aa"],"assetTypeClassId":"1f664495-10c6-42cc-ab27-d9dae4a928f2","_id":"cj4VNHpCoYCQZhgY"}
+{"name":"Personal","description":"personal computer","assignedAttributes":["8c3d6eaf-eca6-4afc-8704-a90004c13344","81e3e858-57d0-4c2a-9eae-f19e3aa853aa"],"assetTypeClassId":"2e8281c6-dfab-44da-85aa-fbdc29106b16","_id":"gcbXtXoSSOW0P4bm"}

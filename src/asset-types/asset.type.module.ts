@@ -10,6 +10,7 @@ import {AssetTypeService} from "./asset.type.service";
 import {AssetTypeRepository} from "./asset.type.repository";
 import {RouterModule} from "@angular/router";
 import {MenuModule} from "../menu/menu.module";
+import {Ng2CompleterModule} from "ng2-completer";
 import {AssetTypeTopMenuComponent} from "./asset-type-top-menu/asset.type.top.menu.component";
 import {SearchModule} from "../search/search.module";
 import {PagingModule} from "../paging/paging.module";
@@ -23,6 +24,7 @@ import {PagingModule} from "../paging/paging.module";
     FormsModule,
     ReactiveFormsModule,
     MenuModule,
+    Ng2CompleterModule,
     SearchModule,
     PagingModule
   ],

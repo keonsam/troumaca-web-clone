@@ -1,7 +1,6 @@
-import {AssetTypeClassState} from "../asset-type-class/asset.type.class.state";
-// import {AttributeState} from "./attribute.state";
+import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
 
-export class AssetTypeState {
+export class AssetType {
 
   private _assetTypeId:string;
   private _modelNumber:string;
@@ -9,9 +8,12 @@ export class AssetTypeState {
   private _name:string;
   private _materialCode:string;
   private _unitOfMeasureId:string;
-  private _assetTypeClass:AssetTypeClassState;
+  private _assetTypeClass:AssetTypeClass;
 
+  constructor() {
+    this._assetTypeClass = new AssetTypeClass();
 
+  }
 
   get assetTypeId(): string {
     return this._assetTypeId;
@@ -20,22 +22,6 @@ export class AssetTypeState {
   set assetTypeId(value: string) {
     this._assetTypeId = value;
   }
-
-  get assetTypeClass(): AssetTypeClassState {
-    return this._assetTypeClass;
-  }
-
-  set assetTypeClass(value: AssetTypeClassState) {
-    this._assetTypeClass = value;
-  }
-
-  // get attributes(): AttributeState[] {
-  //   return this._attributes;
-  // }
-  //
-  // set attributes(value: AttributeState[]) {
-  //   this._attributes = value;
-  // }
 
   get modelNumber(): string {
     return this._modelNumber;
@@ -77,16 +63,13 @@ export class AssetTypeState {
     this._unitOfMeasureId = value;
   }
 
-  toJson() {
-    return {
-      assetTypeId: this.assetTypeId,
-      assetTypeClass: this.assetTypeClass,
-      name: this.name,
-      description: this.description,
-      modelNumber: this.modelNumber,
-      materialCode: this.materialCode,
-      unitOfMeasureId: this.unitOfMeasureId
-    }
+  get assetTypeClass(): AssetTypeClass {
+    return this._assetTypeClass;
+  }
+
+
+  set assetTypeClass(value: AssetTypeClass) {
+    this._assetTypeClass = value;
   }
 
 }

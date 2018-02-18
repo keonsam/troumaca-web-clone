@@ -13,11 +13,22 @@
               </h5>
 
               <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to create asset type class.</div>
+              <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">Failed to create value {{errorCount + 1}}</div>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Asset Type Class Id">Asset Type Class Id</label><input class="form-control" formControlName="assetTypeClassId" placeholder="Asset Type Class Id" required="required" type="text">
-                  <div [hidden]="assetTypeClassId.valid || assetTypeClassId.pristine" class="alert alert-danger">Invalid asset Type Class Id.</div>
+                  <label for="">Asset Type Class</label>
+                  <ng2-completer [datasource]="assetTypeClassIdDataService"
+                                 [minSearchLength]="0"
+                                 [maxChars]="4"
+                                 [inputClass]="'form-control'"
+                                 [placeholder]="'Search for Asset Type Class'"
+                                 [matchClass]="'match'"
+                                 formControlName="assetTypeClassId"
+                                 [autofocus]="true"
+                                 [textSearching]="false"
+                                 (selected)="onAssetTypeClassIdSelect($event)">
+                  </ng2-completer>
                 </div>
               </fieldset>
 
@@ -53,6 +64,13 @@
                 <div class="form-group">
                   <label for="description">Description</label><input class="form-control" formControlName="description" placeholder="Description" type="text">
                   <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
+                </div>
+              </fieldset>
+
+              <fieldset *ngFor="let attribute of assignedAttributes.attributes" class="form-group">
+                <div class="form-group">
+                  <label for="{{attribute.name}}">{{attribute.name}}</label><input class="form-control" formControlName="{{attribute.attributeId}}" placeholder="Enter Value" type="text">
+                  <!--<div [hidden]="unitOfMeasureId.valid || unitOfMeasureId.pristine" class="alert alert-danger">Invalid unit of measure Id.</div> -->
                 </div>
               </fieldset>
 

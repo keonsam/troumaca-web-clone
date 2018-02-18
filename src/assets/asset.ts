@@ -1,5 +1,5 @@
 import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
-import {AssetType} from "assets/asset.type";
+import {AssetType} from "../asset-types/asset.type";
 import {Site} from "./asset.site";
 import {Lot} from "./asset.lot";
 import {UnitOfMeasure} from "./asset.unit.of.measure";

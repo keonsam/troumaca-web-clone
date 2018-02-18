@@ -19,6 +19,30 @@ module.exports = function AssetTypesOrchestrator() {
     });
   };
 
+  this.getAttributes = function(assignedArray) {
+    return assetTypesRepository
+    .getAttributes(assignedArray)
+    .map(value => {
+      return responseShaper.shapeAssetTypesResponse2("attributes", value);
+    });
+  }
+
+  this.getAssetTypeClassId = function(searchStr, pageSize) {
+    return assetTypesRepository
+    .getAssetTypeClassId(searchStr, pageSize)
+    .map(value => {
+      return responseShaper.shapeAssetTypesResponse2("assetTypeClasses", value);
+    });
+  }
+
+  this.getValues = function(assetTypeId) {
+    return assetTypesRepository
+    .getValues(assetTypeId)
+    .map(value => {
+      return responseShaper.shapeAssetTypesResponse2("values", value);
+    });
+  }
+
   this.getAssetType = function (assetTypeId) {
     return assetTypesRepository.getAssetType(assetTypeId);
   };
@@ -27,12 +51,24 @@ module.exports = function AssetTypesOrchestrator() {
     return assetTypesRepository.saveAssetType(assetType);
   };
 
+  this.saveValue = function (value) {
+    return assetTypesRepository.saveValue(value);
+  };
+
   this.deleteAssetType = function (assetTypeId) {
     return assetTypesRepository.deleteAssetType(assetTypeId);
   };
 
+  this.deleteValue = function (valueId) {
+    return assetTypesRepository.deleteValue(valueId);
+  };
+
   this.updateAssetType = function (assetTypeId, assetType) {
     return assetTypesRepository.updateAssetType(assetTypeId, assetType);
+  }
+
+  this.updateValue = function (valueId, value) {
+    return assetTypesRepository.updateValue(valueId, value);
   }
 
   function getSortOrderOrDefault(field, direction) {

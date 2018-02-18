@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {AssetTypes} from "../../assets/asset.types";
+import {AssetTypes} from "../asset.types";
 import {AssetTypeService} from "../asset.type.service";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
