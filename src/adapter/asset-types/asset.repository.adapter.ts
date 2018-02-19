@@ -42,9 +42,9 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
       });
   }
 
-  public getAttributes(assignedArray: string[]): Observable<Attributes> {
+  public getAttributes(assetTypeClassId: string): Observable<Attributes> {
     return this.assetTypesClient
-      .getAttributes(assignedArray)
+      .getAttributes(assetTypeClassId)
       .map(values => {
         let attributeModels:Attributes = new Attributes();
         attributeModels.attributes = map(values.attributes, value => {

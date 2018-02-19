@@ -28,7 +28,7 @@ export class AssetTypesClientMock extends AssetTypesClient {
     return null;
   }
 
-  public getAttributes(assignedArray: string[]): Observable<AttributeStates> {
+  public getAttributes(assetTypeClassId: string): Observable<AttributeStates> {
     return null;
   }
 

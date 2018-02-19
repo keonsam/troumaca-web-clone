@@ -19,11 +19,15 @@ module.exports = function AssetTypesOrchestrator() {
     });
   };
 
-  this.getAttributes = function(assignedArray) {
+  this.getAttributes = function(assetTypeClassId) {
     return assetTypesRepository
-    .getAttributes(assignedArray)
-    .map(value => {
-      return responseShaper.shapeAssetTypesResponse2("attributes", value);
+    .getAssignedAttributes(assetTypeClassId)
+    .flatMap(value => {
+      return assetTypesRepository
+      .getAttributes(value)
+      .map(value2 => {
+        return responseShaper.shapeAssetTypesResponse2("attributes", value2);
+      });
     });
   }
 

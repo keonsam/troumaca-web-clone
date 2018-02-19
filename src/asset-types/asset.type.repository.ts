@@ -8,7 +8,7 @@ import {AssetTypeClasses} from "../asset-type-classes/asset.type.classes";
 
 export abstract class AssetTypeRepository {
   abstract getAssetTypes(pageNumber:number, pageSize:number, sortOrder:string):Observable<AssetTypes>;
-  abstract getAttributes(assignedArray: string[]): Observable<Attributes>
+  abstract getAttributes(assetTypeClassId: string): Observable<Attributes>
   abstract getValues(assetTypeId: string): Observable<Values>;
 
   abstract getAssetType(assetTypeId: string): Observable<AssetType>;

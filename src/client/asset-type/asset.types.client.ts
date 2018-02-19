@@ -8,7 +8,7 @@ import {ValueStates} from "./value.states";
 
 export abstract class AssetTypesClient {
   abstract getAssetTypes(pageNumber:number, pageSize:number, sortOrder:string):Observable<AssetTypeStates>;
-  abstract getAttributes(assignedArray: string[]): Observable<AttributeStates>;
+  abstract getAttributes(assetTypeClassId: string): Observable<AttributeStates>;
   abstract getValues(assetTypeId: string): Observable<ValueStates>;
 
   abstract getAssetTypeState(assetTypeId: string): Observable<AssetTypeState>;

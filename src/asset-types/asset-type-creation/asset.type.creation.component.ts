@@ -220,15 +220,15 @@ export class AssetTypeCreationComponent implements OnInit {
   onAssetTypeClassIdSelect(selected: CompleterItem) {
     if (selected) {
       this.assetType.assetTypeClass = selected.originalObject;
-      this.getAttributes(selected.originalObject.attributeId);
+      this.getAttributes();
     }
   }
 
-  getAttributes(assignedArray: string[]) {
+  getAttributes() {
       this.value = [];
 
     this.assetTypeService
-    .getAttributes(assignedArray)
+    .getAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
       this.assignedAttributes = next;
       this.assignedAttributes.attributes.forEach((value, i) => {

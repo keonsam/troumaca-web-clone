@@ -56,7 +56,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     });
   }
 
-  public getAttributes(assignedArray: string[]): Observable<AttributeStates> {
+  public getAttributes(assetTypeClassId: string): Observable<AttributeStates> {
 
   let array = [];
   array.push(this.hostPort);
@@ -64,8 +64,8 @@ export class AssetTypesClientHttp extends AssetTypesClient {
 
   let queryStr = [];
 
-  if (assignedArray) {
-    queryStr.push("assignedArray=" + assignedArray);
+  if (assetTypeClassId) {
+    queryStr.push("assetTypeClassId=" + assetTypeClassId);
   }
 
 
@@ -203,7 +203,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     });
   }
 
-  public deleteValue(valueId): Observable<number> {
+  public deleteValue(valueId: string): Observable<number> {
     let url = `${this.hostPort}/asset-types/values/${valueId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient

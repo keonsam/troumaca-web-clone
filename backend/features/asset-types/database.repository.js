@@ -29,6 +29,19 @@ module.exports =  function DatabaseAssetTypesRepository() {
     });
   };
 
+  this.getAssignedAttributes = function (assetTypeClassId) {
+    return Rx.Observable.create(function (observer) {
+      db.assetTypeClasses.findOne({assetTypeClassId}, function (err, doc) {
+        if (!err) {
+          observer.next(doc.assignedAttributes);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   this.getAttributes = function (assignedArray) {
     return Rx.Observable.create(function (observer) {
       db.attributes.find({attributeId: {$in: assignedArray}}, function (err, doc) {
@@ -141,6 +154,7 @@ module.exports =  function DatabaseAssetTypesRepository() {
  };
 
  this.deleteValue = function(valueId) {
+   console.log("this is called");
    return Rx.Observable.create(function (observer) {
      let query = {};
      query["valueId"] = valueId;

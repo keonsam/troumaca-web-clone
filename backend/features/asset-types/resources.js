@@ -24,10 +24,10 @@ router.get("/", function (req, res, next){
 });
 
 router.get("/attributes", function (req, res, next) {
-  let assignedArray = req.query.assignedArray.split(",");
+  let assetTypeClassId = req.query.assetTypeClassId;
 
   orchestrator
-  .getAttributes(assignedArray)
+  .getAttributes(assetTypeClassId)
   .subscribe(attributes => {
     res.send(JSON.stringify(attributes));
   }, error => {

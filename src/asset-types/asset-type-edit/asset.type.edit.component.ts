@@ -1,6 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
+import {Observable} from "rxjs/Observable";
 
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/filter";
@@ -39,11 +40,11 @@ export class AssetTypeEditComponent implements OnInit {
   private _values: Values;
 
   private pageSize:number = 15;
-  private deleteError: boolean = false;
   private _doNotDisplayFailureMessage:boolean;
   private _doNotDisplayFailureMessage2:boolean;
   private _doNotDisplayFailureMessage3:boolean;
   private errorCount: number = 0;
+  private deleteError: boolean = true;
 
   constructor(private assetTypeService:AssetTypeService,
               private completerService: CompleterService,
@@ -85,6 +86,7 @@ export class AssetTypeEditComponent implements OnInit {
 
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
+    this.doNotDisplayFailureMessage3 = true;
 
   }
 
@@ -161,7 +163,7 @@ export class AssetTypeEditComponent implements OnInit {
         assignedArray.push(value.attributeId);
       });
 
-      this.getAttributes(assignedArray);
+      this.getAttributes();
     }, error => {
       console.log(error);
     }, () => {
@@ -265,10 +267,18 @@ export class AssetTypeEditComponent implements OnInit {
     this._doNotDisplayFailureMessage2 = value;
   }
 
+  get doNotDisplayFailureMessage3(): boolean {
+    return this._doNotDisplayFailureMessage3;
+  }
+
+  set doNotDisplayFailureMessage3(value: boolean) {
+    this._doNotDisplayFailureMessage3 = value;
+  }
+
   onAssetTypeClassIdSelect(selected: CompleterItem) {
     if (selected) {
       this.assetType.assetTypeClass = selected.originalObject;
-      this.getAttributes(selected.originalObject.attributeId);
+      this.getAttributes();
     }
   }
 
@@ -281,10 +291,10 @@ export class AssetTypeEditComponent implements OnInit {
     this.assetType.unitOfMeasureId = value.unitOfMeasureId;
   }
 
-  getAttributes(assignedArray: string[],) {
+  getAttributes() {
 
     this.assetTypeService
-    .getAttributes(assignedArray)
+    .getAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
       this.assignedAttributes = next;
       this.assignedAttributes.attributes.forEach((value, i) => {
@@ -311,8 +321,7 @@ export class AssetTypeEditComponent implements OnInit {
     });
   }
 
-  updateValues() {
-    console.log(this.values.values);
+  saveValues() {
     for(let i= this.errorCount; i < this.values.values.length; i++){
       if(!this.values.values[i].valueId) {
         this.values.values[i].assetTypeId = this.assetTypeId;
@@ -356,35 +365,72 @@ export class AssetTypeEditComponent implements OnInit {
  }
 
   removeValues() {
-    this.values.values = this.values.values.filter(value => {
-      if(this.assignedAttributes.attributes.findIndex(x => x.attributeId == value.attributeId) !== -1){
-          return value;
-        }else {
-          this.assetTypeService.deleteValue(value.valueId);
-        }
-    });
+    this.deleteError = false;
+    let that = this;
+    return Observable.create(function (observer) {
+      that.values.values = that.values.values.filter((value,i) => {
+        if(that.assignedAttributes.attributes.findIndex(x => x.attributeId == value.attributeId) !== -1){
+            if(i == that.values.values.length -1){
+            observer.next(true);
+            return value;
+            }
+            return value;
+          }else {
+            console.log(value);
+            that.assetTypeService
+            .deleteValue(value.valueId)
+            .subscribe(value => {
+              if (value && i == that.values.values.length -1 && !that.deleteError) {
+                that.deleteError = false
+                observer.next(true);
+                observer.complete();
+              } else {
+                that.deleteError = true
+                that.doNotDisplayFailureMessage3 = false;
+                observer.error(false);
+                observer.complete();
+              }
+            }, error => {
+              console.log(error);
+              that.doNotDisplayFailureMessage3 = false;
+            });
+       }
+     });
+   });
+  }
+
+  updateValues() {
+      if(this.errorCount > 0){
+        this.saveValues();
+      }else {
+        this.assetTypeService
+        .updateAssetType(this.assetTypeId,this.assetType)
+        .subscribe(value => {
+          if (value) {
+            this.saveValues();
+          } else {
+            this.doNotDisplayFailureMessage = false;
+          }
+        }, error => {
+          console.log(error);
+          this.doNotDisplayFailureMessage = false;
+        });
+    }
   }
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
-
-    this.removeValues();
-    if(this.errorCount > 0){
-      this.updateValues();
-    }else {
-      this.assetTypeService
-      .updateAssetType(this.assetTypeId,this.assetType)
-      .subscribe(value => {
-        if (value) {
-          this.updateValues();
-        } else {
-          this.doNotDisplayFailureMessage = false;
+    this.doNotDisplayFailureMessage3 = true;
+    if(this.deleteError) {
+    this.removeValues()
+    .subscribe(value => {
+      if(value) {
+        this.updateValues();
         }
-      }, error => {
-        console.log(error);
-        this.doNotDisplayFailureMessage = false;
       });
+    }else {
+      this.updateValues();
     }
   }
 
