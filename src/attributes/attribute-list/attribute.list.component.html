@@ -44,7 +44,7 @@
               <tr role="row" *ngFor="let attribute of attributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
                 <td>{{attribute.name}}</td>
                 <td>{{attribute.format}}</td>
-                <td>{{attribute.dataType}}</td>
+                <td>{{attribute.dataType.name}}</td>
                 <td>{{attribute.unitOfMeasureId}}</td>
                 <td>{{attribute.maximumValue}}</td>
                 <td>{{attribute.minimumValue}}</td>

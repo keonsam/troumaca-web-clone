@@ -33,7 +33,7 @@
                   <label for="date type">Data Type</label><br/>
                   <select class="form-control" formControlName="dataType" name="dataType" required="required">
                     <option value="" disabled selected>Select a Data Type</option>
-                    <option *ngFor="let dataType of dataTypes" [value]="dataType.dataTypeId">{{dataType.name}}</option>
+                    <option *ngFor="let dataType of dataTypes" [value]="dataType">{{dataType.name}}</option>
                   </select>
                   <div [hidden]="dataType.valid || dataType.pristine" class="alert alert-danger">Invalid Data Type.</div>
                 </div>
@@ -41,8 +41,8 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="unit of measure Id">Unit Of Measure ID</label><input class="form-control" formControlName="unitOfMeasureId" placeholder="Unit of Measure ID">
-                  <div [hidden]="unitOfMeasureId.valid || unitOfMeasureId.pristine" class="alert alert-danger">Invalid Unit Of Measure ID.</div>
+                  <label for="unit of measure">Unit Of Measure</label><input class="form-control" formControlName="unitOfMeasureId" placeholder="Unit of Measure">
+                  <div [hidden]="unitOfMeasureId.valid || unitOfMeasureId.pristine" class="alert alert-danger">Invalid Unit Of Measure.</div>
                 </div>
               </fieldset>
 

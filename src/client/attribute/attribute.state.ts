@@ -1,3 +1,4 @@
+import {DataTypeState} from "./data.type.state";
 export class AttributeState {
 
   private _attributeId:string;
@@ -5,7 +6,7 @@ export class AttributeState {
   private _name:string;
   private _format:string;
   // replace with data type
-  private _dataType:string;
+  private _dataType: DataTypeState;
   // replace with unit of measure
   private _unitOfMeasureId:string;
   private _maximumValue:string;
@@ -45,11 +46,11 @@ export class AttributeState {
     this._format = value;
   }
 
-  get dataType(): string {
+  get dataType(): DataTypeState {
     return this._dataType;
   }
 
-  set dataType(value: string) {
+  set dataType(value: DataTypeState) {
     this._dataType = value;
   }
 

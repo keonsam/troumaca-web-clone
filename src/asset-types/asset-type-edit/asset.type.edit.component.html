@@ -7,7 +7,7 @@
       <div class="col-sm-12">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="assetTypeEditForm" (ngSubmit)="onCreate()" id="formValidate">
+            <form [formGroup]="assetTypeEditForm" id="formValidate">
               <h5 class="form-header">
                 Edit Asset Type Form
               </h5>
@@ -68,19 +68,22 @@
                 </div>
               </fieldset>
 
+            </form>
+
+            <form [formGroup]="attributeEditForm" >
               <fieldset *ngFor="let attribute of assignedAttributes.attributes" class="form-group">
                 <div class="form-group">
-                  <label for="{{attribute.name}}">{{attribute.name}}</label><input class="form-control" formControlName="{{attribute.attributeId}}" placeholder="Enter Value" type="text">
+                  <label for="{{attribute.name}}">{{attribute.name}}</label><input class="form-control" formControlName="{{attribute.attributeId}}" placeholder="Enter Value" type="onType(attribute.dataType.name)">
                   <!--<div [hidden]="unitOfMeasureId.valid || unitOfMeasureId.pristine" class="alert alert-danger">Invalid unit of measure Id.</div> -->
                 </div>
               </fieldset>
+            </form>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [disabled]="!assetTypeEditForm.valid" type="submit"> Submit</button>
+                <button class="btn btn-primary button1" [disabled]="!assetTypeEditForm.valid || !attributeEditForm.valid" (click)="onCreate()" type="button"> Submit</button>
                 <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>
               </div>
 
-            </form>
           </div>
         </div>
       </div>

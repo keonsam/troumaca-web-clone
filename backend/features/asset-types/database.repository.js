@@ -154,7 +154,6 @@ module.exports =  function DatabaseAssetTypesRepository() {
  };
 
  this.deleteValue = function(valueId) {
-   console.log("this is called");
    return Rx.Observable.create(function (observer) {
      let query = {};
      query["valueId"] = valueId;
@@ -167,6 +166,21 @@ module.exports =  function DatabaseAssetTypesRepository() {
        observer.complete();
      })
    });
+};
+
+this.deleteValues = function(assetTypeId) {
+  return Rx.Observable.create(function (observer) {
+    let query = {};
+    query["assetTypeId"] = assetTypeId;
+    db.values.remove(query, {multi: true }, function (err, numRemoved) {
+      if (!err) {
+        observer.next(numRemoved);
+      } else {
+        observer.error(err);
+      }
+      observer.complete();
+    })
+  });
 };
 
  this.updateAssetType = function(assetTypeId, assetType) {

@@ -29,6 +29,7 @@ export class AssetTypeCreationComponent implements OnInit {
   private _assetTypeClassIdDataService: CompleterData;
 
   private _assetTypeForm:FormGroup;
+  private _attributeForm: FormGroup;
 
   private assetType: AssetType;
   private _assignedAttributes: Attributes;
@@ -51,6 +52,10 @@ export class AssetTypeCreationComponent implements OnInit {
       this.modelNumber = new FormControl("");
       this.materialCode = new FormControl("");
       this.unitOfMeasureId = new FormControl("");
+
+      this.attributeForm = new FormGroup({
+
+      });
 
       this.assetTypeForm = formBuilder.group({
         "assetTypeClassId": this.assetTypeClassId,
@@ -185,6 +190,15 @@ export class AssetTypeCreationComponent implements OnInit {
   set assetTypeForm(value: FormGroup) {
     this._assetTypeForm = value;
   }
+
+  get attributeForm(): FormGroup {
+    return this._attributeForm;
+  }
+
+  set attributeForm(value: FormGroup) {
+    this._attributeForm = value;
+  }
+
   get assignedAttributes(): Attributes {
     return this._assignedAttributes;
   }
@@ -225,24 +239,28 @@ export class AssetTypeCreationComponent implements OnInit {
   }
 
   getAttributes() {
-      this.value = [];
+    this.value = [];
 
     this.assetTypeService
     .getAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
       this.assignedAttributes = next;
+      let group: any = {};
       this.assignedAttributes.attributes.forEach((value, i) => {
-        this.assetTypeForm.addControl(value.attributeId, new FormControl("",Validators.required));
-        this.value.push(new Value(value.attributeId, ""));
-        this.assetTypeForm.get(value.attributeId).valueChanges
+          group[value.attributeId] = /*value.require ?*/ new FormControl(this.attributeForm.value[value.attributeId] || "", Validators.required) /*: new FormControl(this.attributeForm[value.attributeId], Validators.required) */;
+          this.value.push(new Value(value.attributeId, this.attributeForm[value.attributeId]));
+      });
+      this.attributeForm = new FormGroup(group);
+      for(let key in this.attributeForm.value){
+        let index = this.value.findIndex(x => x.attributeId == key);
+        this.attributeForm.get(key).valueChanges
         .subscribe(value2 => {
-          this.value[i].text = value2;
-          console.log(value);
+          this.value[index].text = value2;
         }, error2 => {
           console.log(error2);
         });
+      };
 
-      });
     }, error => {
       console.log(error);
     }, () => {

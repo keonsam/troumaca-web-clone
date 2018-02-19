@@ -40,11 +40,11 @@ module.exports =  function DatabaseAttributeRepository() {
   }
 
   this.getDataTypes = function () {
-  /*
+
     // use this to add to the database
     let toSave = {
-      "dataTypeId": "123",
-      "name": "test4"
+      "dataTypeId": "",
+      "name": "boolean"
     }
     toSave.dataTypeId = newUuidGenerator.generateUUID();
     return Rx.Observable.create(function (observer) {
@@ -56,8 +56,8 @@ module.exports =  function DatabaseAttributeRepository() {
         }
         observer.complete();
       });
-    }); */
-    return Rx.Observable.create(function (observer) {
+    });
+  /*  return Rx.Observable.create(function (observer) {
       db.dataTypes.find({}, function (err, docs) {
         if (!err) {
           observer.next(docs);
@@ -66,7 +66,7 @@ module.exports =  function DatabaseAttributeRepository() {
         }
         observer.complete();
       });
-    });
+    }); */
   }
 
   this.getAttributeCount = function () {

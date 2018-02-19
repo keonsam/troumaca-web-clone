@@ -60,7 +60,11 @@ module.exports = function AssetTypesOrchestrator() {
   };
 
   this.deleteAssetType = function (assetTypeId) {
-    return assetTypesRepository.deleteAssetType(assetTypeId);
+    return assetTypesRepository
+    .deleteAssetType(assetTypeId)
+    .flatMap(value => {
+      return assetTypesRepository.deleteValues(assetTypeId);
+    });
   };
 
   this.deleteValue = function (valueId) {

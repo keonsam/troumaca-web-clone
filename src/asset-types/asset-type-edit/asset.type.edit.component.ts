@@ -31,6 +31,7 @@ export class AssetTypeEditComponent implements OnInit {
   private _unitOfMeasureId: FormControl;
 
   private _assetTypeEditForm:FormGroup;
+  private _attributeEditForm: FormGroup;
 
   private _assetTypeClassIdDataService: CompleterData;
 
@@ -58,6 +59,8 @@ export class AssetTypeEditComponent implements OnInit {
       this.modelNumber = new FormControl("");
       this.materialCode = new FormControl("");
       this.unitOfMeasureId = new FormControl("");
+
+      this.attributeEditForm = new FormGroup({});
 
       this.assetTypeEditForm = formBuilder.group({
         "assetTypeClassId": this.assetTypeClassId,
@@ -156,13 +159,7 @@ export class AssetTypeEditComponent implements OnInit {
     this.assetTypeService
     .getValues(this.assetTypeId)
     .subscribe(next => {
-      console.log(next);
-      let assignedArray = [];
       this.values = next;
-      this.values.values.forEach(value => {
-        assignedArray.push(value.attributeId);
-      });
-
       this.getAttributes();
     }, error => {
       console.log(error);
@@ -235,6 +232,14 @@ export class AssetTypeEditComponent implements OnInit {
     this._assetTypeEditForm = value;
   }
 
+  get attributeEditForm(): FormGroup {
+    return this._attributeEditForm;
+  }
+
+  set attributeEditForm(value: FormGroup) {
+    this._attributeEditForm = value;
+  }
+
   get assignedAttributes(): Attributes {
     return this._assignedAttributes;
   }
@@ -292,30 +297,32 @@ export class AssetTypeEditComponent implements OnInit {
   }
 
   getAttributes() {
-
     this.assetTypeService
     .getAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
+      console.log(this.assignedAttributes);
       this.assignedAttributes = next;
-      this.assignedAttributes.attributes.forEach((value, i) => {
-        if((this.values.values.findIndex(x => x.attributeId == value.attributeId)) == -1){
-          this.values.values.push(new Value(value.attributeId, ""));
+        let group: any = {};
+        this.assignedAttributes.attributes.forEach((value) => {
           console.log(this.values.values);
-         }
           let index = this.values.values.findIndex(x => x.attributeId == value.attributeId);
-          let editValue = this.values.values[index].text ?  this.values.values[index].text: "";
-          if(!this.assetTypeEditForm[value.attributeId]){
-           this.assetTypeEditForm.addControl(value.attributeId, new FormControl(editValue,Validators.required));
-         }
-
-          this.assetTypeEditForm.get(value.attributeId).valueChanges
+          if(index == -1) {
+          this.values.values.push(new Value(value.attributeId, ""));
+          index = this.values.values.findIndex(x => x.attributeId == value.attributeId);
+        }
+          group[value.attributeId] = new FormControl(this.values.values[index].text, Validators.required);
+        });
+        this.attributeEditForm = new FormGroup(group);
+        for(let key in this.attributeEditForm.value){
+          let index = this.values.values.findIndex(x => x.attributeId == key);
+          this.attributeEditForm.get(key).valueChanges
           .subscribe(value2 => {
             this.values.values[index].text = value2;
           }, error2 => {
             console.log(error2);
           });
+        }
 
-      });
     }, error => {
       console.log(error);
     });
@@ -368,23 +375,14 @@ export class AssetTypeEditComponent implements OnInit {
     this.deleteError = false;
     let that = this;
     return Observable.create(function (observer) {
-      that.values.values = that.values.values.filter((value,i) => {
+      that.values.values = that.values.values.filter((value, i) => {
         if(that.assignedAttributes.attributes.findIndex(x => x.attributeId == value.attributeId) !== -1){
-            if(i == that.values.values.length -1){
-            observer.next(true);
             return value;
-            }
-            return value;
-          }else {
-            console.log(value);
+          }else if (value.valueId) {
             that.assetTypeService
             .deleteValue(value.valueId)
             .subscribe(value => {
-              if (value && i == that.values.values.length -1 && !that.deleteError) {
-                that.deleteError = false
-                observer.next(true);
-                observer.complete();
-              } else {
+              if (!value) {
                 that.deleteError = true
                 that.doNotDisplayFailureMessage3 = false;
                 observer.error(false);
@@ -396,6 +394,8 @@ export class AssetTypeEditComponent implements OnInit {
             });
        }
      });
+     observer.next(true);
+     observer.complete();
    });
   }
 
@@ -406,6 +406,7 @@ export class AssetTypeEditComponent implements OnInit {
         this.assetTypeService
         .updateAssetType(this.assetTypeId,this.assetType)
         .subscribe(value => {
+          console.log("working");
           if (value) {
             this.saveValues();
           } else {

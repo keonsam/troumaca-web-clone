@@ -1,11 +1,17 @@
+import {DataType} from "./data.type";
+
 export class Attribute {
+
+  constructor() {
+    this._dataType = new DataType();
+  }
 
   private _attributeId:string;
   private _tenantId:string;
   private _name:string;
   private _format:string;
   // replace with data type
-  private _dataType:string;
+  private _dataType: DataType;
   // replace with unit of measure
   private _unitOfMeasureId:string;
   private _maximumValue:string;
@@ -45,11 +51,11 @@ export class Attribute {
     this._format = value;
   }
 
-  get dataType(): string {
+  get dataType(): DataType {
     return this._dataType;
   }
 
-  set dataType(value: string) {
+  set dataType(value: DataType) {
     this._dataType = value;
   }
 
