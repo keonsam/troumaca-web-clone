@@ -33,7 +33,7 @@
                   <label for="date type">Data Type</label><br/>
                   <select class="form-control" formControlName="dataType" name="dataType" required="required">
                     <option value="" disabled selected>Select a Data Type</option>
-                    <option *ngFor="let dataType of dataTypes" [value]="dataType">{{dataType.name}}</option>
+                    <option *ngFor="let dataType of dataTypes" [value]="dataType.dataTypeId">{{dataType.name}}</option>
                   </select>
                   <div [hidden]="dataType.valid || dataType.pristine" class="alert alert-danger">Invalid Data Type.</div>
                 </div>

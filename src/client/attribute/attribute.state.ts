@@ -1,4 +1,5 @@
 import {DataTypeState} from "./data.type.state";
+
 export class AttributeState {
 
   private _attributeId:string;
@@ -101,7 +102,7 @@ export class AttributeState {
       tenantId: this.tenantId,
       name: this.name,
       format: this.format,
-      dataType: this.dataType,
+      dataType: this.dataType.toJson(),
       unitOfMeasureId: this.unitOfMeasureId,
       maximumValue: this.maximumValue,
       minimumValue: this.minimumValue,

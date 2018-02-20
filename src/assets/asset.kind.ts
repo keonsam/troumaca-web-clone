@@ -19,4 +19,10 @@ export class AssetKind {
     this._name = value;
   }
 
+  toJson() {
+    return {
+      assetKindId: this.assetKindId,
+      name: this.name
+    }
+  }
 }

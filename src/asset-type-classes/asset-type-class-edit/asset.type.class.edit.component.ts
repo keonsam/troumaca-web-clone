@@ -91,6 +91,20 @@ export class AssetTypeClassEditComponent implements OnInit {
        "minimumValue": this.minimumValue
      });
 
+     this.attributeForm
+     .valueChanges
+     .subscribe(value => {
+       this.attribute.name = value.attributeName;
+       this.attribute.format = value.format;
+       this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
+       this.attribute.unitOfMeasureId = value.unitOfMeasureId;
+       this.attribute.maximumValue = value.maximumValue;
+       this.attribute.minimumValue = value.minimumValue;
+       console.log(value);
+     }, error2 => {
+       console.log(error2);
+     });
+
      this.assetTypeClass = new AssetTypeClass();
      this.assetTypeClass = new AssetTypeClass();
 
@@ -113,6 +127,16 @@ export class AssetTypeClassEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    let that = this;
+    this.assetTypeClassService
+    .getDataTypes()
+    .subscribe(dataTypes => {
+      if (dataTypes) {
+        that.dataTypes = dataTypes.dataTypes;
+      }
+    }, onError => {
+      console.log(onError);
+    });
     this.sub = this.route.params.subscribe(params => {
        this.assetTypeClassId = params['assetTypeClassId'];
        this.assetTypeClassService.getAssetTypeClass(this.assetTypeClassId)
@@ -274,106 +298,106 @@ export class AssetTypeClassEditComponent implements OnInit {
      this._newOrEdit = value;
    }
 
-     getAvailableAttributes() {
-       this.assetTypeClassService
-       .getAvailableAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
-       .subscribe(next => {
-         console.log(next);
-         this.availableAttributes = next;
-       }, error => {
-         console.log(error);
-       }, () => {
-         console.log("complete");
-       });
-     }
-
-     getAssignedAttributes() {
-       this.assetTypeClassService
-       .getAssignedAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
-       .subscribe(next => {
-         console.log(next);
-         this.assignedAttributes = next;
-       }, error => {
-         console.log(error);
-       }, () => {
-         console.log("complete");
-       });
-     }
-
-     updateTable() {
-       this.getAssignedAttributes();
-       this.getAvailableAttributes();
-     }
-
-     onAvailableDoubleClick(attributeId: string) {
-      this.assignedArray.push(attributeId);
-      this.updateTable();
-     }
-
-     onAssignedDoubleClick(attributeId: string) {
-     this.assignedArray = this.assignedArray.filter(val => val != attributeId);
-     this.updateTable();
-     }
-
-     onOpenDeleteModal(attributeId: string){
-       this.attributeId = attributeId;
-     }
-
-     onOpenFormModal(attributeId: string){
-       this.attributeId = attributeId;
-       this.assetTypeClassService
-       .getAvailableAttribute(attributeId)
-       .subscribe(attribute =>{
-         this.attributeName.setValue(attribute.name);
-         this.format.setValue(attribute.format);
-         this.dataType.setValue(attribute.dataType);
-         this.unitOfMeasureId.setValue(attribute.unitOfMeasureId);
-         this.maximumValue.setValue(attribute.maximumValue);
-         this.minimumValue.setValue(attribute.minimumValue);
-         this.attribute = attribute;
-      }, error => {
-        console.log(error);
-      }, () => {
-        console.log("complete");
-      });
-
-     }
-
-     open(content) {
-       this.modalReference = this.modalService.open(content, {windowClass: "lgModal", size: 'lg'});
-       this.modalReference.result.then((result) => {
-       }, (reason) => {
-         if(reason === ModalDismissReasons.BACKDROP_CLICK || ModalDismissReasons.ESC) {
-         this.onResetForm();
-       }
-      });
-     }
-
-     onNewOrEdit(value: string) {
-       this.newOrEdit = value;
-     }
-
-     onAvailableRequestPage(pageNumber: number) {
-       this.defaultPage = pageNumber;
-       this.getAvailableAttributes();
+   getAvailableAttributes() {
+     this.assetTypeClassService
+     .getAvailableAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
+     .subscribe(next => {
+       console.log(next);
+       this.availableAttributes = next;
+     }, error => {
+       console.log(error);
+     }, () => {
+       console.log("complete");
+     });
    }
 
-     onAssignedRequestPage(pageNumber: number) {
-       this.defaultPage = pageNumber;
-       this.getAssignedAttributes();
-     }
-
-     onDelete() {
-       this.assetTypeClassService
-       .deleteAvailableAttribute(this.attributeId)
-       .subscribe(value => {
-       this.getAvailableAttributes();
-       }, error => {
+   getAssignedAttributes() {
+     this.assetTypeClassService
+     .getAssignedAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
+     .subscribe(next => {
+       console.log(next);
+       this.assignedAttributes = next;
+     }, error => {
        console.log(error);
-       }, () => {
+     }, () => {
        console.log("complete");
-       });
+     });
+   }
+
+   updateTable() {
+     this.getAssignedAttributes();
+     this.getAvailableAttributes();
+   }
+
+   onAvailableDoubleClick(attributeId: string) {
+    this.assignedArray.push(attributeId);
+    this.updateTable();
+   }
+
+   onAssignedDoubleClick(attributeId: string) {
+   this.assignedArray = this.assignedArray.filter(val => val != attributeId);
+   this.updateTable();
+   }
+
+   onOpenDeleteModal(attributeId: string){
+     this.attributeId = attributeId;
+   }
+
+   onOpenFormModal(attributeId: string){
+     this.attributeId = attributeId;
+     this.assetTypeClassService
+     .getAvailableAttribute(attributeId)
+     .subscribe(attribute =>{
+       this.attributeName.setValue(attribute.name);
+       this.format.setValue(attribute.format);
+       this.dataType.setValue(attribute.dataType.dataTypeId);
+       this.unitOfMeasureId.setValue(attribute.unitOfMeasureId);
+       this.maximumValue.setValue(attribute.maximumValue);
+       this.minimumValue.setValue(attribute.minimumValue);
+       this.attribute = attribute;
+    }, error => {
+      console.log(error);
+    }, () => {
+      console.log("complete");
+    });
+
+   }
+
+   open(content) {
+     this.modalReference = this.modalService.open(content, {windowClass: "lgModal", size: 'lg'});
+     this.modalReference.result.then((result) => {
+     }, (reason) => {
+       if(reason === ModalDismissReasons.BACKDROP_CLICK || ModalDismissReasons.ESC) {
+       this.onResetForm();
      }
+    });
+   }
+
+   onNewOrEdit(value: string) {
+     this.newOrEdit = value;
+   }
+
+   onAvailableRequestPage(pageNumber: number) {
+     this.defaultPage = pageNumber;
+     this.getAvailableAttributes();
+ }
+
+   onAssignedRequestPage(pageNumber: number) {
+     this.defaultPage = pageNumber;
+     this.getAssignedAttributes();
+   }
+
+   onDelete() {
+     this.assetTypeClassService
+     .deleteAvailableAttribute(this.attributeId)
+     .subscribe(value => {
+     this.getAvailableAttributes();
+     }, error => {
+     console.log(error);
+     }, () => {
+     console.log("complete");
+     });
+   }
 
    onCreate() {
      this.doNotDisplayFailureMessage = true;

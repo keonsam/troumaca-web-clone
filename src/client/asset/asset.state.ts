@@ -1,3 +1,4 @@
+import {AssetKindState} from "./asset.kind.state";
 import {AssetTypeState} from "../asset-type/asset.type.state";
 //import {AssetTypeClassState} from "../asset-types/asset.type.class.state";
 import {UnitOfMeasureState} from "../assets/asset.unit.of.measure.state";
@@ -11,7 +12,7 @@ export class AssetState {
   @JsonProperty("assetId", String)
   private _assetId:string;
   private _tenantId: string;
-  private _assetKindId: string;
+  private _assetKind: AssetKindState;
   private _serialNumber:string;
   private _description:string;
   private _quantity:number;
@@ -43,12 +44,12 @@ export class AssetState {
     this._tenantId = value;
   }
 
-  get assetKindId(): string {
-    return this._assetKindId;
+  get assetKind(): AssetKindState {
+    return this._assetKind;
   }
 
-  set assetKindId(value: string){
-     this._assetKindId = value
+  set assetKind(value: AssetKindState) {
+    this._assetKind = value;
   }
 
   get serialNumber(): string {
@@ -142,7 +143,7 @@ export class AssetState {
     return {
       assetId: this.assetId,
       tenantId: this.tenantId,
-      assetKindId: this.assetKindId,
+      assetKind: this.assetKind.toJson(),
       assetType: this.assetType,
       serialNumber: this.serialNumber,
       description: this.description,

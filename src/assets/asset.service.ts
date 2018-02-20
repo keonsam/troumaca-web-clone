@@ -3,23 +3,20 @@ import {Observable} from "rxjs/Observable";
 import {Assets} from "./assets";
 import {AssetKinds} from "./asset.kinds";
 import {AssetTypes} from "../asset-types/asset.types";
-import {AssetTypeRepository} from "../asset-types/asset.type.repository";
 import {UnitOfMeasures} from "./asset.unit.of.measures";
-import {AssetUnitOfMeasureRepository} from "./assset.unit.of.measure.repository";
-import {AssetSiteRepository} from "./asset.site.repository";
-import {AssetUnionOfPhysicalSites} from "./asset.union.of.physical.sites";
-import {AssetPersonRepository} from "./asset.person.repository";
 import {AssetPersons} from "./asset.persons";
+import {AssetUnionOfPhysicalSites} from "./asset.union.of.physical.sites";
 import {Asset} from "./asset";
+//import {AssetTypeRepository} from "../asset-types/asset.type.repository";
+//import {AssetUnitOfMeasureRepository} from "./assset.unit.of.measure.repository";
+//import {AssetSiteRepository} from "./asset.site.repository";
+//import {AssetPersonRepository} from "./asset.person.repository";
+
 
 
 export class AssetService {
 
-  constructor(private assetRepository: AssetRepository,
-              private assetTypeRepository: AssetTypeRepository,
-              private assetUnitOfMeasureRepository:AssetUnitOfMeasureRepository,
-              private assetSiteRepository:AssetSiteRepository,
-              private assetPersonRepository:AssetPersonRepository) {
+  constructor(private assetRepository: AssetRepository) {
   }
 
   public getAssets(pageNumber:number, pageSize:number, sortOrder:string):Observable<Assets> {
@@ -35,19 +32,19 @@ export class AssetService {
   }
 
   public findAssetTypes(searchStr: string, pageSize:number):Observable<AssetTypes> {
-    return this.assetTypeRepository.findAssetTypes(searchStr, pageSize);
+    return this.assetRepository.findAssetTypes(searchStr, pageSize);
   }
 
   public findUnitOfMeasures(searchStr: string, pageSize: number):Observable<UnitOfMeasures> {
-    return this.assetUnitOfMeasureRepository.findUnitOfMeasures(searchStr, pageSize);
+    return this.assetRepository.findUnitOfMeasures(searchStr, pageSize);
   }
 
   public findUnionOfPhysicalSites(searchStr: string, pageSize: number):Observable<AssetUnionOfPhysicalSites> {
-    return this.assetSiteRepository.findUnionOfPhysicalSites(searchStr, pageSize);
+    return this.assetRepository.findUnionOfPhysicalSites(searchStr, pageSize);
   }
 
   public findPersons(searchStr: string, pageSize: number):Observable<AssetPersons> {
-    return this.assetPersonRepository.findPersons(searchStr, pageSize);
+    return this.assetRepository.findPersons(searchStr, pageSize);
   }
 
   public addAsset(assetModel:Asset):Observable<Asset> {

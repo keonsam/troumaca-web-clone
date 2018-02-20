@@ -59,7 +59,7 @@ export class AttributeCreationComponent implements OnInit {
     .subscribe(value => {
       this.attribute.name = value.name;
       this.attribute.format = value.format;
-      this.attribute.dataType = value.dataType;
+      this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
       this.attribute.unitOfMeasureId = value.unitOfMeasureId;
       this.attribute.maximumValue = value.maximumValue;
       this.attribute.minimumValue = value.minimumValue;

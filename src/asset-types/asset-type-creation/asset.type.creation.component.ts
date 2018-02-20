@@ -40,6 +40,7 @@ export class AssetTypeCreationComponent implements OnInit {
   private _doNotDisplayFailureMessage:boolean;
   private _doNotDisplayFailureMessage2:boolean;
   private errorCount: number = 0;
+  private error: boolean = false;
 
   constructor(private assetTypeService:AssetTypeService,
               private completerService: CompleterService,
@@ -238,18 +239,32 @@ export class AssetTypeCreationComponent implements OnInit {
     }
   }
 
+  onType(dataTypeName: string) {
+    if(dataTypeName == "Boolean") {
+      return "checkbox";
+    }else if(dataTypeName == "Decimal" || "Integer") {
+      return "number";
+    }else {
+      return "text";
+    }
+  }
+
   getAttributes() {
-    this.value = [];
 
     this.assetTypeService
     .getAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
       this.assignedAttributes = next;
       let group: any = {};
-      this.assignedAttributes.attributes.forEach((value, i) => {
-          group[value.attributeId] = /*value.require ?*/ new FormControl(this.attributeForm.value[value.attributeId] || "", Validators.required) /*: new FormControl(this.attributeForm[value.attributeId], Validators.required) */;
-          this.value.push(new Value(value.attributeId, this.attributeForm[value.attributeId]));
+      this.assignedAttributes.attributes.forEach((value) => {
+      let editValue = this.value.find(x => x.attributeId == value.attributeId);
+      if(!editValue) {
+        this.value.push(new Value(value.attributeId,""));
+        editValue = this.value.find(x => x.attributeId == value.attributeId);
+      }
+        group[value.attributeId] = new FormControl(editValue.text, Validators.required);
       });
+
       this.attributeForm = new FormGroup(group);
       for(let key in this.attributeForm.value){
         let index = this.value.findIndex(x => x.attributeId == key);
@@ -269,6 +284,7 @@ export class AssetTypeCreationComponent implements OnInit {
   }
 
   saveValues() {
+    this.error = false;
       for(let i= this.errorCount; i < this.value.length; i++){
         this.value[i].assetTypeId = this.assetType.assetTypeId;
         this.assetTypeService
@@ -279,6 +295,7 @@ export class AssetTypeCreationComponent implements OnInit {
               this.router.navigate(['/asset-types']);
             }
           }else{
+            this.error = true;
             this.errorCount = i;
             this.doNotDisplayFailureMessage2 = false;
           }
@@ -288,11 +305,20 @@ export class AssetTypeCreationComponent implements OnInit {
         });
     }
   }
+  removeValues() {
+    this.value = this.value.filter((value, i) => {
+      if(this.assignedAttributes.attributes.find(x => x.attributeId == value.attributeId)){
+          return value;
+        }
+      });
+  }
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
-    if(this.errorCount > 0){
+    this.removeValues();
+
+    if(this.error){
       this.saveValues();
     }else {
       this.assetTypeService

@@ -1,4 +1,5 @@
-import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
+//import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
+import {AssetKind} from "./asset.kind";
 import {AssetType} from "../asset-types/asset.type";
 import {Site} from "./asset.site";
 import {Lot} from "./asset.lot";
@@ -10,26 +11,25 @@ export class Asset {
 
   private _assetId:string;
   private _tenantId:string;
-  private _assetKindId: string;
+  private _assetKind: AssetKind;
+  private _assetType: AssetType;
   private _serialNumber:string;
-  private _description:string;
   private _quantity:string;
   private _unitOfMeasure:UnitOfMeasure;
-  //private _lot:Lot;
+  private _description:string;
   private _person: AssetPerson;
-
   private _site: Site;
+  //private _lot:Lot;
   //private _assetTypeClass: AssetTypeClass;
-  private _assetType: AssetType;
-
   private _createdOn: string;
   private _modifiedOn: string;
 
 
   constructor() {
+    this._assetKind = new AssetKind();
+    this._assetType = new AssetType();
     this._unitOfMeasure = new UnitOfMeasure();
     //this._assetTypeClass = new AssetTypeClass();
-    this._assetType = new AssetType();
     //this._lot = new Lot();
     this._person = new AssetPerson();
     this._site = new Site();
@@ -51,12 +51,20 @@ export class Asset {
     this._tenantId = value;
   }
 
-  get assetKindId(): string {
-    return this._assetKindId;
+  get assetKind(): AssetKind {
+    return this._assetKind;
   }
 
-  set assetKindId(value: string) {
-    this._assetKindId = value;
+  set assetKind(value: AssetKind) {
+    this._assetKind = value;
+  }
+
+  get assetType(): AssetType {
+    return this._assetType;
+  }
+
+  set assetType(value: AssetType) {
+    this._assetType = value;
   }
 
   get serialNumber(): string {
@@ -98,14 +106,6 @@ export class Asset {
   set assetTypeClass(value: AssetTypeClass) {
     this._assetTypeClass = value;
   } */
-
-  get assetType(): AssetType {
-    return this._assetType;
-  }
-
-  set assetType(value: AssetType) {
-    this._assetType = value;
-  }
 
   /*get lot(): Lot {
     return this._lot;

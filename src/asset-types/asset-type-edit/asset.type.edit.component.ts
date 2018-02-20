@@ -46,6 +46,7 @@ export class AssetTypeEditComponent implements OnInit {
   private _doNotDisplayFailureMessage3:boolean;
   private errorCount: number = 0;
   private deleteError: boolean = true;
+  private error: boolean = false;
 
   constructor(private assetTypeService:AssetTypeService,
               private completerService: CompleterService,
@@ -300,18 +301,17 @@ export class AssetTypeEditComponent implements OnInit {
     this.assetTypeService
     .getAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
-      console.log(this.assignedAttributes);
       this.assignedAttributes = next;
         let group: any = {};
         this.assignedAttributes.attributes.forEach((value) => {
-          console.log(this.values.values);
-          let index = this.values.values.findIndex(x => x.attributeId == value.attributeId);
-          if(index == -1) {
+          let editValue = this.values.values.find(x => x.attributeId == value.attributeId);
+          if(!editValue) {
           this.values.values.push(new Value(value.attributeId, ""));
-          index = this.values.values.findIndex(x => x.attributeId == value.attributeId);
+          editValue = this.values.values.find(x => x.attributeId == value.attributeId);
         }
-          group[value.attributeId] = new FormControl(this.values.values[index].text, Validators.required);
+          group[value.attributeId] = new FormControl(editValue.text, Validators.required);
         });
+
         this.attributeEditForm = new FormGroup(group);
         for(let key in this.attributeEditForm.value){
           let index = this.values.values.findIndex(x => x.attributeId == key);
@@ -329,6 +329,7 @@ export class AssetTypeEditComponent implements OnInit {
   }
 
   saveValues() {
+    this.error = false;
     for(let i= this.errorCount; i < this.values.values.length; i++){
       if(!this.values.values[i].valueId) {
         this.values.values[i].assetTypeId = this.assetTypeId;
@@ -340,6 +341,7 @@ export class AssetTypeEditComponent implements OnInit {
               this.router.navigate(['/asset-types']);
             }
           }else {
+            this.error = true;
             this.errorCount = i;
             this.doNotDisplayFailureMessage2 = false;
             return false;
@@ -358,6 +360,7 @@ export class AssetTypeEditComponent implements OnInit {
             this.router.navigate(['/asset-types']);
           }
           }else {
+            this.error = true;
             this.errorCount = i;
             this.doNotDisplayFailureMessage2 = false;
             return false;
@@ -376,7 +379,7 @@ export class AssetTypeEditComponent implements OnInit {
     let that = this;
     return Observable.create(function (observer) {
       that.values.values = that.values.values.filter((value, i) => {
-        if(that.assignedAttributes.attributes.findIndex(x => x.attributeId == value.attributeId) !== -1){
+        if(that.assignedAttributes.attributes.find(x => x.attributeId == value.attributeId)){
             return value;
           }else if (value.valueId) {
             that.assetTypeService
@@ -400,7 +403,7 @@ export class AssetTypeEditComponent implements OnInit {
   }
 
   updateValues() {
-      if(this.errorCount > 0){
+      if(this.error){
         this.saveValues();
       }else {
         this.assetTypeService
