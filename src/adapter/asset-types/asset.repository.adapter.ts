@@ -74,6 +74,14 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     });
   }
 
+  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass> {
+    return this.assetTypesClient
+    .getAssetTypeClassState(assetTypeClassId)
+    .map(value => {
+       return mapObjectProps(value, new AssetTypeClass());
+    });
+  }
+
   public findAssetTypes(searchStr: string, pageSize:number): Observable<AssetTypes> {
     return this.assetTypesClient
     .findAssetTypes(searchStr, pageSize)

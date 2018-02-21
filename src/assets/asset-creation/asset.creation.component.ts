@@ -52,9 +52,9 @@ export class AssetCreationComponent implements OnInit {
 
     this.assetKindId = new FormControl("", [Validators.required]);
     this.assetType = new FormControl("", [Validators.required]);
-    this.serialNumber = new FormControl("", [Validators.required]);
-    this.quantity = new FormControl("", [Validators.required]);
-    this.unitOfMeasure = new FormControl("",);
+    this.serialNumber = new FormControl("");
+    this.quantity = new FormControl("");
+    this.unitOfMeasure = new FormControl("");
     this.site = new FormControl("");
     this.person = new FormControl("");
     this.description = new FormControl("");

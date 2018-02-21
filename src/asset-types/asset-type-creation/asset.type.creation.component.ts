@@ -115,7 +115,7 @@ export class AssetTypeCreationComponent implements OnInit {
               return {
                 assetTypeClassId: v2.assetTypeClassId,
                 name: v2.name,
-                attributeId: v2.assignedAttributes
+                assignedAttributes: v2.assignedAttributes
               };
             })
           })
@@ -235,34 +235,37 @@ export class AssetTypeCreationComponent implements OnInit {
   onAssetTypeClassIdSelect(selected: CompleterItem) {
     if (selected) {
       this.assetType.assetTypeClass = selected.originalObject;
-      this.getAttributes();
+      this.getAttributes(selected.originalObject.assignedAttributes);
     }
   }
 
   onType(dataTypeName: string) {
-    if(dataTypeName == "Boolean") {
-      return "checkbox";
-    }else if(dataTypeName == "Decimal" || "Integer") {
+   if(dataTypeName == "Decimal" || "Integer") {
       return "number";
     }else {
       return "text";
     }
   }
 
-  getAttributes() {
+  getAttributes(assignedAttributes?: any[]) {
+    console.log(this.assetType.assetTypeClass);
 
     this.assetTypeService
     .getAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
+      console.log(next);
       this.assignedAttributes = next;
       let group: any = {};
-      this.assignedAttributes.attributes.forEach((value) => {
+      this.assignedAttributes.attributes.forEach(value => {
       let editValue = this.value.find(x => x.attributeId == value.attributeId);
+      let required = assignedAttributes.find(x => x.attributeId == value.attributeId);
       if(!editValue) {
         this.value.push(new Value(value.attributeId,""));
         editValue = this.value.find(x => x.attributeId == value.attributeId);
       }
-        group[value.attributeId] = new FormControl(editValue.text, Validators.required);
+        group[value.attributeId] = required.required ? new FormControl(editValue.text, Validators.required)
+                                                    : new FormControl(editValue.text);
+        console.log(group);
       });
 
       this.attributeForm = new FormGroup(group);
@@ -270,7 +273,9 @@ export class AssetTypeCreationComponent implements OnInit {
         let index = this.value.findIndex(x => x.attributeId == key);
         this.attributeForm.get(key).valueChanges
         .subscribe(value2 => {
+          console.log(value2);
           this.value[index].text = value2;
+          console.log(this.value[index].text);
         }, error2 => {
           console.log(error2);
         });

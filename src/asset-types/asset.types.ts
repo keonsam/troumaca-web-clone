@@ -4,10 +4,10 @@ import {Sort} from "../sort/sort";
 
 export class AssetTypes {
 
-  private _assetTypes:AssetType[];
+  private _assetTypes:AssetType[] = [];
   private _page:Page;
   private _sort:Sort;
-  
+
   get assetTypes(): AssetType[] {
     return this._assetTypes;
   }

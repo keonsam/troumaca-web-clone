@@ -1,7 +1,6 @@
 import {AssetTypesClient} from "./asset.types.client";
 import {Observable} from "rxjs/Observable";
 import {AssetTypeState} from "./asset.type.state";
-import {AssetTypeClassState} from "./asset.type.class.state";
 import "rxjs/add/observable/of";
 import {AttributeState} from "./attribute.state";
 import {UUIDGenerator} from "../../uuid.generator";
@@ -10,6 +9,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import {AssetTypeStates} from "./asset.type.states";
 import {AttributeStates} from "../attribute/attribute.states";
+import {AssetTypeClassState} from "../asset-type-class/asset.type.class.state";
 import {AssetTypeClassStates} from "../asset-type-class/asset.type.class.states";
 import {ValueState} from "./value.state";
 import {ValueStates} from "./value.states";
@@ -37,6 +37,10 @@ export class AssetTypesClientMock extends AssetTypesClient {
   }
 
   public getAssetTypeState(assetTypeId: string): Observable<AssetTypeState> {
+    return null;
+  }
+
+  public getAssetTypeClassState(assetTypeId: string): Observable<AssetTypeClassState> {
     return null;
   }
 

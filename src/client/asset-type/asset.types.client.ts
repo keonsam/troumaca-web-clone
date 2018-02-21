@@ -2,6 +2,7 @@ import {AssetTypeState} from "./asset.type.state";
 import {Observable} from "rxjs/Observable";
 import {AssetTypeStates} from "./asset.type.states";
 import {AttributeStates} from "../attribute/attribute.states";
+import {AssetTypeClassState} from "../asset-type-class/asset.type.class.state";
 import {AssetTypeClassStates} from "../asset-type-class/asset.type.class.states";
 import {ValueState} from "./value.state";
 import {ValueStates} from "./value.states";
@@ -12,6 +13,7 @@ export abstract class AssetTypesClient {
   abstract getValues(assetTypeId: string): Observable<ValueStates>;
 
   abstract getAssetTypeState(assetTypeId: string): Observable<AssetTypeState>;
+  abstract getAssetTypeClassState(assetTypeClassId: string): Observable<AssetTypeClassState>;
 
   abstract findAssetTypes(searchStr: string, pageSize:number):Observable<AssetTypeStates>;
   abstract findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClassStates>;

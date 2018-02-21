@@ -25,10 +25,10 @@ router.get("/", function (req, res, next){
 
 router.get("/attributes", function (req, res, next) {
   let assetTypeClassId = req.query.assetTypeClassId;
-
   orchestrator
   .getAttributes(assetTypeClassId)
   .subscribe(attributes => {
+    console.log(attributes)
     res.send(JSON.stringify(attributes));
   }, error => {
     res.status(400);
@@ -61,6 +61,21 @@ router.get("/values", function (req, res, next) {
   .getValues(assetTypeId)
   .subscribe(values => {
     let body = JSON.stringify(values);
+    res.send(body);
+  }, error => {
+    res.send(JSON.stringify(error));
+  });
+
+});
+
+router.get("/asset-type-classes/:assetTypeClassId", function (req, res, next) {
+
+  let assetTypeClassId = req.params.assetTypeClassId;
+
+  orchestrator
+  .getAssetTypeClass(assetTypeClassId)
+  .subscribe(assetTypeClass => {
+    let body = JSON.stringify(assetTypeClass);
     res.send(body);
   }, error => {
     res.send(JSON.stringify(error));

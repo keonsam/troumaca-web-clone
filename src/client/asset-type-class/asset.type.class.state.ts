@@ -7,7 +7,7 @@ export class AssetTypeClassState {
   private _tenantId:string;
   private _name:string;
   private _description:string;
-  private _assignedAttributes: string[];
+  private _assignedAttributes: any[];
   private _createdOn:Date;
   private _modifiedOn:Date
 
@@ -43,11 +43,11 @@ export class AssetTypeClassState {
     this._description = value;
   }
 
-  get assignedAttributes(): string[] {
+  get assignedAttributes(): any[] {
     return this._assignedAttributes;
   }
 
-  set assignedAttributes(value: string[]) {
+  set assignedAttributes(value: any[]) {
     this._assignedAttributes = value;
   }
 

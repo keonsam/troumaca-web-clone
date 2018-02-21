@@ -33,7 +33,9 @@ module.exports =  function DatabaseAssetTypesRepository() {
     return Rx.Observable.create(function (observer) {
       db.assetTypeClasses.findOne({assetTypeClassId}, function (err, doc) {
         if (!err) {
-          observer.next(doc.assignedAttributes);
+          let assignedAttributes = [];
+          doc.assignedAttributes.forEach(value => assignedAttributes.push(value.attributeId));
+          observer.next(assignedAttributes);
         } else {
           observer.error(err);
         }
@@ -87,6 +89,21 @@ module.exports =  function DatabaseAssetTypesRepository() {
       db.assetTypes.count({}, function (err, count) {
         if (!err) {
           observer.next(count);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.getAssetTypeClass = function(assetTypeClassId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["assetTypeClassId"] = assetTypeClassId;
+      db.assetTypeClasses.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
         } else {
           observer.error(err);
         }

@@ -47,6 +47,10 @@ module.exports = function AssetTypesOrchestrator() {
     });
   }
 
+  this.getAssetTypeClass = function (assetTypeClassId) {
+    return assetTypesRepository.getAssetTypeClass(assetTypeClassId);
+  };
+
   this.getAssetType = function (assetTypeId) {
     return assetTypesRepository.getAssetType(assetTypeId);
   };

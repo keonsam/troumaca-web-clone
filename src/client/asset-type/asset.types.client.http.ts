@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {AssetTypeState} from "./asset.type.state";
 import {AssetTypeStates} from "./asset.type.states";
 import {AttributeStates} from "../attribute/attribute.states";
+import {AssetTypeClassState} from "../asset-type-class/asset.type.class.state";
 import {AssetTypeClassStates} from "../asset-type-class/asset.type.class.states";
 import {ValueState} from "./value.state";
 import {ValueStates} from "./value.states";
@@ -112,6 +113,16 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .get<AssetTypeState>(url, {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
+  public getAssetTypeClassState(assetTypeClassId: string): Observable<AssetTypeClassState> {
+    let url = `${this.hostPort}/asset-types/asset-type-classes/${assetTypeClassId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .get<AssetTypeClassState>(url, {headers:headers})
     .map(data => {
       return data;
     });

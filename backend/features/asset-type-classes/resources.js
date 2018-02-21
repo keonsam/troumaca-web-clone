@@ -49,7 +49,6 @@ router.get("/assigned-attributes", function (req, res, next) {
   let field = getStringValueOrDefault(req.query.sortField, "");
   let direction = getStringValueOrDefault(req.query.sortOrder, "");
   let assignedArray = req.query.assignedArray ? req.query.assignedArray.split(","): [];
-
   orchestrator
   .getAssignedAttributes(number, size, field, direction, assignedArray)
   .subscribe(attributes => {

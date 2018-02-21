@@ -39,6 +39,7 @@ export class AssetTypeEditComponent implements OnInit {
   private _assignedAttributes: Attributes;
 
   private _values: Values;
+  private _assetTypeClass: AssetTypeClass;
 
   private pageSize:number = 15;
   private _doNotDisplayFailureMessage:boolean;
@@ -108,7 +109,7 @@ export class AssetTypeEditComponent implements OnInit {
         this.materialCode.setValue(assetType.materialCode);
         this.unitOfMeasureId.setValue(assetType.unitOfMeasureId);
         this.assetType = assetType;
-        this.getValues();
+        this.getAssetTypeClass();
       }, error => {
         console.log(error);
       }, () => {
@@ -143,7 +144,7 @@ export class AssetTypeEditComponent implements OnInit {
               return {
                 assetTypeClassId: v2.assetTypeClassId,
                 name: v2.name,
-                attributeId: v2.assignedAttributes
+                assignedAttributes: v2.assignedAttributes
               };
             })
           })
@@ -156,12 +157,25 @@ export class AssetTypeEditComponent implements OnInit {
       });
   }
 
+  private getAssetTypeClass() {
+    this.assetTypeService
+    .getAssetTypeClass(this.assetType.assetTypeClass.assetTypeClassId)
+    .subscribe(next => {
+      this.assetType.assetTypeClass = next;
+      this.getValues();
+    },  error => {
+      console.log(error);
+    }, () => {
+      console.log("complete");
+    });
+  }
+
   private getValues() {
     this.assetTypeService
     .getValues(this.assetTypeId)
     .subscribe(next => {
       this.values = next;
-      this.getAttributes();
+      this.getAttributes(this.assetType.assetTypeClass.assignedAttributes);
     }, error => {
       console.log(error);
     }, () => {
@@ -284,7 +298,7 @@ export class AssetTypeEditComponent implements OnInit {
   onAssetTypeClassIdSelect(selected: CompleterItem) {
     if (selected) {
       this.assetType.assetTypeClass = selected.originalObject;
-      this.getAttributes();
+      this.getAttributes(selected.originalObject.assignedAttributes);
     }
   }
 
@@ -297,19 +311,30 @@ export class AssetTypeEditComponent implements OnInit {
     this.assetType.unitOfMeasureId = value.unitOfMeasureId;
   }
 
-  getAttributes() {
+  onType(dataTypeName: string) {
+   if(dataTypeName == "Decimal" || "Integer") {
+      return "number";
+    }else {
+      return "text";
+    }
+  }
+
+  getAttributes(assignedAttributes?: any[]) {
     this.assetTypeService
     .getAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
       this.assignedAttributes = next;
         let group: any = {};
-        this.assignedAttributes.attributes.forEach((value) => {
+        this.assignedAttributes.attributes.forEach(value => {
           let editValue = this.values.values.find(x => x.attributeId == value.attributeId);
+          let required = assignedAttributes.find(x => x.attributeId == value.attributeId);
           if(!editValue) {
           this.values.values.push(new Value(value.attributeId, ""));
           editValue = this.values.values.find(x => x.attributeId == value.attributeId);
         }
-          group[value.attributeId] = new FormControl(editValue.text, Validators.required);
+
+        group[value.attributeId] = required.required ? new FormControl(editValue.text, Validators.required)
+                                                     : new FormControl(editValue.text);
         });
 
         this.attributeEditForm = new FormGroup(group);

@@ -26,11 +26,11 @@ export class AssetTypeClassService {
     return this.assetTypeClassRepository.getAssetTypeClasses(pageNumber, pageSize, sortOrder);
   }
 
-  public getAvailableAttributes(pageNumber: number, pageSize:number, sortOrder:string, assignedArray: string[]): Observable<Attributes> {
+  public getAvailableAttributes(pageNumber: number, pageSize:number, sortOrder:string, assignedArray: any[]): Observable<Attributes> {
     return this.assetTypeClassRepository.getAvailableAttributes(pageNumber, pageSize, sortOrder, assignedArray);
   }
 
-  public getAssignedAttributes(pageNumber: number, pageSize:number, sortOrder:string, assignedArray: string[]): Observable<Attributes> {
+  public getAssignedAttributes(pageNumber: number, pageSize:number, sortOrder:string, assignedArray: any[]): Observable<Attributes> {
     return this.assetTypeClassRepository.getAssignedAttributes(pageNumber, pageSize, sortOrder, assignedArray);
   }
 

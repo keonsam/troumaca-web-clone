@@ -32,6 +32,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
   private _attributeForm: FormGroup;
 
   private _assignedArray: string[];
+  private _assignedArrayObject: any[];
 
   private attribute: Attribute;
   private _dataTypes: DataType[];
@@ -122,6 +123,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
     });
 
     this.assignedArray = [];
+    this.assignedArrayObject = [];
 
     this.dataTypes = [];
 
@@ -257,6 +259,14 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this._assignedArray = value;
   }
 
+  get assignedArrayObject() : any[] {
+    return this._assignedArrayObject;
+  }
+
+  set assignedArrayObject(value: any[]) {
+    this._assignedArrayObject = value;
+  }
+
   get doNotDisplayFailureMessage(): boolean {
     return this._doNotDisplayFailureMessage;
   }
@@ -311,13 +321,21 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this.getAvailableAttributes();
   }
 
+
+  onCheckBoxChange(event,attributeId) {
+    let index = this.assignedArrayObject.findIndex(x => x.attributeId == attributeId);
+    this.assignedArrayObject[index].required = event.target.checked;
+  }
+
   onAvailableDoubleClick(attributeId: string) {
    this.assignedArray.push(attributeId);
+   this.assignedArrayObject.push({required: "", attributeId});
    this.updateTable();
   }
 
   onAssignedDoubleClick(attributeId: string) {
   this.assignedArray = this.assignedArray.filter(val => val != attributeId);
+  this.assignedArrayObject = this.assignedArrayObject.filter(val => val.attributeId != attributeId);
   this.updateTable();
   }
 
@@ -383,7 +401,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
   onCreate() {
 
-    this.assetTypeClass.assignedAttributes = this.assignedArray;
+    this.assetTypeClass.assignedAttributes = this.assignedArrayObject;
     this.doNotDisplayFailureMessage = true;
 
     this.assetTypeClassService

@@ -35,6 +35,7 @@ export class AssetTypeClassEditComponent implements OnInit {
   private _attributeForm: FormGroup;
 
   private _assignedArray: string[];
+  private _assignedArrayObject: any[];
 
   private attribute: Attribute;
   private _dataTypes: DataType[];
@@ -117,6 +118,7 @@ export class AssetTypeClassEditComponent implements OnInit {
      this.assignedAttributes = newAttributes;
 
      this.assignedArray = [];
+     this.assignedArrayObject = [];
 
      this.dataTypes = [];
 
@@ -143,7 +145,8 @@ export class AssetTypeClassEditComponent implements OnInit {
        .subscribe(assetTypeClass =>{
         this.name.setValue(assetTypeClass.name);
         this.description.setValue(assetTypeClass.description);
-        this.assignedArray = assetTypeClass.assignedAttributes;
+        this.assignedArray = assetTypeClass.assignedAttributes.map(x => x.attributeId);
+        this.assignedArrayObject = assetTypeClass.assignedAttributes;
         this.assetTypeClass = assetTypeClass;
         this.updateTable();
       }, error => {
@@ -274,6 +277,14 @@ export class AssetTypeClassEditComponent implements OnInit {
      this._assignedArray = value;
    }
 
+   get assignedArrayObject() : any[] {
+     return this._assignedArrayObject;
+   }
+
+   set assignedArrayObject(value: any[]) {
+     this._assignedArrayObject = value;
+   }
+
    get doNotDisplayFailureMessage(): boolean {
      return this._doNotDisplayFailureMessage;
    }
@@ -296,6 +307,16 @@ export class AssetTypeClassEditComponent implements OnInit {
 
    set newOrEdit(value: string) {
      this._newOrEdit = value;
+   }
+
+   isChecked(attributeId) {
+     let index = this.assignedArrayObject.findIndex(x => x.attributeId == attributeId);
+     return this.assignedArrayObject[index].required;
+   }
+   
+   onCheckBoxChange(event,attributeId) {
+     let index = this.assignedArrayObject.findIndex(x => x.attributeId == attributeId);
+     this.assignedArrayObject[index].required = event.target.checked;
    }
 
    getAvailableAttributes() {
@@ -331,11 +352,13 @@ export class AssetTypeClassEditComponent implements OnInit {
 
    onAvailableDoubleClick(attributeId: string) {
     this.assignedArray.push(attributeId);
+    this.assignedArrayObject.push({required: "", attributeId});
     this.updateTable();
    }
 
    onAssignedDoubleClick(attributeId: string) {
    this.assignedArray = this.assignedArray.filter(val => val != attributeId);
+   this.assignedArrayObject = this.assignedArrayObject.filter(val => val.attributeId != attributeId);
    this.updateTable();
    }
 
@@ -401,7 +424,7 @@ export class AssetTypeClassEditComponent implements OnInit {
 
    onCreate() {
      this.doNotDisplayFailureMessage = true;
-     this.assetTypeClass.assignedAttributes = this.assignedArray;
+     this.assetTypeClass.assignedAttributes = this.assignedArrayObject;
      this.assetTypeClassService
      .updateAssetTypeClass(this.assetTypeClassId, this.assetTypeClass)
      .subscribe(value => {
