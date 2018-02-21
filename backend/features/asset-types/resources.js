@@ -4,7 +4,7 @@ let assetTypesOrchestrator = require('./orchestrator');
 
 let orchestrator = new assetTypesOrchestrator();
 
-router.get("/", function (req, res, next){
+router.get("/", function (req, res, next) {
 
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
   let size = getNumericValueOrDefault(req.query.pageSize, 10);

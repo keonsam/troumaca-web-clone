@@ -2,12 +2,9 @@ import {NgModule} from '@angular/core';
 import {leftMenuRepositoryProvider, menuRepositoryProvider} from "./menu/menu.repository.adapter.provider";
 import {accountRepositoryProvider} from "./account/account.repository.adapter.provider";
 import {reportRepositoryProvider} from "./report/report.repository.adapter.provider";
-import {signUpRepositoryProvider} from "./sign-up/sign.up.repository.adapter.provider";
-import {signInRepositoryProvider} from "./sign-in/sign.in.repository.adapter.provider";
-import {forgotPasswordRepositoryProvider} from "./forgot-password/forgot.password.repository.adapter.provider";
+// import {forgotPasswordRepositoryProvider} from "./forgot-password/forgot.password.repository.adapter.provider";
 import {organizationRepositoryProvider, partyRepositoryProvider, assetPersonRepositoryProvider} from "./party/party.repository.adapter.provider";
 import {securityRepositoryProvider} from "./security/security.repository.provider";
-import {authenticationRepositoryProvider} from "./login/login.repository.adapter.provider";
 import {changePasswordRepositoryProvider} from "./change-password/change.password.repository.adapter.provider";
 import {sessionRepositoryProvider} from "./session/session.repository.adapter.provider";
 import {activityRepositoryProvider} from "./activity/activity.repository.adapter.provider";
@@ -24,6 +21,7 @@ import {unitOfMeasureRepositoryProvider} from "./unit-of-measures/unit.of.measur
 import {contractRepositoryProvider} from "./contracts/contracts.repository.adapter.provider";
 import {quoteRepositoryProvider} from "./quote/quote.repository.adapter.provider";
 import {shipmentRepositoryProvider} from "./shipment/shipment.repository.adapter.provider";
+import {authenticationRepositoryProvider} from "./authentication/authentication.repository.adapter.provider";
 
 @NgModule({
   imports:      [],
@@ -33,14 +31,11 @@ import {shipmentRepositoryProvider} from "./shipment/shipment.repository.adapter
     menuRepositoryProvider,
     accountRepositoryProvider,
     reportRepositoryProvider,
-    signUpRepositoryProvider,
     leftMenuRepositoryProvider,
-    signInRepositoryProvider,
-    forgotPasswordRepositoryProvider,
+    // forgotPasswordRepositoryProvider,
     organizationRepositoryProvider,
     partyRepositoryProvider,
     securityRepositoryProvider,
-    authenticationRepositoryProvider,
     changePasswordRepositoryProvider,
     sessionRepositoryProvider,
     activityRepositoryProvider,
@@ -58,7 +53,8 @@ import {shipmentRepositoryProvider} from "./shipment/shipment.repository.adapter
     assetPersonRepositoryProvider,
     contractRepositoryProvider,
     quoteRepositoryProvider,
-    shipmentRepositoryProvider
+    shipmentRepositoryProvider,
+    authenticationRepositoryProvider
   ]
 })
 export class AdapterModule { }

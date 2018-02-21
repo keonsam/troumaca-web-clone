@@ -1,4 +1,4 @@
-var factoryOptions = {
+let factoryOptions = {
   "useDatabase": true
 };
 
@@ -28,6 +28,7 @@ let siteResource = require('./features/site/resources');
 let attributesResource = require('./features/attributes/resources');
 let assetsResource = require('./features/asset-types/resources');
 let shipmentResource = require('./features/shipment/resources');
+let credentialResource = require('./features/credential/resources');
 
 let app = express();
 
@@ -35,7 +36,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
 app.use(express.static(path.join(__dirname, 'dist')));
-
 app.use(cors());
 
 //app.use('/assets', assets);
@@ -55,6 +55,7 @@ app.use('/sites', siteResource);
 app.use('/attributes', attributesResource);
 app.use('/asset-types', assetsResource);
 app.use('/shipments', shipmentResource);
+app.use('/credentials', credentialResource);
 // app.set('view engine', 'ejs');
 
 // Needs to introduce a middle where that will check active session
