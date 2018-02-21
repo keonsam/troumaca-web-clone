@@ -20,10 +20,6 @@ export class EventService {
     this.subject.next({ "name":name, "data":data });
   }
 
-  clearEvent() {
-    this.subject.next();
-  }
-
   getEvent(): Observable<any> {
     return this.subject.asObservable();
   }

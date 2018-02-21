@@ -1,0 +1,132 @@
+.all-wrapper {
+  -webkit-box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  max-width: 1600px;
+  margin: 0px auto;
+  position: relative;
+  min-height: 100%;
+}
+
+.all-wrapper.with-pattern {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 0px;
+  background-image: url("../../images/bg-pattern2.png");
+  background-size: contain;
+  background-repeat: repeat;
+  background-position: 0 0;
+}
+
+.all-wrapper.no-padding-content .content-box {
+  padding: 0px;
+}
+
+.all-wrapper.white-bg-content .content-w {
+  background-color: #fff;
+  background-image: none;
+}
+
+.auth-wrapper .all-wrapper {
+  padding: 100px;
+}
+
+/*
+ #12. Authorization styles
+*/
+.auth-box-w {
+  max-width: 450px;
+  margin: 0px auto;
+  background-color: #fff;
+  border-radius: 4px;
+  -webkit-box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.1);
+}
+
+.auth-box-w.wider {
+  max-width: 500px;
+}
+
+.auth-box-w .logged-user-w {
+  padding-top: 0px;
+  padding-bottom: 10px;
+}
+
+.auth-box-w .logo-w {
+  text-align: center;
+  padding: 20%;
+}
+
+.auth-box-w .auth-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+  padding-left: 80px;
+}
+
+.auth-box-w .auth-header:after {
+  content: "";
+  background-color: #047bf8;
+  width: 32px;
+  height: 7px;
+  border-radius: 2px;
+  display: block;
+  position: absolute;
+  bottom: -4px;
+  left: 80px;
+}
+
+.auth-box-w form {
+  padding: 20px 80px;
+  padding-bottom: 60px;
+}
+
+.auth-box-w form .form-check-inline {
+  margin-left: 1rem;
+}
+
+.auth-box-w form .form-group {
+  position: relative;
+}
+
+.auth-box-w form .form-group .pre-icon {
+  position: absolute;
+  bottom: 5px;
+  font-size: 24px;
+  color: #047bf8;
+  left: -38px;
+}
+
+.auth-box-w .buttons-w {
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.auth-box-w.centered {
+  text-align: center;
+}
+
+.auth-box-w.centered .auth-header {
+  padding-left: 0px;
+}
+
+.auth-box-w.centered .auth-header:after {
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  left: 50%;
+}
+
+/*
+  Troumaca overrides etc.
+*/
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}

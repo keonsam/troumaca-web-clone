@@ -1,4 +1,3 @@
-let uuidv5 = require('uuid/v5');
 let Datastore = require('nedb');
 let Rx = require("rxjs");
 let path = require('path');
@@ -32,7 +31,7 @@ module.exports =  function DatabaseAssetTypesRepository() {
         observer.complete();
       });
     });
-  }
+  };
 
   this.getAssetTypeCount = function () {
     return Rx.Observable.create(function (observer) {

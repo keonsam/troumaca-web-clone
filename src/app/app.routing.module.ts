@@ -1,6 +1,5 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
-import {LobbyHomeComponent} from "./lobby-home/lobby.home.component";
 import {PageNotFoundComponent} from "./page-not-found/page.not.found.component";
 import {AssetComponent} from "../assets/asset.component";
 import {AssetTypeComponent} from "../asset-types/asset.type.component";
@@ -50,10 +49,26 @@ import {ShipmentListComponent} from "../shipments/shipment-list/shipment.list.co
 import {ShipmentCreationComponent} from "../shipments/shipment-creation/shipment.creation.component";
 import {ShipmentEditComponent} from "../shipments/shipment-edit/shipment.edit.component";
 import {ShipmentComponent} from "../shipments/shipment.component";
+import {AuthenticationComponent} from "../authentication/authentication.component";
+import {LoginComponent} from "../authentication/login/login.component";
+import {ForgotPasswordComponent} from "../authentication/forgot-password/forgot.password.component";
+import {RegisterComponent} from "../authentication/register/register.component";
+import {HomeComponent} from "../home/home.component";
+import {FrontHomeComponent} from "../home/front-home/front.home.component";
+import {LobbyHomeComponent} from "../home/lobby-home/lobby.home.component";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
-  { path: 'home', component: LobbyHomeComponent },
+  { path: 'home', component: HomeComponent, children: [
+    { path: '',  component: FrontHomeComponent },
+    { path: 'lobby',  component: LobbyHomeComponent },
+  ]},
+  { path: 'authentication', component: AuthenticationComponent, children:[
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: 'login',  component: LoginComponent },
+    { path: 'forgot-password', component: ForgotPasswordComponent },
+    { path: 'register', component: RegisterComponent }
+  ]},
   { path: 'assets', component: AssetComponent, children: [
     { path: '',redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: AssetListComponent },

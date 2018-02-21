@@ -21,7 +21,9 @@ export class SignUpComponent implements OnInit {
   private _confirmPassword:FormControl;
   private _registered: boolean;
 
-  constructor(private signUpService:SignUpService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private signUpService:SignUpService,
+              private formBuilder: FormBuilder,
+              private router: Router) {
 
   this.username = new FormControl("", [
     Validators.required,

@@ -1,0 +1,37 @@
+<div class="all-wrapper menu-side with-pattern">
+  <div class="auth-box-w wider">
+    <div class="logo-w">
+      <a routerLink="/home"><img alt="" src="/images/logo-big.png"></a>
+    </div>
+    <h4 class="auth-header">
+      Create new account
+    </h4>
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" >
+      <div class="form-group">
+        <label for=""> Email or Phone</label><input class="form-control" formControlName="username" autocomplete="username" placeholder="Enter Email or Phone" required type="text">
+        <div class="pre-icon os-icon os-icon-email-2-at2"></div>
+      </div>
+      <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid phone or email username.</div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for=""> Password</label><input class="form-control" formControlName="password" autocomplete="new-password" placeholder="Enter Password" required type="password">
+            <div class="pre-icon os-icon os-icon-fingerprint"></div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="">Confirm Password</label><input class="form-control" formControlName="confirmPassword" autocomplete="new-password" placeholder="Password" required type="password">
+          </div>
+        </div>
+      </div>
+      <div [hidden]="password.valid || password.pristine || confirmPassword.valid || confirmPassword.pristine" class="alert alert-danger">
+        <div [hidden]="password.valid || password.pristine">Invalid password confirmation.</div>
+        <div [hidden]="confirmPassword.valid || confirmPassword.pristine">Invalid password confirmation.</div>
+      </div>
+      <div class="buttons-w">
+        <button class="btn btn-primary" [disabled]="!registrationForm.valid">Register Now</button> <object style="margin-top: 22px;" align="right"><a routerLink="/authentication/login">Login</a></object>
+      </div>
+    </form>
+  </div>
+</div>
