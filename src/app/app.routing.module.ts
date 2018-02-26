@@ -1,6 +1,5 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
-import {LobbyHomeComponent} from "./lobby-home/lobby.home.component";
 import {PageNotFoundComponent} from "./page-not-found/page.not.found.component";
 import {AssetComponent} from "../assets/asset.component";
 import {AssetTypeComponent} from "../asset-types/asset.type.component";
@@ -37,6 +36,8 @@ import {SitePhoneEditComponent} from "../site/site-phone-edit/site.phone.edit.co
 import {PartyComponent} from "../parties/party.component";
 import {OrganizationCompanyComponent} from "../parties/organizations/organization-company/organization.company.component";
 import {UserListComponent} from "../parties/users/user-list/user.list.component";
+import {UserCreationComponent} from "../parties/users/user-creation/user.creation.component";
+import {UserEditComponent} from "../parties/users/user-edit/user.edit.component";
 import {ContractComponent} from "../contracts/contract.component";
 import {OrderListComponent} from "../contracts/orders/order.list.component";
 import {SaleOrderListComponent} from "../contracts/orders/sales/sale.order.list.component";
@@ -50,10 +51,26 @@ import {ShipmentListComponent} from "../shipments/shipment-list/shipment.list.co
 import {ShipmentCreationComponent} from "../shipments/shipment-creation/shipment.creation.component";
 import {ShipmentEditComponent} from "../shipments/shipment-edit/shipment.edit.component";
 import {ShipmentComponent} from "../shipments/shipment.component";
+import {AuthenticationComponent} from "../authentication/authentication.component";
+import {LoginComponent} from "../authentication/login/login.component";
+import {ForgotPasswordComponent} from "../authentication/forgot-password/forgot.password.component";
+import {RegisterComponent} from "../authentication/register/register.component";
+import {HomeComponent} from "../home/home.component";
+import {FrontHomeComponent} from "../home/front-home/front.home.component";
+import {LobbyHomeComponent} from "../home/lobby-home/lobby.home.component";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
-  { path: 'home', component: LobbyHomeComponent },
+  { path: 'home', component: HomeComponent, children: [
+    { path: '',  component: FrontHomeComponent },
+    { path: 'lobby',  component: LobbyHomeComponent },
+  ]},
+  { path: 'authentication', component: AuthenticationComponent, children:[
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: 'login',  component: LoginComponent },
+    { path: 'forgot-password', component: ForgotPasswordComponent },
+    { path: 'register', component: RegisterComponent }
+  ]},
   { path: 'assets', component: AssetComponent, children: [
     { path: '',redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: AssetListComponent },
@@ -99,7 +116,9 @@ const appRoutes: Routes = [
   { path: 'parties', component: PartyComponent, children:[
     { path: '', redirectTo: 'organizations/company', pathMatch: 'full' },
     { path: 'organizations/company', component: OrganizationCompanyComponent, data:{menuName:'organizations-menu'} },
-    { path: 'users', component: UserListComponent, data:{menuName:'users-menu'} }
+    { path: 'users', component: UserListComponent, data:{menuName:'users-menu'} },
+    { path: 'users/create', component: UserCreationComponent },
+    { path: 'users/:partyId/edit', component: UserEditComponent }
   ]},
   { path: 'contracts', component: ContractComponent, children:[
     { path: '', redirectTo: 'orders', pathMatch: 'full' },

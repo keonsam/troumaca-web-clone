@@ -1,27 +1,12 @@
-export class PersonState {
+import {PartyState} from "./party.state";
 
-  private _partyId:string;
-  private _name: string;
+export class PersonState extends PartyState {
+
   private _firstName:string;
   private _middleName:string;
   private _lastName:string;
+  private _username: string;
   private _dateOfBirth:Date;
-
-  get partyId(): string {
-    return this._partyId;
-  }
-
-  set partyId(value: string) {
-    this._partyId = value;
-  }
-
-  get name(): string {
-    return this._name;
-  }
-
-  set name(value: string) {
-    this._name = value;
-  }
 
   get firstName(): string {
     return this._firstName;
@@ -47,12 +32,33 @@ export class PersonState {
     this._lastName = value;
   }
 
+  get username(): string {
+    return this._username;
+  }
+
+  set username(value: string) {
+    this._username = value;
+  }
+
   get dateOfBirth(): Date {
     return this._dateOfBirth;
   }
 
   set dateOfBirth(value: Date) {
     this._dateOfBirth = value;
+  }
+
+  toJson() {
+    return {
+      partyId: this.partyId,
+      firstName: this.firstName,
+      middleName: this.middleName,
+      lastName: this.lastName,
+      username: this.username,
+      dateOfBirth: this.dateOfBirth,
+      createdOn: this.createdOn,
+      modifiedOn: this.modifiedOn
+    }
   }
 
 }

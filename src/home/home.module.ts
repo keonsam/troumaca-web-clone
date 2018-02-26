@@ -1,20 +1,33 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {HomeComponent} from "./home.component";
-import {homeRouting} from "./home.routing";
 import {RouterModule} from "@angular/router";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MenuModule} from "../menu/menu.module";
+import {LobbyHomeComponent} from "./lobby-home/lobby.home.component";
+import {FrontHomeComponent} from "./front-home/front.home.component";
 
 
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     RouterModule,
-    homeRouting
+    FormsModule,
+    ReactiveFormsModule,
+    MenuModule
   ],
   declarations: [
-    HomeComponent
+    HomeComponent,
+    LobbyHomeComponent,
+    FrontHomeComponent
   ],
   providers: [],
-  exports: [HomeComponent]
+  exports: [
+    HomeComponent,
+    LobbyHomeComponent,
+    FrontHomeComponent
+  ]
 })
 export class HomeModule {}

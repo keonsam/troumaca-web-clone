@@ -15,7 +15,6 @@ import {HomeModule} from '../home/home.module';
 import {MenuModule} from "../menu/menu.module";
 import {ClientModule} from "../client/client.module";
 import {AdapterModule} from "../adapter/adapter.module";
-import {LoginModule} from "../login/login.module";
 import {AccountModule} from "../account/account.module";
 import {ReportModule} from "../report/report.module";
 import {SignUpModule} from "../sign-up/sign.up.module";
@@ -30,8 +29,6 @@ import {WorkOrderModule} from "../work-order/work.order.module";
 import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 import {GoodsModule} from "../goods/goods.module";
 import {AssetModule} from "../assets/asset.module";
-import {FrontHomeModule} from "./front-home/front.home.module";
-import {LobbyHomeModule} from "./lobby-home/lobby.home.module";
 import {AppRoutingModule} from "./app.routing.module";
 import {AttributeModule} from "../attributes/attribute.module";
 import {AssetTypeClassModule} from "../asset-type-classes/asset.type.class.module";
@@ -42,6 +39,7 @@ import {PartyModule} from "../parties/party.module";
 import {ContractModule} from "../contracts/contract.module";
 import {QuoteModule} from "../quotes/quote.module";
 import {ShipmentModule} from "../shipments/shipment.module";
+import {AuthenticationModule} from "../authentication/authentication.module";
 
 
 @NgModule({
@@ -53,11 +51,11 @@ import {ShipmentModule} from "../shipments/shipment.module";
     HttpClientModule,
     MenuModule,
     // routing,
-    // HomeModule,
+    HomeModule,
     PartyModule,
     ClientModule,
     AdapterModule,
-    // LoginModule,
+    AuthenticationModule,
     // AccountModule,
     // ReportModule,
     // SignUpModule,
@@ -71,8 +69,6 @@ import {ShipmentModule} from "../shipments/shipment.module";
     // WorkOrderModule,
     AssetModule,
     // GoodsModule,
-    // FrontHomeModule,
-    LobbyHomeModule,
     AttributeModule,
     AssetTypeClassModule,
     SiteModule,

@@ -37,7 +37,7 @@ module.exports =  function DatabaseAttributeRepository() {
         observer.complete();
       });
     });
-  }
+  };
 
   this.getDataTypes = function () {
 
@@ -67,7 +67,7 @@ module.exports =  function DatabaseAttributeRepository() {
         observer.complete();
       });
     });
-  }
+  };
 
   this.getAttributeCount = function () {
     return Rx.Observable.create(function (observer) {

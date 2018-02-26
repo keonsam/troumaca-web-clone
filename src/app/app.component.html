@@ -1,10 +1,11 @@
+
 <div class="all-wrapper menu-side no-padding-content container-main">
 
   <div class="layout-w">
       <!--------------------
       START - Mobile Menu
       -------------------->
-      <mobile-menu></mobile-menu>
+      <mobile-menu *ngIf="isLoggedIn"></mobile-menu>
       <!--------------------
       END - Mobile Menu
       -------------------->
@@ -15,7 +16,7 @@
       <!--------------------
       START - Menu side compact
       -------------------->
-      <side-menu></side-menu>
+      <side-menu *ngIf="isLoggedIn"></side-menu>
       <!--------------------
       END - Menu side compact
       -------------------->

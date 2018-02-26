@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from "@angular/router";
 import "rxjs/add/operator/filter";
 import {AppDynamicStyle} from "./app.dynamic.style";
+import {EventName, EventService} from "../event/event.service";
 
 @Component({
   selector: 'app',
@@ -28,8 +29,18 @@ export class AppComponent implements OnInit{
     "register"
   ];
 
-  constructor(private router:Router, route:ActivatedRoute) {
-    // this.isLoggedIn = true;
+  constructor(private router:Router,
+              private route:ActivatedRoute,
+              private eventService:EventService) {
+    this.isLoggedIn = true;
+    this.eventService
+    .getEvent()
+    .subscribe(value => {
+      if (value.name === EventName.LOGIN) {
+        this.isLoggedIn = true;
+      }
+    });
+
     // this.styleMap.set("/", new AppDynamicStyle(true, false, false));
     // this.styleMap.set("/home", new AppDynamicStyle(true, false, false));
     // this.styleMap.set("/login", new AppDynamicStyle(false, false, true));

@@ -6,7 +6,7 @@
 
     <div class="element-wrapper">
       <h6 class="element-header">
-        User Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" [routerLink]="routerLinkCreatePhone" href="#">New</a></object>
+        User Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" [routerLink]="routerLinkCreateUser" href="#">New</a></object>
       </h6>
       <div class="element-box">
 
@@ -21,35 +21,58 @@
           <table class="table table-striped table-lightfont table-full-width">
             <thead>
             <tr>
-              <th>Name</th>
-              <th>Number</th>
-              <th>Description</th>
+              <th>First Name</th>
+              <th>Middle Name</th>
+              <th>Last Name</th>
+              <th>Username</th>
               <th>Actions</th>
             </tr>
             </thead>
             <tfoot>
             <tr>
-              <th>Name</th>
-              <th>Number</th>
-              <th>Description</th>
+              <th>First Name</th>
+              <th>Middle Name</th>
+              <th>Last Name</th>
+              <th>Username</th>
               <th>Actions</th>
             </tr>
             </tfoot>
             <tbody>
-            <tr role="row" *ngFor="let party of parties.parties; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-              <td>{{party.name}}</td>
-              <td>{{party.partyId}}</td>
-              <td>{{party.createdOn}}</td>
+            <tr role="row" *ngFor="let person of persons.persons; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+              <td>{{person.firstName}}</td>
+              <td>{{person.middleName}}</td>
+              <td>{{person.lastName}}</td>
+              <td>{{person.username}}</td>
               <td class="row-actions">
-                <a [routerLink]="['/parties/customers', party.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" (click)="onDelete();false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+                <a [routerLink]="['/parties/users', person.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(person.partyId, person.username)"><i class="os-icon os-icon-ui-15"></i></a>
               </td>
             </tr>
-            <tr *ngIf="parties.parties.length <= 0" class="odd">
+            <tr *ngIf="persons.persons.length <= 0" class="odd">
               <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
             </tr>
             </tbody>
           </table>
-          <paging [page]="parties.page" (requestPage)="onRequestPage($event)"></paging>
+          <div aria-labelledby="DeleteModalLabel" class="modal fade bd-example-modal-sm" id="DeleteModal1" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+           <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+             <div class="modal-header">
+              <h5 class="modal-title" id="DeleteModalLabel">
+               Delete User {{username}}
+              </h5>
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
+             </div>
+             <div class="modal-body">
+             <p>Are you sure you want to delete {{username}}?</p>
+             </div>
+                <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
+                <button class="btn btn-danger" type="button" data-dismiss="modal" (click)="onDelete()"> Delete</button>
+               </div>
+              </div>
+             </div>
+           </div>
+
+          <paging [page]="persons.page" (requestPage)="onRequestPage($event)"></paging>
         </div>
 
       </div>

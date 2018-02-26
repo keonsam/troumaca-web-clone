@@ -4,7 +4,7 @@ let assetTypesOrchestrator = require('./orchestrator');
 
 let orchestrator = new assetTypesOrchestrator();
 
-router.get("/", function (req, res, next){
+router.get("/", function (req, res, next) {
 
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
   let size = getNumericValueOrDefault(req.query.pageSize, 10);
@@ -168,6 +168,7 @@ router.delete("/values/:valueId", function (req, res, next) {
       console.log(error);
     })
 });
+
 router.delete("/:assetTypeId", function (req, res, next) {
   let assetTypeId = req.params.assetTypeId;
   orchestrator

@@ -1,4 +1,4 @@
-var factoryOptions = {
+let factoryOptions = {
   "useDatabase": true
 };
 
@@ -28,33 +28,28 @@ let siteResource = require('./features/site/resources');
 let attributesResource = require('./features/attributes/resources');
 let assetsResource = require('./features/asset-types/resources');
 let shipmentResource = require('./features/shipment/resources');
-
+let credentialResource = require('./features/credential/resources');
+let partyResource = require('./features/party/resources');
 let app = express();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
 app.use(express.static(path.join(__dirname, 'dist')));
-
 app.use(cors());
 
-//app.use('/assets', assets);
+
 app.use('/asset', asset);
-// app.use('/lots', lots);
-//app.use('/asset-types', assetTypes);
 app.use('/unit-of-measures', unitOfMeasures);
-
 app.use('/sites/physical-sites', unionOfPhysicalSites);
-// app.use('/sites/virtual-sites', emailSites);
-// app.use('/sites/virtual-sites/phones', telephonicSites);
-
-app.use('/parties/persons', persons);
 app.use('/assets', assetResource);
 app.use('/asset-type-classes', assetTypeClassesResource);
 app.use('/sites', siteResource);
 app.use('/attributes', attributesResource);
 app.use('/asset-types', assetsResource);
 app.use('/shipments', shipmentResource);
+app.use('/credentials', credentialResource);
+app.use('/parties', partyResource);
 // app.set('view engine', 'ejs');
 
 // Needs to introduce a middle where that will check active session
