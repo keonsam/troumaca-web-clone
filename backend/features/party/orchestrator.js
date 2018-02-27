@@ -49,6 +49,10 @@ module.exports = function PartyOrchestrator() {
     return partyRepository.updateCredential(partyId, credential);
   }
 
+  this.updateUserPhoto = function (partyId, imageStr) {
+    return partyRepository.updateUserPhoto(partyId, imageStr);
+  }
+
   function getSortOrderOrDefault(field, direction) {
     let sort = {};
     if (field && direction) {

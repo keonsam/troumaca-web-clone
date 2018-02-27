@@ -118,35 +118,55 @@ module.exports =  function DatabasePartyRepository() {
    });
 };
 
-this.updatePerson = function(partyId, person) {
-  return Rx.Observable.create(function (observer) {
-    let query = {};
-    query["partyId"] = partyId;
-    db.persons.update(query, person, {}, function (err, numReplaced) {
-      if (!err) {
-        observer.next(numReplaced);
-      } else {
-        observer.error(err);
-      }
-      observer.complete();
-    })
-  });
-};
+  this.updatePerson = function(partyId, person) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["partyId"] = partyId;
+      db.persons.update(query, person, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
 
-this.updateCredential = function(partyId, credential) {
-  return Rx.Observable.create(function (observer) {
-    let query = {};
-    query["partyId"] = partyId;
-    db.credentials.update(query, {$set : credential}, {}, function (err, numReplaced) {
-      if (!err) {
-        observer.next(numReplaced);
-      } else {
-        observer.error(err);
-      }
-      observer.complete();
-    })
-  });
-};
+  this.updateCredential = function(partyId, credential) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["partyId"] = partyId;
+      db.credentials.update(query, {$set : credential}, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
+
+  this.updateUserPhoto = function(partyId, imageStr) {
+    return Rx.Observable.create(function (observer) {
+
+      let query = {};
+      let photo = {};
+      query["partyId"] = partyId;
+      photo["partyId"] = partyId;
+      photo["imageStr"] = imageStr;
+      console.log(photo);
+      db.usersPhotos.update(query, photo, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
 
 
 }

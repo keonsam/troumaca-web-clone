@@ -12,10 +12,13 @@ let theSitesDb = path.resolve(__dirname, '..',) + '/nedb/sites.db';
 let theMeasuresDb = path.resolve(__dirname, '..',) + '/nedb/unit-of-measures.db';
 let thePersonsDb = path.resolve(__dirname, '..',) + '/nedb/persons.db';
 let theAssetKindsDb = path.resolve(__dirname, '..',) + '/nedb/asset-kinds.db';
-let credentialDb = path.resolve(__dirname, '..',) + '/nedb/credentials.db';
+let theCredentialDb = path.resolve(__dirname, '..',) + '/nedb/credentials.db';
+let theUsersPhotoDb = path.resolve(__dirname, '..',) + '/nedb/file_meta_data/users-photos.db';
 
+db.usersPhotos = new Datastore(theUsersPhotoDb);
+db.usersPhotos.loadDatabase(function (err) { console.log(err); });
 
-db.credentials = new Datastore(credentialDb);
+db.credentials = new Datastore(theCredentialDb);
 db.credentials.loadDatabase(function (err) { console.log(err); });
 
 db.assetKinds = new Datastore(theAssetKindsDb);

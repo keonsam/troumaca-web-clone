@@ -41,7 +41,6 @@ import {QuoteModule} from "../quotes/quote.module";
 import {ShipmentModule} from "../shipments/shipment.module";
 import {AuthenticationModule} from "../authentication/authentication.module";
 
-
 @NgModule({
   imports: [
     BrowserModule,
@@ -75,7 +74,7 @@ import {AuthenticationModule} from "../authentication/authentication.module";
     ContractModule,
     QuoteModule,
     AppRoutingModule,
-    ShipmentModule
+    ShipmentModule,
   ],
   declarations: [
     AppComponent,

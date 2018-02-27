@@ -52,6 +52,19 @@ module.exports =  function DatabaseCredentialRepository() {
     }
   };
 
+  this.isValidCurrentPassword = function (passwordObj) {
+    let password = passwordObj.password;
+
+    return this.validateCurrentPassword(password)
+    .map(password => {
+      if (password) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
+
   this.isValidPassword = function (passwordObj) {
     let password = passwordObj.password;
 
@@ -92,6 +105,21 @@ module.exports =  function DatabaseCredentialRepository() {
       });
     });
   };
+
+  this.validateCurrentPassword = function(password) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["password"] = password;
+      db.credentials.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
 
   this.addCredential = function (credential) {
     credential.credentialId = newUuidGenerator.generateUUID();

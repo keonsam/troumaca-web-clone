@@ -5,6 +5,7 @@ import {PartyEventService} from "../../party.event.service";
 import {PartyService} from "../../party.service";
 import {Person} from "../../person";
 import {Credential} from "../../credential";
+import {AuthenticationService} from "../../../authentication/authentication.service";
 
 @Component({
   selector: 'user-creation',
@@ -18,8 +19,6 @@ export class UserCreationComponent implements OnInit {
   private _middleName: FormControl;
   private _lastName: FormControl;
   private _username: FormControl;
-  private _password: FormControl;
-  private _confirmPassword: FormControl;
 
 
   private _userForm: FormGroup;
@@ -33,6 +32,7 @@ export class UserCreationComponent implements OnInit {
   constructor(private partyEventService: PartyEventService,
               private partyService: PartyService,
               private formBuilder: FormBuilder,
+              private authenticationService: AuthenticationService,
               private router: Router) {
 
     this.person = new Person();
@@ -40,7 +40,7 @@ export class UserCreationComponent implements OnInit {
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
-    this.username = new FormControl("", [Validators.required]);
+    this.username = new FormControl("", [Validators.required, this.usernameValidator(this.authenticationService)]);
 
     this.userForm = formBuilder.group({
       "firstName": this.firstName,
@@ -67,6 +67,45 @@ export class UserCreationComponent implements OnInit {
 
 
   ngOnInit(): void {
+  }
+
+  usernameValidator(authenticationService:AuthenticationService) {
+    let usernameControl = null;
+    let isValidUsername = false;
+    let valueChanges = null;
+
+    let subscriberToChangeEvents = function () {
+      valueChanges
+      .debounceTime(500)
+      .distinctUntilChanged()
+      .filter(value => { // filter out empty values
+        return !!(value);
+      }).map(value => {
+        return authenticationService.isValidUsername(value);
+      }).subscribe(value => {
+        value.subscribe( otherValue => {
+          isValidUsername = otherValue;
+          usernameControl.updateValueAndValidity();
+        });
+      });
+    };
+
+    return (control:FormControl) => {
+       if (!usernameControl) {
+         usernameControl = control;
+       }
+
+       if (!valueChanges && control.valueChanges) {
+         valueChanges = control.valueChanges;
+         subscriberToChangeEvents();
+       }
+
+      return isValidUsername ? null : {
+        validateEmail: {
+          valid: false
+        }
+      };
+    }
   }
 
   get firstName(): FormControl {

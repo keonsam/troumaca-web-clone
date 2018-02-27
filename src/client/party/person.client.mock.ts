@@ -58,4 +58,9 @@ export class PersonClientMock implements PersonClient {
   public updateCredential(credentialState: CredentialState): Observable<number> {
     return null;
   }
+
+  public updateUserPhoto(partyId: string, croppedImage: string): Observable<number> {
+    return null;
+  }
+  
 }

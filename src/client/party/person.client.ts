@@ -14,4 +14,5 @@ export abstract class PersonClient {
   public abstract deleteCredential(partyId: string): Observable<number>;
   public abstract updatePerson(personState: PersonState): Observable<number>;
   public abstract updateCredential(credentialState: CredentialState): Observable<number>;
+  public abstract updateUserPhoto(partyId: string, croppedImage:string): Observable<number>;
 }

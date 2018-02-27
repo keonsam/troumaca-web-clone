@@ -120,6 +120,22 @@ router.put("/credentials/:partyId", function (req, res, next) {
 
 });
 
+router.post("/users-photos/:partyId", function (req, res, next) {
+  let partyId = req.params.partyId;
+  let imageStr = req.body;
+  console.log(req);
+  orchestrator
+    .updateUserPhoto(partyId, imageStr)
+    .subscribe(numUpdated => {
+      res.send(JSON.stringify(numUpdated));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    })
+
+});
+
 function getNumericValueOrDefault(value, defaultValue) {
   if (!value) {
     return defaultValue;

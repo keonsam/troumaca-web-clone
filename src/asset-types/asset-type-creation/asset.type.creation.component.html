@@ -79,7 +79,7 @@
                 <!--<ng-template #normalInput> -->
                   <div *ngIf="attribute.dataType.name != 'Boolean'" class="form-group">
                     <label for="{{attribute.name}}">{{attribute.name}}</label><input class="form-control" formControlName="{{attribute.attributeId}}" placeholder="Enter Value" [type]="onType(attribute.dataType.name)">
-                    <div [hidden]="attribute.attributeId.valid || attribute.attributeId.pristine" class="alert alert-danger">Invalid {{attribute.name}}.</div>
+                    <div [hidden]="attribute.attributeId + '.valid' || attribute.attributeId +'.pristine'" class="alert alert-danger">Invalid {{attribute.name}}.</div>
                   </div>
                 <!--</ng-template> -->
               </fieldset>

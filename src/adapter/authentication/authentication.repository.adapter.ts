@@ -27,6 +27,10 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     throw new Error("Not Implemented.")
   }
 
+  isValidCurrentPassword(password: string): Observable<boolean> {
+    return this.authenticationClient.isValidCurrentPassword(password);
+  }
+
   isValidPassword(password: string): Observable<boolean> {
     return this.authenticationClient.isValidPassword(password);
   }

@@ -1,0 +1,3 @@
+{"name":"Phone Screen","format":"","dataType":{"dataTypeId":"f8400178-5f14-45ec-80ac-bbd0daca1e8a","name":"String"},"unitOfMeasureId":"","maximumValue":"","minimumValue":"","attributeId":"83f20888-9ed0-4c3c-b494-8844d48cde0a","_id":"OuomwCa5GmgzEgVE"}
+{"name":"Phone Memory","format":"","dataType":{"dataTypeId":"f8400178-5f14-45ec-80ac-bbd0daca1e8a","name":"String"},"unitOfMeasureId":"","maximumValue":"","minimumValue":"","attributeId":"18e03840-db82-485f-8fca-97b9d88b3deb","_id":"U64L0m2pRWxqGENZ"}
+{"name":"Memory Card","format":"","dataType":{"dataTypeId":"61ae91b0-e01f-414b-98c6-2e5da6b12ff0","name":"Boolean"},"unitOfMeasureId":"","maximumValue":"","minimumValue":"","attributeId":"c8c09c12-c10b-4aa6-9ee6-afad617025b4","_id":"lipDJPbNM8ra2Up4"}

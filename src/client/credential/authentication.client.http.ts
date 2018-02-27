@@ -44,6 +44,25 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     return null;
   }
 
+  isValidCurrentPassword(password: string): Observable<boolean> {
+    let url = `${this.hostPort}/credentials/validate-current-password`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    let query = {password:password};
+
+    return this.httpClient
+      .post<boolean>(url, query, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
   isValidPassword(password: string): Observable<boolean> {
     let url = `${this.hostPort}/credentials/validate-password`;
 

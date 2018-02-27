@@ -97,4 +97,8 @@ export class PartyRepositoryAdapter extends PartyRepository implements AssetPers
     return this.personClient.updateCredential(mapObjectProps(credential, new CredentialState()));
   }
 
+  public updateUserPhoto(partyId: string, croppedImage: string): Observable<number> {
+    return this.personClient.updateUserPhoto(partyId, croppedImage);
+  }
+  
 }

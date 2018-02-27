@@ -144,4 +144,14 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
+  public updateUserPhoto(partyId: string, croppedImage: string): Observable<number> {
+    let url = `${this.hostPort}/parties/users-photos/${partyId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .post<number>(url, croppedImage, {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
 }

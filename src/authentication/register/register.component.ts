@@ -42,6 +42,7 @@ export class RegisterComponent implements OnInit {
       this.confirmEmailOrPhoneValidator(this.password)
     ]);
 
+
     this.registrationForm = formBuilder.group({
       "username": this.username,
       "password": this.password,

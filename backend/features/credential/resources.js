@@ -15,6 +15,19 @@ router.post("/validate-username", function (req, res, next) {
   });
 });
 
+router.post("/validate-current-password", function (req, res, next) {
+  let passwordObj = req.body;
+  credentialOrchestrator
+  .isValidCurrentPassword(passwordObj)
+  .subscribe(next => {
+    res.send(next.valid);
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  });
+});
+
 router.post("/validate-password", function (req, res, next) {
   let passwordObj = req.body;
   credentialOrchestrator

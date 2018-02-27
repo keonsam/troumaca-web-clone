@@ -1,66 +1,85 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute} from '@angular/router';
 import {Router} from "@angular/router";
+import "rxjs/add/operator/debounceTime";
+import "rxjs/add/operator/filter";
+import "rxjs/add/operator/distinctUntilChanged";
+import "rxjs/add/operator/first";
+import "rxjs/add/operator/single";
+import "rxjs/add/operator/take";
+import "rxjs/add/operator/switchMap";
 
-import {AuthenticationService} from "../../../authentication/authentication.service";
 import {PartyEventService} from "../../party.event.service";
+import {AuthenticationService} from "../../../authentication/authentication.service";
 import {PartyService} from "../../party.service";
 import {Person} from "../../person";
 import {Credential} from "../../credential";
 
 @Component({
-  selector: 'user-edit',
-  templateUrl:'./user.edit.component.html',
-  styleUrls: ['./user.edit.component.css']
+  selector: 'user-me',
+  templateUrl:'./user.me.component.html',
+  styleUrls: ['./user.me.component.css']
 })
-export class UserEditComponent implements OnInit {
+export class UserMeComponent implements OnInit {
 
   private partyId: string;
-  private sub: any;
   private firstUsername: string;
   private _firstName: FormControl;
   private _middleName: FormControl;
   private _lastName: FormControl;
   private _username: FormControl;
+  private _currentPassword: FormControl;
+  private _newPassword: FormControl;
+  private _confirmPassword: FormControl;
 
-  private _userEditForm: FormGroup;
+  private _meEditForm: FormGroup;
 
   private person: Person;
   private credential: Credential;
+
+  private imageChangedEvent: any = '';
+  private croppedImage: any = '';
 
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
 
   constructor(private partyEventService:PartyEventService,
               private partyService: PartyService,
-              private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
-              private route: ActivatedRoute,
+              private formBuilder: FormBuilder,
               private router: Router) {
 
     this.person = new Person();
     this.credential = new Credential();
+
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
     this.username = new FormControl("", [Validators.required, this.usernameValidator(this.authenticationService)]);
+    this.currentPassword = new FormControl("", [Validators.required, this.currentPasswordValidator(this.authenticationService)]);
+    this.newPassword = new FormControl("", [Validators.required, this.passwordValidator(this.authenticationService)]);
+    this.confirmPassword = new FormControl("", [Validators.required, this.confirmEmailOrPhoneValidator(this.newPassword)]);
 
-    this.userEditForm = formBuilder.group({
+    this.meEditForm = formBuilder.group({
       "firstName": this.firstName,
       "middleName": this.middleName,
       "lastName": this.lastName,
-      "username": this.username
+      "username": this.username,
+      "currentPassword": this.currentPassword,
+      "newPassword": this.newPassword,
+      "confirmPassword": this.confirmPassword
     });
 
-    this.userEditForm
+    this.meEditForm
      .valueChanges
      .subscribe(value => {
        this.person.firstName = value.firstName;
        this.person.middleName = value.middleName;
        this.person.lastName = value.lastName;
        this.person.username = value.username;
+       this.credential.password = value.password;
        this.credential.username = value.username;
+       console.log(value);
      }, error2 => {
        console.log(error2);
      });
@@ -71,23 +90,19 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit(): void {
     let that = this;
-
-    this.sub = this.route.params.subscribe(params => {
-       this.partyId = params['partyId'];
+    this.partyId = "953ac0b2-4ab7-404a-86c8-904090e1748d";
        this.partyService.getPerson(this.partyId)
        .subscribe(person =>{
         this.firstName.setValue(person.firstName);
         this.middleName.setValue(person.middleName);
         this.lastName.setValue(person.lastName);
         this.username.setValue(person.username);
-        this.firstUsername = person.username;
         this.person = person;
         this.credential.partyId = person.partyId;
         this.credential.username = person.username;
       }, error => {
         console.log(error);
       });
-    });
   }
 
   usernameValidator(authenticationService:AuthenticationService) {
@@ -129,6 +144,94 @@ export class UserEditComponent implements OnInit {
     }
   }
 
+  currentPasswordValidator(authenticationService: AuthenticationService) {
+    let passwordControl = null;
+    let isValidPassword = false;
+    let valueChanges = null;
+
+    let subscriberToChangeEvents = function () {
+      valueChanges
+      .debounceTime(500)
+      .distinctUntilChanged()
+      .filter(value => { // filter out empty values
+        return !!(value);
+      }).map(value => {
+        return authenticationService.isValidCurrentPassword(value);
+      }).subscribe(value => {
+        value.subscribe( otherValue => {
+          isValidPassword = otherValue;
+          passwordControl.updateValueAndValidity();
+        });
+      });
+    };
+
+    return (control:FormControl) => {
+      if (!passwordControl) {
+        passwordControl = control;
+      }
+
+      if (!valueChanges && control.valueChanges) {
+        valueChanges = control.valueChanges;
+        subscriberToChangeEvents();
+      }
+
+      return isValidPassword ? null : {
+        validateEmail: {
+          valid: false
+        }
+      };
+    }
+  }
+
+  passwordValidator(authenticationService:AuthenticationService) {
+    let passwordControl = null;
+    let isValidPassword = false;
+    let valueChanges = null;
+
+    let subscriberToChangeEvents = function () {
+      valueChanges
+      .debounceTime(500)
+      .distinctUntilChanged()
+      .filter(value => { // filter out empty values
+        return !!(value);
+      }).map(value => {
+        return authenticationService.isValidPassword(value);
+      }).subscribe(value => {
+        value.subscribe( otherValue => {
+          isValidPassword = otherValue;
+          passwordControl.updateValueAndValidity();
+        });
+      });
+    };
+
+    return (control:FormControl) => {
+      if (!passwordControl) {
+        passwordControl = control;
+      }
+
+      if (!valueChanges && control.valueChanges) {
+        valueChanges = control.valueChanges;
+        subscriberToChangeEvents();
+      }
+
+      return isValidPassword ? null : {
+        validateEmail: {
+          valid: false
+        }
+      };
+    }
+  }
+
+  confirmEmailOrPhoneValidator(password:FormControl) {
+    return (c:FormControl) => {
+      return password.value == c.value ? null : {
+        validateEmail: {
+          valid: false
+        }
+      };
+    };
+  }
+
   get firstName(): FormControl {
     return this._firstName;
   }
@@ -161,12 +264,36 @@ export class UserEditComponent implements OnInit {
     this._username = value;
   }
 
-  get userEditForm(): FormGroup {
-    return this._userEditForm;
+  get currentPassword(): FormControl {
+    return this._currentPassword;
   }
 
-  set userEditForm(value: FormGroup) {
-    this._userEditForm = value;
+  set currentPassword(value: FormControl) {
+    this._currentPassword = value;
+  }
+
+  get newPassword(): FormControl {
+    return this._newPassword;
+  }
+
+  set newPassword(value: FormControl) {
+    this._newPassword = value;
+  }
+
+  get confirmPassword(): FormControl {
+    return this._confirmPassword;
+  }
+
+  set confirmPassword(value: FormControl) {
+    this._confirmPassword = value;
+  }
+
+  get meEditForm(): FormGroup {
+    return this._meEditForm;
+  }
+
+  set meEditForm(value: FormGroup) {
+    this._meEditForm = value;
   }
 
   get doNotDisplayFailureMessage(): boolean {
@@ -183,6 +310,29 @@ export class UserEditComponent implements OnInit {
 
   set doNotDisplayFailureMessage2(value: boolean) {
     this._doNotDisplayFailureMessage2 = value;
+  }
+
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+  }
+
+  imageCropped(image: string) {
+    this.croppedImage = image;
+  }
+
+  uploadPhoto() {
+    console.log(this.croppedImage);
+    this.partyService
+    .updateUserPhoto(this.partyId, this.croppedImage)
+    .subscribe(value => {
+      if(value){
+      console.log(value)
+      }else {
+        console.log("error");
+      }
+    }, error => {
+      console.log(error);
+    });
   }
 
   updateCredential() {

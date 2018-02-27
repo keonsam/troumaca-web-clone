@@ -15,6 +15,14 @@ let CredentialOrchestrator = new function() {
     });
   };
 
+  this.isValidCurrentPassword = function (passwordObj) {
+    return credentialRepository
+    .isValidCurrentPassword(passwordObj)
+    .map(valid => {
+      return responseShaper.shapePasswordValidResponse(valid)
+    });
+  };
+
   this.isValidPassword = function (passwordObj) {
     return credentialRepository
     .isValidPassword(passwordObj)

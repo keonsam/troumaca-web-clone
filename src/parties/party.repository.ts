@@ -21,4 +21,6 @@ export abstract class PartyRepository {
   abstract updatePerson(person: Person): Observable<number>;
 
   abstract updateCredential(credential: Credential): Observable<number>;
+
+  abstract updateUserPhoto(partyId: string, croppedImage: string): Observable<number>;
 }

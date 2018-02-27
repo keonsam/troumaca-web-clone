@@ -38,6 +38,7 @@ import {OrganizationCompanyComponent} from "../parties/organizations/organizatio
 import {UserListComponent} from "../parties/users/user-list/user.list.component";
 import {UserCreationComponent} from "../parties/users/user-creation/user.creation.component";
 import {UserEditComponent} from "../parties/users/user-edit/user.edit.component";
+import {UserMeComponent} from "../parties/users/user-me/user.me.component";
 import {ContractComponent} from "../contracts/contract.component";
 import {OrderListComponent} from "../contracts/orders/order.list.component";
 import {SaleOrderListComponent} from "../contracts/orders/sales/sale.order.list.component";
@@ -118,7 +119,8 @@ const appRoutes: Routes = [
     { path: 'organizations/company', component: OrganizationCompanyComponent, data:{menuName:'organizations-menu'} },
     { path: 'users', component: UserListComponent, data:{menuName:'users-menu'} },
     { path: 'users/create', component: UserCreationComponent },
-    { path: 'users/:partyId/edit', component: UserEditComponent }
+    { path: 'users/:partyId/edit', component: UserEditComponent },
+    { path: 'users/me', component: UserMeComponent}
   ]},
   { path: 'contracts', component: ContractComponent, children:[
     { path: '', redirectTo: 'orders', pathMatch: 'full' },

@@ -45,4 +45,8 @@ export class PartyService {
     return this.partyRepository.updateCredential(credential);
   }
 
+  public updateUserPhoto(partyId: string, croppedImage: string): Observable<number> {
+    return this.partyRepository.updateUserPhoto(partyId, croppedImage);
+  }
+
 }

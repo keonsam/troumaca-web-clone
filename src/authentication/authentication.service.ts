@@ -16,6 +16,10 @@ export class AuthenticationService {
     return this.authenticationRepository.isValidUsername(username);
   }
 
+  public isValidCurrentPassword(password: string): Observable<boolean> {
+    return this.authenticationRepository.isValidCurrentPassword(password);
+  }
+
   public isValidPassword(password:string):Observable<boolean> {
     return this.authenticationRepository.isValidPassword(password);
   }
