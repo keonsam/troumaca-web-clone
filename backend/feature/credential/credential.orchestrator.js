@@ -1,9 +1,9 @@
-let validator = require('validator');
-let libphonenumberjs = require('libphonenumber-js');
 let Rx = require("rxjs");
-let credentialRepositoryFactory = require('./repository.factory').CredentialRepositoryFactory2;
+let credentialRepositoryFactory = require('./credential.repository.factory').CredentialRepositoryFactory;
 let credentialRepository = credentialRepositoryFactory.createRepository();
-let responseShaper = require("./response.shaper")();
+let sessionRepositoryFactory = require('../session/session.repository.factory').SessionRepositoryFactory;
+let sessionRepository = sessionRepositoryFactory.createRepository();
+let responseShaper = require("./credential.response.shaper")();
 
 let CredentialOrchestrator = new function() {
 
@@ -28,7 +28,17 @@ let CredentialOrchestrator = new function() {
   };
 
   this.authenticate = function (credential) {
-    return credentialRepository.authenticate(credential);
+    return credentialRepository
+      .authenticateForCredential(credential)
+      .switchMap(readCredential => {
+        if (readCredential.credentialId) {
+          let session = {};
+          session["credentialId"] = readCredential.credentialId;
+          return sessionRepository.addSession(session);
+        } else {
+          return Rx.Observable.of(readCredential);
+        }
+      });
   };
 
 };

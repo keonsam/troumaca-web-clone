@@ -4,11 +4,9 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/filter';
 import {Event} from "../event";
-import {Observable} from "rxjs/Observable";
 import "rxjs/add/observable/of";
 import {Router} from "@angular/router";
-import {EventName, EventService} from "../../event/event.service";
-import {Cookie} from 'ng2-cookies/ng2-cookies';
+import {EventService} from "../../event/event.service";
 import {AuthenticationService} from "../authentication.service";
 import {Credential} from "../credential";
 
@@ -110,6 +108,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.errorExists = false;
     let credential:Credential = new Credential();
     credential.username = this.username.value;
     credential.password = this.password.value;
@@ -118,9 +117,15 @@ export class LoginComponent implements OnInit {
     this.authenticationService
       .authenticate(credential)
       .subscribe(session => {
-        this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
-        this.errorExists = false;
-        this.router.navigate(['/home/lobby']);
+        if (session.sessionId) {
+          this.eventService.sendLoginEvent(this.createEventModel());
+          this.errorExists = false;
+          this.router.navigate(['/home/lobby']);
+        } else {
+          // Todo: Put an error on the display
+          this.errorExists = true;
+        }
+
       }, error => {
         this.errorExists = true;
       });

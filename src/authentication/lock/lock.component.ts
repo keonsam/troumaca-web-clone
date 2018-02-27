@@ -7,8 +7,7 @@ import {Event} from "../event";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/observable/of";
 import {Router} from "@angular/router";
-import {EventName, EventService} from "../../event/event.service";
-import {Cookie} from 'ng2-cookies/ng2-cookies';
+import {EventService} from "../../event/event.service";
 import {AuthenticationService} from "../authentication.service";
 import {Credential} from "../credential";
 
@@ -66,7 +65,7 @@ export class LockComponent implements OnInit {
         // if (this.rememberMe.value) {
         //   Cookie.set("troumaca-remember-me", this.rememberMe.value);
         // }
-        this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
+        this.eventService.sendLoginEvent(this.createEventModel());
         this.errorExists = false;
         this.router.navigate(['/home']);
       }, error => {

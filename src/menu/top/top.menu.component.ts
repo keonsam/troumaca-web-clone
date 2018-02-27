@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {MenuModel} from "../menu.model";
 import {MenuService} from "../menu.service";
-import {EventName, EventService} from "../../event/event.service";
+import {EventService} from "../../event/event.service";
 import {MenuItemModel} from "../menu.item.model";
 
 @Component({
@@ -83,11 +83,9 @@ export class TopMenuComponent implements OnInit {
 
   handleMenuRefreshEvent() {
     let that = this;
-    this.eventService.getEvent().subscribe(event => {
-      if (event.name == EventName.LOGIN) {
-        that.isLoggedIn = true;
-        that.getMenu(that.menuName);
-      }
+    this.eventService.subscribeToLoginEvent((data) => {
+      that.isLoggedIn = true;
+      that.getMenu(that.menuName);
     });
   }
 

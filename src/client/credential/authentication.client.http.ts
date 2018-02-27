@@ -2,7 +2,6 @@ import {AuthenticationClient} from "./authentication.client";
 import {UUIDGenerator} from "../../uuid.generator";
 import 'rxjs/add/operator/catch';
 import {Observable} from "rxjs/Observable";
-import {AuthenticationSessionState} from "./authentication.session.state";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CredentialState} from "./credential.state";
 import {SessionState} from "./session.state";

@@ -18,11 +18,14 @@ import {assetTypesClientProvider} from "./asset-type/asset.types.client.provider
 import {attributeClientProvider} from "./attribute/attribute.client.provider";
 import {assetTypeClassClientProvider} from "./asset-type-class/asset.type.class.client.provider";
 import {HttpClientModule} from "@angular/common/http";
+// import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserModule} from "@angular/platform-browser";
 import {unitOfMeasureClientProvider} from "./unit-of-measure/unit.of.measure.client.provider";
 import {contractClientProvider} from "./contract/contract.client.provider";
 import {quoteClientProvider} from "./quote/quote.client.provider";
 import {shipmentClientProvider} from "./shipment/shipment.client.provider";
+import {sessionInterceptorProvider} from "./session.interceptor.provider";
+import {clientEventProvider} from "./client.event.provider";
 
 @NgModule({
   imports:      [
@@ -53,7 +56,17 @@ import {shipmentClientProvider} from "./shipment/shipment.client.provider";
     unitOfMeasureClientProvider,
     contractClientProvider,
     quoteClientProvider,
-    shipmentClientProvider
+    shipmentClientProvider,
+    clientEventProvider,
+    sessionInterceptorProvider
   ]
 })
 export class ClientModule { }
+
+// {
+//   provide: HTTP_INTERCEPTORS,
+//     useClass: SessionInterceptor,
+//   multi: true
+// }
+
+// sessionInterceptorProvider

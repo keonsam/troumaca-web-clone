@@ -5,7 +5,7 @@ import {SecurityClientHttp} from "./security.client.http";
 import {SecurityClientMock} from "./security.client.mock";
 
 export function securityClientFactory (appConfig: AppConfig, uuidGenerator: UUIDGenerator):SecurityClient {
-  var securityClient: SecurityClient;
+  let securityClient: SecurityClient;
   if (appConfig.remoteEndPoints) {
     securityClient = new SecurityClientHttp(uuidGenerator);
   } else {
