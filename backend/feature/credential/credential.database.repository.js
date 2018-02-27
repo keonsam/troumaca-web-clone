@@ -122,6 +122,17 @@ module.exports =  function DatabaseCredentialRepository() {
         return credential.password === readCredential.password;
       }
     });
+  };
+
+  this.authenticateForCredential = function (credential) {
+    return this.getCredentialByUsername(credential.username)
+    .map(readCredential => {
+      if (readCredential && credential && credential.password === readCredential.password) {
+        return readCredential;
+      } else {
+        return {};
+      }
+    });
   }
 
 };
