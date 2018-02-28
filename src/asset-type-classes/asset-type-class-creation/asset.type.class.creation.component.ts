@@ -329,7 +329,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
   onAvailableDoubleClick(attributeId: string) {
    this.assignedArray.push(attributeId);
-   this.assignedArrayObject.push({required: "", attributeId});
+   this.assignedArrayObject.push({required: true, attributeId});
    this.updateTable();
   }
 

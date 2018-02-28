@@ -63,7 +63,7 @@ module.exports =  function DatabasePartyRepository() {
       query["partyId"] = partyId;
       db.usersPhotos.findOne(query, function (err, doc) {
         if (!err) {
-          observer.next(doc ? doc.imageStr: "");
+          observer.next(doc ? doc.imageStr: "http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825");
         } else {
           observer.error(err);
         }

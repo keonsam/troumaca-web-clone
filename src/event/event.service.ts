@@ -1,6 +1,7 @@
 import {Subject} from "rxjs/Subject";
 import {Observable} from "rxjs/Observable";
 import {Injectable} from "@angular/core";
+import {EventName} from "./event.name";
 
 @Injectable()
 export class EventService {
@@ -24,9 +25,40 @@ export class EventService {
     return this.subject.asObservable();
   }
 
-}
+  sendLoginEvent(data:any) {
+    this.subject.next({ "name":EventName.LOGIN, "data":data });
+  }
 
-export enum EventName {
-  LOGIN,
-  LOGOUT
+  subscribeToLoginEvent(func) {
+    this.subject.subscribe( next => {
+      if(next.name === EventName.LOGIN) {
+        func(next.data);
+      }
+    })
+  }
+
+  sendSessionExpiredEvent(data:any) {
+    this.subject.next({ "name":EventName.SESSION_EXPIRED, "data":data });
+  }
+
+  subscribeToSessionExpiredEvent(func) {
+    this.subject.subscribe( next => {
+      if(next.name === EventName.SESSION_EXPIRED) {
+        func(next.data);
+      }
+    })
+  }
+
+  sendSessionLogoutEvent(data:any) {
+    this.subject.next({ "name":EventName.LOGOUT, "data":data });
+  }
+
+  subscribeToLogoutEvent(func) {
+    this.subject.subscribe( next => {
+      if(next.name === EventName.LOGOUT) {
+        func(next.data);
+      }
+    })
+  }
+
 }

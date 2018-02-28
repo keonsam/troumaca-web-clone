@@ -2,8 +2,8 @@ let factoryOptions = {
   "useDatabase": true
 };
 
-require('./features/asset/repository.factory')(factoryOptions);
-require('./features/asset-type-classes/repository.factory')(factoryOptions);
+require('./feature/asset/repository.factory')(factoryOptions);
+require('./feature/asset-type-class/repository.factory')(factoryOptions);
 
 let express = require('express');
 let path = require('path');
@@ -11,25 +11,30 @@ let favicon = require('serve-favicon');
 let logger = require('morgan');
 let cors = require('cors');
 let bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+
+
+var accessMiddleware = require('./feature/access-middleware');
 
 // need to transition to the new resources approach
-let assets = require('./routes/assets');
+// let assets = require('./routes/assets');
 let asset = require('./routes/asset');
 // let lots = require('./routes/lots');
-let assetTypes = require('./routes/asset-types');
+// let assetTypes = require('./routes/asset-types');
 let unitOfMeasures = require('./routes/unit-of-measures');
 let persons = require('./routes/parties/persons/persons');
 let unionOfPhysicalSites = require('./routes/sites/physical-sites/union-of-physical-sites');
 // let emailSites = require("./routes/sites/virtual-sites/e-mail-sites");
 
-let assetResource = require('./features/asset/resources');
-let assetTypeClassesResource = require('./features/asset-type-classes/resources');
-let siteResource = require('./features/site/resources');
-let attributesResource = require('./features/attributes/resources');
-let assetsResource = require('./features/asset-types/resources');
-let shipmentResource = require('./features/shipment/resources');
-let credentialResource = require('./features/credential/resources');
-let partyResource = require('./features/party/resources');
+let assetResource = require('./feature/asset/resources');
+let assetTypeClassesResource = require('./feature/asset-type-class/resources');
+let siteResource = require('./feature/site/resources');
+let attributesResource = require('./feature/attributes/resources');
+let assetsResource = require('./feature/asset-types/resources');
+let shipmentResource = require('./feature/shipment/resources');
+let credentialResource = require('./feature/credential/credential.resources');
+let partyResource = require('./feature/party/resources');
+
 let app = express();
 
 app.use(logger('dev'));
@@ -37,6 +42,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use(cors());
+// need cookieParser middleware before we can do anything with cookies
+app.use(cookieParser());
+app.use(accessMiddleware());
+
 
 
 app.use('/asset', asset);

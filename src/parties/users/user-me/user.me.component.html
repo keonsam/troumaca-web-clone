@@ -93,8 +93,7 @@
                 </div>
               </div>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to edit your Profile.</div>
-
+              <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">Failed to update your credential.</div>
               <fieldset class="form-group">
                 <div class="form-group">
                   <label for="Username">Username</label><input class="form-control" formControlName="username" placeholder="Enter Username" required="required" type="text">
@@ -123,6 +122,8 @@
                 </div>
               </fieldset>
 
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to update your Profile.</div>
+
                 <legend><span>Personal Information</span></legend>
 
               <fieldset class="form-group">
@@ -147,7 +148,7 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [disabled]="!meEditForm.valid" type="submit"> Submit</button>
+                <button class="btn btn-primary" [disabled]="!meEditForm.valid" type="submit"> Save</button>
               </div>
 
             </form>

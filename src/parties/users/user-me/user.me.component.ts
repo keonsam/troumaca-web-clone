@@ -321,7 +321,6 @@ export class UserMeComponent implements OnInit {
   }
 
   fileChangeEvent(event: any): void {
-    console.log(event);
     this.imageChangedEvent = event;
   }
 

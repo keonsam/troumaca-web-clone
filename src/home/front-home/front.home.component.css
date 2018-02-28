@@ -125,6 +125,10 @@
   Troumaca overrides etc.
 */
 
-.forget-password-register-container {
-  margin-top: 15px;
+.login-register-container {
+  margin-top: 20px;
+  margin-bottom: 100px;
+  margin-left: 100px;
+  margin-right: 100px;
 }
+

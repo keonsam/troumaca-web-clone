@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} fr
 import {MenuService} from "./menu.service";
 import {MenuModel} from "./menu.model";
 import {MenuItemModel} from "./menu.item.model";
-import {EventName, EventService} from "../event/event.service";
+import {EventService} from "../event/event.service";
 
 @Component({
   selector: 'menu',
@@ -26,11 +26,9 @@ export class MenuComponent implements OnInit {
 
   handleMenuRefreshEvent() {
     let that = this;
-    this.eventService.getEvent().subscribe(event => {
-      if (event.name == EventName.LOGIN) {
-        that.isLoggedIn = true;
-        that.getMenu(this.isLoggedIn);
-      }
+    this.eventService.subscribeToLoginEvent((event) => {
+      that.isLoggedIn = true;
+      that.getMenu(this.isLoggedIn);
     });
   }
 
