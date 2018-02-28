@@ -21,6 +21,10 @@ export class PartyService {
     return this.partyRepository.getPerson(partyId);
   }
 
+  public getUserPhoto(partyId: string): Observable<string> {
+    return this.partyRepository.getUserPhoto(partyId);
+  }
+
   public addPerson(person: Person): Observable<Person> {
     return this.partyRepository.addPerson(person);
   }

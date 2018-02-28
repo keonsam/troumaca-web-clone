@@ -52,6 +52,11 @@ export class PartyRepositoryAdapter extends PartyRepository implements AssetPers
     });
   }
 
+  public getUserPhoto(partyId: string): Observable<string> {
+    return this.personClient.getUserPhoto(partyId);
+
+  }
+
 
   public findPersons(searchStr: string, pageSize: number): Observable<AssetPersons> {
     return this.personClient
@@ -100,5 +105,5 @@ export class PartyRepositoryAdapter extends PartyRepository implements AssetPers
   public updateUserPhoto(partyId: string, croppedImage: string): Observable<number> {
     return this.personClient.updateUserPhoto(partyId, croppedImage);
   }
-  
+
 }

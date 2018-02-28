@@ -7,6 +7,7 @@ export abstract class PersonClient {
   public abstract getPersons(pageNumber:number, pageSize:number, sortOrder:string):Observable<PersonStates>
   public abstract getCurrentPerson():Observable<PersonState>;
   public abstract getPersonState(partyId: string): Observable<PersonState>;
+  public abstract getUserPhoto(partyId: string): Observable<string>;
   public abstract findPersonStates(searchStr:string, pageSize:number):Observable<PersonStates>;
   public abstract addPersonState(personState: PersonState): Observable<PersonState>;
   public abstract addCredentialState(credentialState: CredentialState): Observable<CredentialState>;

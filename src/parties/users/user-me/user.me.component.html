@@ -3,10 +3,9 @@
     <div class="row">
       <div class="col-sm-5">
         <div class="user-profile compact">
-          <div class="up-head-w" style="background-image:url(img/profile_bg1.jpg)">
-            <img [src]="croppedImage" />
+          <div class="up-head-w" [style.background-image]="backgroundImage">
             <div class="up-social">
-              <a class=" primary" data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon os-icon-pencil-2"></i></a>
+              <a data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon os-icon-pencil-2 primary"></i></a>
             </div>
             <div class="up-main-info">
               <h2 class="up-header">
@@ -27,7 +26,7 @@
                       25
                     </div>
                     <div class="label">
-                      Products Sold
+                      Assigned Assets
                     </div>
                   </div>
                 </div>
@@ -37,7 +36,7 @@
                       315
                     </div>
                     <div class="label">
-                      Friends
+                      Pending Requests
                     </div>
                   </div>
                 </div>
@@ -56,14 +55,14 @@
             <div class="timed-activities compact">
               <div class="timed-activity">
                 <div class="ta-date">
-                  <span>21st Jan, 2017</span>
+                  <span>Assigned Assets</span>
                 </div>
                 <div class="ta-record-w">
                 </div>
               </div>
               <div class="timed-activity">
                 <div class="ta-date">
-                  <span>3rd Feb, 2017</span>
+                  <span>Request Orders</span>
                 </div>
                 <div class="ta-record-w">
                 </div>
@@ -99,7 +98,7 @@
               <fieldset class="form-group">
                 <div class="form-group">
                   <label for="Username">Username</label><input class="form-control" formControlName="username" placeholder="Enter Username" required="required" type="text">
-                  <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Last Name.</div>
+                  <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Username.</div>
                 </div>
               </fieldset>
 
@@ -124,9 +123,7 @@
                 </div>
               </fieldset>
 
-              <fieldset>
                 <legend><span>Personal Information</span></legend>
-              </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
@@ -183,15 +180,15 @@
                </image-cropper>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-white" type="button" (click)="fileid.click()"> Change Photo</button>
-              <button class="btn btn-primary" type="button" (click)="uploadPhoto()"> Save changes</button>
+              <button class="btn btn-white button1" type="button" (click)="fileid.click()"> Change Photo</button>
+              <button class="btn btn-primary" type="button" (click)="uploadPhoto()" data-dismiss="modal"> Save changes</button>
             </div>
           </div>
         </div>
       </div>
 
 
-      <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-lg" role="dialog" tabindex="-1">
+      <!--<div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-lg" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
@@ -203,13 +200,13 @@
             <div class="modal-body">
             </div>
             <div class="modal-footer">
-          <!--    <input #fileid type='file' hidden/>
+              <input #fileid type='file' hidden/>
               <button class="btn btn-white" type="button"(click)="fileid.click()"> Change Photo</button>
-              <button class="btn btn-primary" type="button"> Save changes</button> -->
+              <button class="btn btn-primary" type="button"> Save changes</button>
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- END OF UPLOAD MODAL -->
     </div>

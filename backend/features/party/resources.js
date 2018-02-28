@@ -23,6 +23,22 @@ router.get("/persons", function (req, res, next) {
 
 });
 
+router.get("/users-photos/:partyId", function (req, res, next) {
+
+  let partyId = req.params.partyId;
+
+  orchestrator
+  .getUserPhoto(partyId)
+  .subscribe(imageStr => {
+    res.send(JSON.stringify(imageStr));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  });
+
+});
+
 router.get("/persons/:partyId", function (req, res, next) {
   let partyId = req.params.partyId;
 
@@ -122,10 +138,9 @@ router.put("/credentials/:partyId", function (req, res, next) {
 
 router.post("/users-photos/:partyId", function (req, res, next) {
   let partyId = req.params.partyId;
-  let imageStr = req.body;
-  console.log(req);
+  let imageStr = req.body.string;
   orchestrator
-    .updateUserPhoto(partyId, imageStr)
+    .updateOrAddUserPhoto(partyId, imageStr)
     .subscribe(numUpdated => {
       res.send(JSON.stringify(numUpdated));
     }, error => {

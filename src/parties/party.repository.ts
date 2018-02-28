@@ -10,6 +10,8 @@ export abstract class PartyRepository {
 
   abstract getPerson(partyId: string): Observable<Person>;
 
+  abstract getUserPhoto(partyId: string): Observable<string>;
+
   abstract addPerson(person: Person): Observable<Person>;
 
   abstract addCredential(credential: Credential): Observable<Credential>;

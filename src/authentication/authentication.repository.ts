@@ -6,6 +6,7 @@ export abstract class AuthenticationRepository {
   abstract authenticate(credential:Credential):Observable<Session>;
   abstract forgotPassword(username: string):Observable<boolean>;
   abstract isValidUsername(username: string):Observable<boolean>;
+  abstract isValidEditUsername(partyId: string, username: string):Observable<boolean>;
   abstract isValidCurrentPassword(password: string): Observable<boolean>;
   abstract isValidPassword(password: string):Observable<boolean>;
   abstract addCredential(credential:Credential):Observable<Credential>;

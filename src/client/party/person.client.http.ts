@@ -58,6 +58,16 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
+  public getUserPhoto(partyId: string): Observable<string>{
+    let url = `${this.hostPort}/parties/users-photos/${partyId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .get<string>(url, {headers:headers})
+    .map(data => {
+      return data;
+    });
+  }
+
   public findPersonStates(searchStr: string, pageSize: number): Observable<PersonStates> {
     let array = [];
     array.push(this.hostPort);
@@ -146,9 +156,10 @@ export class PersonClientHttp implements PersonClient {
 
   public updateUserPhoto(partyId: string, croppedImage: string): Observable<number> {
     let url = `${this.hostPort}/parties/users-photos/${partyId}`;
+    let image = {string: croppedImage};
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post<number>(url, croppedImage, {headers:headers})
+    .post<number>(url, image, {headers:headers})
     .map(data => {
       return data;
     });

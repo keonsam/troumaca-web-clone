@@ -101,6 +101,25 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     });
   }
 
+  isValidEditUsername(partyId: string, username: string): Observable<boolean> {
+    let url = `${this.hostPort}/credentials/validate-edit-username/${partyId}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    let query = {username:username};
+
+    return this.httpClient
+    .post<boolean>(url, query, httpOptions)
+    .map(data => {
+      return data;
+    });
+  }
+
   addCredential(credentialState:CredentialState):Observable<CredentialState> {
     let url = `${this.hostPort}/credentials`;
 

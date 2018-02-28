@@ -1,6 +1,14 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import "rxjs/add/operator/debounceTime";
+import "rxjs/add/operator/filter";
+import "rxjs/add/operator/distinctUntilChanged";
+import "rxjs/add/operator/first";
+import "rxjs/add/operator/single";
+import "rxjs/add/operator/take";
+import "rxjs/add/operator/switchMap";
+
 import {PartyEventService} from "../../party.event.service";
 import {PartyService} from "../../party.service";
 import {Person} from "../../person";

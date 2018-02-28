@@ -653,6 +653,56 @@
   font-size: 0.81rem;
 }
 
+fieldset {
+  margin-top: 2rem;
+}
+
+legend {
+  font-size: 0.99rem;
+  display: block;
+  margin-bottom: 1.5rem;
+  position: relative;
+  color: #047bf8;
+}
+
+legend span {
+  padding: 0px 0.5rem 0 0;
+  background-color: #fff;
+  display: inline-block;
+  z-index: 2;
+  position: relative;
+}
+
+legend:before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  height: 1px;
+  top: 50%;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+/*
+  Troumaca overrides etc.
+*/
+
+li {
+  float: left;
+}
+
+.outer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.inner {
+  padding-right: 20px;
+}
+
 .btn-white, .all-wrapper .fc-button {
   color: #333;
   background-color: #fff;
@@ -682,4 +732,23 @@
   background-color: #e6e5e5;
   background-image: none;
   border-color: rgba(0, 0, 0, 0.5);
+}
+
+.button1 {
+  margin-right: 1rem;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+:host(){
+
+}
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+
+.primary {
+  color: #008080;
 }

@@ -8,6 +8,10 @@ export class Person extends Party {
   private _username: string;
   private _dateOfBirth:Date;
 
+  get name(): string {
+    return `${this.lastName}, ${this.firstName}`;
+  }
+
   get firstName(): string {
     return this._firstName;
   }

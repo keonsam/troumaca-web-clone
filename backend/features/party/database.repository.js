@@ -10,7 +10,7 @@ var generatePassword = require('password-generator');
 
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();
-
+let defaultPhoto = "";
 module.exports =  function DatabasePartyRepository() {
 
   let defaultPageSize = 10;
@@ -57,6 +57,21 @@ module.exports =  function DatabasePartyRepository() {
     });
   };
 
+  this.getUserPhoto = function (partyId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["partyId"] = partyId;
+      db.usersPhotos.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc ? doc.imageStr: "");
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   this.addPerson = function (person) {
     person.partyId = newUuidGenerator.generateUUID();
     return Rx.Observable.create(function (observer) {
@@ -79,6 +94,24 @@ module.exports =  function DatabasePartyRepository() {
       db.credentials.insert(credential, function (err, doc) {
         if (!err) {
           observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+
+  };
+
+  this.addUserPhoto = function (partyId, imageStr) {
+    let photo = {
+      partyId,
+      imageStr
+    }
+    return Rx.Observable.create(function (observer) {
+      db.usersPhotos.insert(photo, function (err, doc) {
+        if (!err) {
+          observer.next(1);
         } else {
           observer.error(err);
         }
@@ -154,10 +187,8 @@ module.exports =  function DatabasePartyRepository() {
       let query = {};
       let photo = {};
       query["partyId"] = partyId;
-      photo["partyId"] = partyId;
       photo["imageStr"] = imageStr;
-      console.log(photo);
-      db.usersPhotos.update(query, photo, {}, function (err, numReplaced) {
+      db.usersPhotos.update(query, {$set : photo}, {}, function (err, numReplaced) {
         if (!err) {
           observer.next(numReplaced);
         } else {

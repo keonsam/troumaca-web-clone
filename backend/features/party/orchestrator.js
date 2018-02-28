@@ -4,6 +4,7 @@ let responseShaper = require("./response.shaper")();
 
 
 module.exports = function PartyOrchestrator() {
+
   this.getPersons = function(number, size, field, direction) {
     let sort = getSortOrderOrDefault(field, direction);
     return partyRepository
@@ -19,6 +20,10 @@ module.exports = function PartyOrchestrator() {
 
   this.getPerson = function (partyId) {
     return partyRepository.getPerson(partyId);
+  };
+
+  this.getUserPhoto = function (partyId) {
+    return partyRepository.getUserPhoto(partyId);
   };
 
   this.addPerson = function(person){
@@ -49,8 +54,16 @@ module.exports = function PartyOrchestrator() {
     return partyRepository.updateCredential(partyId, credential);
   }
 
-  this.updateUserPhoto = function (partyId, imageStr) {
-    return partyRepository.updateUserPhoto(partyId, imageStr);
+  this.updateOrAddUserPhoto = function (partyId, imageStr) {
+    return partyRepository
+    .getUserPhoto(partyId)
+    .flatMap(value => {
+      if(value){
+        return partyRepository.updateUserPhoto(partyId, imageStr);
+      }else{
+        return partyRepository.addUserPhoto(partyId, imageStr);
+      }
+    });
   }
 
   function getSortOrderOrDefault(field, direction) {

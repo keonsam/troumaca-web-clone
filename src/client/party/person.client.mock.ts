@@ -31,6 +31,10 @@ export class PersonClientMock implements PersonClient {
     return null;
   }
 
+  public getUserPhoto(partyId: string): Observable<string> {
+    return null;
+  }
+
   public findPersonStates(searchStr: string, pageSize: number): Observable<PersonStates> {
     return Observable.of(new PersonStates());
   }
@@ -62,5 +66,5 @@ export class PersonClientMock implements PersonClient {
   public updateUserPhoto(partyId: string, croppedImage: string): Observable<number> {
     return null;
   }
-  
+
 }

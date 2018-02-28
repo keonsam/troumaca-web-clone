@@ -39,6 +39,10 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     return this.authenticationClient.isValidUsername(username);
   }
 
+  isValidEditUsername(partyId: string, username: string): Observable<boolean> {
+    return this.authenticationClient.isValidEditUsername(partyId, username);
+  }
+
   addCredential(credential:Credential):Observable<Credential> {
     return this.authenticationClient
     .addCredential(mapObjectProps(credential, new CredentialState()))

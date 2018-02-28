@@ -39,6 +39,7 @@ export class UserMeComponent implements OnInit {
 
   private imageChangedEvent: any = '';
   private croppedImage: any = '';
+  private backgroundImage: any = '';
 
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
@@ -55,7 +56,7 @@ export class UserMeComponent implements OnInit {
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
-    this.username = new FormControl("", [Validators.required, this.usernameValidator(this.authenticationService)]);
+    this.username = new FormControl("", [Validators.required, this.usernameEditValidator(this.authenticationService)]);
     this.currentPassword = new FormControl("", [Validators.required, this.currentPasswordValidator(this.authenticationService)]);
     this.newPassword = new FormControl("", [Validators.required, this.passwordValidator(this.authenticationService)]);
     this.confirmPassword = new FormControl("", [Validators.required, this.confirmEmailOrPhoneValidator(this.newPassword)]);
@@ -90,7 +91,7 @@ export class UserMeComponent implements OnInit {
 
   ngOnInit(): void {
     let that = this;
-    this.partyId = "953ac0b2-4ab7-404a-86c8-904090e1748d";
+    this.partyId = "aaa76dce-0a1a-40f3-8131-623c9f7b3caa";
        this.partyService.getPerson(this.partyId)
        .subscribe(person =>{
         this.firstName.setValue(person.firstName);
@@ -103,13 +104,20 @@ export class UserMeComponent implements OnInit {
       }, error => {
         console.log(error);
       });
+
+      this.partyService.getUserPhoto(this.partyId)
+      .subscribe(imageStr => {
+        this.backgroundImage= `url(${imageStr})`;
+      },error => {
+        console.log(error);
+      });
   }
 
-  usernameValidator(authenticationService:AuthenticationService) {
+  usernameEditValidator(authenticationService:AuthenticationService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
-
+    let that = this;
     let subscriberToChangeEvents = function () {
       valueChanges
       .debounceTime(500)
@@ -117,7 +125,7 @@ export class UserMeComponent implements OnInit {
       .filter(value => { // filter out empty values
         return !!(value);
       }).map(value => {
-        return authenticationService.isValidUsername(value);
+        return authenticationService.isValidEditUsername(that.partyId,value);
       }).subscribe(value => {
         value.subscribe( otherValue => {
           isValidUsername = otherValue;
@@ -313,6 +321,7 @@ export class UserMeComponent implements OnInit {
   }
 
   fileChangeEvent(event: any): void {
+    console.log(event);
     this.imageChangedEvent = event;
   }
 
@@ -321,12 +330,11 @@ export class UserMeComponent implements OnInit {
   }
 
   uploadPhoto() {
-    console.log(this.croppedImage);
     this.partyService
     .updateUserPhoto(this.partyId, this.croppedImage)
     .subscribe(value => {
       if(value){
-      console.log(value)
+      this.backgroundImage = `url(${this.croppedImage})`;
       }else {
         console.log("error");
       }

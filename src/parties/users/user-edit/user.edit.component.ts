@@ -2,6 +2,13 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from '@angular/router';
 import {Router} from "@angular/router";
+import "rxjs/add/operator/debounceTime";
+import "rxjs/add/operator/filter";
+import "rxjs/add/operator/distinctUntilChanged";
+import "rxjs/add/operator/first";
+import "rxjs/add/operator/single";
+import "rxjs/add/operator/take";
+import "rxjs/add/operator/switchMap";
 
 import {AuthenticationService} from "../../../authentication/authentication.service";
 import {PartyEventService} from "../../party.event.service";
@@ -44,7 +51,7 @@ export class UserEditComponent implements OnInit {
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
-    this.username = new FormControl("", [Validators.required, this.usernameValidator(this.authenticationService)]);
+    this.username = new FormControl("", [Validators.required, this.usernameEditValidator(this.authenticationService)]);
 
     this.userEditForm = formBuilder.group({
       "firstName": this.firstName,
@@ -90,11 +97,11 @@ export class UserEditComponent implements OnInit {
     });
   }
 
-  usernameValidator(authenticationService:AuthenticationService) {
+  usernameEditValidator(authenticationService:AuthenticationService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
-
+    let that = this;
     let subscriberToChangeEvents = function () {
       valueChanges
       .debounceTime(500)
@@ -102,7 +109,7 @@ export class UserEditComponent implements OnInit {
       .filter(value => { // filter out empty values
         return !!(value);
       }).map(value => {
-        return authenticationService.isValidUsername(value);
+        return authenticationService.isValidEditUsername(that.partyId,value);
       }).subscribe(value => {
         value.subscribe( otherValue => {
           isValidUsername = otherValue;
