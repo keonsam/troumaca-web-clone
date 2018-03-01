@@ -29,8 +29,8 @@ let unionOfPhysicalSites = require('./routes/sites/physical-sites/union-of-physi
 let assetResource = require('./feature/asset/resources');
 let assetTypeClassesResource = require('./feature/asset-type-class/resources');
 let siteResource = require('./feature/site/resources');
-let attributesResource = require('./feature/attributes/resources');
-let assetsResource = require('./feature/asset-types/resources');
+let attributesResource = require('./feature/attribute/resources');
+let assetsResource = require('./feature/asset-type/resources');
 let shipmentResource = require('./feature/shipment/resources');
 let credentialResource = require('./feature/credential/credential.resources');
 
