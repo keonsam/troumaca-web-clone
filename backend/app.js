@@ -43,7 +43,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 app.use(cors());
 // need cookieParser middleware before we can do anything with cookies
 app.use(cookieParser());
-app.use(accessMiddleware());
+// app.use(accessMiddleware());
 
 
 
