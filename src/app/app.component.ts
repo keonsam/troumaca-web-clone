@@ -3,7 +3,7 @@ import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from "@angular/r
 import "rxjs/add/operator/filter";
 import {AppDynamicStyle} from "./app.dynamic.style";
 import {EventService} from "../event/event.service";
-//import {SessionService} from "../session/session.service";
+import {SessionService} from "../session/session.service";
 
 @Component({
   selector: 'app',
@@ -32,11 +32,12 @@ export class AppComponent implements OnInit{
 
   constructor(private router:Router,
               private route:ActivatedRoute,
-              private eventService:EventService) {
+              private eventService:EventService,
+              private sessionService: SessionService) {
 
     this.isLoggedIn = false;
     this.eventService.subscribeToLoginEvent( (data) => {
-      // this.sessionService.
+      this.sessionService.activeSessionExists()
       // this.isLoggedIn = true;
     });
 

@@ -1,10 +1,10 @@
 import "rxjs/add/operator/map";
-import {SessionRepository} from "../../security/session/session.repository";
 import {SessionClient} from "../../client/session/session.client";
 import {PartySessionRepository} from "../../parties/party.session.repository";
 import {Observable} from "rxjs/Observable";
 import {PartySession} from "../../parties/party.session";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
+import {SessionRepository} from "../../session/session.repository";
 
 export class SessionRepositoryAdapter extends SessionRepository implements PartySessionRepository {
 
@@ -17,6 +17,11 @@ export class SessionRepositoryAdapter extends SessionRepository implements Party
       .map(session => {
         return mapObjectProps(session, new PartySession());
       });
+  }
+
+
+  activeSessionExists(): Observable<boolean> {
+    return this.sessionClient.activeSessionExists();
   }
 
 }

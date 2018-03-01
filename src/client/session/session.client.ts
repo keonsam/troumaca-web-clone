@@ -3,5 +3,8 @@ import {SessionState} from "./session.state";
 
 export abstract class SessionClient {
   public abstract get isLoggedIn(): Observable<boolean>;
-  public abstract getSession():Observable<SessionState>;
+
+  public abstract getSession(): Observable<SessionState>;
+
+  public abstract activeSessionExists(): Observable<boolean>;
 }
