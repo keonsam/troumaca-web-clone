@@ -9,5 +9,6 @@ export function sessionInterceptorFactory (clientEvent:ClientEvent):SessionInter
 export let sessionInterceptorProvider = {
   provide: HTTP_INTERCEPTORS,
   useFactory: sessionInterceptorFactory,
+  multi: true,
   deps: [ClientEvent]
 };
