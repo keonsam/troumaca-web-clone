@@ -16,6 +16,14 @@ export class AuthenticationService {
     return this.authenticationRepository.isValidUsername(username);
   }
 
+  public isValidEditUsername(partyId: string, username:string):Observable<boolean> {
+    return this.authenticationRepository.isValidEditUsername(partyId, username);
+  }
+
+  public isValidCurrentPassword(password: string): Observable<boolean> {
+    return this.authenticationRepository.isValidCurrentPassword(password);
+  }
+
   public isValidPassword(password:string):Observable<boolean> {
     return this.authenticationRepository.isValidPassword(password);
   }

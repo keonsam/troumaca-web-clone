@@ -5,6 +5,7 @@ export class Person extends Party {
   private _firstName:string;
   private _middleName:string;
   private _lastName:string;
+  private _username: string;
   private _dateOfBirth:Date;
 
   get name(): string {
@@ -33,6 +34,14 @@ export class Person extends Party {
 
   set lastName(value: string) {
     this._lastName = value;
+  }
+
+  get username(): string {
+    return this._username;
+  }
+
+  set username(value: string) {
+    this._username = value;
   }
 
   get dateOfBirth(): Date {

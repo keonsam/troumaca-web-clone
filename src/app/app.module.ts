@@ -42,7 +42,6 @@ import {ShipmentModule} from "../shipments/shipment.module";
 import {AuthenticationModule} from "../authentication/authentication.module";
 import {SessionModule} from "../session/session.module";
 
-
 @NgModule({
   imports: [
     BrowserModule,

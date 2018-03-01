@@ -7,11 +7,28 @@ let responseShaper = require("./credential.response.shaper")();
 
 let CredentialOrchestrator = new function() {
 
+
   this.isValidUsername = function (usernameObj) {
     return credentialRepository
     .isValidUsername(usernameObj)
     .map(valid => {
       return responseShaper.shapeUsernameValidResponse(valid)
+    });
+  };
+
+  this.isValidEditUsername = function (partyId,usernameObj) {
+    return credentialRepository
+    .isValidEditUsername(partyId,usernameObj)
+    .map(valid => {
+      return responseShaper.shapeUsernameValidResponse(valid)
+    });
+  };
+
+  this.isValidCurrentPassword = function (passwordObj) {
+    return credentialRepository
+    .isValidCurrentPassword(passwordObj)
+    .map(valid => {
+      return responseShaper.shapePasswordValidResponse(valid)
     });
   };
 

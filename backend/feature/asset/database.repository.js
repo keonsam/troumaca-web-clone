@@ -4,14 +4,9 @@ let Rx = require("rxjs");
 let path = require('path');
 let UUIDGenerator = require("../uuid.generator");
 let DbUtil = require("../db.util");
-
-let theAssetDb = path.resolve(__dirname, '..','..',) + '/nedb/assets.db';
+let db = require("../db.js")
 
 let hostname = 'troumaca.com';
-
-let db = {};
-db.assets = new Datastore(theAssetDb);
-db.assets.loadDatabase(function (err) { console.log(err); });
 
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();
@@ -46,6 +41,75 @@ module.exports =  function DatabaseAssetRepository() {
         observer.complete();
       });
     });
+};
+
+this.getAssetTypes = function (searchStr, pageSize) {
+  searchStr = new RegExp(searchStr);
+  return Rx.Observable.create(function (observer) {
+    db.assetTypes.find({name: {$regex: searchStr}}).limit(pageSize).exec(function (err, doc) {
+      if (!err) {
+        observer.next(doc);
+      } else {
+        observer.error(err);
+      }
+      observer.complete();
+    });
+  });
+};
+
+this.getAssetKinds = function () {
+  return Rx.Observable.create(function (observer) {
+    db.assetKinds.find({}, function (err, doc) {
+      if (!err) {
+        observer.next(doc);
+      } else {
+        observer.error(err);
+      }
+      observer.complete();
+    });
+  });
+};
+
+this.getUnionOfPhysicalSites = function (searchStr, pageSize) {
+  searchStr = new RegExp(searchStr);
+  return Rx.Observable.create(function (observer) {
+    db.sites.find({name: {$regex: searchStr}}).limit(pageSize).exec(function (err, doc) {
+      if (!err) {
+        observer.next(doc);
+      } else {
+        observer.error(err);
+      }
+      observer.complete();
+    });
+  });
+};
+
+this.getUnitOfMeasures = function (searchStr, pageSize) {
+  searchStr = new RegExp(searchStr);
+  return Rx.Observable.create(function (observer) {
+    db.unitOfMeasures.find({name: {$regex: searchStr}}).limit(pageSize).exec(function (err, doc) {
+      if (!err) {
+        observer.next(doc);
+      } else {
+        observer.error(err);
+      }
+      observer.complete();
+    });
+  });
+};
+
+this.getPersons = function (searchStr, pageSize) {
+  searchStr = new RegExp(searchStr);
+  return Rx.Observable.create(function (observer) {
+    db.persons.find({name: {$regex: searchStr}}).limit(pageSize).exec(function (err, doc) {
+      if (!err) {
+        observer.next(doc);
+      } else {
+        observer.error(err);
+      }
+      observer.complete();
+    });
+  });
 };
 
 this.getAssetCount = function () {

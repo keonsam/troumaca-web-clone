@@ -1,9 +1,8 @@
 import {Component, OnInit} from "@angular/core";
-import {AssetTypes} from "../../assets/asset.types";
+import {AssetTypes} from "../asset.types";
 import {AssetTypeService} from "../asset.type.service";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'asset-type-list',
@@ -19,8 +18,7 @@ export class AssetTypeListComponent implements OnInit {
   private defaultSortOrder = "asc";
   private _routerLinkCreateAssetType:string = "/asset-types/create";
 
-  constructor(private assetTypeService: AssetTypeService,
-              private router: Router) {
+  constructor(private assetTypeService: AssetTypeService) {
 
      let newAssetTypes = new AssetTypes();
      newAssetTypes.page = new Page(0, 0, 0);

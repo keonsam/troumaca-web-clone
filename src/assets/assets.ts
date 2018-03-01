@@ -4,7 +4,7 @@ import {Sort} from "../sort/sort";
 
 export class Assets {
 
-  private _assets:Asset[];
+  private _assets:Asset[] = [];
   private _page:Page;
   private _sort:Sort;
 

@@ -6,6 +6,10 @@ import {AssetStates} from "./asset.states";
 import {JsonConvert, OperationMode, ValueCheckingMode} from "json2typescript";
 import {AssetKindStates} from "./asset.kind.states";
 import {AssetState} from "./asset.state";
+import {AssetTypeStates} from "../asset-type/asset.type.states";
+import {UnitOfMeasureStates} from "../unit-of-measure/unit.of.measure.states";
+import {UnionOfPhysicalSiteStates} from "../site/union.of.physical.site.states";
+import {PersonStates} from "../party/person.states";
 
 export class AssetClientHttp extends AssetClient {
 
@@ -78,9 +82,113 @@ export class AssetClientHttp extends AssetClient {
   public getAssetKinds(): Observable<AssetKindStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/asset/kinds");
+    array.push("/assets/kinds");
 
     return this.http.get<AssetKindStates>(array.join(""), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+
+  public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetTypeStates> {
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/assets/asset-types");
+
+    let queryStr = [];
+    if (searchStr) {
+      queryStr.push("q=" + searchStr);
+    }
+
+    if (pageSize) {
+      queryStr.push("pageSize=" + searchStr);
+    }
+
+    if (queryStr.length > 0) {
+      array.push("?");
+      array.push(queryStr.join("&"));
+    }
+
+    return this.http.get<AssetTypeStates>(array.join(""), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+
+  public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteStates> {
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/assets/sites");
+
+    let queryStr = [];
+    if (searchStr) {
+      queryStr.push("q=" + searchStr);
+    }
+
+    if (pageSize) {
+      queryStr.push("pageSize=" + searchStr);
+    }
+
+    if (queryStr.length > 0) {
+      array.push("?");
+      array.push(queryStr.join("&"));
+    }
+
+    return this.http.get<UnionOfPhysicalSiteStates>(array.join(""), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+
+  public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasureStates> {
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/assets/unit-of-measures");
+
+    let queryStr = [];
+    if (searchStr) {
+      queryStr.push("q=" + searchStr);
+    }
+
+    if (pageSize) {
+      queryStr.push("pageSize=" + searchStr);
+    }
+
+    if (queryStr.length > 0) {
+      array.push("?");
+      array.push(queryStr.join("&"));
+    }
+
+    return this.http.get<UnitOfMeasureStates>(array.join(""), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+
+  public findPersons(searchStr: string, pageSize: number): Observable<PersonStates> {
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/assets/persons");
+
+    let queryStr = [];
+    if (searchStr) {
+      queryStr.push("q=" + searchStr);
+    }
+
+    if (pageSize) {
+      queryStr.push("pageSize=" + searchStr);
+    }
+
+    if (queryStr.length > 0) {
+      array.push("?");
+      array.push(queryStr.join("&"));
+    }
+
+    return this.http.get<PersonStates>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;

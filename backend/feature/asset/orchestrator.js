@@ -23,6 +23,46 @@ module.exports = function AssetOrchestrator() {
     });
   };
 
+  this.getAssetKinds = function() {
+    return assetRepository
+    .getAssetKinds()
+    .map(value => {
+      return responseShaper.shapeAssetsResponse2("assetKinds", value);
+    });
+  }
+
+  this.getAssetTypes = function(searchStr, pageSize) {
+    return assetRepository
+    .getAssetTypes(searchStr, pageSize)
+    .map(value => {
+      return responseShaper.shapeAssetsResponse2("assetTypes", value);
+    });
+  }
+
+  this.getUnionOfPhysicalSites = function(searchStr, pageSize) {
+    return assetRepository
+    .getUnionOfPhysicalSites(searchStr, pageSize)
+    .map(value => {
+      return responseShaper.shapeAssetsResponse2("unionOfPhysicalSites", value);
+    });
+  }
+
+  this.getUnitOfMeasures = function(searchStr, pageSize) {
+    return assetRepository
+    .getUnitOfMeasures(searchStr, pageSize)
+    .map(value => {
+      return responseShaper.shapeAssetsResponse2("unitOfMeasures", value);
+    });
+  }
+
+  this.getPersons = function(searchStr, pageSize) {
+    return assetRepository
+    .getPersons(searchStr, pageSize)
+    .map(value => {
+      return responseShaper.shapeAssetsResponse2("persons", value);
+    });
+  }
+
   this.getAssetById = function (assetId) {
     return assetRepository.getAssetById(assetId);
   }

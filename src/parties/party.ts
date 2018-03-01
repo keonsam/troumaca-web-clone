@@ -3,6 +3,7 @@ export class Party {
   private _partyId:string;
   private _name:string;
   private _createdOn:Date;
+  private _modifiedOn: string;
 
   get partyId(): string {
     return this._partyId;
@@ -27,4 +28,13 @@ export class Party {
   set createdOn(value: Date) {
     this._createdOn = value;
   }
+
+  get modifiedOn(): string {
+    return this._modifiedOn;
+  }
+
+  set modifiedOn(value: string) {
+    this._modifiedOn = value;
+  }
+
 }

@@ -1,4 +1,5 @@
-{"dataTypeId":"213673ba-317e-4a99-9893-86d9dad89ee0","name":"test3","_id":"IE2TThC6bY3xkVvs"}
-{"dataTypeId":"39ea2056-4a98-4890-a23b-34a8599e3a0d","name":"test1","_id":"OmUuiiGDBmuBwHmy"}
-{"dataTypeId":"4089cb5c-301b-49a9-ab62-7243fca1cb6a","name":"test2","_id":"ReY0cR2pPW5DB14X"}
-{"dataTypeId":"ce3c3984-e10d-43e6-9ba6-509f15d98e2f","name":"test4","_id":"doDUvlWsEVsd3Wnm"}
+{"dataTypeId":"f8400178-5f14-45ec-80ac-bbd0daca1e8a","name":"String","_id":"DtSn55kxQe2Dvlw5"}
+{"dataTypeId":"96bbf69d-1b31-4f74-abc4-2708059f21d8","name":"Long","_id":"KAdDszWxrhRnFYTg"}
+{"dataTypeId":"1739b494-4404-4dcd-a386-a6221f5a2248","name":"Integer","_id":"WEGioPpH8GdOq04n"}
+{"dataTypeId":"61ae91b0-e01f-414b-98c6-2e5da6b12ff0","name":"Boolean","_id":"fdhnLnA3Y9q38ypO"}
+{"dataTypeId":"972d0758-03c0-45e8-82e1-99815cbc77e5","name":"Decimal","_id":"kPktm5d722rqtSbw"}

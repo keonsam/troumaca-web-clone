@@ -15,9 +15,9 @@ export abstract class AssetTypeClassRepository {
 
   abstract getAssetTypeClasses(pageNumber:number, pageSize:number, sortOrder:string):Observable<AssetTypeClasses>;
 
-  abstract getAvailableAttributes(pageNumber:number, pageSize:number, sortOrder:string, assignedArray: string[]): Observable<Attributes>;
+  abstract getAvailableAttributes(pageNumber:number, pageSize:number, sortOrder:string, assignedArray: any[]): Observable<Attributes>;
 
-  abstract getAssignedAttributes(pageNumber:number, pageSize:number, sortOrder:string, assignedArray: string[]): Observable<Attributes>;
+  abstract getAssignedAttributes(pageNumber:number, pageSize:number, sortOrder:string, assignedArray: any[]): Observable<Attributes>;
 
   abstract addAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass>;
 

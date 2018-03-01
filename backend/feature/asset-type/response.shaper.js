@@ -11,6 +11,13 @@ module.exports =  function ResponseShaper() {
         },
         sort:sort
       }
+    },
+    shapeAssetTypesResponse2: function(dataName, data) {
+      return {
+        [dataName]: data,
+        page: {},
+        sort: {}
+      }
     }
   }
 };

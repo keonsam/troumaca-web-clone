@@ -4,7 +4,7 @@ let Rx = require("rxjs");
 let path = require('path');
 let UUIDGenerator = require("../uuid.generator");
 let DbUtil = require("../db.util");
-let db = require("../db2.js")
+let db = require("../db.js")
 let hostname = 'troumaca.com';
 
 //let theAttributesDb = path.resolve(__dirname, '..','..',) + '/nedb/attributes.db';
@@ -40,11 +40,11 @@ module.exports =  function DatabaseAttributeRepository() {
   };
 
   this.getDataTypes = function () {
-  /*
+
     // use this to add to the database
-    let toSave = {
-      "dataTypeId": "123",
-      "name": "test4"
+    /*let toSave = {
+      "dataTypeId": "",
+      "name": "boolean"
     }
     toSave.dataTypeId = newUuidGenerator.generateUUID();
     return Rx.Observable.create(function (observer) {

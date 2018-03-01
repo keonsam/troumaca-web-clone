@@ -1,1 +1,57 @@
-employee Creation
+<div class="content-i">
+
+  <!-- <asset-top-menu></asset-top-menu> -->
+
+  <div class="content-box">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="element-wrapper">
+          <div class="element-box">
+            <form [formGroup]="userForm" (ngSubmit)="onCreate()" id="formValidate">
+              <h5 class="form-header">
+                New User Form
+              </h5>
+
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to create new user.</div>
+              <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">Failed to create new user credential.</div>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="First Name">First Name</label><input class="form-control" formControlName="firstName" placeholder="Enter First Name" required="required" type="text">
+                  <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">Invalid First Name.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Middle Name">Middle Name</label><input class="form-control" formControlName="middleName" placeholder="Enter Middle Name" required="required" type="text">
+                  <div [hidden]="middleName.valid || middleName.pristine" class="alert alert-danger">Invalid Middle Name.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Last Name">Last Name</label><input class="form-control" formControlName="lastName" placeholder="Enter Last Name" required="required" type="text">
+                  <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">Invalid Last Name.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Username">Username</label><input class="form-control" formControlName="username" placeholder="Enter Username" required="required" type="text">
+                  <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Username.</div>
+                </div>
+              </fieldset>
+
+              <div class="form-buttons-w">
+                <button class="btn btn-primary button1" [disabled]="!userForm.valid" type="submit"> Create</button>
+                <button class="btn btn-white" type="cancel" (click)="onReset()"> Cancel</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

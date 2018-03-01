@@ -1,4 +1,4 @@
-/* 
+/*
 TABLE OF CONTENTS
 
 
@@ -14,7 +14,7 @@ TABLE OF CONTENTS
   3g. Override bootstrap typography styles
   3h. Override bootstrap modal styles
 4. Overrides for various plugins that are included with this template
-5. Handy Animations 
+5. Handy Animations
 6. User Profiles
 7. Layout styles
 8. Menu styles
@@ -10488,7 +10488,7 @@ strong {
 /* 8. Menu styles */
 /*
   STYLE NAVIGATION
-  
+
 #1. Mobile Menu
 #2. Side Menu Default
 #3. Side Menu Compact
@@ -12574,7 +12574,7 @@ strong {
 }
 
 /* 9. Styles for all element blocks */
-/* 
+/*
 
   # -- STYLES NAVIGATION:
 
@@ -13878,6 +13878,8 @@ strong {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+
+
 .m-t {
   margin-top: 1rem;
 }
@@ -14477,9 +14479,9 @@ strong {
 }
 
 /* 12. Chat */
-/* 
+/*
 
-Chat Styles 
+Chat Styles
 
 #1. Popup chat on a side
 
@@ -14749,12 +14751,12 @@ Chat Styles
 }
 
 /* 13. App - Email */
-/* Email App styles 
-#1. EMAIL APP WRAPPER 
-#2. LEFT MENU 
-#3. MESSAGES LIST 
-#4. CONTENT BOX 
-#5. MESSAGE BOX 
+/* Email App styles
+#1. EMAIL APP WRAPPER
+#2. LEFT MENU
+#3. MESSAGES LIST
+#4. CONTENT BOX
+#5. MESSAGE BOX
 #6. REPLY
 #7. FOLDED STYLES
 */
@@ -15990,16 +15992,16 @@ Chat Styles
 }
 
 /* 16. Pricing Plans */
-/* 
+/*
 
 Pricing Plans Styles
 
-#1. 
-#2. 
-#3. 
-#4. 
-#5. 
-#6. 
+#1.
+#2.
+#3.
+#4.
+#5.
+#6.
 
 
 */
@@ -16713,7 +16715,7 @@ Pricing Plans Styles
 }
 
 /* 19. App - TODO */
-/* 
+/*
 
 TODO Application
 
@@ -17327,9 +17329,9 @@ TODO Application
 }
 
 /* ##. Responsive Styles */
-/* 
+/*
 
-Contents: 
+Contents:
 
 #1.  Screen size <= 1650px
 #2.  Screen size <= 1550px
@@ -17767,6 +17769,7 @@ Contents:
   .user-profile .up-sub-header {
     font-size: 1rem;
   }
+
   .todo-app-w .todo-sidebar {
     padding: 30px;
     -webkit-box-flex: 0;

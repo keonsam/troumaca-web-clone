@@ -41,10 +41,11 @@
               </tr>
             </tfoot>
             <tbody>
+
               <tr role="row" *ngFor="let attribute of attributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
                 <td>{{attribute.name}}</td>
                 <td>{{attribute.format}}</td>
-                <td>{{attribute.dataType}}</td>
+                <td>{{attribute.dataType.name}}</td>
                 <td>{{attribute.unitOfMeasureId}}</td>
                 <td>{{attribute.maximumValue}}</td>
                 <td>{{attribute.minimumValue}}</td>
@@ -53,7 +54,7 @@
                 </td>
               </tr>
               <tr *ngIf="attributes.attributes.length <= 0" class="odd">
-                <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+                <td valign="top" align="" colspan="7" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
               </tr>
             </tbody>
           </table>

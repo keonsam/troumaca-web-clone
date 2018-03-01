@@ -6,9 +6,9 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/filter";
 import {Asset} from "../asset";
-import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
+//import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
 import {AssetKind} from "../asset.kind";
-import {AssetType} from "../asset.type";
+import {AssetType} from "../../asset-types/asset.type";
 import {UnitOfMeasure} from "../asset.unit.of.measure";
 import {AssetPerson} from "../asset.person";
 import {Site} from "../asset.site";
@@ -26,51 +26,30 @@ export class AssetEditComponent implements OnInit {
   private assetId: string;
   private sub: any;
 
-  private _assetKindFormControlName: string;
   private _assetKindId: FormControl;
-
-  private _assetTypeFormControlName: string;
   private _assetType: FormControl;
-
-  private _serialNumberFormControlName: string;
   private _serialNumber: FormControl;
-
-  private _quantityFormControlName: string;
   private _quantity: FormControl;
-
-  private _unitOfMeasureFormControlName: string;
   private _unitOfMeasure: FormControl;
-
-  private _siteFormControlName: string;
   private _site: FormControl;
-
-  private _personFormControlName: string;
   private _person: FormControl;
-
   private _description: FormControl;
+
 
   private _assetEditForm:FormGroup;
 
   private _assetKinds: AssetKind[];
-  private _searchStr: string;
   private _assetTypeDataService: CompleterData;
   private _unitOfMeasureDataService: CompleterData;
   private _siteDataService: CompleterData;
   private _personDataService: CompleterData;
-  private _placeholder:string;
 
-  private selectedAssetType:CompleterItem;
-  private selectedAssignee:CompleterItem;
-  private selectedSite:CompleterItem;
-  private selectedUnitOfMeasure:CompleterItem;
-
-  private selectedAssetKindId:string;
   private pageSize:number;
   private asset:Asset;
 
   private _doNotDisplayFailureMessage:boolean;
 
-  constructor(private  assetService:AssetService,
+  constructor(private assetService:AssetService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -78,20 +57,12 @@ export class AssetEditComponent implements OnInit {
 
     this.assetKindId = new FormControl("", [Validators.required]);
     this.assetType = new FormControl("", [Validators.required]);
-    this.serialNumber = new FormControl("", [Validators.required]);
-    this.quantity = new FormControl("", [Validators.required]);
+    this.serialNumber = new FormControl("");
+    this.quantity = new FormControl("");
     this.unitOfMeasure = new FormControl("");
     this.site = new FormControl("");
     this.person = new FormControl("");
     this.description = new FormControl("");
-
-    this.assetKindFormControlName = "assetKindId";
-    this.assetTypeFormControlName = "assetType";
-    this.serialNumberFormControlName = "serialNumber";
-    this.quantityFormControlName = "quantity";
-    this.unitOfMeasureFormControlName = "unitOfMeasure";
-    this.siteFormControlName = "site";
-    this.personFormControlName = "person";
 
     this.assetEditForm = formBuilder.group({
       "assetKindId": this.assetKindId,
@@ -104,12 +75,12 @@ export class AssetEditComponent implements OnInit {
       "description": this.description
     });
 
-    this.selectedAssetKindId = "";
     this.pageSize = 15;
 
     this.assetKinds = [];
 
     let asset = new Asset();
+    asset.assetKind = new AssetKind
     asset.assetType = new AssetType();
     asset.unitOfMeasure = new UnitOfMeasure();
     asset.person = new AssetPerson();
@@ -120,7 +91,7 @@ export class AssetEditComponent implements OnInit {
    this.assetEditForm
     .valueChanges
     .subscribe(value => {
-      this.asset.assetKindId = value.assetKindId;
+      this.asset.assetKind = this.assetKinds.find(x => x.assetKindId ==value.assetKindId);
       this.asset.serialNumber = value.serialNumber;
       this.asset.quantity = value.quantity;
       this.asset.description = value.description;
@@ -144,15 +115,13 @@ export class AssetEditComponent implements OnInit {
       console.log(onError);
     });
 
-    this.controlSubscriptions();
-
     this.createAndPopulateDropDowns();
 
     this.sub = this.route.params.subscribe(params => {
        this.assetId = params['assetId'];
        this.assetService.getAssetById(this.assetId)
        .subscribe(asset =>{
-        this.assetKindId.setValue(asset.assetKindId);
+        this.assetKindId.setValue(asset.assetKind.assetKindId);
         this.assetType.setValue(asset.assetType.name);
         this.serialNumber.setValue(asset.serialNumber);
         this.quantity.setValue(asset.quantity);
@@ -164,19 +133,10 @@ export class AssetEditComponent implements OnInit {
       }, error => {
         console.log(error);
       }, () => {
-        this.assetEditForm
-        .valueChanges
-        .subscribe(value => {
-          this.asset.assetKindId = value.assetKindId;
-          this.asset.serialNumber = value.serialNumber;
-          this.asset.quantity = value.quantity;
-          this.asset.description = value.description;
-          console.log(value);
-        }, error2 => {
-          console.log(error2);
+        console.log("complete");
         });
       })
-    });
+
   }
 
   private createAndPopulateDropDowns() {
@@ -191,43 +151,9 @@ export class AssetEditComponent implements OnInit {
     this.populatePersonDropDown();
   }
 
-  private controlSubscriptions() {
-    let that = this;
-    this.assetEditForm.get(this.assetKindFormControlName).valueChanges
-      .subscribe(value => {
-        that.selectedAssetKindId = value;
-        //this.assetKindFormControlValue = value;
-        this.asset.assetKindId = value;
-      });
-
-    // this.assetEditForm.get(this.assetKindFormControlName).valueChanges
-    //   .subscribe(value => {
-    //     that.assetKindFormControlValue = value;
-    //     that.asset.assetKindId = value;
-    //   });
-
-  //   this.assetEditForm.get(this.assetTypeFormControlName).valueChanges
-  //     .subscribe(value => {
-  //       that.assetTypeFormControlValue = value;
-  //       that.asset.assetType.assetTypeId = value;
-  //     });
-
-    this.assetEditForm.get(this.serialNumberFormControlName).valueChanges
-      .subscribe(value => {
-        //that.serialNumberFormControlValue = value;
-        that.asset.serialNumber = value;
-      });
-
-    this.assetEditForm.get(this.quantityFormControlName).valueChanges
-      .subscribe(value => {
-        //that.quantityFormControlValue = value;
-        that.asset.quantity = value;
-      });
-  }
-
   private populateAssetTypeDropDown() {
     let that = this;
-    this.assetEditForm.get(this.assetKindFormControlName).valueChanges
+    this.assetEditForm.get("assetType").valueChanges
       .debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -255,7 +181,7 @@ export class AssetEditComponent implements OnInit {
 
   private populateUnitOfMeasureDropDown() {
     let that = this;
-    this.assetEditForm.get(this.unitOfMeasureFormControlName).valueChanges
+    this.assetEditForm.get("unitOfMeasure").valueChanges
       .debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -284,7 +210,7 @@ export class AssetEditComponent implements OnInit {
 
   private populateSiteDropDown() {
     let that = this;
-    this.assetEditForm.get(this.siteFormControlName).valueChanges
+    this.assetEditForm.get("site").valueChanges
       .debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -318,7 +244,7 @@ export class AssetEditComponent implements OnInit {
 
   private populatePersonDropDown() {
     let that = this;
-    this.assetEditForm.get(this.personFormControlName).valueChanges
+    this.assetEditForm.get("person").valueChanges
       .debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -350,22 +276,6 @@ export class AssetEditComponent implements OnInit {
 
   set assetEditForm(value: FormGroup) {
     this._assetEditForm = value;
-  }
-
-  get placeholder(): string {
-    return this._placeholder;
-  }
-
-  set placeholder(value: string) {
-    this._placeholder = value;
-  }
-
-  get searchStr(): string {
-    return this._searchStr;
-  }
-
-  set searchStr(value: string) {
-    this._searchStr = value;
   }
 
   get assetTypeDataService(): CompleterData {
@@ -472,62 +382,6 @@ export class AssetEditComponent implements OnInit {
     this._assetKinds = value;
   }
 
-  get assetKindFormControlName(): string {
-    return this._assetKindFormControlName;
-  }
-
-  set assetKindFormControlName(value: string) {
-    this._assetKindFormControlName = value;
-  }
-
-  get assetTypeFormControlName(): string {
-    return this._assetTypeFormControlName;
-  }
-
-  set assetTypeFormControlName(value: string) {
-    this._assetTypeFormControlName = value;
-  }
-
-  get serialNumberFormControlName(): string {
-    return this._serialNumberFormControlName;
-  }
-
-  set serialNumberFormControlName(value: string) {
-    this._serialNumberFormControlName = value;
-  }
-
-  get quantityFormControlName(): string {
-    return this._quantityFormControlName;
-  }
-
-  set quantityFormControlName(value: string) {
-    this._quantityFormControlName = value;
-  }
-
-  get unitOfMeasureFormControlName(): string {
-    return this._unitOfMeasureFormControlName;
-  }
-
-  set unitOfMeasureFormControlName(value: string) {
-    this._unitOfMeasureFormControlName = value;
-  }
-
-  get siteFormControlName(): string {
-    return this._siteFormControlName;
-  }
-
-  set siteFormControlName(value: string) {
-    this._siteFormControlName = value;
-  }
-
-  get personFormControlName(): string {
-    return this._personFormControlName;
-  }
-
-  set personFormControlName(value: string) {
-    this._personFormControlName = value;
-  }
-
   get doNotDisplayFailureMessage(): boolean {
     return this._doNotDisplayFailureMessage;
   }
@@ -536,54 +390,32 @@ export class AssetEditComponent implements OnInit {
     this._doNotDisplayFailureMessage = value;
   }
 
-  isInventory() {
-    let typeId = "65694257-0aa8-4fb6-abb7-e6c7b83cf4f2";
-    return this.selectedAssetKindId.toUpperCase() === typeId.toUpperCase();
-  }
-
-  isDiscreteItem() {
-    let typeId = "4cf11077-c5e3-41f3-b40b-6e89dce6e9c8";
-    return this.selectedAssetKindId.toUpperCase() === typeId.toUpperCase();
-  }
-
-  onReset() {
-    this.assetEditForm.reset();
-  }
-
   onAssetTypeSelect(selected: CompleterItem) {
-    if (selected) {
-      this.assetType = selected.originalObject.name;
-      //this.assetTypeFormControlValue = selected.originalObject.assetTypeId;
-      //this.asset.assetKindId = selected.originalObject.assetTypeId;
       this.asset.assetType = selected.originalObject;
-    }
   }
 
   onUnitOfMeasureSelect(selected: CompleterItem) {
-    if (selected) {
-      // this.unitOfMeasureFormControlValue = selected.originalObject.unitOfMeasureId;
-      this.unitOfMeasure
       this.asset.unitOfMeasure = selected.originalObject;
-    }
   }
 
   onPhysicalSiteSelect(selected: CompleterItem) {
-    if (selected) {
-    //  this.siteFormControlValue = selected.originalObject.siteId;
       this.asset.site = selected.originalObject;
-    }
   }
 
   onPersonSelect(selected: CompleterItem) {
-    if (selected) {
-    //  this.personFormControlValue = selected.originalObject.partyId;
-
       this.asset.person = selected.originalObject;
-    }
+  }
+
+
+  isDiscreteItem() {
+    return this.assetKindId.value == "4cf11077-c5e3-41f3-b40b-6e89dce6e9c8";
+  }
+
+  isInventory() {
+    return this.assetKindId.value == "65694257-0aa8-4fb6-abb7-e6c7b83cf4f2";
   }
 
   onCreate() {
-    console.log(this.asset);
     this.doNotDisplayFailureMessage = true;
     this.assetService
     .updateAsset(this.assetId, this.asset)

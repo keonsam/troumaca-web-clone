@@ -1,5 +1,6 @@
-import {AssetTypeClassState} from "./asset.type.class.state";
+import {AssetTypeClassState} from "../asset-type-class/asset.type.class.state";
 // import {AttributeState} from "./attribute.state";
+
 
 export class AssetTypeState {
 

@@ -4,16 +4,16 @@ let Rx = require("rxjs");
 let path = require('path');
 let UUIDGenerator = require("../uuid.generator");
 let DbUtil = require("../db.util");
-let db2 = require("../db2.js");
+let db = require("../db.js");
 let hostname = 'troumaca.com';
 
 //let theAttributesDb = path.resolve(__dirname, '..','..',) + '/nedb/attributes.db';
-let theAssetTypeClassesDb = path.resolve(__dirname, '..','..',) + '/nedb/asset-type-classes.db';
+//let theAssetTypeClassesDb = path.resolve(__dirname, '..','..',) + '/nedb/asset-type-classes.db';
 //let theDataTypesDb =  path.resolve(__dirname, '..','..',) + '/nedb/data-types.db';
 
-let db = {};
-db.assetTypeClasses = new Datastore(theAssetTypeClassesDb);
-db.assetTypeClasses.loadDatabase(function (err) { console.log(err); });
+//let db = {};
+//db.assetTypeClasses = new Datastore(theAssetTypeClassesDb);
+//db.assetTypeClasses.loadDatabase(function (err) { console.log(err); });
 
 //db.attributes = new Datastore(theAttributesDb);
 //db.attributes.loadDatabase(function (err) { console.log(err); });
@@ -30,7 +30,7 @@ module.exports =  function DatabaseAssetRepository() {
 
   this.getDataTypes = function () {
     return Rx.Observable.create(function (observer) {
-      db2.dataTypes.find({}, function (err, docs) {
+      db.dataTypes.find({}, function (err, docs) {
         if (!err) {
           observer.next(docs);
         } else {
@@ -57,7 +57,7 @@ module.exports =  function DatabaseAssetRepository() {
   this.getAvailableAttributes = function (pageNumber, pageSize, order, assignedArray) {
     return Rx.Observable.create(function (observer) {
       let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
-      db2.attributes.find({ attributeId: { $nin: assignedArray }}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
+      db.attributes.find({ attributeId: { $nin: assignedArray }}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -71,7 +71,7 @@ module.exports =  function DatabaseAssetRepository() {
   this.getAssignedAttributes = function (pageNumber, pageSize, order, assignedArray) {
     return Rx.Observable.create(function (observer) {
       let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
-      db2.attributes.find({ attributeId: { $in: assignedArray }}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
+      db.attributes.find({ attributeId: { $in: assignedArray }}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -97,7 +97,7 @@ module.exports =  function DatabaseAssetRepository() {
 
   this.getAvailableAttributeCount = function () {
     return Rx.Observable.create(function (observer) {
-      db2.attributes.count({}, function (err, count) {
+      db.attributes.count({}, function (err, count) {
         if (!err) {
           observer.next(count);
         } else {
@@ -127,7 +127,7 @@ module.exports =  function DatabaseAssetRepository() {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["attributeId"] = attributeId;
-      db2.attributes.findOne(query, function (err, doc) {
+      db.attributes.findOne(query, function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -155,7 +155,7 @@ module.exports =  function DatabaseAssetRepository() {
   this.saveAvailableAttribute = function (availableAttribute) {
     availableAttribute.attributeId = newUuidGenerator.generateUUID();
     return Rx.Observable.create(function (observer) {
-      db2.attributes.insert(availableAttribute, function (err, doc) {
+      db.attributes.insert(availableAttribute, function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -185,7 +185,7 @@ module.exports =  function DatabaseAssetRepository() {
    return Rx.Observable.create(function (observer) {
      let query = {};
      query["attributeId"] = attributeId;
-     db2.attributes.remove(query, {}, function (err, numRemoved) {
+     db.attributes.remove(query, {}, function (err, numRemoved) {
        if (!err) {
          observer.next(numRemoved);
        } else {
@@ -215,7 +215,7 @@ module.exports =  function DatabaseAssetRepository() {
    return Rx.Observable.create(function (observer) {
      let query = {};
      query["attributeId"] = attributeId;
-     db2.attributes.update(query, attribute, {}, function (err, numReplaced) {
+     db.attributes.update(query, attribute, {}, function (err, numReplaced) {
        if (!err) {
          observer.next(numReplaced);
        } else {

@@ -33,6 +33,7 @@ let attributesResource = require('./feature/attribute/resources');
 let assetsResource = require('./feature/asset-type/resources');
 let shipmentResource = require('./feature/shipment/resources');
 let credentialResource = require('./feature/credential/credential.resources');
+let partyResource = require('./feature/party/resources');
 
 let app = express();
 
@@ -49,10 +50,7 @@ app.use(cookieParser());
 
 app.use('/asset', asset);
 app.use('/unit-of-measures', unitOfMeasures);
-
 app.use('/sites/physical-sites', unionOfPhysicalSites);
-
-app.use('/parties/persons', persons);
 app.use('/assets', assetResource);
 app.use('/asset-type-classes', assetTypeClassesResource);
 app.use('/sites', siteResource);
@@ -60,6 +58,8 @@ app.use('/attributes', attributesResource);
 app.use('/asset-types', assetsResource);
 app.use('/shipments', shipmentResource);
 app.use('/credentials', credentialResource);
+app.use('/parties', partyResource);
+// app.set('view engine', 'ejs');
 
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.

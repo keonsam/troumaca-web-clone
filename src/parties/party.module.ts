@@ -26,7 +26,9 @@ import {UserListComponent} from "./users/user-list/user.list.component";
 import {UserTopMenuComponent} from "./users/user-top-menu/user.top.menu.component";
 import {UserEditComponent} from "./users/user-edit/user.edit.component";
 import {UserCreationComponent} from "./users/user-creation/user.creation.component";
+import {UserMeComponent} from "./users/user-me/user.me.component";
 import {PartyEventService} from "./party.event.service";
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   imports: [
@@ -36,7 +38,8 @@ import {PartyEventService} from "./party.event.service";
     FormsModule,
     ReactiveFormsModule,
     PagingModule,
-    MenuModule
+    MenuModule,
+    ImageCropperModule
   ],
   declarations: [
     PartyComponent,
@@ -57,6 +60,7 @@ import {PartyEventService} from "./party.event.service";
     UserListComponent,
     UserEditComponent,
     UserCreationComponent,
+    UserMeComponent,
     MeComponent
   ],
   providers: [{
@@ -90,6 +94,7 @@ import {PartyEventService} from "./party.event.service";
     UserListComponent,
     UserEditComponent,
     UserCreationComponent,
+    UserMeComponent,
     MeComponent
   ]
 })

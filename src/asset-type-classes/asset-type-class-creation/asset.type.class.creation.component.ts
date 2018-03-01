@@ -28,18 +28,11 @@ export class AssetTypeClassCreationComponent implements OnInit {
   private _maximumValue: FormControl;
   private _minimumValue: FormControl;
 
-  /*private _attributeNameEdit: FormControl;
-  private _formatEdit: FormControl;
-  private _dataTypeEdit: FormControl;
-  private _unitOfMeasureIdEdit: FormControl;
-  private _maximumValueEdit: FormControl;
-  private _minimumValueEdit: FormControl; */
-
   private _assetTypeClassForm:FormGroup;
   private _attributeForm: FormGroup;
-  //private _attributeEditForm: FormGroup;
 
   private _assignedArray: string[];
+  private _assignedArrayObject: any[];
 
   private attribute: Attribute;
   private _dataTypes: DataType[];
@@ -56,7 +49,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
   private _doNotDisplayFailureMessage:boolean;
   private _doNotDisplayFailureMessage2:boolean;
-  //private _doNotDisplayFailureMessage3:boolean;
 
   private _newOrEdit: string;
   private modalReference: NgbModalRef;
@@ -81,18 +73,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
     this.minimumValue = new FormControl("");
 
-    /*this.attributeNameEdit = new FormControl("", [Validators.required]);
-
-    this.formatEdit = new FormControl("");
-
-    this.dataTypeEdit = new FormControl("",[Validators.required]);
-
-    this.unitOfMeasureIdEdit = new FormControl("");
-
-    this.maximumValueEdit = new FormControl("");
-
-    this.minimumValueEdit = new FormControl(""); */
-
    this.assetTypeClassForm = formBuilder.group({
       "name": this.name,
       "description": this.description
@@ -107,14 +87,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
       "minimumValue": this.minimumValue
     });
 
-    /*this.attributeEditForm = formBuilder.group({
-      "attributeNameEdit": this.attributeNameEdit,
-      "formatEdit": this.formatEdit,
-      "dataTypeEdit": this.dataTypeEdit,
-      "unitOfMeasureIdEdit": this.unitOfMeasureIdEdit,
-      "maximumValueEdit": this.maximumValueEdit,
-      "minimumValueEdit": this.minimumValueEdit
-    }); */
 
     this.assetTypeClass = new AssetTypeClass();
 
@@ -141,7 +113,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
     .subscribe(value => {
       this.attribute.name = value.attributeName;
       this.attribute.format = value.format;
-      this.attribute.dataType = value.dataType;
+      this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
       this.attribute.unitOfMeasureId = value.unitOfMeasureId;
       this.attribute.maximumValue = value.maximumValue;
       this.attribute.minimumValue = value.minimumValue;
@@ -150,21 +122,8 @@ export class AssetTypeClassCreationComponent implements OnInit {
       console.log(error2);
     });
 
-    /*this.attributeEditForm
-    .valueChanges
-    .subscribe(value => {
-      this.attribute.name = value.attributeNameEdit;
-      this.attribute.format = value.formatEdit;
-      this.attribute.dataType = value.dataTypeEdit;
-      this.attribute.unitOfMeasureId = value.unitOfMeasureIdEdit;
-      this.attribute.maximumValue = value.maximumValueEdit;
-      this.attribute.minimumValue = value.minimumValueEdit;
-      console.log(value);
-    }, error2 => {
-      console.log(error2);
-    }); */
-
     this.assignedArray = [];
+    this.assignedArrayObject = [];
 
     this.dataTypes = [];
 
@@ -172,7 +131,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
     this.doNotDisplayFailureMessage2 = true;
 
-    //this.doNotDisplayFailureMessage3 = true;
   }
 
   ngOnInit(): void {
@@ -261,54 +219,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this._minimumValue = value;
   }
 
-  /*get attributeNameEdit(): FormControl {
-    return this._attributeNameEdit;
-  }
-
-  set attributeNameEdit(value: FormControl) {
-    this._attributeNameEdit = value;
-  }
-
-  get formatEdit(): FormControl {
-    return this._formatEdit;
-  }
-
-  set formatEdit(value: FormControl) {
-    this._formatEdit = value;
-  }
-
-  get dataTypeEdit(): FormControl {
-    return this._dataTypeEdit;
-  }
-
-  set dataTypeEdit(value: FormControl) {
-    this._dataTypeEdit = value;
-  }
-
-  get unitOfMeasureIdEdit(): FormControl {
-    return this._unitOfMeasureIdEdit;
-  }
-
-  set unitOfMeasureIdEdit(value: FormControl) {
-    this._unitOfMeasureIdEdit = value;
-  }
-
-  get maximumValueEdit(): FormControl {
-    return this._maximumValueEdit;
-  }
-
-  set maximumValueEdit(value: FormControl) {
-    this._maximumValueEdit = value;
-  }
-
-  get minimumValueEdit(): FormControl {
-    return this._minimumValueEdit;
-  }
-
-  set minimumValueEdit(value: FormControl) {
-     this._minimumValueEdit = value;
-  } */
-
   get assetTypeClassForm(): FormGroup {
     return this._assetTypeClassForm;
   }
@@ -324,14 +234,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
   set attributeForm(value: FormGroup) {
     this._attributeForm = value;
   }
-
-  /*get attributeEditForm(): FormGroup {
-    return this._attributeEditForm;
-  }
-
-  set attributeEditForm(value: FormGroup) {
-    this._attributeEditForm = value;
-  } */
 
   get availableAttributes(): Attributes {
     return this._availableAttributes;
@@ -355,6 +257,14 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
   set assignedArray(value: string[]) {
     this._assignedArray = value;
+  }
+
+  get assignedArrayObject() : any[] {
+    return this._assignedArrayObject;
+  }
+
+  set assignedArrayObject(value: any[]) {
+    this._assignedArrayObject = value;
   }
 
   get doNotDisplayFailureMessage(): boolean {
@@ -381,14 +291,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this._newOrEdit = value;
   }
 
-  /*get doNotDisplayFailureMessage3(): boolean {
-    return this._doNotDisplayFailureMessage3;
-  }
-
-  set doNotDisplayFailureMessage3(value: boolean) {
-    this._doNotDisplayFailureMessage3 = value;
-  } */
-
   getAvailableAttributes() {
     this.assetTypeClassService
     .getAvailableAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
@@ -406,7 +308,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this.assetTypeClassService
     .getAssignedAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
     .subscribe(next => {
-      console.log(next);
       this.assignedAttributes = next;
     }, error => {
       console.log(error);
@@ -420,13 +321,21 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this.getAvailableAttributes();
   }
 
+
+  onCheckBoxChange(event,attributeId) {
+    let index = this.assignedArrayObject.findIndex(x => x.attributeId == attributeId);
+    this.assignedArrayObject[index].required = event.target.checked;
+  }
+
   onAvailableDoubleClick(attributeId: string) {
    this.assignedArray.push(attributeId);
+   this.assignedArrayObject.push({required: true, attributeId});
    this.updateTable();
   }
 
   onAssignedDoubleClick(attributeId: string) {
   this.assignedArray = this.assignedArray.filter(val => val != attributeId);
+  this.assignedArrayObject = this.assignedArrayObject.filter(val => val.attributeId != attributeId);
   this.updateTable();
   }
 
@@ -441,7 +350,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
     .subscribe(attribute =>{
       this.attributeName.setValue(attribute.name);
       this.format.setValue(attribute.format);
-      this.dataType.setValue(attribute.dataType);
+      this.dataType.setValue(attribute.dataType.dataTypeId);
       this.unitOfMeasureId.setValue(attribute.unitOfMeasureId);
       this.maximumValue.setValue(attribute.maximumValue);
       this.minimumValue.setValue(attribute.minimumValue);
@@ -492,7 +401,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
   onCreate() {
 
-    this.assetTypeClass.assignedAttributes = this.assignedArray;
+    this.assetTypeClass.assignedAttributes = this.assignedArrayObject;
     this.doNotDisplayFailureMessage = true;
 
     this.assetTypeClassService
@@ -552,10 +461,5 @@ export class AssetTypeClassCreationComponent implements OnInit {
   cancel() {
     this.router.navigate(['/asset-type-classes']);
   }
-
-  /* onCreate3() {
-    this.doNotDisplayFailureMessage3 = true;
-
-  } */
 
 }

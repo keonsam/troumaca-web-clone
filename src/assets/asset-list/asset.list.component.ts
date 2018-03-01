@@ -77,6 +77,7 @@ export class AssetListComponent implements OnInit {
   });
   }
 
+
   onRequestPage(pageNumber:number) {
    this.defaultPage = pageNumber;
    this.getAssets();

@@ -36,8 +36,8 @@
                  <a [routerLink]="['/asset-type-classes', assetTypeClass.assetTypeClassId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(assetTypeClass.assetTypeClassId)" ><i class="os-icon os-icon-ui-15"></i></a>
                 </td>
               </tr>
-              <tr *ngIf="assetTypeClasses.length <= 0" class="odd">
-                <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+              <tr *ngIf="assetTypeClasses.assetTypeClasses.length <= 0" class="odd">
+                <td valign="top" align="" colspan="3" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
               </tr>
             </tbody>
           </table>
