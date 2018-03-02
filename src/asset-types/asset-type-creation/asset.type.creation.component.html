@@ -73,12 +73,12 @@
             <form [formGroup]="attributeForm" >
               <fieldset *ngFor="let attribute of assignedAttributes.attributes" class="form-group">
                 <div *ngIf="attribute.dataType.name == 'Boolean'" class="form-check">
-                  <label class="form-check-label"><input class="form-check-input" formControlName="{{attribute.attributeId}}"type="checkbox">{{attribute.name}}</label>
+                  <label class="form-check-label"><input class="form-check-input" formControlName="{{attribute.attributeId}}"type="checkbox" [required]="getRequired(attribute.attributeId)">{{attribute.name}}</label>
                 </div>
 
                 <!--<ng-template #normalInput> -->
                   <div *ngIf="attribute.dataType.name != 'Boolean'" class="form-group">
-                    <label for="{{attribute.name}}">{{attribute.name}}</label><input class="form-control" formControlName="{{attribute.attributeId}}" placeholder="Enter Value" [type]="onType(attribute.dataType.name)">
+                    <label for="{{attribute.name}}">{{attribute.name}}</label><input class="form-control" formControlName="{{attribute.attributeId}}" placeholder="Enter Value" [type]="onType(attribute.dataType.name)" [required]="getRequired(attribute.attributeId)">
                     <div [hidden]="attribute.attributeId +'.valid' || attribute.attributeId +'.pristine'" class="alert alert-danger">Invalid {{attribute.name}}.</div>
                   </div>
                 <!--</ng-template> -->

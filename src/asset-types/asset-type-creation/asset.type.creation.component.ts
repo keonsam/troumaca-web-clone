@@ -41,6 +41,7 @@ export class AssetTypeCreationComponent implements OnInit {
   private _doNotDisplayFailureMessage2:boolean;
   private errorCount: number = 0;
   private error: boolean = false;
+  private isRequired: any[] = [];
 
   constructor(private assetTypeService:AssetTypeService,
               private completerService: CompleterService,
@@ -232,6 +233,10 @@ export class AssetTypeCreationComponent implements OnInit {
     this._doNotDisplayFailureMessage2 = value;
   }
 
+  getRequired(attributeId: string) {
+    return this.isRequired.find(x => x.attributeId == attributeId).required;
+  }
+
   onAssetTypeClassIdSelect(selected: CompleterItem) {
     if (selected) {
       this.assetType.assetTypeClass = selected.originalObject;
@@ -248,23 +253,21 @@ export class AssetTypeCreationComponent implements OnInit {
   }
 
   getAttributes(assignedAttributes?: any[]) {
-    console.log(this.assetType.assetTypeClass);
-
+    this.isRequired = assignedAttributes;
     this.assetTypeService
     .getAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
-      console.log(next);
       this.assignedAttributes = next;
       let group: any = {};
       this.assignedAttributes.attributes.forEach(value => {
       let editValue = this.value.find(x => x.attributeId == value.attributeId);
-      let required = assignedAttributes.find(x => x.attributeId == value.attributeId);
+      let required = assignedAttributes.find(x => x.attributeId == value.attributeId).required;
       if(!editValue) {
         this.value.push(new Value(value.attributeId,""));
         editValue = this.value.find(x => x.attributeId == value.attributeId);
       }
-        group[value.attributeId] = required.required ? new FormControl(editValue.text, Validators.required)
-                                                    : new FormControl(editValue.text);
+        group[value.attributeId] = required ? new FormControl(editValue.text, [Validators.required])
+                                            : new FormControl(editValue.text);
         console.log(group);
       });
 
