@@ -33,7 +33,7 @@ export class AppComponent implements OnInit{
   constructor(private router:Router,
               private route:ActivatedRoute,
               private eventService:EventService,
-              private sessionService:SessionService) {
+              private sessionService: SessionService) {
 
     this.isLoggedIn = false;
     this.eventService.subscribeToLoginEvent( (data) => {

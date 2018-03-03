@@ -44,9 +44,11 @@ router.post("/validate-current-password", function (req, res, next) {
 
 router.post("/validate-password", function (req, res, next) {
   let passwordObj = req.body;
+  console.log(passwordObj);
   credentialOrchestrator
   .isValidPassword(passwordObj)
   .subscribe(next => {
+    console.log(next);
     res.send(next.valid);
   }, error => {
     res.status(400);

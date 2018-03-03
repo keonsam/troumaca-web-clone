@@ -80,9 +80,9 @@ module.exports =  function DatabaseCredentialRepository() {
       return Rx.Observable.of(false);
     }
       return this.checkUsernameValid(partyId,username)
-      .map(value => {
+      .switchMap(value => {
         if(value) {
-          return true;
+          return Rx.Observable.of(true);
         }else {
           return this.getCredentialByUsername(username)
             .map(credential => {
@@ -154,10 +154,11 @@ module.exports =  function DatabaseCredentialRepository() {
 
   this.checkUsernameValid = function (partyId, username) {
     return Rx.Observable.create(function (observer) {
-      let query = {};
-      query["partyId"] = partyId;
-      query["username"] = username;
-      db.credentials.findOne(query, function (err, doc) {
+      let query1 = {};
+      let query2 = {};
+      query1["partyId"] = partyId;
+      query2["username"] = username;
+      db.credentials.findOne({$and : [query1,query2]}, function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {

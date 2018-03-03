@@ -96,8 +96,8 @@
               <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">Failed to update your credential.</div>
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Username">Username</label><input class="form-control" formControlName="username" placeholder="Enter Username" required="required" type="text">
-                  <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Username.</div>
+                  <label for="Username">Username</label><input class="form-control" formControlName="username" placeholder="Enter Email or Phone Number" required="required" type="text">
+                  <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Email or Phone Number.</div>
                 </div>
               </fieldset>
 
@@ -110,14 +110,14 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="New Password">New Password</label><input class="form-control" formControlName="newPassword" placeholder="Enter New password" required="required" type="password">
+                  <label for="New Password">New Password</label><input class="form-control" formControlName="newPassword" placeholder="Enter New password" [required]="requiredState" type="password">
                   <div [hidden]="newPassword.valid || newPassword.pristine" class="alert alert-danger">Invalid new password.</div>
                 </div>
               </fieldset>
 
-              <fieldset class="form-group">
+              <fieldset class="form-group" *ngIf="newPassword.value">
                 <div class="form-group">
-                  <label for="Retype Password">Retype Your New Password</label><input class="form-control" formControlName="confirmPassword" placeholder="Enter password again" required="required" type="password">
+                  <label for="Retype Password">Retype Your New Password</label><input class="form-control" formControlName="confirmPassword" placeholder="Enter password again" [required]="requiredState" type="password">
                   <div [hidden]="confirmPassword.valid || confirmPassword.pristine" class="alert alert-danger">Make sure this matches your new password.</div>
                 </div>
               </fieldset>

@@ -43,6 +43,7 @@ export class UserMeComponent implements OnInit {
 
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
+  private requiredState: boolean = false;
 
   constructor(private partyEventService:PartyEventService,
               private partyService: PartyService,
@@ -58,8 +59,8 @@ export class UserMeComponent implements OnInit {
     this.lastName = new FormControl("", [Validators.required]);
     this.username = new FormControl("", [Validators.required, this.usernameEditValidator(this.authenticationService)]);
     this.currentPassword = new FormControl("", [Validators.required, this.currentPasswordValidator(this.authenticationService)]);
-    this.newPassword = new FormControl("", [Validators.required, this.passwordValidator(this.authenticationService)]);
-    this.confirmPassword = new FormControl("", [Validators.required, this.confirmEmailOrPhoneValidator(this.newPassword)]);
+    this.newPassword = new FormControl("");
+    this.confirmPassword = new FormControl("");
 
     this.meEditForm = formBuilder.group({
       "firstName": this.firstName,
@@ -78,9 +79,9 @@ export class UserMeComponent implements OnInit {
        this.person.middleName = value.middleName;
        this.person.lastName = value.lastName;
        this.person.username = value.username;
-       this.credential.password = value.password;
+       this.credential.password = value.currentPassword;
        this.credential.username = value.username;
-       console.log(value);
+       console.log(this.newPassword);
      }, error2 => {
        console.log(error2);
      });
@@ -91,6 +92,21 @@ export class UserMeComponent implements OnInit {
 
   ngOnInit(): void {
     let that = this;
+    // this need fixing
+    this.meEditForm.get("newPassword").valueChanges
+    .subscribe(value => {
+      if(value.length == 1 && !this.requiredState){
+      this.meEditForm.get("newPassword").setValidators([Validators.required, this.passwordValidator(this.authenticationService)]);
+      this.meEditForm.get("confirmPassword").setValidators([Validators.required, this.confirmEmailOrPhoneValidator(this.newPassword)]);
+      this.requiredState = true;
+    }else if (!value) {
+      this.meEditForm.get("newPassword").setValidators(null);
+      this.meEditForm.get("confirmPassword").setValidators(null);
+      this.meEditForm.get("confirmPassword").updateValueAndValidity();
+      this.requiredState = false;
+    }
+    });
+
     this.partyId = "aaa76dce-0a1a-40f3-8131-623c9f7b3caa";
        this.partyService.getPerson(this.partyId)
        .subscribe(person =>{
@@ -360,15 +376,15 @@ export class UserMeComponent implements OnInit {
   onCreate() {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
+
+    if(this.newPassword.value){
+      this.credential.password = this.newPassword.value;
+    }
       this.partyService
       .updatePerson(this.person)
       .subscribe(value => {
         if (value) {
-          if(this.username.value != this.firstUsername){
            this.updateCredential();
-          }else {
-           this.router.navigate(['/parties/users']);
-          }
         } else {
           this.doNotDisplayFailureMessage = false;
         }
