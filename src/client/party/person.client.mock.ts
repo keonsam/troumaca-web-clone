@@ -5,6 +5,8 @@ import {PersonState} from "./person.state";
 import {UUIDGenerator} from "../../uuid.generator";
 import "rxjs/add/observable/of";
 import {PersonStates} from "./person.states";
+import {OrganizationState} from "./organization.state";
+import {OrganizationStates} from "./organization.states";
 
 export class PersonClientMock implements PersonClient {
 
@@ -15,7 +17,11 @@ export class PersonClientMock implements PersonClient {
     return null
   }
 
+  public getOrganizations(pageNumber:number, pageSize:number, sortOrder:string): Observable<OrganizationStates> {
+    return null
+  }
 
+  /// delete this
   public getCurrentPerson(): Observable<PersonState> {
     let personState:PersonState = new PersonState();
     personState.partyId = this.uuidGenerator.generateUUID();
@@ -26,8 +32,14 @@ export class PersonClientMock implements PersonClient {
 
     return Observable.of(personState);
   }
+  ///
+
 
   public getPersonState(partyId: string): Observable<PersonState> {
+    return null;
+  }
+
+  public getOrganizationState(partyId: string): Observable<OrganizationState> {
     return null;
   }
 
@@ -35,11 +47,24 @@ export class PersonClientMock implements PersonClient {
     return null;
   }
 
+  public getCompanyPhoto(partyId: string): Observable<string> {
+    return null;
+  }
+
+
+  /// delete this
   public findPersonStates(searchStr: string, pageSize: number): Observable<PersonStates> {
     return Observable.of(new PersonStates());
   }
 
+  /////
+
+
   public addPersonState(personState: PersonState): Observable<PersonState> {
+    return null;
+  }
+
+  public addOrganizationState(organizationState: OrganizationState): Observable<OrganizationState> {
     return null;
   }
 
@@ -47,7 +72,12 @@ export class PersonClientMock implements PersonClient {
     return null;
   }
 
+
   public deletePerson(partyId: string): Observable<number> {
+    return null;
+  }
+
+  public deleteOrganization(partyId: string): Observable<number> {
     return null;
   }
 
@@ -55,7 +85,12 @@ export class PersonClientMock implements PersonClient {
     return null;
   }
 
+
   public updatePerson(personState: PersonState): Observable<number> {
+    return null;
+  }
+
+  public updateOrganization(organizationState: OrganizationState): Observable<number> {
     return null;
   }
 
@@ -63,7 +98,12 @@ export class PersonClientMock implements PersonClient {
     return null;
   }
 
+
   public updateUserPhoto(partyId: string, croppedImage: string): Observable<number> {
+    return null;
+  }
+
+  public updateCompanyPhoto(partyId: string, croppedImage: string): Observable<number> {
     return null;
   }
 

@@ -45,10 +45,11 @@ export class UserCreationComponent implements OnInit {
 
     this.person = new Person();
     this.credential = new Credential();
+
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
-    this.username = new FormControl("", [Validators.required, this.usernameValidator(this.authenticationService)]);
+    this.username = new FormControl("", [Validators.required, this.usernameValidator(authenticationService)]);
 
     this.userForm = formBuilder.group({
       "firstName": this.firstName,

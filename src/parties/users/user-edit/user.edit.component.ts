@@ -51,7 +51,7 @@ export class UserEditComponent implements OnInit {
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
-    this.username = new FormControl("", [Validators.required, this.usernameEditValidator(this.authenticationService)]);
+    this.username = new FormControl("", [Validators.required, this.usernameEditValidator(authenticationService)]);
 
     this.userEditForm = formBuilder.group({
       "firstName": this.firstName,
@@ -77,7 +77,6 @@ export class UserEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let that = this;
 
     this.sub = this.route.params.subscribe(params => {
        this.partyId = params['partyId'];

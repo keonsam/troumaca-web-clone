@@ -81,7 +81,6 @@ export class UserMeComponent implements OnInit {
        this.person.username = value.username;
        this.credential.password = value.currentPassword;
        this.credential.username = value.username;
-       console.log(this.newPassword);
      }, error2 => {
        console.log(error2);
      });
@@ -392,10 +391,6 @@ export class UserMeComponent implements OnInit {
         console.log(error);
         this.doNotDisplayFailureMessage = false;
       });
-  }
-
-  cancel() {
-    this.router.navigate(['/parties/users']);
   }
 
 }

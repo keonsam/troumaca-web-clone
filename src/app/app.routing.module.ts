@@ -35,6 +35,9 @@ import {SitePhoneCreationComponent} from "../site/site-phone-creation/site.phone
 import {SitePhoneEditComponent} from "../site/site-phone-edit/site.phone.edit.component";
 import {PartyComponent} from "../parties/party.component";
 import {OrganizationCompanyComponent} from "../parties/organizations/organization-company/organization.company.component";
+import {OrganizationListComponent} from "../parties/organizations/organization-list/organization.list.component";
+import {OrganizationCreationComponent} from "../parties/organizations/organization-creation/organization.creation.component";
+import {OrganizationEditComponent} from "../parties/organizations/organization-edit/organization.edit.component";
 import {UserListComponent} from "../parties/users/user-list/user.list.component";
 import {UserCreationComponent} from "../parties/users/user-creation/user.creation.component";
 import {UserEditComponent} from "../parties/users/user-edit/user.edit.component";
@@ -117,10 +120,13 @@ const appRoutes: Routes = [
   { path: 'parties', component: PartyComponent, children:[
     { path: '', redirectTo: 'organizations/company', pathMatch: 'full' },
     { path: 'organizations/company', component: OrganizationCompanyComponent, data:{menuName:'organizations-menu'} },
+    { path: 'organizations/listing', component: OrganizationListComponent, data:{menuName: 'organizations-menu'} },
+    { path: 'organizations/create', component: OrganizationCreationComponent, data:{menuName: 'organizations-menu'} },
+    { path: 'organizations/:partyId/edit', component: OrganizationEditComponent, data:{menuName: 'organizations-menu'} },
     { path: 'users', component: UserListComponent, data:{menuName:'users-menu'} },
-    { path: 'users/create', component: UserCreationComponent },
-    { path: 'users/:partyId/edit', component: UserEditComponent },
-    { path: 'users/me', component: UserMeComponent}
+    { path: 'users/create', component: UserCreationComponent, data:{menuName:'users-menu'} },
+    { path: 'users/:partyId/edit', component: UserEditComponent, data:{menuName:'users-menu'} },
+    { path: 'users/me', component: UserMeComponent, data:{menuName:'users-menu'}}
   ]},
   { path: 'contracts', component: ContractComponent, children:[
     { path: '', redirectTo: 'orders', pathMatch: 'full' },
