@@ -58,6 +58,87 @@ let CredentialOrchestrator = new function() {
       });
   };
 
+  this.authenticateSMSCode = function (phoneUUID,smsCode) {
+    return credentialRepository
+    .getSMSCode(phoneUUID,smsCode)
+    .switchMap(doc => {
+      if(doc) {
+        return credentialRepository.deleteSMSCode(phoneUUID)
+        .map(numRemoved =>{
+          if(numRemoved){
+            credentialRepository.generateConfirmedCredential(doc.credentialId);
+            return true;
+          }else {
+            return false;
+          }
+        });
+      }else{
+        return Rx.Observable.of(false);
+      }
+    });
+  };
+
+  this.authenticateEmailCode = function (emailUUID,emailCode) {
+    return credentialRepository
+    .getEmailCode(emailUUID,emailCode)
+    .switchMap(doc => {
+      if(doc) {
+        return credentialRepository.deleteEmailCode(emailUUID)
+        .map(numRemoved => {
+          if(numRemoved){
+            credentialRepository.generateConfirmedCredential(doc.credentialId);
+            return true;
+          }else {
+            return false;
+          }
+        });
+      }else{
+        return Rx.Observable.of(false);
+      }
+    });
+  };
+
+  this.generateEmailUUID = function (credentialId) {
+    return credentialRepository.generateEmailUUID(credentialId);
+  };
+
+  this.generatePhoneUUID = function (credentialId) {
+    return credentialRepository.generatePhoneUUID(credentialId);
+  };
+
+  this.sendPhoneCode = function (phoneUUID) {
+    return credentialRepository.updatePhoneUUID(phoneUUID);
+  };
+
+  this.sendEmailCode = function (emailUUID) {
+    return credentialRepository.updateEmailUUID(emailUUID);
+  };
+
+  this.newPhoneUUID = function (phoneNumber) {
+    return credentialRepository
+    .getCredentialByUsername(phoneNumber)
+    .switchMap(doc => {
+      if(doc) {
+        return credentialRepository.generatePhoneUUID(doc.credentialId);
+      }else{
+        return Rx.Observable.of(false);
+      }
+    });
+  }
+
+  this.newEmailUUID = function (emailAddress) {
+    return credentialRepository
+    .getCredentialByUsername(emailAddress)
+    .switchMap(doc => {
+      if(doc) {
+        return credentialRepository.generateEmailUUID(doc.credentialId);
+      }else{
+        return Rx.Observable.of(false);
+      }
+    });
+  }
+
+
 };
 
 module.exports = CredentialOrchestrator;

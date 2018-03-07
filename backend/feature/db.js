@@ -2,21 +2,32 @@ let path = require('path');
 var Datastore = require('nedb');
 var db = {};
 
-let theAttributesDb = path.resolve(__dirname, '..',) + '/nedb/attributes.db';
-let theDataTypesDb =  path.resolve(__dirname,'..',) + '/nedb/data-types.db';
-let theAssetTypesDb = path.resolve(__dirname,'..',) + '/nedb/asset-types.db';
-let theAssetTypeClassesDb = path.resolve(__dirname,'..',) + '/nedb/asset-type-classes.db';
-let theValuesDb = path.resolve(__dirname, '..',) + '/nedb/values.db';
-let theAssetsDb = path.resolve(__dirname, '..',) + '/nedb/assets.db';
-let theSitesDb = path.resolve(__dirname, '..',) + '/nedb/sites.db';
-let theMeasuresDb = path.resolve(__dirname, '..',) + '/nedb/unit-of-measures.db';
-let thePersonsDb = path.resolve(__dirname, '..',) + '/nedb/persons.db';
-let theAssetKindsDb = path.resolve(__dirname, '..',) + '/nedb/asset-kinds.db';
-let theCredentialDb = path.resolve(__dirname, '..',) + '/nedb/credentials.db';
-let theUsersPhotoDb = path.resolve(__dirname, '..',) + '/nedb/file_meta_data/users-photos.db';
-let theCompanyPhotoDb = path.resolve(__dirname, '..',) + '/nedb/file_meta_data/company-photos.db';
-let theOrganizationDb = path.resolve(__dirname, '..',) + '/nedb/organizations.db';
+let theAttributesDb = path.resolve(__dirname, '..') + '/nedb/attributes.db';
+let theDataTypesDb =  path.resolve(__dirname,'..') + '/nedb/data-types.db';
+let theAssetTypesDb = path.resolve(__dirname,'..') + '/nedb/asset-types.db';
+let theAssetTypeClassesDb = path.resolve(__dirname,'..') + '/nedb/asset-type-classes.db';
+let theValuesDb = path.resolve(__dirname, '..') + '/nedb/values.db';
+let theAssetsDb = path.resolve(__dirname, '..') + '/nedb/assets.db';
+let theSitesDb = path.resolve(__dirname, '..') + '/nedb/sites.db';
+let theMeasuresDb = path.resolve(__dirname, '..') + '/nedb/unit-of-measures.db';
+let thePersonsDb = path.resolve(__dirname, '..') + '/nedb/persons.db';
+let theAssetKindsDb = path.resolve(__dirname, '..') + '/nedb/asset-kinds.db';
+let theCredentialDb = path.resolve(__dirname, '..') + '/nedb/credentials.db';
+let theUsersPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/users-photos.db';
+let theCompanyPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/company-photos.db';
+let theOrganizationDb = path.resolve(__dirname, '..') + '/nedb/organizations.db';
+let theEmailUuidDb = path.resolve(__dirname, '..') + '/nedb/email-uuids.db';
+let thePhoneUuidDb = path.resolve(__dirname, '..') + '/nedb/phone-uuids.db';
+let theConfirmedCredentialsDb = path.resolve(__dirname, '..') + '/nedb/confirmed-credentials.db';
 
+db.confirmedCredentials = new Datastore(theConfirmedCredentialsDb);
+db.confirmedCredentials.loadDatabase(function (err) { console.log(err); });
+
+db.emailUuids = new Datastore(theEmailUuidDb);
+db.emailUuids.loadDatabase(function (err) { console.log(err); });
+
+db.phoneUuids = new Datastore(thePhoneUuidDb);
+db.phoneUuids.loadDatabase(function (err) { console.log(err); });
 
 db.companyPhotos = new Datastore(theCompanyPhotoDb);
 db.companyPhotos.loadDatabase(function (err) { console.log(err); });
@@ -59,5 +70,17 @@ db.attributes.loadDatabase(function (err) { console.log(err); });
 
 db.dataTypes = new Datastore(theDataTypesDb);
 db.dataTypes.loadDatabase(function (err) { console.log(err); });
+
+db.emailUuids.ensureIndex({ fieldName: 'emailUUID', expireAfterSeconds: 60 }, function (err) {
+  if(err){
+    console.log(err);
+  }
+});
+
+db.phoneUuids.ensureIndex({ fieldName: 'phoneUUID', expireAfterSeconds: 60 }, function (err) {
+  if(err){
+    console.log(err);
+  }
+});
 
 module.exports = db;

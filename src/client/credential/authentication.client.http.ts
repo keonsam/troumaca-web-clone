@@ -38,6 +38,41 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
   }
 
+  authenticateSMSCode(phoneUUID: string, smsCode: string): Observable<boolean> {
+    let url = `${this.hostPort}/credentials/authenticate-sms-code/${phoneUUID}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    //string not getting sent
+    return this.httpClient
+      .post<boolean>(url, {smsCode}, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
+  authenticateEmailCode(emailUUID: string, emailCode: string): Observable<boolean> {
+    let url = `${this.hostPort}/credentials/authenticate-email-code/${emailUUID}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    //string is not getting sent
+    return this.httpClient
+      .post<boolean>(url, {emailCode}, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
 
   forgotPassword(emailOrPhone: string): Observable<boolean> {
     return null;
@@ -131,6 +166,108 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
     return this.httpClient
       .post<CredentialState>(url, credentialState.toJson(), httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
+  generateEmailUUID(credentialId: string): Observable<string> {
+    let url = `${this.hostPort}/credentials/generate-email-uuid/${credentialId}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+    return this.httpClient
+      .get<string>(url, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
+
+  generatePhoneUUID(credentialId: string): Observable<string> {
+    let url = `${this.hostPort}/credentials/generate-phone-uuid/${credentialId}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<string>(url, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
+  sendPhoneCode(phoneUUID: string): Observable<number> {
+    let url = `${this.hostPort}/credentials/send-phone-code/${phoneUUID}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<number>(url, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
+  newPhoneUUID(phoneNumber: string): Observable<string> {
+    let url = `${this.hostPort}/credentials/new-phone-uuid/${phoneNumber}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<string>(url, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
+  sendEmailCode(emailUUID: string): Observable<number> {
+    let url = `${this.hostPort}/credentials/send-email-code/${emailUUID}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<number>(url, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
+  newEmailUUID(emailAddress: string): Observable<string> {
+    let url = `${this.hostPort}/credentials/new-email-uuid/${emailAddress}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<string>(url, httpOptions)
       .map(data => {
         return data;
       });
