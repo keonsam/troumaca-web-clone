@@ -15,10 +15,15 @@ let theAssetKindsDb = path.resolve(__dirname, '..') + '/nedb/asset-kinds.db';
 let theCredentialDb = path.resolve(__dirname, '..') + '/nedb/credentials.db';
 let theUsersPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/users-photos.db';
 let theCompanyPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/company-photos.db';
+let theAccountPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/account-photos.db';
 let theOrganizationDb = path.resolve(__dirname, '..') + '/nedb/organizations.db';
 let theEmailUuidDb = path.resolve(__dirname, '..') + '/nedb/email-uuids.db';
 let thePhoneUuidDb = path.resolve(__dirname, '..') + '/nedb/phone-uuids.db';
 let theConfirmedCredentialsDb = path.resolve(__dirname, '..') + '/nedb/confirmed-credentials.db';
+let theAccountsInformationDb = path.resolve(__dirname, '..') + '/nedb/accounts-information.db';
+
+db.accountsInformation = new Datastore(theAccountsInformationDb);
+db.accountsInformation.loadDatabase(function (err) { console.log(err); });
 
 db.confirmedCredentials = new Datastore(theConfirmedCredentialsDb);
 db.confirmedCredentials.loadDatabase(function (err) { console.log(err); });
@@ -28,6 +33,9 @@ db.emailUuids.loadDatabase(function (err) { console.log(err); });
 
 db.phoneUuids = new Datastore(thePhoneUuidDb);
 db.phoneUuids.loadDatabase(function (err) { console.log(err); });
+
+db.accountsPhotos = new Datastore(theAccountPhotoDb);
+db.accountsPhotos.loadDatabase(function (err) { console.log(err); });
 
 db.companyPhotos = new Datastore(theCompanyPhotoDb);
 db.companyPhotos.loadDatabase(function (err) { console.log(err); });

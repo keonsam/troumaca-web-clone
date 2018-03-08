@@ -5,7 +5,5 @@
 {"phoneUUID":"2706b20c-72cd-4fb5-9a30-f7ba4d99a1f7","smsCode":"564562","credentialId":"a97d5da1-fe62-4b04-b81d-c4af92eda6b1","_id":"Z3ZkTttqS04dTBiq"}
 {"phoneUUID":"acd4c563-ca9c-4c77-b473-2ebc12e38376","smsCode":"489223","credentialId":"a97d5da1-fe62-4b04-b81d-c4af92eda6b1","_id":"ZFpRM96MIawV5dyW"}
 {"phoneUUID":"63abea0c-4f02-43ab-8642-8898c88ad155","smsCode":"056866","credentialId":"f6bb99cc-9d23-46b6-9b9a-ee80b9913d23","_id":"hqlTCOXsMWaJdyTK"}
-{"phoneUUID":"b39dd0ca-94fd-49f5-beaa-626ec5817bfb","smsCode":"761408","credentialId":"f2eb0bdd-1dc7-4c73-82f9-4ab6f968a597","_id":"quJ6jcIIBTT3szbZ"}
 {"phoneUUID":"322293ec-3de7-4862-9111-a0ac2c7a6930","smsCode":"366296","credentialId":"517f759e-d240-4f65-9ae6-81eed3906cd7","_id":"st3vEPBqfMFcv8vf"}
 {"$$indexCreated":{"fieldName":"phoneUUID","unique":false,"sparse":false}}
-{"$$deleted":true,"_id":"quJ6jcIIBTT3szbZ"}

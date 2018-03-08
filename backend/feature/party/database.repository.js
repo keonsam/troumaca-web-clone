@@ -207,6 +207,36 @@ module.exports =  function DatabasePartyRepository() {
     });
   };
 
+  this.addAccountPhoto = function (partyId, imageStr) {
+    let photo = {
+      partyId,
+      imageStr
+    }
+    return Rx.Observable.create(function (observer) {
+      db.accountsPhotos.insert(photo, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.createAccount = function (account) {
+    return Rx.Observable.create(function (observer) {
+      db.accountsInformation.insert(account, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   this.deletePerson = function(partyId) {
     return Rx.Observable.create(function (observer) {
       let query = {};
@@ -328,6 +358,23 @@ module.exports =  function DatabasePartyRepository() {
         }
         observer.complete();
       })
+    });
+  };
+
+  this.addPartyIdConfirmedAccount = function(partyId,credentialId) {
+    return Rx.Observable.create(function (observer) {
+      let doc = {}
+      doc["partyId"] = partyId;
+      let query = {};
+      query["credentialId"] = credentialId;
+      db.confirmedCredentials.update(query, {$set : doc}, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        }else{
+          observer.error(err);
+        }
+        observer.complete();
+      });
     });
   };
 

@@ -51,6 +51,7 @@ let CredentialOrchestrator = new function() {
         if (readCredential.credentialId) {
           let session = {};
           session["credentialId"] = readCredential.credentialId;
+          session["partyId"] = readCredential.partyId ? readCredential.partyId : "";
           return sessionRepository.addSession(session);
         } else {
           return Rx.Observable.of(readCredential);
@@ -136,6 +137,10 @@ let CredentialOrchestrator = new function() {
         return Rx.Observable.of(false);
       }
     });
+  }
+
+  this.validateConfirmedUsername = function (username) {
+    return credentialRepository.getConfirmedCredentialsByUsername(username)
   }
 
 

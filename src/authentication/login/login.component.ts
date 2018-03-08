@@ -118,9 +118,15 @@ export class LoginComponent implements OnInit {
       .authenticate(credential)
       .subscribe(session => {
         if (session.sessionId) {
-          this.eventService.sendLoginEvent(this.createEventModel());
-          this.errorExists = false;
-          this.router.navigate(['/home/lobby']);
+          if(session.partyId) {
+            this.eventService.sendLoginEvent(this.createEventModel());
+            this.errorExists = false;
+            this.router.navigate(['/home/lobby']);
+          }else {
+            this.eventService.sendLoginEvent(this.createEventModel());
+            this.errorExists = false;
+            this.router.navigate(['/create-profile']);
+          }
         } else {
           // Todo: Put an error on the display
           this.errorExists = true;

@@ -27,8 +27,10 @@ import {UserTopMenuComponent} from "./users/user-top-menu/user.top.menu.componen
 import {UserEditComponent} from "./users/user-edit/user.edit.component";
 import {UserCreationComponent} from "./users/user-creation/user.creation.component";
 import {UserMeComponent} from "./users/user-me/user.me.component";
+import {CreateAccountComponent} from "./create-profile/create.profile.component";
 import {PartyEventService} from "./party.event.service";
 import { ImageCropperModule } from 'ngx-image-cropper';
+
 
 @NgModule({
   imports: [
@@ -61,7 +63,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     UserEditComponent,
     UserCreationComponent,
     UserMeComponent,
-    MeComponent
+    MeComponent,
+    CreateAccountComponent
   ],
   providers: [{
     provide: PartyService,
@@ -95,7 +98,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     UserEditComponent,
     UserCreationComponent,
     UserMeComponent,
-    MeComponent
+    MeComponent,
+    CreateAccountComponent
   ]
 })
 export class PartyModule {}
