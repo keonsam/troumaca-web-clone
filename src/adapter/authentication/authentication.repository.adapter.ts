@@ -16,10 +16,18 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
 
   authenticate(credential: Credential): Observable<Session> {
     return this.authenticationClient
-      .authenticate(mapObjectProps(credential, new SessionState()))
+      .authenticate(mapObjectProps(credential, new CredentialState()))
       .map(sessionState => {
         return mapObjectProps(sessionState, new Session());
       });
+  }
+
+  authenticateSMSCode(phoneUUID: string, smsCode: string): Observable<boolean> {
+    return this.authenticationClient.authenticateSMSCode(phoneUUID,smsCode);
+  }
+
+  authenticateEmailCode(emailUUID: string, emailCode: string): Observable<boolean> {
+    return this.authenticationClient.authenticateEmailCode(emailUUID, emailCode);
   }
 
   forgotPassword(username: string): Observable<boolean> {
@@ -49,6 +57,30 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     .map(credentialState => {
       return mapObjectProps(credentialState, new Credential())
     });
+  }
+
+  generateEmailUUID(credentialId: string): Observable<string> {
+    return this.authenticationClient.generateEmailUUID(credentialId);
+  }
+
+  generatePhoneUUID(credentialId: string): Observable<string> {
+    return this.authenticationClient.generatePhoneUUID(credentialId);
+  }
+
+  sendPhoneCode(phoneUUID: string): Observable<number> {
+    return this.authenticationClient.sendPhoneCode(phoneUUID);
+  }
+
+  newPhoneUUID(phoneNumber: string): Observable<string> {
+    return this.authenticationClient.newPhoneUUID(phoneNumber);
+  }
+
+  sendEmailCode(emailUUID: string): Observable<number> {
+    return this.authenticationClient.sendEmailCode(emailUUID);
+  }
+
+  newEmailUUID(emailAddress: string): Observable<string> {
+    return this.authenticationClient.newEmailUUID(emailAddress);
   }
 
 }

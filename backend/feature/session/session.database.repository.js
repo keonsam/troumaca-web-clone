@@ -59,6 +59,7 @@ module.exports =  function DatabaseSessionRepository() {
   };
 
   this.addSession = function (session) {
+    
     session["sessionId"] = newUuidGenerator.generateUUID();
     session["expirationDate"] = new Date().getTime();
     session["createdOn"] = new Date().getTime();
@@ -90,6 +91,29 @@ module.exports =  function DatabaseSessionRepository() {
       });
     });
   };
+
+  /*this.getAndUpdateSessionById = function (sessionId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["sessionId"] = sessionId;
+      db.sessions.findOne(query, function (err, doc) {
+        if (!err) {
+          doc["partyId"] = newUuidGenerator.generateUUID();
+          db.sessions.update(query, doc, {}, function (err, numReplaced) {
+            if(numReplaced) {
+              observer.next(doc);
+            } else {
+              observer.error(err);
+            }
+            observer.complete();
+          });
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }*/
 
   this.isValidSession = function (sessionId) {
     this.getSessionById(sessionId)

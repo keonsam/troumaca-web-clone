@@ -311,9 +311,13 @@ export class AssetTypeClassEditComponent implements OnInit {
 
    isChecked(attributeId) {
      let index = this.assignedArrayObject.findIndex(x => x.attributeId == attributeId);
+     if(index == -1){
+       return false;
+     }else {
      return this.assignedArrayObject[index].required;
+    }
    }
-   
+
    onCheckBoxChange(event,attributeId) {
      let index = this.assignedArrayObject.findIndex(x => x.attributeId == attributeId);
      this.assignedArrayObject[index].required = event.target.checked;
@@ -352,14 +356,14 @@ export class AssetTypeClassEditComponent implements OnInit {
 
    onAvailableDoubleClick(attributeId: string) {
     this.assignedArray.push(attributeId);
-    this.assignedArrayObject.push({required: "", attributeId});
     this.updateTable();
+    this.assignedArrayObject.push({required: true, attributeId});
    }
 
    onAssignedDoubleClick(attributeId: string) {
    this.assignedArray = this.assignedArray.filter(val => val != attributeId);
-   this.assignedArrayObject = this.assignedArrayObject.filter(val => val.attributeId != attributeId);
    this.updateTable();
+   this.assignedArrayObject = this.assignedArrayObject.filter(val => val.attributeId != attributeId);
    }
 
    onOpenDeleteModal(attributeId: string){

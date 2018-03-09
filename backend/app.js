@@ -38,12 +38,13 @@ let partyResource = require('./feature/party/resources');
 let app = express();
 
 app.use(logger('dev'));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use(cors());
 // need cookieParser middleware before we can do anything with cookies
-app.use(cookieParser());
+
 // app.use(accessMiddleware());
 
 

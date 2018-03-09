@@ -10,7 +10,8 @@ var generatePassword = require('password-generator');
 
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();
-let defaultPhoto = "";
+let defaultPhoto = "http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825";
+
 module.exports =  function DatabasePartyRepository() {
 
   let defaultPageSize = 10;
@@ -29,9 +30,36 @@ module.exports =  function DatabasePartyRepository() {
     });
   };
 
+  this.getOrganizations = function (pageNumber, pageSize, order) {
+    return Rx.Observable.create(function (observer) {
+      let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
+      db.organizations.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   this.getPersonCount = function () {
     return Rx.Observable.create(function (observer) {
       db.persons.count({}, function (err, count) {
+        if (!err) {
+          observer.next(count);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.getOrganizationCount = function () {
+    return Rx.Observable.create(function (observer) {
+      db.organizations.count({}, function (err, count) {
         if (!err) {
           observer.next(count);
         } else {
@@ -57,13 +85,43 @@ module.exports =  function DatabasePartyRepository() {
     });
   };
 
+  this.getOrganization = function(partyId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["partyId"] = partyId;
+      db.organizations.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   this.getUserPhoto = function (partyId) {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["partyId"] = partyId;
       db.usersPhotos.findOne(query, function (err, doc) {
         if (!err) {
-          observer.next(doc ? doc.imageStr: "http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825");
+          observer.next(doc ? doc.imageStr: defaultPhoto);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.getCompanyPhoto = function (partyId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["partyId"] = partyId;
+      db.companyPhotos.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc ? doc.imageStr: defaultPhoto);
         } else {
           observer.error(err);
         }
@@ -84,7 +142,20 @@ module.exports =  function DatabasePartyRepository() {
         observer.complete();
       });
     });
+  };
 
+  this.addOrganization = function (organization) {
+    organization.partyId = newUuidGenerator.generateUUID();
+    return Rx.Observable.create(function (observer) {
+      db.organizations.insert(organization, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
   };
 
   this.addCredential = function (credential) {
@@ -100,7 +171,6 @@ module.exports =  function DatabasePartyRepository() {
         observer.complete();
       });
     });
-
   };
 
   this.addUserPhoto = function (partyId, imageStr) {
@@ -118,10 +188,56 @@ module.exports =  function DatabasePartyRepository() {
         observer.complete();
       });
     });
-
   };
 
-  this.deletePerson= function(partyId) {
+  this.addCompanyPhoto = function (partyId, imageStr) {
+    let photo = {
+      partyId,
+      imageStr
+    }
+    return Rx.Observable.create(function (observer) {
+      db.companyPhotos.insert(photo, function (err, doc) {
+        if (!err) {
+          observer.next(1);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.addAccountPhoto = function (partyId, imageStr) {
+    let photo = {
+      partyId,
+      imageStr
+    }
+    return Rx.Observable.create(function (observer) {
+      db.accountsPhotos.insert(photo, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.createAccount = function (account) {
+    return Rx.Observable.create(function (observer) {
+      db.accountsInformation.insert(account, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.deletePerson = function(partyId) {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["partyId"] = partyId;
@@ -136,7 +252,22 @@ module.exports =  function DatabasePartyRepository() {
     });
  };
 
- this.deleteCredential= function(partyId) {
+ this.deleteOrganization = function(partyId) {
+   return Rx.Observable.create(function (observer) {
+     let query = {};
+     query["partyId"] = partyId;
+     db.organizations.remove(query, {}, function (err, numRemoved) {
+       if (!err) {
+         observer.next(numRemoved);
+       } else {
+         observer.error(err);
+       }
+       observer.complete();
+     })
+   });
+};
+
+ this.deleteCredential = function(partyId) {
    return Rx.Observable.create(function (observer) {
      let query = {};
      query["partyId"] = partyId;
@@ -166,6 +297,21 @@ module.exports =  function DatabasePartyRepository() {
     });
   };
 
+  this.updateOrganization = function(partyId, organization) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["partyId"] = partyId;
+      db.organizations.update(query, organization, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
+
   this.updateCredential = function(partyId, credential) {
     return Rx.Observable.create(function (observer) {
       let query = {};
@@ -183,7 +329,6 @@ module.exports =  function DatabasePartyRepository() {
 
   this.updateUserPhoto = function(partyId, imageStr) {
     return Rx.Observable.create(function (observer) {
-
       let query = {};
       let photo = {};
       query["partyId"] = partyId;
@@ -196,6 +341,40 @@ module.exports =  function DatabasePartyRepository() {
         }
         observer.complete();
       })
+    });
+  };
+
+  this.updateCompanyPhoto = function(partyId, imageStr) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      let photo = {};
+      query["partyId"] = partyId;
+      photo["imageStr"] = imageStr;
+      db.companyPhotos.update(query, {$set : photo}, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
+
+  this.addPartyIdConfirmedAccount = function(partyId,credentialId) {
+    return Rx.Observable.create(function (observer) {
+      let doc = {}
+      doc["partyId"] = partyId;
+      let query = {};
+      query["credentialId"] = credentialId;
+      db.confirmedCredentials.update(query, {$set : doc}, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        }else{
+          observer.error(err);
+        }
+        observer.complete();
+      });
     });
   };
 

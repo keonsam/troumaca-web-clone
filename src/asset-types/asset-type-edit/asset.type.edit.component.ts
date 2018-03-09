@@ -48,6 +48,7 @@ export class AssetTypeEditComponent implements OnInit {
   private errorCount: number = 0;
   private deleteError: boolean = true;
   private error: boolean = false;
+  private isRequired: any[] = [];
 
   constructor(private assetTypeService:AssetTypeService,
               private completerService: CompleterService,
@@ -295,6 +296,10 @@ export class AssetTypeEditComponent implements OnInit {
     this._doNotDisplayFailureMessage3 = value;
   }
 
+  getRequired(attributeId: string) {
+    return this.isRequired.find(x => x.attributeId == attributeId).required;
+  }
+
   onAssetTypeClassIdSelect(selected: CompleterItem) {
     if (selected) {
       this.assetType.assetTypeClass = selected.originalObject;
@@ -320,6 +325,7 @@ export class AssetTypeEditComponent implements OnInit {
   }
 
   getAttributes(assignedAttributes?: any[]) {
+    this.isRequired = assignedAttributes;
     this.assetTypeService
     .getAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
@@ -327,14 +333,14 @@ export class AssetTypeEditComponent implements OnInit {
         let group: any = {};
         this.assignedAttributes.attributes.forEach(value => {
           let editValue = this.values.values.find(x => x.attributeId == value.attributeId);
-          let required = assignedAttributes.find(x => x.attributeId == value.attributeId);
+          let required = assignedAttributes.find(x => x.attributeId == value.attributeId).required;
           if(!editValue) {
           this.values.values.push(new Value(value.attributeId, ""));
           editValue = this.values.values.find(x => x.attributeId == value.attributeId);
         }
 
-        group[value.attributeId] = required.required ? new FormControl(editValue.text, Validators.required)
-                                                     : new FormControl(editValue.text);
+        group[value.attributeId] = required ? new FormControl(editValue.text, [Validators.required])
+                                            : new FormControl(editValue.text);
         });
 
         this.attributeEditForm = new FormGroup(group);

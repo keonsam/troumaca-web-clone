@@ -1,0 +1,93 @@
+<div class="auth-wrapper">
+  <div class="all-wrapper menu-side with-pattern">
+    <div class="auth-box-w">
+      <div class="logo-w">
+        <a routerLink="/home"><img alt="" src="/images/logo-big.png"></a>
+      </div>
+
+      <h4 class="auth-header">
+        Phone Number Verification
+      </h4>
+
+      <div *ngIf="!unknownLink">
+        <form [formGroup]="phoneVerificationForm" (ngSubmit)="onSubmit()">
+
+          <p>A text message with the verification code <br/>
+             was just sent to you.
+          </p>
+
+          <div class="form-group">
+            <label for="">Enter Verification Code</label><input class="form-control" formControlName="smsCode" placeholder="Enter the 6-digit code" required type="text">
+          </div>
+
+          <div *ngIf="errorExists" class="alert alert-danger">
+            <strong>Error!</strong> Make sure you enter the text message code sent to your phone number.
+          </div>
+
+          <div class="buttons-w">
+            <div>
+              <a class="btn btn-white" routerLink="/authentication/register" >Change Number</a>
+              <button [disabled]="!phoneVerificationForm.valid" class="btn btn-primary float-right">Verify</button>
+            </div>
+            <div class="sendPhoneCode">
+              <a href="#" (click)="sendCode();false;">Didn't get the code?</a>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <div *ngIf="unknownLink">
+        <form [formGroup]="phoneErrorForm" (ngSubmit)="onSubmitTwo()">
+          <p>
+             An Error has occurred. Please enter your number again below. <br/>
+             This page has an automatic redirect. <br/>
+             You will be redirected to the register page in 5 minutes. <br/>
+             Thank you.
+          </p>
+
+          <div class="form-group">
+            <label for="">Phone Number</label><input class="form-control" formControlName="phoneNumber" placeholder="Enter the number used to register" required type="text">
+          </div>
+
+          <div *ngIf="errorExists" class="alert alert-danger">
+            <strong>Error!</strong> Make sure you enter your account phone number.<br />
+            Don't have an account?<a routerLink="/authentication/register"> Click here</a>
+          </div>
+
+          <div class="buttons-w">
+            <div>
+              <button align="center" [disabled]="!phoneErrorForm.valid" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Send Code Modal -->
+      <button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#sendCodeModal1">Open Modal</button>
+      <div aria-hidden="true" aria-labelledby="mySmallModalLabel" id="sendCodeModal1" class="modal fade bd-example-modal-sm" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Success!
+              </h5>
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> &times;</span></button>
+            </div>
+            <div class="modal-body">
+              <p> SMS Code has been sent <br />
+                if you don't get it in 5 minutes <br />
+                try again
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" type="button" data-dismiss="modal"> OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Of Send Code Modal -->
+
+    </div>
+  </div>
+</div>

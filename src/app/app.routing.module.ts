@@ -35,9 +35,13 @@ import {SitePhoneCreationComponent} from "../site/site-phone-creation/site.phone
 import {SitePhoneEditComponent} from "../site/site-phone-edit/site.phone.edit.component";
 import {PartyComponent} from "../parties/party.component";
 import {OrganizationCompanyComponent} from "../parties/organizations/organization-company/organization.company.component";
+import {OrganizationListComponent} from "../parties/organizations/organization-list/organization.list.component";
+import {OrganizationCreationComponent} from "../parties/organizations/organization-creation/organization.creation.component";
+import {OrganizationEditComponent} from "../parties/organizations/organization-edit/organization.edit.component";
 import {UserListComponent} from "../parties/users/user-list/user.list.component";
 import {UserCreationComponent} from "../parties/users/user-creation/user.creation.component";
 import {UserEditComponent} from "../parties/users/user-edit/user.edit.component";
+import {CreateAccountComponent} from "../parties/create-profile/create.profile.component";
 import {UserMeComponent} from "../parties/users/user-me/user.me.component";
 import {ContractComponent} from "../contracts/contract.component";
 import {OrderListComponent} from "../contracts/orders/order.list.component";
@@ -59,6 +63,8 @@ import {RegisterComponent} from "../authentication/register/register.component";
 import {HomeComponent} from "../home/home.component";
 import {FrontHomeComponent} from "../home/front-home/front.home.component";
 import {LobbyHomeComponent} from "../home/lobby-home/lobby.home.component";
+import {PhoneVerificationComponent} from "../authentication/phone-verification/phone.verification.component";
+import {EmailVerificationComponent} from "../authentication/email-verification/email.verification.component";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -70,7 +76,11 @@ const appRoutes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login',  component: LoginComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
-    { path: 'register', component: RegisterComponent }
+    { path: 'register', component: RegisterComponent },
+    { path: 'phone-verification', component: PhoneVerificationComponent },
+    { path: 'phone-verification/:phoneUUID', component: PhoneVerificationComponent },
+    { path: 'email-verification', component: EmailVerificationComponent },
+    { path: 'email-verification/:emailUUID', component: EmailVerificationComponent }
   ]},
   { path: 'assets', component: AssetComponent, children: [
     { path: '',redirectTo: 'listing', pathMatch: 'full' },
@@ -117,10 +127,13 @@ const appRoutes: Routes = [
   { path: 'parties', component: PartyComponent, children:[
     { path: '', redirectTo: 'organizations/company', pathMatch: 'full' },
     { path: 'organizations/company', component: OrganizationCompanyComponent, data:{menuName:'organizations-menu'} },
+    { path: 'organizations/listing', component: OrganizationListComponent, data:{menuName: 'organizations-menu'} },
+    { path: 'organizations/create', component: OrganizationCreationComponent, data:{menuName: 'organizations-menu'} },
+    { path: 'organizations/:partyId/edit', component: OrganizationEditComponent, data:{menuName: 'organizations-menu'} },
     { path: 'users', component: UserListComponent, data:{menuName:'users-menu'} },
-    { path: 'users/create', component: UserCreationComponent },
-    { path: 'users/:partyId/edit', component: UserEditComponent },
-    { path: 'users/me', component: UserMeComponent}
+    { path: 'users/create', component: UserCreationComponent, data:{menuName:'users-menu'} },
+    { path: 'users/:partyId/edit', component: UserEditComponent, data:{menuName:'users-menu'} },
+    { path: 'users/me', component: UserMeComponent, data:{menuName:'users-menu'}}
   ]},
   { path: 'contracts', component: ContractComponent, children:[
     { path: '', redirectTo: 'orders', pathMatch: 'full' },
@@ -141,7 +154,8 @@ const appRoutes: Routes = [
     { path: 'create', component: ShipmentCreationComponent, data:{menuName:'shipments-menu'} },
     { path: ':shipmentId/edit', component: ShipmentEditComponent, data:{menuName:'shipments-menu'} }
   ]},
-  { path: '**', component: PageNotFoundComponent }
+  { path: 'create-profile', component: CreateAccountComponent },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 // { path: 'organizations', component: OrganizationListComponent },

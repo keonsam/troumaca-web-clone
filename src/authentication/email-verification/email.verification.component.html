@@ -1,0 +1,96 @@
+<div class="auth-wrapper">
+  <div class="all-wrapper menu-side with-pattern">
+    <div class="auth-box-w">
+      <div class="logo-w">
+        <a routerLink="/home"><img alt="" src="/images/logo-big.png"></a>
+      </div>
+      <h4 class="auth-header">
+        Email Verification
+      </h4>
+
+        <div *ngIf="unknownLink">
+          <form [formGroup]="emailAddressForm">
+            <p> I am sorry <br />
+                but you might be here by mistake. <br />
+                You will now be automatically redirected in five minutes. <br />
+            </p>
+
+            <div *ngIf="showEmailCodeForm">
+                <div class="form-group">
+                  <label for="">Email Address</label><input class="form-control" formControlName="emailAddress" placeholder="Enter email address used to register" required type="text">
+                </div>
+
+                <div *ngIf="errorExists" class="alert alert-danger">
+                  <strong>Error!</strong> Make sure you enter your account e-mail address.<br />
+                  Don't have an account?<a routerLink="/authentication/register"> Click here</a>
+                </div>
+
+                <div class="buttons-w submitButton">
+                  <button class="btn btn-primary" type="button" [disabled]="!emailAddressForm.valid" (click)="onSubmit()"> Sumbit</button>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <a href="javascript:void(0);" (click)="showForm()"><strong>Click here!</strong> to send a Confirmation E-mail.</a>
+            </div>
+            <div class="alert alert-info">
+              <a routerLink="/authentication/register"><strong>Click here!</strong> to register.</a>
+            </div>
+          </form>
+        </div>
+
+        <div *ngIf="newUser">
+          <form>
+            <p>Thank you for signing up to Troumaca!<br />
+             An e-mail Confirmation link has been sent to your email address. <br />
+             In that e-mail is a link<br />
+             Click on that link verify your account.
+            </p>
+             <p>
+             The e-mail may end up in your junk mail or spam folder. <br />
+             Please check there if you don’t see it in your inbox<br />
+             </p>
+             <div [hidden]="!displaySuccessMessage" class="alert alert-success">
+               An E-mail has been sent to your account!
+             </div>
+             <div [hidden]="!sendCodeFailed" class="alert alert-success">
+               E-mail was not send. It may be an internet or server problem.
+             </div>
+             <div class="alert alert-info">
+               <a href="javascript:void(0);" (click)="sendEmailCode()"><strong>Click here!</strong> If you didn't get the email within 5 minutes.</a>
+             </div>
+             <div class="alert alert-info">
+             <a routerLink="/authentication/register"><strong>Click here!</strong> to Change E-mail</a>
+            </div>
+          </form>
+        </div>
+
+        <div *ngIf="verifiedPass" class="form-group">
+          <form>
+            <p>Your email has been confirmed. <br />
+               We really appreciate your time and doing business with you.<br />
+               You will now be redirected to the login.<br />
+               If redirect failed.
+            </p>
+            <div class="alert alert-success">
+               <a routerLink="/authentication/login"><strong>Click here!</strong></a>
+            </div>
+          </form>
+        </div>
+
+        <div *ngIf="verifiedFailed">
+          <form>
+            <p>Email Verification failed.</p>
+            <p> This page will jump to register in 1 minute.</p>
+            <div class="alert alert-info">
+              <a routerLink="/authentication/login"><strong>Click here!</strong> to login</a>
+            </div>
+            <div class="alert alert-info">
+              <a routerLink="/authentication/register"><strong>Click here!</strong> to Change E-mail</a>
+            </div>
+          </form>
+        </div>
+
+    </div>
+  </div>
+</div>

@@ -1,8 +1,13 @@
 let Rx = require("rxjs");
 let credentialRepositoryFactory = require('./credential.repository.factory').CredentialRepositoryFactory;
 let credentialRepository = credentialRepositoryFactory.createRepository();
+
+let credentialConfirmationRepositoryFactory = require('./credential.confirmation.repository.factory').CredentialConfirmationRepositoryFactory;
+let credentialConfirmationRepository = credentialConfirmationRepositoryFactory.createRepository();
+
 let sessionRepositoryFactory = require('../session/session.repository.factory').SessionRepositoryFactory;
 let sessionRepository = sessionRepositoryFactory.createRepository();
+
 let responseShaper = require("./credential.response.shaper")();
 
 let CredentialOrchestrator = new function() {
@@ -41,7 +46,18 @@ let CredentialOrchestrator = new function() {
   };
 
   this.addCredential = function (credential) {
-    return credentialRepository.addCredential(credential);
+    return credentialRepository
+      .addCredential(credential)
+      .switchMap(credential => {
+
+        let credentialConfirmation = {};
+        credentialConfirmation["credentialId"] = credential.credentialId;
+        credentialConfirmation["createdOn"] = new Date().getTime();
+        credentialConfirmation["modifiedOn"] = new Date().getTime();
+
+        return credentialConfirmationRepository
+          .addCredentialConfirmation(credentialConfirmation);
+      });
   };
 
   this.authenticate = function (credential) {
@@ -51,12 +67,124 @@ let CredentialOrchestrator = new function() {
         if (readCredential.credentialId) {
           let session = {};
           session["credentialId"] = readCredential.credentialId;
+          session["partyId"] = readCredential.partyId ? readCredential.partyId : "";
           return sessionRepository.addSession(session);
         } else {
           return Rx.Observable.of(readCredential);
         }
       });
   };
+
+  this.authenticateSMSCode = function (phoneUUID,smsCode) {
+    return credentialRepository
+    .getSMSCode(phoneUUID,smsCode)
+    .switchMap(doc => {
+      if(doc) {
+        return credentialRepository.deleteSMSCode(phoneUUID)
+        .switchMap(numRemoved => {
+          if(numRemoved){
+            return credentialRepository.getCredentialByCredentialId(doc.credentialId)
+            .switchMap(newDoc => {
+              if(newDoc){
+                return credentialRepository.generateConfirmedCredential(newDoc)
+                .map(confirmedCredentials => {
+                  if(confirmedCredentials){
+                    return true;
+                  }else {
+                    return false;
+                  }
+                });
+              }else {
+                return Rx.Observable.of(false);
+              }
+            });
+          }else {
+            return Rx.Observable.of(false);
+          }
+        });
+      }else{
+        return Rx.Observable.of(false);
+      }
+    });
+  };
+
+  this.authenticateEmailCode = function (emailUUID,emailCode) {
+    return credentialRepository
+    .getEmailCode(emailUUID, emailCode)
+    .switchMap(doc => {
+      if(doc) {
+        return credentialRepository.deleteEmailCode(emailUUID)
+        .switchMap(numRemoved => {
+          if(numRemoved){
+            return credentialRepository.getCredentialByCredentialId(doc.credentialId)
+            .switchMap(newDoc => {
+              if(newDoc){
+                return credentialRepository.generateConfirmedCredential(newDoc)
+                .map(confirmedCredentials => {
+                  if(confirmedCredentials){
+                    return true;
+                  }else {
+                    return false;
+                  }
+                });
+              }else {
+                return Rx.Observable.of(false);
+              }
+            });
+          }else {
+            return Rx.Observable.of(false);
+          }
+        });
+      }else{
+        return Rx.Observable.of(false);
+      }
+    });
+  };
+
+  this.generateEmailUUID = function (credentialId) {
+    return credentialRepository.generateEmailUUID(credentialId);
+  };
+
+  this.generatePhoneUUID = function (credentialId) {
+    return credentialRepository.generatePhoneUUID(credentialId);
+  };
+
+  this.sendPhoneCode = function (phoneUUID) {
+    return credentialRepository.updatePhoneUUID(phoneUUID);
+  };
+
+  this.sendEmailCode = function (emailUUID) {
+    return credentialRepository.updateEmailUUID(emailUUID);
+  };
+
+  this.newPhoneUUID = function (phoneNumber) {
+    return credentialRepository
+    .getCredentialByUsername(phoneNumber)
+    .switchMap(doc => {
+      if(doc) {
+        return credentialRepository.generatePhoneUUID(doc.credentialId);
+      }else{
+        return Rx.Observable.of(false);
+      }
+    });
+  };
+
+  this.newEmailUUID = function (emailAddress) {
+    return credentialRepository
+    .getCredentialByUsername(emailAddress)
+    .switchMap(doc => {
+      if(doc) {
+        return credentialRepository.generateEmailUUID(doc.credentialId);
+      }else{
+        return Rx.Observable.of(false);
+      }
+    });
+  };
+
+  this.validateConfirmedUsername = function (username) {
+    return credentialRepository.getConfirmedCredentialsByUsername(username)
+  }
+
 
 };
 
