@@ -119,11 +119,11 @@ export class LoginComponent implements OnInit {
       .subscribe(session => {
         if (session.sessionId) {
           if(session.partyId) {
-            this.eventService.sendLoginEvent(this.createEventModel());
+            //this.eventService.sendLoginEvent(this.createEventModel()); // not working
             this.errorExists = false;
             this.router.navigate(['/home/lobby']);
           }else {
-            this.eventService.sendLoginEvent(this.createEventModel());
+            //this.eventService.sendLoginEvent(this.createEventModel()); // working
             this.errorExists = false;
             this.router.navigate(['/create-profile']);
           }

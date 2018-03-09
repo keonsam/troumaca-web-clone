@@ -62,7 +62,6 @@ router.post("/authenticate", function (req, res, next) {
   .subscribe(session => {
     res.setHeader('Content-Type', 'application/json');
     if (session.sessionId) {
-      console.log("working");
       // { path: '/', httpOnly: true, secure: false, maxAge: null }
       res.cookie("sessionId", session.sessionId, { path: '/', maxAge: 20*60*1000, httpOnly: true });
     }

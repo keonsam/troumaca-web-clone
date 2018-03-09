@@ -64,7 +64,7 @@ module.exports = function PartyOrchestrator() {
   };
 
   this.addAccountPhoto = function (partyId, imageStr) {
-    return partyRepository.addAccountPhoto(partyId);
+    return partyRepository.addAccountPhoto(partyId, imageStr);
   };
 
 

@@ -59,6 +59,7 @@ module.exports =  function DatabaseSessionRepository() {
   };
 
   this.addSession = function (session) {
+    
     session["sessionId"] = newUuidGenerator.generateUUID();
     session["expirationDate"] = new Date().getTime();
     session["createdOn"] = new Date().getTime();

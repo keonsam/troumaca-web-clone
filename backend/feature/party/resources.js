@@ -137,13 +137,13 @@ router.post("/credentials", function (req, res, next) {
 
 router.post("/create-accounts", function (req, res, next) {
   let account = req.body;
+  console.log(req.cookies);
   let cookie = req.cookies["sessionId"];
   console.log(cookie);
-  let sessionId = "e6890c3f-c729-40fc-8153-32bc85e46db2";
+  let sessionId = "a567cd6f-6673-4117-b0ca-60ba714c82a8";
   orchestrator
   .createAccount(account, sessionId)
   .subscribe(account => {
-    console.log(account);
     res.send(JSON.stringify(account));
   }, error => {
     res.status(400);
