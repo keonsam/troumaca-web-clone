@@ -167,8 +167,6 @@ export class MenuClientMock extends MenuClient {
     return [
       this.toMenuItem({id:'1031', rank:'31', name: 'Users', routeName: '/parties/users', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
       this.toMenuItem({id:'1032', rank:'32', name: 'Me', routeName: '/parties/users/me', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id:'1033', rank:'33', name: 'Organizations', routeName: '/parties/organizations', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id:'1034', rank:'32', name: 'Me', routeName: '/parties/organizations/me', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
     ];
   }
 

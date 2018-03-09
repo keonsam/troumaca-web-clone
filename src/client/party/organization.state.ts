@@ -1,24 +1,9 @@
-export class OrganizationState {
+import {PartyState} from "./party.state";
 
-  private _partyId:string;
-  private _name:string;
+export class OrganizationState extends PartyState {
+
   private _purpose:string;
-
-  get partyId(): string {
-    return this._partyId;
-  }
-
-  set partyId(value: string) {
-    this._partyId = value;
-  }
-
-  get name(): string {
-    return this._name;
-  }
-
-  set name(value: string) {
-    this._name = value;
-  }
+  private _description: string;
 
   get purpose(): string {
     return this._purpose;
@@ -28,4 +13,22 @@ export class OrganizationState {
     this._purpose = value;
   }
 
+  get description(): string {
+    return this._description;
+  }
+
+  set description(value: string) {
+    this._description = value;
+  }
+
+  toJson() {
+    return {
+      partyId: this.partyId,
+      purpose: this.purpose,
+      name: this.name,
+      description: this.description,
+      createdOn: this.createdOn,
+      modifiedOn: this.modifiedOn
+      }
+    }
 }
