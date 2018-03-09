@@ -10,6 +10,8 @@ let DbUtil = require("../db.util");
 let db = require("../db.js")
 let newUuidGenerator = new UUIDGenerator();
 
+const phoneToken = require('generate-sms-verification-code');
+
 module.exports =  function DatabaseCredentialRepository() {
 
 
@@ -152,6 +154,21 @@ module.exports =  function DatabaseCredentialRepository() {
     });
   };
 
+  this.getCredentialByCredentialId = function (credentialId) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["credentialId"] = credentialId;
+      db.credentials.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   this.checkUsernameValid = function (partyId, username) {
     return Rx.Observable.create(function (observer) {
       let query1 = {};
@@ -217,6 +234,153 @@ module.exports =  function DatabaseCredentialRepository() {
       } else {
         return {};
       }
+    });
+  };
+
+  this.getSMSCode = function (phoneUUID,smsCode) {
+    return Rx.Observable.create(function (observer) {
+      let query1 = {};
+      let query2 = {};
+      query1["phoneUUID"] = phoneUUID;
+      query2["smsCode"] = smsCode;
+      db.phoneUuids.findOne({$and : [query1,query2]}, function (err, doc) {
+        if (!err) {
+          
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.getEmailCode = function (emailUUID,emailCode) {
+    return Rx.Observable.create(function (observer) {
+      let query1 = {};
+      let query2 = {};
+      query1["emailUUID"] = emailUUID;
+      query2["emailCode"] = emailCode;
+      db.emailUuids.findOne({$and : [query1,query2]}, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.deleteSMSCode = function (phoneUUID) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["phoneUUID"] = phoneUUID;
+      db.phoneUuids.remove(query, {}, function (err, numRemoved) {
+        if (!err) {
+          observer.next(numRemoved);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.deleteEmailCode = function (emailUUID) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["emailUUID"] = emailUUID;
+      db.emailUuids.remove(query, {}, function (err, numRemoved) {
+        if (!err) {
+          observer.next(numRemoved);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+
+  this.generateEmailUUID = function (credentialId) {
+    return Rx.Observable.create(function (observer) {
+      let doc = {
+        emailUUID: newUuidGenerator.generateUUID(),
+        emailCode: newUuidGenerator.generateUUID(),
+        credentialId
+      };
+
+      db.emailUuids.insert(doc, function (err, newDoc) {
+        if (!err) {
+          observer.next(newDoc.emailUUID);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.generatePhoneUUID = function (credentialId) {
+    return Rx.Observable.create(function (observer) {
+      let doc = {
+        phoneUUID: newUuidGenerator.generateUUID(),
+        smsCode:   phoneToken(6, {type: 'string'}),
+        credentialId
+      };
+
+      db.phoneUuids.insert(doc, function (err, newDoc) {
+        if (!err) {
+          observer.next(newDoc.phoneUUID);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.updatePhoneUUID = function (phoneUUID) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["phoneUUID"] = phoneUUID;
+      let updateDoc = { smsCode:   phoneToken(6, {type: 'string'}) };
+
+      db.phoneUuids.update(query,{$set : updateDoc }, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.updateEmailUUID = function (emailUUID) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["emailUUID"] = emailUUID;
+      let updateDoc = { emailCode: newUuidGenerator.generateUUID() };
+
+      db.emailUuids.update(query,{$set : updateDoc }, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  this.generateConfirmedCredential = function (credentialId) {
+    this.getCredentialByCredentialId(credentialId)
+    .subscribe(doc => {
+      db.confirmedCredentials.insert(doc,function (err, newDoc) {
+        // do Errors
+      });
     });
   }
 

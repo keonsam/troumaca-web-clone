@@ -62,6 +62,8 @@ import {RegisterComponent} from "../authentication/register/register.component";
 import {HomeComponent} from "../home/home.component";
 import {FrontHomeComponent} from "../home/front-home/front.home.component";
 import {LobbyHomeComponent} from "../home/lobby-home/lobby.home.component";
+import {PhoneVerificationComponent} from "../authentication/phone-verification/phone.verification.component";
+import {EmailVerificationComponent} from "../authentication/email-verification/email.verification.component";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -73,7 +75,11 @@ const appRoutes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login',  component: LoginComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
-    { path: 'register', component: RegisterComponent }
+    { path: 'register', component: RegisterComponent },
+    { path: 'phone-verification', component: PhoneVerificationComponent },
+    { path: 'phone-verification/:phoneUUID', component: PhoneVerificationComponent },
+    { path: 'email-verification', component: EmailVerificationComponent },
+    { path: 'email-verification/:emailUUID', component: EmailVerificationComponent }
   ]},
   { path: 'assets', component: AssetComponent, children: [
     { path: '',redirectTo: 'listing', pathMatch: 'full' },
