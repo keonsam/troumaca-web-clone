@@ -379,11 +379,15 @@ module.exports =  function DatabaseCredentialRepository() {
     });
   };
 
-  this.generateConfirmedCredential = function (credentialId) {
-    this.getCredentialByCredentialId(credentialId)
-    .subscribe(doc => {
+  this.generateConfirmedCredential = function (doc) {
+    return Rx.Observable.create(function (observer) {
       db.confirmedCredentials.insert(doc,function (err, newDoc) {
-        // do Errors
+        if (!err) {
+          observer.next(newDoc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
       });
     });
   };

@@ -65,12 +65,25 @@ let CredentialOrchestrator = new function() {
     .switchMap(doc => {
       if(doc) {
         return credentialRepository.deleteSMSCode(phoneUUID)
-        .map(numRemoved =>{
+        .switchMap(numRemoved => {
           if(numRemoved){
-            credentialRepository.generateConfirmedCredential(doc.credentialId);
-            return true;
+            return credentialRepository.getCredentialByCredentialId(doc.credentialId)
+            .switchMap(newDoc => {
+              if(newDoc){
+                return credentialRepository.generateConfirmedCredential(newDoc)
+                .map(confirmedCredentials => {
+                  if(confirmedCredentials){
+                    return true;
+                  }else {
+                    return false;
+                  }
+                });
+              }else {
+                return Rx.Observable.of(false);
+              }
+            });
           }else {
-            return false;
+            return Rx.Observable.of(false);
           }
         });
       }else{
@@ -85,12 +98,25 @@ let CredentialOrchestrator = new function() {
     .switchMap(doc => {
       if(doc) {
         return credentialRepository.deleteEmailCode(emailUUID)
-        .map(numRemoved => {
+        .switchMap(numRemoved => {
           if(numRemoved){
-            credentialRepository.generateConfirmedCredential(doc.credentialId);
-            return true;
+            return credentialRepository.getCredentialByCredentialId(doc.credentialId)
+            .switchMap(newDoc => {
+              if(newDoc){
+                return credentialRepository.generateConfirmedCredential(newDoc)
+                .map(confirmedCredentials => {
+                  if(confirmedCredentials){
+                    return true;
+                  }else {
+                    return false;
+                  }
+                });
+              }else {
+                return Rx.Observable.of(false);
+              }
+            });
           }else {
-            return false;
+            return Rx.Observable.of(false);
           }
         });
       }else{
