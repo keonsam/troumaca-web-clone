@@ -135,6 +135,37 @@ router.post("/credentials", function (req, res, next) {
   });
 });
 
+router.post("/create-accounts", function (req, res, next) {
+  let account = req.body;
+  console.log(req.cookies);
+  let cookie = req.cookies["sessionId"];
+  console.log(cookie);
+  let sessionId = "a567cd6f-6673-4117-b0ca-60ba714c82a8";
+  orchestrator
+  .createAccount(account, sessionId)
+  .subscribe(account => {
+    res.send(JSON.stringify(account));
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  });
+});
+
+router.post("/account-photos/:partyId", function (req, res, next) {
+  let partyId = req.params.partyId;
+  let imageStr = req.body.croppedImage;
+  orchestrator
+    .addAccountPhoto(partyId, imageStr)
+    .subscribe(doc => {
+      res.send(JSON.stringify(doc));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    });
+});
+
 router.delete("/persons/:partyId", function (req, res, next) {
   let partyId = req.params.partyId;
 
@@ -221,7 +252,7 @@ router.put("/credentials/:partyId", function (req, res, next) {
 
 router.put("/users-photos/:partyId", function (req, res, next) {
   let partyId = req.params.partyId;
-  let imageStr = req.body;
+  let imageStr = req.body.croppedImage;
   orchestrator
     .updateOrAddUserPhoto(partyId, imageStr)
     .subscribe(numUpdated => {
@@ -235,7 +266,7 @@ router.put("/users-photos/:partyId", function (req, res, next) {
 
 router.put("/company-photos/:partyId", function (req, res, next) {
   let partyId = req.params.partyId;
-  let imageStr = req.body;
+  let imageStr = req.body.croppedImage;
   orchestrator
     .updateOrAddCompanyPhoto(partyId, imageStr)
     .subscribe(numUpdated => {

@@ -51,6 +51,7 @@ let CredentialOrchestrator = new function() {
         if (readCredential.credentialId) {
           let session = {};
           session["credentialId"] = readCredential.credentialId;
+          session["partyId"] = readCredential.partyId ? readCredential.partyId : "";
           return sessionRepository.addSession(session);
         } else {
           return Rx.Observable.of(readCredential);
@@ -64,12 +65,25 @@ let CredentialOrchestrator = new function() {
     .switchMap(doc => {
       if(doc) {
         return credentialRepository.deleteSMSCode(phoneUUID)
-        .map(numRemoved =>{
+        .switchMap(numRemoved => {
           if(numRemoved){
-            credentialRepository.generateConfirmedCredential(doc.credentialId);
-            return true;
+            return credentialRepository.getCredentialByCredentialId(doc.credentialId)
+            .switchMap(newDoc => {
+              if(newDoc){
+                return credentialRepository.generateConfirmedCredential(newDoc)
+                .map(confirmedCredentials => {
+                  if(confirmedCredentials){
+                    return true;
+                  }else {
+                    return false;
+                  }
+                });
+              }else {
+                return Rx.Observable.of(false);
+              }
+            });
           }else {
-            return false;
+            return Rx.Observable.of(false);
           }
         });
       }else{
@@ -84,12 +98,25 @@ let CredentialOrchestrator = new function() {
     .switchMap(doc => {
       if(doc) {
         return credentialRepository.deleteEmailCode(emailUUID)
-        .map(numRemoved => {
+        .switchMap(numRemoved => {
           if(numRemoved){
-            credentialRepository.generateConfirmedCredential(doc.credentialId);
-            return true;
+            return credentialRepository.getCredentialByCredentialId(doc.credentialId)
+            .switchMap(newDoc => {
+              if(newDoc){
+                return credentialRepository.generateConfirmedCredential(newDoc)
+                .map(confirmedCredentials => {
+                  if(confirmedCredentials){
+                    return true;
+                  }else {
+                    return false;
+                  }
+                });
+              }else {
+                return Rx.Observable.of(false);
+              }
+            });
           }else {
-            return false;
+            return Rx.Observable.of(false);
           }
         });
       }else{
@@ -136,6 +163,10 @@ let CredentialOrchestrator = new function() {
         return Rx.Observable.of(false);
       }
     });
+  }
+
+  this.validateConfirmedUsername = function (username) {
+    return credentialRepository.getConfirmedCredentialsByUsername(username)
   }
 
 

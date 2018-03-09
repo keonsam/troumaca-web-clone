@@ -16,7 +16,7 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
 
   authenticate(credential: Credential): Observable<Session> {
     return this.authenticationClient
-      .authenticate(mapObjectProps(credential, new SessionState()))
+      .authenticate(mapObjectProps(credential, new CredentialState()))
       .map(sessionState => {
         return mapObjectProps(sessionState, new Session());
       });

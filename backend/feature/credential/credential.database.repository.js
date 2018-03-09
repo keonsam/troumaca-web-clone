@@ -154,6 +154,21 @@ module.exports =  function DatabaseCredentialRepository() {
     });
   };
 
+  this.authenticateCredentialByUsername = function (username) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["username"] = username;
+      db.confirmedCredentials.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   this.getCredentialByCredentialId = function (credentialId) {
     return Rx.Observable.create(function (observer) {
       let query = {};
@@ -168,6 +183,7 @@ module.exports =  function DatabaseCredentialRepository() {
       });
     });
   };
+
 
   this.checkUsernameValid = function (partyId, username) {
     return Rx.Observable.create(function (observer) {
@@ -215,19 +231,8 @@ module.exports =  function DatabaseCredentialRepository() {
     });
   };
 
-  this.authenticate = function (credential) {
-    return this.getCredentialByUsername(credential.username)
-    .map(readCredential => {
-      if (!readCredential) {
-        return false;
-      } else {
-        return credential.password === readCredential.password;
-      }
-    });
-  };
-
   this.authenticateForCredential = function (credential) {
-    return this.getCredentialByUsername(credential.username)
+    return this.authenticateCredentialByUsername(credential.username)
     .map(readCredential => {
       if (readCredential && credential && credential.password === readCredential.password) {
         return readCredential;
@@ -245,7 +250,6 @@ module.exports =  function DatabaseCredentialRepository() {
       query2["smsCode"] = smsCode;
       db.phoneUuids.findOne({$and : [query1,query2]}, function (err, doc) {
         if (!err) {
-          
           observer.next(doc);
         } else {
           observer.error(err);
@@ -375,13 +379,32 @@ module.exports =  function DatabaseCredentialRepository() {
     });
   };
 
-  this.generateConfirmedCredential = function (credentialId) {
-    this.getCredentialByCredentialId(credentialId)
-    .subscribe(doc => {
+  this.generateConfirmedCredential = function (doc) {
+    return Rx.Observable.create(function (observer) {
       db.confirmedCredentials.insert(doc,function (err, newDoc) {
-        // do Errors
+        if (!err) {
+          observer.next(newDoc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
       });
     });
-  }
+  };
+
+  this.getConfirmedCredentialsByUsername = function (username) {
+    return Rx.Observable.create(function (observer) {
+      let query = {};
+      query["username"] = username;
+      db.confirmedCredentials.findOne(query, function (err, doc) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
 
 };

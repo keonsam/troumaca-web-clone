@@ -6,6 +6,7 @@ import {Persons} from "../../parties/persons";
 import {Credential} from "../../parties/credential";
 import {Organization} from "../../parties/organization";
 import {Organizations} from "../../parties/organizations";
+import {Account} from "../../parties/account";
 import "rxjs/add/operator/map";
 import { map, reduce, somethingElse } from "underscore";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
@@ -15,6 +16,7 @@ import {AssetPerson} from "../../assets/asset.person";
 import {PersonState} from "../../client/party/person.state";
 import {OrganizationState} from "../../client/party/organization.state";
 import {CredentialState} from "../../client/party/credential.state";
+import {AccountState} from "../../client/party/account.state";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 
@@ -125,6 +127,18 @@ export class PartyRepositoryAdapter extends PartyRepository implements AssetPers
     .addCredentialState(mapObjectProps(credential, new CredentialState()))
     .map(value => {
       return mapObjectProps(value, new Credential());
+    });
+  }
+
+  public addAccountPhoto(partyId: string, croppedImage: string): Observable<any> {
+    return this.personClient.addAccountPhoto(partyId, croppedImage);
+  }
+
+  public createAccount(account: Account): Observable<Account> {
+    return this.personClient
+    .createAccountState(mapObjectProps(account, new AccountState()))
+    .map(value => {
+      return mapObjectProps(value, new Account());
     });
   }
 

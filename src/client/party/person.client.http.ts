@@ -7,6 +7,7 @@ import {PersonStates} from "./person.states";
 import {CredentialState} from "./credential.state";
 import {OrganizationState} from "./organization.state";
 import {OrganizationStates} from "./organization.states";
+import {AccountState} from "./account.state";
 
 export class PersonClientHttp implements PersonClient {
 
@@ -185,6 +186,32 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
+  public addAccountPhoto(partyId: string, croppedImage: string): Observable<any> {
+    let url = `${this.hostPort}/parties/account-photos/${partyId}`;
+    const httpOptions = {
+    headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+    .post<number>(url, {croppedImage}, httpOptions)
+    .map(data => {
+      return data;
+    });
+  }
+
+  public createAccountState(accountState: AccountState): Observable<AccountState> {
+    let url = `${this.hostPort}/parties/create-accounts`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+    .post<AccountState>(url, accountState.toJson(), {headers: headers})
+    .map(data => {
+      return data;
+    });
+  }
+
   public deletePerson(partyId: string): Observable<number> {
     let url = `${this.hostPort}/parties/persons/${partyId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
@@ -251,12 +278,12 @@ export class PersonClientHttp implements PersonClient {
     let url = `${this.hostPort}/parties/users-photos/${partyId}`;
     const httpOptions = {
     headers: new HttpHeaders({
-        'Content-Type': 'text/plain',
+        'Content-Type': 'application/json',
         'correlationId': this.uuidGenerator.generateUUID()
       })
     };
     return this.httpClient
-    .put<number>(url, croppedImage, httpOptions)
+    .put<number>(url, {croppedImage}, httpOptions)
     .map(data => {
       return data;
     });
@@ -266,12 +293,12 @@ export class PersonClientHttp implements PersonClient {
     let url = `${this.hostPort}/parties/company-photos/${partyId}`;
     const httpOptions = {
     headers: new HttpHeaders({
-        'Content-Type': 'text/plain',
+        'Content-Type': 'application/json',
         'correlationId': this.uuidGenerator.generateUUID()
       })
     };
     return this.httpClient
-    .put<number>(url, croppedImage, httpOptions)
+    .put<number>(url, {croppedImage}, httpOptions)
     .map(data => {
       return data;
     });

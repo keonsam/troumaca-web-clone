@@ -14,13 +14,19 @@
 
               <fieldset class="form-group">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label">Suite or Apartment</label>
+                  <label for="suite or apartment" class="col-sm-4 col-form-label">Suite or Apartment</label>
                   <div class="col-sm-8">
-                    <div class="form-check">
-                      <label class="form-check-label"><input checked="" class="form-check-input" formControlName="suiteOrApartment" type="radio" value="Suite" required>Suite</label>
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label"><input class="form-check-input" formControlName="suiteOrApartment" type="radio" value="Apartment">Apartment</label>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-check">
+                          <label for="suite" class="form-check-label"><input checked="" class="form-check-input" formControlName="suiteOrApartment" type="radio" value="Suite" required>Suite</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-check">
+                          <label for="apartment" class="form-check-label"><input class="form-check-input" formControlName="suiteOrApartment" type="radio" value="Apartment">Apartment</label>
+                        </div>
+                      </div>
                     </div>
                    </div>
                   <div [hidden]="suiteOrApartment.valid || suiteOrApartment.pristine" class="alert alert-danger">Please select a suite or apartment.</div>

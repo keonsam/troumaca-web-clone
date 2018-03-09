@@ -65,7 +65,7 @@ router.post("/authenticate", function (req, res, next) {
       // { path: '/', httpOnly: true, secure: false, maxAge: null }
       res.cookie("sessionId", session.sessionId, { path: '/', maxAge: 20*60*1000, httpOnly: true });
     }
-    res.send(next);
+    res.send(session);
   }, error => {
     res.status(400);
     res.send(error);
@@ -156,15 +156,24 @@ router.get("/send-phone-code/:phoneUUID", function (req, res, next) {
 
 router.get("/new-phone-uuid/:phoneNumber", function (req, res, next) {
   let phoneNumber = req.params.phoneNumber;
+
   credentialOrchestrator
-  .newPhoneUUID(phoneNumber)
-  .subscribe(phoneUUID => {
-    console.log(phoneUUID);
-    res.send(JSON.stringify(phoneUUID));
-  }, error => {
-    res.status(400);
-    res.send(error);
-    console.log(error);
+  .validateConfirmedUsername(phoneNumber)
+  .subscribe(doc => {
+    if(doc) {
+      res.send(false);
+    }else {
+      credentialOrchestrator
+      .newPhoneUUID(phoneNumber)
+      .subscribe(phoneUUID => {
+        console.log(phoneUUID);
+        res.send(JSON.stringify(phoneUUID));
+      }, error => {
+        res.status(400);
+        res.send(error);
+        console.log(error);
+      });
+    }
   });
 });
 
@@ -183,14 +192,23 @@ router.get("/send-email-code/:emailUUID", function (req, res, next) {
 
 router.get("/new-email-uuid/:emailAddress", function (req, res, next) {
   let emailAddress = req.params.emailAddress;
+
   credentialOrchestrator
-  .newEmailUUID(emailAddress)
-  .subscribe(emailUUID => {
-    res.send(JSON.stringify(emailUUID));
-  }, error => {
-    res.status(400);
-    res.send(error);
-    console.log(error);
+  .validateConfirmedUsername(emailAddress)
+  .subscribe(doc => {
+    if(doc) {
+      res.send(false);
+    }else {
+      credentialOrchestrator
+      .newEmailUUID(emailAddress)
+      .subscribe(emailUUID => {
+        res.send(JSON.stringify(emailUUID));
+      }, error => {
+        res.status(400);
+        res.send(error);
+        console.log(error);
+      });
+    }
   });
 });
 

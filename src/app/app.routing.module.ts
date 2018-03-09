@@ -41,6 +41,7 @@ import {OrganizationEditComponent} from "../parties/organizations/organization-e
 import {UserListComponent} from "../parties/users/user-list/user.list.component";
 import {UserCreationComponent} from "../parties/users/user-creation/user.creation.component";
 import {UserEditComponent} from "../parties/users/user-edit/user.edit.component";
+import {CreateAccountComponent} from "../parties/create-profile/create.profile.component";
 import {UserMeComponent} from "../parties/users/user-me/user.me.component";
 import {ContractComponent} from "../contracts/contract.component";
 import {OrderListComponent} from "../contracts/orders/order.list.component";
@@ -153,7 +154,8 @@ const appRoutes: Routes = [
     { path: 'create', component: ShipmentCreationComponent, data:{menuName:'shipments-menu'} },
     { path: ':shipmentId/edit', component: ShipmentEditComponent, data:{menuName:'shipments-menu'} }
   ]},
-  { path: '**', component: PageNotFoundComponent }
+  { path: 'create-profile', component: CreateAccountComponent },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 // { path: 'organizations', component: OrganizationListComponent },
