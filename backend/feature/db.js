@@ -21,63 +21,74 @@ let theEmailUuidDb = path.resolve(__dirname, '..') + '/nedb/email-uuids.db';
 let thePhoneUuidDb = path.resolve(__dirname, '..') + '/nedb/phone-uuids.db';
 let theConfirmedCredentialsDb = path.resolve(__dirname, '..') + '/nedb/confirmed-credentials.db';
 let theAccountsInformationDb = path.resolve(__dirname, '..') + '/nedb/accounts-information.db';
+let theCredentialConfirmationsDb = path.resolve(__dirname, '..') + '/nedb/credential_confirmations.db';
 
 db.accountsInformation = new Datastore(theAccountsInformationDb);
-db.accountsInformation.loadDatabase(function (err) { console.log(err); });
+db.accountsInformation.loadDatabase(function (err) { if (err) { console.log(err); }});
 
-db.confirmedCredentials = new Datastore(theConfirmedCredentialsDb);
-db.confirmedCredentials.loadDatabase(function (err) { console.log(err); });
+db.confirmedCredentials = new Datastore(theCredentialConfirmationsDb);
+db.confirmedCredentials.loadDatabase(function (err) { if (err) { console.log(err); }});
+
+db.credentialConfirmations = new Datastore(theConfirmedCredentialsDb);
+db.credentialConfirmations.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.emailUuids = new Datastore(theEmailUuidDb);
-db.emailUuids.loadDatabase(function (err) { console.log(err); });
+db.emailUuids.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.phoneUuids = new Datastore(thePhoneUuidDb);
-db.phoneUuids.loadDatabase(function (err) { console.log(err); });
+db.phoneUuids.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.accountsPhotos = new Datastore(theAccountPhotoDb);
-db.accountsPhotos.loadDatabase(function (err) { console.log(err); });
+db.accountsPhotos.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.companyPhotos = new Datastore(theCompanyPhotoDb);
-db.companyPhotos.loadDatabase(function (err) { console.log(err); });
+db.companyPhotos.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.usersPhotos = new Datastore(theUsersPhotoDb);
-db.usersPhotos.loadDatabase(function (err) { console.log(err); });
+db.usersPhotos.loadDatabase(function (err) { if (err) {console.log(err); }});
+
+db.organizations = new Datastore(theOrganizationDb);
+db.organizations.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.organizations = new Datastore(theOrganizationDb);
 db.organizations.loadDatabase(function (err) { console.log(err); });
 
 db.credentials = new Datastore(theCredentialDb);
-db.credentials.loadDatabase(function (err) { console.log(err); });
+db.credentials.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.assetKinds = new Datastore(theAssetKindsDb);
-db.assetKinds.loadDatabase(function (err) { console.log(err); });
+db.assetKinds.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.sites = new Datastore(theSitesDb);
-db.sites.loadDatabase(function (err) { console.log(err); });
+db.sites.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.unitOfMeasures = new Datastore(theMeasuresDb);
-db.unitOfMeasures.loadDatabase(function (err) { console.log(err); });
+db.unitOfMeasures.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.persons = new Datastore(thePersonsDb);
-db.persons.loadDatabase(function (err) { console.log(err); });
+db.persons.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.assets = new Datastore(theAssetsDb);
-db.assets.loadDatabase(function (err) { console.log(err); });
+db.assets.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.values = new Datastore(theValuesDb);
-db.values.loadDatabase(function (err) { console.log(err); });
+db.values.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.assetTypeClasses = new Datastore(theAssetTypeClassesDb);
-db.assetTypeClasses.loadDatabase(function (err) { console.log(err); });
+db.assetTypeClasses.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.assetTypes = new Datastore(theAssetTypesDb);
-db.assetTypes.loadDatabase(function (err) { console.log(err); });
+db.assetTypes.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.attributes = new Datastore(theAttributesDb);
-db.attributes.loadDatabase(function (err) { console.log(err); });
+db.attributes.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.dataTypes = new Datastore(theDataTypesDb);
-db.dataTypes.loadDatabase(function (err) { console.log(err); });
+db.dataTypes.loadDatabase(function (err) { if (err) { console.log(err); }});
+
+db.emailUuids.ensureIndex({ fieldName: 'emailUUID', expireAfterSeconds: 60 }, function (err) { if (err) { console.log(err); }});
+
+db.phoneUuids.ensureIndex({ fieldName: 'phoneUUID', expireAfterSeconds: 60 }, function (err) { if (err) { console.log(err); }});
 
 db.emailUuids.ensureIndex({ fieldName: 'emailUUID', expireAfterSeconds: 60 }, function (err) {
   if(err){

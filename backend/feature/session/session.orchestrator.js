@@ -12,6 +12,15 @@ let SessionOrchestrator = new function() {
     });
   };
 
+  this.getSimpleSession = function (sessionId) {
+    // Todo: Need to verify.
+    return sessionRepository
+    .getSessionById(sessionId)
+    .map(valid => {
+      return responseShaper.shapeSessionResponse(valid)
+    });
+  }
+
 };
 
 module.exports = SessionOrchestrator;

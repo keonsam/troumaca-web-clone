@@ -16,12 +16,15 @@ export class PhoneVerificationComponent implements OnInit {
   private _phoneVerificationForm: FormGroup;
   private sub: any;
   private _phoneErrorForm: FormGroup;
-  private phoneUUID: string;
-  private _smsCode: FormControl;
+  private confirmationId: string;
+  private phoneNumber: string;
+  private _confirmationCode: FormControl;
   private _phoneNumber: FormControl;
 
   private _errorExists:boolean;
-  private _unknownLink: boolean;
+  private _sendPhoneForm: boolean;
+  private textMessageSuccess: boolean;
+  private textMessageFailure: boolean;
 
   constructor(//private eventService: EventService,
               private route: ActivatedRoute,
@@ -29,38 +32,38 @@ export class PhoneVerificationComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private router: Router) {
 
-    this.smsCode = new FormControl("", [Validators.required,
+    this.confirmationCode = new FormControl("", [Validators.required,
                                         Validators.minLength(6),
                                         Validators.maxLength(6)]);
 
     this.phoneNumber = new FormControl("", [Validators.required]);
 
      this.phoneVerificationForm = formBuilder.group({
-      "smsCode": this.smsCode
+      "confirmationCode": this.confirmationCode,
     });
 
-    this.phoneErrorForm = formBuilder.group({
-      "phoneNumber": this.phoneNumber
-    });
 
     this.errorExists = false;
-    this.unknownLink = false;
+    this.sendPhoneForm = false;
+    this.textMessageSuccess = false;
+    this.textMessageFailure = false;
   }
 
   ngOnInit(): void {
-    let that = this;
-
-    this.sub = this.route.params.subscribe(params => {
-      this.phoneUUID = params["phoneUUID"];
-
-      if(!this.phoneUUID) {
-        this.unknownLink = true;
-
-        setTimeout(() => {
-          this.router.navigate(['/authentication/register']);
-        }, 60 * 5 * 1000); //one minute for testing purposes
+    console.log(document.cookie);
+    let credentialInformation = document.cookie.match(/credentialInformation=([^;]+)/).[1].match(/=(.+)/).[1];
+    if(!credentialInformation) {
+    this.route.params.subscribe(params => {
+      this.credentialId = params["credentialId"];
+      if(!this.credentialId) {
+        this.sendPhoneForm = true;
       }
     });
+    }else {
+      credentialInformation = JSON.parse(credentialInformation);
+      this.credentialId = credentialInformation.credentialId;
+      this.phoneNumber = credentialInformation.phoneNumber;
+    }
   }
 
   get errorExists(): boolean {
@@ -71,20 +74,20 @@ export class PhoneVerificationComponent implements OnInit {
     this._errorExists = value;
   }
 
-  get unknownLink(): boolean {
-    return this._unknownLink;
+  get sendPhoneForm(): boolean {
+    return this._sendPhoneForm;
   }
 
-  set unknownLink(value: boolean) {
-    this._unknownLink = value;
+  set sendPhoneForm(value: boolean) {
+    this._sendPhoneForm = value;
   }
 
-  get smsCode(): FormControl {
-    return this._smsCode;
+  get confirmationCode(): FormControl {
+    return this._confirmationCode;
   }
 
-  set smsCode(value: FormControl) {
-    this._smsCode = value;
+  set confirmationCode(value: FormControl) {
+    this._confirmationCode = value;
   }
 
   get phoneNumber(): FormControl {
@@ -112,16 +115,29 @@ export class PhoneVerificationComponent implements OnInit {
   }
 
   sendCode() {
+    this.textMessageSuccess = false;
+    this.textMessageFailure = false;
+
     this.authenticationService
-    .sendPhoneCode(this.phoneUUID)
+    .sendPhoneCode(this.credentialInformation)
     .subscribe(next => {
       if(next) {
-        document.getElementById("openModalButton").click();
+        this.textMessageSuccess = true;
+        setTimeout(() => {
+          this.textMessageSuccess = false;
+        }, 1000 *10);
       } else {
-        // display errors
+        this.textMessageFailure = true;
+        setTimeout(() => {
+          this.sendPhoneForm = true;
+        });
       }
     }, error =>{
-      // display errors
+      this.textMessageFailure = true;
+      setTimeout(() => {
+        this.sendPhoneForm = true;
+      });
+     }
     });
   }
 
@@ -129,7 +145,7 @@ export class PhoneVerificationComponent implements OnInit {
     this.errorExists = false;
 
     this.authenticationService
-      .authenticateSMSCode(this.phoneUUID, this.smsCode.value)
+      .authenticateSMSCode(this.credentialId,this.confirmationCode.value)
       .subscribe(next => {
         if (next) {
           this.errorExists = false;
@@ -149,7 +165,6 @@ export class PhoneVerificationComponent implements OnInit {
       .newPhoneUUID(this.phoneNumber.value)
       .subscribe(next => {
         if (next) {
-          this.errorExists = false;
           this.router.navigate([`/authentication/phone-verification/${next}`]);
         } else {
           this.errorExists = true;

@@ -36,10 +36,10 @@ export class AppComponent implements OnInit{
               private sessionService: SessionService) {
 
     this.isLoggedIn = false;
-    this.eventService.subscribeToLoginEvent( (data) => {
-      this.sessionService.activeSessionExists()
-      // this.isLoggedIn = true;
-    });
+    // this.eventService.subscribeToLoginEvent( (data) => {
+    //   this.sessionService.activeSessionExists()
+    //   this.isLoggedIn = true;
+    // });
 
   }
 

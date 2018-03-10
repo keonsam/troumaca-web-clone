@@ -2,18 +2,14 @@ let validator = require('validator');
 let libphonenumberjs = require('libphonenumber-js');
 var passwordValidator = require('password-validator');
 
-let Datastore = require('nedb');
 let Rx = require("rxjs");
-let path = require('path');
 let UUIDGenerator = require("../uuid.generator");
-let DbUtil = require("../db.util");
-let db = require("../db.js")
+let db = require("../db.js");
 let newUuidGenerator = new UUIDGenerator();
 
 const phoneToken = require('generate-sms-verification-code');
 
 module.exports =  function DatabaseCredentialRepository() {
-
 
   this.isValidUsername = function (usernameObj) {
     let username = usernameObj.username;
@@ -81,23 +77,24 @@ module.exports =  function DatabaseCredentialRepository() {
       // 3. and is not taken
       return Rx.Observable.of(false);
     }
-      return this.checkUsernameValid(partyId,username)
-      .switchMap(value => {
-        if(value) {
-          return Rx.Observable.of(true);
-        }else {
-          return this.getCredentialByUsername(username)
-            .map(credential => {
-              if (!credential) {
-                return true;
-              } else if (!credential.username) {
-                return true;
-              } else {
-                return false;
-              }
-            });
-        }
-      });
+
+    return this.checkUsernameValid(partyId,username)
+    .switchMap(value => {
+      if(value) {
+        return Rx.Observable.of(true);
+      }else {
+        return this.getCredentialByUsername(username)
+          .map(credential => {
+            if (!credential) {
+              return true;
+            } else if (!credential.username) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+      }
+    });
   };
 
   this.isValidCurrentPassword = function (passwordObj) {
@@ -105,11 +102,7 @@ module.exports =  function DatabaseCredentialRepository() {
 
     return this.validateCurrentPassword(password)
     .map(password => {
-      if (password) {
-        return true;
-      } else {
-        return false;
-      }
+      return !!password;
     });
   };
 
@@ -215,7 +208,7 @@ module.exports =  function DatabaseCredentialRepository() {
         observer.complete();
       });
     });
-  }
+  };
 
   this.addCredential = function (credential) {
     credential.credentialId = newUuidGenerator.generateUUID();

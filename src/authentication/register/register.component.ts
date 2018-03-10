@@ -216,8 +216,8 @@ export class RegisterComponent implements OnInit {
     this.authenticationService
     .addCredential(credential)
     .subscribe(credential => {
-      if (credential.credentialId) {
-        let credentialId = credential.credentialId;
+      let credentialId = credential.credentialId;
+      if (credentialId) {
         if(regex.test(this.username.value)) {
           this.generateEmailUUID(credentialId);
         } else {

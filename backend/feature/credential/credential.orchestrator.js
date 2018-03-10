@@ -1,8 +1,13 @@
 let Rx = require("rxjs");
 let credentialRepositoryFactory = require('./credential.repository.factory').CredentialRepositoryFactory;
 let credentialRepository = credentialRepositoryFactory.createRepository();
+
+let credentialConfirmationRepositoryFactory = require('./credential.confirmation.repository.factory').CredentialConfirmationRepositoryFactory;
+let credentialConfirmationRepository = credentialConfirmationRepositoryFactory.createRepository();
+
 let sessionRepositoryFactory = require('../session/session.repository.factory').SessionRepositoryFactory;
 let sessionRepository = sessionRepositoryFactory.createRepository();
+
 let responseShaper = require("./credential.response.shaper")();
 
 let CredentialOrchestrator = new function() {
@@ -41,7 +46,18 @@ let CredentialOrchestrator = new function() {
   };
 
   this.addCredential = function (credential) {
-    return credentialRepository.addCredential(credential);
+    return credentialRepository
+      .addCredential(credential)
+      .switchMap(credential => {
+
+        let credentialConfirmation = {};
+        credentialConfirmation["credentialId"] = credential.credentialId;
+        credentialConfirmation["createdOn"] = new Date().getTime();
+        credentialConfirmation["modifiedOn"] = new Date().getTime();
+
+        return credentialConfirmationRepository
+          .addCredentialConfirmation(credentialConfirmation);
+      });
   };
 
   this.authenticate = function (credential) {
@@ -94,7 +110,7 @@ let CredentialOrchestrator = new function() {
 
   this.authenticateEmailCode = function (emailUUID,emailCode) {
     return credentialRepository
-    .getEmailCode(emailUUID,emailCode)
+    .getEmailCode(emailUUID, emailCode)
     .switchMap(doc => {
       if(doc) {
         return credentialRepository.deleteEmailCode(emailUUID)
@@ -151,7 +167,7 @@ let CredentialOrchestrator = new function() {
         return Rx.Observable.of(false);
       }
     });
-  }
+  };
 
   this.newEmailUUID = function (emailAddress) {
     return credentialRepository
@@ -163,11 +179,11 @@ let CredentialOrchestrator = new function() {
         return Rx.Observable.of(false);
       }
     });
-  }
+  };
 
   this.validateConfirmedUsername = function (username) {
     return credentialRepository.getConfirmedCredentialsByUsername(username)
-  }
+  };
 
 
 };
