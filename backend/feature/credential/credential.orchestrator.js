@@ -1,17 +1,13 @@
 let Rx = require("rxjs");
 let credentialRepositoryFactory = require('./credential.repository.factory').CredentialRepositoryFactory;
 let credentialRepository = credentialRepositoryFactory.createRepository();
-
 let credentialConfirmationRepositoryFactory = require('./credential.confirmation.repository.factory').CredentialConfirmationRepositoryFactory;
 let credentialConfirmationRepository = credentialConfirmationRepositoryFactory.createRepository();
-
 let sessionRepositoryFactory = require('../session/session.repository.factory').SessionRepositoryFactory;
 let sessionRepository = sessionRepositoryFactory.createRepository();
-
 let responseShaper = require("./credential.response.shaper")();
 
 let CredentialOrchestrator = new function() {
-
 
   this.isValidUsername = function (usernameObj) {
     return credentialRepository
@@ -49,12 +45,10 @@ let CredentialOrchestrator = new function() {
     return credentialRepository
       .addCredential(credential)
       .switchMap(credential => {
-
         let credentialConfirmation = {};
         credentialConfirmation["credentialId"] = credential.credentialId;
         credentialConfirmation["createdOn"] = new Date().getTime();
         credentialConfirmation["modifiedOn"] = new Date().getTime();
-
         return credentialConfirmationRepository
           .addCredentialConfirmation(credentialConfirmation);
       });
@@ -62,124 +56,127 @@ let CredentialOrchestrator = new function() {
 
   this.authenticate = function (credential) {
     return credentialRepository
-      .authenticateForCredential(credential)
+      .authenticateCredential(credential)
       .switchMap(readCredential => {
-        if (readCredential.credentialId) {
+        if (readCredential) {
           let session = {};
           session["credentialId"] = readCredential.credentialId;
           session["partyId"] = readCredential.partyId ? readCredential.partyId : "";
-          return sessionRepository.addSession(session);
+          session["accountStatus"] = readCredential.status;
+          if(session.partyId || session.accountStatus == "confirmed"){
+            return sessionRepository.addSession(session);
+          }else {
+            return credentialConfirmationRepository
+            .getCredentialConfirmationByCredentialId(readCredential.credentialId) // needs to account for more than one value
+            .switchMap(credentialConfirmation => {
+              if(credentialConfirmation.credentialConfirmationId) {
+                session["credentialConfirmationId"] = credentialConfirmation.credentialConfirmationId;
+                return sessionRepository.addSession(session);
+              }else {
+                Rx.Observable.of(false);
+              }
+            });
+          }
         } else {
           return Rx.Observable.of(readCredential);
         }
       });
   };
 
-  this.authenticateSMSCode = function (phoneUUID,smsCode) {
-    return credentialRepository
-    .getSMSCode(phoneUUID,smsCode)
-    .switchMap(doc => {
-      if(doc) {
-        return credentialRepository.deleteSMSCode(phoneUUID)
-        .switchMap(numRemoved => {
-          if(numRemoved){
-            return credentialRepository.getCredentialByCredentialId(doc.credentialId)
-            .switchMap(newDoc => {
-              if(newDoc){
-                return credentialRepository.generateConfirmedCredential(newDoc)
-                .map(confirmedCredentials => {
-                  if(confirmedCredentials){
-                    return true;
-                  }else {
-                    return false;
-                  }
-                });
-              }else {
-                return Rx.Observable.of(false);
+  this.verifyCredentialConfirmation = function (credentialConfirmation) {
+    return credentialConfirmationRepository
+      .getCredentialConfirmationByCode(credentialConfirmation["credentialConfirmationId"], credentialConfirmation["confirmationCode"] )
+      .switchMap(credentialConfirmation => {
+        if(credentialConfirmation) {
+          if (credentialConfirmation["status"] == "confirmed") {
+            return Rx.Observable.of(credentialConfirmation);
+          } else if (credentialConfirmation.createdOn + (20 * 60 * 1000) >= new Date().getTime()) {  // 1 second * 60 = 1 minute * 20 = 20 minutes
+            credentialConfirmation["status"] = "expired";
+            return credentialConfirmationRepository
+            .updateCredentialConfirmation(credentialConfirmation)
+            .map(numReplaced => {
+              if(numReplaced){
+                return credentialConfirmation;
               }
+              return numReplaced;
             });
           }else {
-            return Rx.Observable.of(false);
-          }
-        });
-      }else{
-        return Rx.Observable.of(false);
-      }
-    });
-  };
-
-  this.authenticateEmailCode = function (emailUUID,emailCode) {
-    return credentialRepository
-    .getEmailCode(emailUUID, emailCode)
-    .switchMap(doc => {
-      if(doc) {
-        return credentialRepository.deleteEmailCode(emailUUID)
-        .switchMap(numRemoved => {
-          if(numRemoved){
-            return credentialRepository.getCredentialByCredentialId(doc.credentialId)
-            .switchMap(newDoc => {
-              if(newDoc){
-                return credentialRepository.generateConfirmedCredential(newDoc)
-                .map(confirmedCredentials => {
-                  if(confirmedCredentials){
-                    return true;
-                  }else {
-                    return false;
+            credentialConfirmation["status"] = "confirmed";
+            return credentialRepository
+            .updateCredentialStatusById(credentialConfirmation["credentialId"], "confirmed")
+            .switchMap(credential => {
+              if(credential) {
+                return credentialConfirmationRepository
+                .updateCredentialConfirmation(credentialConfirmation)
+                .map(numReplaced => {
+                  if(numReplaced){
+                    return credentialConfirmation;
                   }
+                  return numReplaced;
                 });
               }else {
-                return Rx.Observable.of(false);
+                return Rx.Observable.of(credential);
               }
             });
-          }else {
-            return Rx.Observable.of(false);
           }
-        });
-      }else{
-        return Rx.Observable.of(false);
+        }else {
+          return Rx.Observable.of(credentialConfirmation);
+        }
+      });
+  };
+
+  this.sendPhoneVerificationCode = function (credentialConfirmationId) {
+    return credentialConfirmationRepository
+    .getCredentialConfirmationById(credentialConfirmationId)
+    .switchMap(credentialConfirmation => {
+      if(credentialConfirmation) {
+        if(credentialConfirmation.status == "confirmed") {
+          return Rx.Observable.of(credentialConfirmation);
+        }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) >= new Date().getTime()) {
+          credentialConfirmation["status"] = "expired";
+          return credentialConfirmationRepository
+          .updateCredentialConfirmation(credentialConfirmation)
+          .switchMap(numReplaced => { //this is so to make the old links still work.
+            if(numReplaced){
+              credentialConfirmation["createdOn"] = new Date().getTime();
+              credentialConfirmation["modifiedOn"] = new Date().getTime();
+              return credentialConfirmationRepository.addCredentialConfirmation(credentialConfirmation);
+            }
+            return Rx.Observable.of(numReplaced);
+          });
+        }
+      }else {
+        return Rx.Observable.of(credentialConfirmation);
       }
     });
   };
 
-  this.generateEmailUUID = function (credentialId) {
-    return credentialRepository.generateEmailUUID(credentialId);
-  };
-
-  this.generatePhoneUUID = function (credentialId) {
-    return credentialRepository.generatePhoneUUID(credentialId);
-  };
-
-  this.sendPhoneCode = function (phoneUUID) {
-    return credentialRepository.updatePhoneUUID(phoneUUID);
-  };
-
-  this.sendEmailCode = function (emailUUID) {
-    return credentialRepository.updateEmailUUID(emailUUID);
-  };
-
-  this.newPhoneUUID = function (phoneNumber) {
-    return credentialRepository
-    .getCredentialByUsername(phoneNumber)
-    .switchMap(doc => {
-      if(doc) {
-        return credentialRepository.generatePhoneUUID(doc.credentialId);
-      }else{
-        return Rx.Observable.of(false);
+  this.sendEmailVerificationCode = function (credentialConfirmationId) {
+    return credentialConfirmationRepository
+    .getCredentialConfirmationById(credentialConfirmationId)
+    .switchMap(credentialConfirmation => {
+      if(credentialConfirmation) {
+        if(credentialConfirmation.status == "confirmed") {
+          return Rx.Observable.of(credentialConfirmation);
+        }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) >= new Date().getTime()) {
+          credentialConfirmation["status"] = "expired";
+          return credentialConfirmationRepository
+          .updateCredentialConfirmationStatus(credentialConfirmation)
+          .switchMap(numReplaced => { //this is so to make the old links still work.
+            if(numReplaced){
+              credentialConfirmation["createdOn"] = new Date().getTime();
+              credentialConfirmation["modifiedOn"] = new Date().getTime();
+              return credentialConfirmationRepository.addCredentialConfirmation(credentialConfirmation);
+            }
+            return Rx.Observable.of(numReplaced);
+          });
+        }
+      }else {
+        return Rx.Observable.of(credentialConfirmation);
       }
     });
   };
 
-  this.newEmailUUID = function (emailAddress) {
-    return credentialRepository
-    .getCredentialByUsername(emailAddress)
-    .switchMap(doc => {
-      if(doc) {
-        return credentialRepository.generateEmailUUID(doc.credentialId);
-      }else{
-        return Rx.Observable.of(false);
-      }
-    });
-  };
 
   this.validateConfirmedUsername = function (username) {
     return credentialRepository.getConfirmedCredentialsByUsername(username)

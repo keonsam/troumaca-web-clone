@@ -9,7 +9,7 @@ let theShipmentsDb = path.resolve(__dirname, '..','..',) + '/nedb/shipments.db';
 let db = {};
 
 db.shipments = new Datastore(theShipmentsDb);
-db.shipments.loadDatabase(function (err) { console.log(err); });
+db.shipments.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();

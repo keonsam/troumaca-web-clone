@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 //import {Event} from "../event";
+import {CredentialConfirmation} from "../credential.confirmation";
 import {ActivatedRoute} from '@angular/router';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../authentication.service";
@@ -14,30 +14,23 @@ import {AuthenticationService} from "../authentication.service";
 })
 export class EmailVerificationComponent implements OnInit {
 
-  private sub:any;
-  private verifiedPass: boolean;
-  private verifiedFailed: boolean;
+  private credentialConfirmation: CredentialConfirmation;
+
   private newUser: boolean;
-  private credentialId: string;
-  private emailCode: string;
-  private _errorExists: boolean;
-  private _emailAddress: FormControl;
-  private _emailAddressForm: FormGroup;
-  private showEmailAddressForm: boolean;
+  private errorExists: boolean;
   private emailMessageSuccess: boolean;
   private emailMessageFailure: boolean;
+  private sendConfirmationCodeConfirmed: boolean;
+  private verifiedPass: boolean;
+  private verifiedFailed: boolean
 
   constructor(//private eventService: EventService,
               private route: ActivatedRoute,
-              private formBuilder: FormBuilder,
+              //private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private router: Router) {
 
-    this.emailAddress = new FormControl("", [Validators.required]);
-
-    this.emailAddressForm = formBuilder.group({
-      "emailAddress": this.emailAddress
-    });
+    this.credentialConfirmation = new CredentialConfirmation();
 
     this.verifiedPass = false;
     this.verifiedFailed = false;
@@ -48,104 +41,70 @@ export class EmailVerificationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-       this.sub = this.route.params.subscribe(params => {
+       this.route.params.subscribe(params => {
+         this.credentialConfirmation.credentialConfirmationId = params["credentialConfirmationId"];
+         this.route.queryParams.subscribe(queryParams =>{
+           this.credentialConfirmation.confirmationCode = queryParams["confirmationCode"];
 
-         this.credentialId = params["credentialId"];
-
-         if(!this.credentialId) {
+         if(this.credentialConfirmation.credentialConfirmationId && !this.credentialConfirmation.confirmationCode) {
            this.newUser = true;
-         }
-
-         if(this.credentialId){
-         this.authenticationService
-         .authenticateEmailCode(this.credentialId)
-         .subscribe(next => {
-           if(next) {
-             this.verifiedPass = true;
-             setTimeout(() => {
-               this.router.navigate(['/authentication/login']);
-             }, 1000 * 10);
-           }else {
-             // display errors
-             this.verifiedFailed = true;
-             setTimeout(() => {
-               this.router.navigate(['/authentication/login']);
-             }, 1000 * 60);
-           }
-         }, error => {
-             this.verifiedFailed = true;
-             setTimeout(() => {
-               this.router.navigate(['/authentication/login']);
-             }, 1000 * 60);
-
-         });
-       }
-   });
+         }else {
+           this.authenticationService
+           .verifyCredentialConfirmation(this.credentialConfirmation)
+           .subscribe(next => {
+             if(next.status == 'confirmed') {
+               this.verifiedPass = true;
+               setTimeout(() => {
+                 this.router.navigate(['/authentication/login']);
+               }, 1000 * 10);
+             }else {
+               // display errors
+               this.verifiedFailed = true;
+               setTimeout(() => {
+                 this.router.navigate(['/authentication/login']);
+               }, 1000 * 60);
+             }
+           }, error => {
+             /// better errors
+               this.verifiedFailed = true;
+               setTimeout(() => {
+                 this.router.navigate(['/authentication/login']);
+               }, 1000 * 60);
+           });
+         };
+       });
+     });
   }
 
-  get errorExists(): boolean {
-    return this._errorExists;
-  }
-
-  set errorExists(value: boolean) {
-    this._errorExists = value;
-  }
-
-  get emailAddress(): FormControl {
-    return this._emailAddress;
-  }
-
-  set emailAddress(value: FormControl) {
-    this._emailAddress = value;
-  }
-
-  get emailAddressForm(): FormGroup {
-    return this._emailAddressForm;
-  }
-
-  set emailAddressForm(value: FormGroup) {
-    this._emailAddressForm = value;
-  }
-
-  switchCode() {
-    this.newUser = false;
-    this.unknownLink = true;
-  }
-
-  sendEmailCode() {
+  sendConfirmationCode() {
     this.emailMessageSuccess = false;
     this.emailMessageFailure = false;
+
     this.authenticationService
-    .sendEmailCode(this.credentialId)
+    .sendConfirmationCode(this.credentialConfirmation.credentialConfirmationId, "email")
     .subscribe(next => {
       if(next) {
-        this.emailMessageSuccess = true;
-        setTimeout(()=> {
-         this.emailMessageSuccess = false;
-        }, 1000 * 10)
-      }else {
-        // display Error
-        this.emailMessageFailure = true;
+        if (next.status == 'confirmed') {
+          this.sendConfirmationCodeConfirmed = true;
+          setTimeout(()=> {
+            this.router.navigate(['/authentication/login']);
+          }, 1000 *10);
+        }else if (next.status == 'new' && next.credentialConfirmationId != this.credentialConfirmation.credentialConfirmationId) {
+          this.emailMessageFailure = true;
+          setTimeout(()=> {
+            this.router.navigate([`/authentication/phone-verification/${next.credentialConfirmationId}`]);
+          }, 1000 *10);
+        }else {
+          this.emailMessageSuccess = true;
+          setTimeout(()=> {
+            this.emailMessageSuccess = false;
+          }, 5000);
+        }
       }
-    }, error => {
+    }, error =>{
+      // add better error message
       this.emailMessageFailure = true;
-      // display Error
     });
   }
 
-  onSubmit() {
-    this.errorExists = false;
-    this.authenticationService
-    .newEmailUUID(this.emailAddress.value)
-    .subscribe(next => {
-      if(next){
-        this.errorExists = false;
-        this.router.navigate([`/authentication/email-verification/${next}`]);
-      }else{
-        this.errorExists = true;
-      }
-    }, error => {
-      this.errorExists = true;
-    });
-  }
 }

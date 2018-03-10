@@ -9,67 +9,46 @@
         Phone Number Verification
       </h4>
 
-      <div *ngIf="!sendPhoneForm">
-        <form [formGroup]="phoneVerificationForm" (ngSubmit)="onSubmit()">
-          <p>
-             A text message with the verification code <br/>
-             was just sent to {this.phoneNumber}.
-          </p>
+      <form [formGroup]="phoneVerificationForm" (ngSubmit)="onSubmit()">
+        <p>
+           A text message with the verification code <br/>
+           was just sent to you.
+        </p>
 
-          <div class="form-group">
-            <label for="">Enter Verification Code</label><input class="form-control" formControlName="confirmationCode" placeholder="Enter the 6-digit code" required type="text">
+        <div class="form-group">
+          <label for="">Enter Verification Code</label><input class="form-control" formControlName="confirmationCode" placeholder="Enter the 6-digit code" required type="text">
+        </div>
+
+        <div *ngIf="errorExists" class="alert alert-danger">
+          <strong>Error!</strong> Make sure you enter the text message code sent to your phone number.
+          <a href="#" (click)="sendConfirmationCode();false">Click here </a> for an another text message.
+        </div>
+
+        <div *ngIf="textMessageSuccess" class="alert alert-success">
+          <strong>Success!</strong> text Message has been sent.
+          If you didn't get it in 5 minutes, Please try again.
+        </div>
+
+        <div *ngIf="sendConfirmationCodeConfirmed" class="alert alert-info">
+          <strong>Confirmed!</strong> This account is confirmed.
+          Please login.
+        </div>
+
+        <div *ngIf="textMessageFailure" class="alert alert-danger">
+          <strong>Error!</strong> But it seems this session has expired.
+          A new text message will be sent to your phone number, please enter the code for that one.
+        </div>
+
+        <div class="buttons-w">
+          <div>
+            <button class="btn btn-white" routerLink="/authentication/register">Change Number</button>
+            <button [disabled]="!phoneVerificationForm.valid" class="btn btn-primary float-right" type="submit">Verify</button>
           </div>
-
-          <div *ngIf="errorExists" class="alert alert-danger">
-            <strong>Error!</strong> Make sure you enter the text message code sent to your phone number.
-            <a href"#" (click)="sendCode();false">Click here</a> for an another text message.
-          </div>
-
-          <div *ngIf="textMessageSuccess" class="alert alert-success">
-            <strong>Success!</strong> text Message has been sent.
-            If you didn't get it in 5 minutes, Please try again.
-          </div>
-
-          <div *ngIf="textMessageFailure" class="alert alert-danger">
-            <strong>Error!</strong> But it seems this session has expired.
-            You will now be redirected to enter your phone number for another session.
-          </div>
-
-          <div class="buttons-w">
-            <div>
-              <a class="btn btn-white" routerLink="/authentication/register">Change Number</a>
-              <button [disabled]="!phoneVerificationForm.valid" class="btn btn-primary float-right" type="submit">Verify</button>
-            </div>
-            <div class="sendPhoneCode">
-              <a href="#" (click)="sendCode();false">Didn't get the text message?</a>
-            </div>
-          <form>
-      </div>
-
-        <div *ngIf="sendPhoneForm">
-          <form [formGroup]="sendCodeForm" (ngSubmit)="onSubmitTwo()">
-          <p>
-             Please enter your number again below. <br/>
-             This page has an automatic redirect. <br/>
-             You will be redirected to the register page in 20 minutes. <br/>
-             Thank you.
-          </p>
-
-          <div class="form-group">
-            <label for="">Phone Number</label><input class="form-control" formControlName="phoneNumber" placeholder="Enter the number used to register" required type="text">
-          </div>
-
-          <div *ngIf="errorExists" class="alert alert-danger">
-            <strong>Error!</strong> Make sure you enter your account phone number.<br />
-            Don't have an account?<a routerLink="/authentication/register"> Click here</a>
-          </div>
-
-          <div class="buttons-w">
-            <div>
-              <button align="center" [disabled]="!phoneVerificationForm.valid" class="btn btn-primary" type="submit">Submit</button>
-            </div>
+          <div class="sendPhoneCode">
+            <a href="#" (click)="sendConfirmationCode();false">Didn't get the text message?</a>
           </div>
         </div>
+        </form>
 
     </div>
   </div>

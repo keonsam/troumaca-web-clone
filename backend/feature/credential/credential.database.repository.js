@@ -50,7 +50,7 @@ module.exports =  function DatabaseCredentialRepository() {
     }
   };
 
-  this.isValidEditUsername = function (partyId,usernameObj) {
+  this.isValidEditUsername = function (partyId, usernameObj) {
 
     let username = usernameObj.username;
     if (!username) {
@@ -147,21 +147,6 @@ module.exports =  function DatabaseCredentialRepository() {
     });
   };
 
-  this.authenticateCredentialByUsername = function (username) {
-    return Rx.Observable.create(function (observer) {
-      let query = {};
-      query["username"] = username;
-      db.confirmedCredentials.findOne(query, function (err, doc) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  };
-
   this.getCredentialByCredentialId = function (credentialId) {
     return Rx.Observable.create(function (observer) {
       let query = {};
@@ -212,6 +197,7 @@ module.exports =  function DatabaseCredentialRepository() {
 
   this.addCredential = function (credential) {
     credential.credentialId = newUuidGenerator.generateUUID();
+    credential["status"] = "new";
     return Rx.Observable.create(function (observer) {
       db.credentials.insert(credential, function (err, doc) {
         if (!err) {
@@ -224,24 +210,13 @@ module.exports =  function DatabaseCredentialRepository() {
     });
   };
 
-  this.authenticateForCredential = function (credential) {
-    return this.authenticateCredentialByUsername(credential.username)
-    .map(readCredential => {
-      if (readCredential && credential && credential.password === readCredential.password) {
-        return readCredential;
-      } else {
-        return {};
-      }
-    });
-  };
-
-  this.getSMSCode = function (phoneUUID,smsCode) {
+  this.authenticateCredential = function (credential) {
     return Rx.Observable.create(function (observer) {
       let query1 = {};
       let query2 = {};
-      query1["phoneUUID"] = phoneUUID;
-      query2["smsCode"] = smsCode;
-      db.phoneUuids.findOne({$and : [query1,query2]}, function (err, doc) {
+      query1["username"] = credential.username;
+      query2["password"] = credential.password;
+      db.credentials.findOne({$and : [query1,query2]}, function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -252,99 +227,11 @@ module.exports =  function DatabaseCredentialRepository() {
     });
   };
 
-  this.getEmailCode = function (emailUUID,emailCode) {
-    return Rx.Observable.create(function (observer) {
-      let query1 = {};
-      let query2 = {};
-      query1["emailUUID"] = emailUUID;
-      query2["emailCode"] = emailCode;
-      db.emailUuids.findOne({$and : [query1,query2]}, function (err, doc) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  };
-
-  this.deleteSMSCode = function (phoneUUID) {
+  this.updateCredentialStatusById = function (credentialId, status) {
     return Rx.Observable.create(function (observer) {
       let query = {};
-      query["phoneUUID"] = phoneUUID;
-      db.phoneUuids.remove(query, {}, function (err, numRemoved) {
-        if (!err) {
-          observer.next(numRemoved);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  };
-
-  this.deleteEmailCode = function (emailUUID) {
-    return Rx.Observable.create(function (observer) {
-      let query = {};
-      query["emailUUID"] = emailUUID;
-      db.emailUuids.remove(query, {}, function (err, numRemoved) {
-        if (!err) {
-          observer.next(numRemoved);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  };
-
-
-  this.generateEmailUUID = function (credentialId) {
-    return Rx.Observable.create(function (observer) {
-      let doc = {
-        emailUUID: newUuidGenerator.generateUUID(),
-        emailCode: newUuidGenerator.generateUUID(),
-        credentialId
-      };
-
-      db.emailUuids.insert(doc, function (err, newDoc) {
-        if (!err) {
-          observer.next(newDoc.emailUUID);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  };
-
-  this.generatePhoneUUID = function (credentialId) {
-    return Rx.Observable.create(function (observer) {
-      let doc = {
-        phoneUUID: newUuidGenerator.generateUUID(),
-        smsCode:   phoneToken(6, {type: 'string'}),
-        credentialId
-      };
-
-      db.phoneUuids.insert(doc, function (err, newDoc) {
-        if (!err) {
-          observer.next(newDoc.phoneUUID);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  };
-
-  this.updatePhoneUUID = function (phoneUUID) {
-    return Rx.Observable.create(function (observer) {
-      let query = {};
-      query["phoneUUID"] = phoneUUID;
-      let updateDoc = { smsCode:   phoneToken(6, {type: 'string'}) };
-
-      db.phoneUuids.update(query,{$set : updateDoc }, function (err, numReplaced) {
+      query["credentialId"] = credentialId;
+      db.credentials.update(query, {$set: {status}}, {}, function (err, numReplaced) {
         if (!err) {
           observer.next(numReplaced);
         } else {
@@ -353,51 +240,6 @@ module.exports =  function DatabaseCredentialRepository() {
         observer.complete();
       });
     });
-  };
-
-  this.updateEmailUUID = function (emailUUID) {
-    return Rx.Observable.create(function (observer) {
-      let query = {};
-      query["emailUUID"] = emailUUID;
-      let updateDoc = { emailCode: newUuidGenerator.generateUUID() };
-
-      db.emailUuids.update(query,{$set : updateDoc }, function (err, numReplaced) {
-        if (!err) {
-          observer.next(numReplaced);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  };
-
-  this.generateConfirmedCredential = function (doc) {
-    return Rx.Observable.create(function (observer) {
-      db.confirmedCredentials.insert(doc,function (err, newDoc) {
-        if (!err) {
-          observer.next(newDoc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  };
-
-  this.getConfirmedCredentialsByUsername = function (username) {
-    return Rx.Observable.create(function (observer) {
-      let query = {};
-      query["username"] = username;
-      db.confirmedCredentials.findOne(query, function (err, doc) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  };
+  }
 
 };

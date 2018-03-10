@@ -113,6 +113,7 @@ export class LoginComponent implements OnInit {
     credential.username = this.username.value;
     credential.password = this.password.value;
     credential.rememberMe = this.rememberMe.value;
+    let regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
     this.authenticationService
       .authenticate(credential)
@@ -122,10 +123,17 @@ export class LoginComponent implements OnInit {
             //this.eventService.sendLoginEvent(this.createEventModel()); // not working
             this.errorExists = false;
             this.router.navigate(['/home/lobby']);
-          }else {
+          }else if(session.accountStatus == 'confirmed') {
             //this.eventService.sendLoginEvent(this.createEventModel()); // working
             this.errorExists = false;
             this.router.navigate(['/create-profile']);
+          }else {
+            // not implemented
+            if(regex.test(this.username.value)) {
+              this.router.navigate([`/authentication/email-verification/${session.credentialConfirmationId}`]);
+            } else {
+              this.router.navigate([`/authentication/phone-verification/${session.credentialConfirmationId}`]);
+            }
           }
         } else {
           // Todo: Put an error on the display

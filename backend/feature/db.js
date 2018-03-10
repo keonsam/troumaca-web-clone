@@ -17,26 +17,14 @@ let theUsersPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/user
 let theCompanyPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/company-photos.db';
 let theAccountPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/account-photos.db';
 let theOrganizationDb = path.resolve(__dirname, '..') + '/nedb/organizations.db';
-let theEmailUuidDb = path.resolve(__dirname, '..') + '/nedb/email-uuids.db';
-let thePhoneUuidDb = path.resolve(__dirname, '..') + '/nedb/phone-uuids.db';
-let theConfirmedCredentialsDb = path.resolve(__dirname, '..') + '/nedb/confirmed-credentials.db';
 let theAccountsInformationDb = path.resolve(__dirname, '..') + '/nedb/accounts-information.db';
 let theCredentialConfirmationsDb = path.resolve(__dirname, '..') + '/nedb/credential_confirmations.db';
 
 db.accountsInformation = new Datastore(theAccountsInformationDb);
 db.accountsInformation.loadDatabase(function (err) { if (err) { console.log(err); }});
 
-db.confirmedCredentials = new Datastore(theCredentialConfirmationsDb);
-db.confirmedCredentials.loadDatabase(function (err) { if (err) { console.log(err); }});
-
-db.credentialConfirmations = new Datastore(theConfirmedCredentialsDb);
+db.credentialConfirmations = new Datastore(theCredentialConfirmationsDb);
 db.credentialConfirmations.loadDatabase(function (err) { if (err) { console.log(err); }});
-
-db.emailUuids = new Datastore(theEmailUuidDb);
-db.emailUuids.loadDatabase(function (err) { if (err) { console.log(err); }});
-
-db.phoneUuids = new Datastore(thePhoneUuidDb);
-db.phoneUuids.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.accountsPhotos = new Datastore(theAccountPhotoDb);
 db.accountsPhotos.loadDatabase(function (err) { if (err) { console.log(err); }});
@@ -49,9 +37,6 @@ db.usersPhotos.loadDatabase(function (err) { if (err) {console.log(err); }});
 
 db.organizations = new Datastore(theOrganizationDb);
 db.organizations.loadDatabase(function (err) { if (err) { console.log(err); }});
-
-db.organizations = new Datastore(theOrganizationDb);
-db.organizations.loadDatabase(function (err) { console.log(err); });
 
 db.credentials = new Datastore(theCredentialDb);
 db.credentials.loadDatabase(function (err) { if (err) { console.log(err); }});
@@ -85,21 +70,5 @@ db.attributes.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.dataTypes = new Datastore(theDataTypesDb);
 db.dataTypes.loadDatabase(function (err) { if (err) { console.log(err); }});
-
-db.emailUuids.ensureIndex({ fieldName: 'emailUUID', expireAfterSeconds: 60 }, function (err) { if (err) { console.log(err); }});
-
-db.phoneUuids.ensureIndex({ fieldName: 'phoneUUID', expireAfterSeconds: 60 }, function (err) { if (err) { console.log(err); }});
-
-db.emailUuids.ensureIndex({ fieldName: 'emailUUID', expireAfterSeconds: 60 }, function (err) {
-  if(err){
-    console.log(err);
-  }
-});
-
-db.phoneUuids.ensureIndex({ fieldName: 'phoneUUID', expireAfterSeconds: 60 }, function (err) {
-  if(err){
-    console.log(err);
-  }
-});
 
 module.exports = db;

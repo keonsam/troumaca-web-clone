@@ -5,6 +5,7 @@ export class CredentialState {
   private _password:string;
   private _changedPassword:string;
   private _rememberMe:boolean;
+  private _status: string;
 
   constructor(credentialId?:string, username?: string, password?: string, changedPassword?: string, rememberMe?: boolean) {
     this._credentialId = credentialId;
@@ -51,13 +52,22 @@ export class CredentialState {
     this._username = value;
   }
 
+  get status(): string {
+    return this._status;
+  }
+
+  set status(value: string) {
+    this._status = value;
+  }
+
   toJson() {
     return {
       credentialId: this.credentialId,
       username: this.username,
       password: this.password,
       changedPassword: this.changedPassword,
-      rememberMe: this.rememberMe
+      rememberMe: this.rememberMe,
+      status: this.status
     }
   }
 

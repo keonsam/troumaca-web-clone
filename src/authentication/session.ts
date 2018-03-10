@@ -2,6 +2,8 @@ export class Session {
 
   private _sessionId:string;
   private _partyId:string;
+  private _accountStatus: string;
+  private _credentialConfirmationId: string;
   private _created:Date;
   private _modified:Date;
   private _data:Map<string, Object>;
@@ -40,6 +42,22 @@ export class Session {
 
   set sessionId(value: string) {
     this._sessionId = value;
+  }
+
+  get accountStatus(): string {
+    return this._accountStatus;
+  }
+
+  set accountStatus(value: string) {
+    this._accountStatus = value;
+  }
+
+  get credentialConfirmationId(): string {
+    return this._credentialConfirmationId;
+  }
+
+  set credentialConfirmationId(value: string) {
+    this._credentialConfirmationId = value;
   }
 
 }

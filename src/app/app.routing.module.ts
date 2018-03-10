@@ -77,8 +77,8 @@ const appRoutes: Routes = [
     { path: 'login',  component: LoginComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'phone-verification/:phoneUUID', component: PhoneVerificationComponent },
-    { path: 'email-verification/:emailUUID', component: EmailVerificationComponent }
+    { path: 'phone-verification/:credentialConfirmationId', component: PhoneVerificationComponent },
+    { path: 'email-verification/:credentialConfirmationId', component: EmailVerificationComponent }
   ]},
   { path: 'assets', component: AssetComponent, children: [
     { path: '',redirectTo: 'listing', pathMatch: 'full' },
