@@ -7,7 +7,7 @@ let sessionslDb = path.resolve(__dirname, '..','..',) + '/nedb/sessions.db';
 
 let db = {};
 db.sessions = new Datastore(sessionslDb);
-db.sessions.loadDatabase(function (err) { console.log(err); });
+db.sessions.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 let newUuidGenerator = new UUIDGenerator();
 

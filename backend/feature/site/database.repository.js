@@ -14,19 +14,19 @@ let thePostOfficeBoxDb = path.resolve(__dirname, '..','..',) + '/nedb/post-offic
 let db = {};
 
 db.streetAddresses = new Datastore(theStreetAddressDb);
-db.streetAddresses.loadDatabase(function (err) { console.log(err); });
+db.streetAddresses.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.postOfficeBoxes = new Datastore(thePostOfficeBoxDb);
-db.postOfficeBoxes.loadDatabase(function (err) { console.log(err); });
+db.postOfficeBoxes.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.telephones = new Datastore(theTelephoneDb);
-db.telephones.loadDatabase(function (err) { console.log(err); });
+db.telephones.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.emails = new Datastore(theEmailDb);
-db.emails.loadDatabase(function (err) { console.log(err); });
+db.emails.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.websites = new Datastore(theWebSiteDb);
-db.websites.loadDatabase(function (err) { console.log(err); });
+db.websites.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 
 let newUuidGenerator = new UUIDGenerator();

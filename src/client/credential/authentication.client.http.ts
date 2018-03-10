@@ -5,6 +5,7 @@ import {Observable} from "rxjs/Observable";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CredentialState} from "./credential.state";
 import {SessionState} from "./session.state";
+import {CredentialConfirmationState} from "./credential.confirmation.state";
 
 export class AuthenticationClientHttp extends AuthenticationClient {
 
@@ -38,8 +39,8 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
   }
 
-  authenticateSMSCode(phoneUUID: string, smsCode: string): Observable<boolean> {
-    let url = `${this.hostPort}/credentials/authenticate-sms-code/${phoneUUID}`;
+  authenticateSMSCode(credentialConformationId: string, smsCode: string): Observable<boolean> {
+    let url = `${this.hostPort}/credentials/authenticate-sms-code/${credentialConformationId}`;
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -154,7 +155,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     });
   }
 
-  addCredential(credentialState:CredentialState):Observable<CredentialState> {
+  addCredential(credentialState:CredentialState):Observable<CredentialConfirmationState> {
     let url = `${this.hostPort}/credentials`;
 
     const httpOptions = {
@@ -165,41 +166,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     };
 
     return this.httpClient
-      .post<CredentialState>(url, credentialState.toJson(), httpOptions)
-      .map(data => {
-        return data;
-      });
-  }
-
-  generateEmailUUID(credentialId: string): Observable<string> {
-    let url = `${this.hostPort}/credentials/generate-email-uuid/${credentialId}`;
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'text/plain',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
-    };
-    return this.httpClient
-      .get<string>(url, httpOptions)
-      .map(data => {
-        return data;
-      });
-  }
-
-
-  generatePhoneUUID(credentialId: string): Observable<string> {
-    let url = `${this.hostPort}/credentials/generate-phone-uuid/${credentialId}`;
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'text/plain',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
-    };
-
-    return this.httpClient
-      .get<string>(url, httpOptions)
+      .post<CredentialConfirmationState>(url, credentialState.toJson(), httpOptions)
       .map(data => {
         return data;
       });

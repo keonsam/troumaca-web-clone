@@ -26,10 +26,10 @@ let theCredentialConfirmationsDb = path.resolve(__dirname, '..') + '/nedb/creden
 db.accountsInformation = new Datastore(theAccountsInformationDb);
 db.accountsInformation.loadDatabase(function (err) { if (err) { console.log(err); }});
 
-db.confirmedCredentials = new Datastore(theCredentialConfirmationsDb);
+db.confirmedCredentials = new Datastore(theConfirmedCredentialsDb);
 db.confirmedCredentials.loadDatabase(function (err) { if (err) { console.log(err); }});
 
-db.credentialConfirmations = new Datastore(theConfirmedCredentialsDb);
+db.credentialConfirmations = new Datastore(theCredentialConfirmationsDb);
 db.credentialConfirmations.loadDatabase(function (err) { if (err) { console.log(err); }});
 
 db.emailUuids = new Datastore(theEmailUuidDb);

@@ -7,6 +7,7 @@ import {AuthenticationRepository} from "../../authentication/authentication.repo
 import {Credential} from "../../authentication/credential";
 import {CredentialState} from "../../client/credential/credential.state";
 import {SessionState} from "../../client/credential/session.state";
+import {CredentialConfirmation} from "../../authentication/credential.confirmation";
 
 export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
 
@@ -22,8 +23,8 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
       });
   }
 
-  authenticateSMSCode(phoneUUID: string, smsCode: string): Observable<boolean> {
-    return this.authenticationClient.authenticateSMSCode(phoneUUID,smsCode);
+  authenticateSMSCode(credentialConformationId: string, smsCode: string): Observable<boolean> {
+    return this.authenticationClient.authenticateSMSCode(credentialConformationId, smsCode);
   }
 
   authenticateEmailCode(emailUUID: string, emailCode: string): Observable<boolean> {
@@ -51,20 +52,12 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     return this.authenticationClient.isValidEditUsername(partyId, username);
   }
 
-  addCredential(credential:Credential):Observable<Credential> {
+  addCredential(credential:Credential):Observable<CredentialConfirmation> {
     return this.authenticationClient
     .addCredential(mapObjectProps(credential, new CredentialState()))
     .map(credentialState => {
-      return mapObjectProps(credentialState, new Credential())
+      return mapObjectProps(credentialState, new CredentialConfirmation());
     });
-  }
-
-  generateEmailUUID(credentialId: string): Observable<string> {
-    return this.authenticationClient.generateEmailUUID(credentialId);
-  }
-
-  generatePhoneUUID(credentialId: string): Observable<string> {
-    return this.authenticationClient.generatePhoneUUID(credentialId);
   }
 
   sendPhoneCode(phoneUUID: string): Observable<number> {

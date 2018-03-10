@@ -73,11 +73,11 @@ router.post("/authenticate", function (req, res, next) {
   });
 });
 
-router.post("/authenticate-sms-code/:phoneUUID", function (req, res, next) {
-  let phoneUUID = req.params.phoneUUID;
+router.post("/authenticate-sms-code/:credentialConfirmationId", function (req, res, next) {
+  let credentialConfirmationId = req.params.credentialConfirmationId;
   let smsCode = req.body.smsCode;
   credentialOrchestrator
-  .authenticateSMSCode(phoneUUID,smsCode)
+  .authenticateSMSCode(credentialConfirmationId, smsCode)
   .subscribe(next => {
     res.send(next);
   }, error => {
@@ -105,9 +105,9 @@ router.post("/", function (req, res, next) {
   let credential = req.body;
   credentialOrchestrator
   .addCredential(credential)
-  .subscribe(credential => {
+  .subscribe(credentialConfirmation => {
     res.setHeader('Content-Type', 'application/json');
-    res.send(credential);
+    res.send(credentialConfirmation);
   }, error => {
     res.status(400);
     res.send(error);

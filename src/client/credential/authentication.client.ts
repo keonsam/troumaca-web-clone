@@ -1,12 +1,13 @@
 import {Observable} from "rxjs/Observable";
 import {CredentialState} from "./credential.state";
 import {SessionState} from "./session.state";
+import {CredentialConfirmationState} from "./credential.confirmation.state";
 
 export abstract class AuthenticationClient {
 
   abstract authenticate(credentialState: CredentialState): Observable<SessionState>;
 
-  abstract authenticateSMSCode(phoneUUID: string, smsCode: string): Observable<boolean>;
+  abstract authenticateSMSCode(credentialConformationId: string, smsCode: string): Observable<boolean>;
 
   abstract authenticateEmailCode(emailUUID: string, emailCode: string): Observable<boolean>;
 
@@ -20,11 +21,7 @@ export abstract class AuthenticationClient {
 
   abstract isValidEditUsername(partyId: string, username: string): Observable<boolean>;
 
-  abstract addCredential(credential:CredentialState): Observable<CredentialState>;
-
-  abstract generateEmailUUID(credentialId: string): Observable<string>;
-
-  abstract generatePhoneUUID(credentialId: string): Observable<string>;
+  abstract addCredential(credential:CredentialState): Observable<CredentialConfirmationState>;
 
   abstract sendPhoneCode(phoneUUID: string): Observable<number>;
 

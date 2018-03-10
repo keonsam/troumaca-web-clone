@@ -78,7 +78,7 @@ const appRoutes: Routes = [
     { path: 'forgot-password', component: ForgotPasswordComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'phone-verification', component: PhoneVerificationComponent },
-    { path: 'phone-verification/:phoneUUID', component: PhoneVerificationComponent },
+    { path: 'phone-verification/:credentialConformationId', component: PhoneVerificationComponent },
     { path: 'email-verification', component: EmailVerificationComponent },
     { path: 'email-verification/:emailUUID', component: EmailVerificationComponent }
   ]},

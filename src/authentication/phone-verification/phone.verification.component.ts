@@ -14,10 +14,10 @@ import {AuthenticationService} from "../authentication.service";
 export class PhoneVerificationComponent implements OnInit {
 
   private _phoneVerificationForm: FormGroup;
-  private sub: any;
   private _phoneErrorForm: FormGroup;
-  private phoneUUID: string;
+  private credentialConformationId: string;
   private _smsCode: FormControl;
+  // What is the phone number used for in this view?
   private _phoneNumber: FormControl;
 
   private _errorExists:boolean;
@@ -50,15 +50,16 @@ export class PhoneVerificationComponent implements OnInit {
   ngOnInit(): void {
     let that = this;
 
-    this.sub = this.route.params.subscribe(params => {
-      this.phoneUUID = params["phoneUUID"];
+    this.route.params.subscribe(params => {
+      this.credentialConformationId = params["credentialConformationId"];
 
-      if(!this.phoneUUID) {
+      if(!this.credentialConformationId) {
         this.unknownLink = true;
 
-        setTimeout(() => {
-          this.router.navigate(['/authentication/register']);
-        }, 60 * 5 * 1000); //one minute for testing purposes
+        // What was this for?
+        // setTimeout(() => {
+        //   this.router.navigate(['/authentication/register']);
+        // }, 60 * 5 * 1000); //one minute for testing purposes
       }
     });
   }
@@ -111,11 +112,13 @@ export class PhoneVerificationComponent implements OnInit {
     this._phoneErrorForm = value;
   }
 
+  // Todo: Fix this
   sendCode() {
     this.authenticationService
-    .sendPhoneCode(this.phoneUUID)
+    .sendPhoneCode(this.credentialConformationId)
     .subscribe(next => {
       if(next) {
+        // We don't want to do this.
         document.getElementById("openModalButton").click();
       } else {
         // display errors
@@ -129,7 +132,7 @@ export class PhoneVerificationComponent implements OnInit {
     this.errorExists = false;
 
     this.authenticationService
-      .authenticateSMSCode(this.phoneUUID, this.smsCode.value)
+      .authenticateSMSCode(this.credentialConformationId, this.smsCode.value)
       .subscribe(next => {
         if (next) {
           this.errorExists = false;
@@ -142,6 +145,7 @@ export class PhoneVerificationComponent implements OnInit {
       });
   }
 
+  // Todo: Fix this
   onSubmitTwo() {
     this.errorExists = false;
 

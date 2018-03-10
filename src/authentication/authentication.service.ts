@@ -3,6 +3,7 @@ import {Observable} from "rxjs/Observable";
 import {Cookie} from "ng2-cookies/ng2-cookies";
 import {AuthenticationRepository} from "./authentication.repository";
 import {Credential} from "./credential";
+import {CredentialConfirmation} from "./credential.confirmation";
 
 export class AuthenticationService {
 
@@ -42,8 +43,8 @@ export class AuthenticationService {
     });
   }
 
-  public authenticateSMSCode(phoneUUID: string, smsCode: string): Observable<boolean> {
-    return this.authenticationRepository.authenticateSMSCode(phoneUUID, smsCode);
+  public authenticateSMSCode(credentialConformationId: string, smsCode: string): Observable<boolean> {
+    return this.authenticationRepository.authenticateSMSCode(credentialConformationId, smsCode);
   }
 
   public authenticateEmailCode(emailUUID: string, emailCode: string): Observable<boolean> {
@@ -54,16 +55,8 @@ export class AuthenticationService {
     return this.authenticationRepository.forgotPassword(username);
   }
 
-  public addCredential(credential:Credential):Observable<Credential> {
+  public addCredential(credential:Credential):Observable<CredentialConfirmation> {
     return this.authenticationRepository.addCredential(credential);
-  }
-
-  public generateEmailUUID(credentialId: string): Observable<string> {
-    return this.authenticationRepository.generateEmailUUID(credentialId);
-  }
-
-  public generatePhoneUUID(credentialId: string): Observable<string> {
-    return this.authenticationRepository.generatePhoneUUID(credentialId);
   }
 
   public sendPhoneCode(phoneUUID: string): Observable<number> {
