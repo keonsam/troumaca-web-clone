@@ -155,7 +155,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   sendConfirmationCode(credentialConfirmationId: string, type: string): Observable<CredentialConfirmationState> {
-    let url = `${this.hostPort}/send-confirmation-codes/${type}/${credentialConfirmationId}`;
+    let url = `${this.hostPort}/credentials/send-confirmation-codes/${type}/${credentialConfirmationId}`;
 
     const httpOptions = {
       headers: new HttpHeaders({

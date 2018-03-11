@@ -60,16 +60,10 @@ export class EmailVerificationComponent implements OnInit {
              }else {
                // display errors
                this.verifiedFailed = true;
-               setTimeout(() => {
-                 this.router.navigate(['/authentication/login']);
-               }, 1000 * 60);
              }
            }, error => {
              /// better errors
                this.verifiedFailed = true;
-               setTimeout(() => {
-                 this.router.navigate(['/authentication/login']);
-               }, 1000 * 60);
            });
          };
        });

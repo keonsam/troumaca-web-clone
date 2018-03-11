@@ -117,18 +117,16 @@ export class PhoneVerificationComponent implements OnInit {
     this.authenticationService
       .verifyCredentialConfirmation(this.credentialConfirmation)
       .subscribe(next => {
-        if (next) {
-          if (next.status == 'confirmed') {
-            this.errorExists = false;
-            this.router.navigate(['/authentication/login']);
-          }else {
-            this.textMessageFailure = true;
-            setTimeout(() => {
-              this.router.navigate([`/authentication/phone-verification/${next.credentialConfirmationId}`]);
-            });
-          }
-        } else {
-          this.errorExists = true;
+        if (next.status == 'confirmed') {
+          this.errorExists = false;
+          this.router.navigate(['/authentication/login']);
+        }else if(next.status == 'expired'){
+          this.textMessageFailure = true;
+          setTimeout(() => {
+            this.router.navigate([`/authentication/phone-verification/${next.credentialConfirmationId}`]);
+          }, 1000 *10 );
+        }else {
+        this.errorExists = true;
         }
       }, error => {
         this.errorExists = true;

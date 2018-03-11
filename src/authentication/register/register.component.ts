@@ -187,7 +187,7 @@ export class RegisterComponent implements OnInit {
       let credentialConfirmationId = credentialConfirmation.credentialConfirmationId;
       if (credentialConfirmationId) {
         if(regex.test(this.username.value)) {
-          this.router.navigate([`/authentication/email-verification`]);
+          this.router.navigate([`/authentication/email-verification/${credentialConfirmationId}`]);
         } else {
           this.router.navigate([`/authentication/phone-verification/${credentialConfirmationId}`]);
         }

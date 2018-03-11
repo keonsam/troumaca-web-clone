@@ -69,11 +69,11 @@ let CredentialOrchestrator = new function() {
             return credentialConfirmationRepository
             .getCredentialConfirmationByCredentialId(readCredential.credentialId) // needs to account for more than one value
             .switchMap(credentialConfirmation => {
-              if(credentialConfirmation.credentialConfirmationId) {
+              if(credentialConfirmation && credentialConfirmation.credentialConfirmationId) {
                 session["credentialConfirmationId"] = credentialConfirmation.credentialConfirmationId;
                 return sessionRepository.addSession(session);
               }else {
-                Rx.Observable.of(false);
+                return Rx.Observable.of(false);
               }
             });
           }
@@ -84,13 +84,15 @@ let CredentialOrchestrator = new function() {
   };
 
   this.verifyCredentialConfirmation = function (credentialConfirmation) {
+    console.log(credentialConfirmation);
     return credentialConfirmationRepository
       .getCredentialConfirmationByCode(credentialConfirmation["credentialConfirmationId"], credentialConfirmation["confirmationCode"] )
       .switchMap(credentialConfirmation => {
+        console.log(credentialConfirmation);
         if(credentialConfirmation) {
-          if (credentialConfirmation["status"] == "confirmed") {
+          if (credentialConfirmation["status"] == "confirmed" || "expired") {
             return Rx.Observable.of(credentialConfirmation);
-          } else if (credentialConfirmation.createdOn + (20 * 60 * 1000) >= new Date().getTime()) {  // 1 second * 60 = 1 minute * 20 = 20 minutes
+          } else if (credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime()) {  // 1 second * 60 = 1 minute * 20 = 20 minutes
             credentialConfirmation["status"] = "expired";
             return credentialConfirmationRepository
             .updateCredentialConfirmation(credentialConfirmation)

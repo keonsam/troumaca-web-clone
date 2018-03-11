@@ -71,12 +71,13 @@ module.exports =  function DatabaseCredentialRepository() {
   };
 
   this.getCredentialConfirmationByCredentialId = function (credentialId) {
-    let query = {};
-    query["credentialId"] = credentialId;
     return Rx.Observable.create(function (observer) {
-      db.credentialConfirmations.find(query).sort({ createdOn: new Date().getTime()}).exec(function (err, docs) {
+      let query = {};
+      query["credentialId"] = credentialId;
+      db.credentialConfirmations.find(query).sort({ createdOn: 1}).exec(function (err, docs) {
         if (!err) {
-          observer.next(docs[1]);
+          console.log(docs);
+          observer.next(docs[0]);
         } else {
           observer.error(err);
         }
