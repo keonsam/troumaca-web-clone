@@ -63,7 +63,7 @@ let CredentialOrchestrator = new function() {
           session["credentialId"] = readCredential.credentialId;
           session["partyId"] = readCredential.partyId ? readCredential.partyId : "";
           session["accountStatus"] = readCredential.status;
-          if(session.partyId || session.accountStatus == "confirmed"){
+          if(session.partyId || session.accountStatus === "confirmed"){
             return sessionRepository.addSession(session);
           }else {
             return credentialConfirmationRepository
@@ -85,46 +85,74 @@ let CredentialOrchestrator = new function() {
 
   this.verifyCredentialConfirmation = function (credentialConfirmation) {
     console.log(credentialConfirmation);
+    let credentialConfirmationId = credentialConfirmation["credentialConfirmationId"];
+    let confirmationCode = credentialConfirmation["confirmationCode"];
     return credentialConfirmationRepository
-      .getCredentialConfirmationByCode(credentialConfirmation["credentialConfirmationId"], credentialConfirmation["confirmationCode"] )
+      .getCredentialConfirmationByCode(credentialConfirmationId, confirmationCode)
       .switchMap(credentialConfirmation => {
+
+        if (!credentialConfirmation) {
+          credentialConfirmation = {};
+          return Rx.Observable.of(credentialConfirmation);
+        }
+
         console.log(credentialConfirmation);
-        if(credentialConfirmation) {
-          if (credentialConfirmation["status"] == "confirmed" || "expired") {
-            return Rx.Observable.of(credentialConfirmation);
-          } else if (credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime()) {  // 1 second * 60 = 1 minute * 20 = 20 minutes
-            credentialConfirmation["status"] = "expired";
+
+        let credentialConfirmationStatus = credentialConfirmation["status"];
+
+        if (credentialConfirmationStatus === "confirmed" ||
+            credentialConfirmationStatus === "expired") {
+
+          return Rx.Observable.of(credentialConfirmation);
+
+        } else if (this.hasNotExpired(credentialConfirmation)) {
+
+          credentialConfirmation["status"] = "expired";
+          credentialConfirmation["expirationDate"] = new Date().getTime();
+
+          return credentialConfirmationRepository
+          .updateCredentialConfirmation(credentialConfirmation)
+          .map(numReplaced => {
+            if (numReplaced){
+              return credentialConfirmation;
+            }
+
+            return numReplaced;
+          });
+
+        } else {
+
+          credentialConfirmation["status"] = "confirmed";
+          credentialConfirmation["expirationDate"] = new Date().getTime();
+
+          let credentialId = credentialConfirmation["credentialId"];
+
+          return credentialRepository
+          .updateCredentialStatusById(credentialId, "confirmed")
+          .switchMap(credential => {
+
+            if (!credential) {
+              return Rx.Observable.of(credential);
+            }
+
             return credentialConfirmationRepository
             .updateCredentialConfirmation(credentialConfirmation)
             .map(numReplaced => {
-              if(numReplaced){
+              if (numReplaced){
                 return credentialConfirmation;
               }
               return numReplaced;
             });
-          }else {
-            credentialConfirmation["status"] = "confirmed";
-            return credentialRepository
-            .updateCredentialStatusById(credentialConfirmation["credentialId"], "confirmed")
-            .switchMap(credential => {
-              if(credential) {
-                return credentialConfirmationRepository
-                .updateCredentialConfirmation(credentialConfirmation)
-                .map(numReplaced => {
-                  if(numReplaced){
-                    return credentialConfirmation;
-                  }
-                  return numReplaced;
-                });
-              }else {
-                return Rx.Observable.of(credential);
-              }
-            });
-          }
-        }else {
-          return Rx.Observable.of(credentialConfirmation);
+
+          });
         }
+
       });
+  };
+
+  this.hasNotExpired = function (credentialConfirmation) {
+    // 1 second * 60 = 1 minute * 20 = 20 minutes
+    return credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime();
   };
 
   this.sendPhoneVerificationCode = function (credentialConfirmationId) {
@@ -132,7 +160,7 @@ let CredentialOrchestrator = new function() {
     .getCredentialConfirmationById(credentialConfirmationId)
     .switchMap(credentialConfirmation => {
       if(credentialConfirmation) {
-        if(credentialConfirmation.status == "confirmed") {
+        if (credentialConfirmation.status === "confirmed") {
           return Rx.Observable.of(credentialConfirmation);
         }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) >= new Date().getTime()) {
           credentialConfirmation["status"] = "expired";
@@ -158,7 +186,7 @@ let CredentialOrchestrator = new function() {
     .getCredentialConfirmationById(credentialConfirmationId)
     .switchMap(credentialConfirmation => {
       if(credentialConfirmation) {
-        if(credentialConfirmation.status == "confirmed") {
+        if(credentialConfirmation.status === "confirmed") {
           return Rx.Observable.of(credentialConfirmation);
         }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) >= new Date().getTime()) {
           credentialConfirmation["status"] = "expired";
@@ -178,12 +206,6 @@ let CredentialOrchestrator = new function() {
       }
     });
   };
-
-
-  this.validateConfirmedUsername = function (username) {
-    return credentialRepository.getConfirmedCredentialsByUsername(username)
-  };
-
 
 };
 

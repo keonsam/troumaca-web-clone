@@ -120,12 +120,12 @@ export class PhoneVerificationComponent implements OnInit {
         if (next.status == 'confirmed') {
           this.errorExists = false;
           this.router.navigate(['/authentication/login']);
-        }else if(next.status == 'expired'){
+        } else if(next.status == 'expired') {
           this.textMessageFailure = true;
           setTimeout(() => {
             this.router.navigate([`/authentication/phone-verification/${next.credentialConfirmationId}`]);
           }, 1000 *10 );
-        }else {
+        } else {
         this.errorExists = true;
         }
       }, error => {
