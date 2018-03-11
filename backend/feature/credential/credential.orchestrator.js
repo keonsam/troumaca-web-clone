@@ -1,4 +1,5 @@
 let Rx = require("rxjs");
+let validator = require('validator');
 let credentialRepositoryFactory = require('./credential.repository.factory').CredentialRepositoryFactory;
 let credentialRepository = credentialRepositoryFactory.createRepository();
 let credentialConfirmationRepositoryFactory = require('./credential.confirmation.repository.factory').CredentialConfirmationRepositoryFactory;
@@ -58,28 +59,33 @@ let CredentialOrchestrator = new function() {
     return credentialRepository
       .authenticateCredential(credential)
       .switchMap(readCredential => {
-        if (readCredential) {
-          let session = {};
-          session["credentialId"] = readCredential.credentialId;
-          session["partyId"] = readCredential.partyId ? readCredential.partyId : "";
-          session["accountStatus"] = readCredential.status;
-          if(session.partyId || session.accountStatus === "confirmed"){
-            return sessionRepository.addSession(session);
-          }else {
-            return credentialConfirmationRepository
-            .getCredentialConfirmationByCredentialId(readCredential.credentialId) // needs to account for more than one value
-            .switchMap(credentialConfirmation => {
-              if(credentialConfirmation && credentialConfirmation.credentialConfirmationId) {
-                session["credentialConfirmationId"] = credentialConfirmation.credentialConfirmationId;
-                return sessionRepository.addSession(session);
-              }else {
-                return Rx.Observable.of(false);
-              }
-            });
-          }
-        } else {
+        if (!readCredential) {
           return Rx.Observable.of(readCredential);
         }
+
+        let session = {};
+        session["credentialId"] = readCredential.credentialId;
+        session["partyId"] = readCredential.partyId ? readCredential.partyId : "";
+        session["accountStatus"] = readCredential.status;
+
+        if (!validator.isEmail(readCredential.username)) {
+          session["phone"] = readCredential.username;
+        }
+
+        if (session.partyId || session.accountStatus === "confirmed") {
+          return sessionRepository.addSession(session);
+        }
+
+        return credentialConfirmationRepository
+        .getCredentialConfirmationByCredentialId(readCredential.credentialId)
+        .switchMap(credentialConfirmation => {
+          // TODO: needs to account for more than one value
+          if (credentialConfirmation && credentialConfirmation.credentialConfirmationId) {
+            session["credentialConfirmationId"] = credentialConfirmation.credentialConfirmationId;
+          }
+
+          return sessionRepository.addSession(session);
+        });
       });
   };
 
