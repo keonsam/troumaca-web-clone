@@ -22,7 +22,9 @@ export class PhoneVerificationComponent implements OnInit {
   private errorExists:boolean;
   private textMessageSuccess: boolean;
   private textMessageFailure: boolean;
+  private textMessageFailure2: boolean;
   private sendConfirmationCodeConfirmed: boolean;
+  private noEntry: boolean;
 
   constructor(//private eventService: EventService,
               private route: ActivatedRoute,
@@ -55,6 +57,8 @@ export class PhoneVerificationComponent implements OnInit {
     this.textMessageSuccess = false;
     this.textMessageFailure = false;
     this.sendConfirmationCodeConfirmed = false;
+    this.noEntry = false;
+    this.textMessageFailure2 = false;
   }
 
   ngOnInit(): void {
@@ -83,6 +87,9 @@ export class PhoneVerificationComponent implements OnInit {
   sendConfirmationCode() {
     this.textMessageSuccess = false;
     this.textMessageFailure = false;
+    this.textMessageFailure2 = false;
+    this.errorExists = false;
+    this.noEntry = false;
 
     this.authenticationService
     .sendConfirmationCode(this.credentialConfirmation.credentialConfirmationId, "phone")
@@ -92,39 +99,38 @@ export class PhoneVerificationComponent implements OnInit {
           this.sendConfirmationCodeConfirmed = true;
           setTimeout(()=> {
             this.router.navigate(['/authentication/login']);
-          }, 1000 *10);
+          }, 1000 *5);
         }else if (next.status == 'new' && next.credentialConfirmationId != this.credentialConfirmation.credentialConfirmationId) {
           this.textMessageFailure = true;
           setTimeout(()=> {
             this.router.navigate([`/authentication/phone-verification/${next.credentialConfirmationId}`]);
-          }, 1000 *10);
+          }, 1000 *5);
         }else {
           this.textMessageSuccess = true;
           setTimeout(()=> {
             this.textMessageSuccess = false;
           }, 5000);
         }
+      }else {
+        this.noEntry = true;
       }
     }, error =>{
       /// make better error for this
-      this.textMessageFailure = true;
+      this.noEntry = true;
     });
   }
 
   onSubmit() {
     this.errorExists = false;
+    this.textMessageFailure2 = false;
 
     this.authenticationService
       .verifyCredentialConfirmation(this.credentialConfirmation)
       .subscribe(next => {
         if (next.status == 'confirmed') {
-          this.errorExists = false;
           this.router.navigate(['/authentication/login']);
         }else if(next.status == 'expired'){
-          this.textMessageFailure = true;
-          setTimeout(() => {
-            this.router.navigate([`/authentication/phone-verification/${next.credentialConfirmationId}`]);
-          }, 1000 *10 );
+          this.textMessageFailure2 = true;
         }else {
         this.errorExists = true;
         }

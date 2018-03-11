@@ -29,7 +29,7 @@
 
              <div *ngIf="emailMessageFailure" class="alert alert-danger">
                <strong>Error!</strong> but it looks like this session has expired.<br />
-               <a href="#" (click)="sendConfirmationCode();false">Click here!</a> for a new one.
+               Please check your email for a new one.
              </div>
 
              <div class="alert alert-info">
@@ -52,11 +52,17 @@
           </div>
 
           <div *ngIf="verifiedFailed">
-            <p>Verification Failed</p>
-            <p> An another e-mail has been sent to your e-mail address.</p>
+            <p>Verification has Failed</p>
+
+            <div class="alert alert-danger">
+              <strong>Error!</strong> but it looks like this session has expired.<br />
+              <a href="#" (click)="sendConfirmationCode();false">Click here!</a> for a new one.
+            </div>
+
             <div class="alert alert-info">
               <a routerLink="/authentication/login"><strong>Click here!</strong> to login</a>
             </div>
+
             <div class="alert alert-info">
               <a routerLink="/authentication/register"><strong>Click here!</strong> to Change E-mail</a>
             </div>

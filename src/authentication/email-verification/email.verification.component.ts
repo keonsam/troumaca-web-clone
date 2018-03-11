@@ -85,9 +85,6 @@ export class EmailVerificationComponent implements OnInit {
           }, 1000 *10);
         }else if (next.status == 'new' && next.credentialConfirmationId != this.credentialConfirmation.credentialConfirmationId) {
           this.emailMessageFailure = true;
-          setTimeout(()=> {
-            this.router.navigate([`/authentication/phone-verification/${next.credentialConfirmationId}`]);
-          }, 1000 *10);
         }else {
           this.emailMessageSuccess = true;
           setTimeout(()=> {

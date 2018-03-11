@@ -84,13 +84,11 @@ let CredentialOrchestrator = new function() {
   };
 
   this.verifyCredentialConfirmation = function (credentialConfirmation) {
-    console.log(credentialConfirmation);
     return credentialConfirmationRepository
       .getCredentialConfirmationByCode(credentialConfirmation["credentialConfirmationId"], credentialConfirmation["confirmationCode"] )
       .switchMap(credentialConfirmation => {
-        console.log(credentialConfirmation);
         if(credentialConfirmation) {
-          if (credentialConfirmation["status"] == "confirmed" || "expired") {
+          if (credentialConfirmation["status"] != "new") {
             return Rx.Observable.of(credentialConfirmation);
           } else if (credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime()) {  // 1 second * 60 = 1 minute * 20 = 20 minutes
             credentialConfirmation["status"] = "expired";
@@ -134,7 +132,7 @@ let CredentialOrchestrator = new function() {
       if(credentialConfirmation) {
         if(credentialConfirmation.status == "confirmed") {
           return Rx.Observable.of(credentialConfirmation);
-        }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) >= new Date().getTime()) {
+        }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime() || credentialConfirmation.status == "expired") {
           credentialConfirmation["status"] = "expired";
           return credentialConfirmationRepository
           .updateCredentialConfirmation(credentialConfirmation)
@@ -142,10 +140,13 @@ let CredentialOrchestrator = new function() {
             if(numReplaced){
               credentialConfirmation["createdOn"] = new Date().getTime();
               credentialConfirmation["modifiedOn"] = new Date().getTime();
+              delete credentialConfirmation["_id"];
               return credentialConfirmationRepository.addCredentialConfirmation(credentialConfirmation);
             }
             return Rx.Observable.of(numReplaced);
           });
+        }else {
+          return Rx.Observable.of(credentialConfirmation);
         }
       }else {
         return Rx.Observable.of(credentialConfirmation);
@@ -160,18 +161,21 @@ let CredentialOrchestrator = new function() {
       if(credentialConfirmation) {
         if(credentialConfirmation.status == "confirmed") {
           return Rx.Observable.of(credentialConfirmation);
-        }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) >= new Date().getTime()) {
+        }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime() || credentialConfirmation.status == "expired") {
           credentialConfirmation["status"] = "expired";
           return credentialConfirmationRepository
-          .updateCredentialConfirmationStatus(credentialConfirmation)
+          .updateCredentialConfirmation(credentialConfirmation)
           .switchMap(numReplaced => { //this is so to make the old links still work.
             if(numReplaced){
               credentialConfirmation["createdOn"] = new Date().getTime();
               credentialConfirmation["modifiedOn"] = new Date().getTime();
+              delete credentialConfirmation["_id"];
               return credentialConfirmationRepository.addCredentialConfirmation(credentialConfirmation);
             }
             return Rx.Observable.of(numReplaced);
           });
+        }else {
+          return Rx.Observable.of(credentialConfirmation);
         }
       }else {
         return Rx.Observable.of(credentialConfirmation);

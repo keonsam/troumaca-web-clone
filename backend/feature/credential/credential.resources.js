@@ -92,6 +92,7 @@ router.post("/verify-credentials-confirmations", function (req, res, next) {
   credentialOrchestrator
   .verifyCredentialConfirmation(credentialConfirmation)
   .subscribe(next => {
+    console.log(next);
     res.send(next);
   }, error => {
     res.status(400);

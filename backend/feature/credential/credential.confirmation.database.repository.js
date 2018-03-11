@@ -14,7 +14,7 @@ module.exports =  function DatabaseCredentialRepository() {
     return Rx.Observable.create(function (observer) {
       db.credentialConfirmations.insert(credentialConfirmation, function (err, doc) {
         if (!err) {
-          observer.next(credentialConfirmation);
+          observer.next(doc);
         } else {
           observer.error(err);
         }
@@ -74,9 +74,8 @@ module.exports =  function DatabaseCredentialRepository() {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["credentialId"] = credentialId;
-      db.credentialConfirmations.find(query).sort({ createdOn: 1}).exec(function (err, docs) {
+      db.credentialConfirmations.find(query).sort({ status: "new"}).exec(function (err, docs) {
         if (!err) {
-          console.log(docs);
           observer.next(docs[0]);
         } else {
           observer.error(err);

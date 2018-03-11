@@ -34,9 +34,18 @@
           Please login.
         </div>
 
+        <div *ngIf="textMessageFailure2" class="alert alert-danger">
+          <strong>Error!</strong> But it seems this session has expired.
+          <a href="#" (click)="sendConfirmationCode();false">Click here</a> for a new session
+        </div>
+
         <div *ngIf="textMessageFailure" class="alert alert-danger">
           <strong>Error!</strong> But it seems this session has expired.
           A new text message will be sent to your phone number, please enter the code for that one.
+        </div>
+
+        <div *ngIf="noEntry" class="alert alert-danger">
+          <strong>Error!</strong> database error, please try again or register.
         </div>
 
         <div class="buttons-w">
