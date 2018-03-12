@@ -78,6 +78,7 @@ let CredentialOrchestrator = new function() {
 
         // do not continue if the status is not active
         if (readCredentialStatus !== status.ACTIVE) {
+          // organize it so that is 401 can be sent to the front end
           return Rx.Observable.of(saniticeCredentail(readCredential));
         }
 
@@ -149,12 +150,17 @@ let CredentialOrchestrator = new function() {
           });
         }
 
-        if (credentialConfirmationStatus.toUpperCase() === status.NEW) {
-          return Rx.Observable.of(credentialConfirmation);
-        } else {
-          // handles the very remote case where the credential confirmation has not status
-          return handleCredentialConfirmationUnknownStatus(credentialConfirmation);
-        }
+        credentialConfirmation["status"] = status.CONFIRMED;
+        // update the credential confirmation status to expired
+        return credentialConfirmationRepository
+        .updateCredentialConfirmation(credentialConfirmation)
+        .map(numReplaced => {
+          if (numReplaced > 0) {
+            return credentialConfirmation;
+          } else {
+            return Rx.Observable.throw(createNotFoundError("CredentialConfirmation"));
+          }
+        });
 
     });
   };
@@ -175,20 +181,6 @@ let CredentialOrchestrator = new function() {
   function confirmationCodeTimeHasExpired(credentialConfirmation) {
     // 1 second * 60 = 1 minute * 20 = 20 minutes
     return credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime();
-  }
-
-  function handleCredentialConfirmationUnknownStatus(credentialConfirmation) {
-    credentialConfirmation["status"] = status.NEW;
-    // update the credential confirmation status to expired
-    return credentialConfirmationRepository
-      .updateCredentialConfirmation(credentialConfirmation)
-      .map(numReplaced => {
-        if (numReplaced > 0) {
-          return credentialConfirmation;
-        } else {
-          return Rx.Observable.throw(createNotFoundError("CredentialConfirmation"));
-        }
-      });
   }
 
   this.sendPhoneVerificationCode = function (credentialConfirmationId) {
