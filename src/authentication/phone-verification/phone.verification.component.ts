@@ -129,10 +129,10 @@ export class PhoneVerificationComponent implements OnInit {
       .subscribe(next => {
         if (next.status == 'confirmed') {
           this.router.navigate(['/authentication/login']);
-        }else if(next.status == 'expired'){
+        } else if(next.status == 'expired'){
           this.textMessageFailure2 = true;
-        }else {
-        this.errorExists = true;
+        } else {
+          this.errorExists = true;
         }
       }, error => {
         this.errorExists = true;

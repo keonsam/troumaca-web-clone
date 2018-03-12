@@ -1,5 +1,6 @@
 let Rx = require("rxjs");
 let validator = require('validator');
+let status = require('./credential.status');
 let credentialRepositoryFactory = require('./credential.repository.factory').CredentialRepositoryFactory;
 let credentialRepository = credentialRepositoryFactory.createRepository();
 let credentialConfirmationRepositoryFactory = require('./credential.confirmation.repository.factory').CredentialConfirmationRepositoryFactory;
@@ -46,21 +47,38 @@ let CredentialOrchestrator = new function() {
     return credentialRepository
       .addCredential(credential)
       .switchMap(credential => {
+
         let credentialConfirmation = {};
         credentialConfirmation["credentialId"] = credential.credentialId;
         credentialConfirmation["createdOn"] = new Date().getTime();
         credentialConfirmation["modifiedOn"] = new Date().getTime();
+
         return credentialConfirmationRepository
           .addCredentialConfirmation(credentialConfirmation);
+
       });
   };
 
   this.authenticate = function (credential) {
+    // A person can access the application under the following conditions:
+    // 1. He/she provides a valid set of credentials
+    // 2. He/she has confirmed their username (email, or phone)
+    // 3. He/she has completed the quick profile, person, account type, and possible organization name.
+
     return credentialRepository
-      .authenticateCredential(credential)
+      .getCredentialByUsername(credential.username)
       .switchMap(readCredential => {
+
+        // unable to find the credential specified
         if (!readCredential) {
-          return Rx.Observable.of(readCredential);
+          return Rx.Observable.throw(createNotFoundError("Credential"));
+        }
+
+        let readCredentialStatus = readCredential["status"];
+
+        // do not continue if the status is not active
+        if (readCredentialStatus !== status.ACTIVE) {
+          return Rx.Observable.of(saniticeCredentail(readCredential));
         }
 
         let session = {};
@@ -72,7 +90,7 @@ let CredentialOrchestrator = new function() {
           session["phone"] = readCredential.username;
         }
 
-        if (session.partyId || session.accountStatus === "confirmed") {
+        if (session.partyId || session.accountStatus.toUpperCase() === status.CONFIRMED) {
           return sessionRepository.addSession(session);
         }
 
@@ -90,33 +108,88 @@ let CredentialOrchestrator = new function() {
   };
 
   this.verifyCredentialConfirmation = function (credentialConfirmation) {
+    let credentialConfirmationId = credentialConfirmation.credentialConfirmationId;
+    let confirmationCode = credentialConfirmation.confirmationCode;
+
     return credentialConfirmationRepository
       .getCredentialConfirmationByCode(credentialConfirmationId, confirmationCode)
       .switchMap(credentialConfirmation => {
-        if(credentialConfirmation) {
-          if (credentialConfirmation["status"] != "new") {
-            return Rx.Observable.of(credentialConfirmation);
-          } else if (credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime()) {  // 1 second * 60 = 1 minute * 20 = 20 minutes
-            credentialConfirmation["status"] = "expired";
-            return credentialConfirmationRepository
-            .updateCredentialConfirmation(credentialConfirmation)
-            .map(numReplaced => {
-              if (numReplaced){
-                return credentialConfirmation;
-              }
-              return numReplaced;
-            });
 
+        if (!credentialConfirmation) {
+          // return an error if the credential confirmation is not found.
+          return Rx.Observable.throw(createNotFoundError("CredentialConfirmation"));
+        }
+
+        // we have a credential confirmation so let's get the status as it will be used multiple times.
+        let credentialConfirmationStatus = credentialConfirmation["status"];
+
+        // if the credential is confirmed
+        if (credentialConfirmationStatus.toUpperCase() === status.CONFIRMED) {
+          return Rx.Observable.of(credentialConfirmation);
+        }
+
+        // if the credential confirmation is expired then return the credential confirmation
+        if (credentialConfirmationStatus.toUpperCase() === status.EXPIRED) {
+          return Rx.Observable.of(credentialConfirmation);
+        }
+
+        // if the confirmation time has expired
+        if (confirmationCodeTimeHasExpired(credentialConfirmation)) {
+          credentialConfirmation["status"] = status.EXPIRED;
+
+          // update the credential confirmation status to expired
+          return credentialConfirmationRepository
+          .updateCredentialConfirmation(credentialConfirmation)
+          .map(numReplaced => {
+            if (numReplaced > 0) {
+              return credentialConfirmation;
+            } else {
+              return Rx.Observable.throw(createNotFoundError("CredentialConfirmation"));
+            }
           });
         }
 
-      });
+        if (credentialConfirmationStatus.toUpperCase() === status.NEW) {
+          return Rx.Observable.of(credentialConfirmation);
+        } else {
+          // handles the very remote case where the credential confirmation has not status
+          return handleCredentialConfirmationUnknownStatus(credentialConfirmation);
+        }
+
+    });
   };
 
-  this.hasNotExpired = function (credentialConfirmation) {
+  function saniticeCredentail(readCredential) {
+    let readCredentialCopy = readCredential;
+    delete readCredentialCopy['password'];
+    return readCredential;
+  }
+
+  function createNotFoundError(name) {
+    return new Error(JSON.stringify({
+      "statusCode":404,
+      "message": name + " not found."
+    }));
+  }
+
+  function confirmationCodeTimeHasExpired(credentialConfirmation) {
     // 1 second * 60 = 1 minute * 20 = 20 minutes
     return credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime();
-  };
+  }
+
+  function handleCredentialConfirmationUnknownStatus(credentialConfirmation) {
+    credentialConfirmation["status"] = status.NEW;
+    // update the credential confirmation status to expired
+    return credentialConfirmationRepository
+      .updateCredentialConfirmation(credentialConfirmation)
+      .map(numReplaced => {
+        if (numReplaced > 0) {
+          return credentialConfirmation;
+        } else {
+          return Rx.Observable.throw(createNotFoundError("CredentialConfirmation"));
+        }
+      });
+  }
 
   this.sendPhoneVerificationCode = function (credentialConfirmationId) {
     return credentialConfirmationRepository
@@ -125,7 +198,7 @@ let CredentialOrchestrator = new function() {
       if(credentialConfirmation) {
         if (credentialConfirmation.status === "confirmed") {
           return Rx.Observable.of(credentialConfirmation);
-        }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime() || credentialConfirmation.status == "expired") {
+        }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime() || credentialConfirmation.status === "expired") {
           credentialConfirmation["status"] = "expired";
           return credentialConfirmationRepository
           .updateCredentialConfirmation(credentialConfirmation)
@@ -154,7 +227,7 @@ let CredentialOrchestrator = new function() {
       if(credentialConfirmation) {
         if(credentialConfirmation.status === "confirmed") {
           return Rx.Observable.of(credentialConfirmation);
-        }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime() || credentialConfirmation.status == "expired") {
+        }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime() || credentialConfirmation.status === "expired") {
           credentialConfirmation["status"] = "expired";
           return credentialConfirmationRepository
           .updateCredentialConfirmation(credentialConfirmation)

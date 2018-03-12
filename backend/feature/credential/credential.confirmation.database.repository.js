@@ -59,6 +59,7 @@ module.exports =  function DatabaseCredentialRepository() {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["credentialConfirmationId"] = credentialConfirmation.credentialConfirmationId;
+      credentialConfirmation.modifiedOn = new Date().getTime();
       db.credentialConfirmations.update(query, credentialConfirmation, {}, function (err, numReplaced) {
         if (!err) {
           observer.next(numReplaced);

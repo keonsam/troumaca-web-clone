@@ -1,34 +1,7 @@
-let uuidv5 = require('uuid/v5');
-let Datastore = require('nedb');
 let Rx = require("rxjs");
-let path = require('path');
 let UUIDGenerator = require("../uuid.generator");
 let DbUtil = require("../db.util");
-
-let theStreetAddressDb = path.resolve(__dirname, '..','..',) + '/nedb/street-addresses.db';
-let theTelephoneDb = path.resolve(__dirname, '..','..',) + '/nedb/telephones.db';
-let theEmailDb = path.resolve(__dirname, '..','..',) + '/nedb/emails.db';
-let theWebSiteDb = path.resolve(__dirname, '..','..',) + '/nedb/web-sites.db';
-let thePostOfficeBoxDb = path.resolve(__dirname, '..','..',) + '/nedb/post-office-boxes.db';
-
-let db = {};
-
-db.streetAddresses = new Datastore(theStreetAddressDb);
-db.streetAddresses.loadDatabase(function (err) { if (err) { console.log(err); }});
-
-db.postOfficeBoxes = new Datastore(thePostOfficeBoxDb);
-db.postOfficeBoxes.loadDatabase(function (err) { if (err) { console.log(err); }});
-
-db.telephones = new Datastore(theTelephoneDb);
-db.telephones.loadDatabase(function (err) { if (err) { console.log(err); }});
-
-db.emails = new Datastore(theEmailDb);
-db.emails.loadDatabase(function (err) { if (err) { console.log(err); }});
-
-db.websites = new Datastore(theWebSiteDb);
-db.websites.loadDatabase(function (err) { if (err) { console.log(err); }});
-
-
+let db = require("../db.js");
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();
 
