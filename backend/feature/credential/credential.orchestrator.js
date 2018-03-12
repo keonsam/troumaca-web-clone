@@ -77,7 +77,7 @@ let CredentialOrchestrator = new function() {
         let readCredentialStatus = readCredential["status"];
 
         // do not continue if the status is not active
-        if (readCredentialStatus !== status.ACTIVE) {
+        if (readCredentialStatus === status.DISABLED) {
           return Rx.Observable.of(saniticeCredentail(readCredential));
         }
 
@@ -90,7 +90,7 @@ let CredentialOrchestrator = new function() {
           session["phone"] = readCredential.username;
         }
 
-        if (session.partyId || session.accountStatus === status.CONFIRMED) {
+        if (session.partyId || session.accountStatus === status.ACTIVE) {
           return sessionRepository.addSession(session);
         }
 
@@ -150,7 +150,24 @@ let CredentialOrchestrator = new function() {
         }
 
         if (credentialConfirmationStatus === status.NEW) {
-          return Rx.Observable.of(credentialConfirmation);
+          return credentialRepository
+          .updateCredentialStatusById(credentialConfirmation.credentialId, status.ACTIVE)
+          .switchMap(numReplaced => {
+            if(numReplaced) {
+              credentialConfirmation["status"] = status.CONFIRMED;
+              return credentialConfirmationRepository
+              .updateCredentialConfirmation(credentialConfirmation)
+              .map(numReplaced => {
+                if(numReplaced) {
+                  return credentialConfirmation
+                }else {
+                  return Rx.Observable.of(numReplaced)
+                }
+              });
+            }else {
+              return Rx.Observable.of(numReplaced);
+            }
+          });
         } else {
           // handles the very remote case where the credential confirmation has not status
           return handleCredentialConfirmationUnknownStatus(credentialConfirmation);

@@ -15,7 +15,7 @@ module.exports =  function DatabasePartyRepository() {
   this.getPersons = function (pageNumber, pageSize, order) {
     return Rx.Observable.create(function (observer) {
       let skip = dbUtil.calcSkip(pageNumber, pageSize, defaultPageSize);
-      db.persons.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
+      db.users.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -42,7 +42,7 @@ module.exports =  function DatabasePartyRepository() {
 
   this.getPersonCount = function () {
     return Rx.Observable.create(function (observer) {
-      db.persons.count({}, function (err, count) {
+      db.users.count({}, function (err, count) {
         if (!err) {
           observer.next(count);
         } else {
@@ -70,7 +70,7 @@ module.exports =  function DatabasePartyRepository() {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["partyId"] = partyId;
-      db.persons.findOne(query, function (err, doc) {
+      db.users.findOne(query, function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -100,7 +100,7 @@ module.exports =  function DatabasePartyRepository() {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["partyId"] = partyId;
-      db.usersPhotos.findOne(query, function (err, doc) {
+      db.photos.findOne(query, function (err, doc) {
         if (!err) {
           observer.next(doc ? doc.imageStr: defaultPhoto);
         } else {
@@ -115,7 +115,7 @@ module.exports =  function DatabasePartyRepository() {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["partyId"] = partyId;
-      db.companyPhotos.findOne(query, function (err, doc) {
+      db.photos.findOne(query, function (err, doc) {
         if (!err) {
           observer.next(doc ? doc.imageStr: defaultPhoto);
         } else {
@@ -129,7 +129,7 @@ module.exports =  function DatabasePartyRepository() {
   this.addPerson = function (person) {
     person.partyId = newUuidGenerator.generateUUID();
     return Rx.Observable.create(function (observer) {
-      db.persons.insert(person, function (err, doc) {
+      db.users.insert(person, function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -175,7 +175,7 @@ module.exports =  function DatabasePartyRepository() {
       imageStr
     }
     return Rx.Observable.create(function (observer) {
-      db.usersPhotos.insert(photo, function (err, doc) {
+      db.photos.insert(photo, function (err, doc) {
         if (!err) {
           observer.next(1);
         } else {
@@ -192,7 +192,7 @@ module.exports =  function DatabasePartyRepository() {
       imageStr
     }
     return Rx.Observable.create(function (observer) {
-      db.companyPhotos.insert(photo, function (err, doc) {
+      db.photos.insert(photo, function (err, doc) {
         if (!err) {
           observer.next(1);
         } else {
@@ -209,7 +209,7 @@ module.exports =  function DatabasePartyRepository() {
       imageStr
     }
     return Rx.Observable.create(function (observer) {
-      db.accountsPhotos.insert(photo, function (err, doc) {
+      db.photos.insert(photo, function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -237,7 +237,7 @@ module.exports =  function DatabasePartyRepository() {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["partyId"] = partyId;
-      db.persons.remove(query, {}, function (err, numRemoved) {
+      db.users.remove(query, {}, function (err, numRemoved) {
         if (!err) {
           observer.next(numRemoved);
         } else {
@@ -282,7 +282,7 @@ module.exports =  function DatabasePartyRepository() {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["partyId"] = partyId;
-      db.persons.update(query, person, {}, function (err, numReplaced) {
+      db.users.update(query, person, {}, function (err, numReplaced) {
         if (!err) {
           observer.next(numReplaced);
         } else {
@@ -329,7 +329,7 @@ module.exports =  function DatabasePartyRepository() {
       let photo = {};
       query["partyId"] = partyId;
       photo["imageStr"] = imageStr;
-      db.usersPhotos.update(query, {$set : photo}, {}, function (err, numReplaced) {
+      db.photos.update(query, {$set : photo}, {}, function (err, numReplaced) {
         if (!err) {
           observer.next(numReplaced);
         } else {
@@ -346,7 +346,7 @@ module.exports =  function DatabasePartyRepository() {
       let photo = {};
       query["partyId"] = partyId;
       photo["imageStr"] = imageStr;
-      db.companyPhotos.update(query, {$set : photo}, {}, function (err, numReplaced) {
+      db.photos.update(query, {$set : photo}, {}, function (err, numReplaced) {
         if (!err) {
           observer.next(numReplaced);
         } else {

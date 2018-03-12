@@ -23,46 +23,41 @@ let theWebSiteDb = path.resolve(__dirname, '..') + '/nedb/site/web-sites.db';
 let thePostOfficeBoxDb = path.resolve(__dirname, '..') + '/nedb/site/post-office-boxes.db';
 
 // party
-let thePersonsDb = path.resolve(__dirname, '..') + '/nedb/party/persons.db';
-let theOrganizationDb = path.resolve(__dirname, '..') + '/nedb/party/organizations.db';
+let theUsersDb = path.resolve(__dirname, '..') + '/nedb/party/users.db';
+let theOrganizationsDb = path.resolve(__dirname, '..') + '/nedb/party/organizations.db';
 
 // authentication
 let theCredentialDb = path.resolve(__dirname, '..') + '/nedb/authentication/credentials.db';
 let theCredentialConfirmationsDb = path.resolve(__dirname, '..') + '/nedb/authentication/credential_confirmations.db';
 
 // file
-let theUsersPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/users-photos.db';
-let theCompanyPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/company-photos.db';
-let theAccountPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/account-photos.db';
+let thePhotosDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/photos.db';
 
-let sessionDb = path.resolve(__dirname, '..','..',) + '/nedb/session/sessions.db';
+let sessionDb = path.resolve(__dirname, '..') + '/nedb/session/sessions.db';
 
-let theShipmentsDb = path.resolve(__dirname, '..','..',) + '/nedb/shipment/shipments.db';
+let theShipmentsDb = path.resolve(__dirname, '..') + '/nedb/shipment/shipments.db';
 
 // Todo: Fix remove
-let theAccountsInformationDb = path.resolve(__dirname, '..') + '/nedb/accounts-information.db';
+let theOrganizationAccountsInformationsDb = path.resolve(__dirname, '..') + '/nedb/accounts/organization-information.db';
+let thePersonalAccountsInformationsDb = path.resolve(__dirname, '..') + '/nedb/accounts/personal-information.db';
 
-db.accountsInformation = new Datastore(theAccountsInformationDb);
-db.accountsInformation.loadDatabase(handleError);
+// party
+db.organizationsInformation = new Datastore(theOrganizationAccountsInformationsDb);
+db.organizationsInformation.loadDatabase(handleError);
 
+db.personalsInformation = new Datastore(thePersonalAccountsInformationsDb);
+db.personalsInformation.loadDatabase(handleError);
 
-db.accountsPhotos = new Datastore(theAccountPhotoDb);
-db.accountsPhotos.loadDatabase(handleError);
+db.users = new Datastore(theUsersDb);
+db.users.loadDatabase(handleError);
+db.users.ensureIndex({ fieldName: 'personId', unique: true }, handleError);
 
-db.companyPhotos = new Datastore(theCompanyPhotoDb);
-db.companyPhotos.loadDatabase(handleError);
-
-db.usersPhotos = new Datastore(theUsersPhotoDb);
-db.usersPhotos.loadDatabase(handleError);
-
-
-db.persons = new Datastore(thePersonsDb);
-db.persons.loadDatabase(handleError);
-db.persons.ensureIndex({ fieldName: 'personId', unique: true }, handleError);
-
-db.organizations = new Datastore(theOrganizationDb);
+db.organizations = new Datastore(theOrganizationsDb);
 db.organizations.loadDatabase(handleError);
 db.organizations.ensureIndex({ fieldName: 'organizationId', unique: true }, handleError);
+
+db.photos = new Datastore(thePhotosDb);
+db.photos.loadDatabase(handleError);
 
 // authentication
 db.credentials = new Datastore(theCredentialDb);
@@ -148,4 +143,3 @@ function handleError( err ) {
 }
 
 module.exports = db;
-
