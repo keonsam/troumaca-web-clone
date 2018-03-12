@@ -1,19 +1,21 @@
-import assetRepositoryFactory from './repository.factory';
+import {createAssetTypeRepository} from './asset.type.repository.factory';
 // import assetRepository from assetRepositoryFactory.createAssetRepository();
 import responseShaper from "./response.shaper";
+import {AssetTypeRestRepository} from "./asset.type.rest.repository";
 
+let assetTypeRepository:AssetTypeRestRepository = createAssetTypeRepository();
 
 export class AssetOrchestrator {
 
   that = this;
 
   saveAsset(asset) {
-    return assetRepository.saveAsset(asset);
+    return assetTypeRepository.saveAsset(asset);
   };
 
   getAssets(number, size, field, direction) {
     let sort = getSortOrderOrDefault(field, direction);
-    return assetRepository
+    return assetTypeRepository
     .getAssets(number, size, sort)
     .flatMap(value => {
       return assetRepository
@@ -25,7 +27,7 @@ export class AssetOrchestrator {
   };
 
   getAssetKinds() {
-    return assetRepository
+    return assetTypeRepository
     .getAssetKinds()
     .map(value => {
       return responseShaper.shapeAssetsResponse2("assetKinds", value);
@@ -33,7 +35,7 @@ export class AssetOrchestrator {
   }
 
   getAssetTypes(searchStr, pageSize) {
-    return assetRepository
+    return assetTypeRepository
     .getAssetTypes(searchStr, pageSize)
     .map(value => {
       return responseShaper.shapeAssetsResponse2("assetTypes", value);
@@ -41,7 +43,7 @@ export class AssetOrchestrator {
   }
 
   getUnionOfPhysicalSites(searchStr, pageSize) {
-    return assetRepository
+    return assetTypeRepository
     .getUnionOfPhysicalSites(searchStr, pageSize)
     .map(value => {
       return responseShaper.shapeAssetsResponse2("unionOfPhysicalSites", value);
@@ -49,7 +51,7 @@ export class AssetOrchestrator {
   }
 
   getUnitOfMeasures(searchStr, pageSize) {
-    return assetRepository
+    return assetTypeRepository
     .getUnitOfMeasures(searchStr, pageSize)
     .map(value => {
       return responseShaper.shapeAssetsResponse2("unitOfMeasures", value);
@@ -57,7 +59,7 @@ export class AssetOrchestrator {
   }
 
   getPersons(searchStr, pageSize) {
-    return assetRepository
+    return assetTypeRepository
     .getPersons(searchStr, pageSize)
     .map(value => {
       return responseShaper.shapeAssetsResponse2("persons", value);
@@ -65,15 +67,15 @@ export class AssetOrchestrator {
   }
 
   getAssetById(assetId) {
-    return assetRepository.getAssetById(assetId);
+    return assetTypeRepository.getAssetById(assetId);
   }
 
   updateAsset(assetId, asset) {
-    return assetRepository.updateAsset(assetId, asset);
+    return assetTypeRepository.updateAsset(assetId, asset);
   }
 
   deleteAsset(assetId) {
-    return assetRepository.deleteAsset(assetId);
+    return assetTypeRepository.deleteAsset(assetId);
   };
 
 }

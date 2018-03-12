@@ -10,9 +10,9 @@ export function createAssetTypeRepository(options):AssetTypeRepository {
     useDatabase = options.useDatabase;
   }
 
-    if (useDatabase) {
-      return new AssetTypeDbRepository();
-    } else {
-      return new AssetTypeRestRepository();
-    }
+  if (useDatabase) {
+    return new AssetTypeDbRepository();
+  } else {
+    return new AssetTypeRestRepository();
+  }
 }
