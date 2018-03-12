@@ -90,7 +90,7 @@ let CredentialOrchestrator = new function() {
           session["phone"] = readCredential.username;
         }
 
-        if (session.partyId || session.accountStatus.toUpperCase() === status.CONFIRMED) {
+        if (session.partyId || session.accountStatus === status.CONFIRMED) {
           return sessionRepository.addSession(session);
         }
 
@@ -124,12 +124,12 @@ let CredentialOrchestrator = new function() {
         let credentialConfirmationStatus = credentialConfirmation["status"];
 
         // if the credential is confirmed
-        if (credentialConfirmationStatus.toUpperCase() === status.CONFIRMED) {
+        if (credentialConfirmationStatus === status.CONFIRMED) {
           return Rx.Observable.of(credentialConfirmation);
         }
 
         // if the credential confirmation is expired then return the credential confirmation
-        if (credentialConfirmationStatus.toUpperCase() === status.EXPIRED) {
+        if (credentialConfirmationStatus === status.EXPIRED) {
           return Rx.Observable.of(credentialConfirmation);
         }
 
@@ -149,7 +149,7 @@ let CredentialOrchestrator = new function() {
           });
         }
 
-        if (credentialConfirmationStatus.toUpperCase() === status.NEW) {
+        if (credentialConfirmationStatus === status.NEW) {
           return Rx.Observable.of(credentialConfirmation);
         } else {
           // handles the very remote case where the credential confirmation has not status
@@ -196,10 +196,10 @@ let CredentialOrchestrator = new function() {
     .getCredentialConfirmationById(credentialConfirmationId)
     .switchMap(credentialConfirmation => {
       if(credentialConfirmation) {
-        if (credentialConfirmation.status === "confirmed") {
+        if (credentialConfirmation.status === status.CONFIRMED) {
           return Rx.Observable.of(credentialConfirmation);
-        }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime() || credentialConfirmation.status === "expired") {
-          credentialConfirmation["status"] = "expired";
+        }else if(confirmationCodeTimeHasExpired(credentialConfirmation)) {
+          credentialConfirmation["status"] = status.EXPIRED;
           return credentialConfirmationRepository
           .updateCredentialConfirmation(credentialConfirmation)
           .switchMap(numReplaced => { //this is so to make the old links still work.
@@ -225,10 +225,10 @@ let CredentialOrchestrator = new function() {
     .getCredentialConfirmationById(credentialConfirmationId)
     .switchMap(credentialConfirmation => {
       if(credentialConfirmation) {
-        if(credentialConfirmation.status === "confirmed") {
+        if(credentialConfirmation.status === status.CONFIRMED) {
           return Rx.Observable.of(credentialConfirmation);
-        }else if(credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime() || credentialConfirmation.status === "expired") {
-          credentialConfirmation["status"] = "expired";
+        }else if(confirmationCodeTimeHasExpired(credentialConfirmation)) {
+          credentialConfirmation["status"] = status.EXPIRED;
           return credentialConfirmationRepository
           .updateCredentialConfirmation(credentialConfirmation)
           .switchMap(numReplaced => { //this is so to make the old links still work.
@@ -248,7 +248,6 @@ let CredentialOrchestrator = new function() {
       }
     });
   };
-
 };
 
 module.exports = CredentialOrchestrator;

@@ -1,6 +1,7 @@
 let validator = require('validator');
 let libphonenumberjs = require('libphonenumber-js');
 var passwordValidator = require('password-validator');
+let status = require('./credential.status');
 
 let Rx = require("rxjs");
 let UUIDGenerator = require("../uuid.generator");
@@ -197,7 +198,7 @@ module.exports =  function DatabaseCredentialRepository() {
 
   this.addCredential = function (credential) {
     credential.credentialId = newUuidGenerator.generateUUID();
-    credential["status"] = "new";
+    credential["status"] = status.NEW;
     return Rx.Observable.create(function (observer) {
       db.credentials.insert(credential, function (err, doc) {
         if (!err) {

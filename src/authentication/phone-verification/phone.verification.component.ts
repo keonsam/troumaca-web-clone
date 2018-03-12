@@ -95,12 +95,12 @@ export class PhoneVerificationComponent implements OnInit {
     .sendConfirmationCode(this.credentialConfirmation.credentialConfirmationId, "phone")
     .subscribe(next => {
       if(next) {
-        if (next.status == 'confirmed') {
+        if (next.status == 'CONFIRMED') {
           this.sendConfirmationCodeConfirmed = true;
           setTimeout(()=> {
             this.router.navigate(['/authentication/login']);
           }, 1000 *5);
-        }else if (next.status == 'new' && next.credentialConfirmationId != this.credentialConfirmation.credentialConfirmationId) {
+        }else if (next.status == 'NEW' && next.credentialConfirmationId != this.credentialConfirmation.credentialConfirmationId) {
           this.textMessageFailure = true;
           setTimeout(()=> {
             this.router.navigate([`/authentication/phone-verification/${next.credentialConfirmationId}`]);
@@ -127,9 +127,9 @@ export class PhoneVerificationComponent implements OnInit {
     this.authenticationService
       .verifyCredentialConfirmation(this.credentialConfirmation)
       .subscribe(next => {
-        if (next.status == 'confirmed') {
+        if (next.status == 'CONFIRMED') {
           this.router.navigate(['/authentication/login']);
-        } else if(next.status == 'expired'){
+        } else if(next.status == 'EXPIRED'){
           this.textMessageFailure2 = true;
         } else {
           this.errorExists = true;
