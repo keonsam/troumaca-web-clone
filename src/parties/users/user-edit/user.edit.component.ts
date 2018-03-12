@@ -10,10 +10,9 @@ import "rxjs/add/operator/single";
 import "rxjs/add/operator/take";
 import "rxjs/add/operator/switchMap";
 
-import {AuthenticationService} from "../../../authentication/authentication.service";
 import {PartyEventService} from "../../party.event.service";
 import {PartyService} from "../../party.service";
-import {Person} from "../../person";
+import {User} from "../../user";
 import {Credential} from "../../credential";
 
 @Component({
@@ -33,7 +32,7 @@ export class UserEditComponent implements OnInit {
 
   private _userEditForm: FormGroup;
 
-  private person: Person;
+  private user: User;
   private credential: Credential;
 
   private _doNotDisplayFailureMessage: boolean;
@@ -42,16 +41,15 @@ export class UserEditComponent implements OnInit {
   constructor(private partyEventService:PartyEventService,
               private partyService: PartyService,
               private formBuilder: FormBuilder,
-              private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               private router: Router) {
 
-    this.person = new Person();
+    this.user = new User();
     this.credential = new Credential();
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
-    this.username = new FormControl("", [Validators.required, this.usernameEditValidator(authenticationService)]);
+    this.username = new FormControl("", [Validators.required, this.usernameEditValidator(partyService)]);
 
     this.userEditForm = formBuilder.group({
       "firstName": this.firstName,
@@ -63,10 +61,10 @@ export class UserEditComponent implements OnInit {
     this.userEditForm
      .valueChanges
      .subscribe(value => {
-       this.person.firstName = value.firstName;
-       this.person.middleName = value.middleName;
-       this.person.lastName = value.lastName;
-       this.person.username = value.username;
+       this.user.firstName = value.firstName;
+       this.user.middleName = value.middleName;
+       this.user.lastName = value.lastName;
+       this.user.username = value.username;
        this.credential.username = value.username;
      }, error2 => {
        console.log(error2);
@@ -80,23 +78,23 @@ export class UserEditComponent implements OnInit {
 
     this.sub = this.route.params.subscribe(params => {
        this.partyId = params['partyId'];
-       this.partyService.getPerson(this.partyId)
-       .subscribe(person =>{
-        this.firstName.setValue(person.firstName);
-        this.middleName.setValue(person.middleName);
-        this.lastName.setValue(person.lastName);
-        this.username.setValue(person.username);
-        this.firstUsername = person.username;
-        this.person = person;
-        this.credential.partyId = person.partyId;
-        this.credential.username = person.username;
+       this.partyService.getUser(this.partyId)
+       .subscribe(user =>{
+        this.firstName.setValue(user.firstName);
+        this.middleName.setValue(user.middleName);
+        this.lastName.setValue(user.lastName);
+        this.username.setValue(user.username);
+        this.firstUsername = user.username;
+        this.user = user;
+        this.credential.partyId = user.partyId;
+        this.credential.username = user.username;
       }, error => {
         console.log(error);
       });
     });
   }
 
-  usernameEditValidator(authenticationService:AuthenticationService) {
+  usernameEditValidator(partyService:PartyService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
@@ -108,7 +106,7 @@ export class UserEditComponent implements OnInit {
       .filter(value => { // filter out empty values
         return !!(value);
       }).map(value => {
-        return authenticationService.isValidEditUsername(that.partyId,value);
+        return partyService.isValidEditUsername(that.partyId,value);
       }).subscribe(value => {
         value.subscribe( otherValue => {
           isValidUsername = otherValue;
@@ -210,7 +208,7 @@ export class UserEditComponent implements OnInit {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
       this.partyService
-      .updatePerson(this.person)
+      .updateUser(this.user)
       .subscribe(value => {
         if (value) {
           if(this.username.value != this.firstUsername){

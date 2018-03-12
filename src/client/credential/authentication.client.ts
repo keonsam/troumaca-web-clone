@@ -9,13 +9,9 @@ export abstract class AuthenticationClient {
 
   abstract forgotPassword(emailOrPhone: string): Observable<boolean>;
 
-  abstract isValidCurrentPassword(password: string): Observable<boolean>;
-
   abstract isValidPassword(password: string): Observable<boolean>;
 
   abstract isValidUsername(username: string): Observable<boolean>;
-
-  abstract isValidEditUsername(partyId: string, username: string): Observable<boolean>;
 
   abstract addCredential(credential:CredentialState): Observable<CredentialConfirmationState>;
 

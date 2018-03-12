@@ -1,9 +1,9 @@
 import {UUIDGenerator} from "../../uuid.generator";
 import {PersonClient} from "./person.client";
 import {Observable} from "rxjs/Observable";
-import {PersonState} from "./person.state";
+import {UserState} from "./user.state";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {PersonStates} from "./person.states";
+import {UserStates} from "./user.states";
 import {CredentialState} from "./credential.state";
 import {OrganizationState} from "./organization.state";
 import {OrganizationStates} from "./organization.states";
@@ -16,10 +16,10 @@ export class PersonClientHttp implements PersonClient {
               private hostPort:string) {
   }
 
-  public getPersons(pageNumber:number, pageSize:number, sortOrder:string): Observable<PersonStates> {
+  public getUsers(pageNumber:number, pageSize:number, sortOrder:string): Observable<UserStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/parties/persons");
+    array.push("/parties/users");
 
     let queryStr = [];
 
@@ -40,7 +40,7 @@ export class PersonClientHttp implements PersonClient {
       array.push(queryStr.join("&"));
     }
 
-    return this.httpClient.get<PersonStates>(array.join(""), {
+    return this.httpClient.get<UserStates>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
@@ -78,19 +78,11 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-
-  //// delete this
-  public getCurrentPerson(): Observable<PersonState> {
-    return null;
-  }
-  //
-
-
-  public getPersonState(partyId: string): Observable<PersonState>{
-    let url = `${this.hostPort}/parties/persons/${partyId}`;
+  public getUserState(partyId: string): Observable<UserState>{
+    let url = `${this.hostPort}/parties/users/${partyId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .get<PersonState>(url, {headers:headers})
+    .get<UserState>(url, {headers:headers})
     .map(data => {
       return data;
     });
@@ -107,8 +99,8 @@ export class PersonClientHttp implements PersonClient {
   }
 
 
-  public getUserPhoto(partyId: string): Observable<string>{
-    let url = `${this.hostPort}/parties/users-photos/${partyId}`;
+  public getPhoto(partyId: string): Observable<string>{
+    let url = `${this.hostPort}/parties/photos/${partyId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .get<string>(url, {headers:headers})
@@ -117,50 +109,11 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public getCompanyPhoto(partyId: string): Observable<string>{
-    let url = `${this.hostPort}/parties/company-photos/${partyId}`;
+  public addUserState(userState: UserState): Observable<UserState> {
+    let url = `${this.hostPort}/parties/users`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .get<string>(url, {headers:headers})
-    .map(data => {
-      return data;
-    });
-  }
-
-  //// delete this
-  public findPersonStates(searchStr: string, pageSize: number): Observable<PersonStates> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/parties/persons");
-
-    let queryStr = [];
-    if (searchStr) {
-      queryStr.push("q=" + searchStr);
-    }
-
-    if (pageSize) {
-      queryStr.push("pageSize=" + searchStr);
-    }
-
-    if (queryStr.length > 0) {
-      array.push("?");
-      array.push(queryStr.join("&"));
-    }
-
-    return this.httpClient.get<PersonStates>(array.join(""), {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
-      return data;
-    });
-  }
-  ////
-
-
-  public addPersonState(personState: PersonState): Observable<PersonState> {
-    let url = `${this.hostPort}/parties/persons`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
-    return this.httpClient
-    .post<PersonState>(url, personState.toJson(), {headers: headers})
+    .post<UserState>(url, userState.toJson(), {headers: headers})
     .map(data => {
       return data;
     });
@@ -186,8 +139,8 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public addAccountPhoto(partyId: string, croppedImage: string): Observable<any> {
-    let url = `${this.hostPort}/parties/account-photos/${partyId}`;
+  public addPhoto(partyId: string, croppedImage: string): Observable<any> {
+    let url = `${this.hostPort}/parties/photos/${partyId}`;
     const httpOptions = {
     headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -202,8 +155,8 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public createAccountState(accountState: AccountState): Observable<AccountState> {
-    let url = `${this.hostPort}/parties/create-accounts`;
+  public addAccountState(accountState: AccountState): Observable<AccountState> {
+    let url = `${this.hostPort}/parties/add-accounts`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .post<AccountState>(url, accountState.toJson(), {headers: headers})
@@ -212,8 +165,8 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public deletePerson(partyId: string): Observable<number> {
-    let url = `${this.hostPort}/parties/persons/${partyId}`;
+  public deleteUser(partyId: string): Observable<number> {
+    let url = `${this.hostPort}/parties/users/${partyId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .delete<number>(url, {headers:headers})
@@ -242,11 +195,11 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public updatePerson(personState: PersonState): Observable<number> {
-    let url = `${this.hostPort}/parties/persons/${personState.partyId}`;
+  public updateUser(userState: UserState): Observable<number> {
+    let url = `${this.hostPort}/parties/users/${userState.partyId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .put<number>(url, personState.toJson(), {headers:headers})
+    .put<number>(url, userState.toJson(), {headers:headers})
     .map(data => {
       return data;
     });
@@ -274,8 +227,8 @@ export class PersonClientHttp implements PersonClient {
 
 
 
-  public updateUserPhoto(partyId: string, croppedImage: string): Observable<number> {
-    let url = `${this.hostPort}/parties/users-photos/${partyId}`;
+  public updatePhoto(partyId: string, croppedImage: string): Observable<number> {
+    let url = `${this.hostPort}/parties/photos/${partyId}`;
     const httpOptions = {
     headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -289,19 +242,62 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public updateCompanyPhoto(partyId: string, croppedImage: string): Observable<number> {
-    let url = `${this.hostPort}/parties/company-photos/${partyId}`;
+  // authentication part
+
+  isValidPassword(password: string): Observable<boolean> {
+    let url = `${this.hostPort}/parties/validate-password`;
+
     const httpOptions = {
-    headers: new HttpHeaders({
-        'Content-Type': 'application/json',
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
         'correlationId': this.uuidGenerator.generateUUID()
       })
     };
+
+    let query = {password:password};
+
     return this.httpClient
-    .put<number>(url, {croppedImage}, httpOptions)
+      .post<boolean>(url, query, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
+  isValidUsername(username: string): Observable<boolean> {
+    let url = `${this.hostPort}/parties/validate-username`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    let query = {username:username};
+
+    return this.httpClient
+    .post<boolean>(url, query, httpOptions)
     .map(data => {
       return data;
     });
   }
 
+  isValidEditUsername(partyId: string, username: string): Observable<boolean> {
+    let url = `${this.hostPort}/parties/validate-edit-username/${partyId}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    let query = {username:username};
+
+    return this.httpClient
+    .post<boolean>(url, query, httpOptions)
+    .map(data => {
+      return data;
+    });
+  }
 }

@@ -38,6 +38,7 @@ export class OrganizationCompanyComponent implements OnInit {
   private imageChangedEvent: any = '';
   private croppedImage: any = '';
   private backgroundImage: any = '';
+  private defaultImage: string;
 
   private _doNotDisplayFailureMessage: boolean;
   //private _doNotDisplayFailureMessage2: boolean;
@@ -77,6 +78,8 @@ export class OrganizationCompanyComponent implements OnInit {
        console.log(error2);
      });
 
+     this.defaultImage = "url(http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825)";
+
      this.doNotDisplayFailureMessage = true;
      //this.doNotDisplayFailureMessage2 = true;
   }
@@ -110,9 +113,14 @@ export class OrganizationCompanyComponent implements OnInit {
         console.log(error);
       });
 
-      this.partyService.getCompanyPhoto(this.partyId)
+      this.partyService.getPhoto(this.partyId)
       .subscribe(imageStr => {
-        this.backgroundImage= `url(${imageStr})`;
+        if(imageStr) {
+          this.backgroundImage= `url(${imageStr})`;
+        }else {
+          // default image moved to the front end
+          this.backgroundImage= this.defaultImage;
+        }
       },error => {
         console.log(error);
       });
@@ -230,18 +238,33 @@ export class OrganizationCompanyComponent implements OnInit {
     this.croppedImage = image;
   }
 
+
   uploadPhoto() {
-    this.partyService
-    .updateCompanyPhoto(this.partyId, this.croppedImage)
-    .subscribe(value => {
-      if(value){
-      this.backgroundImage = `url(${this.croppedImage})`;
-      }else {
-        console.log("error");
-      }
-    }, error => {
-      console.log(error);
-    });
+    if(this.backgroundImage === this.defaultImage) {
+      this.partyService
+      .addPhoto(this.partyId, this.croppedImage)
+      .subscribe(value => {
+        if(value){
+        this.backgroundImage = `url(${this.croppedImage})`;
+        }else {
+          console.log("error");
+        }
+      }, error => {
+        console.log(error);
+      });
+    }else {
+      this.partyService
+      .updatePhoto(this.partyId, this.croppedImage)
+      .subscribe(value => {
+        if(value){
+        this.backgroundImage = `url(${this.croppedImage})`;
+        }else {
+          console.log("error");
+        }
+      }, error => {
+        console.log(error);
+      });
+    }
   }
 
   /*updateCredential() {

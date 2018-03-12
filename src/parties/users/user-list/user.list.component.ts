@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {Persons} from "../../persons";
+import {Users} from "../../users";
 import {PartyEventService} from "../../party.event.service";
 import {PartyService} from "../../party.service";
 import {Page} from "../../../page/page";
@@ -14,7 +14,7 @@ export class UserListComponent implements OnInit {
 
   private partyId: string;
   private username: string;
-  private _persons:Persons;
+  private _users:Users;
   private defaultPage:number = 1;
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
@@ -24,25 +24,25 @@ export class UserListComponent implements OnInit {
   constructor(private partyEventService:PartyEventService,
               private partyService: PartyService) {
 
-    let newPersons = new Persons();
-    newPersons.page = new Page(0, 0, 0);
-    newPersons.sort = new Sort();
-    this.persons = newPersons;
+    let newUsers = new Users();
+    newUsers.page = new Page(0, 0, 0);
+    newUsers.sort = new Sort();
+    this.users = newUsers;
 
   }
 
 
   ngOnInit(): void {
     this.partyEventService.menuChangeEvent.emit(this.menuName);
-    this.getPersons()
+    this.getUsers()
   }
 
-  get persons(): Persons {
-    return this._persons;
+  get users(): Users {
+    return this._users;
   }
 
-  set persons(value: Persons) {
-    this._persons = value;
+  set users(value: Users) {
+    this._users = value;
   }
 
   get routerLinkCreateUser(): string {
@@ -53,11 +53,11 @@ export class UserListComponent implements OnInit {
     this._routerLinkCreateUser = value;
   }
 
-  getPersons() {
+  getUsers() {
     this.partyService
-    .getPersons(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
+    .getUsers(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      this.persons = next;
+      this.users = next;
     }, error => {
       console.log(error);
     }, () => {
@@ -72,9 +72,9 @@ export class UserListComponent implements OnInit {
 
   onDelete() {
     this.partyService
-    .deletePerson(this.partyId)
+    .deleteUser(this.partyId)
     .subscribe(value => {
-    this.getPersons();
+    this.getUsers();
     }, error => {
     console.log(error);
     }, () => {
@@ -84,7 +84,7 @@ export class UserListComponent implements OnInit {
 
   onRequestPage(pageNumber:number) {
    this.defaultPage = pageNumber;
-   this.getPersons();
+   this.getUsers();
   }
 
 }
