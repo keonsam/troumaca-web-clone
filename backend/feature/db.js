@@ -50,11 +50,11 @@ db.personalsInformation.loadDatabase(handleError);
 
 db.users = new Datastore(theUsersDb);
 db.users.loadDatabase(handleError);
-db.users.ensureIndex({ fieldName: 'personId', unique: true }, handleError);
+db.users.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
 db.organizations = new Datastore(theOrganizationsDb);
 db.organizations.loadDatabase(handleError);
-db.organizations.ensureIndex({ fieldName: 'organizationId', unique: true }, handleError);
+db.organizations.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
 db.photos = new Datastore(thePhotosDb);
 db.photos.loadDatabase(handleError);

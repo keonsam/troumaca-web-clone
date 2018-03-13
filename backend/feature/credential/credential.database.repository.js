@@ -51,62 +51,6 @@ module.exports =  function DatabaseCredentialRepository() {
     }
   };
 
-  this.isValidEditUsername = function (partyId, usernameObj) {
-
-    let username = usernameObj.username;
-    if (!username) {
-      return Rx.Observable.of(false);
-    }
-
-
-    // the user name is valid if:
-    let validUsername = false;
-    // 1. is username and email
-    let validEmail = validator.isEmail(username);
-
-    if (validEmail) {
-      validUsername = true;
-    } else {
-      let parsedObj = libphonenumberjs.parse(username, 'US');
-      if (parsedObj && parsedObj.phone) {
-        // 2. or username is a phone number
-        validUsername = libphonenumberjs.isValidNumber(parsedObj);
-      }
-    }
-
-    if (!validUsername) {
-      // 3. and is not taken
-      return Rx.Observable.of(false);
-    }
-
-    return this.checkUsernameValid(partyId,username)
-    .switchMap(value => {
-      if(value) {
-        return Rx.Observable.of(true);
-      }else {
-        return this.getCredentialByUsername(username)
-          .map(credential => {
-            if (!credential) {
-              return true;
-            } else if (!credential.username) {
-              return true;
-            } else {
-              return false;
-            }
-          });
-      }
-    });
-  };
-
-  this.isValidCurrentPassword = function (passwordObj) {
-    let password = passwordObj.password;
-
-    return this.validateCurrentPassword(password)
-    .map(password => {
-      return !!password;
-    });
-  };
-
   this.isValidPassword = function (passwordObj) {
     let password = passwordObj.password;
 
@@ -171,21 +115,6 @@ module.exports =  function DatabaseCredentialRepository() {
       query1["partyId"] = partyId;
       query2["username"] = username;
       db.credentials.findOne({$and : [query1,query2]}, function (err, doc) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  };
-
-  this.validateCurrentPassword = function(password) {
-    return Rx.Observable.create(function (observer) {
-      let query = {};
-      query["password"] = password;
-      db.credentials.findOne(query, function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {

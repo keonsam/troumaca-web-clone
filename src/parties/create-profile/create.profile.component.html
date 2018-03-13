@@ -9,7 +9,7 @@
             </div>
             <div class="up-main-info">
               <h2 class="up-header">
-                {{accountType.value == 'personal' ? account.name: account.organizationName}}
+                {{accountType.value === 'personal' ? account.name: account.organizationName}}
               </h2>
               <h6 class="up-sub-header">
                 {{account.purpose}}
@@ -96,6 +96,7 @@
               </div>
 
               <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed create your profile.</div>
+              <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">Failed save image.</div>
 
               <fieldset class="form-group">
                 <div class="form-group row">
@@ -130,7 +131,7 @@
                 </div>
               </fieldset>
 
-              <fieldset *ngIf="accountType.value == 'organization' || accountType.value == 'both'" class="form-group">
+              <fieldset *ngIf="accountType.value === 'organization' || accountType.value == 'both'" class="form-group">
                 <div class="form-group">
                   <label for="organization name">Organization Name</label><input class="form-control" formControlName="organizationName" placeholder="Enter organization name" [required]="requiredState" type="text">
                   <div [hidden]="organizationName.valid || organizationName.pristine" class="alert alert-danger">Enter organization name.</div>

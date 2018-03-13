@@ -19,22 +19,6 @@ let CredentialOrchestrator = new function() {
     });
   };
 
-  this.isValidEditUsername = function (partyId,usernameObj) {
-    return credentialRepository
-    .isValidEditUsername(partyId,usernameObj)
-    .map(valid => {
-      return responseShaper.shapeUsernameValidResponse(valid)
-    });
-  };
-
-  this.isValidCurrentPassword = function (passwordObj) {
-    return credentialRepository
-    .isValidCurrentPassword(passwordObj)
-    .map(valid => {
-      return responseShaper.shapePasswordValidResponse(valid)
-    });
-  };
-
   this.isValidPassword = function (passwordObj) {
     return credentialRepository
     .isValidPassword(passwordObj)

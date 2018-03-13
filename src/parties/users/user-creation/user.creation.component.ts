@@ -11,9 +11,8 @@ import "rxjs/add/operator/switchMap";
 
 import {PartyEventService} from "../../party.event.service";
 import {PartyService} from "../../party.service";
-import {Person} from "../../person";
+import {User} from "../../user";
 import {Credential} from "../../credential";
-import {AuthenticationService} from "../../../authentication/authentication.service";
 
 @Component({
   selector: 'user-creation',
@@ -31,7 +30,7 @@ export class UserCreationComponent implements OnInit {
 
   private _userForm: FormGroup;
 
-  private person: Person;
+  private user: User;
   private credential: Credential;
 
   private _doNotDisplayFailureMessage: boolean;
@@ -40,16 +39,15 @@ export class UserCreationComponent implements OnInit {
   constructor(private partyEventService: PartyEventService,
               private partyService: PartyService,
               private formBuilder: FormBuilder,
-              private authenticationService: AuthenticationService,
               private router: Router) {
 
-    this.person = new Person();
+    this.user = new User();
     this.credential = new Credential();
 
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
-    this.username = new FormControl("", [Validators.required, this.usernameValidator(authenticationService)]);
+    this.username = new FormControl("", [Validators.required, this.usernameValidator(partyService)]);
 
     this.userForm = formBuilder.group({
       "firstName": this.firstName,
@@ -61,10 +59,10 @@ export class UserCreationComponent implements OnInit {
     this.userForm
      .valueChanges
      .subscribe(value => {
-       this.person.firstName = value.firstName;
-       this.person.middleName = value.middleName;
-       this.person.lastName = value.lastName;
-       this.person.username = value.username;
+       this.user.firstName = value.firstName;
+       this.user.middleName = value.middleName;
+       this.user.lastName = value.lastName;
+       this.user.username = value.username;
        this.credential.username = value.username;
      }, error2 => {
        console.log(error2);
@@ -78,7 +76,7 @@ export class UserCreationComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  usernameValidator(authenticationService:AuthenticationService) {
+  usernameValidator(partyService:PartyService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
@@ -90,7 +88,7 @@ export class UserCreationComponent implements OnInit {
       .filter(value => { // filter out empty values
         return !!(value);
       }).map(value => {
-        return authenticationService.isValidUsername(value);
+        return partyService.isValidUsername(value);
       }).subscribe(value => {
         value.subscribe( otherValue => {
           isValidUsername = otherValue;
@@ -196,7 +194,7 @@ export class UserCreationComponent implements OnInit {
     this.doNotDisplayFailureMessage2 = true;
     if(!this.partyId) {
       this.partyService
-      .addPerson(this.person)
+      .addUser(this.user)
       .subscribe(value => {
         if (value && value.partyId) {
           this.partyId = value.partyId;

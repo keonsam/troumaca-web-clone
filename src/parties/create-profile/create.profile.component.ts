@@ -29,7 +29,8 @@ export class CreateAccountComponent implements OnInit {
   private backgroundImage: any = '';
 
   private _doNotDisplayFailureMessage: boolean;
-  private requiredState: boolean;
+  private _doNotDisplayFailureMessage2: boolean;
+  private requiredState: boolean = false;
 
   constructor(private partyService: PartyService,
               private formBuilder: FormBuilder,
@@ -40,7 +41,7 @@ export class CreateAccountComponent implements OnInit {
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
     this.purpose = new FormControl("", [Validators.required]);
-    this.organizationName = new FormControl("", [Validators.required]);
+    this.organizationName = new FormControl("");
     this.description = new FormControl("");
 
     this.createProfileForm = formBuilder.group({
@@ -58,7 +59,6 @@ export class CreateAccountComponent implements OnInit {
     this.createProfileForm
      .valueChanges
      .subscribe(value => {
-       this.requiredState = value.accountType == 'personal' ? false: true;
        this.account.accountType = value.accountType;
        this.account.firstName = value.firstName;
        this.account.middleName = value.middleName;
@@ -71,28 +71,29 @@ export class CreateAccountComponent implements OnInit {
      });
 
      this.doNotDisplayFailureMessage = true;
-     this.requiredState = false;
+     this.doNotDisplayFailureMessage2 = true;
   }
 
   ngOnInit(): void {
     this.backgroundImage= `url(http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825)`;
-  }
 
-  validateOrganizationName(accountType: FormControl) {
-    return (c:FormControl) => {
-      console.log(c);
-      if(accountType.value == "personal") {
-        return null;
+    this.createProfileForm.get("accountType")
+    .valueChanges
+    .subscribe(type => {
+      console.log(this.organizationName);
+      if(type === "personal"){
+        console.log("working")
+        this.requiredState = false;
+        this.createProfileForm.get("organizationName").setValidators(null);
       }else {
-        return c.value.length >= 1 ? null : {
-          validateEmail: {
-            valid: false
-          }
-        };
-      };
-    };
+        console.log("workf");
+        this.requiredState = true;
+        this.createProfileForm.get("organizationName").setValidators([Validators.required]);
+      }
+      this.createProfileForm.get("organizationName").updateValueAndValidity();
+      console.log(this.createProfileForm);
+    });
   }
-
 
   get accountType(): FormControl {
     return this._accountType;
@@ -166,6 +167,14 @@ export class CreateAccountComponent implements OnInit {
     this._doNotDisplayFailureMessage = value;
   }
 
+  get doNotDisplayFailureMessage2(): boolean {
+    return this._doNotDisplayFailureMessage2;
+  }
+
+  set doNotDisplayFailureMessage2(value: boolean) {
+    this._doNotDisplayFailureMessage2 = value;
+  }
+
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
   }
@@ -177,10 +186,13 @@ export class CreateAccountComponent implements OnInit {
 
   savePhoto(partyId) {
     this.partyService
-    .addAccountPhoto(partyId, this.croppedImage)
+    .addPhoto(partyId, this.croppedImage)
     .subscribe(value => {
-      //Leave this optional for now.
-      // errors
+      if(value){
+        this.router.navigate(['/home/lobby']);
+      } else {
+        this.doNotDisplayFailureMessage2 = false;
+      }
     }, error => {
       console.log(error);
     });
@@ -188,15 +200,17 @@ export class CreateAccountComponent implements OnInit {
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
+    this.doNotDisplayFailureMessage2 = true;
 
       this.partyService
-      .createAccount(this.account)
+      .addAccount(this.account)
       .subscribe(value => {
         if (value && value.partyId) {
           if(this.croppedImage){
             this.savePhoto(value.partyId);
+          }else {
+            this.router.navigate(['/home/lobby']);
           }
-           this.router.navigate(['/home/lobby']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
