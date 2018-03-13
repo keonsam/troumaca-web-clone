@@ -1,25 +1,7 @@
-let uuidv5 = require('uuid/v5');
-let Datastore = require('nedb');
 let Rx = require("rxjs");
-let path = require('path');
 let UUIDGenerator = require("../uuid.generator");
 let DbUtil = require("../db.util");
 let db = require("../db.js");
-let hostname = 'troumaca.com';
-
-//let theAttributesDb = path.resolve(__dirname, '..','..',) + '/nedb/attributes.db';
-//let theAssetTypeClassesDb = path.resolve(__dirname, '..','..',) + '/nedb/asset-type-classes.db';
-//let theDataTypesDb =  path.resolve(__dirname, '..','..',) + '/nedb/data-types.db';
-
-//let db = {};
-//db.assetTypeClasses = new Datastore(theAssetTypeClassesDb);
-//db.assetTypeClasses.loadDatabase(function (err) { console.log(err); });
-
-//db.attributes = new Datastore(theAttributesDb);
-//db.attributes.loadDatabase(function (err) { console.log(err); });
-
-//db.dataTypes = new Datastore(theDataTypesDb);
-//db.dataTypes.loadDatabase(function (err) { console.log(err); });
 
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();

@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
   private _message:string = "";
 
   private _errorExists:boolean;
+  private accountDisabled:boolean;
 
   constructor(private eventService: EventService,
               private formBuilder: FormBuilder,
@@ -48,6 +49,7 @@ export class LoginComponent implements OnInit {
       "rememberMe": this.rememberMe
     });
 
+    this.accountDisabled = false;
   }
 
   ngOnInit(): void {
@@ -109,31 +111,39 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.errorExists = false;
+    this.accountDisabled = false;
     let credential:Credential = new Credential();
     credential.username = this.username.value;
     credential.password = this.password.value;
     credential.rememberMe = this.rememberMe.value;
+    let regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
     this.authenticationService
       .authenticate(credential)
       .subscribe(session => {
-        if (session.sessionId) {
-          if(session.partyId) {
-            //this.eventService.sendLoginEvent(this.createEventModel()); // not working
-            this.errorExists = false;
-            this.router.navigate(['/home/lobby']);
-          }else {
-            //this.eventService.sendLoginEvent(this.createEventModel()); // working
-            this.errorExists = false;
-            this.router.navigate(['/create-profile']);
+        if(session) {
+          if(session.accountStatus == "ACTIVE"){
+            if(session.partyId){
+              this.router.navigate(['/home/lobby']);
+            }else {
+              this.router.navigate(['/create-profile']);
+            };
+          } else if (session.accountStatus == "NEW"){
+            if(regex.test(this.username.value)) {
+              this.router.navigate([`/authentication/email-verification/${session.credentialConfirmationId}`]);
+            } else {
+              this.router.navigate([`/authentication/phone-verification/${session.credentialConfirmationId}`]);
+            };
+          }else if(session.accountStatus == "DISABLED") {
+          // TODO// Make Error better in the future
+            this.accountDisabled = true;
           }
-        } else {
-          // Todo: Put an error on the display
+        }else {
           this.errorExists = true;
         }
-
       }, error => {
         this.errorExists = true;
+
       });
   }
 

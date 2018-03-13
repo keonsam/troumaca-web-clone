@@ -1,12 +1,7 @@
-let uuidv5 = require('uuid/v5');
-let Datastore = require('nedb');
 let Rx = require("rxjs");
-let path = require('path');
 let UUIDGenerator = require("../uuid.generator");
 let DbUtil = require("../db.util");
 let db = require("../db.js");
-
-let hostname = 'troumaca.com';
 
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();

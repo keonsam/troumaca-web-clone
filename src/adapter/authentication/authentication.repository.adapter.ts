@@ -7,6 +7,8 @@ import {AuthenticationRepository} from "../../authentication/authentication.repo
 import {Credential} from "../../authentication/credential";
 import {CredentialState} from "../../client/credential/credential.state";
 import {SessionState} from "../../client/credential/session.state";
+import {CredentialConfirmation} from "../../authentication/credential.confirmation";
+import {CredentialConfirmationState} from "../../client/credential/credential.confirmation.state";
 
 export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
 
@@ -20,14 +22,6 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
       .map(sessionState => {
         return mapObjectProps(sessionState, new Session());
       });
-  }
-
-  authenticateSMSCode(phoneUUID: string, smsCode: string): Observable<boolean> {
-    return this.authenticationClient.authenticateSMSCode(phoneUUID,smsCode);
-  }
-
-  authenticateEmailCode(emailUUID: string, emailCode: string): Observable<boolean> {
-    return this.authenticationClient.authenticateEmailCode(emailUUID, emailCode);
   }
 
   forgotPassword(username: string): Observable<boolean> {
@@ -51,36 +45,27 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     return this.authenticationClient.isValidEditUsername(partyId, username);
   }
 
-  addCredential(credential:Credential):Observable<Credential> {
+  addCredential(credential:Credential):Observable<CredentialConfirmation> {
     return this.authenticationClient
     .addCredential(mapObjectProps(credential, new CredentialState()))
     .map(credentialState => {
-      return mapObjectProps(credentialState, new Credential())
+      return mapObjectProps(credentialState, new CredentialConfirmation());
     });
   }
 
-  generateEmailUUID(credentialId: string): Observable<string> {
-    return this.authenticationClient.generateEmailUUID(credentialId);
+  verifyCredentialConfirmation(credentialConfirmation: CredentialConfirmation): Observable<CredentialConfirmation> {
+    return this.authenticationClient
+    .verifyCredentialConfirmationState(mapObjectProps(credentialConfirmation, new CredentialConfirmationState()))
+    .map(credentialConfirmationState => {
+      return mapObjectProps(credentialConfirmationState, new CredentialConfirmation());
+    });
   }
 
-  generatePhoneUUID(credentialId: string): Observable<string> {
-    return this.authenticationClient.generatePhoneUUID(credentialId);
-  }
-
-  sendPhoneCode(phoneUUID: string): Observable<number> {
-    return this.authenticationClient.sendPhoneCode(phoneUUID);
-  }
-
-  newPhoneUUID(phoneNumber: string): Observable<string> {
-    return this.authenticationClient.newPhoneUUID(phoneNumber);
-  }
-
-  sendEmailCode(emailUUID: string): Observable<number> {
-    return this.authenticationClient.sendEmailCode(emailUUID);
-  }
-
-  newEmailUUID(emailAddress: string): Observable<string> {
-    return this.authenticationClient.newEmailUUID(emailAddress);
+  sendConfirmationCode(credentialConfirmationId: string, type: string): Observable<CredentialConfirmation> {
+    return this.authenticationClient.sendConfirmationCode(credentialConfirmationId, type)
+    .map(credentialConfirmationState => {
+      return mapObjectProps(credentialConfirmationState, new CredentialConfirmation());
+    });
   }
 
 }

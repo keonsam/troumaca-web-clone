@@ -3,6 +3,7 @@ import {Observable} from "rxjs/Observable";
 import {Cookie} from "ng2-cookies/ng2-cookies";
 import {AuthenticationRepository} from "./authentication.repository";
 import {Credential} from "./credential";
+import {CredentialConfirmation} from "./credential.confirmation";
 
 export class AuthenticationService {
 
@@ -42,44 +43,20 @@ export class AuthenticationService {
     });
   }
 
-  public authenticateSMSCode(phoneUUID: string, smsCode: string): Observable<boolean> {
-    return this.authenticationRepository.authenticateSMSCode(phoneUUID, smsCode);
-  }
-
-  public authenticateEmailCode(emailUUID: string, emailCode: string): Observable<boolean> {
-    return this.authenticationRepository.authenticateEmailCode(emailUUID, emailCode);
-  }
-
   public forgotPassword(username: string):Observable<boolean> {
     return this.authenticationRepository.forgotPassword(username);
   }
 
-  public addCredential(credential:Credential):Observable<Credential> {
+  public addCredential(credential:Credential):Observable<CredentialConfirmation> {
     return this.authenticationRepository.addCredential(credential);
   }
 
-  public generateEmailUUID(credentialId: string): Observable<string> {
-    return this.authenticationRepository.generateEmailUUID(credentialId);
+  public verifyCredentialConfirmation(credentialConfirmation: CredentialConfirmation,): Observable<CredentialConfirmation> {
+    return this.authenticationRepository.verifyCredentialConfirmation(credentialConfirmation);
   }
 
-  public generatePhoneUUID(credentialId: string): Observable<string> {
-    return this.authenticationRepository.generatePhoneUUID(credentialId);
-  }
-
-  public sendPhoneCode(phoneUUID: string): Observable<number> {
-    return this.authenticationRepository.sendPhoneCode(phoneUUID);
-  }
-
-  public newPhoneUUID(phoneNumber: string): Observable<string> {
-    return this.authenticationRepository.newPhoneUUID(phoneNumber);
-  }
-
-  public sendEmailCode(emailUUID: string): Observable<number> {
-    return this.authenticationRepository.sendEmailCode(emailUUID);
-  }
-
-  public newEmailUUID(emailAddress: string): Observable<string> {
-    return this.authenticationRepository.newEmailUUID(emailAddress);
+  public sendConfirmationCode(credentialConfirmationId: string, type: string): Observable<CredentialConfirmation> {
+    return this.authenticationRepository.sendConfirmationCode(credentialConfirmationId, type);
   }
 
 }

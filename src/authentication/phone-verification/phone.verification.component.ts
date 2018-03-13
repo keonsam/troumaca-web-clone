@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Router} from "@angular/router";
 
 //import {Event} from "../event";
+import {CredentialConfirmation} from "../credential.confirmation";
 import {AuthenticationService} from "../authentication.service";
 
 @Component({
@@ -14,14 +15,16 @@ import {AuthenticationService} from "../authentication.service";
 export class PhoneVerificationComponent implements OnInit {
 
   private _phoneVerificationForm: FormGroup;
-  private sub: any;
-  private _phoneErrorForm: FormGroup;
-  private phoneUUID: string;
-  private _smsCode: FormControl;
-  private _phoneNumber: FormControl;
+  private _confirmationCode: FormControl;
 
-  private _errorExists:boolean;
-  private _unknownLink: boolean;
+  private credentialConfirmation : CredentialConfirmation;
+
+  private errorExists:boolean;
+  private textMessageSuccess: boolean;
+  private textMessageFailure: boolean;
+  private textMessageFailure2: boolean;
+  private sendConfirmationCodeConfirmed: boolean;
+  private noEntry: boolean;
 
   constructor(//private eventService: EventService,
               private route: ActivatedRoute,
@@ -29,70 +32,47 @@ export class PhoneVerificationComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private router: Router) {
 
-    this.smsCode = new FormControl("", [Validators.required,
+    this.confirmationCode = new FormControl("", [Validators.required,
                                         Validators.minLength(6),
                                         Validators.maxLength(6)]);
 
-    this.phoneNumber = new FormControl("", [Validators.required]);
-
      this.phoneVerificationForm = formBuilder.group({
-      "smsCode": this.smsCode
+      "confirmationCode": this.confirmationCode,
     });
 
-    this.phoneErrorForm = formBuilder.group({
-      "phoneNumber": this.phoneNumber
+    this.phoneVerificationForm
+    .valueChanges
+    .subscribe(value => {
+      this.credentialConfirmation.confirmationCode = value.confirmationCode;
+
+
+    }, error2 => {
+      console.log(error2);
     });
+
+    this.credentialConfirmation = new CredentialConfirmation();
+
 
     this.errorExists = false;
-    this.unknownLink = false;
+    this.textMessageSuccess = false;
+    this.textMessageFailure = false;
+    this.sendConfirmationCodeConfirmed = false;
+    this.noEntry = false;
+    this.textMessageFailure2 = false;
   }
 
   ngOnInit(): void {
-    let that = this;
-
-    this.sub = this.route.params.subscribe(params => {
-      this.phoneUUID = params["phoneUUID"];
-
-      if(!this.phoneUUID) {
-        this.unknownLink = true;
-
-        setTimeout(() => {
-          this.router.navigate(['/authentication/register']);
-        }, 60 * 5 * 1000); //one minute for testing purposes
-      }
+    this.route.params.subscribe(params => {
+      this.credentialConfirmation.credentialConfirmationId = params["credentialConfirmationId"];
     });
   }
 
-  get errorExists(): boolean {
-    return this._errorExists;
+  get confirmationCode(): FormControl {
+    return this._confirmationCode;
   }
 
-  set errorExists(value: boolean) {
-    this._errorExists = value;
-  }
-
-  get unknownLink(): boolean {
-    return this._unknownLink;
-  }
-
-  set unknownLink(value: boolean) {
-    this._unknownLink = value;
-  }
-
-  get smsCode(): FormControl {
-    return this._smsCode;
-  }
-
-  set smsCode(value: FormControl) {
-    this._smsCode = value;
-  }
-
-  get phoneNumber(): FormControl {
-    return this._phoneNumber;
-  }
-
-  set phoneNumber(value : FormControl) {
-    this._phoneNumber = value;
+  set confirmationCode(value: FormControl) {
+    this._confirmationCode = value;
   }
 
   get phoneVerificationForm(): FormGroup {
@@ -103,54 +83,54 @@ export class PhoneVerificationComponent implements OnInit {
     this._phoneVerificationForm = value;
   }
 
-  get phoneErrorForm(): FormGroup {
-    return this._phoneErrorForm;
-  }
+  // Todo: Fix this
+  sendConfirmationCode() {
+    this.textMessageSuccess = false;
+    this.textMessageFailure = false;
+    this.textMessageFailure2 = false;
+    this.errorExists = false;
+    this.noEntry = false;
 
-  set phoneErrorForm(value: FormGroup) {
-    this._phoneErrorForm = value;
-  }
-
-  sendCode() {
     this.authenticationService
-    .sendPhoneCode(this.phoneUUID)
+    .sendConfirmationCode(this.credentialConfirmation.credentialConfirmationId, "phone")
     .subscribe(next => {
       if(next) {
-        document.getElementById("openModalButton").click();
-      } else {
-        // display errors
+        if (next.status == 'CONFIRMED') {
+          this.sendConfirmationCodeConfirmed = true;
+          setTimeout(()=> {
+            this.router.navigate(['/authentication/login']);
+          }, 1000 *5);
+        }else if (next.status == 'NEW' && next.credentialConfirmationId != this.credentialConfirmation.credentialConfirmationId) {
+          this.textMessageFailure = true;
+          setTimeout(()=> {
+            this.router.navigate([`/authentication/phone-verification/${next.credentialConfirmationId}`]);
+          }, 1000 *5);
+        }else {
+          this.textMessageSuccess = true;
+          setTimeout(()=> {
+            this.textMessageSuccess = false;
+          }, 5000);
+        }
+      }else {
+        this.noEntry = true;
       }
     }, error =>{
-      // display errors
+      /// make better error for this
+      this.noEntry = true;
     });
   }
 
   onSubmit() {
     this.errorExists = false;
+    this.textMessageFailure2 = false;
 
     this.authenticationService
-      .authenticateSMSCode(this.phoneUUID, this.smsCode.value)
+      .verifyCredentialConfirmation(this.credentialConfirmation)
       .subscribe(next => {
-        if (next) {
-          this.errorExists = false;
+        if (next.status == 'CONFIRMED') {
           this.router.navigate(['/authentication/login']);
-        } else {
-          this.errorExists = true;
-        }
-      }, error => {
-        this.errorExists = true;
-      });
-  }
-
-  onSubmitTwo() {
-    this.errorExists = false;
-
-    this.authenticationService
-      .newPhoneUUID(this.phoneNumber.value)
-      .subscribe(next => {
-        if (next) {
-          this.errorExists = false;
-          this.router.navigate([`/authentication/phone-verification/${next}`]);
+        } else if(next.status == 'EXPIRED'){
+          this.textMessageFailure2 = true;
         } else {
           this.errorExists = true;
         }

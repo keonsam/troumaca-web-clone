@@ -1,15 +1,7 @@
-let Datastore = require('nedb');
 let Rx = require("rxjs");
-let path = require('path');
 let UUIDGenerator = require("../uuid.generator");
 let DbUtil = require("../db.util");
-
-let theShipmentsDb = path.resolve(__dirname, '..','..',) + '/nedb/shipments.db';
-
-let db = {};
-
-db.shipments = new Datastore(theShipmentsDb);
-db.shipments.loadDatabase(function (err) { console.log(err); });
+let db = require("../db.js");
 
 let newUuidGenerator = new UUIDGenerator();
 let dbUtil = new DbUtil();

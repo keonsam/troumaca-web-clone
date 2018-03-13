@@ -7,6 +7,7 @@ export class Credential {
   private _password:string;
   private _changedPassword:string;
   private _rememberMe:boolean;
+  private _status: string;
   private emailRegEx:RegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
   private numberRegEx:RegExp = new RegExp(/^\d+$/);
 
@@ -52,6 +53,14 @@ export class Credential {
 
   set username(value: string) {
     this._username = value;
+  }
+
+  get status(): string {
+    return this._status;
+  }
+
+  set status(value: string) {
+    this._status = value;
   }
 
   public isUsernameValid():boolean {

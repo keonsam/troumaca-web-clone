@@ -1,12 +1,15 @@
 let Rx = require("rxjs");
+let validator = require('validator');
+let status = require('./credential.status');
 let credentialRepositoryFactory = require('./credential.repository.factory').CredentialRepositoryFactory;
 let credentialRepository = credentialRepositoryFactory.createRepository();
+let credentialConfirmationRepositoryFactory = require('./credential.confirmation.repository.factory').CredentialConfirmationRepositoryFactory;
+let credentialConfirmationRepository = credentialConfirmationRepositoryFactory.createRepository();
 let sessionRepositoryFactory = require('../session/session.repository.factory').SessionRepositoryFactory;
 let sessionRepository = sessionRepositoryFactory.createRepository();
 let responseShaper = require("./credential.response.shaper")();
 
 let CredentialOrchestrator = new function() {
-
 
   this.isValidUsername = function (usernameObj) {
     return credentialRepository
@@ -41,135 +44,227 @@ let CredentialOrchestrator = new function() {
   };
 
   this.addCredential = function (credential) {
-    return credentialRepository.addCredential(credential);
-  };
-
-  this.authenticate = function (credential) {
     return credentialRepository
-      .authenticateForCredential(credential)
-      .switchMap(readCredential => {
-        if (readCredential.credentialId) {
-          let session = {};
-          session["credentialId"] = readCredential.credentialId;
-          session["partyId"] = readCredential.partyId ? readCredential.partyId : "";
-          return sessionRepository.addSession(session);
-        } else {
-          return Rx.Observable.of(readCredential);
-        }
+      .addCredential(credential)
+      .switchMap(credential => {
+
+        let credentialConfirmation = {};
+        credentialConfirmation["credentialId"] = credential.credentialId;
+        credentialConfirmation["createdOn"] = new Date().getTime();
+        credentialConfirmation["modifiedOn"] = new Date().getTime();
+
+        return credentialConfirmationRepository
+          .addCredentialConfirmation(credentialConfirmation);
+
       });
   };
 
-  this.authenticateSMSCode = function (phoneUUID,smsCode) {
+  this.authenticate = function (credential) {
+    // A person can access the application under the following conditions:
+    // 1. He/she provides a valid set of credentials
+    // 2. He/she has confirmed their username (email, or phone)
+    // 3. He/she has completed the quick profile, person, account type, and possible organization name.
+
     return credentialRepository
-    .getSMSCode(phoneUUID,smsCode)
-    .switchMap(doc => {
-      if(doc) {
-        return credentialRepository.deleteSMSCode(phoneUUID)
-        .switchMap(numRemoved => {
-          if(numRemoved){
-            return credentialRepository.getCredentialByCredentialId(doc.credentialId)
-            .switchMap(newDoc => {
-              if(newDoc){
-                return credentialRepository.generateConfirmedCredential(newDoc)
-                .map(confirmedCredentials => {
-                  if(confirmedCredentials){
-                    return true;
-                  }else {
-                    return false;
-                  }
-                });
-              }else {
-                return Rx.Observable.of(false);
-              }
-            });
-          }else {
-            return Rx.Observable.of(false);
+      .getCredentialByUsername(credential.username)
+      .switchMap(readCredential => {
+
+        // unable to find the credential specified
+        if (!readCredential) {
+          return Rx.Observable.throw(createNotFoundError("Credential"));
+        }
+
+        let readCredentialStatus = readCredential["status"];
+
+        // do not continue if the status is not active
+        if (readCredentialStatus === status.DISABLED) {
+          return Rx.Observable.of(saniticeCredentail(readCredential));
+        }
+
+        let session = {};
+        session["credentialId"] = readCredential.credentialId;
+        session["partyId"] = readCredential.partyId ? readCredential.partyId : "";
+        session["accountStatus"] = readCredential.status;
+
+        if (!validator.isEmail(readCredential.username)) {
+          session["phone"] = readCredential.username;
+        }
+
+        if (session.partyId || session.accountStatus === status.ACTIVE) {
+          return sessionRepository.addSession(session);
+        }
+
+        return credentialConfirmationRepository
+        .getCredentialConfirmationByCredentialId(readCredential.credentialId)
+        .switchMap(credentialConfirmation => {
+          // TODO: needs to account for more than one value
+          if (credentialConfirmation && credentialConfirmation.credentialConfirmationId) {
+            session["credentialConfirmationId"] = credentialConfirmation.credentialConfirmationId;
           }
+
+          return sessionRepository.addSession(session);
         });
-      }else{
-        return Rx.Observable.of(false);
-      }
+      });
+  };
+
+  this.verifyCredentialConfirmation = function (credentialConfirmation) {
+    let credentialConfirmationId = credentialConfirmation.credentialConfirmationId;
+    let confirmationCode = credentialConfirmation.confirmationCode;
+
+    return credentialConfirmationRepository
+      .getCredentialConfirmationByCode(credentialConfirmationId, confirmationCode)
+      .switchMap(credentialConfirmation => {
+
+        if (!credentialConfirmation) {
+          // return an error if the credential confirmation is not found.
+          return Rx.Observable.throw(createNotFoundError("CredentialConfirmation"));
+        }
+
+        // we have a credential confirmation so let's get the status as it will be used multiple times.
+        let credentialConfirmationStatus = credentialConfirmation["status"];
+
+        // if the credential is confirmed
+        if (credentialConfirmationStatus === status.CONFIRMED) {
+          return Rx.Observable.of(credentialConfirmation);
+        }
+
+        // if the credential confirmation is expired then return the credential confirmation
+        if (credentialConfirmationStatus === status.EXPIRED) {
+          return Rx.Observable.of(credentialConfirmation);
+        }
+
+        // if the confirmation time has expired
+        if (confirmationCodeTimeHasExpired(credentialConfirmation)) {
+          credentialConfirmation["status"] = status.EXPIRED;
+
+          // update the credential confirmation status to expired
+          return credentialConfirmationRepository
+          .updateCredentialConfirmation(credentialConfirmation)
+          .map(numReplaced => {
+            if (numReplaced > 0) {
+              return credentialConfirmation;
+            } else {
+              return Rx.Observable.throw(createNotFoundError("CredentialConfirmation"));
+            }
+          });
+        }
+
+        if (credentialConfirmationStatus === status.NEW) {
+          return credentialRepository
+          .updateCredentialStatusById(credentialConfirmation.credentialId, status.ACTIVE)
+          .switchMap(numReplaced => {
+            if(numReplaced) {
+              credentialConfirmation["status"] = status.CONFIRMED;
+              return credentialConfirmationRepository
+              .updateCredentialConfirmation(credentialConfirmation)
+              .map(numReplaced => {
+                if(numReplaced) {
+                  return credentialConfirmation
+                }else {
+                  return Rx.Observable.of(numReplaced)
+                }
+              });
+            }else {
+              return Rx.Observable.of(numReplaced);
+            }
+          });
+        } else {
+          // handles the very remote case where the credential confirmation has not status
+          return handleCredentialConfirmationUnknownStatus(credentialConfirmation);
+        }
+
     });
   };
 
-  this.authenticateEmailCode = function (emailUUID,emailCode) {
-    return credentialRepository
-    .getEmailCode(emailUUID,emailCode)
-    .switchMap(doc => {
-      if(doc) {
-        return credentialRepository.deleteEmailCode(emailUUID)
-        .switchMap(numRemoved => {
-          if(numRemoved){
-            return credentialRepository.getCredentialByCredentialId(doc.credentialId)
-            .switchMap(newDoc => {
-              if(newDoc){
-                return credentialRepository.generateConfirmedCredential(newDoc)
-                .map(confirmedCredentials => {
-                  if(confirmedCredentials){
-                    return true;
-                  }else {
-                    return false;
-                  }
-                });
-              }else {
-                return Rx.Observable.of(false);
-              }
-            });
-          }else {
-            return Rx.Observable.of(false);
-          }
-        });
-      }else{
-        return Rx.Observable.of(false);
-      }
-    });
-  };
-
-  this.generateEmailUUID = function (credentialId) {
-    return credentialRepository.generateEmailUUID(credentialId);
-  };
-
-  this.generatePhoneUUID = function (credentialId) {
-    return credentialRepository.generatePhoneUUID(credentialId);
-  };
-
-  this.sendPhoneCode = function (phoneUUID) {
-    return credentialRepository.updatePhoneUUID(phoneUUID);
-  };
-
-  this.sendEmailCode = function (emailUUID) {
-    return credentialRepository.updateEmailUUID(emailUUID);
-  };
-
-  this.newPhoneUUID = function (phoneNumber) {
-    return credentialRepository
-    .getCredentialByUsername(phoneNumber)
-    .switchMap(doc => {
-      if(doc) {
-        return credentialRepository.generatePhoneUUID(doc.credentialId);
-      }else{
-        return Rx.Observable.of(false);
-      }
-    });
+  function saniticeCredentail(readCredential) {
+    let readCredentialCopy = readCredential;
+    delete readCredentialCopy['password'];
+    return readCredential;
   }
 
-  this.newEmailUUID = function (emailAddress) {
-    return credentialRepository
-    .getCredentialByUsername(emailAddress)
-    .switchMap(doc => {
-      if(doc) {
-        return credentialRepository.generateEmailUUID(doc.credentialId);
-      }else{
-        return Rx.Observable.of(false);
+  function createNotFoundError(name) {
+    return new Error(JSON.stringify({
+      "statusCode":404,
+      "message": name + " not found."
+    }));
+  }
+
+  function confirmationCodeTimeHasExpired(credentialConfirmation) {
+    // 1 second * 60 = 1 minute * 20 = 20 minutes
+    return credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime();
+  }
+
+  function handleCredentialConfirmationUnknownStatus(credentialConfirmation) {
+    credentialConfirmation["status"] = status.NEW;
+    // update the credential confirmation status to expired
+    return credentialConfirmationRepository
+      .updateCredentialConfirmation(credentialConfirmation)
+      .map(numReplaced => {
+        if (numReplaced > 0) {
+          return credentialConfirmation;
+        } else {
+          return Rx.Observable.throw(createNotFoundError("CredentialConfirmation"));
+        }
+      });
+  }
+
+  this.sendPhoneVerificationCode = function (credentialConfirmationId) {
+    return credentialConfirmationRepository
+    .getCredentialConfirmationById(credentialConfirmationId)
+    .switchMap(credentialConfirmation => {
+      if(credentialConfirmation) {
+        if (credentialConfirmation.status === status.CONFIRMED) {
+          return Rx.Observable.of(credentialConfirmation);
+        }else if(confirmationCodeTimeHasExpired(credentialConfirmation)) {
+          credentialConfirmation["status"] = status.EXPIRED;
+          return credentialConfirmationRepository
+          .updateCredentialConfirmation(credentialConfirmation)
+          .switchMap(numReplaced => { //this is so to make the old links still work.
+            if(numReplaced){
+              credentialConfirmation["createdOn"] = new Date().getTime();
+              credentialConfirmation["modifiedOn"] = new Date().getTime();
+              delete credentialConfirmation["_id"];
+              return credentialConfirmationRepository.addCredentialConfirmation(credentialConfirmation);
+            }
+            return Rx.Observable.of(numReplaced);
+          });
+        }else {
+          return Rx.Observable.of(credentialConfirmation);
+        }
+      }else {
+        return Rx.Observable.of(credentialConfirmation);
       }
     });
-  }
+  };
 
-  this.validateConfirmedUsername = function (username) {
-    return credentialRepository.getConfirmedCredentialsByUsername(username)
-  }
-
-
+  this.sendEmailVerificationCode = function (credentialConfirmationId) {
+    return credentialConfirmationRepository
+    .getCredentialConfirmationById(credentialConfirmationId)
+    .switchMap(credentialConfirmation => {
+      if(credentialConfirmation) {
+        if(credentialConfirmation.status === status.CONFIRMED) {
+          return Rx.Observable.of(credentialConfirmation);
+        }else if(confirmationCodeTimeHasExpired(credentialConfirmation)) {
+          credentialConfirmation["status"] = status.EXPIRED;
+          return credentialConfirmationRepository
+          .updateCredentialConfirmation(credentialConfirmation)
+          .switchMap(numReplaced => { //this is so to make the old links still work.
+            if(numReplaced){
+              credentialConfirmation["createdOn"] = new Date().getTime();
+              credentialConfirmation["modifiedOn"] = new Date().getTime();
+              delete credentialConfirmation["_id"];
+              return credentialConfirmationRepository.addCredentialConfirmation(credentialConfirmation);
+            }
+            return Rx.Observable.of(numReplaced);
+          });
+        }else {
+          return Rx.Observable.of(credentialConfirmation);
+        }
+      }else {
+        return Rx.Observable.of(credentialConfirmation);
+      }
+    });
+  };
 };
 
 module.exports = CredentialOrchestrator;

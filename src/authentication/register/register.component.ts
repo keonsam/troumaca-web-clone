@@ -10,7 +10,6 @@ import {AuthenticationService} from "../authentication.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Credential} from "../credential";
 import {Router} from "@angular/router";
-//import {isEmail} from 'validator/lib/isEmail';
 
 @Component({
   selector: 'register',
@@ -176,37 +175,6 @@ export class RegisterComponent implements OnInit {
     this._confirmPassword = value;
   }
 
-  generateEmailUUID(credentialId: string) {
-
-    this.authenticationService
-    .generateEmailUUID(credentialId)
-    .subscribe(next => {
-      console.log(next);
-      if(next){
-        this.router.navigate([`/authentication/email-verification/${next}`]);
-      }else{
-        // display Errors
-      }
-    }, error => {
-      // display Error
-    });
-  }
-
-  generatePhoneUUID(credentialId: string) {
-
-    this.authenticationService
-    .generatePhoneUUID(credentialId)
-    .subscribe(next => {
-      if(next){
-        this.router.navigate([`/authentication/phone-verification/${next}`]);
-      }else{
-        // display Errors
-      }
-    }, error => {
-      // display Error
-    });
-  }
-
   onSubmit() {
     let credential:Credential = new Credential();
     credential.username = this.username.value;
@@ -215,13 +183,13 @@ export class RegisterComponent implements OnInit {
     let regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     this.authenticationService
     .addCredential(credential)
-    .subscribe(credential => {
-      if (credential.credentialId) {
-        let credentialId = credential.credentialId;
+    .subscribe(credentialConfirmation => {
+      let credentialConfirmationId = credentialConfirmation.credentialConfirmationId;
+      if (credentialConfirmationId) {
         if(regex.test(this.username.value)) {
-          this.generateEmailUUID(credentialId);
+          this.router.navigate([`/authentication/email-verification/${credentialConfirmationId}`]);
         } else {
-          this.generatePhoneUUID(credentialId);
+          this.router.navigate([`/authentication/phone-verification/${credentialConfirmationId}`]);
         }
       } else {
         // display errors

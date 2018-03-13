@@ -1,13 +1,6 @@
-let Datastore = require('nedb');
 let Rx = require("rxjs");
-let path = require('path');
 let UUIDGenerator = require("../uuid.generator");
-
-let sessionslDb = path.resolve(__dirname, '..','..',) + '/nedb/sessions.db';
-
-let db = {};
-db.sessions = new Datastore(sessionslDb);
-db.sessions.loadDatabase(function (err) { console.log(err); });
+let db = require("../db.js");
 
 let newUuidGenerator = new UUIDGenerator();
 

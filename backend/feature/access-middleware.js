@@ -13,6 +13,16 @@ module.exports = function() {
     '/authenticate', '/register'
   ];
 
+  // dev mode > no session id > view open page
+  // dev mode > no session id > view close page
+  // dev mode > session id > view open page
+  // dev mode > session id > view close page
+
+  // production mode > no session id > view open page
+  // production mode > no session id > view close page
+  // production mode > session id > view open page
+  // production mode > session id > view close page
+
   function isNotSecureEndPoint(originalPath) {
     if (dev) {
       return true;
@@ -24,6 +34,10 @@ module.exports = function() {
       }
     }
     return false;
+  }
+
+  function isMode() {
+
   }
 
   return function(req, res, next) {

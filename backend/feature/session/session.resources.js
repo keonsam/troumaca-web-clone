@@ -5,7 +5,7 @@ let sessionOrchestrator = require('./session.orchestrator');
 router.post("/active", function (req, res, next) {
   let credential = req.body;
   sessionOrchestrator
-  .addCredential(credential)
+  .isValidSession(credential)
   .subscribe(next => {
     res.setHeader('Content-Type', 'application/json');
     res.send(next);
@@ -14,6 +14,20 @@ router.post("/active", function (req, res, next) {
     res.send(error);
     console.log(error);
   });
+});
+
+router.post("/sessions/current-user-session", function (req, res, next) {
+  let credential = req.body;
+  sessionOrchestrator
+    .getSimpleSession(credential)
+    .subscribe(next => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(next);
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    });
 });
 
 module.exports = router;
