@@ -56,7 +56,7 @@
 .content-w {
   background-color: #f2f4f8;
   background-image: url("../../images/bg-pattern.png");
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-position: 20px 50px;
   vertical-align: top;
 }
@@ -247,14 +247,29 @@
   text-transform: uppercase;
 }
 
-/*
-  Troumaca overrides etc. */
+/*Troumaca overrides etc. */
+
 .content-w {
-  width: 100%;
+  width: 100% !important;
   height: 100% !important;
   border: solid 1px pink;
   display: block;
   min-height: 768px;
+}
+
+.content-i {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.content-i .content-box {
+  display: block;
+  padding: 15px;
+}
+
+.content-box {
+  padding-top: 0px;
 }
 
 :host  {
@@ -319,4 +334,3 @@
     /*padding: 15px;*/
   /*}*/
 /*}*/
-

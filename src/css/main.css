@@ -1,48 +1,3 @@
-/* 
-TABLE OF CONTENTS
-
-
-1. Theme Variables
-2. Theme Mixins
-3. Bootstrap Override Styles
-  3a. Override default includes of bootstrap
-  3b. Override bootstrap table styles
-  3c. Override bootstrap form styles
-  3d. Override bootstrap navigation styles
-  3e. Override bootstrap button styles
-  3f. Override bootstrap breadcrumbs styles
-  3g. Override bootstrap typography styles
-  3h. Override bootstrap modal styles
-4. Overrides for various plugins that are included with this template
-5. Handy Animations 
-6. User Profiles
-7. Layout styles
-8. Menu styles
-9. Styles for all element blocks
-10. Helpful Misc Styles
-11. Icon Fonts
-12. Chat
-13. App - Email
-14. App - Projects
-15. App - Full Chat
-16. Pricing Plans
-17. Pipelines
-18. OS Dropdowns
-19. App - TODO
-##. Responsive Styles
-
-*/
-/* 1. Theme Variables */
-/* 2. Theme Mixins */
-/* 3. Bootstrap Override Styles */
-/* 3a. Override default includes of bootstrap */
-/*!
- * Bootstrap v4.0.0-alpha.6 (https://getbootstrap.com)
- * Copyright 2011-2017 The Bootstrap Authors
- * Copyright 2011-2017 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
-/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
   line-height: 1.15;
@@ -10488,7 +10443,7 @@ strong {
 /* 8. Menu styles */
 /*
   STYLE NAVIGATION
-  
+
 #1. Mobile Menu
 #2. Side Menu Default
 #3. Side Menu Compact
@@ -12574,7 +12529,7 @@ strong {
 }
 
 /* 9. Styles for all element blocks */
-/* 
+/*
 
   # -- STYLES NAVIGATION:
 
@@ -14477,9 +14432,9 @@ strong {
 }
 
 /* 12. Chat */
-/* 
+/*
 
-Chat Styles 
+Chat Styles
 
 #1. Popup chat on a side
 
@@ -14749,12 +14704,12 @@ Chat Styles
 }
 
 /* 13. App - Email */
-/* Email App styles 
-#1. EMAIL APP WRAPPER 
-#2. LEFT MENU 
-#3. MESSAGES LIST 
-#4. CONTENT BOX 
-#5. MESSAGE BOX 
+/* Email App styles
+#1. EMAIL APP WRAPPER
+#2. LEFT MENU
+#3. MESSAGES LIST
+#4. CONTENT BOX
+#5. MESSAGE BOX
 #6. REPLY
 #7. FOLDED STYLES
 */
@@ -15990,16 +15945,16 @@ Chat Styles
 }
 
 /* 16. Pricing Plans */
-/* 
+/*
 
 Pricing Plans Styles
 
-#1. 
-#2. 
-#3. 
-#4. 
-#5. 
-#6. 
+#1.
+#2.
+#3.
+#4.
+#5.
+#6.
 
 
 */
@@ -16713,7 +16668,7 @@ Pricing Plans Styles
 }
 
 /* 19. App - TODO */
-/* 
+/*
 
 TODO Application
 
@@ -17327,9 +17282,9 @@ TODO Application
 }
 
 /* ##. Responsive Styles */
-/* 
+/*
 
-Contents: 
+Contents:
 
 #1.  Screen size <= 1650px
 #2.  Screen size <= 1550px
@@ -17574,6 +17529,7 @@ Contents:
     border-radius: 0px !important;
     overflow: hidden;
   }
+
   .menu-side-w .logged-user-menu {
     left: 0px;
     right: 0px;

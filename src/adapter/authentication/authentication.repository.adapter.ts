@@ -25,8 +25,7 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
   }
 
   forgotPassword(username: string): Observable<boolean> {
-    //return undefined;
-    throw new Error("Not Implemented.")
+    return this.authenticationClient.forgotPassword(username);
   }
 
   isValidPassword(password: string): Observable<boolean> {

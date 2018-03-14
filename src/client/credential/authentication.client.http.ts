@@ -39,8 +39,21 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
   }
 
-  forgotPassword(emailOrPhone: string): Observable<boolean> {
-    return null;
+  forgotPassword(username: string): Observable<boolean> {
+    let url = `${this.hostPort}/credentials/forgot-password`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+    
+    return this.httpClient
+      .post<boolean>(url, {username}, httpOptions)
+      .map(data => {
+        return data;
+      });
   }
 
   isValidPassword(password: string): Observable<boolean> {

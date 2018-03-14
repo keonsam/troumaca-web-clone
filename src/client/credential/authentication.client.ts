@@ -7,7 +7,7 @@ export abstract class AuthenticationClient {
 
   abstract authenticate(credentialState: CredentialState): Observable<SessionState>;
 
-  abstract forgotPassword(emailOrPhone: string): Observable<boolean>;
+  abstract forgotPassword(username: string): Observable<boolean>;
 
   abstract isValidPassword(password: string): Observable<boolean>;
 
