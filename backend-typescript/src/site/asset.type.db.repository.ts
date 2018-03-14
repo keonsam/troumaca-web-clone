@@ -1,45 +1,21 @@
 import Rx from 'rxjs';
 import {generateUUID} from '../uuid.generator';
 import {calcSkip} from '../db.util';
-import db from '../db.js';
+import {assets} from '../db';
 import {AssetTypeRepository} from "./asset.type.repository";
+import {Asset} from "./asset";
+import {Observer} from "rxjs/Observer";
+import {Observable} from "rxjs/Observable";
+import {AssetType} from "../../../src/assets/asset.type";
 
 let defaultPageSize = 10;
 
 export class AssetTypeDbRepository implements AssetTypeRepository {
 
-  saveAsset(asset) {
-    asset.assetId = generateUUID();
-    return Rx.Observable.create(function (observer) {
-      db.assets.insert(asset, function (err, doc) {
-        if (err) {
-          observer.error(err);
-        } else {
-          observer.next(asset);
-        }
-        observer.complete();
-      });
-    });
-  }
-
-  getAssets(pageNumber, pageSize, order) {
-    return Rx.Observable.create(function (observer) {
-      let skip = calcSkip(pageNumber, pageSize, defaultPageSize);
-      db.assets.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err, doc) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  }
-
-  getAssetTypes(searchStr, pageSize) {
+  getAssetTypes(searchStr:string, pageSize:number):Observable<AssetType> {
     searchStr = new RegExp(searchStr);
-    return Rx.Observable.create(function (observer) {
-      db.assetTypes.find({name: {$regex: searchStr}}).limit(pageSize).exec(function (err, doc) {
+    return Rx.Observable.create(function (observer:Observer<AssetType>) {
+      assetTypes.find({name: {$regex: searchStr}}).limit(pageSize).exec(function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -49,24 +25,11 @@ export class AssetTypeDbRepository implements AssetTypeRepository {
       });
     });
   }
-
-  getAssetKinds() {
-    return Rx.Observable.create(function (observer) {
-      db.assetKinds.find({}, function (err, doc) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  };
 
   getUnionOfPhysicalSites(searchStr, pageSize) {
     searchStr = new RegExp(searchStr);
     return Rx.Observable.create(function (observer) {
-      db.sites.find({name: {$regex: searchStr}}).limit(pageSize).exec(function (err, doc) {
+      sites.find({name: {$regex: searchStr}}).limit(pageSize).exec(function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -80,7 +43,7 @@ export class AssetTypeDbRepository implements AssetTypeRepository {
   getUnitOfMeasures(searchStr, pageSize) {
     searchStr = new RegExp(searchStr);
     return Rx.Observable.create(function (observer) {
-      db.unitOfMeasures.find({name: {$regex: searchStr}}).limit(pageSize).exec(function (err, doc) {
+      unitOfMeasures.find({name: {$regex: searchStr}}).limit(pageSize).exec(function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -95,7 +58,7 @@ export class AssetTypeDbRepository implements AssetTypeRepository {
   getPersons(searchStr, pageSize) {
     searchStr = new RegExp(searchStr);
     return Rx.Observable.create(function (observer) {
-      db.persons.find({name: {$regex: searchStr}}).limit(pageSize).exec(function (err, doc) {
+      persons.find({name: {$regex: searchStr}}).limit(pageSize).exec(function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -108,7 +71,7 @@ export class AssetTypeDbRepository implements AssetTypeRepository {
 
   getAssetCount() {
     return Rx.Observable.create(function (observer) {
-      db.assets.count({}, function (err, count) {
+      assets.count({}, function (err, count) {
         if (!err) {
           observer.next(count);
         } else {
@@ -123,7 +86,7 @@ export class AssetTypeDbRepository implements AssetTypeRepository {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["assetId"] = assetId;
-      db.assets.findOne(query, function (err, doc) {
+      assets.findOne(query, function (err, doc) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -138,7 +101,7 @@ export class AssetTypeDbRepository implements AssetTypeRepository {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["assetId"] = assetId;
-      db.assets.update(query, asset, {}, function (err, numReplaced) {
+      assets.update(query, asset, {}, function (err, numReplaced) {
         if (!err) {
           observer.next(numReplaced);
         } else {
@@ -153,7 +116,7 @@ export class AssetTypeDbRepository implements AssetTypeRepository {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["assetId"] = assetId;
-      db.assets.remove(query, {}, function (err, numRemoved) {
+      assets.remove(query, {}, function (err, numRemoved) {
         if (!err) {
           observer.next(numRemoved);
         } else {

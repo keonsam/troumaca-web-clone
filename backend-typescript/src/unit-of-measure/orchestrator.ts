@@ -1,6 +1,5 @@
 import {createAssetTypeRepository} from './asset.type.repository.factory';
-// import assetRepository from assetRepositoryFactory.createAssetRepository();
-import responseShaper from "./response.shaper";
+import {shapeAssetsResponse, shapeAssetsResponse2} from "./response.shaper";
 import {AssetTypeRestRepository} from "./asset.type.rest.repository";
 
 let assetTypeRepository:AssetTypeRestRepository = createAssetTypeRepository();
@@ -21,7 +20,7 @@ export class AssetOrchestrator {
       return assetRepository
         .getAssetCount()
         .map(count => {
-          return responseShaper.shapeAssetsResponse(value, number, size, value.length, count, sort);
+          return shapeAssetsResponse(value, number, size, value.length, count, sort);
         });
     });
   };
@@ -30,7 +29,7 @@ export class AssetOrchestrator {
     return assetTypeRepository
     .getAssetKinds()
     .map(value => {
-      return responseShaper.shapeAssetsResponse2("assetKinds", value);
+      return shapeAssetsResponse2("assetKinds", value);
     });
   }
 
@@ -38,7 +37,7 @@ export class AssetOrchestrator {
     return assetTypeRepository
     .getAssetTypes(searchStr, pageSize)
     .map(value => {
-      return responseShaper.shapeAssetsResponse2("assetTypes", value);
+      return shapeAssetsResponse2("assetTypes", value);
     });
   }
 
@@ -46,7 +45,7 @@ export class AssetOrchestrator {
     return assetTypeRepository
     .getUnionOfPhysicalSites(searchStr, pageSize)
     .map(value => {
-      return responseShaper.shapeAssetsResponse2("unionOfPhysicalSites", value);
+      return shapeAssetsResponse2("unionOfPhysicalSites", value);
     });
   }
 
@@ -54,7 +53,7 @@ export class AssetOrchestrator {
     return assetTypeRepository
     .getUnitOfMeasures(searchStr, pageSize)
     .map(value => {
-      return responseShaper.shapeAssetsResponse2("unitOfMeasures", value);
+      return shapeAssetsResponse2("unitOfMeasures", value);
     });
   }
 
@@ -62,7 +61,7 @@ export class AssetOrchestrator {
     return assetTypeRepository
     .getPersons(searchStr, pageSize)
     .map(value => {
-      return responseShaper.shapeAssetsResponse2("persons", value);
+      return shapeAssetsResponse2("persons", value);
     });
   }
 
