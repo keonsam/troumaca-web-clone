@@ -1,90 +1,64 @@
-import {createAssetTypeRepository} from './asset.type.repository.factory';
-import {shapeAssetsResponse, shapeAssetsResponse2} from "./response.shaper";
-import {AssetTypeRestRepository} from "./asset.type.rest.repository";
-
-let assetTypeRepository:AssetTypeRestRepository = createAssetTypeRepository();
+import {createAssetRepository} from './asset.repository.factory';
+import {shapeAssetsResponse} from "./asset.response.shaper";
+import {getSortOrderOrDefault} from '../../sort.order.util';
+import {AssetRepository} from "./asset.repository";
+import {Observable} from "rxjs/Observable";
+import { forkJoin } from "rxjs/observable/forkJoin";
+import {Asset} from "./asset";
+import {Result} from "../../result.success";
 
 export class AssetOrchestrator {
 
-  that = this;
+  private assetRepository:AssetRepository;
 
-  saveAsset(asset) {
-    return assetTypeRepository.saveAsset(asset);
+  constructor(options?:any) {
+    this.assetRepository = createAssetRepository(options);
+  }
+
+  saveAsset(asset:Asset):Observable<Asset> {
+    return this.assetRepository.saveAsset(asset);
   };
 
-  getAssets(number, size, field, direction) {
-    let sort = getSortOrderOrDefault(field, direction);
-    return assetTypeRepository
+  getAssetCount():Observable<number> {
+    return this.assetRepository.getAssetCount();
+  }
+
+  getAssets(number:number, size:number, field:string, direction:string):Observable<Result<any>> {
+    let sort:string = getSortOrderOrDefault(field, direction);
+    return this.assetRepository
     .getAssets(number, size, sort)
     .flatMap(value => {
-      return assetRepository
+      return this.assetRepository
         .getAssetCount()
         .map(count => {
-          return shapeAssetsResponse(value, number, size, value.length, count, sort);
+          let shapeAssetsResponse1:any = shapeAssetsResponse(value, number, size, value.length, count, sort);
+          return new Result<any>(false, "assets", shapeAssetsResponse1);
         });
     });
-  };
 
-  getAssetKinds() {
-    return assetTypeRepository
-    .getAssetKinds()
-    .map(value => {
-      return shapeAssetsResponse2("assetKinds", value);
-    });
+    // let assetsObs:Observable<Asset[]> = this.assetRepository.getAssets(number, size, sort);
+    // let assetCountObs:Observable<number> = this.assetRepository.getAssetCount();
+
+    // return forkJoin([assetsObs, assetCountObs]).map(results => {
+    //   let assets:Asset[] = results[0];
+    //   let assetCount:number = results[1];
+    //   let shapeAssetsResponse1:any = shapeAssetsResponse(results[0].length, number, size, assets.length, assetCount, sort);
+    //   return new Result<any>(false, "assets", shapeAssetsResponse1);
+    // });
+
   }
 
-  getAssetTypes(searchStr, pageSize) {
-    return assetTypeRepository
-    .getAssetTypes(searchStr, pageSize)
-    .map(value => {
-      return shapeAssetsResponse2("assetTypes", value);
-    });
+  getAssetById(assetId:string):Observable<Asset> {
+    return this.assetRepository.getAssetById(assetId);
   }
 
-  getUnionOfPhysicalSites(searchStr, pageSize) {
-    return assetTypeRepository
-    .getUnionOfPhysicalSites(searchStr, pageSize)
-    .map(value => {
-      return shapeAssetsResponse2("unionOfPhysicalSites", value);
-    });
+  updateAsset(assetId:string, asset:Asset):Observable<number> {
+    return this.assetRepository.updateAsset(assetId, asset);
   }
 
-  getUnitOfMeasures(searchStr, pageSize) {
-    return assetTypeRepository
-    .getUnitOfMeasures(searchStr, pageSize)
-    .map(value => {
-      return shapeAssetsResponse2("unitOfMeasures", value);
-    });
+  deleteAsset(assetId:string):Observable<number> {
+    return this.assetRepository.deleteAsset(assetId);
   }
-
-  getPersons(searchStr, pageSize) {
-    return assetTypeRepository
-    .getPersons(searchStr, pageSize)
-    .map(value => {
-      return shapeAssetsResponse2("persons", value);
-    });
-  }
-
-  getAssetById(assetId) {
-    return assetTypeRepository.getAssetById(assetId);
-  }
-
-  updateAsset(assetId, asset) {
-    return assetTypeRepository.updateAsset(assetId, asset);
-  }
-
-  deleteAsset(assetId) {
-    return assetTypeRepository.deleteAsset(assetId);
-  };
 
 }
 
-function getSortOrderOrDefault(field, direction) {
-  let sort = {};
-  if (field && direction) {
-    sort[field] = direction;
-    return sort;
-  } else {
-    return sort;
-  }
-}

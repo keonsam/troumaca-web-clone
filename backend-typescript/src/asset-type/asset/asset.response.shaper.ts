@@ -1,5 +1,5 @@
 
-export function shapeAssetsResponse(data, pageNumber, pageSize, items, totalItems, sort) {
+export function shapeAssetsResponse(data:any, pageNumber:number, pageSize:number, items:any, totalItems:number, sort:any) {
   return {
     assets:data,
     page:{
@@ -9,13 +9,5 @@ export function shapeAssetsResponse(data, pageNumber, pageSize, items, totalItem
       totalItems:totalItems
     },
     sort:sort
-  }
-}
-
-export function shapeAssetsResponse2(dataName, data) {
-  return {
-    [dataName]: data,
-    page: {},
-    sort: {}
   }
 }

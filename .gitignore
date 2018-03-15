@@ -131,6 +131,8 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
+*.map
+
 # System Files
 .DS_Store
 Thumbs.db

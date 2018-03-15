@@ -1,20 +1,19 @@
 import {createAssetTypeRepository} from './asset.type.repository.factory';
-import {shapeAssetsResponse2} from "./response.shaper";
-import {AssetTypeRestRepository} from "./asset.type.rest.repository";
+import {AssetTypeRepository} from "./asset.type.repository";
+import {Observable} from "rxjs/Observable";
+import {AssetType} from "./asset.type";
 
-let assetTypeRepository:AssetTypeRestRepository = createAssetTypeRepository();
 
 export class AssetOrchestrator {
 
+  private assetTypeRepository:AssetTypeRepository;
+
   constructor() {
+    this.assetTypeRepository = createAssetTypeRepository();
   }
 
-  getAssetTypes(searchStr, pageSize) {
-    return assetTypeRepository
-    .getAssetTypes(searchStr, pageSize)
-    .map(value => {
-      return shapeAssetsResponse2("assetTypes", value);
-    });
+  getAssetTypes(searchStr:string, pageSize:number):Observable<AssetType[]> {
+    return this.assetTypeRepository.getAssetTypes(searchStr, pageSize);
   }
 
 }

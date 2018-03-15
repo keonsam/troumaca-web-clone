@@ -1,18 +1,19 @@
-import {createAssetTypeRepository} from './asset.kind.repository.factory';
-import {shapeAssetsResponse, shapeAssetsResponse2} from "./response.shaper";
-
-let assetTypeRepository:AssetTypeRestRepository = createAssetTypeRepository();
+import {createAssetKindRepository} from './asset.kind.repository.factory';
+import {AssetKindRepository} from "./asset.kind.repository";
+import {Observable} from "rxjs/Observable";
+import {AssetKind} from "./asset.kind";
+import {RepositoryKind} from "../../repository.kind";
 
 export class AssetOrchestrator {
 
-  that = this;
+  private assetKindRepository:AssetKindRepository;
 
-  getAssetKinds() {
-    return assetTypeRepository
-    .getAssetKinds()
-    .map(value => {
-      return shapeAssetsResponse2("assetKinds", value);
-    });
+  constructor() {
+    this.assetKindRepository = createAssetKindRepository();
+  }
+
+  getAssetKinds():Observable<AssetKind[]> {
+    return this.assetKindRepository.getAssetKinds();
   }
 
 

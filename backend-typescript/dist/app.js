@@ -1,5 +1,4 @@
 "use strict";
-// import {validate} from "codelyzer/walkerFactory/walkerFn";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 }
@@ -15,6 +14,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+// import * as assetTypeController from './asset-type/asset.kind.controller';
 // let accessMiddleware = require('./feature/access-middleware');
 // need to transition to the new resources approach
 // let assets = require('./routes/assets');
@@ -45,7 +45,7 @@ app.use(cors_1.default());
 // app.use('/asset', asset);
 // app.use('/unit-of-measures', unitOfMeasures);
 // app.use('/sites/physical-sites', unionOfPhysicalSites);
-// app.use('/assets', assetResource);
+// app.use('/assets', assetTypeController.getAssets);
 // app.use('/asset-type-classes', assetTypeClassesResource);
 // app.use('/sites', siteResource);
 // app.use('/attributes', attributesResource);
@@ -72,6 +72,5 @@ app.use(cors_1.default());
 // res.send('{"message":"Express REST API error"}');
 // res.render('error');
 // });
-//module.exports = app;
 exports.default = app;
 //# sourceMappingURL=app.js.map

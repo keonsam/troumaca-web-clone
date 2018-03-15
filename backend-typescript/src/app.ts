@@ -12,10 +12,15 @@ import logger from 'morgan';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+
+// middleware
 import accessChecker from './middleware/access-check'
 
-// let accessMiddleware = require('./feature/access-middleware');
+// Controllers (route handlers)
+import * as assetController from './asset-type/asset.type.controller';
+// import * as assetTypeController from './asset-type/asset.kind.controller';
 
+// let accessMiddleware = require('./feature/access-middleware');
 // need to transition to the new resources approach
 // let assets = require('./routes/assets');
 // let asset = require('./routes/asset');
@@ -53,7 +58,7 @@ app.use(cors());
 // app.use('/asset', asset);
 // app.use('/unit-of-measures', unitOfMeasures);
 // app.use('/sites/physical-sites', unionOfPhysicalSites);
-// app.use('/assets', assetResource);
+// app.use('/assets', assetTypeController.getAssets);
 // app.use('/asset-type-classes', assetTypeClassesResource);
 // app.use('/sites', siteResource);
 // app.use('/attributes', attributesResource);

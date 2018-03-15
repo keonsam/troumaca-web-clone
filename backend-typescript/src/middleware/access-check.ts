@@ -1,15 +1,16 @@
+import {NextFunction, Request, Response} from "express";
 // import sessionOrchestrator = require("./session/session.orchestrator");
 
-export let checkAccess = () => {
+let checkAccess = () => {
 
   // GET 'http://www.example.com/admin/new'
   // console.log(req.originalUrl); // '/admin/new'
   // console.log(req.baseUrl); // '/admin'
   // console.log(req.path); // '/new'
 
-  let dev = true;
+  let dev:boolean = true;
 
-  let openPaths = [
+  let openPaths:Array<string> = [
     '/authenticate', '/register'
   ];
 
@@ -23,7 +24,7 @@ export let checkAccess = () => {
   // production mode > session id > view open page
   // production mode > session id > view close page
 
-  function isNotSecureEndPoint(originalPath) {
+  function isNotSecureEndPoint(originalPath:string) {
     if (dev) {
       return true;
     }
@@ -40,29 +41,31 @@ export let checkAccess = () => {
 
   }
 
-  return function(req, res, next) {
+  return function(req:Request, res:Response, next:NextFunction) {
 
-    let cookies = req.cookies;
-    let sessionId = cookies["sessionId"];
+    let cookies:any = req.cookies;
+    let sessionId:string = cookies["sessionId"];
 
     // if requesting an open page do nothing
     if (isNotSecureEndPoint(req.originalUrl)) {
       next();
     } else if (sessionId) {
-      sessionOrchestrator
-        .isValidSession(sessionId)
-        .map(isValid => {
-          if (isValid) {
-            next();
-          } else {
-            res.send(401, "Invalid session...")
-          }
-        })
+      // sessionOrchestrator
+      //   .isValidSession(sessionId)
+      //   .map(isValid => {
+      //     if (isValid) {
+      //       next();
+      //     } else {
+      //       res.send(401, "Invalid session...")
+      //     }
+      //   })
     } else {
-      res.send(401, "Cannot access this resource with a session...")
+      //res.send(401, "Cannot access this resource with a session...")
     }
 
 
     next()
   }
 };
+
+export default checkAccess;
