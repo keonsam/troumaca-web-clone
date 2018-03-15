@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs/Observable";
 import {AuthenticationService} from "../authentication.service";
 
@@ -12,13 +12,14 @@ export class ForgotPasswordComponent implements OnInit {
 
   private _errorExists: boolean;
   private _messageSent:boolean;
+  private type: string;
   private _username: FormControl;
   private _forgotPasswordForm: FormGroup;
 
   constructor(private authenticationService:AuthenticationService,
               private formBuilder: FormBuilder) {
 
-    this.username = new FormControl("");
+    this.username = new FormControl("",[Validators.required]);
     this.forgotPasswordForm = formBuilder.group({
       "username": this.username,
     });
@@ -64,12 +65,19 @@ export class ForgotPasswordComponent implements OnInit {
     this.messageSent = false;
     this.errorExists = false;
     let values = this.forgotPasswordForm.value;
+    let regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     Observable
       .of(values)
       .filter((value) => this.forgotPasswordForm.valid)
       .flatMap((value) => {
+        let username = value.username;
+        if(regex.test(username)) {
+          this.type = "A text Message";
+        }else {
+          this.type = "An e-mail";
+        }
         return this.authenticationService
-          .forgotPassword(value.username.value);
+          .forgotPassword(username);
       })
       .subscribe((value) => {
         if (value) {

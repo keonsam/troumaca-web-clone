@@ -28,6 +28,19 @@ router.post("/validate-password", function (req, res, next) {
   });
 });
 
+router.post("/forgot-password", function (req, res, next) {
+  let username = req.body.username;
+  credentialOrchestrator
+  .forgotPassword(username)
+  .subscribe(next => {
+    res.send(next.valid);
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  });
+});
+
 router.post("/authenticate", function (req, res, next) {
   let credential = req.body;
   credentialOrchestrator

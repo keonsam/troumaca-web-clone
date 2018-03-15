@@ -27,6 +27,19 @@ let CredentialOrchestrator = new function() {
     });
   };
 
+  this.forgotPassword = function (username) {
+    return credentialRepository
+    .getCredentialByUsername(username)
+    .map(credential => {
+      if(!credential) {
+        return responseShaper.shapeUsernameValidResponse(false); // exist of value fasley
+      }
+      // use here to send text or email with password to user/party.
+      return responseShaper.shapeUsernameValidResponse(true);
+    });
+  };
+
+
   this.addCredential = function (credential) {
     return credentialRepository
       .addCredential(credential)
@@ -176,20 +189,6 @@ let CredentialOrchestrator = new function() {
   function confirmationCodeTimeHasExpired(credentialConfirmation) {
     // 1 second * 60 = 1 minute * 20 = 20 minutes
     return credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime();
-  }
-
-  function handleCredentialConfirmationUnknownStatus(credentialConfirmation) {
-    credentialConfirmation["status"] = status.NEW;
-    // update the credential confirmation status to expired
-    return credentialConfirmationRepository
-      .updateCredentialConfirmation(credentialConfirmation)
-      .map(numReplaced => {
-        if (numReplaced > 0) {
-          return credentialConfirmation;
-        } else {
-          return Rx.Observable.throw(createNotFoundError("CredentialConfirmation"));
-        }
-      });
   }
 
   this.sendPhoneVerificationCode = function (credentialConfirmationId) {
