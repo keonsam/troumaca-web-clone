@@ -10,8 +10,8 @@ exports.getAssets = (req, res) => {
     let field = string_util_1.getStringValueOrDefault(req.query.sortField, "");
     let direction = string_util_1.getStringValueOrDefault(req.query.sortOrder, "");
     assetOrchestrator.getAssets(number, size, field, direction)
-        .subscribe(assets => {
-        res.send(JSON.stringify(assets));
+        .subscribe(result => {
+        res.send(JSON.stringify(result.data));
     });
 };
 exports.saveAsset = (req, res) => {

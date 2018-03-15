@@ -12,8 +12,8 @@ export let getAssets = (req: Request, res: Response) => {
   let direction = getStringValueOrDefault(req.query.sortOrder, "");
 
   assetOrchestrator.getAssets(number, size, field, direction)
-    .subscribe(assets => {
-      res.send(JSON.stringify(assets));
+    .subscribe(result => {
+      res.send(JSON.stringify(result.data));
     });
 };
 

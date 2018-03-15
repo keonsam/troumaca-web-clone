@@ -31,8 +31,8 @@ export class AssetOrchestrator {
       return this.assetRepository
         .getAssetCount()
         .map(count => {
-          let shapeAssetsResponse1:any = shapeAssetsResponse(value, number, size, value.length, count, sort);
-          return new Result<any>(false, "assets", shapeAssetsResponse1);
+          let shapeAssetsResp:any = shapeAssetsResponse(value, number, size, value.length, count, sort);
+          return new Result<any>(false, "assets", shapeAssetsResp);
         });
     });
 

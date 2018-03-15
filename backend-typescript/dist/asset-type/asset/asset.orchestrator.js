@@ -23,8 +23,8 @@ class AssetOrchestrator {
             return this.assetRepository
                 .getAssetCount()
                 .map(count => {
-                let shapeAssetsResponse1 = asset_response_shaper_1.shapeAssetsResponse(value, number, size, value.length, count, sort);
-                return new result_success_1.Result(false, "assets", shapeAssetsResponse1);
+                let shapeAssetsResp = asset_response_shaper_1.shapeAssetsResponse(value, number, size, value.length, count, sort);
+                return new result_success_1.Result(false, "assets", shapeAssetsResp);
             });
         });
         // let assetsObs:Observable<Asset[]> = this.assetRepository.getAssets(number, size, sort);
