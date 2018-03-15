@@ -15,37 +15,23 @@ router.post("/validate-username", function (req, res, next) {
   });
 });
 
-router.post("/validate-edit-username/:partyId", function (req, res, next) {
-  let partyId = req.params.partyId;
-  let usernameObj = req.body;
-  credentialOrchestrator
-  .isValidEditUsername(partyId,usernameObj)
-  .subscribe(next => {
-    res.send(next.valid);
-  }, error => {
-    res.status(400);
-    res.send(error);
-    console.log(error);
-  });
-});
-
-router.post("/validate-current-password", function (req, res, next) {
-  let passwordObj = req.body;
-  credentialOrchestrator
-  .isValidCurrentPassword(passwordObj)
-  .subscribe(next => {
-    res.send(next.valid);
-  }, error => {
-    res.status(400);
-    res.send(error);
-    console.log(error);
-  });
-});
-
 router.post("/validate-password", function (req, res, next) {
   let passwordObj = req.body;
   credentialOrchestrator
   .isValidPassword(passwordObj)
+  .subscribe(next => {
+    res.send(next.valid);
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  });
+});
+
+router.post("/forgot-password", function (req, res, next) {
+  let username = req.body.username;
+  credentialOrchestrator
+  .forgotPassword(username)
   .subscribe(next => {
     res.send(next.valid);
   }, error => {

@@ -1,8 +1,8 @@
 import {PartyRepository} from "../../parties/party.repository";
 import {PersonClient} from "../../client/party/person.client";
 import {Observable} from "rxjs/Observable";
-import {Person} from "../../parties/person";
-import {Persons} from "../../parties/persons";
+import {User} from "../../parties/user";
+import {Users} from "../../parties/users";
 import {Credential} from "../../parties/credential";
 import {Organization} from "../../parties/organization";
 import {Organizations} from "../../parties/organizations";
@@ -10,33 +10,30 @@ import {Account} from "../../parties/account";
 import "rxjs/add/operator/map";
 import { map, reduce, somethingElse } from "underscore";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
-import {AssetPersonRepository} from "../../assets/asset.person.repository";
-import {AssetPersons} from "../../assets/asset.persons";
-import {AssetPerson} from "../../assets/asset.person";
-import {PersonState} from "../../client/party/person.state";
+import {UserState} from "../../client/party/user.state";
 import {OrganizationState} from "../../client/party/organization.state";
 import {CredentialState} from "../../client/party/credential.state";
 import {AccountState} from "../../client/party/account.state";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 
-export class PartyRepositoryAdapter extends PartyRepository implements AssetPersonRepository {
+export class PartyRepositoryAdapter extends PartyRepository {
 
   constructor(private personClient: PersonClient) {
     super();
   }
 
-  public getPersons(pageNumber:number, pageSize:number, sortOrder:string): Observable<Persons> {
+  public getUsers(pageNumber:number, pageSize:number, sortOrder:string): Observable<Users> {
     return this.personClient
-      .getPersons(pageNumber, pageSize, sortOrder)
+      .getUsers(pageNumber, pageSize, sortOrder)
       .map(values => {
-        let personModels:Persons = new Persons();
-        personModels.persons = map(values.persons, value => {
-          return mapObjectProps(value, new Person());
+        let userModels:Users = new Users();
+        userModels.users = map(values.users, value => {
+          return mapObjectProps(value, new User());
         });
-       personModels.page = mapObjectProps(values.page, new Page());
-       personModels.sort = mapObjectProps(values.sort, new Sort());
-        return personModels;
+       userModels.page = mapObjectProps(values.page, new Page());
+       userModels.sort = mapObjectProps(values.sort, new Sort());
+        return userModels;
       });
   }
 
@@ -54,24 +51,11 @@ export class PartyRepositoryAdapter extends PartyRepository implements AssetPers
       });
   }
 
-
- /// to delete this
-  public getCurrentPerson(): Observable<Person> {
-    return this
-      .personClient
-      .getCurrentPerson()
-      .map(person => {
-        return mapObjectProps(person, new Person());
-      });
-  }
-  ///
-
-
-  public getPerson(partyId: string): Observable<Person> {
+  public getUser(partyId: string): Observable<User> {
     return this.personClient
-    .getPersonState(partyId)
+    .getUserState(partyId)
     .map(value => {
-       return mapObjectProps(value, new Person());
+       return mapObjectProps(value, new User());
     });
   }
 
@@ -83,34 +67,15 @@ export class PartyRepositoryAdapter extends PartyRepository implements AssetPers
     });
   }
 
-  public getUserPhoto(partyId: string): Observable<string> {
-    return this.personClient.getUserPhoto(partyId);
+  public getPhoto(partyId: string): Observable<string> {
+    return this.personClient.getPhoto(partyId);
   }
 
-  public getCompanyPhoto(partyId: string): Observable<string> {
-    return this.personClient.getCompanyPhoto(partyId);
-  }
-
-
-  /// to delete this
-  public findPersons(searchStr: string, pageSize: number): Observable<AssetPersons> {
+  public addUser(user: User): Observable<User> {
     return this.personClient
-      .findPersonStates(searchStr, pageSize)
-      .map(values => {
-        let persons:AssetPersons = new AssetPersons();
-        persons.persons = map(values.persons, value => {
-          return mapObjectProps(value, new AssetPerson());
-        });
-        return persons;
-      });
-  }
-  ///
-
-  public addPerson(person: Person): Observable<Person> {
-    return this.personClient
-    .addPersonState(mapObjectProps(person, new PersonState()))
+    .addUserState(mapObjectProps(user, new UserState()))
     .map(value => {
-      return mapObjectProps(value, new Person());
+      return mapObjectProps(value, new User());
     });
   }
 
@@ -130,20 +95,20 @@ export class PartyRepositoryAdapter extends PartyRepository implements AssetPers
     });
   }
 
-  public addAccountPhoto(partyId: string, croppedImage: string): Observable<any> {
-    return this.personClient.addAccountPhoto(partyId, croppedImage);
+  public addPhoto(partyId: string, croppedImage: string): Observable<any> {
+    return this.personClient.addPhoto(partyId, croppedImage);
   }
 
-  public createAccount(account: Account): Observable<Account> {
+  public addAccount(account: Account): Observable<Account> {
     return this.personClient
-    .createAccountState(mapObjectProps(account, new AccountState()))
+    .addAccountState(mapObjectProps(account, new AccountState()))
     .map(value => {
       return mapObjectProps(value, new Account());
     });
   }
 
-  public deletePerson(partyId: string): Observable<number> {
-    return this.personClient.deletePerson(partyId);
+  public deleteUser(partyId: string): Observable<number> {
+    return this.personClient.deleteUser(partyId);
   }
 
   public deleteOrganization(partyId: string): Observable<number> {
@@ -154,8 +119,8 @@ export class PartyRepositoryAdapter extends PartyRepository implements AssetPers
     return this.personClient.deleteCredential(partyId);
   }
 
-  public updatePerson(person: Person): Observable<number> {
-    return this.personClient.updatePerson(mapObjectProps(person, new PersonState()));
+  public updateUser(user: User): Observable<number> {
+    return this.personClient.updateUser(mapObjectProps(user, new UserState()));
   }
 
   public updateOrganization(organization: Organization): Observable<number> {
@@ -166,12 +131,21 @@ export class PartyRepositoryAdapter extends PartyRepository implements AssetPers
     return this.personClient.updateCredential(mapObjectProps(credential, new CredentialState()));
   }
 
-  public updateUserPhoto(partyId: string, croppedImage: string): Observable<number> {
-    return this.personClient.updateUserPhoto(partyId, croppedImage);
+  public updatePhoto(partyId: string, croppedImage: string): Observable<number> {
+    return this.personClient.updatePhoto(partyId, croppedImage);
   }
 
-  public updateCompanyPhoto(partyId: string, croppedImage: string): Observable<number> {
-    return this.personClient.updateCompanyPhoto(partyId, croppedImage);
+  // authentication part
+  isValidPassword(password: string): Observable<boolean> {
+    return this.personClient.isValidPassword(password);
+  }
+
+  isValidUsername(username: string): Observable<boolean> {
+    return this.personClient.isValidUsername(username);
+  }
+
+  isValidEditUsername(partyId: string, username: string): Observable<boolean> {
+    return this.personClient.isValidEditUsername(partyId, username);
   }
 
 }

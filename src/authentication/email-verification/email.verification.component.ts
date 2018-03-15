@@ -52,7 +52,7 @@ export class EmailVerificationComponent implements OnInit {
            this.authenticationService
            .verifyCredentialConfirmation(this.credentialConfirmation)
            .subscribe(next => {
-             if(next.status == 'confirmed') {
+             if(next.status == 'CONFIRMED') {
                this.verifiedPass = true;
                setTimeout(() => {
                  this.router.navigate(['/authentication/login']);
@@ -78,12 +78,12 @@ export class EmailVerificationComponent implements OnInit {
     .sendConfirmationCode(this.credentialConfirmation.credentialConfirmationId, "email")
     .subscribe(next => {
       if(next) {
-        if (next.status == 'confirmed') {
+        if (next.status == 'CONFIRMED') {
           this.sendConfirmationCodeConfirmed = true;
           setTimeout(()=> {
             this.router.navigate(['/authentication/login']);
           }, 1000 *10);
-        }else if (next.status == 'new' && next.credentialConfirmationId != this.credentialConfirmation.credentialConfirmationId) {
+        }else if (next.status == 'NEW' && next.credentialConfirmationId != this.credentialConfirmation.credentialConfirmationId) {
           this.emailMessageFailure = true;
         }else {
           this.emailMessageSuccess = true;

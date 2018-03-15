@@ -11,6 +11,12 @@ module.exports =  function ResponseShaper() {
         },
         sort:sort
       }
+    },
+
+    shapeValidResponse: function (valid) {
+      return {
+        valid:valid
+      }
     }
   }
 };

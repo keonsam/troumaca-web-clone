@@ -25,12 +25,7 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
   }
 
   forgotPassword(username: string): Observable<boolean> {
-    //return undefined;
-    throw new Error("Not Implemented.")
-  }
-
-  isValidCurrentPassword(password: string): Observable<boolean> {
-    return this.authenticationClient.isValidCurrentPassword(password);
+    return this.authenticationClient.forgotPassword(username);
   }
 
   isValidPassword(password: string): Observable<boolean> {
@@ -39,10 +34,6 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
 
   isValidUsername(username: string): Observable<boolean> {
     return this.authenticationClient.isValidUsername(username);
-  }
-
-  isValidEditUsername(partyId: string, username: string): Observable<boolean> {
-    return this.authenticationClient.isValidEditUsername(partyId, username);
   }
 
   addCredential(credential:Credential):Observable<CredentialConfirmation> {

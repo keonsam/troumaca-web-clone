@@ -16,12 +16,12 @@ export class MeComponent implements OnInit {
 
   ngOnInit(): void {
     var that = this;
-    this
+    /*this
       .partyService
       .getCurrentPerson()
       .subscribe(person => {
         that.me =  person;
-      });
+      });*/
   }
 
   get me(): Person {

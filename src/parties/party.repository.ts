@@ -1,5 +1,5 @@
-import {Person} from "./person";
-import {Persons} from "./persons";
+import {User} from "./user";
+import {Users} from "./users";
 import {Observable} from "rxjs/Observable";
 import {Credential} from "./credential";
 import {Organization} from "./organization";
@@ -7,46 +7,45 @@ import {Organizations} from "./organizations";
 import {Account} from "./account";
 
 export abstract class PartyRepository {
-  abstract getPersons(pageNumber:number, pageSize:number, sortOrder:string):Observable<Persons>;
+  abstract getUsers(pageNumber:number, pageSize:number, sortOrder:string):Observable<Users>;
 
   abstract getOrganizations(pageNumber:number, pageSize:number, sortOrder:string):Observable<Organizations>;
 
-  //to delete this
-  abstract getCurrentPerson():Observable<Person>;
-  //
 
-  abstract getPerson(partyId: string): Observable<Person>;
+  abstract getUser(partyId: string): Observable<User>;
 
   abstract getOrganization(partyId: string): Observable<Organization>;
 
-  abstract getUserPhoto(partyId: string): Observable<string>;
+  abstract getPhoto(partyId: string): Observable<string>;
 
-  abstract getCompanyPhoto(partyId: string): Observable<string>;
-
-  abstract addPerson(person: Person): Observable<Person>;
+  abstract addUser(user: User): Observable<User>;
 
   abstract addOrganization(organization: Organization): Observable<Organization>;
 
   abstract addCredential(credential: Credential): Observable<Credential>;
 
-  abstract addAccountPhoto(partyId: string, croppedImage: string): Observable<any>;
+  abstract addPhoto(partyId: string, croppedImage: string): Observable<any>;
 
-  abstract createAccount(account: Account): Observable<Account>;
+  abstract addAccount(account: Account): Observable<Account>;
 
-  abstract deletePerson(partyId: string): Observable<number>;
+  abstract deleteUser(partyId: string): Observable<number>;
 
   abstract deleteOrganization(partyId: string): Observable<number>;
 
   abstract deleteCredential(partyId: string): Observable<number>;
 
-  abstract updatePerson(person: Person): Observable<number>;
+  abstract updateUser(user: User): Observable<number>;
 
   abstract updateOrganization(organization: Organization): Observable<number>;
 
   abstract updateCredential(credential: Credential): Observable<number>;
 
-  abstract updateUserPhoto(partyId: string, croppedImage: string): Observable<number>;
+  abstract updatePhoto(partyId: string, croppedImage: string): Observable<number>;
 
-  abstract updateCompanyPhoto(partyId: string, croppedImage: string): Observable<number>;
+  // authentication part
+  abstract isValidUsername(username: string):Observable<boolean>;
 
+  abstract isValidPassword(password: string):Observable<boolean>;
+
+  abstract isValidEditUsername(partyId: string, username: string):Observable<boolean>;
 }

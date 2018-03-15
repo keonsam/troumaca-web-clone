@@ -9,7 +9,7 @@
             </div>
             <div class="up-main-info">
               <h2 class="up-header">
-                {{person.name}}
+                {{user.name}}
               </h2>
               <h6 class="up-sub-header">
                 Product Designer at Facebook
@@ -79,7 +79,7 @@
       <div class="col-sm-7">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="meEditForm" (ngSubmit)="onCreate()" id="formValidate">
+            <form [formGroup]="userMeForm" (ngSubmit)="onCreate()" id="formValidate">
               <div class="element-info">
                 <div class="element-info-with-icon">
                   <div class="element-info-icon">
@@ -103,19 +103,12 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Current Password">Current Password</label><input class="form-control" formControlName="currentPassword" placeholder="Enter Your Current password" required="required" type="password">
-                  <div [hidden]="currentPassword.valid || currentPassword.pristine" class="alert alert-danger">Hmm, that’s not the right password. Please try again or <a href="#">reset your password</a>.</div>
+                  <label for="password">New Password</label><input class="form-control" formControlName="password" placeholder="Enter New password" [required]="requiredState" type="password">
+                  <div [hidden]="password.valid || password.pristine" class="alert alert-danger">Invalid new password.</div>
                 </div>
               </fieldset>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="New Password">New Password</label><input class="form-control" formControlName="newPassword" placeholder="Enter New password" [required]="requiredState" type="password">
-                  <div [hidden]="newPassword.valid || newPassword.pristine" class="alert alert-danger">Invalid new password.</div>
-                </div>
-              </fieldset>
-
-              <fieldset class="form-group" *ngIf="newPassword.value">
+              <fieldset class="form-group" *ngIf="password.value">
                 <div class="form-group">
                   <label for="Retype Password">Retype Your New Password</label><input class="form-control" formControlName="confirmPassword" placeholder="Enter password again" [required]="requiredState" type="password">
                   <div [hidden]="confirmPassword.valid || confirmPassword.pristine" class="alert alert-danger">Make sure this matches your new password.</div>
@@ -148,7 +141,7 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [disabled]="!meEditForm.valid" type="submit"> Save</button>
+                <button class="btn btn-primary" [disabled]="!userMeForm.valid" type="submit"> Save</button>
               </div>
 
             </form>

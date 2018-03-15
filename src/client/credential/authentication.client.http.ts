@@ -39,12 +39,8 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
   }
 
-  forgotPassword(emailOrPhone: string): Observable<boolean> {
-    return null;
-  }
-
-  isValidCurrentPassword(password: string): Observable<boolean> {
-    let url = `${this.hostPort}/credentials/validate-current-password`;
+  forgotPassword(username: string): Observable<boolean> {
+    let url = `${this.hostPort}/credentials/forgot-password`;
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -52,11 +48,9 @@ export class AuthenticationClientHttp extends AuthenticationClient {
         'correlationId': this.uuidGenerator.generateUUID()
       })
     };
-
-    let query = {password:password};
-
+    
     return this.httpClient
-      .post<boolean>(url, query, httpOptions)
+      .post<boolean>(url, {username}, httpOptions)
       .map(data => {
         return data;
       });
@@ -83,25 +77,6 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
   isValidUsername(username: string): Observable<boolean> {
     let url = `${this.hostPort}/credentials/validate-username`;
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
-    };
-
-    let query = {username:username};
-
-    return this.httpClient
-    .post<boolean>(url, query, httpOptions)
-    .map(data => {
-      return data;
-    });
-  }
-
-  isValidEditUsername(partyId: string, username: string): Observable<boolean> {
-    let url = `${this.hostPort}/credentials/validate-edit-username/${partyId}`;
 
     const httpOptions = {
       headers: new HttpHeaders({

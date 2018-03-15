@@ -10,9 +10,8 @@ import "rxjs/add/operator/take";
 import "rxjs/add/operator/switchMap";
 
 import {PartyEventService} from "../../party.event.service";
-import {AuthenticationService} from "../../../authentication/authentication.service";
 import {PartyService} from "../../party.service";
-import {Person} from "../../person";
+import {User} from "../../user";
 import {Credential} from "../../credential";
 
 @Component({
@@ -28,13 +27,12 @@ export class UserMeComponent implements OnInit {
   private _middleName: FormControl;
   private _lastName: FormControl;
   private _username: FormControl;
-  private _currentPassword: FormControl;
-  private _newPassword: FormControl;
+  private _password: FormControl;
   private _confirmPassword: FormControl;
 
-  private _meEditForm: FormGroup;
+  private _userMeForm: FormGroup;
 
-  private person: Person;
+  private user: User;
   private credential: Credential;
 
   private imageChangedEvent: any = '';
@@ -44,46 +42,47 @@ export class UserMeComponent implements OnInit {
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
   private requiredState: boolean = false;
+  private defaultImage: string;
 
   constructor(private partyEventService:PartyEventService,
               private partyService: PartyService,
-              private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
-    this.person = new Person();
+    this.user = new User();
     this.credential = new Credential();
 
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
-    this.username = new FormControl("", [Validators.required, this.usernameEditValidator(this.authenticationService)]);
-    this.currentPassword = new FormControl("", [Validators.required, this.currentPasswordValidator(this.authenticationService)]);
-    this.newPassword = new FormControl("");
+    this.username = new FormControl("", [Validators.required, this.usernameEditValidator(this.partyService)]);
+    this.password = new FormControl("");
     this.confirmPassword = new FormControl("");
 
-    this.meEditForm = formBuilder.group({
+    this.userMeForm = formBuilder.group({
       "firstName": this.firstName,
       "middleName": this.middleName,
       "lastName": this.lastName,
       "username": this.username,
-      "currentPassword": this.currentPassword,
-      "newPassword": this.newPassword,
+      "password": this.password,
       "confirmPassword": this.confirmPassword
     });
 
-    this.meEditForm
+    this.userMeForm
      .valueChanges
      .subscribe(value => {
-       this.person.firstName = value.firstName;
-       this.person.middleName = value.middleName;
-       this.person.lastName = value.lastName;
-       this.person.username = value.username;
-       this.credential.password = value.currentPassword;
+       this.user.firstName = value.firstName;
+       this.user.middleName = value.middleName;
+       this.user.lastName = value.lastName;
+       this.user.username = value.username;
        this.credential.username = value.username;
+       this.credential.password = value.password;
      }, error2 => {
        console.log(error2);
      });
+
+     this.defaultImage = "url(http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825)";
+
 
      this.doNotDisplayFailureMessage = true;
      this.doNotDisplayFailureMessage2 = true;
@@ -92,43 +91,48 @@ export class UserMeComponent implements OnInit {
   ngOnInit(): void {
     let that = this;
     // this need fixing
-    this.meEditForm.get("newPassword").valueChanges
+    this.userMeForm.get("password").valueChanges
     .subscribe(value => {
-      if(value.length == 1 && !this.requiredState){
-      this.meEditForm.get("newPassword").setValidators([Validators.required, this.passwordValidator(this.authenticationService)]);
-      this.meEditForm.get("confirmPassword").setValidators([Validators.required, this.confirmEmailOrPhoneValidator(this.newPassword)]);
+      if(value.length === 1 && !this.requiredState){
       this.requiredState = true;
+      this.userMeForm.get("password").setValidators([Validators.required, this.passwordValidator(this.partyService)]);
+      this.userMeForm.get("confirmPassword").setValidators([Validators.required, this.confirmPasswordValidator(this.password)]);
     }else if (!value) {
-      this.meEditForm.get("newPassword").setValidators(null);
-      this.meEditForm.get("confirmPassword").setValidators(null);
-      this.meEditForm.get("confirmPassword").updateValueAndValidity();
       this.requiredState = false;
+      this.userMeForm.get("password").setValidators(null);
+      this.userMeForm.get("confirmPassword").setValidators(null);
     }
+    this.userMeForm.updateValueAndValidity();
     });
 
-    this.partyId = "aaa76dce-0a1a-40f3-8131-623c9f7b3caa";
-       this.partyService.getPerson(this.partyId)
-       .subscribe(person =>{
-        this.firstName.setValue(person.firstName);
-        this.middleName.setValue(person.middleName);
-        this.lastName.setValue(person.lastName);
-        this.username.setValue(person.username);
-        this.person = person;
-        this.credential.partyId = person.partyId;
-        this.credential.username = person.username;
+    this.partyId = "77e771fc-cfdd-4562-b934-5c7d84f723a7";
+       this.partyService.getUser(this.partyId)
+       .subscribe(user =>{
+        this.firstName.setValue(user.firstName);
+        this.middleName.setValue(user.middleName);
+        this.lastName.setValue(user.lastName);
+        this.username.setValue(user.username);
+        this.user = user;
+        this.credential.partyId = user.partyId;
+        this.credential.username = user.username;
       }, error => {
         console.log(error);
       });
 
-      this.partyService.getUserPhoto(this.partyId)
+      this.partyService.getPhoto(this.partyId)
       .subscribe(imageStr => {
-        this.backgroundImage= `url(${imageStr})`;
+        if(imageStr) {
+          this.backgroundImage= `url(${imageStr})`;
+        }else {
+          // default image moved to the front end
+          this.backgroundImage= this.defaultImage;
+        }
       },error => {
         console.log(error);
       });
   }
 
-  usernameEditValidator(authenticationService:AuthenticationService) {
+  usernameEditValidator(partyService:PartyService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
@@ -140,7 +144,7 @@ export class UserMeComponent implements OnInit {
       .filter(value => { // filter out empty values
         return !!(value);
       }).map(value => {
-        return authenticationService.isValidEditUsername(that.partyId,value);
+        return partyService.isValidEditUsername(that.partyId,value);
       }).subscribe(value => {
         value.subscribe( otherValue => {
           isValidUsername = otherValue;
@@ -167,7 +171,7 @@ export class UserMeComponent implements OnInit {
     }
   }
 
-  currentPasswordValidator(authenticationService: AuthenticationService) {
+  passwordValidator(partyService:PartyService) {
     let passwordControl = null;
     let isValidPassword = false;
     let valueChanges = null;
@@ -179,7 +183,7 @@ export class UserMeComponent implements OnInit {
       .filter(value => { // filter out empty values
         return !!(value);
       }).map(value => {
-        return authenticationService.isValidCurrentPassword(value);
+        return partyService.isValidPassword(value);
       }).subscribe(value => {
         value.subscribe( otherValue => {
           isValidPassword = otherValue;
@@ -206,46 +210,7 @@ export class UserMeComponent implements OnInit {
     }
   }
 
-  passwordValidator(authenticationService:AuthenticationService) {
-    let passwordControl = null;
-    let isValidPassword = false;
-    let valueChanges = null;
-
-    let subscriberToChangeEvents = function () {
-      valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
-      .filter(value => { // filter out empty values
-        return !!(value);
-      }).map(value => {
-        return authenticationService.isValidPassword(value);
-      }).subscribe(value => {
-        value.subscribe( otherValue => {
-          isValidPassword = otherValue;
-          passwordControl.updateValueAndValidity();
-        });
-      });
-    };
-
-    return (control:FormControl) => {
-      if (!passwordControl) {
-        passwordControl = control;
-      }
-
-      if (!valueChanges && control.valueChanges) {
-        valueChanges = control.valueChanges;
-        subscriberToChangeEvents();
-      }
-
-      return isValidPassword ? null : {
-        validateEmail: {
-          valid: false
-        }
-      };
-    }
-  }
-
-  confirmEmailOrPhoneValidator(password:FormControl) {
+  confirmPasswordValidator(password:FormControl) {
     return (c:FormControl) => {
       return password.value == c.value ? null : {
         validateEmail: {
@@ -287,20 +252,12 @@ export class UserMeComponent implements OnInit {
     this._username = value;
   }
 
-  get currentPassword(): FormControl {
-    return this._currentPassword;
+  get password(): FormControl {
+    return this._password;
   }
 
-  set currentPassword(value: FormControl) {
-    this._currentPassword = value;
-  }
-
-  get newPassword(): FormControl {
-    return this._newPassword;
-  }
-
-  set newPassword(value: FormControl) {
-    this._newPassword = value;
+  set password(value: FormControl) {
+    this._password = value;
   }
 
   get confirmPassword(): FormControl {
@@ -311,12 +268,12 @@ export class UserMeComponent implements OnInit {
     this._confirmPassword = value;
   }
 
-  get meEditForm(): FormGroup {
-    return this._meEditForm;
+  get userMeForm(): FormGroup {
+    return this._userMeForm;
   }
 
-  set meEditForm(value: FormGroup) {
-    this._meEditForm = value;
+  set userMeForm(value: FormGroup) {
+    this._userMeForm = value;
   }
 
   get doNotDisplayFailureMessage(): boolean {
@@ -344,17 +301,31 @@ export class UserMeComponent implements OnInit {
   }
 
   uploadPhoto() {
-    this.partyService
-    .updateUserPhoto(this.partyId, this.croppedImage)
-    .subscribe(value => {
-      if(value){
-      this.backgroundImage = `url(${this.croppedImage})`;
-      }else {
-        console.log("error");
-      }
-    }, error => {
-      console.log(error);
-    });
+    if(this.backgroundImage === this.defaultImage) {
+      this.partyService
+      .addPhoto(this.partyId, this.croppedImage)
+      .subscribe(value => {
+        if(value){
+        this.backgroundImage = `url(${this.croppedImage})`;
+        }else {
+          console.log("error");
+        }
+      }, error => {
+        console.log(error);
+      });
+    }else {
+      this.partyService
+      .updatePhoto(this.partyId, this.croppedImage)
+      .subscribe(value => {
+        if(value){
+        this.backgroundImage = `url(${this.croppedImage})`;
+        }else {
+          console.log("error");
+        }
+      }, error => {
+        console.log(error);
+      });
+    }
   }
 
   updateCredential() {
@@ -376,11 +347,8 @@ export class UserMeComponent implements OnInit {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
 
-    if(this.newPassword.value){
-      this.credential.password = this.newPassword.value;
-    }
       this.partyService
-      .updatePerson(this.person)
+      .updateUser(this.user)
       .subscribe(value => {
         if (value) {
            this.updateCredential();

@@ -1,0 +1,105 @@
+.menu-side .layout-w {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.menu-side .content-w {
+  border-radius: 0px 4px 4px 0px;
+  display: table-cell;
+}
+
+.layout-w {
+  display: block;
+}
+
+.content-w, .menu-side .content-w {
+  display: block;
+}
+
+.with-side-panel .content-box {
+  display: table-cell;
+}
+
+.with-side-panel .content-i {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.with-side-panel .menu-mobile .mm-logo-buttons-w .content-panel-open {
+  display: block;
+}
+
+.content-i, .with-side-panel .content-i {
+  display: block;
+}
+.content-i .content-box, .with-side-panel .content-i .content-box {
+  display: block;
+}
+
+.content-w,
+.menu-side-w,
+.all-wrapper {
+  border-radius: 0px !important;
+  overflow: hidden;
+}
+
+.content-w {
+  border-radius: 0px !important;
+}
+
+@media (max-width: 1250px) {
+  .content-w,
+  .all-wrapper {
+    border-radius: 0px !important;
+    overflow: hidden;
+  }
+
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .content-w {
+    display: table-cell;
+  }
+}
+
+.content-i {
+  display: block;
+}
+.content-i .content-box {
+  display: block;
+  padding: 15px;
+}
+.content-i .content-panel {
+  padding: 15px;
+  border-left: none;
+  display: block;
+  width: auto;
+}
+
+.content-box {
+  padding: 1.5rem;
+}
+
+.content-box {
+  vertical-align: top;
+  padding: 2rem 3rem;
+}
+
+@media (max-width: 1650px) {
+  body,
+  body.auth-wrapper .all-wrapper {
+    padding: 40px;
+  }
+  .content-panel {
+    padding: 2rem;
+    width: 350px;
+  }
+  .content-box {
+    padding: 2rem;
+  }
+  .all-wrapper {
+    max-width: 100%;
+  }
+}

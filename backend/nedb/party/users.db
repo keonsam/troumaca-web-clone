@@ -1,0 +1,3 @@
+{"firstName":"Bill","middleName":"G","lastName":"Gates","username":"BillGates@gmail.com","partyId":"98acc8e5-203b-4dfe-a49a-73295fd4e915","_id":"4WMlAxxSRTAJ3Tbu"}
+{"partyId":"77e771fc-cfdd-4562-b934-5c7d84f723a7","firstName":"Keon","middleName":"Erran","lastName":"Samuel","username":"Fs@gmail.com","_id":"oL8CSebAt2t5e6zo"}
+{"$$indexCreated":{"fieldName":"partyId","unique":true,"sparse":false}}

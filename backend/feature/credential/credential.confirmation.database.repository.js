@@ -2,6 +2,7 @@ const Rx = require("rxjs");
 const UUIDGenerator = require("../uuid.generator");
 const phoneToken = require('generate-sms-verification-code');
 const db = require("../db.js");
+let status = require('./credential.status');
 
 let newUuidGenerator = new UUIDGenerator();
 
@@ -10,7 +11,7 @@ module.exports =  function DatabaseCredentialRepository() {
   this.addCredentialConfirmation = function (credentialConfirmation) {
     credentialConfirmation["credentialConfirmationId"] = newUuidGenerator.generateUUID();
     credentialConfirmation["confirmationCode"] = phoneToken(6, {type: 'string'});
-    credentialConfirmation["status"] = "new";
+    credentialConfirmation["status"] = status.NEW;
     return Rx.Observable.create(function (observer) {
       db.credentialConfirmations.insert(credentialConfirmation, function (err, doc) {
         if (!err) {
@@ -75,7 +76,7 @@ module.exports =  function DatabaseCredentialRepository() {
     return Rx.Observable.create(function (observer) {
       let query = {};
       query["credentialId"] = credentialId;
-      db.credentialConfirmations.find(query).sort({ status: "new"}).exec(function (err, docs) {
+      db.credentialConfirmations.find(query).sort({ status: status.NEW}).exec(function (err, docs) {
         if (!err) {
           observer.next(docs[0]);
         } else {

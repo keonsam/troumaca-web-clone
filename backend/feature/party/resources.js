@@ -4,7 +4,7 @@ let partyOrchestrator = require('./orchestrator');
 
 let orchestrator = new partyOrchestrator();
 
-router.get("/persons", function (req, res, next) {
+router.get("/users", function (req, res, next) {
 
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
   let size = getNumericValueOrDefault(req.query.pageSize, 10);
@@ -12,9 +12,9 @@ router.get("/persons", function (req, res, next) {
   let direction = getStringValueOrDefault(req.query.sortOrder, "");
 
   orchestrator
-  .getPersons(number, size, field, direction)
-  .subscribe(persons => {
-    res.send(JSON.stringify(persons));
+  .getUsers(number, size, field, direction)
+  .subscribe(users => {
+    res.send(JSON.stringify(users));
   }, error => {
     res.status(400);
     res.send(error);
@@ -40,12 +40,10 @@ router.get("/organizations", function (req, res, next) {
   });
 });
 
-router.get("/users-photos/:partyId", function (req, res, next) {
-
+router.get("/photos/:partyId", function (req, res, next) {
   let partyId = req.params.partyId;
-
   orchestrator
-  .getUserPhoto(partyId)
+  .getPhoto(partyId)
   .subscribe(imageStr => {
     res.send(JSON.stringify(imageStr));
   }, error => {
@@ -55,28 +53,12 @@ router.get("/users-photos/:partyId", function (req, res, next) {
   });
 });
 
-router.get("/company-photos/:partyId", function (req, res, next) {
-
+router.get("/users/:partyId", function (req, res, next) {
   let partyId = req.params.partyId;
-
   orchestrator
-  .getCompanyPhoto(partyId)
-  .subscribe(imageStr => {
-    res.send(JSON.stringify(imageStr));
-  }, error => {
-    res.status(400);
-    res.send(error);
-    console.log(error);
-  });
-});
-
-router.get("/persons/:partyId", function (req, res, next) {
-  let partyId = req.params.partyId;
-
-  orchestrator
-  .getPerson(partyId)
-  .subscribe(person => {
-    let body = JSON.stringify(person);
+  .getUser(partyId)
+  .subscribe(user => {
+    let body = JSON.stringify(user);
     res.send(body);
   }, error => {
     res.send(JSON.stringify(error));
@@ -96,12 +78,12 @@ router.get("/organizations/:partyId", function (req, res, next) {
   });
 });
 
-router.post("/persons", function(req, res, next) {
-  let person = req.body;
+router.post("/users", function(req, res, next) {
+  let user = req.body;
   orchestrator
-  .addPerson(person)
-  .subscribe(person => {
-    res.send(JSON.stringify(person));
+  .addUser(user)
+  .subscribe(user => {
+    res.send(JSON.stringify(user));
   }, error => {
     res.status(400);
     res.send(error);
@@ -113,7 +95,7 @@ router.post("/organizations", function(req, res, next) {
   let organization = req.body;
   orchestrator
   .addOrganization(organization)
-  .subscribe(person => {
+  .subscribe(user => {
     res.send(JSON.stringify(organization));
   }, error => {
     res.status(400);
@@ -135,14 +117,15 @@ router.post("/credentials", function (req, res, next) {
   });
 });
 
-router.post("/create-accounts", function (req, res, next) {
+router.post("/add-accounts", function (req, res, next) {
+  // TODO: // fix the cookie no entry
   let account = req.body;
   console.log(req.cookies);
   let cookie = req.cookies["sessionId"];
   console.log(cookie);
-  let sessionId = "a567cd6f-6673-4117-b0ca-60ba714c82a8";
+  let sessionId = "d845ced1-9990-4692-b2fe-6b62999a669f";
   orchestrator
-  .createAccount(account, sessionId)
+  .addAccount(account, sessionId)
   .subscribe(account => {
     res.send(JSON.stringify(account));
   }, error => {
@@ -152,11 +135,11 @@ router.post("/create-accounts", function (req, res, next) {
   });
 });
 
-router.post("/account-photos/:partyId", function (req, res, next) {
+router.post("/photos/:partyId", function (req, res, next) {
   let partyId = req.params.partyId;
   let imageStr = req.body.croppedImage;
   orchestrator
-    .addAccountPhoto(partyId, imageStr)
+    .addPhoto(partyId, imageStr)
     .subscribe(doc => {
       res.send(JSON.stringify(doc));
     }, error => {
@@ -166,18 +149,18 @@ router.post("/account-photos/:partyId", function (req, res, next) {
     });
 });
 
-router.delete("/persons/:partyId", function (req, res, next) {
+router.delete("/users/:partyId", function (req, res, next) {
   let partyId = req.params.partyId;
 
   orchestrator
-    .deletePerson(partyId)
+    .deleteUser(partyId)
     .subscribe(numRemoved => {
       res.send(JSON.stringify(numRemoved));
     }, error => {
       res.status(400);
       res.send(error);
       console.log(error);
-    })
+    });
 });
 
 router.delete("/organizations/:partyId", function (req, res, next) {
@@ -208,11 +191,11 @@ router.delete("/credentials/:partyId", function (req, res, next) {
     });
 });
 
-router.put("/persons/:partyId", function (req, res, next) {
+router.put("/users/:partyId", function (req, res, next) {
   let partyId = req.params.partyId;
-  let person = req.body;
+  let user = req.body;
   orchestrator
-    .updatePerson(partyId, person)
+    .updateUser(partyId, user)
     .subscribe(numUpdated => {
       res.send(JSON.stringify(numUpdated));
     }, error => {
@@ -250,11 +233,11 @@ router.put("/credentials/:partyId", function (req, res, next) {
     });
 });
 
-router.put("/users-photos/:partyId", function (req, res, next) {
+router.put("/photos/:partyId", function (req, res, next) {
   let partyId = req.params.partyId;
   let imageStr = req.body.croppedImage;
   orchestrator
-    .updateOrAddUserPhoto(partyId, imageStr)
+    .updatePhoto(partyId, imageStr)
     .subscribe(numUpdated => {
       res.send(JSON.stringify(numUpdated));
     }, error => {
@@ -263,19 +246,46 @@ router.put("/users-photos/:partyId", function (req, res, next) {
       console.log(error);
     });
 });
+// authentication part
 
-router.put("/company-photos/:partyId", function (req, res, next) {
-  let partyId = req.params.partyId;
-  let imageStr = req.body.croppedImage;
+router.post("/validate-username", function (req, res, next) {
+  let usernameObj = req.body;
   orchestrator
-    .updateOrAddCompanyPhoto(partyId, imageStr)
-    .subscribe(numUpdated => {
-      res.send(JSON.stringify(numUpdated));
-    }, error => {
-      res.status(400);
-      res.send(error);
-      console.log(error);
-    })
+  .isValidUsername(usernameObj)
+  .subscribe(next => {
+    res.send(next.valid);
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  });
+});
+
+router.post("/validate-edit-username/:partyId", function (req, res, next) {
+  let partyId = req.params.partyId;
+  let usernameObj = req.body;
+  orchestrator
+  .isValidEditUsername(partyId,usernameObj)
+  .subscribe(next => {
+    res.send(next.valid);
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  });
+});
+
+router.post("/validate-password", function (req, res, next) {
+  let passwordObj = req.body;
+  orchestrator
+  .isValidPassword(passwordObj)
+  .subscribe(next => {
+    res.send(next.valid);
+  }, error => {
+    res.status(400);
+    res.send(error);
+    console.log(error);
+  });
 });
 
 function getNumericValueOrDefault(value, defaultValue) {
