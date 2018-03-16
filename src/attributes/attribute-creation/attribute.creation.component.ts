@@ -1,9 +1,14 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
+import "rxjs/add/operator/debounceTime";
+import "rxjs/add/operator/filter";
+
 import {AttributeService} from "../attribute.service";
 import {Attribute} from "../attribute";
 import {DataType} from "../data.type";
 import {Router} from "@angular/router";
+import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 
 @Component({
   selector: 'attribute-creation',
@@ -19,6 +24,7 @@ export class AttributeCreationComponent implements OnInit {
   private _maximumValue: FormControl;
   private _minimumValue: FormControl;
 
+  private _unitofMesureIdDataService: CompleterData;
 
   private _attributeForm: FormGroup;
 
@@ -26,8 +32,10 @@ export class AttributeCreationComponent implements OnInit {
   private _dataTypes: DataType[];
 
   private _doNotDisplayFailureMessage:boolean;
+  private pageSize: number = 15;
 
   constructor(private attributeService: AttributeService,
+              private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
@@ -52,7 +60,9 @@ export class AttributeCreationComponent implements OnInit {
       "minimumValue": this.minimumValue
     });
 
-    this.attribute = new Attribute();
+    let attribute = new Attribute();
+    attribute.unitOfMeasure = new UnitOfMeasure();
+    this.attribute = attribute;
 
     this.attributeForm
     .valueChanges
@@ -60,7 +70,6 @@ export class AttributeCreationComponent implements OnInit {
       this.attribute.name = value.name;
       this.attribute.format = value.format;
       this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
-      this.attribute.unitOfMeasureId = value.unitOfMeasureId;
       this.attribute.maximumValue = value.maximumValue;
       this.attribute.minimumValue = value.minimumValue;
       console.log(value);
@@ -84,6 +93,37 @@ export class AttributeCreationComponent implements OnInit {
     }, onError => {
       console.log(onError);
     });
+
+    this.populateUnitOfMeasureIdDropDown();
+  }
+
+  private populateUnitOfMeasureIdDropDown() {
+    this.unitOfMeasureIdDataService = this.completerService.local([], 'name', 'name');
+    let that = this;
+    this.attributeForm.get("unitOfMeasureId").valueChanges
+      .debounceTime(1000) // debounce
+      .filter(value => { // filter out empty values
+        return !!(value);
+      })
+      .subscribe(value => {
+        console.log("value: " + value);
+        that.attributeService
+          .findUnitOfMeasureId(value, that.pageSize) // send search request to the backend
+          .map(value2 => { // convert results to dropdown data
+            return value2.map(v2 => { //update to the new way of doing this
+              return {
+                unitOfMeasureId: v2.unitOfMeasure,
+                name: v2.name,
+              };
+            })
+          })
+          .subscribe(next => { // update the data
+            console.log("findUnitOfMeasureId next - " + next);
+            this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
+          }, error => {
+            console.log("findUnitOfMeasureId error - " + error);
+          });
+      });
   }
 
   get name(): FormControl {
@@ -142,6 +182,14 @@ export class AttributeCreationComponent implements OnInit {
     this._minimumValue = value;
   }
 
+  get unitOfMeasureIdDataService(): CompleterData {
+    return this._unitofMesureIdDataService;
+  }
+
+  set unitOfMeasureIdDataService(value: CompleterData) {
+    this._unitofMesureIdDataService = value;
+  }
+
   get attributeForm(): FormGroup {
     return this._attributeForm;
   }
@@ -156,6 +204,12 @@ export class AttributeCreationComponent implements OnInit {
 
   set doNotDisplayFailureMessage(value: boolean) {
     this._doNotDisplayFailureMessage = value;
+  }
+
+  onUnitOfMeasureIdSelect(selected: CompleterItem) {
+    if (selected) {
+      this.attribute.unitOfMeasure = selected.originalObject;
+    }
   }
 
   onCreate() {

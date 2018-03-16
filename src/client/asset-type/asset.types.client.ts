@@ -6,6 +6,7 @@ import {AssetTypeClassState} from "../asset-type-class/asset.type.class.state";
 import {AssetTypeClassStates} from "../asset-type-class/asset.type.class.states";
 import {ValueState} from "./value.state";
 import {ValueStates} from "./value.states";
+import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
 
 export abstract class AssetTypesClient {
   abstract getAssetTypes(pageNumber:number, pageSize:number, sortOrder:string):Observable<AssetTypeStates>;
@@ -17,6 +18,7 @@ export abstract class AssetTypesClient {
 
   abstract findAssetTypes(searchStr: string, pageSize:number):Observable<AssetTypeStates>;
   abstract findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClassStates>;
+  abstract findUnitOfMeasureIdState(searchStr: string, pageSize:number): Observable<UnitOfMeasureState[]>
 
   abstract addAssetTypeState(assetTypeState: AssetTypeState): Observable<AssetTypeState>;
   abstract addValueState(value: ValueState): Observable<ValueState>;

@@ -8,6 +8,7 @@ import {AssetTypeService} from "../asset.type.service";
 import {AssetType} from "../asset.type";
 import {Value} from "../value";
 import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
+import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {Attributes} from "../../attributes/attributes";
 import {Router} from "@angular/router";
 
@@ -27,6 +28,8 @@ export class AssetTypeCreationComponent implements OnInit {
   private _unitOfMeasureId: FormControl;
 
   private _assetTypeClassIdDataService: CompleterData;
+  private _unitOfMeasureIdDataService: CompleterData;
+
 
   private _assetTypeForm:FormGroup;
   private _attributeForm: FormGroup;
@@ -70,6 +73,7 @@ export class AssetTypeCreationComponent implements OnInit {
 
     let assetType = new AssetType();
     assetType.assetTypeClass = new AssetTypeClass();
+    assetType.unitOfMeasure = new UnitOfMeasure();
     this.assetType = assetType;
 
     this.assignedAttributes = new Attributes();
@@ -81,7 +85,6 @@ export class AssetTypeCreationComponent implements OnInit {
       this.assetType.description = value.description;
       this.assetType.modelNumber = value.modelNumber;
       this.assetType.materialCode = value.materialCode;
-      this.assetType.unitOfMeasureId = value.unitOfMeasureId;
       console.log(value);
     }, error2 => {
       console.log(error2);
@@ -93,10 +96,9 @@ export class AssetTypeCreationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   let that = this;
 
    this.populateAssetTypeClassIdDropDown();
-
+    this.populateUnitOfMeasureIdDropDown();
   }
 
   private populateAssetTypeClassIdDropDown() {
@@ -125,6 +127,35 @@ export class AssetTypeCreationComponent implements OnInit {
             this.assetTypeClassIdDataService = this.completerService.local(next, 'name', 'name');
           }, error => {
             console.log("findAssetTypeClassId error - " + error);
+          });
+      });
+  }
+
+  private populateUnitOfMeasureIdDropDown() {
+    this.unitOfMeasureIdDataService = this.completerService.local([], 'name', 'name');
+    let that = this;
+    this.assetTypeForm.get("unitOfMeasureId").valueChanges
+      .debounceTime(1000) // debounce
+      .filter(value => { // filter out empty values
+        return !!(value);
+      })
+      .subscribe(value => {
+        console.log("value: " + value);
+        that.assetTypeService
+          .findUnitOfMeasureId(value, that.pageSize) // send search request to the backend
+          .map(value2 => { // convert results to dropdown data
+            return value2.map(v2 => {
+              return {
+                unitOfMeasureId: v2.unitOfMeasureId,
+                name: v2.name
+              };
+            })
+          })
+          .subscribe(next => { // update the data
+            console.log("findUnitOfMeasureId next - " + next);
+            this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
+          }, error => {
+            console.log("finUnitOfMeasureId error - " + error);
           });
       });
   }
@@ -185,6 +216,14 @@ export class AssetTypeCreationComponent implements OnInit {
     this._assetTypeClassIdDataService = value;
   }
 
+  get unitOfMeasureIdDataService(): CompleterData {
+    return this._unitOfMeasureIdDataService;
+  }
+
+  set unitOfMeasureIdDataService(value: CompleterData) {
+    this._unitOfMeasureIdDataService = value;
+  }
+
   get assetTypeForm(): FormGroup {
     return this._assetTypeForm;
   }
@@ -241,6 +280,12 @@ export class AssetTypeCreationComponent implements OnInit {
     if (selected) {
       this.assetType.assetTypeClass = selected.originalObject;
       this.getAttributes(selected.originalObject.assignedAttributes);
+    }
+  }
+
+  onUnitOfMeasureIdSelect(selected: CompleterItem) {
+    if (selected) {
+      this.assetType.unitOfMeasure = selected.originalObject;
     }
   }
 

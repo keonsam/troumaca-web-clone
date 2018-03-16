@@ -1,4 +1,5 @@
 import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
+import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
 
 export class AssetType {
 
@@ -7,7 +8,7 @@ export class AssetType {
   private _description:string;
   private _name:string;
   private _materialCode:string;
-  private _unitOfMeasureId:string;
+  private _unitOfMeasure: UnitOfMeasure;
   private _assetTypeClass:AssetTypeClass;
 
   constructor() {
@@ -55,12 +56,12 @@ export class AssetType {
     this._materialCode = value;
   }
 
-  get unitOfMeasureId(): string {
-    return this._unitOfMeasureId;
+  get unitOfMeasure(): UnitOfMeasure {
+    return this._unitOfMeasure;
   }
 
-  set unitOfMeasureId(value: string) {
-    this._unitOfMeasureId = value;
+  set unitOfMeasure(value: UnitOfMeasure) {
+    this._unitOfMeasure = value;
   }
 
   get assetTypeClass(): AssetTypeClass {

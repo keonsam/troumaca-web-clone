@@ -7,7 +7,7 @@ import {JsonConvert, OperationMode, ValueCheckingMode} from "json2typescript";
 import {AssetKindStates} from "./asset.kind.states";
 import {AssetState} from "./asset.state";
 import {AssetTypeStates} from "../asset-type/asset.type.states";
-import {UnitOfMeasureStates} from "../unit-of-measure/unit.of.measure.states";
+import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
 import {UnionOfPhysicalSiteStates} from "../site/union.of.physical.site.states";
 import {PersonStates} from "../party/person.states";
 
@@ -143,7 +143,7 @@ export class AssetClientHttp extends AssetClient {
     });
   }
 
-  public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasureStates> {
+  public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
     let array = [];
     array.push(this.hostPort);
     array.push("/assets/unit-of-measures");
@@ -162,7 +162,7 @@ export class AssetClientHttp extends AssetClient {
       array.push(queryStr.join("&"));
     }
 
-    return this.http.get<UnitOfMeasureStates>(array.join(""), {
+    return this.http.get<UnitOfMeasureState[]>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;

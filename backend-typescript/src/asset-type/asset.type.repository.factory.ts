@@ -1,16 +1,18 @@
-import Rx from 'rxjs';
+import * as Rx from 'rxjs';
 import {AssetTypeRepository} from "./asset.type.repository";
 import {Observable} from "rxjs/Observable";
 import {AssetType} from "./asset.type";
 import {Observer} from "rxjs/Observer";
 import {RepositoryKind} from "../repository.kind";
 import {assetTypes} from "../db";
+import {calcSkip} from "../db.util";
+import {generateUUID} from "../uuid.generator";
 
 class AssetTypeDBRepository implements AssetTypeRepository {
-  getAssetTypes(searchStr:string, pageSize:number):Observable<AssetType[]> {
+  findAssetTypes(searchStr: string, pageSize: number): Observable<AssetType[]> {
     let searchStrLocal = new RegExp(searchStr);
-    return Rx.Observable.create(function (observer:Observer<AssetType[]>) {
-      assetTypes.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err:any, doc:any) {
+    return Rx.Observable.create(function (observer: Observer<AssetType[]>) {
+      assetTypes.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -20,13 +22,126 @@ class AssetTypeDBRepository implements AssetTypeRepository {
       });
     });
   }
+
+  saveAssetType(assetType: AssetType): Observable<AssetType> {
+    assetType.assetTypeId = generateUUID();
+    return Rx.Observable.create(function (observer: Observer<AssetType>) {
+      assetTypes.insert(assetType, function (err: any, doc: any) {
+        if (err) {
+          observer.error(err);
+        } else {
+          observer.next(assetType);
+        }
+        observer.complete();
+      });
+    });
+  }
+
+  getAssetTypes(pageNumber: number, pageSize: number, order: string): Observable<AssetType[]> {
+    return Rx.Observable.create(function (observer: Observer<AssetType[]>) {
+      let skip = calcSkip(pageNumber, pageSize, defaultPageSize);
+      assetTypes.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err: any, doc: any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
+  getAssetTypeCount(): Observable<number> {
+    return Rx.Observable.create(function (observer: Observer<number>) {
+      assetTypes.count({}, function (err: any, count: number) {
+        if (!err) {
+          observer.next(count);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  getAssetTypeById(assetTypeId: string): Observable<AssetType> {
+    return Rx.Observable.create(function (observer: Observer<AssetType>) {
+      let query = {
+        "assetTypeId": assetTypeId
+      };
+      assetTypes.findOne(query, function (err: any, doc: any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  updateAssetType(assetTypeId: string, assetType: AssetType): Observable<number> {
+    return Rx.Observable.create(function (observer: Observer<number>) {
+      let query = {
+        "assetTypeId": assetTypeId
+      };
+      assetTypes.update(query, assetType, {}, function (err: any, numReplaced: number) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
+
+  deleteAssetType(assetTypeId:string): Observable<number> {
+    return Rx.Observable.create(function (observer: Observer<number>) {
+      let query = {};
+      query["assetTypeId"] = assetTypeId;
+      assetTypes.remove(query, {}, function (err, numRemoved) {
+        if (!err) {
+          observer.next(numRemoved);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
 }
 
 class AssetTypeRestRepository implements AssetTypeRepository {
-  getAssetTypes(searchStr:string, pageSize:number): Observable<AssetType[]> {
+  findAssetTypes(searchStr:string, pageSize:number): Observable<AssetType[]> {
     return undefined;
+  };
+
+
+  saveAssetType(assetType:AssetType):Observable<AssetType> {
+    return null
   }
-}
+
+  getAssetTypes(pageNumber:number, pageSize:number, order:string):Observable<AssetType[]> {
+    return null;
+  }
+
+  getAssetTypeCount():Observable<number> {
+    return null;
+  };
+
+  getAssetTypeById(assetTypeId:string):Observable<AssetType> {
+    return null;
+  };
+
+  updateAssetType(assetTypeId:string, assetType:AssetType):Observable<number> {
+    return null;
+  };
+
+  deleteAssetType(assetTypeId:string): Observable<number> {
+    return null;
+  };
+  }
 
 export function createAssetTypeRepository(kind?:RepositoryKind):AssetTypeRepository {
   switch (kind) {

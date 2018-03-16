@@ -1,4 +1,5 @@
 import {DataType} from "./data.type";
+import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
 
 export class Attribute {
 
@@ -13,7 +14,7 @@ export class Attribute {
   // replace with data type
   private _dataType: DataType;
   // replace with unit of measure
-  private _unitOfMeasureId:string;
+  private _unitOfMeasure: UnitOfMeasure;
   private _maximumValue:string;
   private _minimumValue:string;
   private _createdOn:Date;
@@ -59,12 +60,12 @@ export class Attribute {
     this._dataType = value;
   }
 
-  get unitOfMeasureId(): string {
-    return this._unitOfMeasureId;
+  get unitOfMeasure(): UnitOfMeasure {
+    return this._unitOfMeasure;
   }
 
-  set unitOfMeasureId(value: string) {
-    this._unitOfMeasureId = value;
+  set unitOfMeasure(value: UnitOfMeasure) {
+    this._unitOfMeasure = value;
   }
 
   get maximumValue(): string {

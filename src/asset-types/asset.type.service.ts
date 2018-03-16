@@ -7,6 +7,7 @@ import {Values} from "./values";
 import {Attributes} from "../attributes/attributes";
 import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
 import {AssetTypeClasses} from "../asset-type-classes/asset.type.classes";
+import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
 
 export class AssetTypeService {
   constructor(private assetTypeRepository: AssetTypeRepository) {
@@ -34,6 +35,10 @@ export class AssetTypeService {
 
   public findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClasses> {
     return this.assetTypeRepository.findAssetTypeClassId(searchStr, pageSize);
+  }
+
+  public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
+    return this.assetTypeRepository.findUnitOfMeasureId(searchStr, pageSize);
   }
 
   public addAssetType(assetType: AssetType): Observable<AssetType> {

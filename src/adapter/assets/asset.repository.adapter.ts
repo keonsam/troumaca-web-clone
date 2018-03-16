@@ -15,8 +15,7 @@ import {AssetType} from "../../asset-types/asset.type";
 import {AssetTypes} from "../../asset-types/asset.types";
 import {AssetPerson} from "../../assets/asset.person";
 import {AssetPersons} from "../../assets/asset.persons";
-import {UnitOfMeasure} from "../../assets/asset.unit.of.measure";
-import {UnitOfMeasures} from "../../assets/asset.unit.of.measures";
+import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {Site} from "../../assets/asset.site";
 import {UnionOfPhysicalSite} from "../../assets/asset.union.of.physical.site";
 import {AssetUnionOfPhysicalSites} from "../../assets/asset.union.of.physical.sites";
@@ -86,15 +85,11 @@ export class AssetRepositoryAdapter extends AssetRepository {
     });
   }
 
-  public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasures> {
+  public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
     return this.assetClient
     .findUnitOfMeasures(searchStr, pageSize)
     .map(values => {
-      let unitOfMeasures: UnitOfMeasures = new UnitOfMeasures();
-      unitOfMeasures.unitOfMeasures = map(values.unitOfMeasures, value => {
-        return mapObjectProps(value, new UnitOfMeasure());
-      });
-      return unitOfMeasures;
+      return values;
     });
   }
 

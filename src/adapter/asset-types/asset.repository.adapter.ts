@@ -16,6 +16,7 @@ import {ValueState} from "../../client/asset-type/value.state";
 //import {ValueStates} from "../../client/asset-type/value.states";
 import {Value} from "../../asset-types/value";
 import {Values} from "../../asset-types/values";
+import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 
@@ -104,6 +105,14 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
       });
       return assetTypeClasses;
     });
+  }
+
+  public findUnitOfMeasureId(searchStr: string, pageSize:number): Observable<UnitOfMeasure[]> {
+    return this.assetTypesClient
+      .findUnitOfMeasureIdState(searchStr, pageSize)
+      .map(data => {
+        return data;
+      });
   }
 
   public addAssetType(assetType: AssetType): Observable<AssetType> {

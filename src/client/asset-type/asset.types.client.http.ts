@@ -8,7 +8,7 @@ import {AssetTypeClassState} from "../asset-type-class/asset.type.class.state";
 import {AssetTypeClassStates} from "../asset-type-class/asset.type.class.states";
 import {ValueState} from "./value.state";
 import {ValueStates} from "./value.states";
-
+import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 export class AssetTypesClientHttp extends AssetTypesClient {
@@ -174,6 +174,32 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     }
 
     return this.httpClient.get<AssetTypeClassStates>(array.join(""), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+
+  public findUnitOfMeasureIdState(searchStr: string, pageSize:number): Observable<UnitOfMeasureState[]> {
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/asset-types/unit-of-measure");
+
+    let queryStr = [];
+    if (searchStr) {
+      queryStr.push("q=" + searchStr);
+    }
+
+    if (pageSize) {
+      queryStr.push("pageSize=" + searchStr);
+    }
+
+    if (queryStr.length > 0) {
+      array.push("?");
+      array.push(queryStr.join("&"));
+    }
+
+    return this.httpClient.get<UnitOfMeasureState[]>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;

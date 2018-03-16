@@ -9,7 +9,7 @@ import {Asset} from "../asset";
 import {AssetKind} from "../asset.kind";
 import {AssetType} from "../../asset-types/asset.type";
 //import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
-import {UnitOfMeasure} from "../asset.unit.of.measure";
+import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {AssetPerson} from "../asset.person";
 import {Site} from "../asset.site";
 import {Router} from "@angular/router";
@@ -165,7 +165,7 @@ export class AssetCreationComponent implements OnInit {
         that.assetService
           .findUnitOfMeasures(value, that.pageSize) // send search request to the backend
           .map(value2 => { // convert results to dropdown data
-            return value2.unitOfMeasures.map(v2 => {
+            return value2.map(v2 => { //updated to new method
               return {
                 unitOfMeasureId: v2.unitOfMeasureId,
                 name: v2.name
