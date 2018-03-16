@@ -1,12 +1,6 @@
 import Rx from "rxjs";
 import validator from 'validator';
 import {CredentialStatus} from './credential.status';
-// import credentialRepositoryFactory from './credential.repository.factory').CredentialRepositoryFactory;
-// import credentialRepository = credentialRepositoryFactory.createRepository(:
-// import credentialConfirmationRepositoryFactory from './credential.confirmation.repository.factory').CredentialConfirmationRepositoryFactory;
-// import credentialConfirmationRepository = credentialConfirmationRepositoryFactory.createRepository(:
-// import sessionRepositoryFactory from '../session/session.repository.factory').SessionRepositoryFactory;
-// import sessionRepository = sessionRepositoryFactory.createRepository(:
 
 import {shapePasswordValidResponse, shapeUsernameValidResponse} from "./credential.response.shaper";
 import {Credential} from "./credential";
@@ -14,17 +8,22 @@ import {createCredentialRepositoryFactory} from "./credential.repository.factory
 import {CredentialRepository} from "./credential.repository";
 import {Result} from "../../result.success";
 import {Observable} from "rxjs/Observable";
+import {Session} from '../../session/session';
+import {createSessionRepositoryFactory} from "../../session/session.repository.factory";
+import {SessionRepository} from "../session/session.repository";
 
 export class CredentialOrchestrator {
 
-  private credentialRepositoryFactory:CredentialRepository;
+  private credentialRepository:CredentialRepository;
+  private sessionRepository:SessionRepository;
 
   constructor() {
-    this.credentialRepositoryFactory = createCredentialRepositoryFactory();
+    this.sessionRepository = createSessionRepositoryFactory();
+    this.credentialRepository = createCredentialRepositoryFactory();
   }
 
   isValidUsername(credential:Credential):Observable<Result<any>> {
-    return this.credentialRepositoryFactory
+    return this.credentialRepository
     .isValidUsername(credential)
     .map(valid => {
       let shapeUsernameValidResp = shapeUsernameValidResponse(valid);
@@ -33,7 +32,7 @@ export class CredentialOrchestrator {
   };
 
   isValidPassword(credential:Credential):Observable<Result<any>> {
-    return this.credentialRepositoryFactory
+    return this.credentialRepository
     .isValidPassword(credential)
     .map(valid => {
       let shapePasswordValidResp = shapePasswordValidResponse(valid);
@@ -42,7 +41,7 @@ export class CredentialOrchestrator {
   };
 
   forgotPassword(username:string):Observable<Result<any>> {
-    return this.credentialRepositoryFactory
+    return this.credentialRepository
     .getCredentialByUsername(username)
     .map(credential => {
       if(!credential) {
@@ -57,7 +56,7 @@ export class CredentialOrchestrator {
 
 
   addCredential(credential:Credential):Observable<Credential> {
-    return this.credentialRepositoryFactory
+    return this.credentialRepository
       .addCredential(credential)
       .switchMap(credential => {
 
@@ -73,38 +72,39 @@ export class CredentialOrchestrator {
       });
   };
 
-  authenticate(credential:Credential) {
+  authenticate(credential:Credential):Observable<Session> {
     // A person can access the application under the following conditions:
     // 1. He/she provides a valid set of credentials
     // 2. He/she has confirmed their username (email, or phone)
     // 3. He/she has completed the quick profile, person, account type, and possible organization name.
 
-    return this.credentialRepositoryFactory
-      .getCredentialByUsername(credential.username)
-      .switchMap(readCredential => {
+    return this.credentialRepository
+      .getSanitizeCredentialByUsername(credential.username)
+      .switchMap((readCredential:Credential) => {
 
         // unable to find the credential specified
         if (!readCredential) {
-          return Rx.Observable.throw(createNotFoundError("Credential"));
+          return Rx.Observable.throw(this.createNotFoundError("Credential"));
         }
 
-        let readCredentialStatus = readCredential["status"];
+        let readCredentialStatus = readCredential.credentialStatus;
 
         // do not continue if the status is not active
-        if (readCredentialStatus === status.DISABLED) {
-          return Rx.Observable.of(saniticeCredentail(readCredential));
+        if (readCredentialStatus === CredentialStatus.DISABLED) {
+          return Rx.Observable.of(readCredential);
         }
 
-        let session = {};
-        session["credentialId"] = readCredential.credentialId;
-        session["partyId"] = readCredential.partyId ? readCredential.partyId : "";
-        session["accountStatus"] = readCredential.status;
+        let session:Session = new Session();
+
+        session.partyId = readCredential.partyId ? readCredential.partyId : "";
+        session.data.set("credentialId", readCredential.credentialId);
+        session.data.set("accountStatus", readCredential.credentialStatus);
 
         if (!validator.isEmail(readCredential.username)) {
-          session["phone"] = readCredential.username;
+          session.data.set("phone", readCredential.username);
         }
 
-        if (session.partyId || session.accountStatus === status.ACTIVE) {
+        if (session.partyId || session.accountStatus === CredentialStatus.ACTIVE) {
           return sessionRepository.addSession(session);
         }
 
@@ -113,88 +113,13 @@ export class CredentialOrchestrator {
         .switchMap(credentialConfirmation => {
           // TODO: needs to account for more than one value
           if (credentialConfirmation && credentialConfirmation.credentialConfirmationId) {
-            session["credentialConfirmationId"] = credentialConfirmation.credentialConfirmationId;
+            session.data.set("credentialConfirmationId", credentialConfirmation.credentialConfirmationId)
           }
 
           return sessionRepository.addSession(session);
         });
       });
   };
-
-  verifyCredentialConfirmation(credentialConfirmation) {
-    let credentialConfirmationId = credentialConfirmation.credentialConfirmationId;
-    let confirmationCode = credentialConfirmation.confirmationCode;
-
-    return credentialConfirmationRepository
-      .getCredentialConfirmationByCode(credentialConfirmationId, confirmationCode)
-      .switchMap(credentialConfirmation => {
-
-        if (!credentialConfirmation) {
-          // return an error if the credential confirmation is not found.
-          return Rx.Observable.throw(createNotFoundError("CredentialConfirmation"));
-        }
-
-        // we have a credential confirmation so let's get the status as it will be used multiple times.
-        let credentialConfirmationStatus = credentialConfirmation["status"];
-
-        // if the credential is confirmed
-        if (credentialConfirmationStatus === status.CONFIRMED) {
-          return Rx.Observable.of(credentialConfirmation);
-        }
-
-        // if the credential confirmation is expired then return the credential confirmation
-        if (credentialConfirmationStatus === status.EXPIRED) {
-          return Rx.Observable.of(credentialConfirmation);
-        }
-
-        // if the confirmation time has expired
-        if (confirmationCodeTimeHasExpired(credentialConfirmation)) {
-          credentialConfirmation["status"] = status.EXPIRED;
-
-          // update the credential confirmation status to expired
-          return credentialConfirmationRepository
-          .updateCredentialConfirmation(credentialConfirmation)
-          .map(numReplaced => {
-            if (numReplaced > 0) {
-              return credentialConfirmation;
-            } else {
-              return Rx.Observable.throw(createNotFoundError("CredentialConfirmation"));
-            }
-          });
-        }
-
-        if (credentialConfirmationStatus === status.NEW) {
-          return this.credentialRepositoryFactory
-          .updateCredentialStatusById(credentialConfirmation.credentialId, status.ACTIVE)
-          .switchMap(numReplaced => {
-            if(numReplaced) {
-              credentialConfirmation["status"] = status.CONFIRMED;
-              return credentialConfirmationRepository
-              .updateCredentialConfirmation(credentialConfirmation)
-              .map(numReplaced => {
-                if(numReplaced) {
-                  return credentialConfirmation
-                }else {
-                  return Rx.Observable.of(numReplaced)
-                }
-              });
-            }else {
-              return Rx.Observable.of(numReplaced);
-            }
-          });
-        } else {
-          // handles the very remote case where the credential confirmation has not status
-          return handleCredentialConfirmationUnknownStatus(credentialConfirmation);
-        }
-
-    });
-  };
-
-  saniticeCredentail(readCredential) {
-    let readCredentialCopy = readCredential;
-    delete readCredentialCopy['password'];
-    return readCredential;
-  }
 
   createNotFoundError(name) {
     return new Error(JSON.stringify({
@@ -203,68 +128,4 @@ export class CredentialOrchestrator {
     }));
   }
 
-  confirmationCodeTimeHasExpired(credentialConfirmation) {
-    // 1 second * 60 = 1 minute * 20 = 20 minutes
-    return credentialConfirmation.createdOn + (20 * 60 * 1000) <= new Date().getTime();
-  }
-
-  sendPhoneVerificationCode(credentialConfirmationId) {
-    return credentialConfirmationRepository
-    .getCredentialConfirmationById(credentialConfirmationId)
-    .switchMap(credentialConfirmation => {
-      if(credentialConfirmation) {
-        if (credentialConfirmation.status === status.CONFIRMED) {
-          return Rx.Observable.of(credentialConfirmation);
-        }else if(confirmationCodeTimeHasExpired(credentialConfirmation)) {
-          credentialConfirmation["status"] = status.EXPIRED;
-          return credentialConfirmationRepository
-          .updateCredentialConfirmation(credentialConfirmation)
-          .switchMap(numReplaced => { //this is so to make the old links still work.
-            if(numReplaced){
-              credentialConfirmation["createdOn"] = new Date().getTime();
-              credentialConfirmation["modifiedOn"] = new Date().getTime();
-              delete credentialConfirmation["_id"];
-              return credentialConfirmationRepository.addCredentialConfirmation(credentialConfirmation);
-            }
-            return Rx.Observable.of(numReplaced);
-          });
-        }else {
-          return Rx.Observable.of(credentialConfirmation);
-        }
-      }else {
-        return Rx.Observable.of(credentialConfirmation);
-      }
-    });
-  };
-
-  sendEmailVerificationCode(credentialConfirmationId) {
-    return credentialConfirmationRepository
-    .getCredentialConfirmationById(credentialConfirmationId)
-    .switchMap(credentialConfirmation => {
-      if(credentialConfirmation) {
-        if(credentialConfirmation.status === status.CONFIRMED) {
-          return Rx.Observable.of(credentialConfirmation);
-        }else if(confirmationCodeTimeHasExpired(credentialConfirmation)) {
-          credentialConfirmation["status"] = status.EXPIRED;
-          return credentialConfirmationRepository
-          .updateCredentialConfirmation(credentialConfirmation)
-          .switchMap(numReplaced => { //this is so to make the old links still work.
-            if(numReplaced){
-              credentialConfirmation["createdOn"] = new Date().getTime();
-              credentialConfirmation["modifiedOn"] = new Date().getTime();
-              delete credentialConfirmation["_id"];
-              return credentialConfirmationRepository.addCredentialConfirmation(credentialConfirmation);
-            }
-            return Rx.Observable.of(numReplaced);
-          });
-        }else {
-          return Rx.Observable.of(credentialConfirmation);
-        }
-      }else {
-        return Rx.Observable.of(credentialConfirmation);
-      }
-    });
-  };
-};
-
-module.exports = CredentialOrchestrator;
+}

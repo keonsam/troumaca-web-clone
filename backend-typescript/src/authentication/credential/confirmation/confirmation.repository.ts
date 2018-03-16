@@ -9,7 +9,7 @@ export interface ConfirmationRepository {
 
   getCredentialConfirmationByCode(credentialConfirmationId, confirmationCode):Observable<CredentialConfirmation>;
 
-  getCredentialConfirmationById(credentialConfirmationId):Observable<string>;
+  getCredentialConfirmationById(credentialConfirmationId):Observable<CredentialConfirmation>;
 
   updateCredentialConfirmation(credentialConfirmation):Observable<number>
 

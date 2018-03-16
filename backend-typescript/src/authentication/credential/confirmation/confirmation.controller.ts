@@ -1,13 +1,12 @@
-let express = require('express');
-let router = express.Router();
-let credentialOrchestrator = require('./credential.orchestrator');
+import {Response, Request, NextFunction} from 'express';
+import {ConfirmationOrchestrator} from "./confirmation.orchestrator";
 
+let confirmationOrchestrator:ConfirmationOrchestrator = new ConfirmationOrchestrator();
 
 // router.post("/verify-credentials-confirmations", function (req, res, next) {
-router.post("/verify-credentials-confirmations", function (req, res, next) {
+export let verifyCredentialConfirmation = (req: Request, res: Response) => {
   let credentialConfirmation = req.body;
-  credentialOrchestrator
-    .verifyCredentialConfirmation(credentialConfirmation)
+  confirmationOrchestrator.verifyCredentialConfirmation(credentialConfirmation)
     .subscribe(next => {
       console.log(next);
       res.send(next);
@@ -16,13 +15,12 @@ router.post("/verify-credentials-confirmations", function (req, res, next) {
       res.send(error);
       console.log(error);
     });
-});
+};
 
 // router.get("/send-confirmation-codes/phone/:credentialId", function (req, res, next) {
-router.get("/send-confirmation-codes/phone/:credentialId", function (req, res, next) {
+export let sendPhoneVerificationCode = (req: Request, res: Response) => {
   let credentialId = req.params.credentialId;
-  credentialOrchestrator
-    .sendPhoneVerificationCode(credentialId)
+  confirmationOrchestrator.sendPhoneVerificationCode(credentialId)
     .subscribe(credentialConfirmation => {
       res.send(JSON.stringify(credentialConfirmation));
     }, error => {
@@ -30,13 +28,12 @@ router.get("/send-confirmation-codes/phone/:credentialId", function (req, res, n
       res.send(error);
       console.log(error);
     });
-});
+};
 
 // router.get("/send-confirmation-codes/email/:credentialId", function (req, res, next) {
-router.get("/send-confirmation-codes/email/:credentialId", function (req, res, next) {
+export let sendEmailVerificationCode = (req: Request, res: Response) => {
   let credentialId = req.params.credentialId;
-  credentialOrchestrator
-    .sendEmailVerificationCode(credentialId)
+  confirmationOrchestrator.sendEmailVerificationCode(credentialId)
     .subscribe(credentialConfirmation => {
       res.send(JSON.stringify(credentialConfirmation));
     }, error => {
@@ -44,7 +41,4 @@ router.get("/send-confirmation-codes/email/:credentialId", function (req, res, n
       res.send(error);
       console.log(error);
     });
-});
-
-
-module.exports = router;
+};

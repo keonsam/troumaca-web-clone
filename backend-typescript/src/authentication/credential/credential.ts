@@ -1,8 +1,11 @@
+import {CredentialStatus} from "./credential.status";
+
 export class Credential {
 
   private _credentialId:string;
   private _username:string;
   private _password:string;
+  private _credentialStatus:CredentialStatus;
   private _modifiedOn:Date;
   private _createdOn:Date;
 
@@ -28,6 +31,14 @@ export class Credential {
 
   set password(value: string) {
     this._password = value;
+  }
+
+  get credentialStatus(): CredentialStatus {
+    return this._credentialStatus;
+  }
+
+  set credentialStatus(value: CredentialStatus) {
+    this._credentialStatus = value;
   }
 
   get modifiedOn(): Date {

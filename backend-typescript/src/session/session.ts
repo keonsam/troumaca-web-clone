@@ -4,7 +4,20 @@ export class Session {
   private _expirationDate:Date;
   private _createdOn:Date;
   private _modifiedOn:Date;
-  private _data:any;
+  private _data:Map;
+
+
+  constructor(sessionId?: string, expirationDate?: Date, createdOn?: Date, modifiedOn?: Date, data?: Map) {
+    this._sessionId = sessionId;
+    this._expirationDate = expirationDate;
+    this._createdOn = createdOn;
+    this._modifiedOn = modifiedOn;
+    if (data) {
+      this._data = data;
+    } else {
+      this.data = new Map()
+    }
+  }
 
   get sessionId(): string {
     return this._sessionId;
@@ -38,11 +51,11 @@ export class Session {
     this._modifiedOn = value;
   }
 
-  get data(): any {
+  get data(): Map {
     return this._data;
   }
 
-  set data(value: any) {
+  set data(value: Map) {
     this._data = value;
   }
 }

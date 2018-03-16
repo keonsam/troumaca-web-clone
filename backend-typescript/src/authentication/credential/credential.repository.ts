@@ -11,6 +11,7 @@ export interface CredentialRepository {
 
   getCredentialByCredentialId(credentialId:string):Observable<Credential>;
 
+  getSanitizeCredentialByUsername(credentialId:string):Observable<Credential>;
 
   checkUsernameValid(partyId:string, username:string):Observable<Credential>;
 
