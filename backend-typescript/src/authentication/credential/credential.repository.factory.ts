@@ -186,7 +186,22 @@ class CredentialDBRepository implements CredentialRepository {
         observer.complete();
       });
     });
-  }
+  };
+
+  updateCredentialPartyId(partyId: string, credentialId: string): Observable<number> {
+    return Rx.Observable.create(function (observer:Observer<number>) {
+      let query = {};
+      query["credentialId"] = credentialId;
+      db.credentials.update(query, {$set : {partyId}}, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        }else{
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
 
 }
 
@@ -224,6 +239,9 @@ class CredentialRestRepository implements CredentialRepository {
     return undefined;
   }
 
+  updateCredentialPartyId(partyId: string, credentialId: string): Observable<number> {
+    return undefined;
+  }
 }
 
 export function createCredentialRepositoryFactory(kind?:RepositoryKind):CredentialRepository {

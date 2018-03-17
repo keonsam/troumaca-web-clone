@@ -32,14 +32,14 @@ export let getAssetCount = (req: Request, res: Response) => {
 };
 
 export let getAssetById = (req: Request, res: Response) => {
-  assetOrchestrator.getAssetById(req.body.assetId)
+  assetOrchestrator.getAssetById(req.params.assetId)
     .subscribe(assets => {
       res.send(JSON.stringify(assets));
     });
 };
 
 export let updateAsset = (req: Request, res: Response) => {
-  assetOrchestrator.updateAsset(req.body.assetId, req.body)
+  assetOrchestrator.updateAsset(req.params.assetId, req.body)
     .subscribe(affected => {
       res.send(JSON.stringify(affected));
     });

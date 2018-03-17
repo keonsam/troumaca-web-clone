@@ -7,11 +7,27 @@ import {generateUUID} from "../../uuid.generator";
 import {calcSkip} from "../../db.util";
 import {Observer} from "rxjs/Observer";
 import {RepositoryKind} from "../../repository.kind";
-import {assetTypeClasses} from "../../db";
+import {assetTypeClasses, assetTypes} from "../../db";
+import {AssetType} from "../asset.type";
+import {noUndefined} from "@angular/compiler/src/util";
 
 let defaultPageSize = 10;
 
 class AssetTypeClassDBRepository implements AssetTypeClassRepository {
+
+  findAssetTypeClass(searchStr: string, pageSize: number): Observable<AssetTypeClass[]> {
+    let searchStrLocal = new RegExp(searchStr);
+    return Rx.Observable.create(function (observer: Observer<AssetTypeClass[]>) {
+      assetTypeClasses.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
 
   getAssetTypeClasses(pageNumber:number, pageSize:number, order:string):Observable<AssetTypeClass[]> {
     return Rx.Observable.create(function (observer:Observer<AssetTypeClass[]>) {
@@ -109,7 +125,12 @@ class AssetTypeClassDBRepository implements AssetTypeClassRepository {
 
 class AssetTypeClassRestRepository implements AssetTypeClassRepository {
 
-  deleteAssetTypeClass(assetTypeClassId: string): Observable<number> {
+  findAssetTypeClass(searchStr: string, pageSize: number): Observable<AssetTypeClass[]> {
+    return undefined;
+  }
+
+
+    deleteAssetTypeClass(assetTypeClassId: string): Observable<number> {
     return undefined;
   }
 

@@ -1,5 +1,5 @@
 import {Observable} from "rxjs/Observable";
-import Credential from './credential';
+import {Credential} from './credential';
 
 export interface CredentialRepository {
 
@@ -16,8 +16,10 @@ export interface CredentialRepository {
 
   addCredential(credential:Credential):Observable<Credential>;
 
-  authenticateCredential(credential:Credential):Observable<Credential>
+  authenticateCredential(credential:Credential):Observable<Credential>;
 
-  updateCredentialStatusById(credentialId:string, status:string):Observable<number>
+  updateCredentialStatusById(credentialId:string, status:string):Observable<number>;
+
+  updateCredentialPartyId(partyId: string, credentialId: string): Observable<number>;
 
 }

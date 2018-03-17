@@ -1,4 +1,4 @@
-import Rx from "rxjs";
+import * as Rx from "rxjs";
 import {AttributeRepository} from "./attribute.repository";
 import {Observable} from "rxjs/Observable";
 

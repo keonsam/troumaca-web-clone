@@ -15,6 +15,10 @@ export let getValues = (req: Request, res: Response) => {
   valueOrchestrator.getValues(number, size, field, direction)
     .subscribe(result => {
       res.send(JSON.stringify(result.data));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
     });
 };
 
@@ -22,6 +26,10 @@ export let saveValue = (req: Request, res: Response) => {
   valueOrchestrator.saveValue(req.body)
     .subscribe(assets => {
       res.send(JSON.stringify(assets));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
     });
 };
 
@@ -29,13 +37,21 @@ export let getValueCount = (req: Request, res: Response) => {
   valueOrchestrator.getValueCount()
     .subscribe(assetCount => {
       res.send(JSON.stringify(assetCount));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
     });
 };
 
 export let getValueById = (req: Request, res: Response) => {
-  valueOrchestrator.getValueById(req.body.assetId)
+  valueOrchestrator.getValueById(req.params.valueId)
     .subscribe(assets => {
       res.send(JSON.stringify(assets));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
     });
 };
 
@@ -50,22 +66,31 @@ export let findValues = (req: Request, res: Response) => {
     let body = JSON.stringify(values);
     res.send(body);
   }, error => {
-    res.send(JSON.stringify(error));
+    res.status(400);
+    res.send(error);
+    console.log(error);
   });
 
 };
 
 export let updateValue = (req: Request, res: Response) => {
-  valueOrchestrator.updateValue(req.body.assetId, req.body)
+  valueOrchestrator.updateValue(req.params.valueId, req.body)
     .subscribe(affected => {
       res.send(JSON.stringify(affected));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
     });
-
 };
 
 export let deleteValue = (req: Request, res: Response) => {
   valueOrchestrator.deleteValue(req.body)
     .subscribe(affected => {
       res.send(JSON.stringify(affected));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
     });
 };

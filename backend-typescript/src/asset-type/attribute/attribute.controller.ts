@@ -2,6 +2,7 @@ import {Request, Response} from "express";
 import {getNumericValueOrDefault} from '../../number.util';
 import {getStringValueOrDefault} from '../../string.util';
 import {AttributeOrchestrator} from './attribute.orchestrator';
+import {shapeAttributesResponse2} from "../asset.type.response.shaper";
 
 let orchestrator:AttributeOrchestrator = new AttributeOrchestrator();
 
@@ -98,5 +99,55 @@ export let deleteAvailableAttribute = (req: Request, res: Response) => {
       res.status(400);
       res.send(error);
       console.log(error);
+    });
+};
+
+
+export let getAttributes = (req: Request, res: Response) => {
+  let number = getNumericValueOrDefault(req.query.pageNumber, 1);
+  let size = getNumericValueOrDefault(req.query.pageSize, 10);
+  let field = getStringValueOrDefault(req.query.sortField, "");
+  let direction = getStringValueOrDefault(req.query.sortOrder, "");
+
+  attributeOrchestrator.getAttributes(number, size, field, direction)
+    .subscribe(result => {
+      res.send(JSON.stringify(result.data));
+    });
+};
+
+export let saveAttribute = (req: Request, res: Response) => {
+  attributeOrchestrator.saveAttribute(req.body)
+    .subscribe(assets => {
+      res.send(JSON.stringify(assets));
+    });
+};
+
+export let getAttributeCount = (req: Request, res: Response) => {
+  attributeOrchestrator.getAttributeCount()
+    .subscribe(assetCount => {
+      res.send(JSON.stringify(assetCount));
+    });
+};
+
+export let getAttributeById = (req: Request, res: Response) => {
+  attributeOrchestrator.getAttributeById(req.params.attributeId)
+    .subscribe(assets => {
+      res.send(JSON.stringify(assets));
+    });
+};
+
+
+export let updateAttribute = (req: Request, res: Response) => {
+  attributeOrchestrator.updateAttribute(req.params.attributeId, req.body)
+    .subscribe(affected => {
+      res.send(JSON.stringify(affected));
+    });
+
+};
+
+export let deleteAttribute = (req: Request, res: Response) => {
+  attributeOrchestrator.deleteAttribute(req.params.attributeId)
+    .subscribe(affected => {
+      res.send(JSON.stringify(affected));
     });
 };

@@ -15,6 +15,10 @@ export let getAssetTypes = (req: Request, res: Response) => {
   assetTypeOrchestrator.getAssetTypes(number, size, field, direction)
     .subscribe(result => {
       res.send(JSON.stringify(result.data));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
     });
 };
 
@@ -22,6 +26,10 @@ export let saveAssetType = (req: Request, res: Response) => {
   assetTypeOrchestrator.saveAssetType(req.body)
     .subscribe(assets => {
       res.send(JSON.stringify(assets));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
     });
 };
 
@@ -29,13 +37,21 @@ export let getAssetTypeCount = (req: Request, res: Response) => {
   assetTypeOrchestrator.getAssetTypeCount()
     .subscribe(assetCount => {
       res.send(JSON.stringify(assetCount));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
     });
 };
 
 export let getAssetTypeById = (req: Request, res: Response) => {
-  assetTypeOrchestrator.getAssetTypeById(req.body.assetId)
+  assetTypeOrchestrator.getAssetTypeById(req.params.assetTypeId)
     .subscribe(assets => {
       res.send(JSON.stringify(assets));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
     });
 };
 
@@ -50,22 +66,31 @@ export let findAssetTypes = (req: Request, res: Response) => {
     let body = JSON.stringify(assetTypes);
     res.send(body);
   }, error => {
-    res.send(JSON.stringify(error));
+    res.status(400);
+    res.send(error);
+    console.log(error);
   });
 
 };
 
 export let updateAssetType = (req: Request, res: Response) => {
-  assetTypeOrchestrator.updateAssetType(req.body.assetId, req.body)
+  assetTypeOrchestrator.updateAssetType(req.params.assetTypeId, req.body)
     .subscribe(affected => {
       res.send(JSON.stringify(affected));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
     });
-
 };
 
 export let deleteAssetType = (req: Request, res: Response) => {
   assetTypeOrchestrator.deleteAssetType(req.body)
     .subscribe(affected => {
       res.send(JSON.stringify(affected));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
     });
 };

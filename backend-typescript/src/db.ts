@@ -24,6 +24,7 @@ let thePostOfficeBoxDb = path.resolve(__dirname, '..') + '/nedb/site/post-office
 // party
 let thePersonsDb = path.resolve(__dirname, '..') + '/nedb/party/persons.db';
 let theOrganizationDb = path.resolve(__dirname, '..') + '/nedb/party/organizations.db';
+let theUsersDb = path.resolve(__dirname, '..') + '/nedb/party/users.db';
 
 // authentication
 let theCredentialDb = path.resolve(__dirname, '..') + '/nedb/authentication/credentials.db';
@@ -34,17 +35,23 @@ let theUsersPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/user
 let theCompanyPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/company-photos.db';
 let theAccountPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/account-photos.db';
 
-let sessionDb = path.resolve(__dirname, '..','..',) + '/nedb/session/sessions.db';
+let sessionDb = path.resolve(__dirname, '..',) + '/nedb/session/sessions.db';
 
-let theShipmentsDb = path.resolve(__dirname, '..','..',) + '/nedb/shipment/shipments.db';
+let theShipmentsDb = path.resolve(__dirname, '..',) + '/nedb/shipment/shipments.db';
 
 // Todo: Fix remove
-let theAccountsInformationDb = path.resolve(__dirname, '..') + '/nedb/accounts-information.db';
+let theOrganizationAccountsInformationsDb = path.resolve(__dirname, '..') + '/nedb/accounts/organization-information.db';
+let thePersonalAccountsInformationsDb = path.resolve(__dirname, '..') + '/nedb/accounts/personal-information.db';
 
 
+export let organizationsInformation = new Datastore(theOrganizationAccountsInformationsDb);
+organizationsInformation.loadDatabase(handleError);
+organizationsInformation.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
-export let accountsInformation = new Datastore(theAccountsInformationDb);
-accountsInformation.loadDatabase(handleError);
+export let personalsInformation = new Datastore(thePersonalAccountsInformationsDb);
+personalsInformation.loadDatabase(handleError);
+personalsInformation.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
+
 
 export let accountsPhotos = new Datastore(theAccountPhotoDb);
 accountsPhotos.loadDatabase(handleError);
@@ -60,6 +67,10 @@ usersPhotos.loadDatabase(handleError);
 export let persons = new Datastore(thePersonsDb);
 persons.loadDatabase(handleError);
 persons.ensureIndex({ fieldName: 'personId', unique: true }, handleError);
+
+export let users = new Datastore(theUsersDb);
+users.loadDatabase(handleError);
+users.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
 export let organizations = new Datastore(theOrganizationDb);
 organizations.loadDatabase(handleError);

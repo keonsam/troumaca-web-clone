@@ -2,10 +2,25 @@ import {Request, Response} from "express";
 import {getNumericValueOrDefault} from '../../number.util';
 import {getStringValueOrDefault} from '../../string.util';
 import {AssetTypeClassOrchestrator} from './asset.type.class.orchestrator';
+import {shapeAssetTypeClassesResponse2} from "./asset.type.class.response.shaper";
 
 let orchestrator:AssetTypeClassOrchestrator = new AssetTypeClassOrchestrator();
 
-// router.get("/", function (req, res, next) {
+export  let findAssetTypeClass = (req: Request, res: Response) => {
+  let searchStr:string =  req.query.q;
+  let pageSize:number = req.query.pageSize;
+
+  orchestrator.findAssetTypeClass(searchStr, pageSize)
+    .map(value => {
+      return shapeAssetTypeClassesResponse2("assetTypeClasses", value);
+    }).subscribe(assetTypeClasses => {
+    let body = JSON.stringify(assetTypeClasses);
+    res.send(body);
+  }, error => {
+    res.send(JSON.stringify(error));
+  });
+};
+
 export let getAssetTypeClasses = (req: Request, res: Response) => {
 
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
@@ -24,7 +39,6 @@ export let getAssetTypeClasses = (req: Request, res: Response) => {
 
 };
 
-// router.get("/:assetTypeClassId", function (req, res, ndex){
 export let getAssetTypeClass = (req: Request, res: Response) => {
   let assetTypeClassId = req.params.assetTypeClassId;
 
@@ -37,7 +51,6 @@ export let getAssetTypeClass = (req: Request, res: Response) => {
     });
 };
 
-// router.post("/", function (req, res, ndex) {
 export let saveAssetTypeClass = (req: Request, res: Response) => {
   let assetTypeClass = req.body;
 
@@ -51,7 +64,6 @@ export let saveAssetTypeClass = (req: Request, res: Response) => {
     });
 };
 
-// router.put("/:assetTypeClassId", function (req, res, next) {
 export let updateAssetTypeClass = (req: Request, res: Response) => {
   let assetTypeClassId = req.params.assetTypeClassId;
   let assetTypeClass = req.body;
@@ -66,7 +78,6 @@ export let updateAssetTypeClass = (req: Request, res: Response) => {
     });
 };
 
-// router.delete("/:assetTypeClassId", function (req, res, next) {
 export let deleteAssetTypeClass = (req: Request, res: Response) => {
   let assetTypeClassId = req.params.assetTypeClassId;
 

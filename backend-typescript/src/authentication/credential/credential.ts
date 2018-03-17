@@ -1,10 +1,20 @@
 export class Credential {
 
+  private _partyId:string;
   private _credentialId:string;
   private _username:string;
   private _password:string;
+  private _status: string;
   private _modifiedOn:Date;
   private _createdOn:Date;
+
+  get partyId(): string {
+    return this._partyId;
+  }
+
+  set partyId(value: string) {
+    this._partyId = value;
+  }
 
   get credentialId(): string {
     return this._credentialId;
@@ -28,6 +38,14 @@ export class Credential {
 
   set password(value: string) {
     this._password = value;
+  }
+
+  get status(): string {
+    return this._status;
+  }
+
+  set status(value: string) {
+    this._status = value;
   }
 
   get modifiedOn(): Date {
