@@ -7,6 +7,7 @@ import {getStringValueOrDefault} from "../string.util";
 let assetTypeOrchestrator:AssetTypeOrchestrator = new AssetTypeOrchestrator();
 
 export let getAssetTypes = (req: Request, res: Response) => {
+
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
   let size = getNumericValueOrDefault(req.query.pageSize, 10);
   let field = getStringValueOrDefault(req.query.sortField, "");

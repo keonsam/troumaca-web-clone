@@ -12,13 +12,14 @@ import {RepositoryKind} from "../../../repository.kind";
 class ConfirmationDBRepository implements ConfirmationRepository {
 
   addCredentialConfirmation(credentialConfirmation:CredentialConfirmation):Observer<CredentialConfirmation> {
-    credentialConfirmation["credentialConfirmationId"] = generateUUID();
-    credentialConfirmation["confirmationCode"] = phoneToken(6, {type: 'string'});
-    credentialConfirmation["status"] = CredentialStatus.NEW;
+    credentialConfirmation.credentialConfirmationId = generateUUID();
+    credentialConfirmation.confirmationCode = phoneToken(6, {type: 'string'});
+    credentialConfirmation.status = CredentialStatus.NEW;
 
     return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
       credentialConfirmations.insert(credentialConfirmation, function (err:any, doc:any) {
         if (!err) {
+          delete doc._id;
           observer.next(doc);
         } else {
           observer.error(err);

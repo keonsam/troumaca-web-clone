@@ -1,3 +1,5 @@
+import {CredentialStatus} from "./credential.status";
+
 export class Credential {
 
   private _partyId:string;
