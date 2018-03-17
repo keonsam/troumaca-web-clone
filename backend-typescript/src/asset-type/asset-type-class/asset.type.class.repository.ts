@@ -3,6 +3,8 @@ import {AssetTypeClass} from "./asset.type.class";
 
 export interface AssetTypeClassRepository {
 
+  findAssetTypeClass(searchStr: string, pageSize: number): Observable<AssetTypeClass[]>;
+
   getAssetTypeClasses(pageNumber:number, pageSize:number, order:string):Observable<AssetTypeClass[]>;
 
   getAssetTypeClassCount():Observable<number>;

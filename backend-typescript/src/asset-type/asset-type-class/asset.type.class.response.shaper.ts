@@ -10,3 +10,11 @@ export function shapeAssetTypeClasssResponse(dataName:string, data:any, pageNumb
     sort:sort
   }
 }
+
+export function shapeAssetTypeClassesResponse2(dataName:string, data:any) {
+  return {
+    [dataName]: data,
+    page: {},
+    sort: {}
+  }
+}

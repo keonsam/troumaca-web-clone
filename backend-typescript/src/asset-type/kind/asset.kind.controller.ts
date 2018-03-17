@@ -10,6 +10,8 @@ export let getAssetKinds = (req: Request, res: Response) => {
       let body = JSON.stringify(shapeAssetKindResponse2("assetKinds", assetKinds));
       res.send(body);
     }, error => {
-      res.send(JSON.stringify(error));
+      res.status(400);
+      res.send(error);
+      console.log(error);
     });
 };

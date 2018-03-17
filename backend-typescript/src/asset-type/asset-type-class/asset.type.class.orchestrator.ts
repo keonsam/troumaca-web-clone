@@ -6,6 +6,7 @@ import {createAssetTypeClassesRepositoryFactory} from './asset.type.class.reposi
 import {AssetTypeClassRepository} from "./asset.type.class.repository";
 import {shapeAssetTypeClasssResponse} from "./asset.type.class.response.shaper";
 import {Result} from "../../result.success";
+import {AssetType} from "../asset.type";
 
 export class AssetTypeClassOrchestrator {
 
@@ -13,6 +14,10 @@ export class AssetTypeClassOrchestrator {
 
   constructor() {
     this.assetTypeClassRepository = createAssetTypeClassesRepositoryFactory();
+  }
+
+  findAssetTypeClass(searchStr:string, pageSize:number):Observable<AssetTypeClass[]> {
+    return this.assetTypeClassRepository.findAssetTypeClass(searchStr, pageSize);
   }
 
   getAssetTypeClasses(number:number, size:number, field:string, direction:string):Observable<Result<any>> {
