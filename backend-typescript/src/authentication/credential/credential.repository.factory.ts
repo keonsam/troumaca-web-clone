@@ -1,7 +1,7 @@
 import Rx from "rxjs";
 import validator from 'validator';
 import libphonenumberjs from 'libphonenumber-js';
-import passwordValidator from 'password-validator';
+import PasswordValidator from 'password-validator';
 import {generateUUID} from "../../uuid.generator";
 import {Credential} from "./credential";
 import {Observable} from "rxjs/Observable";
@@ -61,7 +61,7 @@ class CredentialDBRepository implements CredentialRepository {
 
     } else {
       // Create a schema
-      let schema:any = new passwordValidator();
+      let schema:any = new PasswordValidator();
 
       // Add properties to it
       schema
@@ -131,7 +131,7 @@ class CredentialDBRepository implements CredentialRepository {
   };
 
 
-  checkUsernameValid(partyId, username):Observable<Credential> {
+  checkUsernameValid(partyId:string, username:string):Observable<Credential> {
     return Rx.Observable.create(function (observer:Observer<Credential>) {
       let query1 = {
         "partyId":partyId
@@ -168,7 +168,7 @@ class CredentialDBRepository implements CredentialRepository {
     });
   };
 
-  authenticateCredential(credential):Observable<Credential> {
+  authenticateCredential(credential:Credential):Observable<Credential> {
     return Rx.Observable.create(function (observer:Observer<Credential>) {
       let query1 = {
         "username":credential.username
@@ -189,7 +189,7 @@ class CredentialDBRepository implements CredentialRepository {
     });
   };
 
-  updateCredentialStatusById(credentialId, status):Observable<Credential> {
+  updateCredentialStatusById(credentialId:string, status:string):Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
         "credentialId":credentialId

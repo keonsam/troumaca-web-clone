@@ -143,7 +143,7 @@ class SessionRestRepository implements SessionRepository {
 
 }
 
-export function createSessionRepositoryFactory(kind?:RepositoryKind) {
+export function createSessionRepositoryFactory(kind?:RepositoryKind):SessionRepository {
   switch (kind) {
     case RepositoryKind.Nedb:
       return new SessionDBRepository();

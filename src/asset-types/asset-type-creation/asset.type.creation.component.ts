@@ -285,7 +285,7 @@ export class AssetTypeCreationComponent implements OnInit {
 
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.assetType.unitOfMeasure = selected.originalObject;
+      this.assetType.unitOfMeasureId = selected.originalObject;
     }
   }
 

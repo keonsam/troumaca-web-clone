@@ -3,6 +3,7 @@ import {CredentialStatus} from "../credential.status";
 export class CredentialConfirmation {
 
   private _credentialConfirmationId:string;
+  private _credentialId:string;
   private _confirmationCode:string;
   private _credentialStatus:CredentialStatus;
   private _modifiedOn:Date;
@@ -14,6 +15,14 @@ export class CredentialConfirmation {
 
   set credentialConfirmationId(value: string) {
     this._credentialConfirmationId = value;
+  }
+
+  get credentialId(): string {
+    return this._credentialId;
+  }
+
+  set credentialId(value: string) {
+    this._credentialId = value;
   }
 
   get confirmationCode(): string {

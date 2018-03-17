@@ -1,6 +1,7 @@
 export class Session {
 
   private _sessionId:string;
+  private _partyId:string;
   private _expirationDate:Date;
   private _createdOn:Date;
   private _modifiedOn:Date;
@@ -25,6 +26,14 @@ export class Session {
 
   set sessionId(value: string) {
     this._sessionId = value;
+  }
+
+  get partyId(): string {
+    return this._partyId;
+  }
+
+  set partyId(value: string) {
+    this._partyId = value;
   }
 
   get expirationDate(): Date {

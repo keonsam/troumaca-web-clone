@@ -1,8 +1,8 @@
 import Rx from "rxjs";
 import {ConfirmationRepository} from "./confirmation.repository";
 import {generateUUID} from "../../../uuid.generator";
-import phoneToken from 'generate-sms-verification-code';
-import {credentialConfirmations, credentials} from "../../db";
+import phoneToken from "generate-sms-verification-code";
+import {credentialConfirmations} from "../../../db";
 import {CredentialStatus} from '../credential.status';
 import {Observable} from "rxjs/Observable";
 import {CredentialConfirmation} from "./credential.confirmation";
@@ -11,10 +11,10 @@ import {RepositoryKind} from "../../../repository.kind";
 
 class ConfirmationDBRepository implements ConfirmationRepository {
 
-  addCredentialConfirmation(credentialConfirmation:CredentialConfirmation):Observer<CredentialConfirmation> {
+  addCredentialConfirmation(credentialConfirmation:CredentialConfirmation):Observable<CredentialConfirmation> {
     credentialConfirmation.credentialConfirmationId = generateUUID();
     credentialConfirmation.confirmationCode = phoneToken(6, {type: 'string'});
-    credentialConfirmation.status = CredentialStatus.NEW;
+    credentialConfirmation.credentialStatus = CredentialStatus.NEW;
 
     return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
       credentialConfirmations.insert(credentialConfirmation, function (err:any, doc:any) {
@@ -29,7 +29,7 @@ class ConfirmationDBRepository implements ConfirmationRepository {
     });
   };
 
-  getCredentialConfirmationByCode(credentialConfirmationId:string, confirmationCode:string):Observer<CredentialConfirmation> {
+  getCredentialConfirmationByCode(credentialConfirmationId:string, confirmationCode:string):Observable<CredentialConfirmation> {
     return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
       let query1 = {
         "credentialConfirmationId":credentialConfirmationId
@@ -50,7 +50,7 @@ class ConfirmationDBRepository implements ConfirmationRepository {
     });
   };
 
-  getCredentialConfirmationById(credentialConfirmationId:string):Observer<CredentialConfirmation> {
+  getCredentialConfirmationById(credentialConfirmationId:string):Observable<CredentialConfirmation> {
     return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
       let query = {
         "credentialConfirmationId":credentialConfirmationId
@@ -67,13 +67,13 @@ class ConfirmationDBRepository implements ConfirmationRepository {
     });
   };
 
-  updateCredentialConfirmation(credentialConfirmation:CredentialConfirmation):Observer<number> {
+  updateCredentialConfirmation(credentialConfirmation:CredentialConfirmation):Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
         "credentialConfirmationId":credentialConfirmation.credentialConfirmationId
       };
 
-      credentialConfirmation.modifiedOn = new Date().getTime();
+      credentialConfirmation.modifiedOn = new Date();
       credentialConfirmations.update(query, credentialConfirmation, {}, function (err:any, numReplaced:number) {
         if (!err) {
           observer.next(numReplaced);
@@ -85,13 +85,16 @@ class ConfirmationDBRepository implements ConfirmationRepository {
     });
   };
 
-  getCredentialConfirmationByCredentialId(credentialId:string):Observer<CredentialConfirmation> {
+  getCredentialConfirmationByCredentialId(credentialId:string):Observable<CredentialConfirmation[]> {
     return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
       let query = {
         "credentialId":credentialId
       };
 
-      credentialConfirmations.findOne(query).sort({ status: CredentialStatus.NEW}).exec(function (err:any, doc:any) {
+      credentialConfirmations
+        .find(query)
+        .sort({ status: 1})
+        .exec(function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -113,7 +116,7 @@ class ConfirmationRestRepository implements ConfirmationRepository {
     return undefined;
   }
 
-  getCredentialConfirmationByCredentialId(credentialId:string): Observable<CredentialConfirmation> {
+  getCredentialConfirmationByCredentialId(credentialId:string): Observable<CredentialConfirmation[]> {
     return undefined;
   }
 
@@ -126,7 +129,7 @@ class ConfirmationRestRepository implements ConfirmationRepository {
   }
 }
 
-export function createCredentialConfirmationRepositoryFactory(kind?:RepositoryKind) {
+export function createCredentialConfirmationRepositoryFactory(kind?:RepositoryKind):ConfirmationRepository {
   switch (kind) {
     case RepositoryKind.Nedb:
       return new ConfirmationDBRepository();

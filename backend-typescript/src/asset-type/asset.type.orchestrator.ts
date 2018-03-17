@@ -4,7 +4,6 @@ import {Observable} from "rxjs/Observable";
 import {AssetType} from "./asset.type";
 import {shapeAssetTypesResponse} from "./asset.type.response.shaper";
 import {Result} from "../result.success";
-import {AssetType} from "./assetType/assetType";
 import {getSortOrderOrDefault} from "../sort.order.util";
 
 

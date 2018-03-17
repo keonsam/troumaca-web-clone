@@ -7,6 +7,12 @@ class AssetKind {
     set assetKindId(value) {
         this._assetKindId = value;
     }
+    get name() {
+        return this._name;
+    }
+    set name(value) {
+        this._name = value;
+    }
 }
 exports.AssetKind = AssetKind;
 //# sourceMappingURL=asset.kind.js.map

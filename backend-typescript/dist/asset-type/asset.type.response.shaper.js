@@ -1,5 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+function shapeAssetTypesResponse(data, pageNumber, pageSize, items, totalItems, sort) {
+    return {
+        assets: data,
+        page: {
+            number: pageNumber,
+            size: pageSize,
+            items: items,
+            totalItems: totalItems
+        },
+        sort: sort
+    };
+}
+exports.shapeAssetTypesResponse = shapeAssetTypesResponse;
 function shapeAssetTypesResponse2(dataName, data) {
     return {
         [dataName]: data,

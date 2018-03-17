@@ -3,9 +3,8 @@ import {ValueRepository} from "./value.repository";
 import {Observable} from "rxjs/Observable";
 import {Value} from "./value";
 import {shapeValuesResponse} from "./value.response.shaper";
-import {Result} from "../result.success";
-import {Value} from "./value";
-import {getSortOrderOrDefault} from "../sort.order.util";
+import {Result} from "../../result.success";
+import {getSortOrderOrDefault} from "../../sort.order.util";
 
 
 export class ValueOrchestrator {

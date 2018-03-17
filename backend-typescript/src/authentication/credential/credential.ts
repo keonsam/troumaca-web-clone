@@ -3,6 +3,7 @@ import {CredentialStatus} from "./credential.status";
 export class Credential {
 
   private _credentialId:string;
+  private _partyId:string;
   private _username:string;
   private _password:string;
   private _credentialStatus:CredentialStatus;
@@ -15,6 +16,14 @@ export class Credential {
 
   set credentialId(value: string) {
     this._credentialId = value;
+  }
+
+  get partyId(): string {
+    return this._partyId;
+  }
+
+  set partyId(value: string) {
+    this._partyId = value;
   }
 
   get username(): string {
