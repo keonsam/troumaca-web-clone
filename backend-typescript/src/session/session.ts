@@ -2,21 +2,25 @@ export class Session {
 
   private _sessionId:string;
   private _partyId:string;
-  private _expirationDate:Date;
+  private _credentialId:string;
+  private _customerId:string;
+  private _expirationTime:Date;
   private _createdOn:Date;
   private _modifiedOn:Date;
-  private _data:Map;
+  private _data:Map<String, Object>;
 
 
-  constructor(sessionId?: string, expirationDate?: Date, createdOn?: Date, modifiedOn?: Date, data?: Map) {
+  constructor(sessionId?: string, credentialId?:string, customerId?:string, expirationTime?: Date, createdOn?: Date, modifiedOn?: Date, data?: Map<String, Object>) {
     this._sessionId = sessionId;
-    this._expirationDate = expirationDate;
+    this._credentialId = credentialId;
+    this._customerId = customerId;
+    this._expirationTime = expirationTime;
     this._createdOn = createdOn;
     this._modifiedOn = modifiedOn;
     if (data) {
       this._data = data;
     } else {
-      this.data = new Map()
+      this.data = new Map<String, Object>();
     }
   }
 
@@ -36,12 +40,28 @@ export class Session {
     this._partyId = value;
   }
 
-  get expirationDate(): Date {
-    return this._expirationDate;
+  get credentialId(): string {
+    return this._credentialId;
   }
 
-  set expirationDate(value: Date) {
-    this._expirationDate = value;
+  set credentialId(value: string) {
+    this._credentialId = value;
+  }
+
+  get customerId(): string {
+    return this._customerId;
+  }
+
+  set customerId(value: string) {
+    this._customerId = value;
+  }
+
+  get expirationTime(): Date {
+    return this._expirationTime;
+  }
+
+  set expirationTime(value: Date) {
+    this._expirationTime = value;
   }
 
   get createdOn(): Date {
@@ -60,11 +80,11 @@ export class Session {
     this._modifiedOn = value;
   }
 
-  get data(): Map {
+  get data(): Map<String, Object> {
     return this._data;
   }
 
-  set data(value: Map) {
+  set data(value: Map<String, Object>) {
     this._data = value;
   }
 }

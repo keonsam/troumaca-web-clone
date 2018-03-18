@@ -45,13 +45,14 @@ export let forgotPassword = (req: Request, res: Response) => {
 export let authenticate = (req: Request, res: Response) => {
   let credential = req.body;
   credentialOrchestrator.authenticate(credential)
-    .subscribe(session => {
+    .subscribe(authenticateResponse => {
       res.setHeader('Content-Type', 'application/json');
-      if (session) {
+      if (authenticateResponse && authenticateResponse.session && authenticateResponse.session.sessionId) {
+        let sessionId = authenticateResponse.session.sessionId;
         // { path: '/', httpOnly: true, secure: false, maxAge: null }
-        res.cookie("sessionId", session.sessionId, { path: '/', maxAge: 20*60*1000, httpOnly: true });
+        res.cookie("sessionId", sessionId, { path: '/', maxAge: 20*60*1000, httpOnly: true });
       }
-      res.send(session);
+      res.send(authenticateResponse);
     }, error => {
       res.status(400);
       res.send(error);

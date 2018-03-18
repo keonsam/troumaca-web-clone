@@ -5,16 +5,16 @@ import PasswordValidator from 'password-validator';
 import {generateUUID} from "../../uuid.generator";
 import {Credential} from "./credential";
 import {Observable} from "rxjs/Observable";
-import {Observer, Observer} from "rxjs/Observer";
+import {Observer} from "rxjs/Observer";
 import {CredentialStatus} from "./credential.status"
 import {credentials} from "../../db";
 import {RepositoryKind} from "../../repository.kind";
 import {CredentialRepository} from "./credential.repository";
+import {Result} from "../../result.success";
 
 class CredentialDBRepository implements CredentialRepository {
 
-  isValidUsername(credential:Credential):Observable<Credential> {
-    let username:string = credential.username;
+  isValidUsername(username:string):Observable<boolean> {
     if (!username) {
       return Rx.Observable.of(false);
     }
@@ -52,9 +52,7 @@ class CredentialDBRepository implements CredentialRepository {
     }
   };
 
-  isValidPassword(credential:Credential):Observable<Credential> {
-    let password = credential.password;
-
+  isValidPassword(password:string):Observable<boolean> {
     if (!password) {
 
       return Rx.Observable.of(false);
@@ -113,6 +111,19 @@ class CredentialDBRepository implements CredentialRepository {
     });
   };
 
+  authenticate(credential: Credential): Observable<Result<Credential>> {
+    return this.getCredentialByUsername(credential.username)
+      .map((resultCred:Credential) => {
+        if (!resultCred) {
+          return new Result(false, );
+        } else if (resultCred.password === credential.password) {
+          return new Result(false, "", resultCred);
+        } else {
+          return new Result(true, "", resultCred);
+        }
+      });
+  }
+
   getCredentialByCredentialId(credentialId:string):Observable<Credential> {
     return Rx.Observable.create(function (observer:Observer<Credential>) {
       let query = {
@@ -155,7 +166,7 @@ class CredentialDBRepository implements CredentialRepository {
 
   addCredential(credential:Credential):Observable<Credential> {
     credential.credentialId = generateUUID();
-    credential.status = CredentialStatus.NEW;
+    credential.credentialStatus = CredentialStatus.NEW;
     return Rx.Observable.create(function (observer:Observer<Credential>) {
       credentials.insert(credential, function (err:any, doc:any) {
         if (!err) {
@@ -206,14 +217,22 @@ class CredentialDBRepository implements CredentialRepository {
     });
   };
 
-  updateCredentialPartyId(partyId: string, credentialId: string): Observable<number> {
+  updateCredentialPartyId(credentialId: string, partyId: string): Observable<Credential> {
     return Rx.Observable.create(function (observer:Observer<number>) {
-      let query = {};
-      query["credentialId"] = credentialId;
-      db.credentials.update(query, {$set : {partyId}}, {}, function (err, numReplaced) {
+      let query = {
+        "credentialId":credentialId
+      };
+      credentials.update(query, {$set : {partyId}}, {}, function (err:any, numReplaced:number) {
         if (!err) {
-          observer.next(numReplaced);
-        }else{
+          credentials.findOne(query, function (err:any, doc:any) {
+            if (!err) {
+              observer.next(doc);
+            } else {
+              observer.error(err);
+            }
+            observer.complete();
+          });
+        } else {
           observer.error(err);
         }
         observer.complete();
@@ -225,31 +244,31 @@ class CredentialDBRepository implements CredentialRepository {
 
 class CredentialRestRepository implements CredentialRepository {
 
-  addCredential(credential): Observable<> {
+  addCredential(credential:Credential): Observable<Credential> {
     return undefined;
   }
 
-  authenticateCredential(credential): Observable<> {
+  authenticateCredential(credential:Credential): Observable<Credential> {
     return undefined;
   }
 
-  checkUsernameValid(partyId: string, username: string): Observable<> {
+  checkUsernameValid(partyId: string, username: string): Observable<Credential> {
     return undefined;
   }
 
-  getCredentialByCredentialId(credentialId: string): Observable<> {
+  getCredentialByCredentialId(credentialId: string): Observable<Credential> {
     return undefined;
   }
 
-  getCredentialByUsername(username: string): Observable<> {
+  getCredentialByUsername(username: string): Observable<Credential> {
     return undefined;
   }
 
-  isValidPassword(credential): Observable<boolean> {
+  isValidPassword(password:string): Observable<boolean> {
     return undefined;
   }
 
-  isValidUsername(credential): Observable<boolean> {
+  isValidUsername(username:string): Observable<boolean> {
     return undefined;
   }
 
@@ -257,16 +276,18 @@ class CredentialRestRepository implements CredentialRepository {
     return undefined;
   }
 
-<<<<<<< HEAD
-  updateCredentialPartyId(partyId: string, credentialId: string): Observable<number> {
-    return undefined;
-  }
-=======
-  getSanitizeCredentialByUsername(credentialId: string): Observable<> {
+  updateCredentialPartyId(credentialId: string, partyId: string): Observable<Credential> {
     return undefined;
   }
 
->>>>>>> 0e220dbacc9805aebeb4a9ff321eea5cae580fa0
+  getSanitizeCredentialByUsername(credentialId: string): Observable<Credential> {
+    return undefined;
+  }
+
+  authenticate(credential: Credential): Observable<Result<Credential>> {
+    return undefined;
+  }
+
 }
 
 export function createCredentialRepositoryFactory(kind?:RepositoryKind):CredentialRepository {

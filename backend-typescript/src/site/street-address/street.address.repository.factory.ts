@@ -2,13 +2,16 @@ import * as Rx from 'rxjs';
 import {StreetAddressRepository} from "./street.address.repository";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
-import {RepositoryKind} from "../repository.kind";
-import {streetAddresses} from "../db";
+import {RepositoryKind} from "../../repository.kind";
+import {streetAddresses} from "../../db";
 import {StreetAddress} from "./street.address";
 import {calcSkip} from "../../db.util";
 import {generateUUID} from "../../uuid.generator";
 
 class StreetAddressDBRepository implements StreetAddressRepository {
+
+  private defaultPageSize:number = 10;
+
   saveStreetAddress(streetAddress:StreetAddress):Observable<StreetAddress> {
     streetAddress.siteId = generateUUID();
     return Rx.Observable.create(function(observer:Observer<StreetAddress>) {
@@ -24,8 +27,9 @@ class StreetAddressDBRepository implements StreetAddressRepository {
   }
 
   getStreetAddresses(pageNumber:number, pageSize:number, order:string):Observable<StreetAddress[]> {
+    let localDefaultPageSize = this.defaultPageSize;
     return Rx.Observable.create(function (observer:Observer<StreetAddress[]>) {
-      let skip = calcSkip(pageNumber, pageSize, defaultPageSize);
+      let skip = calcSkip(pageNumber, pageSize, localDefaultPageSize);
       streetAddresses.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);

@@ -2,18 +2,20 @@ import * as Rx from 'rxjs';
 import {WebSiteRepository} from "./web.site.repository";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
-import {RepositoryKind} from "../repository.kind";
-import {webSites} from "../db";
+import {RepositoryKind} from "../../repository.kind";
+import {websites} from "../../db";
 import {WebSite} from "./web.site";
 import {calcSkip} from "../../db.util";
 import {generateUUID} from "../../uuid.generator";
-import {WebSite} from "./web.site";
 
 class WebSiteDBRepository implements WebSiteRepository {
+
+  private defaultPageSize:number = 10;
+
   saveWebSite(webSite:WebSite):Observable<WebSite> {
     webSite.siteId = generateUUID();
     return Rx.Observable.create(function(observer:Observer<WebSite>) {
-      webSites.insert(webSite, function(err:any, doc:any) {
+      websites.insert(webSite, function(err:any, doc:any) {
         if (err) {
           observer.error(err);
         } else {
@@ -25,9 +27,10 @@ class WebSiteDBRepository implements WebSiteRepository {
   }
 
   getWebSites(pageNumber:number, pageSize:number, order:string):Observable<WebSite[]> {
+    let localDefaultPageSize = this.defaultPageSize;
     return Rx.Observable.create(function (observer:Observer<WebSite[]>) {
-      let skip = calcSkip(pageNumber, pageSize, defaultPageSize);
-      webSites.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
+      let skip = calcSkip(pageNumber, pageSize, localDefaultPageSize);
+      websites.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -40,7 +43,7 @@ class WebSiteDBRepository implements WebSiteRepository {
 
   getWebSiteCount():Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
-      webSites.count({}, function (err:any, count:number) {
+      websites.count({}, function (err:any, count:number) {
         if (!err) {
           observer.next(count);
         } else {
@@ -56,7 +59,7 @@ class WebSiteDBRepository implements WebSiteRepository {
       let query = {
         "siteId":siteId
       };
-      webSites.findOne(query, function (err:any, doc:any) {
+      websites.findOne(query, function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -72,7 +75,7 @@ class WebSiteDBRepository implements WebSiteRepository {
       let query = {
         "siteId":siteId
       };
-      webSites.update(query, webSite, {}, function (err:any, numReplaced:number) {
+      websites.update(query, webSite, {}, function (err:any, numReplaced:number) {
         if (!err) {
           observer.next(numReplaced);
         } else {
@@ -88,7 +91,7 @@ class WebSiteDBRepository implements WebSiteRepository {
       let query = {
         "siteId":siteId
       };
-      webSites.remove(query, {}, function (err:any, numRemoved:number) {
+      websites.remove(query, {}, function (err:any, numRemoved:number) {
         if (!err) {
           observer.next(numRemoved);
         } else {

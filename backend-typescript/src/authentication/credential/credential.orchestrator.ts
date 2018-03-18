@@ -14,6 +14,7 @@ import {SessionRepository} from "../../session/session.repository";
 import {ConfirmationRepository} from "./confirmation/confirmation.repository";
 import {CredentialConfirmation} from "./confirmation/credential.confirmation";
 import {AuthenticateResponse} from "./authenticate.response";
+import {Result} from "../../result.success";
 
 export class CredentialOrchestrator {
 
@@ -29,7 +30,7 @@ export class CredentialOrchestrator {
 
   isValidUsername(credential:Credential):Observable<ValidateResponse> {
     return this.credentialRepository
-    .isValidUsername(credential)
+    .isValidUsername(credential.username)
     .map(valid => {
       return new ValidateResponse(valid);
     });
@@ -37,7 +38,7 @@ export class CredentialOrchestrator {
 
   isValidPassword(credential:Credential):Observable<ValidateResponse> {
     return this.credentialRepository
-    .isValidPassword(credential)
+    .isValidPassword(credential.password)
     .map(valid => {
       return new ValidateResponse(valid);
     });
@@ -80,47 +81,63 @@ export class CredentialOrchestrator {
     // 3. He/she has completed the quick profile, person, account type, and possible organization name.
 
     return this.credentialRepository
-      .getSanitizeCredentialByUsername(credential.username)
-      .switchMap((readCredential:Credential) => {
+      .authenticate(credential)
+      .switchMap((result:Result<Credential>) => {
 
         // unable to find the credential specified
-        if (!readCredential) {
+        if (!result) {
           return Rx.Observable.throw(this.createNotFoundError("Credential"));
         }
 
-        let readCredentialStatus = readCredential.credentialStatus;
+        let readCred = result.data;
+        let authenticated:boolean = !result.fail;
 
-        // do not continue if the status is not active
-        if (readCredentialStatus !== CredentialStatus.ACTIVE) {
-          return Rx.Observable.of(new AuthenticateResponse(false, false, readCredential));
+        if (!authenticated) {
+          return Rx.Observable.of(new AuthenticateResponse(authenticated));
         }
 
-        if (!readCredential.partyId) {
-          return Rx.Observable.of(new AuthenticateResponse(false, readCredential));
+        let readCredStatus = readCred.credentialStatus;
+
+        let credentialActive:boolean = (readCredStatus !== CredentialStatus.ACTIVE);
+
+        // do not continue if the status is not active
+        if (!credentialActive) {
+          return Rx.Observable.of(new AuthenticateResponse(result.fail, credentialActive));
+        }
+
+        let accountExists = this.isNull(readCred.partyId);
+
+        if (!accountExists) {
+          return Rx.Observable.of(new AuthenticateResponse(result.fail, credentialActive, accountExists));
         }
 
         let session:Session = new Session();
 
-        session.partyId = readCredential.partyId ? readCredential.partyId : null;
-        session.data.set("credentialId", readCredential.credentialId);
-        session.data.set("credentialStatus", readCredential.credentialStatus);
+        session.partyId = readCred.partyId;
+        session.credentialId = readCred.credentialId;
+        session.data.set("credentialStatus", readCred.credentialStatus);
 
-        if (!validator.isEmail(readCredential.username)) {
-          session.data.set("phone", readCredential.username);
+        if (!validator.isEmail(readCred.username)) {
+          session.data.set("phone", readCred.username);
         }
 
-        if (readCredential.partyId || readCredential.credentialStatus === CredentialStatus.ACTIVE) {
-          return this.sessionRepository
-            .addSession(session)
-            .map(value => {
-              return new AuthenticateResponse(false, readCredential, value);
-            });
-        }
+        return this.sessionRepository.addSession(session)
+        .map(readSession => {
+          return new AuthenticateResponse(authenticated, credentialActive, accountExists, readCred, readSession);
+        });
 
       });
-  };
+  }
 
-  createNotFoundError(name) {
+  isNull(obj:any):boolean {
+    if (obj) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  createNotFoundError(name:string):any {
     return new Error(JSON.stringify({
       "statusCode":404,
       "message": name + " not found."

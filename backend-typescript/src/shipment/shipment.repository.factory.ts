@@ -9,6 +9,9 @@ import {calcSkip} from "../db.util";
 import {generateUUID} from "../uuid.generator";
 
 class ShipmentDBRepository implements ShipmentRepository {
+
+  private defaultPageSize:number = 10;
+
   saveShipment(shipment:Shipment):Observable<Shipment> {
     shipment.shipmentId = generateUUID();
     return Rx.Observable.create(function(observer:Observer<Shipment>) {
@@ -24,8 +27,9 @@ class ShipmentDBRepository implements ShipmentRepository {
   }
 
   getShipments(pageNumber:number, pageSize:number, order:string):Observable<Shipment[]> {
+    let localDefaultPageSize = this.defaultPageSize;
     return Rx.Observable.create(function (observer:Observer<Shipment[]>) {
-      let skip = calcSkip(pageNumber, pageSize, defaultPageSize);
+      let skip = calcSkip(pageNumber, pageSize, localDefaultPageSize);
       shipments.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);

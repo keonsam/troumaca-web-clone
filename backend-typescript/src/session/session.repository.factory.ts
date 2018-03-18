@@ -8,7 +8,7 @@ import {Session} from "./session";
 import {Observer} from "rxjs/Observer";
 import {RepositoryKind} from "../repository.kind";
 
-export class SessionDBRepository implements SessionRepository {
+class SessionDBRepository implements SessionRepository {
 
   getSessionById(sessionId:string):Observable<Session> {
     return Rx.Observable.create(function (observer:Observer<Session>) {
@@ -64,10 +64,13 @@ export class SessionDBRepository implements SessionRepository {
   addSession(session:Session):Observable<Session> {
 
     session.sessionId = generateUUID();
-    session.expirationDate = new Date().getTime();
-    session.createdOn = new Date().getTime();
-    session.modifiedOn = new Date().getTime();
-    session.data = {};
+    session.expirationTime = new Date();
+    session.createdOn = new Date();
+    session.modifiedOn = new Date();
+
+    if (!session.data) {
+      session.data = new Map();
+    }
 
     return Rx.Observable.create(function (observer:Observer<Session>) {
       sessions.insert(session, function (err:any, doc:any) {
@@ -95,16 +98,20 @@ export class SessionDBRepository implements SessionRepository {
         observer.complete();
       });
     });
-  };
+  }
 
-  isValidSession(sessionId:string):Observable<Session> {
+  updateSessionPartyId(sessionId:string, partyId:string): Observable<Session> {
+    return undefined;
+  }
+
+  isValidSession(sessionId:string):Observable<boolean> {
     return this.getSessionById(sessionId).map(session => {
       let readSessionId = session.sessionId;
       if (!readSessionId) {
         return false;
       }
 
-      let readExpirationDate = session.expirationDate;
+      let readExpirationDate = session.expirationTime;
       if (!readExpirationDate) {
         return false;
       }
@@ -117,11 +124,11 @@ export class SessionDBRepository implements SessionRepository {
 }
 
 class SessionRestRepository implements SessionRepository {
-  addSession(session): Observable<Session> {
+  addSession(session:Session): Observable<Session> {
     return undefined;
   }
 
-  getSessionByCredentialId(credentialId): Observable<Session> {
+  getSessionByCredentialId(credentialId:string): Observable<Session> {
     return undefined;
   }
 
@@ -129,15 +136,19 @@ class SessionRestRepository implements SessionRepository {
     return undefined;
   }
 
-  getSessionByPartyId(partyId): Observable<Session> {
+  getSessionByPartyId(partyId:string): Observable<Session> {
     return undefined;
   }
 
-  isValidSession(sessionId): Observable<boolean> {
+  isValidSession(sessionId:string): Observable<boolean> {
     return undefined;
   }
 
-  updateSession(sessionId, session): Observable<number> {
+  updateSession(sessionId:string, session:Session): Observable<number> {
+    return undefined;
+  }
+
+  updateSessionPartyId(sessionId:string, partyId:string): Observable<Session> {
     return undefined;
   }
 

@@ -8,6 +8,7 @@ import {CredentialRepository} from "../../authentication/credential/credential.r
 import {createCredentialRepositoryFactory} from "../../authentication/credential/credential.repository.factory";
 import {Credential} from "../../authentication/credential/credential";
 import * as generatePassword from 'password-generator';
+import {getSortOrderOrDefault} from "../../sort.order.util";
 
 
 export class UserOrchestrator {
@@ -22,7 +23,7 @@ export class UserOrchestrator {
     this.credentialRepository = createCredentialRepositoryFactory();
   }
 
-    getUsers (number, size, field, direction):Observable<any> {
+    getUsers (number:number, size:number, field:string, direction:string):Observable<any> {
       let sort = getSortOrderOrDefault(field, direction);
       return this.userRepository
         .getUsers(number, size, sort)
@@ -36,45 +37,48 @@ export class UserOrchestrator {
         });
     };
 
-    getUser (partyId):Observable<User> {
+    getUser (partyId:string):Observable<User> {
       return this.userRepository.getUser(partyId);
     };
 
-    saveUser (user):Observable<User>{
-      return this.userRepository.saveUser(user)
-        .switchMap(user => {
-          if(!user){
-            return Observable.of(user)
-          }else {
-              this.credential.partyId = user.partyId;
-              this.credential.username = user.username;
-              this.credential.password = generatePassword();
-              this.credential.status = "ACTIVE";
-            return this.credentialRepository.addCredential(this.credential)
-              .map(credential =>{
-                if(!credential){
-                  return credential;
-                }else {
-                  return user;
-                }
-              });
-          }
-        });
+     saveUser (user:User):Observable<User>{
+    //   return this.userRepository.saveUser(user)
+    //     .switchMap(user => {
+    //       if(!user){
+    //         return Observable.of(user)
+    //       }else {
+    //           this.credential.partyId = user.partyId;
+    //           this.credential.username = user.username;
+    //           this.credential.password = generatePassword();
+    //           this.credential.status = "ACTIVE";
+    //         return this.credentialRepository.addCredential(this.credential)
+    //           .map(credential =>{
+    //             if(!credential){
+    //               return credential;
+    //             }else {
+    //               return user;
+    //             }
+    //           });
+    //       }
+    //     });
+       return undefined;
+     };
+
+    deleteUser (partyId:string):Observable<number> {
+    //   return this.userRepository.deleteUser(partyId)
+    //     .flatMap(value => {
+    //       if(!value) {
+    //         return Observable.of(value);
+    //       }else {user.orchestrator.ts
+    //         return this.credentialRepository.deleteCredential(partyId);
+    //       }
+    //     });
+      return undefined;
     };
 
-    deleteUser (partyId):Observable<number> {
-      return this.userRepository.deleteUser(partyId)
-        .flatMap(value => {
-          if(!value) {
-            return Observable.of(value);
-          }else {
-            return this.credentialRepository.deleteCredential(partyId);
-          }
-        });
-    };
-
-    updateUser (partyId, user):Observable<number> {
-      return this.userRepository.updateUser(partyId, user);
+    updateUser (partyId:string, user:User):Observable<number> {
+    //   return this.userRepository.updateUser(partyId, user);
+      return undefined;
     };
 
 }

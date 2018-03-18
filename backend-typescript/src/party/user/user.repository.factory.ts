@@ -10,7 +10,10 @@ import {generateUUID} from "../../uuid.generator";
 
 class UserDBRepository implements UserRepository {
 
+  private defaultPageSize:number = 10;
+
   getUsers(pageNumber:number, pageSize:number, order:string):Observable<User[]> {
+    let defaultPageSize = this.defaultPageSize;
     return Rx.Observable.create(function (observer:Observer<User[]>) {
       let skip = calcSkip(pageNumber, pageSize, defaultPageSize);
       users.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
