@@ -369,7 +369,7 @@ export class AssetCreationComponent implements OnInit {
   }
 
   onUnitOfMeasureSelect(selected: CompleterItem) {
-      this.asset.unitOfMeasure = selected.originalObject;
+      this.asset.unitOfMeasureId = selected.originalObject;
   }
 
   onPhysicalSiteSelect(selected: CompleterItem) {

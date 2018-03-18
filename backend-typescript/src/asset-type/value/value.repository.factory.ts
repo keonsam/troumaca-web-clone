@@ -3,13 +3,15 @@ import {ValueRepository} from "./value.repository";
 import {Observable} from "rxjs/Observable";
 import {Value} from "./value";
 import {Observer} from "rxjs/Observer";
-import {RepositoryKind} from "../repository.kind";
-import {values} from "../db";
-import {calcSkip} from "../db.util";
-import {generateUUID} from "../uuid.generator";
+import {RepositoryKind} from "../../repository.kind";
+import {calcSkip} from "../../db.util";
+import {generateUUID} from "../../uuid.generator";
 import {values} from "../../db";
 
 class ValueDBRepository implements ValueRepository {
+
+  private defaultPageSize:number = 10;
+
   findValues(searchStr: string, pageSize: number): Observable<Value[]> {
     let searchStrLocal = new RegExp(searchStr);
     return Rx.Observable.create(function (observer: Observer<Value[]>) {
@@ -40,7 +42,7 @@ class ValueDBRepository implements ValueRepository {
 
   getValues(pageNumber: number, pageSize: number, order: string): Observable<Value[]> {
     return Rx.Observable.create(function (observer: Observer<Value[]>) {
-      let skip = calcSkip(pageNumber, pageSize, defaultPageSize);
+      let skip = calcSkip(pageNumber, pageSize, this.defaultPageSize);
       values.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err: any, doc: any) {
         if (!err) {
           observer.next(doc);
@@ -99,9 +101,11 @@ class ValueDBRepository implements ValueRepository {
 
   deleteValue(valueId:string): Observable<number> {
     return Rx.Observable.create(function (observer: Observer<number>) {
-      let query = {};
-      query["valueId"] = valueId;
-      values.remove(query, {}, function (err, numRemoved) {
+      let query = {
+        "valueId":valueId
+      };
+
+      values.remove(query, {}, function (err:any, numRemoved:number) {
         if (!err) {
           observer.next(numRemoved);
         } else {

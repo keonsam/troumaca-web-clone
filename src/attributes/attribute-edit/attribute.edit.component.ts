@@ -228,7 +228,7 @@ export class AttributeEditComponent implements OnInit {
 
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.attribute.unitOfMeasure = selected.originalObject;
+      this.attribute.unitOfMeasureId = selected.originalObject;
     }
   }
 

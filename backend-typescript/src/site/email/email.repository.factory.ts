@@ -2,14 +2,16 @@ import * as Rx from 'rxjs';
 import {EmailRepository} from "./email.repository";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
-import {RepositoryKind} from "../repository.kind";
-import {emails} from "../db";
+import {RepositoryKind} from "../../repository.kind";
+import {emails} from "../../db";
 import {Email} from "./email";
 import {calcSkip} from "../../db.util";
 import {generateUUID} from "../../uuid.generator";
-import {Email} from "../../email-type/email/email";
 
 class EmailDBRepository implements EmailRepository {
+
+  private defaultPageSize:number = 10;
+
   saveEmail(email:Email):Observable<Email> {
     email.siteId = generateUUID();
     return Rx.Observable.create(function(observer:Observer<Email>) {
@@ -25,8 +27,9 @@ class EmailDBRepository implements EmailRepository {
   }
 
   getEmails(pageNumber:number, pageSize:number, order:string):Observable<Email[]> {
+    let localDefaultPageSize = this.defaultPageSize;
     return Rx.Observable.create(function (observer:Observer<Email[]>) {
-      let skip = calcSkip(pageNumber, pageSize, defaultPageSize);
+      let skip = calcSkip(pageNumber, pageSize, localDefaultPageSize);
       emails.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);

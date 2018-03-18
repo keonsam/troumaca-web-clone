@@ -9,6 +9,9 @@ import {calcSkip} from "../db.util";
 import {generateUUID} from "../uuid.generator";
 
 class AssetTypeDBRepository implements AssetTypeRepository {
+
+  private _defaultPageSize:number = 10;
+
   findAssetTypes(searchStr: string, pageSize: number): Observable<AssetType[]> {
     let searchStrLocal = new RegExp(searchStr);
     return Rx.Observable.create(function (observer: Observer<AssetType[]>) {
@@ -39,7 +42,7 @@ class AssetTypeDBRepository implements AssetTypeRepository {
 
   getAssetTypes(pageNumber: number, pageSize: number, order: string): Observable<AssetType[]> {
     return Rx.Observable.create(function (observer: Observer<AssetType[]>) {
-      let skip = calcSkip(pageNumber, pageSize, defaultPageSize);
+      let skip = calcSkip(pageNumber, pageSize, this.defaultPageSize);
       assetTypes.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err: any, doc: any) {
         if (!err) {
           observer.next(doc);
@@ -98,9 +101,11 @@ class AssetTypeDBRepository implements AssetTypeRepository {
 
   deleteAssetType(assetTypeId:string): Observable<number> {
     return Rx.Observable.create(function (observer: Observer<number>) {
-      let query = {};
-      query["assetTypeId"] = assetTypeId;
-      assetTypes.remove(query, {}, function (err, numRemoved) {
+      let query = {
+        "assetTypeId":assetTypeId
+      };
+
+      assetTypes.remove(query, {}, function (err:any, numRemoved:number) {
         if (!err) {
           observer.next(numRemoved);
         } else {
@@ -110,6 +115,15 @@ class AssetTypeDBRepository implements AssetTypeRepository {
       })
     });
   };
+
+  get defaultPageSize(): number {
+    return this._defaultPageSize;
+  }
+
+  set defaultPageSize(value: number) {
+    this._defaultPageSize = value;
+  }
+
 }
 
 class AssetTypeRestRepository implements AssetTypeRepository {

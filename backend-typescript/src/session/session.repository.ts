@@ -5,14 +5,16 @@ export interface SessionRepository {
 
   getSessionById(sessionId:string):Observable<Session> ;
 
-  getSessionByCredentialId(credentialId):Observable<Session>;
+  getSessionByCredentialId(credentialId:string):Observable<Session>;
 
-  getSessionByPartyId(partyId):Observable<Session>;
+  getSessionByPartyId(partyId:string):Observable<Session>;
 
-  addSession(session):Observable<Session>;
+  addSession(session:Session):Observable<Session>;
 
-  updateSession(sessionId, session):Observable<number>;
+  updateSession(sessionId:string, session:Session):Observable<number>;
 
-  isValidSession(sessionId):Observable<boolean>;
+  updateSessionPartyId(sessionId:string, partyId:string):Observable<Session>;
+
+  isValidSession(sessionId:string):Observable<boolean>;
 
 }

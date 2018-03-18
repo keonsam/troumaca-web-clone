@@ -4,7 +4,7 @@ export class Result<T> {
   private _data:T;
   private _message:string;
 
-  constructor(fail: boolean, message: string, data: T) {
+  constructor(fail?: boolean, message?: string, data?: T) {
     this._fail = fail;
     this._message = message;
     this._data = data;

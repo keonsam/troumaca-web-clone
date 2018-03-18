@@ -1,9 +1,5 @@
-//import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
 import {AssetKind} from "../kind/asset.kind";
-import {AssetType} from "../asset-type";
-import {Site} from "./asset.site";
-import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
-import {AssetPerson} from "./asset.person";
+import {AssetType} from "../asset.type";
 
 export class Asset {
 
@@ -13,10 +9,10 @@ export class Asset {
   private _assetType: AssetType;
   private _serialNumber:string;
   private _quantity:string;
-  private _unitOfMeasure:UnitOfMeasure;
+  private _unitOfMeasureId:string;
   private _description:string;
-  private _person: AssetPerson;
-  private _site: Site;
+  private _personId: string;
+  private _siteId: string;
   private _createdOn: string;
   private _modifiedOn: string;
 
@@ -24,9 +20,6 @@ export class Asset {
   constructor() {
     this._assetKind = new AssetKind();
     this._assetType = new AssetType();
-    this._unitOfMeasure = new UnitOfMeasure();
-    this._person = new AssetPerson();
-    this._site = new Site();
   }
 
   get assetId(): string {
@@ -85,28 +78,28 @@ export class Asset {
     this._quantity = value;
   }
 
-  get unitOfMeasure(): UnitOfMeasure {
-    return this._unitOfMeasure;
+  get unitOfMeasureId(): string {
+    return this._unitOfMeasureId;
   }
 
-  set unitOfMeasure(value: UnitOfMeasure) {
-    this._unitOfMeasure = value;
+  set unitOfMeasureId(value: string) {
+    this._unitOfMeasureId = value;
   }
 
-  get person(): AssetPerson {
-    return  this._person;
+  get personId(): string {
+    return  this._personId;
   }
 
-  set person(value: AssetPerson) {
-    this._person = value
+  set personId(value: string) {
+    this._personId = value
   }
 
-  get site(): Site {
-    return this._site;
+  get siteId(): string {
+    return this._siteId;
   }
 
-  set site(value: Site) {
-    this._site = value;
+  set siteId(value: string) {
+    this._siteId = value;
   }
 
   get createdOn(): string {

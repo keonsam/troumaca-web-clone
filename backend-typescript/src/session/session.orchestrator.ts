@@ -1,30 +1,27 @@
 import {createSessionRepositoryFactory} from "./session.repository.factory";
-import {shapeSessionResponse} from "./session.response.shaper";
 import {SessionRepository} from "./session.repository";
+import {Observable} from "rxjs/Observable";
 
 export class SessionOrchestrator {
 
-  private sessionRepositoryFactory:SessionRepository;
+  private sessionRepository:SessionRepository;
 
   constructor() {
-    this.sessionRepositoryFactory = createSessionRepositoryFactory();
+    this.sessionRepository = createSessionRepositoryFactory();
   }
 
-
-  isValidSession(sessionId) {
-    return sessionRepository
-    .isValidSession(sessionId)
+  isValidSession(sessionId:string):Observable<boolean> {
+    return this.sessionRepository.isValidSession(sessionId)
     .map(valid => {
-      return shapeSessionResponse(valid)
+      return valid;
     });
   }
 
-  getSimpleSession(sessionId) {
+  getSimpleSession(sessionId:string) {
     // Todo: Need to verify.
-    return sessionRepository
-    .getSessionById(sessionId)
-    .map(valid => {
-      return shapeSessionResponse(valid)
+    return this.sessionRepository.getSessionById(sessionId)
+    .map(session => {
+      return session;
     });
   }
 

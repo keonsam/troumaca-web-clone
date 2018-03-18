@@ -2,7 +2,6 @@ import {Request, Response} from "express";
 import {getNumericValueOrDefault} from '../../number.util';
 import {getStringValueOrDefault} from '../../string.util';
 import {AttributeOrchestrator} from './attribute.orchestrator';
-import {shapeAttributesResponse2} from "../asset.type.response.shaper";
 
 let orchestrator:AttributeOrchestrator = new AttributeOrchestrator();
 
@@ -16,8 +15,8 @@ export let getAvailableAttributes = (req: Request, res: Response) => {
   let assignedArray = req.query.assignedArray ? req.query.assignedArray.split(","): [];
 
   orchestrator.getAvailableAttributes(number, size, field, direction, assignedArray)
-    .subscribe(result => {
-      res.send(JSON.stringify(result.data));
+    .subscribe(pageResponse => {
+      res.send(JSON.stringify(pageResponse));
     }, error => {
       res.status(400);
       res.send(error);
@@ -36,8 +35,8 @@ export let getAssignedAttributes = (req: Request, res: Response) => {
   let assignedArray = req.query.assignedArray ? req.query.assignedArray.split(","): [];
 
   orchestrator.getAssignedAttributes(number, size, field, direction, assignedArray)
-    .subscribe(result => {
-      res.send(JSON.stringify(result.data));
+    .subscribe(pageResponse => {
+      res.send(JSON.stringify(pageResponse));
     }, error => {
       res.status(400);
       res.send(error);
@@ -76,8 +75,7 @@ export let saveAvailableAttribute = (req: Request, res: Response) => {
 export let updateAvailableAttribute = (req: Request, res: Response) => {
   let attributeId = req.params.attributeId;
   let attribute = req.body;
-  orchestrator
-    .updateAvailableAttribute(attributeId, attribute)
+  orchestrator.updateAvailableAttribute(attributeId, attribute)
     .subscribe(numUpdated => {
       res.send(JSON.stringify(numUpdated));
     }, error => {
@@ -87,12 +85,10 @@ export let updateAvailableAttribute = (req: Request, res: Response) => {
     });
 };
 
-
 // router.delete("/attributes/:attributeId", function (req, res, next) {
 export let deleteAvailableAttribute = (req: Request, res: Response) => {
   let attributeId = req.params.attributeId;
-  orchestrator
-    .deleteAvailableAttribute(attributeId)
+  orchestrator.deleteAvailableAttribute(attributeId)
     .subscribe(numRemoved => {
       res.send(JSON.stringify(numRemoved));
     }, error => {
@@ -102,35 +98,34 @@ export let deleteAvailableAttribute = (req: Request, res: Response) => {
     });
 };
 
-
 export let getAttributes = (req: Request, res: Response) => {
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
   let size = getNumericValueOrDefault(req.query.pageSize, 10);
   let field = getStringValueOrDefault(req.query.sortField, "");
   let direction = getStringValueOrDefault(req.query.sortOrder, "");
 
-  attributeOrchestrator.getAttributes(number, size, field, direction)
-    .subscribe(result => {
-      res.send(JSON.stringify(result.data));
+  orchestrator.getAttributes(number, size, field, direction)
+    .subscribe(pageResponse => {
+      res.send(JSON.stringify(pageResponse));
     });
 };
 
 export let saveAttribute = (req: Request, res: Response) => {
-  attributeOrchestrator.saveAttribute(req.body)
+  orchestrator.saveAttribute(req.body)
     .subscribe(assets => {
       res.send(JSON.stringify(assets));
     });
 };
 
 export let getAttributeCount = (req: Request, res: Response) => {
-  attributeOrchestrator.getAttributeCount()
+  orchestrator.getAttributeCount()
     .subscribe(assetCount => {
       res.send(JSON.stringify(assetCount));
     });
 };
 
 export let getAttributeById = (req: Request, res: Response) => {
-  attributeOrchestrator.getAttributeById(req.params.attributeId)
+  orchestrator.getAttributeById(req.params.attributeId)
     .subscribe(assets => {
       res.send(JSON.stringify(assets));
     });
@@ -138,7 +133,7 @@ export let getAttributeById = (req: Request, res: Response) => {
 
 
 export let updateAttribute = (req: Request, res: Response) => {
-  attributeOrchestrator.updateAttribute(req.params.attributeId, req.body)
+  orchestrator.updateAttribute(req.params.attributeId, req.body)
     .subscribe(affected => {
       res.send(JSON.stringify(affected));
     });
@@ -146,7 +141,7 @@ export let updateAttribute = (req: Request, res: Response) => {
 };
 
 export let deleteAttribute = (req: Request, res: Response) => {
-  attributeOrchestrator.deleteAttribute(req.params.attributeId)
+  orchestrator.deleteAttribute(req.params.attributeId)
     .subscribe(affected => {
       res.send(JSON.stringify(affected));
     });

@@ -2,18 +2,20 @@ import * as Rx from 'rxjs';
 import {PhoneRepository} from "./phone.repository";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
-import {RepositoryKind} from "../repository.kind";
-import {phones} from "../db";
+import {RepositoryKind} from "../../repository.kind";
+import {telephones} from "../../db";
 import {Phone} from "./phone";
 import {calcSkip} from "../../db.util";
 import {generateUUID} from "../../uuid.generator";
-import {Phone} from "../../phone-type/phone/phone";
 
 class PhoneDBRepository implements PhoneRepository {
+
+  private defaultPageSize:number = 10;
+
   savePhone(phone:Phone):Observable<Phone> {
     phone.siteId = generateUUID();
     return Rx.Observable.create(function(observer:Observer<Phone>) {
-      phones.insert(phone, function(err:any, doc:any) {
+      telephones.insert(phone, function(err:any, doc:any) {
         if (err) {
           observer.error(err);
         } else {
@@ -25,9 +27,10 @@ class PhoneDBRepository implements PhoneRepository {
   }
 
   getPhones(pageNumber:number, pageSize:number, order:string):Observable<Phone[]> {
+    let localDefaultPageSize = this.defaultPageSize;
     return Rx.Observable.create(function (observer:Observer<Phone[]>) {
-      let skip = calcSkip(pageNumber, pageSize, defaultPageSize);
-      phones.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
+      let skip = calcSkip(pageNumber, pageSize, localDefaultPageSize);
+      telephones.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -40,7 +43,7 @@ class PhoneDBRepository implements PhoneRepository {
 
   getPhoneCount():Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
-      phones.count({}, function (err:any, count:number) {
+      telephones.count({}, function (err:any, count:number) {
         if (!err) {
           observer.next(count);
         } else {
@@ -56,7 +59,7 @@ class PhoneDBRepository implements PhoneRepository {
       let query = {
         "siteId":siteId
       };
-      phones.findOne(query, function (err:any, doc:any) {
+      telephones.findOne(query, function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -72,7 +75,7 @@ class PhoneDBRepository implements PhoneRepository {
       let query = {
         "siteId":siteId
       };
-      phones.update(query, phone, {}, function (err:any, numReplaced:number) {
+      telephones.update(query, phone, {}, function (err:any, numReplaced:number) {
         if (!err) {
           observer.next(numReplaced);
         } else {
@@ -88,7 +91,7 @@ class PhoneDBRepository implements PhoneRepository {
       let query = {
         "siteId":siteId
       };
-      phones.remove(query, {}, function (err:any, numRemoved:number) {
+      telephones.remove(query, {}, function (err:any, numRemoved:number) {
         if (!err) {
           observer.next(numRemoved);
         } else {

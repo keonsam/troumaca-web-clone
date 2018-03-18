@@ -1,8 +1,8 @@
 import {Request, Response} from "express";
 import {ValueOrchestrator} from "./value.orchestrator";
 import {shapeValuesResponse2} from "./value.response.shaper";
-import {getNumericValueOrDefault} from "../number.util";
-import {getStringValueOrDefault} from "../string.util";
+import {getNumericValueOrDefault} from "../../number.util";
+import {getStringValueOrDefault} from "../../string.util";
 
 let valueOrchestrator:ValueOrchestrator = new ValueOrchestrator();
 

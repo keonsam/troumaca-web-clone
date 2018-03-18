@@ -2,13 +2,16 @@ import * as Rx from 'rxjs';
 import {PostOfficeBoxRepository} from "./post.office.box.repository";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
-import {RepositoryKind} from "../repository.kind";
-import {postOfficeBoxes} from "../db";
+import {RepositoryKind} from "../../repository.kind";
+import {postOfficeBoxes} from "../../db";
 import {PostOfficeBox} from "./post.office.box";
 import {calcSkip} from "../../db.util";
 import {generateUUID} from "../../uuid.generator";
 
 class PostOfficeBoxDBRepository implements PostOfficeBoxRepository {
+
+  private defaultPageSize:number = 10;
+
   savePostOfficeBox(postOfficeBox:PostOfficeBox):Observable<PostOfficeBox> {
     postOfficeBox.siteId = generateUUID();
     return Rx.Observable.create(function(observer:Observer<PostOfficeBox>) {
@@ -24,8 +27,9 @@ class PostOfficeBoxDBRepository implements PostOfficeBoxRepository {
   }
 
   getPostOfficeBoxes(pageNumber:number, pageSize:number, order:string):Observable<PostOfficeBox[]> {
+    let localDefaultPageSize = this.defaultPageSize;
     return Rx.Observable.create(function (observer:Observer<PostOfficeBox[]>) {
-      let skip = calcSkip(pageNumber, pageSize, defaultPageSize);
+      let skip = calcSkip(pageNumber, pageSize, localDefaultPageSize);
       postOfficeBoxes.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);

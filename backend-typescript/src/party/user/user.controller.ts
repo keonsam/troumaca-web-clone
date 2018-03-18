@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import {UserOrchestrator} from "./user.orchestrator";
-import {getNumericValueOrDefault} from "../number.util";
-import {getStringValueOrDefault} from "../string.util";
+import {getNumericValueOrDefault} from "../../number.util";
+import {getStringValueOrDefault} from "../../string.util";
 
 let userOrchestrator:UserOrchestrator = new UserOrchestrator();
 
@@ -12,8 +12,7 @@ export  let getUsers = (req: Request, res: Response) => {
   let field = getStringValueOrDefault(req.query.sortField, "");
   let direction = getStringValueOrDefault(req.query.sortOrder, "");
 
-  userOrchestrator
-    .getUsers(number, size, field, direction)
+  userOrchestrator.getUsers(number, size, field, direction)
     .subscribe(users => {
       res.send(JSON.stringify(users));
     }, error => {
@@ -25,8 +24,7 @@ export  let getUsers = (req: Request, res: Response) => {
 
 export  let getUser = (req: Request, res: Response) => {
   let partyId = req.params.partyId;
-  userOrchestrator
-    .getUser(partyId)
+  userOrchestrator.getUser(partyId)
     .subscribe(user => {
       let body = JSON.stringify(user);
       res.send(body);
@@ -39,8 +37,7 @@ export  let getUser = (req: Request, res: Response) => {
 
 export  let saveUser = (req: Request, res: Response) => {
   let user = req.body;
-  userOrchestrator
-    .saveUser(user)
+  userOrchestrator.saveUser(user)
     .subscribe(user => {
       res.send(JSON.stringify(user));
     }, error => {

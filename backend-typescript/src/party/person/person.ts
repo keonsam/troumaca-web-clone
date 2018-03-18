@@ -8,6 +8,14 @@ export class Person extends Party {
   private _username: string;
   private _dateOfBirth:Date;
 
+  get partyId(): string {
+    return super.partyId;
+  }
+
+  set partyId(value: string) {
+    super.partyId = value;
+  }
+
   get name(): string {
     return `${this.lastName}, ${this.firstName}`;
   }

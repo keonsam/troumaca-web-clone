@@ -1,18 +1,16 @@
-import {generateUUID} from "../../uuid.generator";
-import {credentialConfirmations, credentials} from "../../db";
 import {Observable} from "rxjs/Observable";
 import {CredentialConfirmation} from "./credential.confirmation";
 
 export interface ConfirmationRepository {
 
-  addCredentialConfirmation(credentialConfirmation):Observable<CredentialConfirmation>;
+  addCredentialConfirmation(credentialConfirmation:CredentialConfirmation):Observable<CredentialConfirmation>;
 
-  getCredentialConfirmationByCode(credentialConfirmationId, confirmationCode):Observable<CredentialConfirmation>;
+  getCredentialConfirmationByCode(credentialConfirmationId:string, confirmationCode:string):Observable<CredentialConfirmation>;
 
-  getCredentialConfirmationById(credentialConfirmationId):Observable<CredentialConfirmation>;
+  getCredentialConfirmationById(credentialConfirmationId:string):Observable<CredentialConfirmation>;
 
-  updateCredentialConfirmation(credentialConfirmation):Observable<number>
+  updateCredentialConfirmation(credentialConfirmation:CredentialConfirmation):Observable<number>
 
-  getCredentialConfirmationByCredentialId(credentialId):Observable<CredentialConfirmation>;
+  getCredentialConfirmationByCredentialId(credentialId:string):Observable<CredentialConfirmation[]>;
 
 }

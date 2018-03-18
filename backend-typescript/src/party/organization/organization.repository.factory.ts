@@ -10,9 +10,25 @@ import {generateUUID} from "../../uuid.generator";
 
 class OrganizationDBRepository implements OrganizationRepository {
 
+  private defaultPageSize:number = 100;
+
+  addOrganization(organization: Organization): Observable<Organization> {
+    return Rx.Observable.create(function (observer:Observer<Organization>) {
+      organization.partyId = generateUUID();
+      organizations.insert(organization,function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
   getOrganizations(pageNumber:number, pageSize:number, order:string):Observable<Organization[]> {
     return Rx.Observable.create(function (observer:Observer<Organization[]>) {
-      let skip = calcSkip(pageNumber, pageSize, defaultPageSize);
+      let skip = calcSkip(pageNumber, pageSize, this.defaultPageSize);
       organizations.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
@@ -103,6 +119,11 @@ class OrganizationDBRepository implements OrganizationRepository {
 }
 
 class OrganizationRestRepository implements OrganizationRepository {
+
+  addOrganization(organization: Organization): Observable<Organization> {
+    return undefined;
+  }
+
   deleteOrganization(organizationId: string): Observable<number> {
     return undefined;
   }

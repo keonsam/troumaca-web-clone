@@ -39,6 +39,14 @@ let sessionDb = path.resolve(__dirname, '..',) + '/nedb/session/sessions.db';
 
 let theShipmentsDb = path.resolve(__dirname, '..',) + '/nedb/shipment/shipments.db';
 
+let accessRolesDb = path.resolve(__dirname, '..',) + '/nedb/authorization/access-roles.db';
+let accessRoleTypesDb = path.resolve(__dirname, '..',) + '/nedb/authorization/access-role-types.db';
+let grantsDb = path.resolve(__dirname, '..',) + '/nedb/authorization/grants.db';
+let permissionsDb = path.resolve(__dirname, '..',) + '/nedb/authorization/permissions.db';
+let resourcesDb = path.resolve(__dirname, '..',) + '/nedb/authorization/resources.db';
+let resourcePermissionsDb = path.resolve(__dirname, '..',) + '/nedb/authorization/resource-permissions.db';
+
+
 // Todo: Fix remove
 let theOrganizationAccountsInformationsDb = path.resolve(__dirname, '..') + '/nedb/accounts/organization-information.db';
 let thePersonalAccountsInformationsDb = path.resolve(__dirname, '..') + '/nedb/accounts/personal-information.db';
@@ -152,6 +160,32 @@ sessions.loadDatabase(handleError);
 
 export let shipments = new Datastore(theShipmentsDb);
 shipments.loadDatabase(function (err) { if (err) { console.log(err); }});
+
+
+// Authorization
+export let accessRoles = new Datastore(accessRolesDb);
+accessRoles.loadDatabase(handleError);
+accessRoles.ensureIndex({ fieldName: 'accessRoleId', unique: true }, handleError);
+
+export let accessRoleTypes = new Datastore(accessRoleTypesDb);
+accessRoleTypes.loadDatabase(handleError);
+accessRoleTypes.ensureIndex({ fieldName: 'accessRoleTypeId', unique: true }, handleError);
+
+export let grants = new Datastore(grantsDb);
+grants.loadDatabase(handleError);
+grants.ensureIndex({ fieldName: 'grantId', unique: true }, handleError);
+
+export let permissions = new Datastore(permissionsDb);
+permissions.loadDatabase(handleError);
+permissions.ensureIndex({ fieldName: 'permissionId', unique: true }, handleError);
+
+export let resourcePermissions = new Datastore(resourcePermissionsDb);
+resourcePermissions.loadDatabase(handleError);
+resourcePermissions.ensureIndex({ fieldName: 'resourcePermissionId', unique: true }, handleError);
+
+export let resources = new Datastore(resourcesDb);
+resources.loadDatabase(handleError);
+resources.ensureIndex({ fieldName: 'resourceId', unique: true }, handleError);
 
 function handleError( err:any ) {
   if (err) {
