@@ -26,10 +26,19 @@ export let getEmailById = (req: Request, res: Response) => {
       let body = JSON.stringify(email);
       res.send(body);
     });
-
 };
 
-export let updateEmails = (req: Request, res: Response) => {
+export let saveEmail = (req: Request, res: Response) => {
+  orchestrator.saveEmail(req.body)
+    .subscribe(email => {
+      res.send(JSON.stringify(email));
+    }, error => {
+      res.send(error);
+      console.log(error);
+    });
+}
+
+export let updateEmail = (req: Request, res: Response) => {
   let siteId = req.params.siteId;
   let email = req.body;
   orchestrator
@@ -40,7 +49,7 @@ export let updateEmails = (req: Request, res: Response) => {
 
 };
 
-export let deleteEmails = (req: Request, res: Response) => {
+export let deleteEmail = (req: Request, res: Response) => {
   let siteId = req.params.siteId;
   orchestrator
     .deleteEmail(siteId)

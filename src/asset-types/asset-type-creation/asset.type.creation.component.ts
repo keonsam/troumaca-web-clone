@@ -279,7 +279,7 @@ export class AssetTypeCreationComponent implements OnInit {
   onAssetTypeClassIdSelect(selected: CompleterItem) {
     if (selected) {
       this.assetType.assetTypeClass = selected.originalObject;
-      this.getAttributes(selected.originalObject.assignedAttributes);
+      this.getAttributes(selected.originalObject.assignedAttributes); // TODO: // change this
     }
   }
 
@@ -297,7 +297,7 @@ export class AssetTypeCreationComponent implements OnInit {
     }
   }
 
-  getAttributes(assignedAttributes?: any[]) {
+  getAttributes(assignedAttributes?: any[]) { // TODO //change this
     this.isRequired = assignedAttributes;
     this.assetTypeService
     .getAttributes(this.assetType.assetTypeClass.assetTypeClassId)

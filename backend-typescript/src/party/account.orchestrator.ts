@@ -1,10 +1,10 @@
 import Rx from "rxjs";
 import {Observable} from "rxjs/Observable";
-import {createPersonRepository} from "./person/person.repository.factory";
+import {createUserRepository} from "./user/user.repository.factory";
 import {createOrganizationRepository} from "./organization/organization.repository.factory";
 import {createSessionRepositoryFactory} from "../session/session.repository.factory";
 import {createCredentialRepositoryFactory} from "../authentication/credential/credential.repository.factory";
-import {PersonRepository} from "./person/person.repository";
+import {UserRepository} from "./user/user.repository";
 import {OrganizationRepository} from "./organization/organization.repository";
 import {Person} from "./person/person";
 import {SessionRepository} from "../session/session.repository";
@@ -14,13 +14,13 @@ import {CredentialRepository} from "../authentication/credential/credential.repo
 
 export class AccountOrchestrator {
 
-  private personRepository:PersonRepository;
+  private userRepository:UserRepository;
   private organizationRepository:OrganizationRepository;
   private sessionRepository:SessionRepository;
   private credentialRepository:CredentialRepository;
 
   constructor() {
-    this.personRepository = createPersonRepository();
+    this.userRepository = createUserRepository();
     this.organizationRepository = createOrganizationRepository();
     this.sessionRepository = createSessionRepositoryFactory();
     this.credentialRepository = createCredentialRepositoryFactory();
@@ -36,9 +36,10 @@ export class AccountOrchestrator {
 
   private createAccount(person: Person, organization: Organization, credentialId:string, sessionId:string):Observable<AccountResponse> {
     // Todo: Change to concurrent update with forkJoin
-    return this.personRepository.addPerson(person)
+    // Todo: I don't understand
+    return this.userRepository.saveUser(person)
       .switchMap((person:Person) => {
-        return this.organizationRepository.addOrganization(organization)
+        return this.organizationRepository.saveOrganization(organization)
           .switchMap(organization => {
             return this.credentialRepository.updateCredentialPartyId(credentialId, person.partyId)
               .switchMap(credential => {

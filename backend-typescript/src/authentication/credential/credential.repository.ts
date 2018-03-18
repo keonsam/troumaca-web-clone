@@ -1,10 +1,14 @@
 import {Observable} from "rxjs/Observable";
 import {Credential} from './credential';
 import {Result} from "../../result.success";
+import {credentials} from "../../db";
+import {Observer} from "rxjs/Observer";
 
 export interface CredentialRepository {
 
   isValidUsername(username:string):Observable<boolean>;
+
+  isValidEditUsername(partyId, username:string):Observable<boolean>;
 
   isValidPassword(password:string):Observable<boolean>;
 
@@ -21,6 +25,8 @@ export interface CredentialRepository {
   addCredential(credential:Credential):Observable<Credential>;
 
   authenticateCredential(credential:Credential):Observable<Credential>;
+
+  updateCredential(partyId: string, credential: Credential): Observable<number>;
 
   updateCredentialStatusById(credentialId:string, status:string):Observable<number>;
 

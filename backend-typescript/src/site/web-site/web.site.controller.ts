@@ -29,7 +29,17 @@ export let getWebSiteById = (req: Request, res: Response) => {
 
 };
 
-export let updateWebSites = (req: Request, res: Response) => {
+export let saveWebSite = (req: Request, res: Response) => {
+  orchestrator.saveWebSite(req.body)
+    .subscribe(webSite => {
+      res.send(JSON.stringify(webSite));
+    }, error => {
+      res.send(error);
+      console.log(error);
+    });
+}
+
+export let updateWebSite = (req: Request, res: Response) => {
   let siteId = req.params.siteId;
   let webSite = req.body;
   orchestrator
@@ -40,7 +50,7 @@ export let updateWebSites = (req: Request, res: Response) => {
 
 };
 
-export let deleteWebSites = (req: Request, res: Response) => {
+export let deleteWebSite = (req: Request, res: Response) => {
   let siteId = req.params.siteId;
   orchestrator
     .deleteWebSite(siteId)

@@ -25,8 +25,8 @@ export let getAssetTypes = (req: Request, res: Response) => {
 
 export let saveAssetType = (req: Request, res: Response) => {
   assetTypeOrchestrator.saveAssetType(req.body)
-    .subscribe(assets => {
-      res.send(JSON.stringify(assets));
+    .subscribe(asset => {
+      res.send(JSON.stringify(asset));
     }, error => {
       res.status(400);
       res.send(error);

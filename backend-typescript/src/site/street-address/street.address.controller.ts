@@ -29,7 +29,17 @@ export let getStreetAddressById = (req: Request, res: Response) => {
 
 };
 
-export let updateStreetAddresses = (req: Request, res: Response) => {
+export let saveStreetAddress = (req: Request, res: Response) => {
+  orchestrator.saveStreetAddress(req.body)
+    .subscribe(streetAddress => {
+      res.send(JSON.stringify(streetAddress));
+    }, error => {
+      res.send(error);
+      console.log(error);
+    });
+}
+
+export let updateStreetAddress = (req: Request, res: Response) => {
   let siteId = req.params.siteId;
   let streetAddress = req.body;
   orchestrator
@@ -40,7 +50,7 @@ export let updateStreetAddresses = (req: Request, res: Response) => {
 
 };
 
-export let deleteStreetAddresses = (req: Request, res: Response) => {
+export let deleteStreetAddress = (req: Request, res: Response) => {
   let siteId = req.params.siteId;
   orchestrator
     .deleteStreetAddress(siteId)

@@ -52,6 +52,51 @@ class CredentialDBRepository implements CredentialRepository {
     }
   };
 
+  isValidEditUsername(partyId: string,username:string):Observable<boolean> {
+    if (!username) {
+      return Rx.Observable.of(false);
+    }
+
+
+    // the user name is valid if:
+    let validUsername:boolean = false;
+    // 1. is username and email
+    let validEmail:boolean = validator.isEmail(username);
+
+    if (validEmail) {
+      validUsername = true;
+    } else {
+      let parsedObj:any = libphonenumberjs.parse(username, 'US');
+      if (parsedObj && parsedObj.phone) {
+        // 2. or username is a phone number
+        validUsername = libphonenumberjs.isValidNumber(parsedObj);
+      }
+    }
+
+    if (!validUsername) {
+      // 3. and is not taken
+      return Rx.Observable.of(false);
+    } else {
+      return this.checkUsernameValid(partyId, username)
+        .switchMap(value => {
+          if (value) {
+            return Rx.Observable.of(true);
+          } else {
+            return this.getCredentialByUsername(username)
+              .map(credential => {
+                if (!credential) {
+                  return true;
+                } else if (!credential.username) {
+                  return true;
+                } else {
+                  return false;
+                }
+              });
+          }
+        });
+    }
+  };
+
   isValidPassword(password:string):Observable<boolean> {
     if (!password) {
 
@@ -200,6 +245,22 @@ class CredentialDBRepository implements CredentialRepository {
     });
   };
 
+  updateCredential(partyId: string, credential: Credential): Observable<number> {
+    return Rx.Observable.create(function (observer:Observer<number>) {
+      let query = {};
+      query["partyId"] = partyId;
+      credentials.update(query, {$set : credential}, {}, function (err, numReplaced) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  }
+
+
   updateCredentialStatusById(credentialId:string, status:string):Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
@@ -270,6 +331,14 @@ class CredentialRestRepository implements CredentialRepository {
 
   isValidUsername(username:string): Observable<boolean> {
     return undefined;
+  }
+
+  isValidEditUsername(partyId: string, username:string): Observable<boolean> {
+    return undefined;
+  }
+
+  updateCredential(partyId: string, credential: Credential): Observable<number> {
+    return null;
   }
 
   updateCredentialStatusById(credentialId: string, status: string): Observable<number> {

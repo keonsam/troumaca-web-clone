@@ -129,6 +129,19 @@ export class CredentialOrchestrator {
       });
   }
 
+  isValidEditUsername (partyId:string, username: string) {
+    return this.credentialRepository
+      .isValidEditUsername(partyId, username)
+      .map(valid => {
+        return new ValidateResponse(valid);
+      });
+  }
+
+
+  updateCredential (partyId:string, credential:Credential){
+    return this.credentialRepository.updateCredential(partyId, credential);
+  }
+
   isNull(obj:any):boolean {
     if (obj) {
       return true;

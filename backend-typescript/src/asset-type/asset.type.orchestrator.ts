@@ -39,7 +39,6 @@ export class AssetTypeOrchestrator {
             return new Result<any>(false, "assetTypes", shapeAssetTypesResp);
           });
       });
-
   }
 
   getAssetTypeById(assetTypeId:string):Observable<AssetType> {
