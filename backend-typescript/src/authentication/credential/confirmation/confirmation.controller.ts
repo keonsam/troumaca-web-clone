@@ -17,10 +17,10 @@ export let verifyCredentialConfirmation = (req: Request, res: Response) => {
     });
 };
 
-// router.get("/send-confirmation-codes/phone/:credentialId", function (req, res, next) {
+// router.get("/send-confirmation-codes/phone/:confirmationId", function (req, res, next) {
 export let sendPhoneVerificationCode = (req: Request, res: Response) => {
-  let credentialId = req.params.credentialId;
-  confirmationOrchestrator.sendPhoneVerificationCode(credentialId)
+  let confirmationId = req.params.confirmationId;
+  confirmationOrchestrator.sendPhoneVerificationCode(confirmationId)
     .subscribe(credentialConfirmation => {
       res.send(JSON.stringify(credentialConfirmation));
     }, error => {
@@ -30,10 +30,10 @@ export let sendPhoneVerificationCode = (req: Request, res: Response) => {
     });
 };
 
-// router.get("/send-confirmation-codes/email/:credentialId", function (req, res, next) {
+// router.get("/send-confirmation-codes/email/:confirmationId", function (req, res, next) {
 export let sendEmailVerificationCode = (req: Request, res: Response) => {
-  let credentialId = req.params.credentialId;
-  confirmationOrchestrator.sendEmailVerificationCode(credentialId)
+  let confirmationId = req.params.confirmationId;
+  confirmationOrchestrator.sendEmailVerificationCode(confirmationId)
     .subscribe(credentialConfirmation => {
       res.send(JSON.stringify(credentialConfirmation));
     }, error => {

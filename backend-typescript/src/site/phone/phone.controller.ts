@@ -29,7 +29,17 @@ export let getPhoneById = (req: Request, res: Response) => {
 
 };
 
-export let updatePhones = (req: Request, res: Response) => {
+export let savePhone = (req: Request, res: Response) => {
+  orchestrator.savePhone(req.body)
+    .subscribe(phone => {
+      res.send(JSON.stringify(phone));
+    }, error => {
+      res.send(error);
+      console.log(error);
+    });
+}
+
+export let updatePhone = (req: Request, res: Response) => {
   let siteId = req.params.siteId;
   let phone = req.body;
   orchestrator
@@ -40,7 +50,7 @@ export let updatePhones = (req: Request, res: Response) => {
 
 };
 
-export let deletePhones = (req: Request, res: Response) => {
+export let deletePhone = (req: Request, res: Response) => {
   let siteId = req.params.siteId;
   orchestrator
     .deletePhone(siteId)

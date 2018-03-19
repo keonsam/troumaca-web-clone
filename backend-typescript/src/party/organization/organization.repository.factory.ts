@@ -12,7 +12,7 @@ class OrganizationDBRepository implements OrganizationRepository {
 
   private defaultPageSize:number = 100;
 
-  addOrganization(organization: Organization): Observable<Organization> {
+  saveOrganization(organization: Organization): Observable<Organization> {
     return Rx.Observable.create(function (observer:Observer<Organization>) {
       organization.partyId = generateUUID();
       organizations.insert(organization,function (err:any, doc:any) {
@@ -120,7 +120,7 @@ class OrganizationDBRepository implements OrganizationRepository {
 
 class OrganizationRestRepository implements OrganizationRepository {
 
-  addOrganization(organization: Organization): Observable<Organization> {
+  saveOrganization(organization: Organization): Observable<Organization> {
     return undefined;
   }
 

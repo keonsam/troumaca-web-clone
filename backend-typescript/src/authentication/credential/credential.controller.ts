@@ -16,6 +16,19 @@ export let isValidUsername = (req: Request, res: Response) => {
     });
 };
 
+export let isValidEditUsername = (req: Request, res: Response) => {
+  let partyId = req.body.partyId;
+  let username = req.body.username
+  credentialOrchestrator.isValidEditUsername(partyId, username)
+    .subscribe((next:ValidateResponse) => {
+      res.send(next.valid);
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    });
+};
+
 // router.post("/validate-password", function (req, res, next) {
 export let isValidPassword = (req: Request, res: Response) => {
   credentialOrchestrator.isValidPassword(req.body)
@@ -67,6 +80,20 @@ export let addCredential = (req: Request, res: Response) => {
     .subscribe(credentialConfirmation => {
       res.setHeader('Content-Type', 'application/json');
       res.send(credentialConfirmation);
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    });
+};
+
+export let updateCredential = (req: Request, res: Response) => {
+  let partyId = req.params.partyId;
+  let credential = req.body;
+  credentialOrchestrator
+    .updateCredential(partyId, credential)
+    .subscribe(numUpdated => {
+      res.send(JSON.stringify(numUpdated));
     }, error => {
       res.status(400);
       res.send(error);

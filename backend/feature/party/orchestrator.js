@@ -52,7 +52,7 @@ module.exports = function PartyOrchestrator() {
   };
 
   this.addOrganization = function (organization){
-    return partyRepository.addOrganization(organization);
+    return partyRepository.saveOrganization(organization);
   };
 
   this.addCredential = function (credential){

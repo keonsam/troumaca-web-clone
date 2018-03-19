@@ -61,7 +61,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
 
   let array = [];
   array.push(this.hostPort);
-  array.push("/asset-types/attributes");
+  array.push("attributes");
 
   let queryStr = [];
 
@@ -87,7 +87,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
 
   let array = [];
   array.push(this.hostPort);
-  array.push("/asset-types/values");
+  array.push("/values");
 
   let queryStr = [];
     queryStr.push("assetTypeId=" + assetTypeId);
@@ -119,7 +119,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
   }
 
   public getAssetTypeClassState(assetTypeClassId: string): Observable<AssetTypeClassState> {
-    let url = `${this.hostPort}/asset-types/asset-type-classes/${assetTypeClassId}`;
+    let url = `${this.hostPort}/asset-type-classes/${assetTypeClassId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .get<AssetTypeClassState>(url, {headers:headers})
@@ -128,36 +128,10 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     });
   }
 
-  public findAssetTypes(searchStr: string, pageSize:number): Observable<AssetTypeStates> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/asset-types");
-
-    let queryStr = [];
-    if (searchStr) {
-      queryStr.push("q=" + searchStr);
-    }
-
-    if (pageSize) {
-      queryStr.push("pageSize=" + searchStr);
-    }
-
-    if (queryStr.length > 0) {
-      array.push("?");
-      array.push(queryStr.join("&"));
-    }
-
-    return this.httpClient.get<AssetTypeStates>(array.join(""), {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
-      return data;
-    });
-  }
-
   public findAssetTypeClassId(searchStr: string, pageSize:number): Observable<AssetTypeClassStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/asset-types/asset-type-classes");
+    array.push("/find-asset-type-classes");
 
     let queryStr = [];
     if (searchStr) {
@@ -183,7 +157,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
   public findUnitOfMeasureIdState(searchStr: string, pageSize:number): Observable<UnitOfMeasureState[]> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/asset-types/unit-of-measure");
+    array.push("/find-unit-of-measures");
 
     let queryStr = [];
     if (searchStr) {
@@ -206,10 +180,6 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     });
   }
 
-  private queryStringExists(searchStr: string):boolean {
-    return (searchStr) ? true : false;
-  }
-
   public addAssetTypeState(assetTypeState: AssetTypeState): Observable<AssetTypeState> {
     let url = `${this.hostPort}/asset-types`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
@@ -221,7 +191,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
   }
 
   public addValueState(valueState: ValueState): Observable<ValueState> {
-    let url = `${this.hostPort}/asset-types/values`;
+    let url = `${this.hostPort}/values`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .post<ValueState>(url, valueState.toJson(), {headers: headers})
@@ -241,7 +211,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
   }
 
   public deleteValue(valueId: string): Observable<number> {
-    let url = `${this.hostPort}/asset-types/values/${valueId}`;
+    let url = `${this.hostPort}/values/${valueId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .delete<number>(url, {headers:headers})
@@ -261,7 +231,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
   }
 
   public updateValue(valueState: ValueState): Observable<number> {
-    let url = `${this.hostPort}/asset-types/values/${valueState.valueId}`;
+    let url = `${this.hostPort}/values/${valueState.valueId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .put<number>(url, valueState.toJson(), {headers:headers})

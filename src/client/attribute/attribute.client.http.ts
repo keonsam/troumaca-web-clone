@@ -17,7 +17,7 @@ export class AttributeClientHttp extends AttributeClient {
   }
 
   public getDataTypes(): Observable<DataTypeStates>{
-    let url = `${this.hostPort}/attributes/data-types`;
+    let url = `${this.hostPort}/data-types`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .get<DataTypeStates>(url, {headers:headers})
@@ -69,7 +69,7 @@ export class AttributeClientHttp extends AttributeClient {
   public findUnitOfMeasureIdState(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/attributes/unit-of-measure");
+    array.push("/find-unit-of-measure");
 
     let queryStr = [];
     if (searchStr) {

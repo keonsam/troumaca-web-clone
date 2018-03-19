@@ -29,7 +29,17 @@ export let getPostOfficeBoxById = (req: Request, res: Response) => {
 
 };
 
-export let updatePostOfficeBoxes = (req: Request, res: Response) => {
+export let savePostOfficeBox = (req: Request, res: Response) => {
+  orchestrator.savePostOfficeBox(req.body)
+    .subscribe(postOfficeBox => {
+      res.send(JSON.stringify(postOfficeBox));
+    }, error => {
+      res.send(error);
+      console.log(error);
+    });
+}
+
+export let updatePostOfficeBox = (req: Request, res: Response) => {
   let siteId = req.params.siteId;
   let postOfficeBox = req.body;
   orchestrator
@@ -40,7 +50,7 @@ export let updatePostOfficeBoxes = (req: Request, res: Response) => {
 
 };
 
-export let deletePostOfficeBoxes = (req: Request, res: Response) => {
+export let deletePostOfficeBox = (req: Request, res: Response) => {
   let siteId = req.params.siteId;
   orchestrator
     .deletePostOfficeBox(siteId)

@@ -31,9 +31,8 @@ let theCredentialDb = path.resolve(__dirname, '..') + '/nedb/authentication/cred
 let theCredentialConfirmationsDb = path.resolve(__dirname, '..') + '/nedb/authentication/credential_confirmations.db';
 
 // file
-let theUsersPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/users-photos.db';
-let theCompanyPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/company-photos.db';
-let theAccountPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/account-photos.db';
+let thePhotosDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/hotos.db';
+
 
 let sessionDb = path.resolve(__dirname, '..',) + '/nedb/session/sessions.db';
 
@@ -60,21 +59,13 @@ export let personalsInformation = new Datastore(thePersonalAccountsInformationsD
 personalsInformation.loadDatabase(handleError);
 personalsInformation.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
-
-export let accountsPhotos = new Datastore(theAccountPhotoDb);
-accountsPhotos.loadDatabase(handleError);
-
-let companyPhotos = new Datastore(theCompanyPhotoDb);
-companyPhotos.loadDatabase(handleError);
-
-
-export let usersPhotos = new Datastore(theUsersPhotoDb);
-usersPhotos.loadDatabase(handleError);
-
+export let photos = new Datastore(thePhotosDb);
+photos.loadDatabase(handleError);
+photos.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
 export let persons = new Datastore(thePersonsDb);
 persons.loadDatabase(handleError);
-persons.ensureIndex({ fieldName: 'personId', unique: true }, handleError);
+persons.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
 export let users = new Datastore(theUsersDb);
 users.loadDatabase(handleError);
@@ -82,7 +73,7 @@ users.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
 export let organizations = new Datastore(theOrganizationDb);
 organizations.loadDatabase(handleError);
-organizations.ensureIndex({ fieldName: 'organizationId', unique: true }, handleError);
+organizations.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
 // authentication
 export let credentials = new Datastore(theCredentialDb);

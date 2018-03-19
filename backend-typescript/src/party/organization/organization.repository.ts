@@ -3,7 +3,7 @@ import {Organization} from "./organization";
 
 export interface OrganizationRepository {
 
-  addOrganization(organization:Organization):Observable<Organization>;
+  saveOrganization(organization:Organization):Observable<Organization>;
 
   getOrganizations(pageNumber:number, pageSize:number, order:string):Observable<Organization[]>;
 

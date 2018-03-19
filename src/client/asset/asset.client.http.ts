@@ -82,7 +82,7 @@ export class AssetClientHttp extends AssetClient {
   public getAssetKinds(): Observable<AssetKindStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets/kinds");
+    array.push("/asset-kinds");
 
     return this.http.get<AssetKindStates>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
@@ -94,7 +94,7 @@ export class AssetClientHttp extends AssetClient {
   public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetTypeStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets/asset-types");
+    array.push("/find-asset-types");
 
     let queryStr = [];
     if (searchStr) {
@@ -120,7 +120,7 @@ export class AssetClientHttp extends AssetClient {
   public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets/sites");
+    array.push("/find-sites");
 
     let queryStr = [];
     if (searchStr) {
@@ -146,7 +146,7 @@ export class AssetClientHttp extends AssetClient {
   public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets/unit-of-measures");
+    array.push("/find-unit-of-measures");
 
     let queryStr = [];
     if (searchStr) {
@@ -172,7 +172,7 @@ export class AssetClientHttp extends AssetClient {
   public findPersons(searchStr: string, pageSize: number): Observable<PersonStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets/persons");
+    array.push("/find-persons");
 
     let queryStr = [];
     if (searchStr) {
