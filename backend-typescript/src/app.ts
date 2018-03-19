@@ -62,6 +62,26 @@ import * as confirmationController from './authentication/credential/confirmatio
 
 const app = express();
 
+
+
+// routes
+app.use(logger('dev'));
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// var corsOptions = {
+//   origin: 'http://example.com',
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+// };
+// app.use(cors(corsOptions));
+app.use(cors());
+// need cookieParser middleware before we can do anything with cookies
+
+// app.use(accessMiddleware());
+
+
 // routes
 app.get('/asset-kinds', assetKindController.getAssetKinds); //a get instead of find seeing you are getting all of them.
 app.get('/find-asset-types', assetTypeController.findAssetTypes);
@@ -147,26 +167,6 @@ app.post('/credentials', credentialController.addCredential);
 app.post('/verify-credentials-confirmations', confirmationController.verifyCredentialConfirmation);
 app.post('/send-confirmation-codes/phone/:confirmationId', confirmationController.sendPhoneVerificationCode);
 app.post('/send-confirmation-codes/email/:confirmationId', confirmationController.sendEmailVerificationCode);
-
-// routes
-app.use(logger('dev'));
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(express.static(path.join(__dirname, 'dist')));
-
-// var corsOptions = {
-//   origin: 'http://example.com',
-//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-// };
-// app.use(cors(corsOptions));
-app.use(cors());
-// need cookieParser middleware before we can do anything with cookies
-
-// app.use(accessMiddleware());
-
-
-
 // app.use('/asset', asset);
 // app.use('/unit-of-measures', unitOfMeasures);
 // app.use('/sites/physical-sites', unionOfPhysicalSites);
