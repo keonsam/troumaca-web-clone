@@ -12,10 +12,10 @@ class OrganizationDBRepository implements OrganizationRepository {
 
   private defaultPageSize:number = 100;
 
-  saveOrganization(organization: Organization): Observable<Organization> {
+  saveOrganization(organization:Organization):Observable<Organization> {
+    organization.partyId = generateUUID();
     return Rx.Observable.create(function (observer:Observer<Organization>) {
-      organization.partyId = generateUUID();
-      organizations.insert(organization,function (err:any, doc:any) {
+      organizations.insert(organization, function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -27,8 +27,9 @@ class OrganizationDBRepository implements OrganizationRepository {
   }
 
   getOrganizations(pageNumber:number, pageSize:number, order:string):Observable<Organization[]> {
+    let localDefaultPageSize = this.defaultPageSize;
     return Rx.Observable.create(function (observer:Observer<Organization[]>) {
-      let skip = calcSkip(pageNumber, pageSize, this.defaultPageSize);
+      let skip = calcSkip(pageNumber, pageSize, localDefaultPageSize);
       organizations.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
@@ -60,20 +61,6 @@ class OrganizationDBRepository implements OrganizationRepository {
       };
 
       organizations.findOne(query, function (err:any, doc:any) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  }
-
-  saveOrganization(organization:Organization):Observable<Organization> {
-    organization.partyId = generateUUID();
-    return Rx.Observable.create(function (observer:Observer<Organization>) {
-      organizations.insert(organization, function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -137,10 +124,6 @@ class OrganizationRestRepository implements OrganizationRepository {
   }
 
   getOrganizations(pageNumber: number, pageSize: number, order: string): Observable<Organization[]> {
-    return undefined;
-  }
-
-  saveOrganization(organization: Organization): Observable<Organization> {
     return undefined;
   }
 

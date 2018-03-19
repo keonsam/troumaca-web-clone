@@ -249,8 +249,10 @@ class CredentialDBRepository implements CredentialRepository {
 
   updateCredential(partyId: string, credential: Credential): Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
-      let query = {};
-      query["partyId"] = partyId;
+      let query = {
+        "partyId":partyId
+      };
+
       credentials.update(query, {$set : credential}, {}, function (err, numReplaced) {
         if (!err) {
           observer.next(numReplaced);
