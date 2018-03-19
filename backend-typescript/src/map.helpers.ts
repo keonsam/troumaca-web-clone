@@ -1,3 +1,5 @@
+// http://2ality.com/2015/08/es6-map-json.html
+
 function mapToJson(map:any) {
   return JSON.stringify([...map]);
 }
