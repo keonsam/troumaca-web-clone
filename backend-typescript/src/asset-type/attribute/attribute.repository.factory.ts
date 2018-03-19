@@ -10,7 +10,6 @@ import {RepositoryKind} from "../../repository.kind";
 import {attributes} from "../../db";
 import {AssignedAttribute} from "./assigned.attribute";
 import {assignedAttributes} from "../../db";
-import {getAssignedAttributes} from "./attribute.controller";
 
 let defaultPageSize:number = 10;
 

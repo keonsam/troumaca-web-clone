@@ -23,7 +23,6 @@ import * as assetController from './asset-type/asset/asset.controller';
 import * as assetKindController from './asset-type/kind/asset.kind.controller';
 import * as siteController from './site/site.controller';
 import * as unitOfMeasureController from './unit-of-measure/unit.of.measure.controller';
-import * as personController from './party/person/person.controller';
 import * as valueController from './asset-type/value/value.controller';
 import * as assetTypeClassController from './asset-type/asset-type-class/asset.type.class.controller';
 import * as dataTypeController from './data-type/data.type.controller';
@@ -40,6 +39,30 @@ import * as accountController from './party/account.controller';
 import * as credentialController from './authentication/credential/credential.controller';
 import * as confirmationController from './authentication/credential/confirmation/confirmation.controller';
 
+// let accessMiddleware = require('./feature/access-middleware');
+// need to transition to the new resources approach
+// let assets = require('./routes/assets');
+// let asset = require('./routes/asset');
+// let lots = require('./routes/lots');
+// let assetTypes = require('./routes/asset-types');
+// let unitOfMeasures = require('./routes/unit-of-measures');
+// let persons = require('./routes/parties/persons/persons');
+// let unionOfPhysicalSites = require('./routes/sites/physical-sites/union-of-physical-sites');
+
+// let emailSites = require("./routes/sites/virtual-sites/e-mail-sites");
+
+// let assetResource = require('./feature/asset/resources');
+// let assetTypeClassesResource = require('./feature/asset-type-class/resources');
+// let siteResource = require('./feature/site/resources');
+// let attributesResource = require('./feature/attribute/resources');
+// let assetsResource = require('./feature/asset-type/resources');
+// let shipmentResource = require('./feature/shipment/resources');
+// let credentialResource = require('./feature/credential/credential.resources');
+// let partyResource = require('./feature/party/resources');
+
+const app = express();
+
+// routes
 app.get('/asset-kinds', assetKindController.getAssetKinds); //a get instead of find seeing you are getting all of them.
 app.get('/find-asset-types', assetTypeController.findAssetTypes);
 app.get('/find-sites', siteController.findSite);
@@ -125,29 +148,7 @@ app.post('/verify-credentials-confirmations', confirmationController.verifyCrede
 app.post('/send-confirmation-codes/phone/:confirmationId', confirmationController.sendPhoneVerificationCode);
 app.post('/send-confirmation-codes/email/:confirmationId', confirmationController.sendEmailVerificationCode);
 
-// let accessMiddleware = require('./feature/access-middleware');
-// need to transition to the new resources approach
-// let assets = require('./routes/assets');
-// let asset = require('./routes/asset');
-// let lots = require('./routes/lots');
-// let assetTypes = require('./routes/asset-types');
-// let unitOfMeasures = require('./routes/unit-of-measures');
-// let persons = require('./routes/parties/persons/persons');
-// let unionOfPhysicalSites = require('./routes/sites/physical-sites/union-of-physical-sites');
-
-// let emailSites = require("./routes/sites/virtual-sites/e-mail-sites");
-
-// let assetResource = require('./feature/asset/resources');
-// let assetTypeClassesResource = require('./feature/asset-type-class/resources');
-// let siteResource = require('./feature/site/resources');
-// let attributesResource = require('./feature/attribute/resources');
-// let assetsResource = require('./feature/asset-type/resources');
-// let shipmentResource = require('./feature/shipment/resources');
-// let credentialResource = require('./feature/credential/credential.resources');
-// let partyResource = require('./feature/party/resources');
-
-const app = express();
-
+// routes
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());

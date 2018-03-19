@@ -58,8 +58,10 @@ export class AttributeRepositoryAdapter extends AttributeRepository {
 
   public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
     return this.attributeClient.findUnitOfMeasureIdState(searchStr, pageSize)
-      .map(value => {
-        return value;
+      .map(data => {
+        return map(data, value => {
+          return mapObjectProps(value, new UnitOfMeasure());
+        });
       });
   }
 

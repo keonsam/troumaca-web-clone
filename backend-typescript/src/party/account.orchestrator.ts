@@ -6,7 +6,7 @@ import {createSessionRepositoryFactory} from "../session/session.repository.fact
 import {createCredentialRepositoryFactory} from "../authentication/credential/credential.repository.factory";
 import {UserRepository} from "./user/user.repository";
 import {OrganizationRepository} from "./organization/organization.repository";
-import {Person} from "./person/person";
+import {User} from "./user/user";
 import {SessionRepository} from "../session/session.repository";
 import {Organization} from "./organization/organization";
 import {AccountResponse} from "./account.response";
@@ -26,33 +26,32 @@ export class AccountOrchestrator {
     this.credentialRepository = createCredentialRepositoryFactory();
   }
 
-  saveAccount (person:Person, organization:Organization, credentialId:string, sessionId:string):Observable<AccountResponse> {
-    if (this.isValidAccount(person, organization)) {
+  saveAccount (accountType:string ,user:User, organization:Organization, credentialId:string, sessionId:string):Observable<AccountResponse> {
+    if (this.isValidAccount(user, organization)) {
       return Rx.Observable.of(new AccountResponse(false));
     } else {
-      return this.createAccount(person, organization, credentialId, sessionId);
+      return this.createAccount(user, organization, credentialId, sessionId);
     }
   };
 
-  private createAccount(person: Person, organization: Organization, credentialId:string, sessionId:string):Observable<AccountResponse> {
+  private createAccount(user: User, organization: Organization, credentialId:string, sessionId:string):Observable<AccountResponse> {
     // Todo: Change to concurrent update with forkJoin
-    // Todo: I don't understand
-    return this.userRepository.saveUser(person)
-      .switchMap((person:Person) => {
+    return this.userRepository.saveUser(user)
+      .switchMap((user:User) => {
         return this.organizationRepository.saveOrganization(organization)
           .switchMap(organization => {
-            return this.credentialRepository.updateCredentialPartyId(credentialId, person.partyId)
+            return this.credentialRepository.updateCredentialPartyId(credentialId, user.partyId)
               .switchMap(credential => {
-                return this.sessionRepository.updateSessionPartyId(sessionId, person.partyId)
+                return this.sessionRepository.updateSessionPartyId(sessionId, user.partyId)
                   .map(session => {
-                    return new AccountResponse(true, session, credential, person, organization);
+                    return new AccountResponse(true, session, credential, user, organization);
                 });
               });
           });
       });
   }
 
-  private isValidAccount(person: Person, organization: Organization) {
+  private isValidAccount(user: User, organization: Organization) {
     // TODO: implement
     return false;
   }

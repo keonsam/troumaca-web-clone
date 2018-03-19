@@ -22,17 +22,13 @@ export abstract class PartyRepository {
 
   abstract addOrganization(organization: Organization): Observable<Organization>;
 
-  abstract addCredential(credential: Credential): Observable<Credential>;
-
   abstract addPhoto(partyId: string, croppedImage: string): Observable<any>;
 
-  abstract addAccount(account: Account): Observable<Account>;
+  abstract addAccount(accountType: string, user: User, organization: Organization): Observable<User>;
 
   abstract deleteUser(partyId: string): Observable<number>;
 
   abstract deleteOrganization(partyId: string): Observable<number>;
-
-  abstract deleteCredential(partyId: string): Observable<number>;
 
   abstract updateUser(user: User): Observable<number>;
 

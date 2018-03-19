@@ -9,7 +9,7 @@ export interface AssetTypeClassRepository {
 
   getAssetTypeClassCount():Observable<number>;
 
-  getAssetTypeClass(assetTypeClassId:string):Observable<AssetTypeClass>;
+  getAssetTypeClassById(assetTypeClassId:string):Observable<AssetTypeClass>;
 
   saveAssetTypeClass(assetTypeClass:AssetTypeClass):Observable<AssetTypeClass>;
 

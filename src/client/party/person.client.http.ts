@@ -7,7 +7,6 @@ import {UserStates} from "./user.states";
 import {CredentialState} from "./credential.state";
 import {OrganizationState} from "./organization.state";
 import {OrganizationStates} from "./organization.states";
-import {AccountState} from "./account.state";
 
 export class PersonClientHttp implements PersonClient {
 
@@ -145,11 +144,13 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public addAccountState(accountState: AccountState): Observable<AccountState> {
+  public addAccountState(accountType: string, userState: UserState, organizationState: OrganizationState): Observable<UserState> {
     let url = `${this.hostPort}/accounts`;
+    let user = userState.toJson();
+    let organization = organizationState.toJson();
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post<AccountState>(url, accountState.toJson(), {headers: headers})
+    .post<UserState>(url, {accountType, user, organization}, {headers: headers})
     .map(data => {
       return data;
     });

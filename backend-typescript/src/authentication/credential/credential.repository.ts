@@ -8,7 +8,7 @@ export interface CredentialRepository {
 
   isValidUsername(username:string):Observable<boolean>;
 
-  isValidEditUsername(partyId, username:string):Observable<boolean>;
+  isValidEditUsername(partyId:string, username:string):Observable<boolean>;
 
   isValidPassword(password:string):Observable<boolean>;
 

@@ -353,7 +353,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
       this.attributeName.setValue(attribute.name);
       this.format.setValue(attribute.format);
       this.dataType.setValue(attribute.dataType.dataTypeId);
-      this.unitOfMeasureId.setValue(attribute.unitOfMeasureId);
+      this.unitOfMeasureId.setValue(attribute.unitOfMeasure.name);
       this.maximumValue.setValue(attribute.maximumValue);
       this.minimumValue.setValue(attribute.minimumValue);
       this.attribute = attribute;

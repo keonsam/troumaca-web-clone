@@ -1,4 +1,3 @@
-import {AssignedAttribute} from "../attribute/assigned.attribute";
 
 export class AssetTypeClass {
 
@@ -6,7 +5,6 @@ export class AssetTypeClass {
   private _tenantId: string;
   private _name:string;
   private _description:string;
-  private _assignedAttributes : AssignedAttribute[] = [];
   private _createdOn:Date;
   private _modifiedOn:Date;
 
@@ -40,14 +38,6 @@ export class AssetTypeClass {
 
   set description(value: string) {
     this._description = value;
-  }
-
-  get assignedAttributes(): AssignedAttribute[] {
-    return this._assignedAttributes;
-  }
-
-  set assignedAttributes(value: AssignedAttribute[]) {
-    this._assignedAttributes = value;
   }
 
   get createdOn(): Date {

@@ -88,8 +88,10 @@ export class AssetRepositoryAdapter extends AssetRepository {
   public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
     return this.assetClient
     .findUnitOfMeasures(searchStr, pageSize)
-    .map(values => {
-      return values;
+    .map(data => {
+      return map(data, value => {
+        return mapObjectProps(value, new UnitOfMeasure());
+      });
     });
   }
 

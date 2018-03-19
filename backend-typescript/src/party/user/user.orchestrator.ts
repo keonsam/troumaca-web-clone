@@ -7,9 +7,8 @@ import {Result} from "../../result.success";
 import {CredentialRepository} from "../../authentication/credential/credential.repository";
 import {createCredentialRepositoryFactory} from "../../authentication/credential/credential.repository.factory";
 import {Credential} from "../../authentication/credential/credential";
-import * as generatePassword from 'password-generator';
+//import * as generatePassword from 'password-generator';
 import {getSortOrderOrDefault} from "../../sort.order.util";
-import {User} from "../user/user";
 
 
 export class UserOrchestrator {

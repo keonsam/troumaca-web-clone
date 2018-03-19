@@ -70,19 +70,6 @@ class OrganizationDBRepository implements OrganizationRepository {
     });
   }
 
-  saveOrganization(organization:Organization):Observable<Organization> {
-    organization.partyId = generateUUID();
-    return Rx.Observable.create(function (observer:Observer<Organization>) {
-      organizations.insert(organization, function (err:any, doc:any) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  }
 
   deleteOrganization(organizationId:string):Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
@@ -140,9 +127,6 @@ class OrganizationRestRepository implements OrganizationRepository {
     return undefined;
   }
 
-  saveOrganization(organization: Organization): Observable<Organization> {
-    return undefined;
-  }
 
   updateOrganization(organizationId: string, organization: Organization): Observable<number> {
     return undefined;

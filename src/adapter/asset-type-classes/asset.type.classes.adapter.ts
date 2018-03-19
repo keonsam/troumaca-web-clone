@@ -19,6 +19,7 @@ import {AttributeState} from "../../client/attribute/attribute.state";
 import {DataTypes} from "../../attributes/data.types";
 import {DataType} from  "../../attributes/data.type";
 import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
+import {AssignedAttributeState} from "../../client/asset-type-class/assigned.attribute.state";
 
 export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
 
@@ -105,7 +106,7 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
 
   addAssetTypeClass(assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute): Observable<AssetTypeClass> {
     return this.assetTypeClassClient
-    .addAssetTypeClass(mapObjectProps(assetTypeClass, new AssetTypeClassState()), assignedAttributes)
+    .addAssetTypeClass(mapObjectProps(assetTypeClass, new AssetTypeClassState()), mapObjectProps(assignedAttributes, new AssignedAttributeState()))
     .map(value =>{
       return mapObjectProps(value, new AssetTypeClass());
     });
@@ -128,7 +129,7 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
   }
 
   updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute): Observable<number> {
-    return this.assetTypeClassClient.updateAssetTypeClass(assetTypeClassId,mapObjectProps(assetTypeClass, new AssetTypeClassState()), assignedAttributes);
+    return this.assetTypeClassClient.updateAssetTypeClass(assetTypeClassId,mapObjectProps(assetTypeClass, new AssetTypeClassState()), mapObjectProps(assignedAttributes, new AssignedAttributeState()));
   }
 
   updateAttribute(attributeId: string, availableAttribute: Attribute): Observable<number> {

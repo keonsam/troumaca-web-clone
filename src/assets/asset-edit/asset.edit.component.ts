@@ -395,7 +395,7 @@ export class AssetEditComponent implements OnInit {
   }
 
   onUnitOfMeasureSelect(selected: CompleterItem) {
-      this.asset.unitOfMeasureId = selected.originalObject;
+      this.asset.unitOfMeasure = selected.originalObject;
   }
 
   onPhysicalSiteSelect(selected: CompleterItem) {

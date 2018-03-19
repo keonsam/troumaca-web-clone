@@ -38,25 +38,26 @@ export class AssetTypeClassOrchestrator {
   }
 
   getAssetTypeClass(assetTypeClassId:string):Observable<any> {
-    return this.assetTypeClassRepository.getAssetTypeClass(assetTypeClassId)
+    return this.assetTypeClassRepository.getAssetTypeClassById(assetTypeClassId)
       .switchMap(assetTypeClass => {
         if(!assetTypeClass) {
           return Observable.of(assetTypeClass);
-        }else {}
-        return this.attributeRepository.getAssignedAttributesById(assetTypeClassId).
-          map(assignedAttributes => {
-            if(!assignedAttributes) {
-              return Observable.of(assignedAttributes);
-            }else {
-              return {assetTypeClass, assignedAttributes}
-            }
-        });
+        }else {
+          return this.attributeRepository.getAssignedAttributesById(assetTypeClassId)
+            .map(assignedAttributes => {
+              if (!assignedAttributes) {
+                return Observable.of(assignedAttributes);
+              } else {
+                return assetTypeClass;
+              }
+            });
+        }
       });
   }
 
-  saveAssetTypeClass(assetTypeClass:AssetTypeClass, assignedAttributes: AssignedAttribute):Observable<AssetTypeClass> {
-    return this.assetTypeClassRepository.saveAssetTypeClass(assetTypeClass).
-      switchMap(doc => {
+  saveAssetTypeClass(assetTypeClass:AssetTypeClass, assignedAttributes: AssignedAttribute):Observable<any> {
+    return this.assetTypeClassRepository.saveAssetTypeClass(assetTypeClass)
+      .switchMap(doc => {
         if(!doc){
           return Observable.of(doc);
         }else {
@@ -65,7 +66,7 @@ export class AssetTypeClassOrchestrator {
               if (!newDoc) {
                 return Observable.of(newDoc);
               }else {
-                return doc;
+                return newDoc;
               }
                 });
         }

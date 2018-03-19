@@ -3,7 +3,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 
 import {PartyService} from "../party.service";
-import {Account} from "../account";
+import {User} from "../user";
+import {Organization} from "../organization";
 
 @Component({
   selector: 'create-profile',
@@ -22,7 +23,8 @@ export class CreateAccountComponent implements OnInit {
 
   private _createProfileForm: FormGroup;
 
-  private account: Account;
+  private user: User;
+  private organization: Organization;
 
   private imageChangedEvent: any = '';
   private croppedImage: any = '';
@@ -40,7 +42,7 @@ export class CreateAccountComponent implements OnInit {
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
-    this.purpose = new FormControl("", [Validators.required]);
+    this.purpose = new FormControl("");
     this.organizationName = new FormControl("");
     this.description = new FormControl("");
 
@@ -54,18 +56,18 @@ export class CreateAccountComponent implements OnInit {
       "description": this.description
     });
 
-    this.account = new Account();
+    this.user = new User();
+    this.organization = new Organization();
 
     this.createProfileForm
      .valueChanges
      .subscribe(value => {
-       this.account.accountType = value.accountType;
-       this.account.firstName = value.firstName;
-       this.account.middleName = value.middleName;
-       this.account.lastName = value.lastName;
-       this.account.purpose = value.purpose;
-       this.account.organizationName = value.organizationName;
-       this.account.description = value.description;
+       this.user.firstName = value.firstName;
+       this.user.middleName = value.middleName;
+       this.user.lastName = value.lastName;
+       this.organization.purpose = value.purpose;
+       this.organization.name = value.organizationName;
+       this.organization.description = value.description;
      }, error2 => {
        console.log(error2);
      });
@@ -80,18 +82,16 @@ export class CreateAccountComponent implements OnInit {
     this.createProfileForm.get("accountType")
     .valueChanges
     .subscribe(type => {
-      console.log(this.organizationName);
       if(type === "personal"){
-        console.log("working")
         this.requiredState = false;
         this.createProfileForm.get("organizationName").setValidators(null);
+        this.createProfileForm.get("purpose").setValidators(null);
       }else {
-        console.log("workf");
         this.requiredState = true;
         this.createProfileForm.get("organizationName").setValidators([Validators.required]);
+        this.createProfileForm.get("purpose").setValidators([Validators.required]);
       }
       this.createProfileForm.get("organizationName").updateValueAndValidity();
-      console.log(this.createProfileForm);
     });
   }
 
@@ -201,11 +201,33 @@ export class CreateAccountComponent implements OnInit {
   onCreate() {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
+     // changed to avoid errors one called to the serve
+    this.partyService
+      .addAccount(this.accountType.value, this.user ,this.organization)
+      .subscribe(value => {
+        if(!value){
+          this.doNotDisplayFailureMessage = false;
+        }else if (value && value.partyId) {
+          //left in the front end to make the back end less crowded.
+          if(this.croppedImage){
+            this.savePhoto(value.partyId);
+          }else {
+            this.router.navigate(['/home/lobby']);
+          }
+        }
 
-      this.partyService
-      .addAccount(this.account)
+      }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage = false;
+      });
+
+    /*  this.partyService
+      .addUser(this.user)
       .subscribe(value => {
         if (value && value.partyId) {
+          this.organization.partyId = value.partyId;
+          this.partyService.addOrganization(this.organization)
+            .subscribe()
           if(this.croppedImage){
             this.savePhoto(value.partyId);
           }else {
@@ -217,7 +239,7 @@ export class CreateAccountComponent implements OnInit {
       }, error => {
         console.log(error);
         this.doNotDisplayFailureMessage = false;
-      });
+      }); */
   }
 
 }

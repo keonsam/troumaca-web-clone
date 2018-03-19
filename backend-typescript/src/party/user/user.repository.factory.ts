@@ -4,10 +4,9 @@ import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {RepositoryKind} from "../../repository.kind";
 import {User} from "./user";
-import {users, users} from "../../db";
+import {users} from "../../db";
 import {calcSkip} from "../../db.util";
 import {generateUUID} from "../../uuid.generator";
-import {User} from "../user";
 
 class UserDBRepository implements UserRepository {
 

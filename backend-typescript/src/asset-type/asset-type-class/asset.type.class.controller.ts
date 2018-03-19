@@ -43,8 +43,8 @@ export let getAssetTypeClass = (req: Request, res: Response) => {
   let assetTypeClassId = req.params.assetTypeClassId;
 
   orchestrator.getAssetTypeClass(assetTypeClassId)
-    .subscribe(assetTypeClass => {
-      let body = JSON.stringify(assetTypeClass);
+    .subscribe((data) => {
+      let body = JSON.stringify(data);
       res.send(body);
     }, error => {
       res.send(JSON.stringify(error));

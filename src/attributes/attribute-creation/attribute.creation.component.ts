@@ -112,7 +112,7 @@ export class AttributeCreationComponent implements OnInit {
           .map(value2 => { // convert results to dropdown data
             return value2.map(v2 => { //update to the new way of doing this
               return {
-                unitOfMeasureId: v2.unitOfMeasure,
+                unitOfMeasureId: v2.unitOfMeasureId,
                 name: v2.name,
               };
             })
@@ -208,7 +208,7 @@ export class AttributeCreationComponent implements OnInit {
 
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.attribute.unitOfMeasureId = selected.originalObject;
+      this.attribute.unitOfMeasure = selected.originalObject;
     }
   }
 

@@ -15,7 +15,6 @@ import {AssetTypeTopMenuComponent} from "./asset-type-top-menu/asset.type.top.me
 import {SearchModule} from "../search/search.module";
 import {PagingModule} from "../paging/paging.module";
 
-
 @NgModule({
   imports: [
     CommonModule,

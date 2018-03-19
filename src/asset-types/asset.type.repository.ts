@@ -16,7 +16,6 @@ export abstract class AssetTypeRepository {
   abstract getAssetType(assetTypeId: string): Observable<AssetType>;
   abstract getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass>;
 
-  abstract findAssetTypes(searchStr: string, pageSize:number):Observable<AssetTypes>;
   abstract findAssetTypeClassId(searchStr: string, pageSize:number):Observable<AssetTypeClasses>;
   abstract findUnitOfMeasureId(searchStr: string, pageSize:number):Observable<UnitOfMeasure[]>;
 

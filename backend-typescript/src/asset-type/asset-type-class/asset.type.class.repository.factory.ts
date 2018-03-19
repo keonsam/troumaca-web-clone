@@ -7,7 +7,7 @@ import {generateUUID} from "../../uuid.generator";
 import {calcSkip} from "../../db.util";
 import {Observer} from "rxjs/Observer";
 import {RepositoryKind} from "../../repository.kind";
-import {assetTypeClasses, assetTypes} from "../../db";
+import {assetTypeClasses} from "../../db";
 
 let defaultPageSize = 10;
 
@@ -54,7 +54,7 @@ class AssetTypeClassDBRepository implements AssetTypeClassRepository {
     });
   }
 
-  getAssetTypeClass(assetTypeClassId:string):Observable<AssetTypeClass> {
+  getAssetTypeClassById(assetTypeClassId:string):Observable<AssetTypeClass> {
     return Rx.Observable.create(function (observer:Observer<AssetTypeClass>) {
       let query = {
         "assetTypeClassId":assetTypeClassId
@@ -132,7 +132,7 @@ class AssetTypeClassRestRepository implements AssetTypeClassRepository {
     return undefined;
   }
 
-  getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass> {
+  getAssetTypeClassById(assetTypeClassId: string): Observable<AssetTypeClass> {
     return undefined;
   }
 
