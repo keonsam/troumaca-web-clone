@@ -21,7 +21,7 @@ export let savePhoto = (req: Request, res: Response) => {
       res.send(error);
       console.log(error);
     });
-}
+};
 
 export let updatePhoto = (req: Request, res: Response) => {
   let partyId = req.params.partyId;

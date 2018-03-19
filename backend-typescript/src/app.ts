@@ -2,10 +2,8 @@
 let factoryOptions = {
   "useDatabase": true
 };
-import "reflect-metadata";
 
-// require('./feature/asset/repository.factory')(factoryOptions);
-// require('./feature/asset-type-class/repository.factory')(factoryOptions);
+import "reflect-metadata";
 
 import express from 'express';
 import path from 'path';
@@ -28,7 +26,7 @@ import * as assetTypeClassController from './asset-type/asset-type-class/asset.t
 import * as dataTypeController from './data-type/data.type.controller';
 import * as attributeController from './asset-type/attribute/attribute.controller';
 import * as streetAddressController from './site/street-address/street.address.controller';
-import  * as postOfficeBoxController from './site/post-office-box/post.office.box.controller';
+import * as postOfficeBoxController from './site/post-office-box/post.office.box.controller';
 import * as emailController from './site/email/email.controller';
 import * as phoneController from './site/phone/phone.controller';
 import * as webSiteController from './site/web-site/web.site.controller';
@@ -39,6 +37,7 @@ import * as accountController from './party/account.controller';
 import * as credentialController from './authentication/credential/credential.controller';
 import * as confirmationController from './authentication/credential/confirmation/confirmation.controller';
 
+<<<<<<< HEAD
 // let accessMiddleware = require('./feature/access-middleware');
 // need to transition to the new resources approach
 // let assets = require('./routes/assets');
@@ -65,6 +64,10 @@ const app = express();
 
 
 // routes
+=======
+const app = express();
+
+>>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -77,12 +80,20 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // };
 // app.use(cors(corsOptions));
 app.use(cors());
+<<<<<<< HEAD
 // need cookieParser middleware before we can do anything with cookies
 
 // app.use(accessMiddleware());
 
 
 // routes
+=======
+
+// Needs to introduce a middle where that will check active session
+// and and add the session information to the request.
+// app.use(accessMiddleware());
+
+>>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
 app.get('/asset-kinds', assetKindController.getAssetKinds); //a get instead of find seeing you are getting all of them.
 app.get('/find-asset-types', assetTypeController.findAssetTypes);
 app.get('/find-sites', siteController.findSite);
@@ -167,6 +178,7 @@ app.post('/credentials', credentialController.addCredential);
 app.post('/verify-credentials-confirmations', confirmationController.verifyCredentialConfirmation);
 app.post('/send-confirmation-codes/phone/:confirmationId', confirmationController.sendPhoneVerificationCode);
 app.post('/send-confirmation-codes/email/:confirmationId', confirmationController.sendEmailVerificationCode);
+<<<<<<< HEAD
 // app.use('/asset', asset);
 // app.use('/unit-of-measures', unitOfMeasures);
 // app.use('/sites/physical-sites', unionOfPhysicalSites);
@@ -181,25 +193,27 @@ app.post('/send-confirmation-codes/email/:confirmationId', confirmationControlle
 
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
+=======
+>>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
 
 // catch 404 and forward to error handler
-// app.use((req, res, next) => {
-//   let err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
+app.use((req:any, res:any, next:any) => {
+  let err:any = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
 
 // error handler
-// app.use(function(err, req, res, next) {
-// set locals, only providing error in development
-// res.locals.message = err.message;
-// res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function(err:any, req:any, res:any, next:any) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-// render the error page
-// res.status(err.status || 500);
-// res.setHeader('Content-Type', 'application/json');
-// res.send('{"message":"Express REST API error"}');
-// res.render('error');
-// });
+  // render the error page
+  res.status(err.status || 500);
+  res.setHeader('Content-Type', 'application/json');
+  res.send('{"message":"Express REST API error"}');
+  res.render('error');
+});
 
 export default app;

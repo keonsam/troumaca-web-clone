@@ -12,10 +12,10 @@ class OrganizationDBRepository implements OrganizationRepository {
 
   private defaultPageSize:number = 100;
 
-  saveOrganization(organization: Organization): Observable<Organization> {
+  saveOrganization(organization:Organization):Observable<Organization> {
+    organization.partyId = generateUUID();
     return Rx.Observable.create(function (observer:Observer<Organization>) {
-      organization.partyId = generateUUID();
-      organizations.insert(organization,function (err:any, doc:any) {
+      organizations.insert(organization, function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -27,8 +27,9 @@ class OrganizationDBRepository implements OrganizationRepository {
   }
 
   getOrganizations(pageNumber:number, pageSize:number, order:string):Observable<Organization[]> {
+    let localDefaultPageSize = this.defaultPageSize;
     return Rx.Observable.create(function (observer:Observer<Organization[]>) {
-      let skip = calcSkip(pageNumber, pageSize, this.defaultPageSize);
+      let skip = calcSkip(pageNumber, pageSize, localDefaultPageSize);
       organizations.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
@@ -70,7 +71,10 @@ class OrganizationDBRepository implements OrganizationRepository {
     });
   }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
   deleteOrganization(organizationId:string):Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
@@ -127,7 +131,10 @@ class OrganizationRestRepository implements OrganizationRepository {
     return undefined;
   }
 
+  <<<<<<< HEAD
 
+=======
+>>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
   updateOrganization(organizationId: string, organization: Organization): Observable<number> {
     return undefined;
   }

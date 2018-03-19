@@ -1,8 +1,6 @@
 import {Observable} from "rxjs/Observable";
 import {Credential} from './credential';
 import {Result} from "../../result.success";
-import {credentials} from "../../db";
-import {Observer} from "rxjs/Observer";
 
 export interface CredentialRepository {
 
