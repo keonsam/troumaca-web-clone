@@ -11,6 +11,11 @@ import {credentials} from "../../db";
 import {RepositoryKind} from "../../repository.kind";
 import {CredentialRepository} from "./credential.repository";
 import {Result} from "../../result.success";
+import request from "request";
+import {classToPlain, plainToClass} from "class-transformer";
+import {strMapToJson} from "../../map.helpers";
+import {jsonRequestHeaderMap, postJsonOptions} from "../../request.helpers";
+import {properties} from "../../properties.helpers";
 
 class CredentialDBRepository implements CredentialRepository {
 
@@ -43,10 +48,8 @@ class CredentialDBRepository implements CredentialRepository {
         .map(credential => {
           if (!credential) {
             return true;
-          } else if (!credential.username) {
-            return true;
           } else {
-            return false;
+            return !credential.username;
           }
         });
     }
@@ -188,7 +191,6 @@ class CredentialDBRepository implements CredentialRepository {
         "password":credential.password
       };
 
-
       credentials.findOne({$and : [query1, query2]}, function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
@@ -242,10 +244,59 @@ class CredentialDBRepository implements CredentialRepository {
 
 }
 
+// Request Example 1: Post
+// var request = require('request');
+// request.post({
+//   headers: {'content-type' : 'application/x-www-form-urlencoded'},
+//   url:     'http://localhost/test2.php',
+//   body:    "mes=heydude"
+// }, function(error, response, body){
+//   console.log(body);
+// });
+
+// Request Example 1: Post
+// var request = require('request');
+// var options = {
+//   uri: 'https://www.googleapis.com/urlshortener/v1/url',
+//   method: 'POST',
+//   json: {
+//     "longUrl": "http://www.google.com/"
+//   }
+// };
+// request(options, function (error, response, body) {
+//   if (!error && response.statusCode == 200) {
+//     console.log(body.id) // Print the shortened url.
+//   }
+// });
+
 class CredentialRestRepository implements CredentialRepository {
 
-  addCredential(credential:Credential): Observable<Credential> {
-    return undefined;
+  constructor() {
+  }
+
+  addCredential(credential:Credential, options?:any): Observable<Credential> {
+    let uri:string = properties.get("credential.hos.port") as string;
+
+    let headerMap = jsonRequestHeaderMap(options ? options : {});
+    let headers:any = strMapToJson(headerMap);
+
+    let credentialJson = classToPlain(credential);
+
+    let requestOptions:any = postJsonOptions(uri, headers, credentialJson);
+
+    return Rx.Observable.create(function (observer:Observer<number>) {
+      request(requestOptions, function (error:any, response:any, body:any) {
+        if (error) {
+          observer.error(error);
+        } else {
+          // let credentialObj = plainToClass(Credential, body);
+          let credentialObject = plainToClass(Credential, body as Object);
+          observer.error(credentialObject);
+        }
+        observer.complete();
+      });
+    });
+
   }
 
   authenticateCredential(credential:Credential): Observable<Credential> {
