@@ -21,7 +21,7 @@ module.exports = function AssetTypesOrchestrator() {
 
   this.getAttributes = function(assetTypeClassId) {
     return assetTypesRepository
-    .getAssignedAttributes(assetTypeClassId)
+    .getAssignAttributes(assetTypeClassId)
     .flatMap(value => {
       return assetTypesRepository
       .getAttributes(value)

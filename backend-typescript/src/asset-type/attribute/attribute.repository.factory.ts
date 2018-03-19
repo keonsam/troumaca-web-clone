@@ -8,6 +8,9 @@ import {Observer} from "rxjs/Observer";
 import {Attribute} from "./attribute";
 import {RepositoryKind} from "../../repository.kind";
 import {attributes} from "../../db";
+import {AssignedAttribute} from "./assigned.attribute";
+import {assignedAttributes} from "../../db";
+import {getAssignedAttributes} from "./attribute.controller";
 
 let defaultPageSize:number = 10;
 
@@ -54,13 +57,13 @@ class AttributeDBRepository implements AttributeRepository {
     });
   }
 
-  getAvailableAttribute(attributeId:string):Observable<Attribute> {
-    return Rx.Observable.create(function (observer:Observer<Attribute>) {
+  getAssignedAttributesById(assetTypeClassId: string): Observable<AssignedAttribute> {
+    return Rx.Observable.create(function (observer:Observer<AssignedAttribute>) {
       let query = {
-        "attributeId":attributeId
+        assetTypeClassId
       };
 
-      attributes.findOne(query, function (err:any, doc:any) {
+      assignedAttributes.findOne(query, function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -71,10 +74,9 @@ class AttributeDBRepository implements AttributeRepository {
     });
   }
 
-  saveAvailableAttribute(availableAttribute:Attribute):Observable<Attribute> {
-    availableAttribute.attributeId = generateUUID();
-    return Rx.Observable.create(function (observer:Observer<Attribute>) {
-      attributes.insert(availableAttribute, function (err:any, doc:any) {
+  getAttributeByArray(attributeArray: string[]): Observable<Attribute[]> {
+    return Rx.Observable.create(function (observer:Observer<Attribute[]>) {
+      attributes.find({ attributeId: { $in: attributeArray }}, function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -85,38 +87,20 @@ class AttributeDBRepository implements AttributeRepository {
     });
   }
 
-  deleteAvailableAttribute(attributeId:string):Observable<number> {
-    return Rx.Observable.create(function (observer:Observer<number>) {
-      let query = {
-        "attributeId":attributeId
-      };
-
-      attributes.remove(query, {}, function (err:any, numRemoved:number) {
+  saveAssignedAttributes(assignedAttribute: AssignedAttribute): Observable<AssignedAttribute> {
+    assignedAttribute.assignedAttributeId = generateUUID();
+    return Rx.Observable.create(function (observer:Observer<Attribute>) {
+      assignedAttributes.insert(assignedAttribute, function (err:any, doc:any) {
         if (!err) {
-          observer.next(numRemoved);
+          observer.next(doc);
         } else {
           observer.error(err);
         }
         observer.complete();
-      })
+      });
     });
   }
 
-  updateAvailableAttribute(attributeId:string, attribute:Attribute):Observable<number> {
-    return Rx.Observable.create(function (observer:Observer<number>) {
-      let query = {
-        "attributeId":attributeId
-      };
-      attributes.update(query, attribute, {}, function (err:any, numReplaced:number) {
-        if (!err) {
-          observer.next(numReplaced);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      })
-    });
-  }
 
   addAttribute(attribute: Attribute): Observable<Attribute> {
     attribute.attributeId = generateUUID();
@@ -132,6 +116,7 @@ class AttributeDBRepository implements AttributeRepository {
     });
   }
 
+
   deleteAttribute(attributeId:string): Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
@@ -139,6 +124,23 @@ class AttributeDBRepository implements AttributeRepository {
       };
 
       attributes.remove(query, {}, function (err, numRemoved) {
+        if (!err) {
+          observer.next(numRemoved);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  }
+
+  deleteAssignedAttribute(assetTypeClassId: string):Observable<number> {
+    return Rx.Observable.create(function (observer:Observer<number>) {
+      let query = {
+        assetTypeClassId
+      };
+
+      assignedAttributes.remove(query, {}, function (err, numRemoved) {
         if (!err) {
           observer.next(numRemoved);
         } else {
@@ -212,22 +214,29 @@ class AttributeDBRepository implements AttributeRepository {
 
   }
 
+  updateAssignedAttribute(assetTypeClassId: string, assignedAttribute: AssignedAttribute): Observable<number> {
+    return Rx.Observable.create(function (observer:Observer<number>) {
+      let query = {
+        assetTypeClassId
+      };
 
+      assignedAttributes.update(query, assignedAttribute, {}, function (err:any, numReplaced:number) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  }
 
 }
 
 
 class AttributeRestRepository implements AttributeRepository {
 
-  deleteAvailableAttribute(attributeId: string): Observable<number> {
-    return undefined;
-  }
-
   getAssignedAttributes(pageNumber: number, pageSize: number, order: string, assignedAttributes: string[]): Observable<Attribute[]> {
-    return undefined;
-  }
-
-  getAvailableAttribute(attributeId: string): Observable<Attribute> {
     return undefined;
   }
 
@@ -239,11 +248,16 @@ class AttributeRestRepository implements AttributeRepository {
     return undefined;
   }
 
-  saveAvailableAttribute(availableAttribute: Attribute): Observable<Attribute> {
+  getAssignedAttributesById(assetTypeClassId: string): Observable<AssignedAttribute> {
     return undefined;
   }
 
-  updateAvailableAttribute(attributeId: string, attribute: Attribute): Observable<number> {
+  getAttributeByArray(attributeArray: string[]): Observable<Attribute[]> {
+    return undefined;
+  }
+
+
+    saveAssignedAttributes(assignedAttribute: AssignedAttribute): Observable<AssignedAttribute> {
     return undefined;
   }
 
@@ -252,6 +266,10 @@ class AttributeRestRepository implements AttributeRepository {
   }
 
   deleteAttribute(attributeId:string): Observable<number> {
+    return undefined;
+  }
+
+  deleteAssignedAttribute(assetTypeClassId: string):Observable<number> {
     return undefined;
   }
 
@@ -268,6 +286,10 @@ class AttributeRestRepository implements AttributeRepository {
   }
 
   updateAttribute(attributeId: string, attribute: Attribute): Observable<number> {
+    return undefined;
+  }
+
+  updateAssignedAttribute(assetTypeClassId: string, assignedAttribute: AssignedAttribute): Observable<number> {
     return undefined;
   }
 

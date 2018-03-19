@@ -43,15 +43,11 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
       });
   }
 
-  public getAttributes(assetTypeClassId: string): Observable<Attributes> {
+  public getAssignedAttributes(assetTypeClassId: string): Observable<any> {
     return this.assetTypesClient
-      .getAttributes(assetTypeClassId)
+      .getAssignedAttributes(assetTypeClassId)
       .map(values => {
-        let attributeModels:Attributes = new Attributes();
-        attributeModels.attributes = map(values.attributes, value => {
-          return mapObjectProps(value, new Attribute());
-        });
-        return attributeModels;
+        return values;
       });
   }
 

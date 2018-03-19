@@ -3,6 +3,8 @@ import {User} from "./user";
 
 export interface UserRepository {
 
+  findUser(searchStr:string, pageSize:number):Observable<User[]>;
+
   getUsers(pageNumber:number, pageSize:number, order:string):Observable<User[]>;
 
   getUserCount():Observable<number>;

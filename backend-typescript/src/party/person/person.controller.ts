@@ -10,7 +10,7 @@ export let findPerson = (req: Request, res: Response) => {
 
   personOrchestrator.findPerson(searchStr, pageSize)
     .map(value => {
-      return shapePersonResponse2("person", value); //TODO: change to new method
+      return shapePersonResponse2("persons", value); //TODO: change to new method
     }).subscribe(persons => {
     let body = JSON.stringify(persons);
     res.send(body);

@@ -1,8 +1,10 @@
+import {AttributeArray} from './attribute.array';
+
 export class AssignedAttribute {
 
   private _assignedAttributeId:string;
   private _assetTypeClassId: string;
-  private _attributeId: any[];
+  private _attribute: AttributeArray[];
   private _createdOn: string;
   private _modifiedOn: string;
 
@@ -23,12 +25,12 @@ export class AssignedAttribute {
     this._assetTypeClassId = value;
   }
 
-  get attributeId(): any[] {
-    return this._attributeId;
+  get attribute(): AttributeArray[] {
+    return this._attribute;
   }
 
-  set attributeId(value: any[]) {
-    this._attributeId = value;
+  set attribute(value: AttributeArray[]) {
+    this._attribute = value;
   }
 
   get createdOn(): string {

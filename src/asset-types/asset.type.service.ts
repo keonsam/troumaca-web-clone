@@ -17,8 +17,8 @@ export class AssetTypeService {
     return this.assetTypeRepository.getAssetTypes(pageNumber, pageSize, sortOrder);
   }
 
-  public getAttributes(assetTypeClassId: string): Observable<Attributes> {
-    return this.assetTypeRepository.getAttributes(assetTypeClassId);
+  public getAssignedAttributes(assetTypeClassId: string): Observable<any> {
+    return this.assetTypeRepository.getAssignedAttributes(assetTypeClassId);
   }
 
   public getValues(assetTypeId: string): Observable<Values> {

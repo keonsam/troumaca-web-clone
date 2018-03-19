@@ -82,7 +82,7 @@
             </form>
 
             <form [formGroup]="attributeForm" >
-              <fieldset *ngFor="let attribute of assignedAttributes.attributes" class="form-group">
+              <fieldset *ngFor="let attribute of attributes" class="form-group">
                 <div *ngIf="attribute.dataType.name == 'Boolean'" class="form-check">
                   <label class="form-check-label"><input class="form-check-input" formControlName="{{attribute.attributeId}}"type="checkbox" [required]="getRequired(attribute.attributeId)">{{attribute.name}}</label>
                 </div>

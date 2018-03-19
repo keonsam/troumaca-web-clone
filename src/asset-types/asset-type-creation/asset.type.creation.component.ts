@@ -9,7 +9,8 @@ import {AssetType} from "../asset.type";
 import {Value} from "../value";
 import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
 import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
-import {Attributes} from "../../attributes/attributes";
+import {Attribute} from "../../attributes/attribute";
+import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
 import {Router} from "@angular/router";
 
 
@@ -35,7 +36,8 @@ export class AssetTypeCreationComponent implements OnInit {
   private _attributeForm: FormGroup;
 
   private assetType: AssetType;
-  private _assignedAttributes: Attributes;
+  private _assignedAttributes: AssignedAttribute;
+  private _attributes: Attribute[] = [];
 
   private _value: Value[] = [];
 
@@ -44,7 +46,6 @@ export class AssetTypeCreationComponent implements OnInit {
   private _doNotDisplayFailureMessage2:boolean;
   private errorCount: number = 0;
   private error: boolean = false;
-  private isRequired: any[] = [];
 
   constructor(private assetTypeService:AssetTypeService,
               private completerService: CompleterService,
@@ -76,7 +77,8 @@ export class AssetTypeCreationComponent implements OnInit {
     assetType.unitOfMeasure = new UnitOfMeasure();
     this.assetType = assetType;
 
-    this.assignedAttributes = new Attributes();
+    this.assignedAttributes = new AssignedAttribute();
+    this.assignedAttributes.attribute = [];
 
     this.assetTypeForm
     .valueChanges
@@ -118,7 +120,6 @@ export class AssetTypeCreationComponent implements OnInit {
               return {
                 assetTypeClassId: v2.assetTypeClassId,
                 name: v2.name,
-                assignedAttributes: v2.assignedAttributes
               };
             })
           })
@@ -240,12 +241,20 @@ export class AssetTypeCreationComponent implements OnInit {
     this._attributeForm = value;
   }
 
-  get assignedAttributes(): Attributes {
+  get assignedAttributes(): AssignedAttribute {
     return this._assignedAttributes;
   }
 
-  set assignedAttributes(value: Attributes) {
+  set assignedAttributes(value: AssignedAttribute) {
     this._assignedAttributes = value;
+  }
+
+  get attributes(): Attribute[] {
+    return this._attributes;
+  }
+
+  set attributes(value: Attribute[]) {
+    this._attributes = value;
   }
 
   get value(): Value[] {
@@ -273,19 +282,18 @@ export class AssetTypeCreationComponent implements OnInit {
   }
 
   getRequired(attributeId: string) {
-    return this.isRequired.find(x => x.attributeId == attributeId).required;
+    return this.assignedAttributes.attribute.find(x => x.attributeId == attributeId).required;
   }
 
   onAssetTypeClassIdSelect(selected: CompleterItem) {
     if (selected) {
       this.assetType.assetTypeClass = selected.originalObject;
-      this.getAttributes(selected.originalObject.assignedAttributes); // TODO: // change this
     }
   }
 
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.assetType.unitOfMeasureId = selected.originalObject;
+      this.assetType.unitOfMeasure = selected.originalObject;
     }
   }
 
@@ -297,16 +305,16 @@ export class AssetTypeCreationComponent implements OnInit {
     }
   }
 
-  getAttributes(assignedAttributes?: any[]) { // TODO //change this
-    this.isRequired = assignedAttributes;
+  getAttributes() {
     this.assetTypeService
-    .getAttributes(this.assetType.assetTypeClass.assetTypeClassId)
+    .getAssignedAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
-      this.assignedAttributes = next;
+      this.assignedAttributes = next.assignedAttributes;
+      this.attributes = next.attributes;
       let group: any = {};
-      this.assignedAttributes.attributes.forEach(value => {
+      this.attributes.forEach(value => {
       let editValue = this.value.find(x => x.attributeId == value.attributeId);
-      let required = assignedAttributes.find(x => x.attributeId == value.attributeId).required;
+      let required = this.assignedAttributes.attribute.find(x => x.attributeId == value.attributeId).required;
       if(!editValue) {
         this.value.push(new Value(value.attributeId,""));
         editValue = this.value.find(x => x.attributeId == value.attributeId);
@@ -360,7 +368,7 @@ export class AssetTypeCreationComponent implements OnInit {
   }
   removeValues() {
     this.value = this.value.filter((value, i) => {
-      if(this.assignedAttributes.attributes.find(x => x.attributeId == value.attributeId)){
+      if(this.attributes.find(x => x.attributeId == value.attributeId)){
           return value;
         }
       });

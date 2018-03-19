@@ -3,7 +3,6 @@ import {UUIDGenerator} from "../../uuid.generator";
 import {Observable} from "rxjs/Observable";
 import {AssetTypeState} from "./asset.type.state";
 import {AssetTypeStates} from "./asset.type.states";
-import {AttributeStates} from "../attribute/attribute.states";
 import {AssetTypeClassState} from "../asset-type-class/asset.type.class.state";
 import {AssetTypeClassStates} from "../asset-type-class/asset.type.class.states";
 import {ValueState} from "./value.state";
@@ -57,30 +56,14 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     });
   }
 
-  public getAttributes(assetTypeClassId: string): Observable<AttributeStates> {
-
-  let array = [];
-  array.push(this.hostPort);
-  array.push("attributes");
-
-  let queryStr = [];
-
-  if (assetTypeClassId) {
-    queryStr.push("assetTypeClassId=" + assetTypeClassId);
-  }
-
-
-  if (queryStr.length > 0) {
-    array.push("?");
-    array.push(queryStr.join("&"));
-  }
-
-  return this.httpClient.get<AttributeStates>(array.join(""), {
-  // return this.http.get(array.join(""), {
-    headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-  }).map(data => {
-    return data;
-  });
+  public getAssignedAttributes(assetTypeClassId: string): Observable<any> {
+    let url = `${this.hostPort}/assigned-attributes/${assetTypeClassId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+      .get<any>(url, {headers:headers})
+      .map(data => {
+        return data;
+      });
   }
 
   public getValues(assetTypeId: string): Observable<ValueStates> {

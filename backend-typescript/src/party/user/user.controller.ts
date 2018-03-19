@@ -2,8 +2,26 @@ import {Request, Response} from "express";
 import {UserOrchestrator} from "./user.orchestrator";
 import {getNumericValueOrDefault} from "../../number.util";
 import {getStringValueOrDefault} from "../../string.util";
+import {shapeUserResponse2} from "../user/user.response.shaper";
 
 let userOrchestrator:UserOrchestrator = new UserOrchestrator();
+
+
+export let findUser = (req: Request, res: Response) => {
+  let searchStr:string =  req.query.q;
+  let pageSize:number = req.query.pageSize;
+
+  userOrchestrator.findUser(searchStr, pageSize)
+    .map(value => {
+      return shapeUserResponse2("persons", value); //TODO: change to new method
+    }).subscribe(users => {
+    let body = JSON.stringify(users);
+    res.send(body);
+  }, error => {
+    res.send(JSON.stringify(error));
+  });
+
+};
 
 export  let getUsers = (req: Request, res: Response) => {
 

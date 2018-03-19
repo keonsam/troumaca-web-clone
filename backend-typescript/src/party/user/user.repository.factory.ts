@@ -4,13 +4,28 @@ import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {RepositoryKind} from "../../repository.kind";
 import {User} from "./user";
-import {users} from "../../db";
+import {users, users} from "../../db";
 import {calcSkip} from "../../db.util";
 import {generateUUID} from "../../uuid.generator";
+import {User} from "../user";
 
 class UserDBRepository implements UserRepository {
 
   private defaultPageSize:number = 10;
+
+  findUser(searchStr:string, pageSize:number):Observable<User[]> {
+    let searchStrLocal = new RegExp(searchStr);
+    return Rx.Observable.create(function (observer:Observer<User[]>) {
+      users.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
 
   getUsers(pageNumber:number, pageSize:number, order:string):Observable<User[]> {
     let defaultPageSize = this.defaultPageSize;
@@ -106,6 +121,11 @@ class UserDBRepository implements UserRepository {
 }
 
 class UserRestRepository implements UserRepository {
+
+  findUser(searchStr:string, pageSize:number):Observable<User[]> {
+    return undefined;
+  }
+
   deleteUser(userId: string): Observable<number> {
     return undefined;
   }

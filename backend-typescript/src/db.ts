@@ -7,6 +7,7 @@ let theMeasuresDb = path.resolve(__dirname, '..') + '/nedb/unit-of-measures.db';
 
 // asset type
 let theAttributesDb = path.resolve(__dirname, '..') + '/nedb/asset_type/attributes.db';
+let theAssignedAttributesDb = path.resolve(__dirname, '..') + '/nedb/asset_type/assigned-attributes.db';
 let theAssetTypesDb = path.resolve(__dirname,'..') + '/nedb/asset_type/asset-types.db';
 let theAssetTypeClassesDb = path.resolve(__dirname,'..') + '/nedb/asset_type/asset-type-classes.db';
 let theValuesDb = path.resolve(__dirname, '..') + '/nedb/asset_type/values.db';
@@ -145,6 +146,10 @@ assetTypes.ensureIndex({ fieldName: 'assetTypeId', unique: true }, handleError);
 export let attributes = new Datastore(theAttributesDb);
 attributes.loadDatabase(handleError);
 attributes.ensureIndex({ fieldName: 'attributeId', unique: true }, handleError);
+
+export let assignedAttributes = new Datastore(theAssignedAttributesDb);
+assignedAttributes.loadDatabase(handleError);
+assignedAttributes.ensureIndex({ fieldName: 'assignedAttributeId', unique: true }, handleError);
 
 export let sessions = new Datastore(sessionDb);
 sessions.loadDatabase(handleError);

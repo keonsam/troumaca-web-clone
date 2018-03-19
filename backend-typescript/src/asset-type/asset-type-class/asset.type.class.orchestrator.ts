@@ -1,19 +1,22 @@
 import {Observable} from "rxjs/Observable";
 import {getSortOrderOrDefault} from "../../sort.order.util";
 import {AssetTypeClass} from "./asset.type.class";
-
+import {AssignedAttribute} from "../attribute/assigned.attribute";
 import {createAssetTypeClassesRepositoryFactory} from './asset.type.class.repository.factory';
 import {AssetTypeClassRepository} from "./asset.type.class.repository";
-import {shapeAssetTypeClasssResponse} from "./asset.type.class.response.shaper";
+import {shapeAssetTypeClassesResponse} from "./asset.type.class.response.shaper";
 import {Result} from "../../result.success";
-import {AssetType} from "../asset.type";
+import {AttributeRepository} from "../attribute/attribute.repository";
+import {createAttributeRepositoryFactory} from "../attribute/attribute.repository.factory";
 
 export class AssetTypeClassOrchestrator {
 
   private assetTypeClassRepository:AssetTypeClassRepository;
+  private attributeRepository: AttributeRepository;
 
   constructor() {
     this.assetTypeClassRepository = createAssetTypeClassesRepositoryFactory();
+    this.attributeRepository = createAttributeRepositoryFactory();
   }
 
   findAssetTypeClass(searchStr:string, pageSize:number):Observable<AssetTypeClass[]> {
@@ -28,26 +31,67 @@ export class AssetTypeClassOrchestrator {
       return this.assetTypeClassRepository
         .getAssetTypeClassCount()
         .map(count => {
-          let shapeAssetTypeClasssResp = shapeAssetTypeClasssResponse("assetTypeClasses",value, number, size, value.length, count, sort);
-          return new Result(false, "", shapeAssetTypeClasssResp);
+          let shapeAssetTypeClassesResp = shapeAssetTypeClassesResponse("assetTypeClasses",value, number, size, value.length, count, sort);
+          return new Result(false, "", shapeAssetTypeClassesResp);
         });
     });
   }
 
-  getAssetTypeClass(assetTypeClassId:string):Observable<AssetTypeClass> {
-    return this.assetTypeClassRepository.getAssetTypeClass(assetTypeClassId);
+  getAssetTypeClass(assetTypeClassId:string):Observable<any> {
+    return this.assetTypeClassRepository.getAssetTypeClass(assetTypeClassId)
+      .switchMap(assetTypeClass => {
+        if(!assetTypeClass) {
+          return Observable.of(assetTypeClass);
+        }else {}
+        return this.attributeRepository.getAssignedAttributesById(assetTypeClassId).
+          map(assignedAttributes => {
+            if(!assignedAttributes) {
+              return Observable.of(assignedAttributes);
+            }else {
+              return {assetTypeClass, assignedAttributes}
+            }
+        });
+      });
   }
 
-  saveAssetTypeClass(assetTypeClass:AssetTypeClass):Observable<AssetTypeClass> {
-    return this.assetTypeClassRepository.saveAssetTypeClass(assetTypeClass);
+  saveAssetTypeClass(assetTypeClass:AssetTypeClass, assignedAttributes: AssignedAttribute):Observable<AssetTypeClass> {
+    return this.assetTypeClassRepository.saveAssetTypeClass(assetTypeClass).
+      switchMap(doc => {
+        if(!doc){
+          return Observable.of(doc);
+        }else {
+          return this.attributeRepository.saveAssignedAttributes(assignedAttributes)
+            .map(newDoc => {
+              if (!newDoc) {
+                return Observable.of(newDoc);
+              }else {
+                return doc;
+              }
+                });
+        }
+    });
   }
 
   deleteAssetTypeClass(assetTypeClassId:string):Observable<number> {
-    return this.assetTypeClassRepository.deleteAssetTypeClass(assetTypeClassId);
+    return this.assetTypeClassRepository.deleteAssetTypeClass(assetTypeClassId).
+      switchMap(numRemoved => {
+        if(!numRemoved) {
+          return Observable.of(numRemoved);
+        }else {
+          return this.attributeRepository.deleteAssignedAttribute(assetTypeClassId);
+        }
+    });
   }
 
-  updateAssetTypeClass(assetTypeClassId:string, assetTypeClass:AssetTypeClass):Observable<number> {
-    return this.assetTypeClassRepository.updateAssetTypeClass(assetTypeClassId, assetTypeClass);
+  updateAssetTypeClass(assetTypeClassId:string, assetTypeClass:AssetTypeClass, assignedAttribute: AssignedAttribute):Observable<number> {
+    return this.assetTypeClassRepository.updateAssetTypeClass(assetTypeClassId, assetTypeClass)
+      .switchMap(numReplaced => {
+        if(!numReplaced){
+          return Observable.of(numReplaced);
+        }else {
+          return this.attributeRepository.updateAssignedAttribute(assetTypeClassId, assignedAttribute);
+        }
+      });
   }
 
 }

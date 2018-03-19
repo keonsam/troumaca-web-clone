@@ -9,6 +9,7 @@ import {createCredentialRepositoryFactory} from "../../authentication/credential
 import {Credential} from "../../authentication/credential/credential";
 import * as generatePassword from 'password-generator';
 import {getSortOrderOrDefault} from "../../sort.order.util";
+import {User} from "../user/user";
 
 
 export class UserOrchestrator {
@@ -21,6 +22,11 @@ export class UserOrchestrator {
     this.credential = new Credential();
     this.userRepository = createUserRepository();
     this.credentialRepository = createCredentialRepositoryFactory();
+  }
+
+
+  findUser(searchStr:string, pageSize:number):Observable<User[]> {
+    return this.userRepository.findUser(searchStr, pageSize);
   }
 
     getUsers (number:number, size:number, field:string, direction:string):Observable<any> {

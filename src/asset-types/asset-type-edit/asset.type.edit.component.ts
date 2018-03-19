@@ -11,9 +11,10 @@ import {Value} from "../value";
 import {Values} from "../values";
 import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
-import {Attributes} from "../../attributes/attributes";
+import {Attribute} from "../../attributes/attribute";
 import {ActivatedRoute} from '@angular/router';
 import {Router} from "@angular/router";
+import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
 
 @Component({
   selector: 'asset-type-edit',
@@ -38,10 +39,10 @@ export class AssetTypeEditComponent implements OnInit {
   private _unitOfMeasureIdDataService: CompleterData;
 
   private assetType: AssetType;
-  private _assignedAttributes: Attributes;
+  private _assignedAttributes: AssignedAttribute;
+  private _attributes: Attribute[];
 
   private _values: Values;
-  private _assetTypeClass: AssetTypeClass;
 
   private pageSize:number = 15;
   private _doNotDisplayFailureMessage:boolean;
@@ -50,7 +51,6 @@ export class AssetTypeEditComponent implements OnInit {
   private errorCount: number = 0;
   private deleteError: boolean = true;
   private error: boolean = false;
-  private isRequired: any[] = [];
 
   constructor(private assetTypeService:AssetTypeService,
               private completerService: CompleterService,
@@ -90,7 +90,8 @@ export class AssetTypeEditComponent implements OnInit {
     assetType.unitOfMeasure = new UnitOfMeasure();
     this.assetType = assetType;
 
-    this.assignedAttributes = new Attributes();
+    this.assignedAttributes = new AssignedAttribute();
+    this.assignedAttributes.attribute = [];
     this.values = new Values();
 
     this.doNotDisplayFailureMessage = true;
@@ -100,8 +101,6 @@ export class AssetTypeEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let that = this;
-
     this.sub = this.route.params.subscribe(params => {
        this.assetTypeId = params['assetTypeId'];
        this.assetTypeService.getAssetType(this.assetTypeId)
@@ -113,7 +112,7 @@ export class AssetTypeEditComponent implements OnInit {
         this.materialCode.setValue(assetType.materialCode);
         this.unitOfMeasureId.setValue(assetType.unitOfMeasure.name);
         this.assetType = assetType;
-        this.getAssetTypeClass();
+        this.getValues();
       }, error => {
         console.log(error);
       }, () => {
@@ -148,8 +147,7 @@ export class AssetTypeEditComponent implements OnInit {
             return value2.assetTypeClasses.map(v2 => {
               return {
                 assetTypeClassId: v2.assetTypeClassId,
-                name: v2.name,
-                assignedAttributes: v2.assignedAttributes
+                name: v2.name
               };
             })
           })
@@ -191,25 +189,12 @@ export class AssetTypeEditComponent implements OnInit {
       });
   }
 
-  private getAssetTypeClass() {
-    this.assetTypeService
-    .getAssetTypeClass(this.assetType.assetTypeClass.assetTypeClassId)
-    .subscribe(next => {
-      this.assetType.assetTypeClass = next;
-      this.getValues();
-    },  error => {
-      console.log(error);
-    }, () => {
-      console.log("complete");
-    });
-  }
-
   private getValues() {
     this.assetTypeService
     .getValues(this.assetTypeId)
     .subscribe(next => {
       this.values = next;
-      this.getAttributes(this.assetType.assetTypeClass.assignedAttributes);
+      this.getAttributes();
     }, error => {
       console.log(error);
     }, () => {
@@ -297,12 +282,20 @@ export class AssetTypeEditComponent implements OnInit {
     this._attributeEditForm = value;
   }
 
-  get assignedAttributes(): Attributes {
+  get assignedAttributes(): AssignedAttribute {
     return this._assignedAttributes;
   }
 
-  set assignedAttributes(value: Attributes) {
+  set assignedAttributes(value: AssignedAttribute) {
     this._assignedAttributes = value;
+  }
+
+  get attributes(): Attribute[] {
+    return this._attributes;
+  }
+
+  set attributes(value: Attribute[]) {
+    this._attributes = value;
   }
 
   get values(): Values {
@@ -338,19 +331,19 @@ export class AssetTypeEditComponent implements OnInit {
   }
 
   getRequired(attributeId: string) {
-    return this.isRequired.find(x => x.attributeId == attributeId).required;
+    return this.assignedAttributes.attribute.find(x => x.attributeId == attributeId).required;
   }
 
   onAssetTypeClassIdSelect(selected: CompleterItem) {
     if (selected) {
       this.assetType.assetTypeClass = selected.originalObject;
-      this.getAttributes(selected.originalObject.assignedAttributes);
+      this.getAttributes();
     }
   }
 
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.assetType.unitOfMeasureId = selected.originalObject;
+      this.assetType.unitOfMeasure = selected.originalObject;
     }
   }
 
@@ -370,16 +363,17 @@ export class AssetTypeEditComponent implements OnInit {
     }
   }
 
-  getAttributes(assignedAttributes?: any[]) {
-    this.isRequired = assignedAttributes;
+  getAttributes() {
+
     this.assetTypeService
-    .getAttributes(this.assetType.assetTypeClass.assetTypeClassId)
+    .getAssignedAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
-      this.assignedAttributes = next;
+      this.assignedAttributes = next.assignedAttributes;
+      this.attributes = next.attributes;
         let group: any = {};
-        this.assignedAttributes.attributes.forEach(value => {
+        this.attributes.forEach(value => {
           let editValue = this.values.values.find(x => x.attributeId == value.attributeId);
-          let required = assignedAttributes.find(x => x.attributeId == value.attributeId).required;
+          let required = this.assignedAttributes.attribute.find(x => x.attributeId == value.attributeId).required;
           if(!editValue) {
           this.values.values.push(new Value(value.attributeId, ""));
           editValue = this.values.values.find(x => x.attributeId == value.attributeId);
@@ -456,7 +450,7 @@ export class AssetTypeEditComponent implements OnInit {
     let that = this;
     return Observable.create(function (observer) {
       that.values.values = that.values.values.filter((value, i) => {
-        if(that.assignedAttributes.attributes.find(x => x.attributeId == value.attributeId)){
+        if(that.attributes.find(x => x.attributeId == value.attributeId)){
             return value;
           }else if (value.valueId) {
             that.assetTypeService

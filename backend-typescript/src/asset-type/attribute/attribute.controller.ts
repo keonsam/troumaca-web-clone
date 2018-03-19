@@ -5,7 +5,6 @@ import {AttributeOrchestrator} from './attribute.orchestrator';
 
 let orchestrator:AttributeOrchestrator = new AttributeOrchestrator();
 
-// router.get("/attributes", function (req, res, next) {
 export let getAvailableAttributes = (req: Request, res: Response) => {
 
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
@@ -25,7 +24,6 @@ export let getAvailableAttributes = (req: Request, res: Response) => {
 
 };
 
-// router.get("/assigned-attributes", function (req, res, next) {
 export let getAssignedAttributes = (req: Request, res: Response) => {
 
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
@@ -45,58 +43,14 @@ export let getAssignedAttributes = (req: Request, res: Response) => {
 
 };
 
-// router.get("/attributes/:attributeId", function (req, res, ndex){
-export let getAvailableAttribute = (req: Request, res: Response) => {
-  let attributeId = req.params.attributeId;
-  orchestrator.getAvailableAttribute(attributeId)
-    .subscribe(attribute => {
-      let body = JSON.stringify(attribute);
-      res.send(body);
-    }, error => {
-      res.send(JSON.stringify(error));
-    });
+export let getAssignedAttributeByClassId = (req: Request, res: Response) => {
+  let assetTypeClassId = req.params.assetTypeClassId;
 
-};
-
-// router.post("/attributes", function (req, res, ndex) {
-export let saveAvailableAttribute = (req: Request, res: Response) => {
-  let availableAttribute = req.body;
-  orchestrator.saveAvailableAttribute(availableAttribute)
-    .subscribe(availableAttribute => {
-      res.send(JSON.stringify(availableAttribute));
-    }, error => {
-      res.status(400);
-      res.send(error);
-      console.log(error);
+  orchestrator.getAssignedAttributeByClassId(assetTypeClassId)
+    .subscribe(pageResponse => {
+      res.send(JSON.stringify(pageResponse));
     });
-};
-
-// router.put("/attributes/:attributeId", function (req, res, next) {
-export let updateAvailableAttribute = (req: Request, res: Response) => {
-  let attributeId = req.params.attributeId;
-  let attribute = req.body;
-  orchestrator.updateAvailableAttribute(attributeId, attribute)
-    .subscribe(numUpdated => {
-      res.send(JSON.stringify(numUpdated));
-    }, error => {
-      res.status(400);
-      res.send(error);
-      console.log(error);
-    });
-};
-
-// router.delete("/attributes/:attributeId", function (req, res, next) {
-export let deleteAvailableAttribute = (req: Request, res: Response) => {
-  let attributeId = req.params.attributeId;
-  orchestrator.deleteAvailableAttribute(attributeId)
-    .subscribe(numRemoved => {
-      res.send(JSON.stringify(numRemoved));
-    }, error => {
-      res.status(400);
-      res.send(error);
-      console.log(error);
-    });
-};
+}
 
 export let getAttributes = (req: Request, res: Response) => {
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);

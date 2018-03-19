@@ -1,7 +1,6 @@
 import {AssetTypeState} from "./asset.type.state";
 import {Observable} from "rxjs/Observable";
 import {AssetTypeStates} from "./asset.type.states";
-import {AttributeStates} from "../attribute/attribute.states";
 import {AssetTypeClassState} from "../asset-type-class/asset.type.class.state";
 import {AssetTypeClassStates} from "../asset-type-class/asset.type.class.states";
 import {ValueState} from "./value.state";
@@ -10,13 +9,12 @@ import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
 
 export abstract class AssetTypesClient {
   abstract getAssetTypes(pageNumber:number, pageSize:number, sortOrder:string):Observable<AssetTypeStates>;
-  abstract getAttributes(assetTypeClassId: string): Observable<AttributeStates>;
+  abstract getAssignedAttributes(assetTypeClassId: string): Observable<any>;
   abstract getValues(assetTypeId: string): Observable<ValueStates>;
 
   abstract getAssetTypeState(assetTypeId: string): Observable<AssetTypeState>;
   abstract getAssetTypeClassState(assetTypeClassId: string): Observable<AssetTypeClassState>;
 
-  abstract findAssetTypes(searchStr: string, pageSize:number):Observable<AssetTypeStates>;
   abstract findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClassStates>;
   abstract findUnitOfMeasureIdState(searchStr: string, pageSize:number): Observable<UnitOfMeasureState[]>
 

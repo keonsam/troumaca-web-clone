@@ -6,6 +6,8 @@ import {createAttributeRepositoryFactory} from './attribute.repository.factory';
 import {AttributeRepository} from "./attribute.repository";
 import {Result} from "../../result.success";
 import {PageResponse} from "../../page.response";
+import {assignedAttributes} from "../../db";
+import {assign} from "rxjs/util/assign";
 
 export class AttributeOrchestrator {
 
@@ -45,22 +47,6 @@ export class AttributeOrchestrator {
     });
   }
 
-  getAvailableAttribute(attributeId:string):Observable<Attribute> {
-    return this.attributeClassRepository.getAvailableAttribute(attributeId);
-  }
-
-  saveAvailableAttribute(availableAttribute:Attribute):Observable<Attribute> {
-    return this.attributeClassRepository.saveAvailableAttribute(availableAttribute);
-  }
-
-  deleteAvailableAttribute(attributeId:string):Observable<number> {
-    return this.attributeClassRepository.deleteAvailableAttribute(attributeId);
-  }
-
-  updateAvailableAttribute(attributeId:string, attribute:Attribute):Observable<number> {
-    return this.attributeClassRepository.updateAvailableAttribute(attributeId, attribute);
-  }
-  
   saveAttribute(attribute:Attribute):Observable<Attribute> {
     return this.attributeClassRepository.addAttribute(attribute);
   };
@@ -68,6 +54,27 @@ export class AttributeOrchestrator {
   getAttributeCount():Observable<number> {
     return this.attributeClassRepository.getAttributeCount();
   }
+
+  getAssignedAttributeByClassId(assetTypeClassId: string):Observable<number> {
+    return this.attributeClassRepository.getAssignedAttributesById(assetTypeClassId)
+      .switchMap(assignedAttribute => {
+        if(!assignedAttribute){
+          return Observable.of(assignedAttribute);
+        }else {
+          return this.attributeClassRepository.getAttributeByArray(assignedAttribute.attribute.map(x => x.attributeId))
+            .map(attributes =>{
+              if(!attributes) {
+                return Observable.of(attributes);
+              }else {
+                return {assignedAttribute, attributes};
+              }
+            });
+        }
+
+      });
+
+  }
+
 
   getAttributes(number:number, size:number, field:string, direction:string):Observable<PageResponse<Attribute[]>> {
     let sort:string = getSortOrderOrDefault(field, direction);

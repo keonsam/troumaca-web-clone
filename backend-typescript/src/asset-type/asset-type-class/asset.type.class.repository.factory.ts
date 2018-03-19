@@ -8,8 +8,6 @@ import {calcSkip} from "../../db.util";
 import {Observer} from "rxjs/Observer";
 import {RepositoryKind} from "../../repository.kind";
 import {assetTypeClasses, assetTypes} from "../../db";
-import {AssetType} from "../asset.type";
-import {noUndefined} from "@angular/compiler/src/util";
 
 let defaultPageSize = 10;
 

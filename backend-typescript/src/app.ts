@@ -44,7 +44,7 @@ app.get('/asset-kinds', assetKindController.getAssetKinds); //a get instead of f
 app.get('/find-asset-types', assetTypeController.findAssetTypes);
 app.get('/find-sites', siteController.findSite);
 app.get('/find-unit-of-measures', unitOfMeasureController.findUnitOfMeasure);
-app.get('/find-persons', personController.findPerson);
+app.get('/find-persons', userController.findUser);
 app.get('/find-asset-type-classes', assetTypeClassController.findAssetTypeClass);
 app.get('/data-types', dataTypeController.getDataTypes);
 app.get('/assets', assetController.getAssets);
@@ -70,6 +70,7 @@ app.get('/attributes', attributeController.getAttributes);
 app.get('/attributes/:attributesId', attributeController.getAttributeById);
 app.get('/available-attributes', attributeController.getAvailableAttributes);
 app.get('/assigned-attributes', attributeController.getAssignedAttributes);
+app.get('/assigned-attributes/:assetTypeClassId', attributeController.getAssignedAttributeByClassId);
 app.post('/attributes', attributeController.saveAttribute);
 app.put('/attributes/:attributeId', attributeController.updateAttribute);
 app.delete('/attributes/:attributeId', attributeController.deleteAttribute);
