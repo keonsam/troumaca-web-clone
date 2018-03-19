@@ -53,12 +53,9 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // app.use(cors(corsOptions));
 app.use(cors());
 
-
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
 // app.use(accessMiddleware());
-
-
 
 app.get('/asset-kinds', assetKindController.getAssetKinds); //a get instead of find seeing you are getting all of them.
 app.get('/find-asset-types', assetTypeController.findAssetTypes);
@@ -143,7 +140,6 @@ app.post('/credentials', credentialController.addCredential);
 app.post('/verify-credentials-confirmations', confirmationController.verifyCredentialConfirmation);
 app.post('/send-confirmation-codes/phone/:confirmationId', confirmationController.sendPhoneVerificationCode);
 app.post('/send-confirmation-codes/email/:confirmationId', confirmationController.sendEmailVerificationCode);
-
 
 // catch 404 and forward to error handler
 app.use((req:any, res:any, next:any) => {
