@@ -46,7 +46,7 @@ export class AssetTypeClassOrchestrator {
           return this.attributeRepository.getAssignedAttributesById(assetTypeClassId)
             .map(assignedAttributes => {
               if (!assignedAttributes) {
-                return Observable.of(assignedAttributes);
+                return assignedAttributes;
               } else {
                 return {assetTypeClass, assignedAttributes};
               }
@@ -64,7 +64,7 @@ export class AssetTypeClassOrchestrator {
           return this.attributeRepository.saveAssignedAttributes(assignedAttributes)
             .map(newDoc => {
               if (!newDoc) {
-                return Observable.of(newDoc);
+                return newDoc;
               }else {
                 return doc;
               }
