@@ -71,10 +71,6 @@ class OrganizationDBRepository implements OrganizationRepository {
     });
   }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
   deleteOrganization(organizationId:string):Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
@@ -131,10 +127,6 @@ class OrganizationRestRepository implements OrganizationRepository {
     return undefined;
   }
 
-  <<<<<<< HEAD
-
-=======
->>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
   updateOrganization(organizationId: string, organization: Organization): Observable<number> {
     return undefined;
   }

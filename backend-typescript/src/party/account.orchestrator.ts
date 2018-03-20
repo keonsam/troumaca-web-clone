@@ -40,14 +40,8 @@ export class AccountOrchestrator {
 
   private createAccount(user: User, organization: Organization, credentialId:string, sessionId:string):Observable<AccountResponse> {
     // Todo: Change to concurrent update with forkJoin
-<<<<<<< HEAD
     return this.userRepository.saveUser(user)
       .switchMap((user:User) => {
-=======
-    // Todo: I don't understand
-    return this.personRepository.addPerson(person)
-      .switchMap((person:Person) => {
->>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
         return this.organizationRepository.saveOrganization(organization)
           .switchMap(organization => {
             return this.credentialRepository.updateCredentialPartyId(credentialId, user.partyId)

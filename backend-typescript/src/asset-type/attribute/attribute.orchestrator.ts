@@ -67,7 +67,7 @@ export class AttributeOrchestrator {
               if(!attributes) {
                 return Observable.of(attributes);
               }else {
-                return attributes;
+                return {assignedAttribute,attributes};
               }
             });
         }

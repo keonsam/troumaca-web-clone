@@ -37,7 +37,6 @@ import * as accountController from './party/account.controller';
 import * as credentialController from './authentication/credential/credential.controller';
 import * as confirmationController from './authentication/credential/confirmation/confirmation.controller';
 
-<<<<<<< HEAD
 // let accessMiddleware = require('./feature/access-middleware');
 // need to transition to the new resources approach
 // let assets = require('./routes/assets');
@@ -61,13 +60,6 @@ import * as confirmationController from './authentication/credential/confirmatio
 
 const app = express();
 
-
-
-// routes
-=======
-const app = express();
-
->>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -80,20 +72,11 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // };
 // app.use(cors(corsOptions));
 app.use(cors());
-<<<<<<< HEAD
-// need cookieParser middleware before we can do anything with cookies
-
-// app.use(accessMiddleware());
-
-
-// routes
-=======
 
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
 // app.use(accessMiddleware());
 
->>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
 app.get('/asset-kinds', assetKindController.getAssetKinds); //a get instead of find seeing you are getting all of them.
 app.get('/find-asset-types', assetTypeController.findAssetTypes);
 app.get('/find-sites', siteController.findSite);
@@ -178,7 +161,7 @@ app.post('/credentials', credentialController.addCredential);
 app.post('/verify-credentials-confirmations', confirmationController.verifyCredentialConfirmation);
 app.post('/send-confirmation-codes/phone/:confirmationId', confirmationController.sendPhoneVerificationCode);
 app.post('/send-confirmation-codes/email/:confirmationId', confirmationController.sendEmailVerificationCode);
-<<<<<<< HEAD
+
 // app.use('/asset', asset);
 // app.use('/unit-of-measures', unitOfMeasures);
 // app.use('/sites/physical-sites', unionOfPhysicalSites);
@@ -193,8 +176,7 @@ app.post('/send-confirmation-codes/email/:confirmationId', confirmationControlle
 
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
-=======
->>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
+
 
 // catch 404 and forward to error handler
 app.use((req:any, res:any, next:any) => {
