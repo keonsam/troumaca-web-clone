@@ -48,7 +48,7 @@ export class AssetTypeClassOrchestrator {
               if (!assignedAttributes) {
                 return Observable.of(assignedAttributes);
               } else {
-                return assetTypeClass;
+                return {assetTypeClass, assignedAttributes};
               }
             });
         }

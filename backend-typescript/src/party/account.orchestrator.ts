@@ -13,7 +13,6 @@ import {AccountResponse} from "./account.response";
 import {CredentialRepository} from "../authentication/credential/credential.repository";
 import {PersonRepository} from "./person/person.repository";
 import {createPersonRepository} from "./person/person.repository.factory";
-import {Person} from "../../../src/parties/person";
 
 export class AccountOrchestrator {
 

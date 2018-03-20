@@ -69,7 +69,8 @@ export class AttributeOrchestrator {
                 return assignedAttribute;
               }else {
                 // return attributes;
-                return assignedAttribute;
+                // return assignedAttribute;
+                return {assignedAttribute,attributes};
               }
             });
         }
