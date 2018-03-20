@@ -8,7 +8,6 @@ export let verifyCredentialConfirmation = (req: Request, res: Response) => {
   let credentialConfirmation = req.body;
   confirmationOrchestrator.verifyCredentialConfirmation(credentialConfirmation)
     .subscribe(next => {
-      console.log(next);
       res.send(next);
     }, error => {
       res.status(400);

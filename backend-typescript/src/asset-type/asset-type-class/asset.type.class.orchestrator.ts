@@ -8,6 +8,7 @@ import {shapeAssetTypeClassesResponse} from "./asset.type.class.response.shaper"
 import {Result} from "../../result.success";
 import {AttributeRepository} from "../attribute/attribute.repository";
 import {createAttributeRepositoryFactory} from "../attribute/attribute.repository.factory";
+import {AssetTypeClassResponse} from "./asset.type.class.response";
 
 export class AssetTypeClassOrchestrator {
 
@@ -37,18 +38,18 @@ export class AssetTypeClassOrchestrator {
     });
   }
 
-  getAssetTypeClass(assetTypeClassId:string):Observable<any> {
+  getAssetTypeClass(assetTypeClassId:string):Observable<AssetTypeClassResponse> {
     return this.assetTypeClassRepository.getAssetTypeClassById(assetTypeClassId)
       .switchMap(assetTypeClass => {
         if(!assetTypeClass) {
-          return Observable.of(assetTypeClass);
+          return Observable.of(new AssetTypeClassResponse(false));
         }else {
           return this.attributeRepository.getAssignedAttributesById(assetTypeClassId)
             .map(assignedAttributes => {
               if (!assignedAttributes) {
-                return assignedAttributes;
+                return new AssetTypeClassResponse(false);
               } else {
-                return {assetTypeClass, assignedAttributes};
+                return new AssetTypeClassResponse(true, assetTypeClass, assignedAttributes);
               }
             });
         }
@@ -57,18 +58,19 @@ export class AssetTypeClassOrchestrator {
 
   saveAssetTypeClass(assetTypeClass:AssetTypeClass, assignedAttributes: AssignedAttribute):Observable<any> {
     return this.assetTypeClassRepository.saveAssetTypeClass(assetTypeClass)
-      .switchMap(doc => {
-        if(!doc){
-          return Observable.of(doc);
+      .switchMap((assetTypeClass:AssetTypeClass) => {
+        if(!assetTypeClass){
+          return Observable.of(assetTypeClass);
         }else {
           return this.attributeRepository.saveAssignedAttributes(assignedAttributes)
-            .map(newDoc => {
+            .map((newDoc:AssignedAttribute) => {
               if (!newDoc) {
-                return newDoc;
+                return assetTypeClass;
               }else {
-                return doc;
+                // return newDoc;
+                return assetTypeClass;
               }
-                });
+          });
         }
     });
   }

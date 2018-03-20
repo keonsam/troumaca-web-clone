@@ -56,4 +56,15 @@ export class CredentialConfirmation {
   set createdOn(value: Date) {
     this._createdOn = value;
   }
+
+  toJson() {
+    return {
+      credentialConfirmationId: this.credentialConfirmationId,
+      credentialId: this.credentialId,
+      confirmationCode: this.confirmationCode,
+      credentialStatus: this.credentialStatus,
+      createdOn: this.createdOn,
+      modifiedOn: this.modifiedOn
+    }
+  }
 }

@@ -163,7 +163,7 @@ class CredentialDBRepository implements CredentialRepository {
     return this.getCredentialByUsername(credential.username)
       .map((resultCred:Credential) => {
         if (!resultCred) {
-          return new Result(false, );
+          return new Result(true, );
         } else if (resultCred.password === credential.password) {
           return new Result(false, "", resultCred);
         } else {
@@ -249,9 +249,10 @@ class CredentialDBRepository implements CredentialRepository {
 
   updateCredential(partyId: string, credential: Credential): Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
-      let query = {
+      let query:any = {
         "partyId":partyId
       };
+
       credentials.update(query, {$set : credential}, {}, function (err, numReplaced) {
         if (!err) {
           observer.next(numReplaced);
@@ -264,13 +265,13 @@ class CredentialDBRepository implements CredentialRepository {
   }
 
 
-  updateCredentialStatusById(credentialId:string, status:string):Observable<number> {
+  updateCredentialStatusById(credentialId:string, credentialStatus:string):Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
         "credentialId":credentialId
       };
 
-      credentials.update(query, {$set: {status}}, {}, function (err:any, numReplaced:number) {
+      credentials.update(query, {$set: {credentialStatus}}, {}, function (err:any, numReplaced:number) {
         if (!err) {
           observer.next(numReplaced);
         } else {

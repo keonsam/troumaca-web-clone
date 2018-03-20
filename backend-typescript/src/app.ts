@@ -37,28 +37,9 @@ import * as accountController from './party/account.controller';
 import * as credentialController from './authentication/credential/credential.controller';
 import * as confirmationController from './authentication/credential/confirmation/confirmation.controller';
 
-// let accessMiddleware = require('./feature/access-middleware');
-// need to transition to the new resources approach
-// let assets = require('./routes/assets');
-// let asset = require('./routes/asset');
-// let lots = require('./routes/lots');
-// let assetTypes = require('./routes/asset-types');
-// let unitOfMeasures = require('./routes/unit-of-measures');
-// let persons = require('./routes/parties/persons/persons');
-// let unionOfPhysicalSites = require('./routes/sites/physical-sites/union-of-physical-sites');
-
-// let emailSites = require("./routes/sites/virtual-sites/e-mail-sites");
-
-// let assetResource = require('./feature/asset/resources');
-// let assetTypeClassesResource = require('./feature/asset-type-class/resources');
-// let siteResource = require('./feature/site/resources');
-// let attributesResource = require('./feature/attribute/resources');
-// let assetsResource = require('./feature/asset-type/resources');
-// let shipmentResource = require('./feature/shipment/resources');
-// let credentialResource = require('./feature/credential/credential.resources');
-// let partyResource = require('./feature/party/resources');
-
 const app = express();
+
+
 
 app.use(logger('dev'));
 app.use(cookieParser());
@@ -72,6 +53,12 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // };
 // app.use(cors(corsOptions));
 app.use(cors());
+// need cookieParser middleware before we can do anything with cookies
+
+// app.use(accessMiddleware());
+
+
+// routes
 
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
@@ -151,32 +138,19 @@ app.post('/photos', photoController.savePhoto);
 app.put('/photos/:partyId', photoController.updatePhoto);
 app.delete('/photos/:partyId', photoController.deletePhoto);
 app.post('/accounts', accountController.saveAccount);
-app.put('/credentials', credentialController.updateCredential);
 app.post('/validate-password', credentialController.isValidPassword);
 app.post('/validate-username', credentialController.isValidUsername);
 app.post('/validate-edit-username', credentialController.isValidEditUsername);
 app.post('/authenticate', credentialController.authenticate);
 app.post('/forgot-password', credentialController.forgotPassword);
 app.post('/credentials', credentialController.addCredential);
+app.put('/credentials', credentialController.updateCredential);
 app.post('/verify-credentials-confirmations', confirmationController.verifyCredentialConfirmation);
-app.post('/send-confirmation-codes/phone/:confirmationId', confirmationController.sendPhoneVerificationCode);
-app.post('/send-confirmation-codes/email/:confirmationId', confirmationController.sendEmailVerificationCode);
-
-// app.use('/asset', asset);
-// app.use('/unit-of-measures', unitOfMeasures);
-// app.use('/sites/physical-sites', unionOfPhysicalSites);
-// app.use('/assets', assetTypeController.getAssets);
-// app.use('/asset-type-classes', assetTypeClassesResource);
-// app.use('/sites', siteResource);
-// app.use('/attributes', attributesResource);
-// app.use('/asset-types', assetsResource);
-// app.use('/shipments', shipmentResource);
-// app.use('/credentials', credentialResource);
-// app.use('/parties', partyResource);
+app.get('/send-confirmation-codes/phone/:confirmationId', confirmationController.sendPhoneVerificationCode);
+app.get('/send-confirmation-codes/email/:confirmationId', confirmationController.sendEmailVerificationCode);
 
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
-
 
 // catch 404 and forward to error handler
 app.use((req:any, res:any, next:any) => {

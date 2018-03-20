@@ -59,21 +59,11 @@ export class AttributeOrchestrator {
   getAssignedAttributeByClassId(assetTypeClassId: string):Observable<any> {
     return this.attributeClassRepository.getAssignedAttributesById(assetTypeClassId)
       .switchMap(assignedAttribute => {
-        if(!assignedAttribute){
-          return Observable.of(assignedAttribute);
-        }else {
           return this.attributeClassRepository.getAttributeByArray(assignedAttribute.attribute.map((x: AttributeArray) => x.attributeId))
             .map(attributes =>{
-              if(!attributes) {
-                return attributes;
-              }else {
                 return {assignedAttribute,attributes};
-              }
             });
-        }
-
       });
-
   }
 
 

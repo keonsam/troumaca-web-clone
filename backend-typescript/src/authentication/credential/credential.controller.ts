@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import {CredentialOrchestrator} from './credential.orchestrator';
 import {ValidateResponse} from "./validate.response";
+import {AuthenticateResponse} from "./authenticate.response";
 
 let credentialOrchestrator:CredentialOrchestrator = new CredentialOrchestrator();
 
@@ -58,7 +59,7 @@ export let forgotPassword = (req: Request, res: Response) => {
 export let authenticate = (req: Request, res: Response) => {
   let credential = req.body;
   credentialOrchestrator.authenticate(credential)
-    .subscribe(authenticateResponse => {
+    .subscribe((authenticateResponse: AuthenticateResponse) => {
       res.setHeader('Content-Type', 'application/json');
       if (authenticateResponse && authenticateResponse.session && authenticateResponse.session.sessionId) {
         let sessionId = authenticateResponse.session.sessionId;

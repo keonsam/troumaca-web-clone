@@ -8,14 +8,16 @@ export class AuthenticateResponse {
   private _accountExists:boolean;
   private _credential:Credential;
   private _session:Session;
+  private _credentialConfirmationId: string;
 
 
-  constructor(authenticated?: boolean, usernameConfirmed?:boolean, accountExists?:boolean, credential?: Credential, session?: Session) {
+  constructor(authenticated?: boolean, usernameConfirmed?:boolean, accountExists?:boolean, credential?: Credential, session?: Session, credentialConfirmationId?: string) {
     this._authenticated = authenticated;
     this._usernameConfirmed = usernameConfirmed;
     this._accountExists = accountExists;
     this._credential = credential;
     this._session = session;
+    this._credentialConfirmationId = credentialConfirmationId;
   }
 
   get authenticated(): boolean {
@@ -58,4 +60,11 @@ export class AuthenticateResponse {
     this._session = value;
   }
 
+  get credentialConfirmationId(): string {
+    return this._credentialConfirmationId;
+  }
+
+  set credentialConfirmationId(value: string) {
+    this._credentialConfirmationId = value;
+  }
 }

@@ -98,13 +98,16 @@ export class ConfirmationOrchestrator {
     return this.confirmationRepository
       .getCredentialConfirmationById(credentialConfirmationId)
       .switchMap((credentialConfirmation:CredentialConfirmation) => {
+        if(!credentialConfirmation) {
+          return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Unknown confirmation", credentialConfirmation));
+        }
         if (credentialConfirmation && credentialConfirmation.credentialStatus === CredentialStatus.CONFIRMED) {
-          return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Confirmed previously", credentialConfirmation));
+          return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Confirmed previously", credentialConfirmation)); //failed because the verification code would not have been sent
         } else if (this.confirmationCodeTimeHasExpired(credentialConfirmation)) {
           credentialConfirmation.credentialStatus = CredentialStatus.EXPIRED;
           return this.confirmationRepository
             .updateCredentialConfirmation(credentialConfirmation)
-            .switchMap(numReplaced => { //this is so to make the old links still work.
+            .switchMap(numReplaced => {
               if(numReplaced > 0) {
                 credentialConfirmation.createdOn = new Date();
                 credentialConfirmation.modifiedOn = new Date();
@@ -114,11 +117,12 @@ export class ConfirmationOrchestrator {
                     return new Result<CredentialConfirmation>(false, "Updated", credentialConfirmation);
                   });
               } else {
-                return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Failed update", credentialConfirmation));
+                return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Invalid Status", credentialConfirmation));
               }
             });
         } else {
-          return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Invalid Status", credentialConfirmation));
+          //no here is where you choose to either generate a new link or use the same old one with/without a new verification code
+          return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Code Sent", credentialConfirmation));
         }
       });
   }
@@ -127,31 +131,30 @@ export class ConfirmationOrchestrator {
     return this.confirmationRepository
       .getCredentialConfirmationById(credentialConfirmationId)
       .switchMap((credentialConfirmation:CredentialConfirmation) => {
-        if (credentialConfirmation) {
-          if (credentialConfirmation.credentialStatus === CredentialStatus.CONFIRMED) {
-            return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Confirmed previously", credentialConfirmation));
-          } else if(this.confirmationCodeTimeHasExpired(credentialConfirmation)) {
-            credentialConfirmation.credentialStatus = CredentialStatus.EXPIRED;
-            return this.confirmationRepository
-              .updateCredentialConfirmation(credentialConfirmation)
-              .switchMap((numReplaced:number) => { //this is so to make the old links still work.
-                if (numReplaced > 0) {
-                  credentialConfirmation.createdOn = new Date();
-                  credentialConfirmation.modifiedOn = new Date();
-                  return this.confirmationRepository
-                    .addCredentialConfirmation(credentialConfirmation)
-                    .map((credentialConfirmation:CredentialConfirmation) => {
-                      return new Result<CredentialConfirmation>(false, "Updated", credentialConfirmation);
-                    });
-                } else {
-                  return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Failed update", credentialConfirmation));
-                }
-              });
-          } else {
-            return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Invalid Status", credentialConfirmation));
-          }
-        } else {
+        if (!credentialConfirmation) {
           return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Unknown confirmation", credentialConfirmation));
+        }
+        if (credentialConfirmation.credentialStatus === CredentialStatus.CONFIRMED) {
+          return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Confirmed previously", credentialConfirmation));
+        } else if (this.confirmationCodeTimeHasExpired(credentialConfirmation)) {
+          credentialConfirmation.credentialStatus = CredentialStatus.EXPIRED;
+          return this.confirmationRepository
+            .updateCredentialConfirmation(credentialConfirmation)
+            .switchMap((numReplaced: number) => { //this is so to make the old links still work.
+              if (numReplaced > 0) {
+                credentialConfirmation.createdOn = new Date();
+                credentialConfirmation.modifiedOn = new Date();
+                return this.confirmationRepository
+                  .addCredentialConfirmation(credentialConfirmation)
+                  .map((credentialConfirmation: CredentialConfirmation) => {
+                    return new Result<CredentialConfirmation>(false, "Updated", credentialConfirmation);
+                  });
+              } else {
+                return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Invalid Status", credentialConfirmation));
+              }
+            });
+        } else {
+          return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Link emailed", credentialConfirmation));
         }
       });
   };

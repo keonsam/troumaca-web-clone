@@ -1,4 +1,4 @@
-import Rx from "rxjs";
+import  Rx from "rxjs";
 import validator from 'validator';
 import {CredentialStatus} from './credential.status';
 import {ValidateResponse} from "./validate.response";
@@ -79,7 +79,6 @@ export class CredentialOrchestrator {
     // 1. He/she provides a valid set of credentials
     // 2. He/she has confirmed their username (email, or phone)
     // 3. He/she has completed the quick profile, person, account type, and possible organization name.
-
     return this.credentialRepository
       .authenticate(credential)
       .switchMap((result:Result<Credential>) => {
@@ -93,7 +92,7 @@ export class CredentialOrchestrator {
         let authenticated:boolean = !result.fail;
 
         if (!authenticated) {
-          return Rx.Observable.of(new AuthenticateResponse(authenticated));
+          return Observable.of(new AuthenticateResponse(authenticated));
         }
 
         let readCredStatus = readCred.credentialStatus;
@@ -102,13 +101,17 @@ export class CredentialOrchestrator {
 
         // do not continue if the status is not active
         if (!credentialActive) {
-          return Rx.Observable.of(new AuthenticateResponse(result.fail, credentialActive));
+          // add credentialConfirmationId to redirect
+          return this.confirmationRepository.getCredentialConfirmationByCredentialId(readCred.credentialId)
+            .map(credentialConfirmation => {
+              return Observable.of(new AuthenticateResponse(authenticated, credentialActive, false , new Credential(), new Session(), credentialConfirmation.credentialConfirmationId));
+            });
         }
 
         let accountExists = this.isNull(readCred.partyId);
 
         if (!accountExists) {
-          return Rx.Observable.of(new AuthenticateResponse(result.fail, credentialActive, accountExists));
+          return Observable.of(new AuthenticateResponse(authenticated, credentialActive, accountExists));
         }
 
         let session:Session = new Session();

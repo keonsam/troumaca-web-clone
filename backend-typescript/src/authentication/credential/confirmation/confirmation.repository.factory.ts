@@ -17,7 +17,7 @@ class ConfirmationDBRepository implements ConfirmationRepository {
     credentialConfirmation.credentialStatus = CredentialStatus.NEW;
 
     return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
-      credentialConfirmations.insert(credentialConfirmation, function (err:any, doc:any) {
+      credentialConfirmations.insert(credentialConfirmation.toJson(), function (err:any, doc:any) {
         if (!err) {
           delete doc._id;
           observer.next(doc);
@@ -85,7 +85,7 @@ class ConfirmationDBRepository implements ConfirmationRepository {
     });
   };
 
-  getCredentialConfirmationByCredentialId(credentialId:string):Observable<CredentialConfirmation[]> {
+  getCredentialConfirmationByCredentialId(credentialId:string):Observable<CredentialConfirmation> {
     return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
       let query = {
         "credentialId":credentialId
@@ -93,10 +93,10 @@ class ConfirmationDBRepository implements ConfirmationRepository {
 
       credentialConfirmations
         .find(query)
-        .sort({ status: 1})
+        .sort({ status: 'NEW'})
         .exec(function (err:any, doc:any) {
         if (!err) {
-          observer.next(doc);
+          observer.next(doc[0]);
         } else {
           observer.error(err);
         }
@@ -116,7 +116,7 @@ class ConfirmationRestRepository implements ConfirmationRepository {
     return undefined;
   }
 
-  getCredentialConfirmationByCredentialId(credentialId:string): Observable<CredentialConfirmation[]> {
+  getCredentialConfirmationByCredentialId(credentialId:string): Observable<CredentialConfirmation> {
     return undefined;
   }
 

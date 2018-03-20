@@ -11,26 +11,22 @@ import {SessionRepository} from "../session/session.repository";
 import {Organization} from "./organization/organization";
 import {AccountResponse} from "./account.response";
 import {CredentialRepository} from "../authentication/credential/credential.repository";
-import {PersonRepository} from "./person/person.repository";
-import {createPersonRepository} from "./person/person.repository.factory";
 
 export class AccountOrchestrator {
 
   private userRepository:UserRepository;
-  private personRepository:PersonRepository;
   private organizationRepository:OrganizationRepository;
   private sessionRepository:SessionRepository;
   private credentialRepository:CredentialRepository;
 
   constructor() {
     this.userRepository = createUserRepository();
-    this.personRepository = createPersonRepository();
     this.organizationRepository = createOrganizationRepository();
     this.sessionRepository = createSessionRepositoryFactory();
     this.credentialRepository = createCredentialRepositoryFactory();
   }
 
-  saveAccount (accountType:string ,user:User, organization:Organization, credentialId:string, sessionId:string):Observable<AccountResponse> {
+  saveAccount (accountType:string , user:User, organization:Organization, credentialId:string, sessionId:string):Observable<AccountResponse> {
     if (this.isValidAccount(user, organization)) {
       return Rx.Observable.of(new AccountResponse(false));
     } else {
@@ -40,15 +36,17 @@ export class AccountOrchestrator {
 
   private createAccount(user: User, organization: Organization, credentialId:string, sessionId:string):Observable<AccountResponse> {
     // Todo: Change to concurrent update with forkJoin
+
+    // Todo: I don't understand
     return this.userRepository.saveUser(user)
-      .switchMap((user:User) => {
+      .switchMap((newUser:User) => {
         return this.organizationRepository.saveOrganization(organization)
           .switchMap(organization => {
-            return this.credentialRepository.updateCredentialPartyId(credentialId, user.partyId)
+            return this.credentialRepository.updateCredentialPartyId(credentialId, newUser.partyId)
               .switchMap(credential => {
-                return this.sessionRepository.updateSessionPartyId(sessionId, user.partyId)
+                return this.sessionRepository.updateSessionPartyId(sessionId, newUser.partyId)
                   .map(session => {
-                    return new AccountResponse(true, session, credential, user, organization);
+                    return new AccountResponse(true, session, credential, newUser, organization);
                 });
               });
           });

@@ -11,6 +11,6 @@ export interface ConfirmationRepository {
 
   updateCredentialConfirmation(credentialConfirmation:CredentialConfirmation):Observable<number>
 
-  getCredentialConfirmationByCredentialId(credentialId:string):Observable<CredentialConfirmation[]>;
+  getCredentialConfirmationByCredentialId(credentialId:string):Observable<CredentialConfirmation>;
 
 }

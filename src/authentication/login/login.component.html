@@ -11,8 +11,8 @@
         <div *ngIf="errorExists" class="alert alert-danger">
           <strong>Error!</strong> Failed to login. Please try again later.
         </div>
-        <div *ngIf="accountDisabled" class="alert alert-danger">
-          <strong>Error!</strong> This account is disabled. Please re-register to continue.
+        <div *ngIf="accountFailed" class="alert alert-danger">
+          <strong>Error!</strong> Failed to login. Please check your information.
         </div>
         <div class="form-group">
           <label for="">Username</label><input class="form-control" formControlName="username" autocomplete="username" placeholder="Enter your username" required type="text">

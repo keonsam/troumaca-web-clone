@@ -4,8 +4,9 @@ import 'rxjs/add/operator/catch';
 import {Observable} from "rxjs/Observable";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CredentialState} from "./credential.state";
-import {SessionState} from "./session.state";
 import {CredentialConfirmationState} from "./credential.confirmation.state";
+import {Result} from "../../result/result.success";
+import {AuthenticateResponseState} from "./authenticate.response.state";
 
 export class AuthenticationClientHttp extends AuthenticationClient {
 
@@ -15,7 +16,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     super();
   }
 
-  authenticate(credentialState:CredentialState): Observable<SessionState> {
+  authenticate(credentialState:CredentialState): Observable<AuthenticateResponseState> {
     let url = `${this.hostPort}/authenticate`;
 
     const httpOptions = {
@@ -32,7 +33,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     };
 
     return this.httpClient
-      .post<SessionState>(url, query, httpOptions)
+      .post<AuthenticateResponseState>(url, query, httpOptions)
       .map(data => {
         return data;
       });
@@ -111,9 +112,8 @@ export class AuthenticationClientHttp extends AuthenticationClient {
       });
   }
 
-  verifyCredentialConfirmationState(credentialConfirmationState: CredentialConfirmationState): Observable<CredentialConfirmationState> {
+  verifyCredentialConfirmationState(credentialConfirmationState: CredentialConfirmationState): Observable<Result<CredentialConfirmationState>> {
     let url = `${this.hostPort}/verify-credentials-confirmations`;
-    console.log(credentialConfirmationState);
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -123,13 +123,13 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     };
 
     return this.httpClient
-      .post<CredentialConfirmationState>(url, credentialConfirmationState.toJson(), httpOptions)
+      .post<Result<CredentialConfirmationState>>(url, credentialConfirmationState.toJson(), httpOptions)
       .map(data => {
         return data;
       });
   }
 
-  sendConfirmationCode(credentialConfirmationId: string, type: string): Observable<CredentialConfirmationState> {
+  sendConfirmationCode(credentialConfirmationId: string, type: string): Observable<Result<CredentialConfirmationState>> {
     let url = `${this.hostPort}/send-confirmation-codes/${type}/${credentialConfirmationId}`;
 
     const httpOptions = {
@@ -140,8 +140,9 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     };
 
     return this.httpClient
-      .get<CredentialConfirmationState>(url, httpOptions)
+      .get<Result<CredentialConfirmationState>>(url, httpOptions)
       .map(data => {
+        console.log(data);
         return data;
       });
   }
