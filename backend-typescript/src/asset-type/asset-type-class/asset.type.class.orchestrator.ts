@@ -57,18 +57,20 @@ export class AssetTypeClassOrchestrator {
 
   saveAssetTypeClass(assetTypeClass:AssetTypeClass, assignedAttributes: AssignedAttribute):Observable<any> {
     return this.assetTypeClassRepository.saveAssetTypeClass(assetTypeClass)
-      .switchMap(doc => {
-        if(!doc){
-          return Observable.of(doc);
+      .switchMap((assetTypeClass:AssetTypeClass) => {
+        if(!assetTypeClass){
+          return Observable.of(assetTypeClass);
         }else {
           return this.attributeRepository.saveAssignedAttributes(assignedAttributes)
-            .map(newDoc => {
+            .map((newDoc:AssignedAttribute) => {
               if (!newDoc) {
-                return Observable.of(newDoc);
+                // return newDoc;
+                return assetTypeClass;
               }else {
-                return newDoc;
+                // return newDoc;
+                return assetTypeClass;
               }
-                });
+          });
         }
     });
   }

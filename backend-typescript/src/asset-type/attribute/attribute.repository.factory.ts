@@ -256,7 +256,7 @@ class AttributeRestRepository implements AttributeRepository {
   }
 
 
-    saveAssignedAttributes(assignedAttribute: AssignedAttribute): Observable<AssignedAttribute> {
+  saveAssignedAttributes(assignedAttribute: AssignedAttribute): Observable<AssignedAttribute> {
     return undefined;
   }
 

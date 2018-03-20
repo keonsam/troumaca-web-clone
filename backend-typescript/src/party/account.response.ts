@@ -2,20 +2,21 @@ import {Session} from "../session/session";
 import {User} from "./user/user";
 import {Organization} from "./organization/organization";
 import {Credential} from "../authentication/credential/credential";
+import {Person} from "./person/person";
 
 export class AccountResponse {
 
   private _created:boolean;
   private _session:Session;
   private _credential:Credential;
-  private _user:User;
+  private _person:Person;
   private _organization:Organization;
 
-  constructor(created?: boolean, session?: Session, credential?:Credential, user?: User, organization?: Organization) {
+  constructor(created?: boolean, session?: Session, credential?:Credential, person?: Person, organization?: Organization) {
     this._created = created;
     this._session = session;
     this._credential = credential;
-    this._user = user;
+    this._person = person;
     this._organization = organization;
   }
 
@@ -43,12 +44,12 @@ export class AccountResponse {
     this._credential = value;
   }
 
-  get user(): User {
-    return this._user;
+  get person(): Person {
+    return this._person;
   }
 
-  set user(value: User) {
-    this._user = value;
+  set user(value: Person) {
+    this._person = value;
   }
 
   get organization(): Organization {

@@ -37,37 +37,10 @@ import * as accountController from './party/account.controller';
 import * as credentialController from './authentication/credential/credential.controller';
 import * as confirmationController from './authentication/credential/confirmation/confirmation.controller';
 
-<<<<<<< HEAD
-// let accessMiddleware = require('./feature/access-middleware');
-// need to transition to the new resources approach
-// let assets = require('./routes/assets');
-// let asset = require('./routes/asset');
-// let lots = require('./routes/lots');
-// let assetTypes = require('./routes/asset-types');
-// let unitOfMeasures = require('./routes/unit-of-measures');
-// let persons = require('./routes/parties/persons/persons');
-// let unionOfPhysicalSites = require('./routes/sites/physical-sites/union-of-physical-sites');
-
-// let emailSites = require("./routes/sites/virtual-sites/e-mail-sites");
-
-// let assetResource = require('./feature/asset/resources');
-// let assetTypeClassesResource = require('./feature/asset-type-class/resources');
-// let siteResource = require('./feature/site/resources');
-// let attributesResource = require('./feature/attribute/resources');
-// let assetsResource = require('./feature/asset-type/resources');
-// let shipmentResource = require('./feature/shipment/resources');
-// let credentialResource = require('./feature/credential/credential.resources');
-// let partyResource = require('./feature/party/resources');
-
 const app = express();
 
 
 
-// routes
-=======
-const app = express();
-
->>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -80,20 +53,17 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // };
 // app.use(cors(corsOptions));
 app.use(cors());
-<<<<<<< HEAD
 // need cookieParser middleware before we can do anything with cookies
 
 // app.use(accessMiddleware());
 
 
 // routes
-=======
 
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
 // app.use(accessMiddleware());
 
->>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
 app.get('/asset-kinds', assetKindController.getAssetKinds); //a get instead of find seeing you are getting all of them.
 app.get('/find-asset-types', assetTypeController.findAssetTypes);
 app.get('/find-sites', siteController.findSite);
@@ -178,23 +148,9 @@ app.post('/credentials', credentialController.addCredential);
 app.post('/verify-credentials-confirmations', confirmationController.verifyCredentialConfirmation);
 app.post('/send-confirmation-codes/phone/:confirmationId', confirmationController.sendPhoneVerificationCode);
 app.post('/send-confirmation-codes/email/:confirmationId', confirmationController.sendEmailVerificationCode);
-<<<<<<< HEAD
-// app.use('/asset', asset);
-// app.use('/unit-of-measures', unitOfMeasures);
-// app.use('/sites/physical-sites', unionOfPhysicalSites);
-// app.use('/assets', assetTypeController.getAssets);
-// app.use('/asset-type-classes', assetTypeClassesResource);
-// app.use('/sites', siteResource);
-// app.use('/attributes', attributesResource);
-// app.use('/asset-types', assetsResource);
-// app.use('/shipments', shipmentResource);
-// app.use('/credentials', credentialResource);
-// app.use('/parties', partyResource);
 
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
-=======
->>>>>>> 47428156c8ce7917a22114305ed73ce95fe90b25
 
 // catch 404 and forward to error handler
 app.use((req:any, res:any, next:any) => {

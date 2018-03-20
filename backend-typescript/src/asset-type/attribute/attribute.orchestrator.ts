@@ -65,9 +65,11 @@ export class AttributeOrchestrator {
           return this.attributeClassRepository.getAttributeByArray(assignedAttribute.attribute.map((x: AttributeArray) => x.attributeId))
             .map(attributes =>{
               if(!attributes) {
-                return Observable.of(attributes);
+                // return attributes;
+                return assignedAttribute;
               }else {
-                return attributes;
+                // return attributes;
+                return assignedAttribute;
               }
             });
         }
