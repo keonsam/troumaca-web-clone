@@ -9,6 +9,8 @@ import {AttributeStates} from "../attribute/attribute.states";
 import {AttributeState} from "../attribute/attribute.state";
 import {DataTypeStates} from "../attribute/data.type.states";
 import {AssignedAttributeState} from "./assigned.attribute.state";
+import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
+import {AssetTypeClassResponseState} from "./asset.type.class.response.state";
 
 export class AssetTypeClassClientHttp extends AssetTypeClassClient {
 
@@ -36,12 +38,39 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
     });
   }
 
-  public getAssetTypeClass(assetTypeClassId: string): Observable<any>{
+  public findUnitOfMeasureIdState(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/find-unit-of-measures");
+
+    let queryStr = [];
+    if (searchStr) {
+      queryStr.push("q=" + searchStr);
+    }
+
+    if (pageSize) {
+      queryStr.push("pageSize=" + pageSize);
+    }
+
+    if (queryStr.length > 0) {
+      array.push("?");
+      array.push(queryStr.join("&"));
+    }
+
+    return this.httpClient.get<UnitOfMeasureState[]>(array.join(""), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+
+  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassResponseState>{
     let url = `${this.hostPort}/asset-type-classes/${assetTypeClassId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .get<any[]>(url, {headers:headers})
+    .get<AssetTypeClassResponseState>(url, {headers:headers})
     .map(data => {
+      console.log(data);
       return data;
     });
   }
@@ -159,10 +188,11 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
 
   public addAssetTypeClass(assetTypeClassState: AssetTypeClassState, assignedAttributes: AssignedAttributeState) : Observable<AssetTypeClassState> {
     let url = `${this.hostPort}/asset-type-classes`;
-    let assetTypeClass = assetTypeClassState.toJson();
+    let newAssetTypeClass = assetTypeClassState.toJson();
+    let newAssignedAttributes = assignedAttributes.toJson();
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post<AssetTypeClassState>(url, {assetTypeClass, assignedAttributes}, {headers: headers})
+    .post<AssetTypeClassState>(url, {newAssetTypeClass, newAssignedAttributes}, {headers: headers})
     .map(data => {
       return data;
     });
@@ -200,10 +230,11 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
 
   public updateAssetTypeClass(assetTypeClassId: string, assetTypeClassState: AssetTypeClassState, assignedAttributes: AssignedAttributeState): Observable<number> {
     let url = `${this.hostPort}/asset-type-classes/${assetTypeClassId}`;
-    let assetTypeClass = assetTypeClassState.toJson();
+    let newAssetTypeClass = assetTypeClassState.toJson();
+    let newAssignedAttributes = assignedAttributes.toJson();
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .put<number>(url, {assetTypeClass, assignedAttributes}, {headers:headers})
+    .put<number>(url, {newAssetTypeClass, newAssignedAttributes}, {headers:headers})
     .map(data => {
       return data;
     });

@@ -14,7 +14,8 @@ export let getStreetAddresses = (req: Request, res: Response) => {
   orchestrator
     .getStreetAddresses(number, size, field, direction)
     .subscribe(streetAddresses => {
-      res.send(JSON.stringify(streetAddresses));
+      console.log(streetAddresses);
+      res.send(JSON.stringify(streetAddresses.data));
     });
 };
 

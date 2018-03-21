@@ -9,12 +9,12 @@ export interface UserRepository {
 
   getUserCount():Observable<number>;
 
-  getUser(userId:string):Observable<User>;
+  getUser(partyId:string):Observable<User>;
 
   saveUser(user:User):Observable<User>;
 
-  deleteUser(userId:string):Observable<number>;
+  deleteUser(partyId:string):Observable<number>;
 
-  updateUser(userId:string, user:User):Observable<number>;
+  updateUser(partyId:string, user:User):Observable<number>;
 
 }

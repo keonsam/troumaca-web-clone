@@ -44,6 +44,17 @@ export let getValueCount = (req: Request, res: Response) => {
     });
 };
 
+export let getValuesByAssetTypeId = (req: Request, res: Response) => {
+  valueOrchestrator.getValuesByAssetTypeId(req.params.assetTypeId)
+    .subscribe(result => {
+      res.send(JSON.stringify(result.data));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    });
+};
+
 export let getValueById = (req: Request, res: Response) => {
   valueOrchestrator.getValueById(req.params.valueId)
     .subscribe(assets => {
@@ -61,7 +72,7 @@ export let findValues = (req: Request, res: Response) => {
 
   valueOrchestrator.findValues(searchStr, pageSize)
     .map(value => {
-      return shapeValuesResponse2("values", value);
+      return shapeValuesResponse2( value);
     }).subscribe(values => {
     let body = JSON.stringify(values);
     res.send(body);
@@ -85,7 +96,7 @@ export let updateValue = (req: Request, res: Response) => {
 };
 
 export let deleteValue = (req: Request, res: Response) => {
-  valueOrchestrator.deleteValue(req.body)
+  valueOrchestrator.deleteValue(req.params.valueId)
     .subscribe(affected => {
       res.send(JSON.stringify(affected));
     }, error => {

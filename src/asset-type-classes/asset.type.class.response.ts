@@ -1,19 +1,11 @@
 import {AssetTypeClass} from "./asset.type.class";
-import {AssignedAttribute} from "../attribute/assigned.attribute";
+import {AssignedAttribute} from "./assigned.attribute";
 
 export class AssetTypeClassResponse {
 
   private _created:boolean;
   private _assetTypeClass: AssetTypeClass;
   private _assignedAttributes: AssignedAttribute;
-
-
-  constructor(created?: boolean, assetTypeClass?: AssetTypeClass, assignedAttributes?: AssignedAttribute) {
-    this._created = created;
-    this._assetTypeClass = assetTypeClass;
-    this._assignedAttributes = assignedAttributes;
-  }
-
 
   get created(): boolean {
     return this._created;
@@ -37,13 +29,5 @@ export class AssetTypeClassResponse {
 
   set assignedAttributes(value: AssignedAttribute) {
     this._assignedAttributes = value;
-  }
-
-  toJson() {
-    return {
-      created: this.created,
-      assetTypeClass: this.assetTypeClass,
-      assignedAttributes: this.assignedAttributes
-    }
   }
 }

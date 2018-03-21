@@ -6,7 +6,6 @@ import {AttributeState} from "./attribute.state";
 import {AttributeStates} from "./attribute.states";
 import {DataTypeStates} from "./data.type.states"
 import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
-import {AssetTypeClassStates} from "../asset-type-class/asset.type.class.states";
 
 export class AttributeClientHttp extends AttributeClient {
 
@@ -69,7 +68,7 @@ export class AttributeClientHttp extends AttributeClient {
   public findUnitOfMeasureIdState(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/find-unit-of-measure");
+    array.push("/find-unit-of-measures");
 
     let queryStr = [];
     if (searchStr) {
@@ -77,7 +76,7 @@ export class AttributeClientHttp extends AttributeClient {
     }
 
     if (pageSize) {
-      queryStr.push("pageSize=" + searchStr);
+      queryStr.push("pageSize=" + pageSize);
     }
 
     if (queryStr.length > 0) {

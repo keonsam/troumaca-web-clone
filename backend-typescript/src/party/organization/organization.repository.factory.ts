@@ -54,10 +54,10 @@ class OrganizationDBRepository implements OrganizationRepository {
     });
   }
 
-  getOrganization(organizationId:string):Observable<Organization> {
+  getOrganization(partyId:string):Observable<Organization> {
     return Rx.Observable.create(function (observer:Observer<Organization>) {
       let query = {
-        "organizationId":organizationId
+        "partyId":partyId
       };
 
       organizations.findOne(query, function (err:any, doc:any) {
@@ -71,10 +71,10 @@ class OrganizationDBRepository implements OrganizationRepository {
     });
   }
 
-  deleteOrganization(organizationId:string):Observable<number> {
+  deleteOrganization(partyId:string):Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
-        "organizationId":organizationId
+        "partyId":partyId
       };
 
       organizations.remove(query, {}, function (err:any, numRemoved:number) {
@@ -88,10 +88,10 @@ class OrganizationDBRepository implements OrganizationRepository {
     });
   }
 
-  updateOrganization(organizationId:string, organization:Organization):Observable<number> {
+  updateOrganization(partyId:string, organization:Organization):Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
-        "organizationId":organizationId
+        "partyId":partyId
       };
       organizations.update(query, organization, {}, function (err:any, numReplaced:number) {
         if (!err) {
@@ -111,11 +111,11 @@ class OrganizationRestRepository implements OrganizationRepository {
     return undefined;
   }
 
-  deleteOrganization(organizationId: string): Observable<number> {
+  deleteOrganization(partyId: string): Observable<number> {
     return undefined;
   }
 
-  getOrganization(organizationId: string): Observable<Organization> {
+  getOrganization(partyId: string): Observable<Organization> {
     return undefined;
   }
 
@@ -127,7 +127,7 @@ class OrganizationRestRepository implements OrganizationRepository {
     return undefined;
   }
 
-  updateOrganization(organizationId: string, organization: Organization): Observable<number> {
+  updateOrganization(partyId: string, organization: Organization): Observable<number> {
     return undefined;
   }
 }

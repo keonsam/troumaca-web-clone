@@ -7,7 +7,7 @@ import {Credential} from "./credential";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {CredentialStatus} from "./credential.status"
-import {credentials} from "../../db";
+import {credentials, users} from "../../db";
 import {RepositoryKind} from "../../repository.kind";
 import {CredentialRepository} from "./credential.repository";
 import {Result} from "../../result.success";
@@ -214,7 +214,9 @@ class CredentialDBRepository implements CredentialRepository {
 
   addCredential(credential:Credential):Observable<Credential> {
     credential.credentialId = generateUUID();
-    credential.credentialStatus = CredentialStatus.NEW;
+    if(!credential.credentialStatus){
+      credential.credentialStatus = CredentialStatus.NEW;
+    }
     return Rx.Observable.create(function (observer:Observer<Credential>) {
       credentials.insert(credential, function (err:any, doc:any) {
         if (!err) {
@@ -304,6 +306,24 @@ class CredentialDBRepository implements CredentialRepository {
       });
     });
   };
+
+  deleteCredentialByPartyId(partyId:string): Observable<number> {
+    return Rx.Observable.create(function (observer:Observer<number>) {
+      let query = {
+        partyId
+      };
+
+      credentials.remove(query, {}, function (err:any, numRemoved:number) {
+        if (!err) {
+          observer.next(numRemoved);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+
+  }
 
 }
 
@@ -410,7 +430,12 @@ class CredentialRestRepository implements CredentialRepository {
     return undefined;
   }
 
-}
+  deleteCredentialByPartyId(partyId:string): Observable<number> {
+    return undefined;
+  }
+
+
+  }
 
 export function createCredentialRepositoryFactory(kind?:RepositoryKind):CredentialRepository {
   switch (kind) {

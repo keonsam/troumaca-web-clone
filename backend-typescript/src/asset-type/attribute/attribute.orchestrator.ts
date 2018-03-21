@@ -9,6 +9,7 @@ import {PageResponse} from "../../page.response";
 import {assignedAttributes} from "../../db";
 import {assign} from "rxjs/util/assign";
 import {AttributeArray} from "./attribute.array";
+import {shapeAttributesResponse} from "./attribute.response.shaper";
 
 export class AttributeOrchestrator {
 
@@ -18,7 +19,7 @@ export class AttributeOrchestrator {
     this.attributeClassRepository = createAttributeRepositoryFactory();
   }
 
-  getAvailableAttributes(number:number, size:number, field:string, direction:string, availableAttributes:Attribute[]):Observable<PageResponse<Attribute[]>> {
+  getAvailableAttributes(number:number, size:number, field:string, direction:string, availableAttributes:string[]):Observable<Result<any>> {
     let sort = getSortOrderOrDefault(field, direction);
     return this.attributeClassRepository
     .getAvailableAttributes(number, size, sort, availableAttributes)
@@ -26,14 +27,14 @@ export class AttributeOrchestrator {
       return this.attributeClassRepository
         .getAvailableAttributeCount()
         .map(count => {
-          // let shapeAttrResp = shapeAttributesResponse("attributes", value, number, size, value.length, count, sort);
-          // return new Result(false, "", shapeAttrResp);
-          return new PageResponse<Attribute[]>(value, number, size, count, sort);
+           let shapeAttrResp = shapeAttributesResponse( value, number, size, value.length, count, sort);
+           return new Result<any>(false, "", shapeAttrResp);
+         // return new PageResponse<Attribute[]>(value, number, size, count, sort);
         });
     });
   }
 
-  getAssignedAttributes(number:number, size:number, field:string, direction:string, assignedAttributes:string[]):Observable<PageResponse<Attribute[]>> {
+  getAssignedAttributes(number:number, size:number, field:string, direction:string, assignedAttributes:string[]):Observable<Result<any>> {
     let sort = getSortOrderOrDefault(field, direction);
     return this.attributeClassRepository
     .getAssignedAttributes(number, size, sort, assignedAttributes)
@@ -41,9 +42,9 @@ export class AttributeOrchestrator {
       return this.attributeClassRepository
         .getAvailableAttributeCount()
         .map(count => {
-          // let shapeAttrResp = shapeAttributeResponse("attributes",value, number, size, value.length, count, sort);
-          // return new Result(false, "", shapeAttrResp);
-          return new PageResponse<Attribute[]>(value, number, size, count, sort);
+           let shapeAttrResp = shapeAttributesResponse(value, number, size, value.length, count, sort);
+           return new Result<any>(false, "", shapeAttrResp);
+          //return new PageResponse<Attribute[]>(value, number, size, count, sort);
         });
     });
   }
@@ -67,7 +68,7 @@ export class AttributeOrchestrator {
   }
 
 
-  getAttributes(number:number, size:number, field:string, direction:string):Observable<PageResponse<Attribute[]>> {
+  getAttributes(number:number, size:number, field:string, direction:string):Observable<Result<any>> {
     let sort:string = getSortOrderOrDefault(field, direction);
     return this.attributeClassRepository
       .getAttributes(number, size, sort)
@@ -75,9 +76,10 @@ export class AttributeOrchestrator {
         return this.attributeClassRepository
           .getAttributeCount()
           .map(count => {
-            // let shapeAttributesResp:any = shapeAttributesResponse(value, number, size, value.length, count, sort);
-            // return new Result<any>(false, "attributes", shapeAttributesResp);
-            return new PageResponse<Attribute[]>(value, number, size, count, sort);
+            // to keep consistence
+             let shapeAttributesResp:any = shapeAttributesResponse(value, number, size, value.length, count, sort);
+             return new Result<any>(false, "attributes", shapeAttributesResp);
+            //return new PageResponse<Attribute[]>(value, number, size, count, sort);
           });
       });
 

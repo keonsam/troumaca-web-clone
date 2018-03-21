@@ -14,7 +14,7 @@ export let getPhones = (req: Request, res: Response) => {
   orchestrator
     .getPhones(number, size, field, direction)
     .subscribe(phones => {
-      res.send(JSON.stringify(phones));
+      res.send(JSON.stringify(phones.data));
     });
 };
 

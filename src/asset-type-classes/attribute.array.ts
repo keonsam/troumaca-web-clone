@@ -23,4 +23,11 @@ export class AttributeArray {
   set required(value: boolean) {
     this._required = value;
   }
+
+  toJson() {
+    return {
+      attributeId: this.attributeId,
+      required: this.required
+    }
+  }
 }

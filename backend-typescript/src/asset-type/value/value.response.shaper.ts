@@ -1,6 +1,6 @@
 export function shapeValuesResponse(data:any, pageNumber:number, pageSize:number, items:any, totalItems:number, sort:any) {
   return {
-    assets:data,
+    values:data,
     page:{
       number:pageNumber,
       size:pageSize,
@@ -11,9 +11,9 @@ export function shapeValuesResponse(data:any, pageNumber:number, pageSize:number
   }
 }
 
-export function shapeValuesResponse2(dataName:string, data:any) {
+export function shapeValuesResponse2(data:any) {
   return {
-    [dataName]: data,
+    values: data,
     page: {},
     sort: {}
   }

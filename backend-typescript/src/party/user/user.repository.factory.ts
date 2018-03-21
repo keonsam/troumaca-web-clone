@@ -54,10 +54,10 @@ class UserDBRepository implements UserRepository {
     });
   }
 
-  getUser(userId:string):Observable<User> {
+  getUser(partyId:string):Observable<User> {
     return Rx.Observable.create(function (observer:Observer<User>) {
       let query = {
-        "userId":userId
+       partyId
       };
 
       users.findOne(query, function (err:any, doc:any) {
@@ -85,10 +85,10 @@ class UserDBRepository implements UserRepository {
     });
   }
 
-  deleteUser(userId:string):Observable<number> {
+  deleteUser(partyId:string):Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
-        "userId":userId
+        "partyId":partyId
       };
 
       users.remove(query, {}, function (err:any, numRemoved:number) {
@@ -102,10 +102,10 @@ class UserDBRepository implements UserRepository {
     });
   }
 
-  updateUser(userId:string, user:User):Observable<number> {
+  updateUser(partyId:string, user:User):Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
-        "userId":userId
+        "partyId":partyId
       };
       users.update(query, user, {}, function (err:any, numReplaced:number) {
         if (!err) {
@@ -125,11 +125,11 @@ class UserRestRepository implements UserRepository {
     return undefined;
   }
 
-  deleteUser(userId: string): Observable<number> {
+  deleteUser(partyId: string): Observable<number> {
     return undefined;
   }
 
-  getUser(userId: string): Observable<User> {
+  getUser(partyId: string): Observable<User> {
     return undefined;
   }
 
@@ -145,7 +145,7 @@ class UserRestRepository implements UserRepository {
     return undefined;
   }
 
-  updateUser(userId: string, user: User): Observable<number> {
+  updateUser(partyId: string, user: User): Observable<number> {
     return undefined;
   }
 }

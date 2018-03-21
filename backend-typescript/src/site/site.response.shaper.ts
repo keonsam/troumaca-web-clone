@@ -1,6 +1,6 @@
-export function shapeSiteResponse2(dataName:string, data:any) {
+export function shapeSiteResponse2(data:any) {
   return {
-    [dataName]: data,
+    unionOfPhysicalSites: data,
     page: {},
     sort: {}
   }

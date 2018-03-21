@@ -28,7 +28,7 @@ export class AttributeEditComponent implements OnInit {
   private _maximumValue: FormControl;
   private _minimumValue: FormControl;
 
-  private _unitofMesureIdDataService: CompleterData;
+  private _unitOfMeasureIdDataService: CompleterData;
 
   private _attributeEditForm: FormGroup;
 
@@ -92,7 +92,7 @@ export class AttributeEditComponent implements OnInit {
         this.name.setValue(attribute.name);
         this.format.setValue(attribute.format);
         this.dataType.setValue(attribute.dataType.dataTypeId);
-        this.unitOfMeasureId.setValue(attribute.unitOfMeasure.name);
+        this.unitOfMeasureId.setValue(  attribute.unitOfMeasure.name); // backend needs to set the value
         this.maximumValue.setValue(attribute.maximumValue);
         this.minimumValue.setValue(attribute.minimumValue);
         this.attribute = attribute;
@@ -203,11 +203,11 @@ export class AttributeEditComponent implements OnInit {
   }
 
   get unitOfMeasureIdDataService(): CompleterData {
-    return this._unitofMesureIdDataService;
+    return this._unitOfMeasureIdDataService;
   }
 
   set unitOfMeasureIdDataService(value: CompleterData) {
-    this._unitofMesureIdDataService = value;
+    this._unitOfMeasureIdDataService = value;
   }
 
   get attributeEditForm(): FormGroup {

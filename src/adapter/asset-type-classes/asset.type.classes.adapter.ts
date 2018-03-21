@@ -20,6 +20,8 @@ import {DataTypes} from "../../attributes/data.types";
 import {DataType} from  "../../attributes/data.type";
 import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
 import {AssignedAttributeState} from "../../client/asset-type-class/assigned.attribute.state";
+import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
+import {AssetTypeClassResponse} from "../../asset-type-classes/asset.type.class.response";
 
 export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
 
@@ -39,11 +41,20 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
     });
   }
 
-  getAssetTypeClass(assetTypeClassId: string): Observable<any> {
+  public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
+    return this.assetTypeClassClient.findUnitOfMeasureIdState(searchStr, pageSize)
+      .map(data => {
+        return map(data, value => {
+          return mapObjectProps(value, new UnitOfMeasure());
+        });
+      });
+  }
+
+  getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassResponse> {
     return this.assetTypeClassClient
     .getAssetTypeClass(assetTypeClassId)
-    .map(data =>{
-      return data
+    .map(value =>{
+      return  mapObjectProps(value, new AssetTypeClassResponse());
     });
   }
 

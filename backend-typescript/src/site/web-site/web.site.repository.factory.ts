@@ -3,7 +3,7 @@ import {WebSiteRepository} from "./web.site.repository";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {RepositoryKind} from "../../repository.kind";
-import {websites} from "../../db";
+import {webSites} from "../../db";
 import {WebSite} from "./web.site";
 import {calcSkip} from "../../db.util";
 import {generateUUID} from "../../uuid.generator";
@@ -15,7 +15,7 @@ class WebSiteDBRepository implements WebSiteRepository {
   saveWebSite(webSite:WebSite):Observable<WebSite> {
     webSite.siteId = generateUUID();
     return Rx.Observable.create(function(observer:Observer<WebSite>) {
-      websites.insert(webSite, function(err:any, doc:any) {
+      webSites.insert(webSite, function(err:any, doc:any) {
         if (err) {
           observer.error(err);
         } else {
@@ -30,7 +30,7 @@ class WebSiteDBRepository implements WebSiteRepository {
     let localDefaultPageSize = this.defaultPageSize;
     return Rx.Observable.create(function (observer:Observer<WebSite[]>) {
       let skip = calcSkip(pageNumber, pageSize, localDefaultPageSize);
-      websites.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
+      webSites.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -43,7 +43,7 @@ class WebSiteDBRepository implements WebSiteRepository {
 
   getWebSiteCount():Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
-      websites.count({}, function (err:any, count:number) {
+      webSites.count({}, function (err:any, count:number) {
         if (!err) {
           observer.next(count);
         } else {
@@ -59,7 +59,7 @@ class WebSiteDBRepository implements WebSiteRepository {
       let query = {
         "siteId":siteId
       };
-      websites.findOne(query, function (err:any, doc:any) {
+      webSites.findOne(query, function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -75,7 +75,7 @@ class WebSiteDBRepository implements WebSiteRepository {
       let query = {
         "siteId":siteId
       };
-      websites.update(query, webSite, {}, function (err:any, numReplaced:number) {
+      webSites.update(query, webSite, {}, function (err:any, numReplaced:number) {
         if (!err) {
           observer.next(numReplaced);
         } else {
@@ -91,7 +91,7 @@ class WebSiteDBRepository implements WebSiteRepository {
       let query = {
         "siteId":siteId
       };
-      websites.remove(query, {}, function (err:any, numRemoved:number) {
+      webSites.remove(query, {}, function (err:any, numRemoved:number) {
         if (!err) {
           observer.next(numRemoved);
         } else {

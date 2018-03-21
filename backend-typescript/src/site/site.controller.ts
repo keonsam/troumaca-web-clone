@@ -10,7 +10,7 @@ export let findSite = (req: Request, res: Response) => {
 
   siteOrchestrator.findSite(searchStr, pageSize)
   .map(value => {
-      return shapeSiteResponse2("sites", value);
+      return shapeSiteResponse2(value);
   }).subscribe(sites => {
     let body = JSON.stringify(sites);
     res.send(body);

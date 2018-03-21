@@ -1,4 +1,3 @@
-
 export class AssetTypeClass {
 
   private _assetTypeClassId:string;

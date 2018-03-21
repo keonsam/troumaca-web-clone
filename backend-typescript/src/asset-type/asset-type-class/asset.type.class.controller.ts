@@ -44,16 +44,15 @@ export let getAssetTypeClass = (req: Request, res: Response) => {
 
   orchestrator.getAssetTypeClass(assetTypeClassId)
     .subscribe((data) => {
-      let body = JSON.stringify(data);
-      res.send(body);
+      res.send(JSON.stringify(data.toJson()));
     }, error => {
       res.send(JSON.stringify(error));
     });
 };
 
 export let saveAssetTypeClass = (req: Request, res: Response) => {
-  let assetTypeClass = req.body.assetTypeClass;
-  let assignedAttributes = req.body.assignedAttributes;
+  let assetTypeClass = req.body.newAssetTypeClass;
+  let assignedAttributes = req.body.newAssignedAttributes;
 
   orchestrator.saveAssetTypeClass(assetTypeClass, assignedAttributes)
     .subscribe(assetTypeClass => {
@@ -67,8 +66,8 @@ export let saveAssetTypeClass = (req: Request, res: Response) => {
 
 export let updateAssetTypeClass = (req: Request, res: Response) => {
   let assetTypeClassId = req.params.assetTypeClassId;
-  let assetTypeClass = req.body.assetTypeClass;
-  let assignedAttribute = req.body.assignedAttributes;
+  let assetTypeClass = req.body.newAssetTypeClass;
+  let assignedAttribute = req.body.newAssignedAttributes;
 
   orchestrator.updateAssetTypeClass(assetTypeClassId, assetTypeClass, assignedAttribute)
     .subscribe(assetTypeClass => {

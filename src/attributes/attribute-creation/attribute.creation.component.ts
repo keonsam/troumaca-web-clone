@@ -24,7 +24,7 @@ export class AttributeCreationComponent implements OnInit {
   private _maximumValue: FormControl;
   private _minimumValue: FormControl;
 
-  private _unitofMesureIdDataService: CompleterData;
+  private _unitOfMeasureIdDataService: CompleterData;
 
   private _attributeForm: FormGroup;
 
@@ -183,11 +183,11 @@ export class AttributeCreationComponent implements OnInit {
   }
 
   get unitOfMeasureIdDataService(): CompleterData {
-    return this._unitofMesureIdDataService;
+    return this._unitOfMeasureIdDataService;
   }
 
   set unitOfMeasureIdDataService(value: CompleterData) {
-    this._unitofMesureIdDataService = value;
+    this._unitOfMeasureIdDataService = value;
   }
 
   get attributeForm(): FormGroup {

@@ -14,7 +14,7 @@ export let getPostOfficeBoxes = (req: Request, res: Response) => {
   orchestrator
     .getPostOfficeBoxes(number, size, field, direction)
     .subscribe(postOfficeBoxes => {
-      res.send(JSON.stringify(postOfficeBoxes));
+      res.send(JSON.stringify(postOfficeBoxes.data));
     });
 };
 

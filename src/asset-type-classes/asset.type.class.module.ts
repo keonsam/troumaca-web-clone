@@ -13,6 +13,7 @@ import {AssetTypeClassTopMenuComponent} from './asset-type-class-top-menu/asset-
 import {AssetTypeClassEditComponent} from './asset-type-class-edit/asset.type.class.edit.component';
 import {PagingModule} from "../paging/paging.module";
 import {SearchModule} from "../search/search.module";
+import {Ng2CompleterModule} from "ng2-completer";
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import {SearchModule} from "../search/search.module";
     NgbModule,
     RouterModule,
     FormsModule,
+    Ng2CompleterModule,
     ReactiveFormsModule,
     MenuModule,
     PagingModule,

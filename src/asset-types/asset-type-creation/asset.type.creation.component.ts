@@ -289,6 +289,7 @@ export class AssetTypeCreationComponent implements OnInit {
     if (selected) {
       this.assetType.assetTypeClass = selected.originalObject;
     }
+    this.getAttributes();
   }
 
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
@@ -309,7 +310,7 @@ export class AssetTypeCreationComponent implements OnInit {
     this.assetTypeService
     .getAssignedAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
-      this.assignedAttributes = next.assignedAttributes;
+      this.assignedAttributes = next.assignedAttribute;
       this.attributes = next.attributes;
       let group: any = {};
       this.attributes.forEach(value => {

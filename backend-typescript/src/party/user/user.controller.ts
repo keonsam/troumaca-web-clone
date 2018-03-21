@@ -32,7 +32,7 @@ export  let getUsers = (req: Request, res: Response) => {
 
   userOrchestrator.getUsers(number, size, field, direction)
     .subscribe(users => {
-      res.send(JSON.stringify(users));
+      res.send(JSON.stringify(users.data));
     }, error => {
       res.status(400);
       res.send(error);
@@ -56,8 +56,8 @@ export  let getUser = (req: Request, res: Response) => {
 export  let saveUser = (req: Request, res: Response) => {
   let user = req.body;
   userOrchestrator.saveUser(user)
-    .subscribe(user => {
-      res.send(JSON.stringify(user));
+    .subscribe(result => {
+      res.send(JSON.stringify(result.data));
     }, error => {
       res.status(400);
       res.send(error);

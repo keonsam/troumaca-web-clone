@@ -102,7 +102,7 @@ export class AssetClientHttp extends AssetClient {
     }
 
     if (pageSize) {
-      queryStr.push("pageSize=" + searchStr);
+      queryStr.push("pageSize=" + pageSize);
     }
 
     if (queryStr.length > 0) {
@@ -128,7 +128,7 @@ export class AssetClientHttp extends AssetClient {
     }
 
     if (pageSize) {
-      queryStr.push("pageSize=" + searchStr);
+      queryStr.push("pageSize=" + pageSize);
     }
 
     if (queryStr.length > 0) {
@@ -139,6 +139,7 @@ export class AssetClientHttp extends AssetClient {
     return this.http.get<UnionOfPhysicalSiteStates>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
+
       return data;
     });
   }
@@ -154,7 +155,7 @@ export class AssetClientHttp extends AssetClient {
     }
 
     if (pageSize) {
-      queryStr.push("pageSize=" + searchStr);
+      queryStr.push("pageSize=" + pageSize);
     }
 
     if (queryStr.length > 0) {
@@ -180,7 +181,7 @@ export class AssetClientHttp extends AssetClient {
     }
 
     if (pageSize) {
-      queryStr.push("pageSize=" + searchStr);
+      queryStr.push("pageSize=" + pageSize);
     }
 
     if (queryStr.length > 0) {

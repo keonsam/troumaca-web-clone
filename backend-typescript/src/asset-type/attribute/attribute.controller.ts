@@ -14,8 +14,8 @@ export let getAvailableAttributes = (req: Request, res: Response) => {
   let assignedArray = req.query.assignedArray ? req.query.assignedArray.split(","): [];
 
   orchestrator.getAvailableAttributes(number, size, field, direction, assignedArray)
-    .subscribe(pageResponse => {
-      res.send(JSON.stringify(pageResponse));
+    .subscribe(result => {
+      res.send(JSON.stringify(result.data));
     }, error => {
       res.status(400);
       res.send(error);
@@ -33,8 +33,8 @@ export let getAssignedAttributes = (req: Request, res: Response) => {
   let assignedArray = req.query.assignedArray ? req.query.assignedArray.split(","): [];
 
   orchestrator.getAssignedAttributes(number, size, field, direction, assignedArray)
-    .subscribe(pageResponse => {
-      res.send(JSON.stringify(pageResponse));
+    .subscribe(result => {
+      res.send(JSON.stringify(result.data));
     }, error => {
       res.status(400);
       res.send(error);
@@ -50,7 +50,7 @@ export let getAssignedAttributeByClassId = (req: Request, res: Response) => {
     .subscribe(pageResponse => {
       res.send(JSON.stringify(pageResponse));
     });
-}
+};
 
 export let getAttributes = (req: Request, res: Response) => {
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
@@ -59,8 +59,8 @@ export let getAttributes = (req: Request, res: Response) => {
   let direction = getStringValueOrDefault(req.query.sortOrder, "");
 
   orchestrator.getAttributes(number, size, field, direction)
-    .subscribe(pageResponse => {
-      res.send(JSON.stringify(pageResponse));
+    .subscribe(attributes => {
+      res.send(JSON.stringify(attributes.data));
     });
 };
 
@@ -80,8 +80,8 @@ export let getAttributeCount = (req: Request, res: Response) => {
 
 export let getAttributeById = (req: Request, res: Response) => {
   orchestrator.getAttributeById(req.params.attributeId)
-    .subscribe(assets => {
-      res.send(JSON.stringify(assets));
+    .subscribe(attribute => {
+      res.send(JSON.stringify(attribute));
     });
 };
 

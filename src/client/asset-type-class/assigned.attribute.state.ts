@@ -1,10 +1,8 @@
-import {AttributeArray} from './attribute.array';
-
 export class AssignedAttributeState {
 
   private _assignedAttributeId:string;
   private _assetTypeClassId: string;
-  private _attribute: AttributeArray[];
+  private _attribute: any[];
   private _createdOn: string;
   private _modifiedOn: string;
 
@@ -24,12 +22,12 @@ export class AssignedAttributeState {
   set assetTypeClassId(value: string) {
     this._assetTypeClassId = value;
   }
-  
-  get attribute(): AttributeArray[] {
+
+  get attribute(): any[] {
     return this._attribute;
   }
 
-  set attribute(value: AttributeArray[]) {
+  set attribute(value: any[]) {
     this._attribute = value;
   }
 
@@ -47,5 +45,15 @@ export class AssignedAttributeState {
 
   set modifiedOn(value: string) {
     this._modifiedOn = value;
+  }
+
+  toJson() {
+    return {
+      assignedAttributeId: this.assignedAttributeId,
+      assetTypeClassId: this.assetTypeClassId,
+      attribute: this.attribute,
+      createdOn: this.createdOn,
+      modifiedOn: this.modifiedOn
+    }
   }
 }

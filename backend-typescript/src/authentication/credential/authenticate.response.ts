@@ -67,4 +67,16 @@ export class AuthenticateResponse {
   set credentialConfirmationId(value: string) {
     this._credentialConfirmationId = value;
   }
+
+  toJson() {
+    return {
+      authenticated: this.authenticated,
+      usernameConfirmed: this.usernameConfirmed,
+      accountExists: this.accountExists,
+      credential: this.credential,
+      session: this.session,
+      credentialConfirmationId: this.credentialConfirmationId
+    }
+  }
 }
+

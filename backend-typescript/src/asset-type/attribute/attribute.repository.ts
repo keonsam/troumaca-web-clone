@@ -4,7 +4,7 @@ import {AssignedAttribute} from "./assigned.attribute";
 
 export interface AttributeRepository {
 
-  getAvailableAttributes(pageNumber:number, pageSize:number, order:string, availableAttributes:Attribute[]):Observable<Attribute[]>;
+  getAvailableAttributes(pageNumber:number, pageSize:number, order:string, availableAttributes:string[]):Observable<Attribute[]>;
 
   getAssignedAttributes(pageNumber:number, pageSize:number, order:string, assignedAttributes:string[]):Observable<Attribute[]>;
 

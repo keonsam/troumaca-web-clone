@@ -6,6 +6,8 @@ import {Attributes} from "../attributes/attributes";
 import {Attribute} from "../attributes/attribute";
 import {DataTypes} from "../attributes/data.types";
 import {AssignedAttribute} from "./assigned.attribute";
+import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
+import {AssetTypeClassResponse} from "./asset.type.class.response";
 
 export class AssetTypeClassService {
 
@@ -15,7 +17,12 @@ export class AssetTypeClassService {
   public getDataTypes(): Observable<DataTypes> {
     return this.assetTypeClassRepository.getDataTypes();
   }
-  public getAssetTypeClass(assetTypeClassId: string): Observable<any> {
+
+  public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]>{
+    return this.assetTypeClassRepository.findUnitOfMeasureId(searchStr,pageSize);
+  }
+
+  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassResponse> {
     return this.assetTypeClassRepository.getAssetTypeClass(assetTypeClassId);
   }
 

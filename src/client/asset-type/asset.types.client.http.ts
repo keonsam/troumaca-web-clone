@@ -67,28 +67,15 @@ export class AssetTypesClientHttp extends AssetTypesClient {
   }
 
   public getValues(assetTypeId: string): Observable<ValueStates> {
+    // ById
+    let url = `${this.hostPort}/values/${assetTypeId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
 
-  let array = [];
-  array.push(this.hostPort);
-  array.push("/values");
-
-  let queryStr = [];
-    queryStr.push("assetTypeId=" + assetTypeId);
-
-
-
-  if (queryStr.length > 0) {
-    array.push("?");
-    array.push(queryStr.join("&"));
-  }
-
-  return this.httpClient.get<ValueStates>(array.join(""), {
-  // return this.http.get(array.join(""), {
-    headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-  }).map(data => {
-    console.log(data);
-    return data;
-   });
+    return this.httpClient
+      .get<ValueStates>(url, {headers:headers})
+      .map(data => {
+        return data;
+      });
   }
 
   public getAssetTypeState(assetTypeId: string): Observable<AssetTypeState> {

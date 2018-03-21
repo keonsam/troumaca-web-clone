@@ -107,9 +107,9 @@ export let emails = new Datastore(theEmailDb);
 emails.loadDatabase(handleError);
 emails.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
 
-export let websites = new Datastore(theWebSiteDb);
-websites.loadDatabase(handleError);
-websites.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
+export let webSites = new Datastore(theWebSiteDb);
+webSites.loadDatabase(handleError);
+webSites.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
 
 
 // reference data

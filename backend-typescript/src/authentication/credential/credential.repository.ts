@@ -30,4 +30,6 @@ export interface CredentialRepository {
 
   updateCredentialPartyId(credentialId: string, partyId: string): Observable<Credential>;
 
+  deleteCredentialByPartyId(partyId:string): Observable<number>;
+
 }

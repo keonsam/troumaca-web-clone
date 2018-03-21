@@ -44,14 +44,14 @@
 
               <fieldset *ngIf="isDiscreteItem()" class="form-group">
                 <div class="form-group">
-                  <label for="">Serial Number</label><input class="form-control" formControlName="serialNumber"  data-error="Your email address is invalid" placeholder="Serial Number" required="required" type="text">
+                  <label for="">Serial Number</label><input class="form-control" formControlName="serialNumber"  data-error="Your email address is invalid" placeholder="Serial Number" type="text">
                   <div [hidden]="serialNumber.valid || serialNumber.pristine" class="alert alert-danger">Please Enter a Serial Number.</div>
                 </div>
               </fieldset>
 
               <fieldset *ngIf="isInventory()" class="form-group">
                 <div class="form-group">
-                  <label for="">Quantity</label><input class="form-control" formControlName="quantity" data-error="Your email address is invalid" placeholder="Quantity" required="required" type="number">
+                  <label for="">Quantity</label><input class="form-control" formControlName="quantity" data-error="Your email address is invalid" placeholder="Quantity" type="number">
                   <div [hidden]="quantity.valid || quantity.pristine" class="alert alert-danger">Please Enter an Quantity.</div>
                 </div>
               </fieldset>
@@ -115,7 +115,7 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" type="submit"> Save</button>
+                <button class="btn btn-primary button1" [disabled]="!assetEditForm.valid" type="submit"> Save</button>
                 <button class="btn btn-white" type="cancel" (click)="Cancel()"> Cancel</button>
               </div>
 

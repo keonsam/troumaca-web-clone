@@ -221,15 +221,15 @@ export class AssetEditComponent implements OnInit {
           .findUnionOfPhysicalSites(value, that.pageSize) // send search request to the backend
           .map(value2 => { // convert results to dropdown data
             return value2.unionOfPhysicalSites.map(v2 => {
-              let name = "";
+              /*let name = "";
               if (v2.postOfficeBoxNumber) {
                 name = v2.postOfficeBoxNumber;
               } else {
                 name = v2.streetNumber + " " + v2.street;
-              }
+              }*/
               return {
                 siteId: v2.siteId,
-                name: name
+                name: v2.name
               };
             })
           })

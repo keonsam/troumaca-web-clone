@@ -35,6 +35,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     return this.httpClient
       .post<AuthenticateResponseState>(url, query, httpOptions)
       .map(data => {
+        console.log(data);
         return data;
       });
 

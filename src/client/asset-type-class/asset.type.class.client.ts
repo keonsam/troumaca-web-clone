@@ -5,12 +5,16 @@ import {AttributeStates} from "../attribute/attribute.states";
 import {AttributeState} from "../attribute/attribute.state";
 import {DataTypeStates} from "../attribute/data.type.states";
 import {AssignedAttributeState} from "./assigned.attribute.state";
+import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
+import {AssetTypeClassResponseState} from "./asset.type.class.response.state";
 
 export abstract class AssetTypeClassClient {
 
   abstract getDataTypes(): Observable<DataTypeStates>;
 
-  abstract getAssetTypeClass(assetTypeClassId: string) : Observable<any>;
+  abstract findUnitOfMeasureIdState(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]>
+
+  abstract getAssetTypeClass(assetTypeClassId: string) : Observable<AssetTypeClassResponseState>;
 
   abstract getAttribute(attributeId: string) : Observable<AttributeState>;
 

@@ -14,7 +14,7 @@ export let getEmails = (req: Request, res: Response) => {
   orchestrator
     .getEmails(number, size, field, direction)
     .subscribe(emails => {
-      res.send(JSON.stringify(emails));
+      res.send(JSON.stringify(emails.data));
     });
 };
 

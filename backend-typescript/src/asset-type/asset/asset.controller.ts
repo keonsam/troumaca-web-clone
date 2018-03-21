@@ -47,7 +47,7 @@ export let updateAsset = (req: Request, res: Response) => {
 };
 
 export let deleteAsset = (req: Request, res: Response) => {
-  assetOrchestrator.deleteAsset(req.body)
+  assetOrchestrator.deleteAsset(req.params.assetId)
     .subscribe(affected => {
       res.send(JSON.stringify(affected));
     });

@@ -14,7 +14,7 @@ export  let getOrganizations = (req: Request, res: Response) => {
   organizationOrchestrator
     .getOrganizations(number, size, field, direction)
     .subscribe(organizations => {
-      res.send(JSON.stringify(organizations));
+      res.send(JSON.stringify(organizations.data));
     });
 };
 

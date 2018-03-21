@@ -3,6 +3,7 @@ import {ValueRepository} from "./value.repository";
 import {Observable} from "rxjs/Observable";
 import {Value} from "./value";
 import {shapeValuesResponse} from "./value.response.shaper";
+import {shapeValuesResponse2} from "./value.response.shaper";
 import {Result} from "../../result.success";
 import {getSortOrderOrDefault} from "../../sort.order.util";
 
@@ -40,6 +41,15 @@ export class ValueOrchestrator {
           });
       });
 
+  }
+
+  getValuesByAssetTypeId(assetTypeId: string): Observable<Result<any>> {
+    return this.valueRepository
+      .getValuesByAssetTypeId(assetTypeId)
+      .map(values => {
+        let shapeValuesResp:any = shapeValuesResponse2(values);
+        return new Result<any>(false, "values", shapeValuesResp);
+      });
   }
 
   getValueById(valueId:string):Observable<Value> {

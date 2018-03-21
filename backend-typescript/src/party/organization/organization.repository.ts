@@ -9,12 +9,12 @@ export interface OrganizationRepository {
 
   getOrganizationCount():Observable<number>;
 
-  getOrganization(organizationId:string):Observable<Organization>;
+  getOrganization(partyId:string):Observable<Organization>;
 
   saveOrganization(organization:Organization):Observable<Organization>;
 
-  deleteOrganization(organizationId:string):Observable<number>;
+  deleteOrganization(partyId:string):Observable<number>;
 
-  updateOrganization(organizationId:string, organization:Organization):Observable<number>;
+  updateOrganization(partyId:string, organization:Organization):Observable<number>;
 
 }

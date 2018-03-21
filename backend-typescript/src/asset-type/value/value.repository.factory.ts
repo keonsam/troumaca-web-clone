@@ -54,6 +54,19 @@ class ValueDBRepository implements ValueRepository {
     });
   }
 
+  getValuesByAssetTypeId(assetTypeId: string): Observable<Value[]> {
+    return Rx.Observable.create(function (observer: Observer<Value[]>) {
+      values.find({assetTypeId},function (err: any, doc: any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
   getValueCount(): Observable<number> {
     return Rx.Observable.create(function (observer: Observer<number>) {
       values.count({}, function (err: any, count: number) {
@@ -115,15 +128,35 @@ class ValueDBRepository implements ValueRepository {
       })
     });
   };
+
+  deleteValuesByAssetTypeId(assetTypeId:string): Observable<number> {
+    return Rx.Observable.create(function (observer: Observer<number>) {
+      let query = {
+        assetTypeId
+      };
+
+      values.remove(query, { multi: true }, function (err:any, numRemoved:number) {
+        if (!err) {
+          observer.next(numRemoved);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  };
 }
 
 class ValueRestRepository implements ValueRepository {
   findValues(searchStr:string, pageSize:number): Observable<Value[]> {
     return undefined;
-  };
+  }
 
+  getValuesByAssetTypeId(assetTypeId: string): Observable<Value[]> {
+    return undefined;
+  }
 
-  saveValue(value:Value):Observable<Value> {
+    saveValue(value:Value):Observable<Value> {
     return null
   }
 
@@ -147,7 +180,12 @@ class ValueRestRepository implements ValueRepository {
     return null;
   };
 
-}
+  deleteValuesByAssetTypeId(assetTypeId:string): Observable<number> {
+    return null;
+  }
+
+
+  }
 
 export function createValueRepository(kind?:RepositoryKind):ValueRepository {
   switch (kind) {

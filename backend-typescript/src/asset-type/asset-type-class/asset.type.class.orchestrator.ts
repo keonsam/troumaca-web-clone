@@ -62,6 +62,7 @@ export class AssetTypeClassOrchestrator {
         if(!assetTypeClass){
           return Observable.of(assetTypeClass);
         }else {
+          assignedAttributes.assetTypeClassId = assetTypeClass.assetTypeClassId;
           return this.attributeRepository.saveAssignedAttributes(assignedAttributes)
             .map((newDoc:AssignedAttribute) => {
               if (!newDoc) {

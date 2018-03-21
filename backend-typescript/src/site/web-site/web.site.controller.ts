@@ -14,7 +14,7 @@ export let getWebSites = (req: Request, res: Response) => {
   orchestrator
     .getWebSites(number, size, field, direction)
     .subscribe(webSites => {
-      res.send(JSON.stringify(webSites));
+      res.send(JSON.stringify(webSites.data));
     });
 };
 

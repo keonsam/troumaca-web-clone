@@ -16,15 +16,15 @@ export class OrganizationOrchestrator {
     this.organizationRepository = createOrganizationRepository();
   }
 
-    getOrganizations (number:number, size:number, field:string, direction:string):Observable<PageResponse<Organization[]>> {
+    getOrganizations (number:number, size:number, field:string, direction:string):Observable<Result<any>> {
       let sort = getSortOrderOrDefault(field, direction);
       return this.organizationRepository.getOrganizations(number, size, sort)
         .flatMap(value => {
           return this.organizationRepository.getOrganizationCount()
             .map(count => {
-              // let shapeOrganizationsResp:any = shapeOrganizationsResponse(value, number, size, value.length, count, sort);
-              // return new Result<any>(false, "organizations", shapeOrganizationsResp);
-              return new PageResponse(value, number, size, count, direction);
+               let shapeOrganizationsResp:any = shapeOrganizationsResponse(value, number, size, value.length, count, sort);
+               return new Result<any>(false, "organizations", shapeOrganizationsResp);
+              //return new PageResponse(value, number, size, count, direction);
             });
         });
     };

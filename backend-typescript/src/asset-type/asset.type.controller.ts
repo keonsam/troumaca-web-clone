@@ -57,12 +57,13 @@ export let getAssetTypeById = (req: Request, res: Response) => {
 };
 
 export let findAssetTypes = (req: Request, res: Response) => {
+  console.log(req);
   let searchStr:string =  req.query.q;
   let pageSize:number = req.query.pageSize;
 
   assetTypeOrchestrator.findAssetTypes(searchStr, pageSize)
     .map(value => {
-      return shapeAssetTypesResponse2("assetTypes", value);
+      return shapeAssetTypesResponse2(value);
     }).subscribe(assetTypes => {
     let body = JSON.stringify(assetTypes);
     res.send(body);
@@ -86,7 +87,8 @@ export let updateAssetType = (req: Request, res: Response) => {
 };
 
 export let deleteAssetType = (req: Request, res: Response) => {
-  assetTypeOrchestrator.deleteAssetType(req.body)
+
+  assetTypeOrchestrator.deleteAssetType(req.params.assetTypeId)
     .subscribe(affected => {
       res.send(JSON.stringify(affected));
     }, error => {

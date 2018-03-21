@@ -14,6 +14,7 @@ class AssetTypeDBRepository implements AssetTypeRepository {
 
   findAssetTypes(searchStr: string, pageSize: number): Observable<AssetType[]> {
     let searchStrLocal = new RegExp(searchStr);
+
     return Rx.Observable.create(function (observer: Observer<AssetType[]>) {
       assetTypes.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
         if (!err) {

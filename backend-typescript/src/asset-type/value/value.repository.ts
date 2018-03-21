@@ -11,9 +11,12 @@ export interface ValueRepository {
 
   getValueCount():Observable<number>;
 
+  getValuesByAssetTypeId(assetTypeId: string): Observable<Value[]>;
   getValueById(valueId:string):Observable<Value>;
 
   updateValue(valueId:string, valueType:Value):Observable<number>;
 
   deleteValue(valueId:string):Observable<number>;
+
+  deleteValuesByAssetTypeId(assetTypeId:string): Observable<number>;
 }

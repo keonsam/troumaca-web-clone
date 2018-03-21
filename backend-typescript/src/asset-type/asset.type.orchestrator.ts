@@ -5,14 +5,17 @@ import {AssetType} from "./asset.type";
 import {shapeAssetTypesResponse} from "./asset.type.response.shaper";
 import {Result} from "../result.success";
 import {getSortOrderOrDefault} from "../sort.order.util";
-
+import {createValueRepository} from "./value/value.repository.factory";
+import {ValueRepository} from "./value/value.repository";
 
 export class AssetTypeOrchestrator {
 
   private assetTypeRepository:AssetTypeRepository;
+  private valueRepository: ValueRepository;
 
   constructor(options?:any) {
     this.assetTypeRepository = createAssetTypeRepository(options);
+    this.valueRepository = createValueRepository(options);
   }
 
   findAssetTypes(searchStr:string, pageSize:number):Observable<AssetType[]> {
@@ -50,7 +53,14 @@ export class AssetTypeOrchestrator {
   }
 
   deleteAssetType(assetTypeId:string):Observable<number> {
-    return this.assetTypeRepository.deleteAssetType(assetTypeId);
+    return this.assetTypeRepository.deleteAssetType(assetTypeId)
+      .switchMap(numReplaced => {
+        if(numReplaced > 0) {
+          return this.valueRepository.deleteValuesByAssetTypeId(assetTypeId);  // this will delete all the values with the same assetTypeId;
+        }else {
+          return Observable.of(numReplaced);
+        }
+      });
   }
 
 }

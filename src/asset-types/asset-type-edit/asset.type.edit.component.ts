@@ -193,6 +193,7 @@ export class AssetTypeEditComponent implements OnInit {
     this.assetTypeService
     .getValues(this.assetTypeId)
     .subscribe(next => {
+      console.log(next);
       this.values = next;
       this.getAttributes();
     }, error => {
@@ -368,7 +369,7 @@ export class AssetTypeEditComponent implements OnInit {
     this.assetTypeService
     .getAssignedAttributes(this.assetType.assetTypeClass.assetTypeClassId)
     .subscribe(next => {
-      this.assignedAttributes = next.assignedAttributes;
+      this.assignedAttributes = next.assignedAttribute;
       this.attributes = next.attributes;
         let group: any = {};
         this.attributes.forEach(value => {

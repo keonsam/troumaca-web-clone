@@ -15,7 +15,7 @@ let defaultPageSize:number = 10;
 
 class AttributeDBRepository implements AttributeRepository {
 
-  getAvailableAttributes(pageNumber:number, pageSize:number, order:string, availableAttributes:Attribute[]):Observable<Attribute[]> {
+  getAvailableAttributes(pageNumber:number, pageSize:number, order:string, availableAttributes:string[]):Observable<Attribute[]> {
     return Rx.Observable.create(function (observer:Observer<Attribute[]>) {
       let skip = calcSkip(pageNumber, pageSize, defaultPageSize);
       attributes.find({ attributeId: { $nin: availableAttributes }}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
@@ -243,7 +243,7 @@ class AttributeRestRepository implements AttributeRepository {
     return undefined;
   }
 
-  getAvailableAttributes(pageNumber: number, pageSize: number, order: string, availableAttributes: Attribute[]): Observable<Attribute[]> {
+  getAvailableAttributes(pageNumber: number, pageSize: number, order: string, availableAttributes: string[]): Observable<Attribute[]> {
     return undefined;
   }
 
