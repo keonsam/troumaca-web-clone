@@ -60,6 +60,7 @@ export let authenticate = (req: Request, res: Response) => {
   let credential = req.body;
   credentialOrchestrator.authenticate(credential)
     .subscribe((authenticateResponse: AuthenticateResponse) => {
+      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
       res.setHeader('Content-Type', 'application/json');
       if (authenticateResponse && authenticateResponse.session && authenticateResponse.session.sessionId) {
         let sessionId = authenticateResponse.session.sessionId;

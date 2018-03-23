@@ -1,6 +1,3 @@
-{"firstName":"Keon","middleName":"E","lastName":"Samuel","username":"18004334928","partyId":"933a38f9-db98-4b6a-8955-8a3088ced87f","_id":"5phk1H3LESANbQWj"}
-{"firstName":"Keon","middleName":"E","lastName":"Samuel","username":"keon@troumaca.com","partyId":"ebf11e79-fb92-4ac3-8bf5-973c030351a3","_id":"BLjUZYUq8kXcYkHT"}
-{"firstName":"Keon","middleName":"E","lastName":"Samuel","username":"18005538061","partyId":"a31239c7-a5d5-442d-800a-d484586b2f5b","_id":"ZiZE9vHmiA6g1sRz"}
-{"firstName":"Keon","middleName":"E","lastName":"Samuel","username":"keonsam@troumaca.com","partyId":"c079cf94-2db5-4048-a5de-db7d8c3e1351","_id":"lRp3CX5RrZisTMhI"}
-{"firstName":"Keon","middleName":"E","lastName":"Samue","username":"18005538061","partyId":"6a75c754-c4fd-4d8b-a028-cd02204336f1","_id":"lVrHdszdps7WWr4e"}
+{"firstName":"Keon","middleName":"E","lastName":"Samuel","username":"18004444444","partyId":"18629467-57c0-4cae-a813-fbdee9eaa86e","_id":"P6zowheGVMaoff70"}
+{"partyId":"c079cf94-2db5-4048-a5de-db7d8c3e1351","firstName":"Keon","middleName":"Erran","lastName":"Samuel","username":"keonsam@troumaca.com","_id":"lRp3CX5RrZisTMhI"}
 {"$$indexCreated":{"fieldName":"partyId","unique":true,"sparse":false}}

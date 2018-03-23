@@ -39,8 +39,6 @@ import * as confirmationController from './authentication/credential/confirmatio
 
 const app = express();
 
-
-
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -54,9 +52,15 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // app.use(cors(corsOptions));
 app.use(cors());
 // need cookieParser middleware before we can do anything with cookies
+app.use(function(req, res, next) {
 
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  next();
+});
 // app.use(accessMiddleware());
-
 
 // routes
 
@@ -145,7 +149,7 @@ app.post('/validate-edit-username', credentialController.isValidEditUsername);
 app.post('/authenticate', credentialController.authenticate);
 app.post('/forgot-password', credentialController.forgotPassword);
 app.post('/credentials', credentialController.addCredential);
-app.put('/credentials', credentialController.updateCredential);
+app.put('/credentials/:partyId', credentialController.updateCredential);
 app.post('/verify-credentials-confirmations', confirmationController.verifyCredentialConfirmation);
 app.get('/send-confirmation-codes/phone/:confirmationId', confirmationController.sendPhoneVerificationCode);
 app.get('/send-confirmation-codes/email/:confirmationId', confirmationController.sendEmailVerificationCode);

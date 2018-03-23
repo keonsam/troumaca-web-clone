@@ -21,6 +21,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     let url = `${this.hostPort}/authenticate`;
 
     const httpOptions = {
+      withCredentials: true,
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'correlationId': this.uuidGenerator.generateUUID()
@@ -32,10 +33,11 @@ export class AuthenticationClientHttp extends AuthenticationClient {
       password: credentialState.password,
       rememberMe: credentialState.rememberMe
     };
-
+    console.log("ok");
     return this.httpClient
       .post<AuthenticateResponse>(url, query, httpOptions)
       .map(data => {
+        console.log(data);
         return data;
       });
 

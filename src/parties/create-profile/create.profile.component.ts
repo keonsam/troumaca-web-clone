@@ -42,8 +42,8 @@ export class CreateAccountComponent implements OnInit {
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
-    this.purpose = new FormControl("");
-    this.organizationName = new FormControl("");
+    this.purpose = new FormControl("", [Validators.required]);
+    this.organizationName = new FormControl("", [Validators.required]);
     this.description = new FormControl("");
 
     this.createProfileForm = formBuilder.group({
@@ -68,6 +68,7 @@ export class CreateAccountComponent implements OnInit {
        this.organization.purpose = value.purpose;
        this.organization.name = value.organizationName;
        this.organization.description = value.description;
+       console.log(this.createProfileForm);
      }, error2 => {
        console.log(error2);
      });
@@ -86,12 +87,16 @@ export class CreateAccountComponent implements OnInit {
         this.requiredState = false;
         this.createProfileForm.get("organizationName").setValidators(null);
         this.createProfileForm.get("purpose").setValidators(null);
+        this.createProfileForm.get("organizationName").updateValueAndValidity();
+        this.createProfileForm.get("purpose").updateValueAndValidity();
       }else {
         this.requiredState = true;
         this.createProfileForm.get("organizationName").setValidators([Validators.required]);
         this.createProfileForm.get("purpose").setValidators([Validators.required]);
+        this.createProfileForm.get("organizationName").updateValueAndValidity();
+        this.createProfileForm.get("purpose").updateValueAndValidity();
       }
-      this.createProfileForm.get("organizationName").updateValueAndValidity();
+      this.createProfileForm.updateValueAndValidity();
     });
   }
 

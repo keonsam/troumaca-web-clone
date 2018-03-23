@@ -15,7 +15,7 @@ class UserDBRepository implements UserRepository {
   findUser(searchStr:string, pageSize:number):Observable<User[]> {
     let searchStrLocal = new RegExp(searchStr);
     return Rx.Observable.create(function (observer:Observer<User[]>) {
-      users.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err:any, doc:any) {
+      users.find({firstName: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {

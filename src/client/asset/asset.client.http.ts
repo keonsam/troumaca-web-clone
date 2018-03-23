@@ -192,6 +192,7 @@ export class AssetClientHttp extends AssetClient {
     return this.http.get<PersonStates>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
+      console.log(data);
       return data;
     });
   }

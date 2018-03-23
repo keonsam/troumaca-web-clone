@@ -81,7 +81,7 @@
       <div class="col-sm-7">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="createProfileForm" (ngSubmit)="onCreate()" id="formValidate">
+            <form [formGroup]="createProfileForm" (ngSubmit)="onCreate()">
               <div class="element-info">
                 <div class="element-info-with-icon">
                   <div class="element-info-icon">
@@ -129,7 +129,7 @@
 
                 <fieldset class="form-group">
                   <div class="form-group">
-                    <label for="purpose">Purpose</label><input class="form-control" formControlName="purpose" placeholder="Enter account purpose" required="required" type="text">
+                    <label for="purpose">Purpose</label><input class="form-control" formControlName="purpose" placeholder="Enter account purpose" [required]="requiredState" type="text">
                     <div [hidden]="purpose.valid || purpose.pristine" class="alert alert-danger">A purpose is required.</div>
                   </div>
                 </fieldset>

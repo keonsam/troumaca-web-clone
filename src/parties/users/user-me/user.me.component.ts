@@ -97,10 +97,12 @@ export class UserMeComponent implements OnInit {
       this.requiredState = true;
       this.userMeForm.get("password").setValidators([Validators.required, this.passwordValidator(this.partyService)]);
       this.userMeForm.get("confirmPassword").setValidators([Validators.required, this.confirmPasswordValidator(this.password)]);
-    }else if (!value) {
+      this.userMeForm.get("confirmPassword").updateValueAndValidity();
+      }else if (!value) {
       this.requiredState = false;
       this.userMeForm.get("password").setValidators(null);
       this.userMeForm.get("confirmPassword").setValidators(null);
+      this.userMeForm.get("confirmPassword").updateValueAndValidity();
     }
     this.userMeForm.updateValueAndValidity();
     });

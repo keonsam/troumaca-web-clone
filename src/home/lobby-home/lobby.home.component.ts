@@ -10,9 +10,18 @@ export class LobbyHomeComponent {
   private _title:string = 'app';
   private _isLoggedIn:boolean;
   private _dynamicMenuName:string;
+  private _routerLinkAssetList: string = "/assets/listing";
 
   constructor() {
     this.dynamicMenuName = "home-menu";
+  }
+
+  get routerLinkAssetList(): string {
+    return this._routerLinkAssetList;
+  }
+
+  set routerLinkAssetList(value: string) {
+    this._routerLinkAssetList = value;
   }
 
   get title(): string {

@@ -30,12 +30,12 @@ export class AuthenticationService {
     .authenticate(credential)
     .map(authenticateResponse => {
       // TODO: I believe this needs changing
-      if(authenticateResponse.session) {
+      /*if(authenticateResponse.session) {
         Cookie.set(that.sessionIdName, authenticateResponse.session.sessionId);
         if (authenticateResponse.credential.rememberMe) {
           Cookie.set(that.rememberMeName, String(authenticateResponse.credential.rememberMe));
         }
-      }
+      }*/
       return authenticateResponse;
     });
   }
