@@ -2,11 +2,11 @@ import {Observable} from "rxjs/Observable";
 import {CredentialState} from "./credential.state";
 import {CredentialConfirmationState} from "./credential.confirmation.state";
 import {Result} from "../../result/result.success";
-import {AuthenticateResponseState} from "./authenticate.response.state";
+import {AuthenticateResponse} from "../../authentication/authenticate.response";
 
 export abstract class AuthenticationClient {
 
-  abstract authenticate(credentialState: CredentialState): Observable<AuthenticateResponseState>;
+  abstract authenticate(credentialState: CredentialState): Observable<AuthenticateResponse>;
 
   abstract forgotPassword(username: string): Observable<boolean>;
 

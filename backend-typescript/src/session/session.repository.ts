@@ -13,7 +13,7 @@ export interface SessionRepository {
 
   updateSession(sessionId:string, session:Session):Observable<number>;
 
-  updateSessionPartyId(sessionId:string, partyId:string):Observable<Session>;
+  updateSessionPartyId(sessionId:string, partyId:string):Observable<number>;
 
   isValidSession(sessionId:string):Observable<boolean>;
 

@@ -85,7 +85,7 @@ export let findValues = (req: Request, res: Response) => {
 };
 
 export let updateValue = (req: Request, res: Response) => {
-  valueOrchestrator.updateValue(req.params.valueId, req.body)
+  valueOrchestrator.updateValue(req.params.assetTypeId, req.body)
     .subscribe(affected => {
       res.send(JSON.stringify(affected));
     }, error => {

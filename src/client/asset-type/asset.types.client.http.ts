@@ -9,6 +9,7 @@ import {ValueState} from "./value.state";
 import {ValueStates} from "./value.states";
 import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { map, reduce, somethingElse } from "underscore";
 
 export class AssetTypesClientHttp extends AssetTypesClient {
 
@@ -160,11 +161,14 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     });
   }
 
-  public addValueState(valueState: ValueState): Observable<ValueState> {
+  public addValueState(valueState: ValueState[]): Observable<ValueState[]> {
     let url = `${this.hostPort}/values`;
+    let values = map(valueState, next => {
+      return next.toJson();
+    });
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post<ValueState>(url, valueState.toJson(), {headers: headers})
+    .post<ValueState[]>(url, values, {headers: headers})
     .map(data => {
       return data;
     });
@@ -200,11 +204,15 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     });
   }
 
-  public updateValue(valueState: ValueState): Observable<number> {
-    let url = `${this.hostPort}/values/${valueState.valueId}`;
+  public updateValue(assetTypeId, valueState: ValueState[]): Observable<number> {
+    let url = `${this.hostPort}/values/${assetTypeId}`;
+    let values = map(valueState, next => {
+      return next.toJson();
+    });
+    console.log(values);
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .put<number>(url, valueState.toJson(), {headers:headers})
+    .put<number>(url, values, {headers:headers})
     .map(data => {
       return data;
     });

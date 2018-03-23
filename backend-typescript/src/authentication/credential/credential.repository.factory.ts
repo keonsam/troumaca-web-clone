@@ -229,6 +229,21 @@ class CredentialDBRepository implements CredentialRepository {
     });
   };
 
+  addUserCredential(credential:Credential):Observable<Credential> {
+    // done for the toJson().
+    credential.credentialId = generateUUID();
+    return Rx.Observable.create(function (observer:Observer<Credential>) {
+      credentials.insert(credential.toJson(), function (err:any, doc:any) {
+        if (!err) {
+          observer.next(credential);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   authenticateCredential(credential:Credential):Observable<Credential> {
     return Rx.Observable.create(function (observer:Observer<Credential>) {
       let query1 = {
@@ -284,21 +299,14 @@ class CredentialDBRepository implements CredentialRepository {
     });
   };
 
-  updateCredentialPartyId(credentialId: string, partyId: string): Observable<Credential> {
+  updateCredentialPartyId(credentialId: string, partyId: string): Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
         "credentialId":credentialId
       };
       credentials.update(query, {$set : {partyId}}, {}, function (err:any, numReplaced:number) {
         if (!err) {
-          credentials.findOne(query, function (err:any, doc:any) {
-            if (!err) {
-              observer.next(doc);
-            } else {
-              observer.error(err);
-            }
-            observer.complete();
-          });
+          observer.next(numReplaced);
         } else {
           observer.error(err);
         }
@@ -382,7 +390,12 @@ class CredentialRestRepository implements CredentialRepository {
 
   }
 
-  authenticateCredential(credential:Credential): Observable<Credential> {
+  addUserCredential(credential:Credential):Observable<Credential> {
+    return undefined;
+  }
+
+
+    authenticateCredential(credential:Credential): Observable<Credential> {
     return undefined;
   }
 
@@ -418,7 +431,7 @@ class CredentialRestRepository implements CredentialRepository {
     return undefined;
   }
 
-  updateCredentialPartyId(credentialId: string, partyId: string): Observable<Credential> {
+  updateCredentialPartyId(credentialId: string, partyId: string): Observable<number> {
     return undefined;
   }
 

@@ -7,6 +7,7 @@ import {UserStates} from "./user.states";
 import {CredentialState} from "./credential.state";
 import {OrganizationState} from "./organization.state";
 import {OrganizationStates} from "./organization.states";
+import {AccountResponse} from "../../parties/account.response";
 
 export class PersonClientHttp implements PersonClient {
 
@@ -49,7 +50,7 @@ export class PersonClientHttp implements PersonClient {
   public getOrganizations(pageNumber:number, pageSize:number, sortOrder:string): Observable<OrganizationStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("organizations");
+    array.push("/organizations");
 
     let queryStr = [];
 
@@ -144,13 +145,13 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public addAccountState(accountType: string, userState: UserState, organizationState: OrganizationState): Observable<UserState> {
+  public addAccountState(accountType: string, userState: UserState, organizationState: OrganizationState): Observable<AccountResponse> {
     let url = `${this.hostPort}/accounts`;
     let user = userState.toJson();
     let organization = organizationState.toJson();
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post<UserState>(url, {accountType, user, organization}, {headers: headers})
+    .post<AccountResponse>(url, {accountType, user, organization}, {headers: headers})
     .map(data => {
       return data;
     });

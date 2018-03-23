@@ -4,6 +4,7 @@ import {UserStates} from "./user.states";
 import {CredentialState} from "./credential.state";
 import {OrganizationState} from "./organization.state";
 import {OrganizationStates} from "./organization.states";
+import {AccountResponse} from "../../parties/account.response";
 
 export abstract class PersonClient {
   public abstract getUsers(pageNumber:number, pageSize:number, sortOrder:string):Observable<UserStates>
@@ -17,7 +18,7 @@ export abstract class PersonClient {
   public abstract addUserState(userState: UserState): Observable<UserState>;
   public abstract addOrganizationState(organizationState: OrganizationState): Observable<OrganizationState>;
   public abstract addPhoto(partyId: string, croppedImage:string): Observable<any>;
-  public abstract addAccountState(accountType:string, userState: UserState, organizationState: OrganizationState): Observable<UserState>;
+  public abstract addAccountState(accountType:string, userState: UserState, organizationState: OrganizationState): Observable<AccountResponse>;
 
   public abstract deleteUser(partyId: string): Observable<number>;
   public abstract deleteOrganization(partyId: string): Observable<number>;

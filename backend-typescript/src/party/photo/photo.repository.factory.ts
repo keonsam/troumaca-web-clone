@@ -10,9 +10,10 @@ class PhotoDBRepository implements PhotoRepository {
 
   //private defaultPageSize:number = 10;
 
-  savePhoto(photo:Photo):Observable<Photo> {
+  savePhoto(partyId: string, photo:Photo):Observable<Photo> {
+    let newPhoto = photo.toJson();
     return Rx.Observable.create(function(observer:Observer<Photo>) {
-      photos.insert(photo, function(err:any, doc:any) {
+      photos.insert(newPhoto, function(err:any, doc:any) {
         if (err) {
           observer.error(err);
         } else {
@@ -22,7 +23,7 @@ class PhotoDBRepository implements PhotoRepository {
       });
     });
   }
-  
+
   getPhotoById(partyId:string):Observable<Photo> {
     return Rx.Observable.create(function (observer:Observer<Photo>) {
       let query = {
@@ -44,7 +45,8 @@ class PhotoDBRepository implements PhotoRepository {
       let query = {
         "partyId":partyId
       };
-      photos.update(query, photo, {}, function (err:any, numReplaced:number) {
+      let newPhoto = photo.toJson();
+      photos.update(query, newPhoto, {}, function (err:any, numReplaced:number) {
         if (!err) {
           observer.next(numReplaced);
         } else {
@@ -82,8 +84,8 @@ class PhotoRestRepository implements PhotoRepository {
   getPhotoById(partyId:string): Observable<Photo> {
     return undefined;
   }
-  
-  savePhoto(photo: Photo): Observable<Photo> {
+
+  savePhoto(partyId: string, photo: Photo): Observable<Photo> {
     return undefined;
   }
 

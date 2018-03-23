@@ -13,7 +13,9 @@ class OrganizationDBRepository implements OrganizationRepository {
   private defaultPageSize:number = 100;
 
   saveOrganization(organization:Organization):Observable<Organization> {
-    organization.partyId = generateUUID();
+    if(!organization.partyId) {
+      organization.partyId = generateUUID();
+    }
     return Rx.Observable.create(function (observer:Observer<Organization>) {
       organizations.insert(organization, function (err:any, doc:any) {
         if (!err) {

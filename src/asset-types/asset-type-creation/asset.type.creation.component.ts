@@ -40,12 +40,11 @@ export class AssetTypeCreationComponent implements OnInit {
   private _attributes: Attribute[] = [];
 
   private _value: Value[] = [];
+  private _saveValue: Value[];
 
   private pageSize:number = 15;
   private _doNotDisplayFailureMessage:boolean;
   private _doNotDisplayFailureMessage2:boolean;
-  private errorCount: number = 0;
-  private error: boolean = false;
 
   constructor(private assetTypeService:AssetTypeService,
               private completerService: CompleterService,
@@ -92,6 +91,7 @@ export class AssetTypeCreationComponent implements OnInit {
       console.log(error2);
     });
 
+    this.saveValue = [];
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
 
@@ -265,6 +265,14 @@ export class AssetTypeCreationComponent implements OnInit {
     this._value = value;
   }
 
+  get saveValue(): Value[] {
+    return this._saveValue;
+  }
+
+  set saveValue(value: Value[]) {
+    this._saveValue = value;
+  }
+
   get doNotDisplayFailureMessage(): boolean {
     return this._doNotDisplayFailureMessage;
   }
@@ -346,29 +354,25 @@ export class AssetTypeCreationComponent implements OnInit {
   }
 
   saveValues() {
-    this.error = false;
-      for(let i= this.errorCount; i < this.value.length; i++){
-        this.value[i].assetTypeId = this.assetType.assetTypeId;
-        this.assetTypeService
-        .addValue(this.value[i])
-        .subscribe(value => {
-          if(value && value.valueId){
-            if(i == this.value.length -1){
-              this.router.navigate(['/asset-types']);
-            }
-          }else{
-            this.error = true;
-            this.errorCount = i;
-            this.doNotDisplayFailureMessage2 = false;
-          }
-        }, error => {
-          console.log(error);
+
+    this.saveValue.forEach(value => {
+      value.assetTypeId = this.assetType.assetTypeId
+    });
+    this.assetTypeService
+      .addValue(this.saveValue)
+      .subscribe( value => {
+        if(value){
+          this.router.navigate(['/asset-types']);
+        }else {
           this.doNotDisplayFailureMessage2 = false;
-        });
-    }
+        }
+      }, error => {
+        this.doNotDisplayFailureMessage2 = false;
+      });
   }
+
   removeValues() {
-    this.value = this.value.filter((value, i) => {
+      this.saveValue = this.value.filter((value) => {
       if(this.attributes.find(x => x.attributeId == value.attributeId)){
           return value;
         }
@@ -380,7 +384,7 @@ export class AssetTypeCreationComponent implements OnInit {
     this.doNotDisplayFailureMessage2 = true;
     this.removeValues();
 
-    if(this.error){
+    if(this.assetType.assetTypeId){
       this.saveValues();
     }else {
       this.assetTypeService

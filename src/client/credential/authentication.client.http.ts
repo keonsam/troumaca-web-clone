@@ -7,6 +7,7 @@ import {CredentialState} from "./credential.state";
 import {CredentialConfirmationState} from "./credential.confirmation.state";
 import {Result} from "../../result/result.success";
 import {AuthenticateResponseState} from "./authenticate.response.state";
+import {AuthenticateResponse} from "../../authentication/authenticate.response";
 
 export class AuthenticationClientHttp extends AuthenticationClient {
 
@@ -16,7 +17,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     super();
   }
 
-  authenticate(credentialState:CredentialState): Observable<AuthenticateResponseState> {
+  authenticate(credentialState:CredentialState): Observable<AuthenticateResponse> {
     let url = `${this.hostPort}/authenticate`;
 
     const httpOptions = {
@@ -33,9 +34,8 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     };
 
     return this.httpClient
-      .post<AuthenticateResponseState>(url, query, httpOptions)
+      .post<AuthenticateResponse>(url, query, httpOptions)
       .map(data => {
-        console.log(data);
         return data;
       });
 

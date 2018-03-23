@@ -20,11 +20,11 @@ export abstract class AssetTypeRepository {
   abstract findUnitOfMeasureId(searchStr: string, pageSize:number):Observable<UnitOfMeasure[]>;
 
   abstract addAssetType(assetType: AssetType): Observable<AssetType>;
-  abstract addValue(value: Value): Observable<Value>;
+  abstract addValue(value: Value[]): Observable<Value[]>;
 
   abstract deleteAssetType(assetTypeId: string): Observable<number>;
   abstract deleteValue(valueId:string): Observable<number>;
 
   abstract updateAssetType(assetTypeId: string, assetType: AssetType): Observable<number>;
-  abstract updateValue(value: Value): Observable<number>;
+  abstract updateValue(assetTypeId, value: Value[]): Observable<number>;
 }

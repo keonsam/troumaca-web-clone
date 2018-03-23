@@ -14,6 +14,7 @@ import {OrganizationState} from "../../client/party/organization.state";
 import {CredentialState} from "../../client/party/credential.state";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
+import {AccountResponse} from "../../parties/account.response";
 
 export class PartyRepositoryAdapter extends PartyRepository {
 
@@ -89,11 +90,12 @@ export class PartyRepositoryAdapter extends PartyRepository {
     return this.personClient.addPhoto(partyId, croppedImage);
   }
 
-  public addAccount(accountType: string, user: User, organization: Organization): Observable<User> {
+  public addAccount(accountType: string, user: User, organization: Organization): Observable<AccountResponse> {
     return this.personClient
     .addAccountState(accountType,mapObjectProps(user, new UserState()), mapObjectProps(organization, new OrganizationState()))
     .map(value => {
-      return mapObjectProps(value, new User());
+      console.log(value);
+      return mapObjectProps(value, new AccountResponse());
     });
   }
 

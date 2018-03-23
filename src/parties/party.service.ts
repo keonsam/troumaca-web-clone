@@ -6,6 +6,7 @@ import {Credential} from "./credential";
 import {Organization} from "./organization";
 import {Organizations} from "./organizations";
 import {Account} from "./account";
+import {AccountResponse} from "./account.response";
 
 export class PartyService {
 
@@ -44,7 +45,7 @@ export class PartyService {
     return this.partyRepository.addPhoto(partyId, croppedImage);
   }
 
-  public addAccount(accountType:string, user:User, organization: Organization ): Observable<User> {
+  public addAccount(accountType:string, user:User, organization: Organization ): Observable<AccountResponse> {
     return this.partyRepository.addAccount(accountType, user, organization);
   }
 

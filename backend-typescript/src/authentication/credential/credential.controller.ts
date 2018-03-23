@@ -66,7 +66,7 @@ export let authenticate = (req: Request, res: Response) => {
         // { path: '/', httpOnly: true, secure: false, maxAge: null }
         res.cookie("sessionId", sessionId, { path: '/', maxAge: 20*60*1000, httpOnly: true });
       }
-      res.send(authenticateResponse);
+      res.send(JSON.stringify(authenticateResponse.toJson()));
     }, error => {
       res.status(400);
       res.send(error);

@@ -45,7 +45,7 @@ export class AssetTypeService {
     return this.assetTypeRepository.addAssetType(assetType);
   }
 
-  public addValue(value: Value): Observable<Value> {
+  public addValue(value: Value[]): Observable<Value[]> {
     return this.assetTypeRepository.addValue(value);
   }
 
@@ -61,8 +61,8 @@ export class AssetTypeService {
     return this.assetTypeRepository.updateAssetType(assetTypeId, assetType);
   }
 
-  public updateValue(value: Value): Observable<number> {
-    return this.assetTypeRepository.updateValue(value);
+  public updateValue(assetTypeId, value: Value[]): Observable<number> {
+    return this.assetTypeRepository.updateValue(assetTypeId,value);
   }
 
 }

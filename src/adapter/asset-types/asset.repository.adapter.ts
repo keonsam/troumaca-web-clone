@@ -109,12 +109,16 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     });
   }
 
-  public addValue(value: Value): Observable<Value> {
+  public addValue(value: Value[]): Observable<Value[]> {
     return this.assetTypesClient
-    .addValueState(mapObjectProps(value, new ValueState()))
-    .map(value2 => {
-      return mapObjectProps(value2, new Value());
-    });
+    .addValueState( map(value, next =>{
+      return mapObjectProps(next, new ValueState());
+    })
+  ).map(values => {
+        return map(values, next => {
+          return mapObjectProps(values, new Value());
+        });
+      });
   }
 
   public deleteAssetType(assetTypeId: string): Observable<number> {
@@ -129,8 +133,8 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     return this.assetTypesClient.updateAssetType(assetTypeId,  mapObjectProps(assetType, new AssetTypeState()));
   }
 
-  public updateValue(value: Value): Observable<number> {
-    return this.assetTypesClient.updateValue(mapObjectProps(value, new ValueState()));
+  public updateValue(assetTypeId, value: Value[]): Observable<number> {
+    return this.assetTypesClient.updateValue(assetTypeId, map(value , next => { return mapObjectProps(next, new ValueState()) }));
   }
 
 }

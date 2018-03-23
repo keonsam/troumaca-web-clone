@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import {PhotoOrchestrator} from "./photo.orchestrator";
+import {Photo} from "./photo";
 
 let orchestrator:PhotoOrchestrator = new PhotoOrchestrator();
 
@@ -8,13 +9,16 @@ export let getPhotoById = (req: Request, res: Response) => {
   orchestrator
     .getPhotoById(partyId)
     .subscribe(photo => {
-      let body = JSON.stringify(photo);
+      let imageStr:string = photo ? photo.imageStr : "";
+      let body = JSON.stringify(imageStr);
       res.send(body);
     });
 };
 
 export let savePhoto = (req: Request, res: Response) => {
-  orchestrator.savePhoto(req.body)
+  let partyId:string = req.params.partyId;
+  let photo:Photo = new Photo(partyId,req.body.croppedImage);
+  orchestrator.savePhoto(partyId, photo)
     .subscribe(photo => {
       res.send(JSON.stringify(photo));
     }, error => {
@@ -24,8 +28,8 @@ export let savePhoto = (req: Request, res: Response) => {
 };
 
 export let updatePhoto = (req: Request, res: Response) => {
-  let partyId = req.params.partyId;
-  let photo = req.body;
+  let partyId:string = req.params.partyId;
+  let photo:Photo = new Photo(partyId,req.body.croppedImage);
   orchestrator
     .updatePhoto(partyId, photo)
     .subscribe(photo => {

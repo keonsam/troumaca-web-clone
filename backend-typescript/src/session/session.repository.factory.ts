@@ -1,6 +1,6 @@
 import Rx from "rxjs";
 import {generateUUID} from "../uuid.generator";
-import {sessions} from "../db";
+import {credentials, sessions} from "../db";
 
 import {SessionRepository} from "./session.repository";
 import {Observable} from "rxjs/Observable";
@@ -73,7 +73,7 @@ class SessionDBRepository implements SessionRepository {
     }
 
     return Rx.Observable.create(function (observer:Observer<Session>) {
-      sessions.insert(session, function (err:any, doc:any) {
+      sessions.insert(session.toJson(), function (err:any, doc:any) {
         if (!err) {
           observer.next(session);
         } else {
@@ -100,8 +100,20 @@ class SessionDBRepository implements SessionRepository {
     });
   }
 
-  updateSessionPartyId(sessionId:string, partyId:string): Observable<Session> {
-    return undefined;
+  updateSessionPartyId(sessionId:string, partyId:string): Observable<number> {
+    return Rx.Observable.create(function (observer:Observer<number>) {
+      let query = {
+        sessionId
+      };
+      sessions.update(query, {$set : {partyId}}, {}, function (err:any, numReplaced:number) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
   }
 
   isValidSession(sessionId:string):Observable<boolean> {
@@ -148,7 +160,7 @@ class SessionRestRepository implements SessionRepository {
     return undefined;
   }
 
-  updateSessionPartyId(sessionId:string, partyId:string): Observable<Session> {
+  updateSessionPartyId(sessionId:string, partyId:string): Observable<number> {
     return undefined;
   }
 

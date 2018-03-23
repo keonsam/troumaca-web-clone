@@ -66,4 +66,16 @@ export class Credential {
     this._createdOn = value;
   }
 
+  toJson(){
+    return {
+      partyId: this.partyId,
+      credentialId: this.credentialId,
+      username: this.username,
+      password: this.password,
+      credentialStatus: this.credentialStatus,
+      modifiedOn: this.modifiedOn,
+      createdOn: this.createdOn
+    }
+  }
+
 }

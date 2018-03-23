@@ -43,6 +43,7 @@ export class AssetTypeEditComponent implements OnInit {
   private _attributes: Attribute[];
 
   private _values: Values;
+  private _saveValue: Value[];
 
   private pageSize:number = 15;
   private _doNotDisplayFailureMessage:boolean;
@@ -93,6 +94,8 @@ export class AssetTypeEditComponent implements OnInit {
     this.assignedAttributes = new AssignedAttribute();
     this.assignedAttributes.attribute = [];
     this.values = new Values();
+
+    this.saveValue = [];
 
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
@@ -193,7 +196,6 @@ export class AssetTypeEditComponent implements OnInit {
     this.assetTypeService
     .getValues(this.assetTypeId)
     .subscribe(next => {
-      console.log(next);
       this.values = next;
       this.getAttributes();
     }, error => {
@@ -307,6 +309,14 @@ export class AssetTypeEditComponent implements OnInit {
     this._values = value;
   }
 
+  get saveValue(): Value[] {
+    return this._saveValue;
+  }
+
+  set saveValue(value: Value[]) {
+    this._saveValue = value;
+  }
+
   get doNotDisplayFailureMessage(): boolean {
     return this._doNotDisplayFailureMessage;
   }
@@ -400,114 +410,44 @@ export class AssetTypeEditComponent implements OnInit {
     });
   }
 
-  saveValues() {
-    this.error = false;
-    for(let i= this.errorCount; i < this.values.values.length; i++){
-      if(!this.values.values[i].valueId) {
-        this.values.values[i].assetTypeId = this.assetTypeId;
-        this.assetTypeService
-        .addValue(this.values.values[i])
-        .subscribe(value => {
-          if(value && value.valueId){
-            if(i == this.values.values.length -1){
-              this.router.navigate(['/asset-types']);
-            }
-          }else {
-            this.error = true;
-            this.errorCount = i;
-            this.doNotDisplayFailureMessage2 = false;
-            return false;
-          }
-        }, error => {
-          console.log(error);
-          this.doNotDisplayFailureMessage2 = false;
-        });
-
-      }else {
-        this.assetTypeService
-        .updateValue(this.values.values[i])
-        .subscribe(value => {
-          if(value) {
-            if(i == this.values.values.length -1){
-            this.router.navigate(['/asset-types']);
-          }
-          }else {
-            this.error = true;
-            this.errorCount = i;
-            this.doNotDisplayFailureMessage2 = false;
-            return false;
-          }
-        }, error => {
-          console.log(error);
-          this.doNotDisplayFailureMessage2 = false;
-        });
-
-      }
-   }
- }
-
   removeValues() {
-    this.deleteError = false;
-    let that = this;
-    return Observable.create(function (observer) {
-      that.values.values = that.values.values.filter((value, i) => {
-        if(that.attributes.find(x => x.attributeId == value.attributeId)){
-            return value;
-          }else if (value.valueId) {
-            that.assetTypeService
-            .deleteValue(value.valueId)
-            .subscribe(value => {
-              if (!value) {
-                that.deleteError = true
-                that.doNotDisplayFailureMessage3 = false;
-                observer.error(false);
-                observer.complete();
-              }
-            }, error => {
-              console.log(error);
-              that.doNotDisplayFailureMessage3 = false;
-            });
-       }
-     });
-     observer.next(true);
-     observer.complete();
-   });
+    // using update to remove all the previous values
+    this.saveValue = this.values.values.filter((value) => {
+      if(this.attributes.find(x => x.attributeId == value.attributeId)){
+        if(!value.assetTypeId) {
+          value.assetTypeId = this.assetTypeId;
+        }
+        return value;
+      }
+    });
   }
 
   updateValues() {
-      if(this.error){
-        this.saveValues();
-      }else {
-        this.assetTypeService
-        .updateAssetType(this.assetTypeId,this.assetType)
-        .subscribe(value => {
-          console.log("working");
-          if (value) {
-            this.saveValues();
-          } else {
-            this.doNotDisplayFailureMessage = false;
-          }
-        }, error => {
-          console.log(error);
-          this.doNotDisplayFailureMessage = false;
-        });
-    }
+    // read the backend method
+  this.assetTypeService
+    .updateValue(this.assetTypeId, this.saveValue)
+    .subscribe(value => {
+      if(value) {
+        this.router.navigate(['/asset-types']);
+      } else {
+        this.doNotDisplayFailureMessage;
+      }
+    });
   }
 
   onCreate() {
+    // updated to one error message
     this.doNotDisplayFailureMessage = true;
-    this.doNotDisplayFailureMessage2 = true;
-    this.doNotDisplayFailureMessage3 = true;
-    if(this.deleteError) {
-    this.removeValues()
-    .subscribe(value => {
-      if(value) {
-        this.updateValues();
+    this.removeValues();
+    this.assetTypeService
+      .updateAssetType(this.assetTypeId, this.assetType)
+      .subscribe(value => {
+        if (value) {
+          this.updateValues();
+        } else {
+          this.doNotDisplayFailureMessage = true;
         }
       });
-    }else {
-      this.updateValues();
-    }
   }
 
   cancel() {

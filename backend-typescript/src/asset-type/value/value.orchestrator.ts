@@ -20,7 +20,7 @@ export class ValueOrchestrator {
     return this.valueRepository.findValues(searchStr, pageSize);
   }
 
-  saveValue(value:Value):Observable<Value> {
+  saveValue(value:Value[]):Observable<Value[]> {
     return this.valueRepository.saveValue(value);
   };
 
@@ -56,8 +56,23 @@ export class ValueOrchestrator {
     return this.valueRepository.getValueById(valueId);
   }
 
-  updateValue(valueId:string, value:Value):Observable<number> {
-    return this.valueRepository.updateValue(valueId, value);
+  updateValue(assetTypeId:string, value:Value[]):Observable<number> {
+    // delete all value then insert new one. It makes it less error prone.
+    return this.valueRepository.deleteValuesByAssetTypeId(assetTypeId)
+      .switchMap(numReplaced => {
+        if(numReplaced) {
+          return this.valueRepository.saveValue(value)
+            .map( docs => {
+              if(docs) {
+                return numReplaced;
+              }else {
+                return 0;
+              }
+            });
+        }else {
+          return Observable.of(numReplaced);
+        }
+      });
   }
 
   deleteValue(valueId:string):Observable<number> {

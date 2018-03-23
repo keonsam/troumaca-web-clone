@@ -57,6 +57,7 @@ export class OrganizationListComponent implements OnInit {
     this.partyService
     .getOrganizations(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
+      console.log(next);
       this.organizations = next;
     }, error => {
       console.log(error);

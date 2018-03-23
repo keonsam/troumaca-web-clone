@@ -26,14 +26,20 @@ class ValueDBRepository implements ValueRepository {
     });
   }
 
-  saveValue(value: Value): Observable<Value> {
-    value.valueId = generateUUID();
+  saveValue(value: Value[]): Observable<Value[]> {
+    let newValue: Value[] = [];
+    value.forEach((next:Value) => {
+      if (!next.valueId){
+        next.valueId = generateUUID();
+    }
+      newValue.push(next);
+    });
     return Rx.Observable.create(function (observer: Observer<Value>) {
-      values.insert(value, function (err: any, doc: any) {
+      values.insert(newValue, function (err: any, doc: any) {
         if (err) {
           observer.error(err);
         } else {
-          observer.next(value);
+          observer.next(doc);
         }
         observer.complete();
       });
@@ -96,10 +102,10 @@ class ValueDBRepository implements ValueRepository {
     });
   };
 
-  updateValue(valueId: string, value: Value): Observable<number> {
+  updateValue(assetTypeId: string, value: Value[]): Observable<number> {
     return Rx.Observable.create(function (observer: Observer<number>) {
       let query = {
-        "valueId": valueId
+        "assetTypeId": assetTypeId
       };
       values.update(query, value, {}, function (err: any, numReplaced: number) {
         if (!err) {
@@ -156,7 +162,7 @@ class ValueRestRepository implements ValueRepository {
     return undefined;
   }
 
-    saveValue(value:Value):Observable<Value> {
+  saveValue(value:Value[]):Observable<Value[]> {
     return null
   }
 
@@ -172,7 +178,7 @@ class ValueRestRepository implements ValueRepository {
     return null;
   };
 
-  updateValue(valueId:string, value:Value):Observable<number> {
+  updateValue(assetTypeId:string, value:Value[]):Observable<number> {
     return null;
   };
 

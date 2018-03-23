@@ -22,13 +22,15 @@ export interface CredentialRepository {
 
   addCredential(credential:Credential):Observable<Credential>;
 
+  addUserCredential(credential:Credential):Observable<Credential>;
+
   authenticateCredential(credential:Credential):Observable<Credential>;
 
   updateCredential(partyId: string, credential: Credential): Observable<number>;
 
   updateCredentialStatusById(credentialId:string, status:string):Observable<number>;
 
-  updateCredentialPartyId(credentialId: string, partyId: string): Observable<Credential>;
+  updateCredentialPartyId(credentialId: string, partyId: string): Observable<number>;
 
   deleteCredentialByPartyId(partyId:string): Observable<number>;
 

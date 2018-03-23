@@ -8,7 +8,8 @@ import {CredentialRepository} from "../../authentication/credential/credential.r
 import {createCredentialRepositoryFactory} from "../../authentication/credential/credential.repository.factory";
 import {Credential} from "../../authentication/credential/credential";
 import {CredentialStatus} from "../../authentication/credential/credential.status";
-import * as generatePassword from 'password-generator';
+//import  generatePassword from 'password-generator';
+import {generate} from "generate-password";
 import {getSortOrderOrDefault} from "../../sort.order.util";
 
 
@@ -56,9 +57,12 @@ export class UserOrchestrator {
 
                this.credential.partyId = user.partyId;
                this.credential.username = user.username;
-               //this.credential.password = generatePassword();
+               this.credential.password = generate({ // upgraded to a new module https://www.npmjs.com/package/generate-password
+                 length: 10,
+                 numbers: true
+               });
                this.credential.credentialStatus = CredentialStatus.ACTIVE;
-             return this.credentialRepository.addCredential(this.credential)
+             return this.credentialRepository.addUserCredential(this.credential)
                .map(credential =>{
                  if(!credential){
                    return new Result<any>(true, "credential", credential);

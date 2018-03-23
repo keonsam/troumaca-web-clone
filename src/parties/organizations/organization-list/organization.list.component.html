@@ -41,7 +41,7 @@
                 <a [routerLink]="['/parties/organizations', organization.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(organization.partyId, organization.name)"><i class="os-icon os-icon-ui-15"></i></a>
               </td>
             </tr>
-            <tr *ngIf="organizations.organizations.length <= 0" class="odd">
+            <tr *ngIf="organizations.organizations.length < 1" class="odd">
               <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
             </tr>
             </tbody>

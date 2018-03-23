@@ -32,7 +32,7 @@ let theCredentialDb = path.resolve(__dirname, '..') + '/nedb/authentication/cred
 let theCredentialConfirmationsDb = path.resolve(__dirname, '..') + '/nedb/authentication/credential_confirmations.db';
 
 // file
-let thePhotosDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/hotos.db';
+let thePhotosDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/photos.db';
 
 
 let sessionDb = path.resolve(__dirname, '..',) + '/nedb/session/sessions.db';

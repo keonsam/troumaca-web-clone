@@ -1,5 +1,5 @@
-import {User} from "./user/user";
-import {Organization} from "./organization/organization";
+import {User} from "./user";
+import {Organization} from "./organization";
 
 export class AccountResponse {
 

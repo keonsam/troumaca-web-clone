@@ -87,4 +87,18 @@ export class Session {
   set data(value: Map<String, Object>) {
     this._data = value;
   }
+
+  toJson(){
+    return {
+      sessionId: this.sessionId,
+      partyId: this.partyId,
+      credentialId: this.credentialId,
+      customerId: this.customerId,
+      expirationTime: this.expirationTime,
+      createdOn: this.createdOn,
+      modifiedOn: this.modifiedOn,
+      data: this.data
+    }
+  }
+
 }

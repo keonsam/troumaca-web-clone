@@ -19,11 +19,11 @@ export abstract class AssetTypesClient {
   abstract findUnitOfMeasureIdState(searchStr: string, pageSize:number): Observable<UnitOfMeasureState[]>
 
   abstract addAssetTypeState(assetTypeState: AssetTypeState): Observable<AssetTypeState>;
-  abstract addValueState(value: ValueState): Observable<ValueState>;
+  abstract addValueState(value: ValueState[]): Observable<ValueState[]>;
 
   abstract deleteAssetType(assetTypeId: string): Observable<number>;
   abstract deleteValue(valueId: string): Observable<number>;
 
   abstract updateAssetType(assetTypeId: string, assetTypeState: AssetTypeState): Observable<number>;
-  abstract updateValue(valueState: ValueState): Observable<number>;
+  abstract updateValue(assetTypeId, valueState: ValueState[]): Observable<number>;
 }

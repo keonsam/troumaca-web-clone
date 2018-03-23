@@ -18,11 +18,7 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
   }
 
   authenticate(credential: Credential): Observable<AuthenticateResponse> {
-    return this.authenticationClient
-      .authenticate(mapObjectProps(credential, new CredentialState()))
-      .map(authenticateResponseState => {
-        return mapObjectProps(authenticateResponseState, new AuthenticateResponse());
-      });
+    return this.authenticationClient.authenticate(mapObjectProps(credential, new CredentialState()));
   }
 
   forgotPassword(username: string): Observable<boolean> {

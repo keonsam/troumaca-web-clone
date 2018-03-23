@@ -5,19 +5,18 @@ export class AuthenticateResponse {
 
   private _authenticated:boolean;
   private _usernameConfirmed:boolean;
+  private _credentialConfirmationId: string;
   private _accountExists:boolean;
   private _credential:Credential;
   private _session:Session;
-  private _credentialConfirmationId: string;
 
-
-  constructor(authenticated?: boolean, usernameConfirmed?:boolean, accountExists?:boolean, credential?: Credential, session?: Session, credentialConfirmationId?: string) {
+  constructor(authenticated?: boolean, usernameConfirmed?:boolean, credentialConfirmationId?: string, accountExists?:boolean, credential?: Credential, session?: Session) {
     this._authenticated = authenticated;
     this._usernameConfirmed = usernameConfirmed;
+    this._credentialConfirmationId = credentialConfirmationId;
     this._accountExists = accountExists;
     this._credential = credential;
     this._session = session;
-    this._credentialConfirmationId = credentialConfirmationId;
   }
 
   get authenticated(): boolean {
@@ -34,6 +33,15 @@ export class AuthenticateResponse {
 
   set usernameConfirmed(value: boolean) {
     this._usernameConfirmed = value;
+  }
+
+
+  get credentialConfirmationId(): string {
+    return this._credentialConfirmationId;
+  }
+
+  set credentialConfirmationId(value: string) {
+    this._credentialConfirmationId = value;
   }
 
   get accountExists(): boolean {
@@ -60,22 +68,14 @@ export class AuthenticateResponse {
     this._session = value;
   }
 
-  get credentialConfirmationId(): string {
-    return this._credentialConfirmationId;
-  }
-
-  set credentialConfirmationId(value: string) {
-    this._credentialConfirmationId = value;
-  }
-
   toJson() {
     return {
       authenticated: this.authenticated,
       usernameConfirmed: this.usernameConfirmed,
+      credentialConfirmationId: this.credentialConfirmationId,
       accountExists: this.accountExists,
       credential: this.credential,
-      session: this.session,
-      credentialConfirmationId: this.credentialConfirmationId
+      session: this.session
     }
   }
 }

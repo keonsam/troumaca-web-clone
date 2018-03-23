@@ -122,15 +122,17 @@ export class LoginComponent implements OnInit {
       .authenticate(credential)
       .subscribe(authenticateResponse => {
         console.log(authenticateResponse);
+        console.log(authenticateResponse.authenticated);
         if(authenticateResponse.authenticated) {
           if(authenticateResponse.usernameConfirmed) {
             if (authenticateResponse.accountExists) {
               this.router.navigate(['/home/lobby']);
             } else {
+              console.log("working");
               this.router.navigate(['/create-profile']);
             }
           }else {
-            if (regex.test(authenticateResponse.credential.username)) { // switched to response to avoid errors
+            if (regex.test(this.username.value)) { // switched to response to avoid errors
               this.router.navigate([`/authentication/email-verification/${authenticateResponse.credentialConfirmationId}`]);
             } else {
               this.router.navigate([`/authentication/phone-verification/${authenticateResponse.credentialConfirmationId}`]);

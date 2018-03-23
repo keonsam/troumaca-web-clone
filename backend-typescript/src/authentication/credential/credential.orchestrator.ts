@@ -85,7 +85,7 @@ export class CredentialOrchestrator {
 
         // unable to find the credential specified
         if (!result) {
-          return Rx.Observable.throw(this.createNotFoundError("Credential"));
+          return Observable.throw(this.createNotFoundError("Credential"));
         }
 
         let readCred = result.data;
@@ -97,26 +97,23 @@ export class CredentialOrchestrator {
 
         let readCredStatus = readCred.credentialStatus;
 
-        let credentialActive:boolean = (readCredStatus !== CredentialStatus.ACTIVE);
+        let credentialActive:boolean = (readCredStatus === CredentialStatus.ACTIVE); // wrong logic before 1 === 1 = true while  1 !== 1 = false
 
         // do not continue if the status is not active
         if (!credentialActive) {
           // add credentialConfirmationId to redirect
           return this.confirmationRepository.getCredentialConfirmationByCredentialId(readCred.credentialId)
             .map(credentialConfirmation => {
-              return Observable.of(new AuthenticateResponse(authenticated, credentialActive, false , new Credential(), new Session(), credentialConfirmation.credentialConfirmationId));
+              return new AuthenticateResponse(authenticated, credentialActive, credentialConfirmation.credentialConfirmationId);
             });
         }
 
+        // account exist after session so that the user can login in and create their profile
         let accountExists = this.isNull(readCred.partyId);
-
-        if (!accountExists) {
-          return Observable.of(new AuthenticateResponse(authenticated, credentialActive, accountExists));
-        }
 
         let session:Session = new Session();
 
-        session.partyId = readCred.partyId;
+        session.partyId = readCred.partyId ? readCred.partyId: "";
         session.credentialId = readCred.credentialId;
         session.data.set("credentialStatus", readCred.credentialStatus);
 
@@ -126,7 +123,7 @@ export class CredentialOrchestrator {
 
         return this.sessionRepository.addSession(session)
         .map(readSession => {
-          return new AuthenticateResponse(authenticated, credentialActive, accountExists, readCred, readSession);
+          return new AuthenticateResponse(authenticated, credentialActive, "",accountExists, readCred, readSession);
         });
 
       });

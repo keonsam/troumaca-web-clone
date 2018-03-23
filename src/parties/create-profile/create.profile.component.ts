@@ -205,41 +205,21 @@ export class CreateAccountComponent implements OnInit {
     this.partyService
       .addAccount(this.accountType.value, this.user ,this.organization)
       .subscribe(value => {
-        if(!value){
-          this.doNotDisplayFailureMessage = false;
-        }else if (value && value.partyId) {
-          //left in the front end to make the back end less crowded.
+        console.log(value)
+        if(value.created){
           if(this.croppedImage){
-            this.savePhoto(value.partyId);
+            this.savePhoto(value.user.partyId);
           }else {
             this.router.navigate(['/home/lobby']);
           }
+        }else {
+          this.doNotDisplayFailureMessage = false;
         }
-
       }, error => {
         console.log(error);
         this.doNotDisplayFailureMessage = false;
       });
 
-    /*  this.partyService
-      .addUser(this.user)
-      .subscribe(value => {
-        if (value && value.partyId) {
-          this.organization.partyId = value.partyId;
-          this.partyService.addOrganization(this.organization)
-            .subscribe()
-          if(this.croppedImage){
-            this.savePhoto(value.partyId);
-          }else {
-            this.router.navigate(['/home/lobby']);
-          }
-        } else {
-          this.doNotDisplayFailureMessage = false;
-        }
-      }, error => {
-        console.log(error);
-        this.doNotDisplayFailureMessage = false;
-      }); */
   }
 
 }

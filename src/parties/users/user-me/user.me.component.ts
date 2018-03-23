@@ -104,8 +104,7 @@ export class UserMeComponent implements OnInit {
     }
     this.userMeForm.updateValueAndValidity();
     });
-
-    this.partyId = "77e771fc-cfdd-4562-b934-5c7d84f723a7";
+       this.partyId = "c079cf94-2db5-4048-a5de-db7d8c3e1351";
        this.partyService.getUser(this.partyId)
        .subscribe(user =>{
         this.firstName.setValue(user.firstName);
@@ -113,6 +112,7 @@ export class UserMeComponent implements OnInit {
         this.lastName.setValue(user.lastName);
         this.username.setValue(user.username);
         this.user = user;
+        this.partyId = user.partyId;
         this.credential.partyId = user.partyId;
         this.credential.username = user.username;
       }, error => {
