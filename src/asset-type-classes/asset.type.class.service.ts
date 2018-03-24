@@ -42,7 +42,7 @@ export class AssetTypeClassService {
     return this.assetTypeClassRepository.getAssignAttributes(pageNumber, pageSize, sortOrder, assignedArray);
   }
 
-  public addAssetTypeClass(assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute): Observable<AssetTypeClass> {
+  public addAssetTypeClass(assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute[]): Observable<AssetTypeClass> {
     return this.assetTypeClassRepository.addAssetTypeClass(assetTypeClass, assignedAttributes);
   }
 
@@ -58,7 +58,7 @@ export class AssetTypeClassService {
     return this.assetTypeClassRepository.deleteAttribute(attributeId);
   }
 
-  public updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute): Observable<number> {
+  public updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute[]): Observable<number> {
     return this.assetTypeClassRepository.updateAssetTypeClass(assetTypeClassId, assetTypeClass, assignedAttributes);
   }
 

@@ -46,7 +46,7 @@ export class AssetTypeClassOrchestrator {
         }else {
           return this.attributeRepository.getAssignedAttributesById(assetTypeClassId)
             .map(assignedAttributes => {
-              if (!assignedAttributes) {
+              if (assignedAttributes.length === 0) {
                 return new AssetTypeClassResponse(false);
               } else {
                 return new AssetTypeClassResponse(true, assetTypeClass, assignedAttributes);
@@ -56,17 +56,20 @@ export class AssetTypeClassOrchestrator {
       });
   }
 
-  saveAssetTypeClass(assetTypeClass:AssetTypeClass, assignedAttributes: AssignedAttribute):Observable<any> {
+  saveAssetTypeClass(assetTypeClass:AssetTypeClass, assignedAttributes: AssignedAttribute[]):Observable<any> {
     return this.assetTypeClassRepository.saveAssetTypeClass(assetTypeClass)
       .switchMap((assetTypeClass:AssetTypeClass) => {
         if(!assetTypeClass){
           return Observable.of(assetTypeClass);
         }else {
-          assignedAttributes.assetTypeClassId = assetTypeClass.assetTypeClassId;
+          assignedAttributes.forEach(value => {
+            value.assetTypeClassId = assetTypeClass.assetTypeClassId;
+          });
           return this.attributeRepository.saveAssignedAttributes(assignedAttributes)
-            .map((newDoc:AssignedAttribute) => {
-              if (!newDoc) {
-                return assetTypeClass;
+            .map((newDoc:AssignedAttribute[]) => {
+              if (newDoc.length  === 0) {
+                // TODO do better error handling in the future
+                return new AssetTypeClass();
               }else {
                 // return newDoc;
                 return assetTypeClass;
@@ -87,13 +90,27 @@ export class AssetTypeClassOrchestrator {
     });
   }
 
-  updateAssetTypeClass(assetTypeClassId:string, assetTypeClass:AssetTypeClass, assignedAttribute: AssignedAttribute):Observable<number> {
+  updateAssetTypeClass(assetTypeClassId:string, assetTypeClass:AssetTypeClass, assignedAttribute: AssignedAttribute[]):Observable<number> {
     return this.assetTypeClassRepository.updateAssetTypeClass(assetTypeClassId, assetTypeClass)
       .switchMap(numReplaced => {
         if(!numReplaced){
           return Observable.of(numReplaced);
         }else {
-          return this.attributeRepository.updateAssignedAttribute(assetTypeClassId, assignedAttribute);
+          return this.attributeRepository.deleteAssignedAttribute(assetTypeClassId)
+            .switchMap(numReplaced2 => {
+              if(!numReplaced2) {
+                return Observable.of(numReplaced2);
+              }else {
+                return this.attributeRepository.saveAssignedAttributes(assignedAttribute)
+                  .map( next => {
+                    if(next.length === 0){
+                      return 0;
+                    }else {
+                      return numReplaced2;
+                    }
+                  });
+              }
+            });
         }
       });
   }

@@ -57,7 +57,7 @@
                     <tbody>
                       <tr role="row" *ngFor="let attribute of assignAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedDoubleClick(attribute.attributeId)">
                         <td class="text-center">
-                          <input class="form-control" type="checkbox" (change)="onCheckBoxChange($event, attribute.attributeId)" checked>
+                          <input class="form-control" type="checkbox" (change)="onCheckBoxChange($event, attribute.attributeId)" [checked]="attribute.dataType.name !== 'Boolean' ? true:false">
                         </td>
                         <td>{{attribute.name}}</td>
                         <td>{{attribute.dataType.name}}</td>
@@ -105,7 +105,7 @@
                 </tr>
               </tfoot>
               <tbody>
-                <tr role="row" *ngFor="let attribute of availableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAvailableDoubleClick(attribute.attributeId)">
+                <tr role="row" *ngFor="let attribute of availableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAvailableDoubleClick(attribute.attributeId, attribute.dataType.name)">
                   <td>{{attribute.name}}</td>
                   <td>{{attribute.dataType.name}}</td>
                   <td class="row-actions">

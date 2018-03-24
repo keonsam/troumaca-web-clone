@@ -47,8 +47,8 @@ export let getAssignedAttributeByClassId = (req: Request, res: Response) => {
   let assetTypeClassId = req.params.assetTypeClassId;
 
   orchestrator.getAssignedAttributeByClassId(assetTypeClassId)
-    .subscribe(pageResponse => {
-      res.send(JSON.stringify(pageResponse));
+    .subscribe(response => {
+      res.send(JSON.stringify(response));
     });
 };
 

@@ -107,7 +107,7 @@
                 </tr>
               </tfoot>
               <tbody>
-                <tr role="row" *ngFor="let attribute of availableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAvailableDoubleClick(attribute.attributeId)">
+                <tr role="row" *ngFor="let attribute of availableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAvailableDoubleClick(attribute.attributeId, attribute.dataType.name)">
                   <td>{{attribute.name}}</td>
                   <td>{{attribute.dataType.name}}</td>
                   <td class="row-actions">

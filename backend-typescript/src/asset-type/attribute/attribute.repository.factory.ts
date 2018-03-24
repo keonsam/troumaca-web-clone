@@ -56,13 +56,12 @@ class AttributeDBRepository implements AttributeRepository {
     });
   }
 
-  getAssignedAttributesById(assetTypeClassId: string): Observable<AssignedAttribute> {
-    return Rx.Observable.create(function (observer:Observer<AssignedAttribute>) {
+  getAssignedAttributesById(assetTypeClassId: string): Observable<AssignedAttribute[]> {
+    return Rx.Observable.create(function (observer:Observer<AssignedAttribute[]>) {
       let query = {
         assetTypeClassId
       };
-
-      assignedAttributes.findOne(query, function (err:any, doc:any) {
+      assignedAttributes.find(query, function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
         } else {
@@ -86,9 +85,13 @@ class AttributeDBRepository implements AttributeRepository {
     });
   }
 
-  saveAssignedAttributes(assignedAttribute: AssignedAttribute): Observable<AssignedAttribute> {
-    assignedAttribute.assignedAttributeId = generateUUID();
-    return Rx.Observable.create(function (observer:Observer<Attribute>) {
+  saveAssignedAttributes(assignedAttribute: AssignedAttribute[]): Observable<AssignedAttribute[]> {
+    return Rx.Observable.create(function (observer:Observer<Attribute[]>) {
+      assignedAttribute.forEach(value => {
+        if(!value.assignedAttributeId) {
+          value.assignedAttributeId = generateUUID();
+        }
+      });
       assignedAttributes.insert(assignedAttribute, function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
@@ -139,7 +142,7 @@ class AttributeDBRepository implements AttributeRepository {
         assetTypeClassId
       };
 
-      assignedAttributes.remove(query, {}, function (err, numRemoved) {
+      assignedAttributes.remove(query, {multi: true}, function (err, numRemoved) {
         if (!err) {
           observer.next(numRemoved);
         } else {
@@ -247,7 +250,7 @@ class AttributeRestRepository implements AttributeRepository {
     return undefined;
   }
 
-  getAssignedAttributesById(assetTypeClassId: string): Observable<AssignedAttribute> {
+  getAssignedAttributesById(assetTypeClassId: string): Observable<AssignedAttribute[]> {
     return undefined;
   }
 
@@ -256,7 +259,7 @@ class AttributeRestRepository implements AttributeRepository {
   }
 
 
-  saveAssignedAttributes(assignedAttribute: AssignedAttribute): Observable<AssignedAttribute> {
+  saveAssignedAttributes(assignedAttribute: AssignedAttribute[]): Observable<AssignedAttribute[]> {
     return undefined;
   }
 

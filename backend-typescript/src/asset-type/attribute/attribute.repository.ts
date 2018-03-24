@@ -10,7 +10,7 @@ export interface AttributeRepository {
 
   getAvailableAttributeCount():Observable<number>;
 
-  getAssignedAttributesById(assetTypeClassId: string): Observable<AssignedAttribute>;
+  getAssignedAttributesById(assetTypeClassId: string): Observable<AssignedAttribute[]>;
 
   getAttributes(pageNumber:number, pageSize:number, order:string):Observable<Attribute[]>;
 
@@ -20,7 +20,7 @@ export interface AttributeRepository {
 
   getAttributeByArray(attributeArray: string[]): Observable<Attribute[]>;
 
-  saveAssignedAttributes(assignedAttribute: AssignedAttribute): Observable<AssignedAttribute>;
+  saveAssignedAttributes(assignedAttribute: AssignedAttribute[]): Observable<AssignedAttribute[]>;
 
   addAttribute(attribute:Attribute):Observable<Attribute>;
 

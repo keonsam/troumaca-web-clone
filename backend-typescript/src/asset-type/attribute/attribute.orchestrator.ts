@@ -8,8 +8,8 @@ import {Result} from "../../result.success";
 import {PageResponse} from "../../page.response";
 import {assignedAttributes} from "../../db";
 import {assign} from "rxjs/util/assign";
-import {AttributeArray} from "./attribute.array";
 import {shapeAttributesResponse} from "./attribute.response.shaper";
+import {AssignedAttribute} from "./assigned.attribute";
 
 export class AttributeOrchestrator {
 
@@ -60,7 +60,7 @@ export class AttributeOrchestrator {
   getAssignedAttributeByClassId(assetTypeClassId: string):Observable<any> {
     return this.attributeClassRepository.getAssignedAttributesById(assetTypeClassId)
       .switchMap(assignedAttribute => {
-          return this.attributeClassRepository.getAttributeByArray(assignedAttribute.attribute.map((x: AttributeArray) => x.attributeId))
+          return this.attributeClassRepository.getAttributeByArray(assignedAttribute.map((x: AssignedAttribute) => x.attributeId))
             .map(attributes =>{
                 return {assignedAttribute,attributes};
             });

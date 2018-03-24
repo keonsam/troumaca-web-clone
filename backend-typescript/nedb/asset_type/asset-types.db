@@ -1,2 +1,4 @@
 {"assetTypeId":"551633cc-ef72-4a23-a9af-f89944dd8615","assetTypeClass":{"assetTypeClassId":"795f52af-f1c0-439d-abf1-cd11d9121556","name":"Telephone"},"name":"Sony","description":"","modelNumber":"","materialCode":"","unitOfMeasure":{},"_id":"9PibtJcN453o8rq1"}
 {"$$indexCreated":{"fieldName":"assetTypeId","unique":true,"sparse":false}}
+{"$$deleted":true,"_id":"9PibtJcN453o8rq1"}
+{"assetTypeClass":{"assetTypeClassId":"bc984399-a188-4bb9-8ec6-586ff5ec8938","name":"Brands"},"name":"Iphones","description":"","modelNumber":"","materialCode":"","unitOfMeasure":{},"assetTypeId":"60ff2501-b16a-47b3-b6c3-99d50a44b25b","_id":"y80iyhH3H1dzfxO6"}

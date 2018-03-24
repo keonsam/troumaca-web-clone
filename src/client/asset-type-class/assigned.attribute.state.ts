@@ -2,7 +2,8 @@ export class AssignedAttributeState {
 
   private _assignedAttributeId:string;
   private _assetTypeClassId: string;
-  private _attribute: any[];
+  private _attributeId: string;
+  private _required: boolean;
   private _createdOn: string;
   private _modifiedOn: string;
 
@@ -23,12 +24,20 @@ export class AssignedAttributeState {
     this._assetTypeClassId = value;
   }
 
-  get attribute(): any[] {
-    return this._attribute;
+  get attributeId(): string {
+    return this._attributeId;
   }
 
-  set attribute(value: any[]) {
-    this._attribute = value;
+  set attributeId(value: string) {
+    this._attributeId = value;
+  }
+
+  get required(): boolean {
+    return this._required;
+  }
+
+  set required(value: boolean) {
+    this._required = value;
   }
 
   get createdOn(): string {
@@ -51,7 +60,8 @@ export class AssignedAttributeState {
     return {
       assignedAttributeId: this.assignedAttributeId,
       assetTypeClassId: this.assetTypeClassId,
-      attribute: this.attribute,
+      attributeId: this.attributeId,
+      required: this.required,
       createdOn: this.createdOn,
       modifiedOn: this.modifiedOn
     }
