@@ -20,8 +20,9 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   authenticate(credentialState:CredentialState): Observable<AuthenticateResponse> {
     let url = `${this.hostPort}/authenticate`;
 
+    //withCredentials: true,
+
     const httpOptions = {
-      withCredentials: true,
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'correlationId': this.uuidGenerator.generateUUID()
