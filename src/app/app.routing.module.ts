@@ -65,12 +65,13 @@ import {FrontHomeComponent} from "../home/front-home/front.home.component";
 import {LobbyHomeComponent} from "../home/lobby-home/lobby.home.component";
 import {PhoneVerificationComponent} from "../authentication/phone-verification/phone.verification.component";
 import {EmailVerificationComponent} from "../authentication/email-verification/email.verification.component";
+import {AuthGuard} from "../auth-guard/auth.guard";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent, children: [
     { path: '',  component: FrontHomeComponent },
-    { path: 'lobby',  component: LobbyHomeComponent },
+    { path: 'lobby', canActivate: [AuthGuard], component: LobbyHomeComponent },
   ]},
   { path: 'authentication', component: AuthenticationComponent, children:[
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -80,31 +81,31 @@ const appRoutes: Routes = [
     { path: 'phone-verification/:credentialConfirmationId', component: PhoneVerificationComponent },
     { path: 'email-verification/:credentialConfirmationId', component: EmailVerificationComponent }
   ]},
-  { path: 'assets', component: AssetComponent, children: [
+  { path: 'assets', canActivate: [AuthGuard], component: AssetComponent, children: [
     { path: '',redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: AssetListComponent },
     { path: 'create', component: AssetCreationComponent },
     { path: ':assetId/edit', component: AssetEditComponent }
   ]},
-  { path: 'asset-types', component: AssetTypeComponent,  children: [
+  { path: 'asset-types', canActivate: [AuthGuard], component: AssetTypeComponent,  children: [
     { path: '',redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: AssetTypeListComponent },
     { path: 'create', component: AssetTypeCreationComponent },
     { path: ':assetTypeId/edit', component: AssetTypeEditComponent },
   ]},
-  { path: 'asset-type-classes', component: AssetTypeClassComponent, children:[
+  { path: 'asset-type-classes', canActivate: [AuthGuard], component: AssetTypeClassComponent, children:[
     { path: '', redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: AssetTypeClassListComponent },
     { path: 'create', component: AssetTypeClassCreationComponent },
     { path: ':assetTypeClassId/edit', component: AssetTypeClassEditComponent }
   ]},
-  { path: 'attributes', component: AttributeComponent, children:[
+  { path: 'attributes', canActivate: [AuthGuard], component: AttributeComponent, children:[
     { path: '', redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: AttributeListComponent },
     { path: 'create', component: AttributeCreationComponent },
     { path: ':attributeId/edit', component: AttributeEditComponent }
   ]},
-  { path: 'sites', component: SiteComponent, children:[
+  { path: 'sites', canActivate: [AuthGuard], component: SiteComponent, children:[
     { path: '', redirectTo: 'street-addresses', pathMatch: 'full' },
     { path: 'street-addresses', component: SiteStreetAddressListComponent },
     { path: 'street-addresses/:siteId/edit', component: SiteStreetAddressEditComponent },
@@ -122,7 +123,7 @@ const appRoutes: Routes = [
     { path: 'phones/:siteId/edit', component: SitePhoneEditComponent},
     { path: 'phones/create', component: SitePhoneCreationComponent}
   ]},
-  { path: 'parties', component: PartyComponent, children:[
+  { path: 'parties', canActivate: [AuthGuard], component: PartyComponent, children:[
     { path: '', redirectTo: 'organizations/company', pathMatch: 'full' },
     { path: 'organizations/company', component: OrganizationCompanyComponent, data:{menuName:'organizations-menu'} },
     { path: 'organizations/listing', component: OrganizationListComponent, data:{menuName: 'organizations-menu'} },
@@ -133,7 +134,7 @@ const appRoutes: Routes = [
     { path: 'users/:partyId/edit', component: UserEditComponent, data:{menuName:'users-menu'} },
     { path: 'users/me', component: UserMeComponent, data:{menuName:'users-menu'}}
   ]},
-  { path: 'contracts', component: ContractComponent, children:[
+  { path: 'contracts', canActivate: [AuthGuard], component: ContractComponent, children:[
     { path: '', redirectTo: 'orders', pathMatch: 'full' },
     { path: 'listing', component: ContractListComponent, data:{menuName:'orders-menu'}},
     { path: 'orders', component: OrderListComponent, data:{menuName:'orders-menu'}},
@@ -142,17 +143,17 @@ const appRoutes: Routes = [
     { path: 'fulfillments', component: OrderFulfillmentListComponent, data:{menuName:'orders-menu'}},
     { path: 'invoices', component: OrderInvoiceListComponent, data:{menuName:'orders-menu'}}
   ]},
-  { path: 'quotes', component: QuoteComponent, children:[
+  { path: 'quotes', canActivate: [AuthGuard], component: QuoteComponent, children:[
     { path: '', redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: QuoteListComponent, data:{menuName:'quotes-menu'}},
   ]},
-  { path: 'shipments', component:ShipmentComponent, children:[
+  { path: 'shipments', canActivate: [AuthGuard], component:ShipmentComponent, children:[
     { path: '', redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: ShipmentListComponent, data:{menuName:'shipments-menu'}},
     { path: 'create', component: ShipmentCreationComponent, data:{menuName:'shipments-menu'} },
     { path: ':shipmentId/edit', component: ShipmentEditComponent, data:{menuName:'shipments-menu'} }
   ]},
-  { path: 'create-profile', component: CreateAccountComponent },
+  { path: 'create-profile', canActivate: [AuthGuard], component: CreateAccountComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

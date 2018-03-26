@@ -5,8 +5,9 @@ let sessionOrchestrator:SessionOrchestrator = new SessionOrchestrator();
 
 // router.post("/active", function (req, res, next) {
 export let isValidSession = (req: Request, res: Response) => {
-  let credential:any = req.body;
-  sessionOrchestrator.isValidSession(credential)
+  let sessionId = req.cookies["sessionId"];
+  console.log(sessionId);
+  sessionOrchestrator.isValidSession(sessionId)
     .subscribe(next => {
       res.setHeader('Content-Type', 'application/json');
       res.send(next);

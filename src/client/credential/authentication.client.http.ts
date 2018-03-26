@@ -23,6 +23,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     //withCredentials: true,
 
     const httpOptions = {
+      withCredentials: true,
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'correlationId': this.uuidGenerator.generateUUID()

@@ -36,7 +36,7 @@ import * as photoController from "./party/photo/photo.controller";
 import * as accountController from "./party/account.controller";
 import * as credentialController from "./authentication/credential/credential.controller";
 import * as confirmationController from "./authentication/credential/confirmation/confirmation.controller";
-
+import * as sessionController from "./session/session.controller";
 const app = express();
 
 app.use(logger("dev"));
@@ -45,21 +45,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, "dist")));
 
-// var corsOptions = {
-//   origin: "http://example.com",
-//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-// };
-// app.use(cors(corsOptions));
-app.use(cors());
+var corsOptions = {
+  origin: "http://localhost:4200",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  credentials: true
+};
+app.use(cors(corsOptions));
+//app.use(cors());
 // need cookieParser middleware before we can do anything with cookies
-app.use(function(req, res, next) {
-
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  next();
-});
 // app.use(accessMiddleware());
 
 // routes
@@ -153,6 +146,8 @@ app.put("/credentials/:partyId", credentialController.updateCredential);
 app.post("/verify-credentials-confirmations", confirmationController.verifyCredentialConfirmation);
 app.get("/send-confirmation-codes/phone/:confirmationId", confirmationController.sendPhoneVerificationCode);
 app.get("/send-confirmation-codes/email/:confirmationId", confirmationController.sendEmailVerificationCode);
+app.get("/sessions/current-user-session", sessionController.getSimpleSession);
+app.get("/sessions/is-valid-session", sessionController.isValidSession);
 
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.

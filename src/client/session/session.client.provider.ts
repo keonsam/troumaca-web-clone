@@ -11,5 +11,5 @@ export function sessionClientFactory (appConfig: AppConfig, http:HttpClient, uui
 export let sessionClientProvider = {
   provide: SessionClient,
   useFactory: sessionClientFactory,
-  deps: [AppConfig, UUIDGenerator, HttpClient]
+  deps: [AppConfig, HttpClient,UUIDGenerator]
 };

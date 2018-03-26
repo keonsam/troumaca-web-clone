@@ -82,7 +82,23 @@ export class SessionClientHttp extends SessionClient {
   }
 
   get isLoggedIn(): Observable<boolean> {
-    return Observable.of(true);
+    // seems like a backend method does all this. moved to the backend
+    let url = `${this.hostPort}/sessions/is-valid-session`;
+
+    const httpOptions = {
+      withCredentials: true,
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<boolean>(url, httpOptions)
+      .map(data => {
+        console.log(data);
+        return data;
+      });
   }
 
 }

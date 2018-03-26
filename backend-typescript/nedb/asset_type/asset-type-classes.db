@@ -1,10 +1,2 @@
-{"name":"Brand Name Phones","description":"","assetTypeClassId":"0afc6acf-c351-493a-80f7-06afda9279a1","_id":"NzdIk7FFvYRiYEMv"}
-{"assetTypeClassId":"7608a315-cc8c-4b10-90be-ca2a45bc1803","name":"Generic Phones","description":"","_id":"iafvV66ehAfiXEjk"}
-{"name":"Telephone","description":"","assetTypeClassId":"795f52af-f1c0-439d-abf1-cd11d9121556","_id":"rBZHfsaYPcQIGK0T"}
+{"assetTypeClassId":"bc984399-a188-4bb9-8ec6-586ff5ec8938","name":"Brands","description":"","_id":"f4ttDdaBoSD0J4Ls"}
 {"$$indexCreated":{"fieldName":"assetTypeClassId","unique":true,"sparse":false}}
-{"name":"Brands","description":"","assetTypeClassId":"bc984399-a188-4bb9-8ec6-586ff5ec8938","_id":"f4ttDdaBoSD0J4Ls"}
-{"$$deleted":true,"_id":"iafvV66ehAfiXEjk"}
-{"$$deleted":true,"_id":"rBZHfsaYPcQIGK0T"}
-{"$$deleted":true,"_id":"NzdIk7FFvYRiYEMv"}
-{"assetTypeClassId":"bc984399-a188-4bb9-8ec6-586ff5ec8938","name":"Brands","description":"","_id":"f4ttDdaBoSD0J4Ls"}
-{"assetTypeClassId":"bc984399-a188-4bb9-8ec6-586ff5ec8938","name":"Brands","description":"","_id":"f4ttDdaBoSD0J4Ls"}

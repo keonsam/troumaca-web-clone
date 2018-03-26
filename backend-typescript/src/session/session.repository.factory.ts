@@ -64,10 +64,9 @@ class SessionDBRepository implements SessionRepository {
   addSession(session:Session):Observable<Session> {
 
     session.sessionId = generateUUID();
-    session.expirationTime = new Date();
+    session.expirationTime = new Date(new Date().getTime() + (20 * 60 * 1000));
     session.createdOn = new Date();
     session.modifiedOn = new Date();
-
     if (!session.data) {
       session.data = new Map();
     }
@@ -117,6 +116,9 @@ class SessionDBRepository implements SessionRepository {
   }
 
   isValidSession(sessionId:string):Observable<boolean> {
+    if(!sessionId) {
+      return Observable.of(false);
+    }
     return this.getSessionById(sessionId).map(session => {
       let readSessionId = session.sessionId;
       if (!readSessionId) {
@@ -124,13 +126,15 @@ class SessionDBRepository implements SessionRepository {
       }
 
       let readExpirationDate = session.expirationTime;
+      console.log(readExpirationDate);
       if (!readExpirationDate) {
         return false;
       }
 
       let now = new Date();
+      console.log(now);
 
-      return readExpirationDate > now;
+      return readExpirationDate  > now;
     })
   }
 }
