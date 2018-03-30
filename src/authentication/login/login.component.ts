@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/filter';
 import {Event} from "../event";
+import {EventName} from '../../event/event.name';
 import "rxjs/add/observable/of";
 import {Router} from "@angular/router";
 import {EventService} from "../../event/event.service";
@@ -121,14 +122,13 @@ export class LoginComponent implements OnInit {
     this.authenticationService
       .authenticate(credential)
       .subscribe(authenticateResponse => {
-        console.log(authenticateResponse);
-        console.log(authenticateResponse.authenticated);
         if(authenticateResponse.authenticated) {
           if(authenticateResponse.usernameConfirmed) {
+            // TODO: I think this should return a value
+            this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
             if (authenticateResponse.accountExists) {
               this.router.navigate(['/home/lobby']);
             } else {
-              console.log("working");
               this.router.navigate(['/create-profile']);
             }
           }else {

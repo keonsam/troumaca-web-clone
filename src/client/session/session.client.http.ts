@@ -65,24 +65,6 @@ export class SessionClientHttp extends SessionClient {
   }
 
   activeSessionExists(): Observable<boolean> {
-    let url = `${this.hostPort}/sessions/exists`;
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
-    };
-
-    return this.httpClient
-      .get<boolean>(url, httpOptions)
-      .map(data => {
-        return data;
-    });
-  }
-
-  get isLoggedIn(): Observable<boolean> {
-    // seems like a backend method does all this. moved to the backend
     let url = `${this.hostPort}/sessions/is-valid-session`;
 
     const httpOptions = {
@@ -96,7 +78,25 @@ export class SessionClientHttp extends SessionClient {
     return this.httpClient
       .get<boolean>(url, httpOptions)
       .map(data => {
-        console.log(data);
+        return data;
+      });
+  }
+
+  get isLoggedIn(): Observable<boolean> {
+
+    let url = `${this.hostPort}/sessions/is-valid-session`;
+
+    const httpOptions = {
+      withCredentials: true,
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<boolean>(url, httpOptions)
+      .map(data => {
         return data;
       });
   }

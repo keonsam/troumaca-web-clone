@@ -36,15 +36,23 @@ export class AppComponent implements OnInit{
               private sessionService: SessionService) {
 
     this.isLoggedIn = false;
-    // this.eventService.subscribeToLoginEvent( (data) => {
-    //   this.sessionService.activeSessionExists()
-    //   this.isLoggedIn = true;
-    // });
-
+    this.eventService.subscribeToLoginEvent( (data) => {
+      this.sessionService.activeSessionExists()
+        .subscribe(value => {
+          if(value) {
+            this.isLoggedIn = true;
+          }
+        });
+    });
   }
 
   ngOnInit(): void {
-
+    this.sessionService.activeSessionExists()
+      .subscribe(value => {
+        if(value) {
+          this.isLoggedIn = true;
+        }
+      });
   }
 
   get title(): string {

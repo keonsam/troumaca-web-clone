@@ -1,7 +1,9 @@
 import {NextFunction, Request, Response} from "express";
-// import sessionOrchestrator = require("./session/session.orchestrator");
+import {SessionOrchestrator} from "../session/session.orchestrator";
 
 let checkAccess = () => {
+
+  const sessionOrchestrator = new SessionOrchestrator();
 
   // GET 'http://www.example.com/admin/new'
   // console.log(req.originalUrl); // '/admin/new'
@@ -25,6 +27,7 @@ let checkAccess = () => {
   // production mode > session id > view close page
 
   function isNotSecureEndPoint(originalPath:string) {
+    console.log(originalPath);
     if (dev) {
       return true;
     }
@@ -37,9 +40,9 @@ let checkAccess = () => {
     return false;
   }
 
-  function isMode() {
-
-  }
+  // function isMode() {
+  //
+  // }
 
   return function(req:Request, res:Response, next:NextFunction) {
 
@@ -56,16 +59,14 @@ let checkAccess = () => {
       //     if (isValid) {
       //       next();
       //     } else {
-      //       res.send(401, "Invalid session...")
+      //       //res.send(401, "Invalid session...")
       //     }
-      //   })
+      //   });
     } else {
       //res.send(401, "Cannot access this resource with a session...")
     }
-
-
-    next()
-  }
+    next();
+  };
 };
 
 export default checkAccess;

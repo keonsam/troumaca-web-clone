@@ -35,11 +35,9 @@ export class AuthenticationClientHttp extends AuthenticationClient {
       password: credentialState.password,
       rememberMe: credentialState.rememberMe
     };
-    console.log("ok");
     return this.httpClient
       .post<AuthenticateResponse>(url, query, httpOptions)
       .map(data => {
-        console.log(data);
         return data;
       });
 
@@ -147,7 +145,6 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     return this.httpClient
       .get<Result<CredentialConfirmationState>>(url, httpOptions)
       .map(data => {
-        console.log(data);
         return data;
       });
   }

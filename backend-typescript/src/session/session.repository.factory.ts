@@ -120,19 +120,21 @@ class SessionDBRepository implements SessionRepository {
       return Observable.of(false);
     }
     return this.getSessionById(sessionId).map(session => {
+      if(!session) {
+        // the method below might throw an undefined error
+        return false;
+      }
       let readSessionId = session.sessionId;
       if (!readSessionId) {
         return false;
       }
 
       let readExpirationDate = session.expirationTime;
-      console.log(readExpirationDate);
       if (!readExpirationDate) {
         return false;
       }
 
       let now = new Date();
-      console.log(now);
 
       return readExpirationDate  > now;
     })
