@@ -1,0 +1,4 @@
+{"attributeId":"e4f4aec4-53e4-417d-bf4b-8912391e8021","text":"18","valueId":"89e4d589-a482-4722-b8ee-6f6c2d899f58","_id":"06xFJldrtyqrb1Rv"}
+{"valueId":"5a3ec7b7-10b1-4f8d-9095-33ce5a340793","assetTypeId":"551633cc-ef72-4a23-a9af-f89944dd8615","attributeId":"6ef0c662-4a2d-4880-85ec-48643dc8c5c3","text":true,"_id":"cr2TVKRISy80De90"}
+{"valueId":"0ef37bf5-a6a7-44d9-9781-f9274e7d6e64","assetTypeId":"551633cc-ef72-4a23-a9af-f89944dd8615","attributeId":"0ad815f9-18f1-436a-85d9-8298cc746ea6","text":"34","_id":"z4JRI1HLaDblsuwq"}
+{"$$indexCreated":{"fieldName":"valueId","unique":true,"sparse":false}}

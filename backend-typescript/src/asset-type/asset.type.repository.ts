@@ -1,29 +1,19 @@
 import {Observable} from "rxjs/Observable";
+import {AssetType} from "./asset.type";
 
-export class AssetTypeRepository {
+export interface AssetTypeRepository {
 
-  saveAsset(asset): Observable<any>;
+  findAssetTypes(searchStr:string, pageSize:number): Observable<AssetType[]>;
 
-  getAssets(pageNumber, pageSize, order): Observable<any>;
+  saveAssetType(assetType:AssetType):Observable<AssetType>;
 
-  getAssetTypes(searchStr, pageSize): Observable<any>;
+  getAssetTypes(pageNumber:number, pageSize:number, order:string):Observable<AssetType[]>;
 
-  getAssetKinds(): Observable<any>;
+  getAssetTypeCount():Observable<number>;
 
-  //Todo: This does not belong here.
-  getUnionOfPhysicalSites(searchStr, pageSize): Observable<any>;
+  getAssetTypeById(assetId:string):Observable<AssetType>;
 
-  //Todo: This does not belong here.
-  getUnitOfMeasures(searchStr, pageSize): Observable<any>;
+  updateAssetType(assetId:string, assetType:AssetType):Observable<number>;
 
-  //Todo: This does not belong here.
-  getPersons(searchStr, pageSize): Observable<any>;
-
-  getAssetCount(): Observable<any>;
-
-  getAssetById(assetId): Observable<any>;
-
-  updateAsset(assetId, asset): Observable<any>;
-
-  deleteAsset(assetId): Observable<any>;
+  deleteAssetType(assetId:string):Observable<number>;
 }

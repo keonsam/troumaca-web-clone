@@ -3,7 +3,7 @@ export class CredentialConfirmationState {
   private _credentialConfirmationId:string;
   private _credentialId:string;
   private _confirmationCode:string;
-  private _status: string;
+  private _credentialStatus: string;
   private _createdOn:Date;
   private _modifiedOn:Date;
 
@@ -39,12 +39,12 @@ export class CredentialConfirmationState {
     this._confirmationCode = value;
   }
 
-  get status(): string {
-    return this._status;
+  get credentialStatus(): string {
+    return this._credentialStatus;
   }
 
-  set status(value: string) {
-    this._status = value;
+  set credentialStatus(value: string) {
+    this._credentialStatus = value;
   }
 
   get createdOn(): Date {
@@ -68,7 +68,7 @@ export class CredentialConfirmationState {
       credentialConfirmationId: this.credentialConfirmationId,
       credentialId: this.credentialId,
       confirmationCode: this.confirmationCode,
-      status: this.status,
+      credentialStatus: this.credentialStatus,
       createdOn: this.createdOn,
       modifiedOn: this.modifiedOn
     }

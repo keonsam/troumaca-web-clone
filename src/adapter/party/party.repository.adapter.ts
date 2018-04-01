@@ -6,16 +6,15 @@ import {Users} from "../../parties/users";
 import {Credential} from "../../parties/credential";
 import {Organization} from "../../parties/organization";
 import {Organizations} from "../../parties/organizations";
-import {Account} from "../../parties/account";
 import "rxjs/add/operator/map";
 import { map, reduce, somethingElse } from "underscore";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
 import {UserState} from "../../client/party/user.state";
 import {OrganizationState} from "../../client/party/organization.state";
 import {CredentialState} from "../../client/party/credential.state";
-import {AccountState} from "../../client/party/account.state";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
+import {AccountResponse} from "../../parties/account.response";
 
 export class PartyRepositoryAdapter extends PartyRepository {
 
@@ -87,23 +86,16 @@ export class PartyRepositoryAdapter extends PartyRepository {
     });
   }
 
-  public addCredential(credential: Credential): Observable<Credential> {
-    return this.personClient
-    .addCredentialState(mapObjectProps(credential, new CredentialState()))
-    .map(value => {
-      return mapObjectProps(value, new Credential());
-    });
-  }
-
   public addPhoto(partyId: string, croppedImage: string): Observable<any> {
     return this.personClient.addPhoto(partyId, croppedImage);
   }
 
-  public addAccount(account: Account): Observable<Account> {
+  public addAccount(accountType: string, user: User, organization: Organization): Observable<AccountResponse> {
     return this.personClient
-    .addAccountState(mapObjectProps(account, new AccountState()))
+    .addAccountState(accountType,mapObjectProps(user, new UserState()), mapObjectProps(organization, new OrganizationState()))
     .map(value => {
-      return mapObjectProps(value, new Account());
+      console.log(value);
+      return mapObjectProps(value, new AccountResponse());
     });
   }
 
@@ -113,10 +105,6 @@ export class PartyRepositoryAdapter extends PartyRepository {
 
   public deleteOrganization(partyId: string): Observable<number> {
     return this.personClient.deleteOrganization(partyId);
-  }
-
-  public deleteCredential(partyId:string): Observable<number> {
-    return this.personClient.deleteCredential(partyId);
   }
 
   public updateUser(user: User): Observable<number> {

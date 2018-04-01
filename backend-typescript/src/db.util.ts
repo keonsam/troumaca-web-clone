@@ -1,4 +1,4 @@
-export function calcSkip(pageNumber, pageSize, defaultPageSize) {
+export function calcSkip(pageNumber:number, pageSize:number, defaultPageSize:number) {
     if (!pageNumber) {
       return 0;
     }

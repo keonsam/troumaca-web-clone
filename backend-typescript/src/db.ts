@@ -1,6 +1,5 @@
 import path from 'path';
 import Datastore from 'nedb';
-const db = {};
 
 // reference data
 let theDataTypesDb =  path.resolve(__dirname,'..') + '/nedb/data-types.db';
@@ -8,6 +7,7 @@ let theMeasuresDb = path.resolve(__dirname, '..') + '/nedb/unit-of-measures.db';
 
 // asset type
 let theAttributesDb = path.resolve(__dirname, '..') + '/nedb/asset_type/attributes.db';
+let theAssignedAttributesDb = path.resolve(__dirname, '..') + '/nedb/asset_type/assigned-attributes.db';
 let theAssetTypesDb = path.resolve(__dirname,'..') + '/nedb/asset_type/asset-types.db';
 let theAssetTypeClassesDb = path.resolve(__dirname,'..') + '/nedb/asset_type/asset-type-classes.db';
 let theValuesDb = path.resolve(__dirname, '..') + '/nedb/asset_type/values.db';
@@ -25,127 +25,166 @@ let thePostOfficeBoxDb = path.resolve(__dirname, '..') + '/nedb/site/post-office
 // party
 let thePersonsDb = path.resolve(__dirname, '..') + '/nedb/party/persons.db';
 let theOrganizationDb = path.resolve(__dirname, '..') + '/nedb/party/organizations.db';
+let theUsersDb = path.resolve(__dirname, '..') + '/nedb/party/users.db';
 
 // authentication
 let theCredentialDb = path.resolve(__dirname, '..') + '/nedb/authentication/credentials.db';
 let theCredentialConfirmationsDb = path.resolve(__dirname, '..') + '/nedb/authentication/credential_confirmations.db';
 
 // file
-let theUsersPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/users-photos.db';
-let theCompanyPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/company-photos.db';
-let theAccountPhotoDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/account-photos.db';
+let thePhotosDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/photos.db';
 
-let sessionDb = path.resolve(__dirname, '..','..',) + '/nedb/session/sessions.db';
 
-let theShipmentsDb = path.resolve(__dirname, '..','..',) + '/nedb/shipment/shipments.db';
+let sessionDb = path.resolve(__dirname, '..',) + '/nedb/session/sessions.db';
+
+let theShipmentsDb = path.resolve(__dirname, '..',) + '/nedb/shipment/shipments.db';
+
+let accessRolesDb = path.resolve(__dirname, '..',) + '/nedb/authorization/access-roles.db';
+let accessRoleTypesDb = path.resolve(__dirname, '..',) + '/nedb/authorization/access-role-types.db';
+let grantsDb = path.resolve(__dirname, '..',) + '/nedb/authorization/grants.db';
+let permissionsDb = path.resolve(__dirname, '..',) + '/nedb/authorization/permissions.db';
+let resourcesDb = path.resolve(__dirname, '..',) + '/nedb/authorization/resources.db';
+let resourcePermissionsDb = path.resolve(__dirname, '..',) + '/nedb/authorization/resource-permissions.db';
+
 
 // Todo: Fix remove
-let theAccountsInformationDb = path.resolve(__dirname, '..') + '/nedb/accounts-information.db';
-
-db.accountsInformation = new Datastore(theAccountsInformationDb);
-db.accountsInformation.loadDatabase(handleError);
+let theOrganizationAccountsInformationsDb = path.resolve(__dirname, '..') + '/nedb/accounts/organization-information.db';
+let thePersonalAccountsInformationsDb = path.resolve(__dirname, '..') + '/nedb/accounts/personal-information.db';
 
 
-db.accountsPhotos = new Datastore(theAccountPhotoDb);
-db.accountsPhotos.loadDatabase(handleError);
+export let organizationsInformation = new Datastore(theOrganizationAccountsInformationsDb);
+organizationsInformation.loadDatabase(handleError);
+organizationsInformation.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
-db.companyPhotos = new Datastore(theCompanyPhotoDb);
-db.companyPhotos.loadDatabase(handleError);
+export let personalsInformation = new Datastore(thePersonalAccountsInformationsDb);
+personalsInformation.loadDatabase(handleError);
+personalsInformation.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
-db.usersPhotos = new Datastore(theUsersPhotoDb);
-db.usersPhotos.loadDatabase(handleError);
+export let photos = new Datastore(thePhotosDb);
+photos.loadDatabase(handleError);
+photos.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
+export let persons = new Datastore(thePersonsDb);
+persons.loadDatabase(handleError);
+persons.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
-db.persons = new Datastore(thePersonsDb);
-db.persons.loadDatabase(handleError);
-db.persons.ensureIndex({ fieldName: 'personId', unique: true }, handleError);
+export let users = new Datastore(theUsersDb);
+users.loadDatabase(handleError);
+users.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
-db.organizations = new Datastore(theOrganizationDb);
-db.organizations.loadDatabase(handleError);
-db.organizations.ensureIndex({ fieldName: 'organizationId', unique: true }, handleError);
+export let organizations = new Datastore(theOrganizationDb);
+organizations.loadDatabase(handleError);
+organizations.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
 // authentication
-db.credentials = new Datastore(theCredentialDb);
-db.credentials.loadDatabase(handleError);
-db.credentials.ensureIndex({ fieldName: 'credentialId', unique: true }, handleError);
+export let credentials = new Datastore(theCredentialDb);
+credentials.loadDatabase(handleError);
+credentials.ensureIndex({ fieldName: 'credentialId', unique: true }, handleError);
 
-db.credentialConfirmations = new Datastore(theCredentialConfirmationsDb);
-db.credentialConfirmations.loadDatabase(handleError);
-db.credentialConfirmations.ensureIndex({ fieldName: 'credentialConfirmationId', unique: true }, handleError);
+export let credentialConfirmations = new Datastore(theCredentialConfirmationsDb);
+credentialConfirmations.loadDatabase(handleError);
+credentialConfirmations.ensureIndex({ fieldName: 'credentialConfirmationId', unique: true }, handleError);
 
 
 // sites
-db.sites = new Datastore(theSitesDb);
-db.sites.loadDatabase(handleError);
-db.sites.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
+export let sites = new Datastore(theSitesDb);
+sites.loadDatabase(handleError);
+sites.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
 
-db.streetAddresses = new Datastore(theStreetAddressDb);
-db.streetAddresses.loadDatabase(handleError);
-db.streetAddresses.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
+export let streetAddresses = new Datastore(theStreetAddressDb);
+streetAddresses.loadDatabase(handleError);
+streetAddresses.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
 
-db.postOfficeBoxes = new Datastore(thePostOfficeBoxDb);
-db.postOfficeBoxes.loadDatabase(handleError);
-db.postOfficeBoxes.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
+export let postOfficeBoxes = new Datastore(thePostOfficeBoxDb);
+postOfficeBoxes.loadDatabase(handleError);
+postOfficeBoxes.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
 
-db.telephones = new Datastore(theTelephoneDb);
-db.telephones.loadDatabase(handleError);
-db.telephones.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
+export let telephones = new Datastore(theTelephoneDb);
+telephones.loadDatabase(handleError);
+telephones.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
 
-db.emails = new Datastore(theEmailDb);
-db.emails.loadDatabase(handleError);
-db.emails.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
+export let emails = new Datastore(theEmailDb);
+emails.loadDatabase(handleError);
+emails.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
 
-db.websites = new Datastore(theWebSiteDb);
-db.websites.loadDatabase(handleError);
-db.websites.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
+export let webSites = new Datastore(theWebSiteDb);
+webSites.loadDatabase(handleError);
+webSites.ensureIndex({ fieldName: 'siteId', unique: true }, handleError);
 
 
 // reference data
-db.dataTypes = new Datastore(theDataTypesDb);
-db.dataTypes.loadDatabase(handleError);
-db.dataTypes.ensureIndex({ fieldName: 'dataTypeId', unique: true }, handleError);
+export let dataTypes = new Datastore(theDataTypesDb);
+dataTypes.loadDatabase(handleError);
+dataTypes.ensureIndex({ fieldName: 'dataTypeId', unique: true }, handleError);
 
-db.unitOfMeasures = new Datastore(theMeasuresDb);
-db.unitOfMeasures.loadDatabase(handleError);
-db.unitOfMeasures.ensureIndex({ fieldName: 'unitOfMeasureId', unique: true }, handleError);
+export let unitOfMeasures = new Datastore(theMeasuresDb);
+unitOfMeasures.loadDatabase(handleError);
+unitOfMeasures.ensureIndex({ fieldName: 'unitOfMeasureId', unique: true }, handleError);
 
 
 // asset type
-db.assets = new Datastore(theAssetsDb);
-db.assets.loadDatabase(handleError);
-db.assets.ensureIndex({ fieldName: 'assetId', unique: true }, handleError);
+export let assets = new Datastore(theAssetsDb);
+assets.loadDatabase(handleError);
+assets.ensureIndex({ fieldName: 'assetId', unique: true }, handleError);
 
-db.values = new Datastore(theValuesDb);
-db.values.loadDatabase(handleError);
-db.values.ensureIndex({ fieldName: 'valueId', unique: true }, handleError);
+export let values = new Datastore(theValuesDb);
+values.loadDatabase(handleError);
+values.ensureIndex({ fieldName: 'valueId', unique: true }, handleError);
 
-db.assetKinds = new Datastore(theAssetKindsDb);
-db.assetKinds.loadDatabase(handleError);
-db.assetKinds.ensureIndex({ fieldName: 'assetKindId', unique: true }, handleError);
+export let assetKinds = new Datastore(theAssetKindsDb);
+assetKinds.loadDatabase(handleError);
+assetKinds.ensureIndex({ fieldName: 'assetKindId', unique: true }, handleError);
 
-db.assetTypeClasses = new Datastore(theAssetTypeClassesDb);
-db.assetTypeClasses.loadDatabase(handleError);
-db.assetTypeClasses.ensureIndex({ fieldName: 'assetTypeClassId', unique: true }, handleError);
+export let assetTypeClasses = new Datastore(theAssetTypeClassesDb);
+assetTypeClasses.loadDatabase(handleError);
+assetTypeClasses.ensureIndex({ fieldName: 'assetTypeClassId', unique: true }, handleError);
 
-db.assetTypes = new Datastore(theAssetTypesDb);
-db.assetTypes.loadDatabase(handleError);
-db.assetTypes.ensureIndex({ fieldName: 'assetTypeId', unique: true }, handleError);
+export let assetTypes = new Datastore(theAssetTypesDb);
+assetTypes.loadDatabase(handleError);
+assetTypes.ensureIndex({ fieldName: 'assetTypeId', unique: true }, handleError);
 
-db.attributes = new Datastore(theAttributesDb);
-db.attributes.loadDatabase(handleError);
-db.attributes.ensureIndex({ fieldName: 'attributeId', unique: true }, handleError);
+export let attributes = new Datastore(theAttributesDb);
+attributes.loadDatabase(handleError);
+attributes.ensureIndex({ fieldName: 'attributeId', unique: true }, handleError);
 
-db.sessions = new Datastore(sessionDb);
-db.sessions.loadDatabase(handleError);
+export let assignedAttributes = new Datastore(theAssignedAttributesDb);
+assignedAttributes.loadDatabase(handleError);
+assignedAttributes.ensureIndex({ fieldName: 'assignedAttributeId', unique: true }, handleError);
 
-db.shipments = new Datastore(theShipmentsDb);
-db.shipments.loadDatabase(function (err) { if (err) { console.log(err); }});
+export let sessions = new Datastore(sessionDb);
+sessions.loadDatabase(handleError);
 
-function handleError( err ) {
+export let shipments = new Datastore(theShipmentsDb);
+shipments.loadDatabase(function (err) { if (err) { console.log(err); }});
+
+
+// Authorization
+export let accessRoles = new Datastore(accessRolesDb);
+accessRoles.loadDatabase(handleError);
+accessRoles.ensureIndex({ fieldName: 'accessRoleId', unique: true }, handleError);
+
+export let accessRoleTypes = new Datastore(accessRoleTypesDb);
+accessRoleTypes.loadDatabase(handleError);
+accessRoleTypes.ensureIndex({ fieldName: 'accessRoleTypeId', unique: true }, handleError);
+
+export let grants = new Datastore(grantsDb);
+grants.loadDatabase(handleError);
+grants.ensureIndex({ fieldName: 'grantId', unique: true }, handleError);
+
+export let permissions = new Datastore(permissionsDb);
+permissions.loadDatabase(handleError);
+permissions.ensureIndex({ fieldName: 'permissionId', unique: true }, handleError);
+
+export let resourcePermissions = new Datastore(resourcePermissionsDb);
+resourcePermissions.loadDatabase(handleError);
+resourcePermissions.ensureIndex({ fieldName: 'resourcePermissionId', unique: true }, handleError);
+
+export let resources = new Datastore(resourcesDb);
+resources.loadDatabase(handleError);
+resources.ensureIndex({ fieldName: 'resourceId', unique: true }, handleError);
+
+function handleError( err:any ) {
   if (err) {
     console.log(err);
   }
 }
-
-export default db;
-

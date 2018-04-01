@@ -1,14 +1,19 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-//import {CompleterService} from "ng2-completer";
+import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
+import "rxjs/add/operator/debounceTime";
+import "rxjs/add/operator/filter";
 import {AssetTypeClassService} from "../asset.type.class.service";
 import {AssetTypeClass} from "../asset.type.class";
 import {Router} from "@angular/router";
 import {Attributes} from "../../attributes/attributes";
+import {AttributeArray} from "../attribute.array";
+import {AssignedAttribute} from "../assigned.attribute";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 import {DataType} from "../../attributes/data.type";
 import {Attribute} from "../../attributes/attribute";
+import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -28,18 +33,20 @@ export class AssetTypeClassCreationComponent implements OnInit {
   private _maximumValue: FormControl;
   private _minimumValue: FormControl;
 
+  private _unitOfMeasureIdDataService: CompleterData;
+
   private _assetTypeClassForm:FormGroup;
   private _attributeForm: FormGroup;
 
   private _assignedArray: string[];
-  private _assignedArrayObject: any[];
+  private _assignedAttributes: AssignedAttribute;
 
   private attribute: Attribute;
   private _dataTypes: DataType[];
 
   private assetTypeClass: AssetTypeClass;
   private _availableAttributes: Attributes;
-  private _assignedAttributes: Attributes;
+  private _assignAttributes: Attributes;
 
   private defaultPage:number = 1;
   private defaultPageSize:number = 10;
@@ -52,8 +59,10 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
   private _newOrEdit: string;
   private modalReference: NgbModalRef;
+  private pageSize: number = 15;
 
   constructor(private assetTypeClassService:AssetTypeClassService,
+              private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private modalService: NgbModal,
               private router: Router) {
@@ -90,13 +99,15 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
     this.assetTypeClass = new AssetTypeClass();
 
-    this.attribute = new Attribute();
+    let newAttribute = new Attribute();
+    newAttribute.unitOfMeasure = new UnitOfMeasure();
+    this.attribute = newAttribute;
 
     let newAttributes = new Attributes();
     newAttributes.page = new Page(0, 0, 0);
     newAttributes.sort = new Sort();
     this.availableAttributes = newAttributes;
-    this.assignedAttributes = newAttributes;
+    this.assignAttributes = newAttributes;
 
     this.assetTypeClassForm
     .valueChanges
@@ -114,7 +125,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
       this.attribute.name = value.attributeName;
       this.attribute.format = value.format;
       this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
-      this.attribute.unitOfMeasureId = value.unitOfMeasureId;
       this.attribute.maximumValue = value.maximumValue;
       this.attribute.minimumValue = value.minimumValue;
       console.log(value);
@@ -123,7 +133,8 @@ export class AssetTypeClassCreationComponent implements OnInit {
     });
 
     this.assignedArray = [];
-    this.assignedArrayObject = [];
+    this.assignedAttributes = new AssignedAttribute();
+    this.assignedAttributes.attribute = [];
 
     this.dataTypes = [];
 
@@ -145,6 +156,37 @@ export class AssetTypeClassCreationComponent implements OnInit {
     }, onError => {
       console.log(onError);
     });
+
+    this.populateUnitOfMeasureIdDropDown();
+  }
+
+  private populateUnitOfMeasureIdDropDown() {
+    this.unitOfMeasureIdDataService = this.completerService.local([], 'name', 'name');
+    let that = this;
+    this.attributeForm.get("unitOfMeasureId").valueChanges
+      .debounceTime(1000) // debounce
+      .filter(value => { // filter out empty values
+        return !!(value);
+      })
+      .subscribe(value => {
+        console.log("value: " + value);
+        that.assetTypeClassService
+          .findUnitOfMeasureId(value, that.pageSize) // send search request to the backend
+          .map(value2 => { // convert results to dropdown data
+            return value2.map(v2 => { //update to the new way of doing this
+              return {
+                unitOfMeasureId: v2.unitOfMeasureId,
+                name: v2.name,
+              };
+            })
+          })
+          .subscribe(next => { // update the data
+            console.log("findUnitOfMeasureId next - " + next);
+            this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
+          }, error => {
+            console.log("findUnitOfMeasureId error - " + error);
+          });
+      });
   }
 
   get name(): FormControl {
@@ -203,6 +245,14 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this._unitOfMeasureId = value;
   }
 
+  get unitOfMeasureIdDataService(): CompleterData {
+    return this._unitOfMeasureIdDataService;
+  }
+
+  set unitOfMeasureIdDataService(value: CompleterData) {
+    this._unitOfMeasureIdDataService = value;
+  }
+
   get maximumValue(): FormControl {
     return this._maximumValue;
   }
@@ -243,12 +293,12 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this._availableAttributes = value;
   }
 
-  get assignedAttributes(): Attributes {
-    return this._assignedAttributes;
+  get assignAttributes(): Attributes {
+    return this._assignAttributes;
   }
 
-  set assignedAttributes(value: Attributes) {
-    this._assignedAttributes = value;
+  set assignAttributes(value: Attributes) {
+    this._assignAttributes = value;
   }
 
   get assignedArray() : string[] {
@@ -259,12 +309,12 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this._assignedArray = value;
   }
 
-  get assignedArrayObject() : any[] {
-    return this._assignedArrayObject;
+  get assignedAttributes() : AssignedAttribute {
+    return this._assignedAttributes;
   }
 
-  set assignedArrayObject(value: any[]) {
-    this._assignedArrayObject = value;
+  set assignedAttributes(value: AssignedAttribute) {
+    this._assignedAttributes = value;
   }
 
   get doNotDisplayFailureMessage(): boolean {
@@ -291,6 +341,12 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this._newOrEdit = value;
   }
 
+  onUnitOfMeasureIdSelect(selected: CompleterItem) {
+    if (selected) {
+      this.attribute.unitOfMeasure = selected.originalObject;
+    }
+  }
+
   getAvailableAttributes() {
     this.assetTypeClassService
     .getAvailableAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
@@ -304,11 +360,11 @@ export class AssetTypeClassCreationComponent implements OnInit {
     });
   }
 
-  getAssignedAttributes() {
+  getAssignAttributes() {
     this.assetTypeClassService
-    .getAssignedAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
+    .getAssignAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
     .subscribe(next => {
-      this.assignedAttributes = next;
+      this.assignAttributes = next;
     }, error => {
       console.log(error);
     }, () => {
@@ -317,25 +373,24 @@ export class AssetTypeClassCreationComponent implements OnInit {
   }
 
   updateTable() {
-    this.getAssignedAttributes();
+    this.getAssignAttributes();
     this.getAvailableAttributes();
   }
 
 
   onCheckBoxChange(event,attributeId) {
-    let index = this.assignedArrayObject.findIndex(x => x.attributeId == attributeId);
-    this.assignedArrayObject[index].required = event.target.checked;
+    this.assignedAttributes.attribute.find(x => x.attributeId == attributeId).required = event.target.checked;
   }
 
   onAvailableDoubleClick(attributeId: string) {
    this.assignedArray.push(attributeId);
-   this.assignedArrayObject.push({required: true, attributeId});
+   this.assignedAttributes.attribute.push(new AttributeArray(attributeId, true).toJson());
    this.updateTable();
   }
 
   onAssignedDoubleClick(attributeId: string) {
   this.assignedArray = this.assignedArray.filter(val => val != attributeId);
-  this.assignedArrayObject = this.assignedArrayObject.filter(val => val.attributeId != attributeId);
+  this.assignedAttributes.attribute = this.assignedAttributes.attribute.filter(val => val.attributeId != attributeId);
   this.updateTable();
   }
 
@@ -346,12 +401,12 @@ export class AssetTypeClassCreationComponent implements OnInit {
   onOpenFormModal(attributeId: string){
     this.attributeId = attributeId;
     this.assetTypeClassService
-    .getAvailableAttribute(attributeId)
+    .getAttribute(attributeId)
     .subscribe(attribute =>{
       this.attributeName.setValue(attribute.name);
       this.format.setValue(attribute.format);
       this.dataType.setValue(attribute.dataType.dataTypeId);
-      this.unitOfMeasureId.setValue(attribute.unitOfMeasureId);
+      this.unitOfMeasureId.setValue(attribute.unitOfMeasure.name);
       this.maximumValue.setValue(attribute.maximumValue);
       this.minimumValue.setValue(attribute.minimumValue);
       this.attribute = attribute;
@@ -384,12 +439,12 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
   onAssignedRequestPage(pageNumber: number) {
     this.defaultPage = pageNumber;
-    this.getAssignedAttributes();
+    this.getAssignAttributes();
   }
 
   onDelete() {
     this.assetTypeClassService
-    .deleteAvailableAttribute(this.attributeId)
+    .deleteAttribute(this.attributeId)
     .subscribe(value => {
     this.getAvailableAttributes();
     }, error => {
@@ -400,12 +455,10 @@ export class AssetTypeClassCreationComponent implements OnInit {
   }
 
   onCreate() {
-
-    this.assetTypeClass.assignedAttributes = this.assignedArrayObject;
     this.doNotDisplayFailureMessage = true;
 
     this.assetTypeClassService
-    .addAssetTypeClass(this.assetTypeClass)
+    .addAssetTypeClass(this.assetTypeClass, this.assignedAttributes)
     .subscribe(value => {
       if (value && value.assetTypeClassId) {
         this.router.navigate(['/asset-type-classes']);
@@ -422,7 +475,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this.doNotDisplayFailureMessage2 = true;
     if(this.newOrEdit == "New"){
       this.assetTypeClassService
-      .addAvailableAttribute(this.attribute)
+      .addAttribute(this.attribute)
       .subscribe(value => {
         if (value && value.attributeId) {
           this.onResetForm();
@@ -437,7 +490,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
       });
     }else{
       this.assetTypeClassService
-      .updateAvailableAttribute(this.attributeId, this.attribute)
+      .updateAttribute(this.attributeId, this.attribute)
       .subscribe(value => {
         if (value) {
           this.onResetForm();

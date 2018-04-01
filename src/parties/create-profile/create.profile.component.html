@@ -9,10 +9,10 @@
             </div>
             <div class="up-main-info">
               <h2 class="up-header">
-                {{accountType.value === 'personal' ? account.name: account.organizationName}}
+                {{user.name}}
               </h2>
               <h6 class="up-sub-header">
-                {{account.purpose}}
+                {{organization.purpose}} <!-- what would you put here if the user is personal alone -->
               </h6>
             </div>
             <svg class="decor" width="842px" height="219px" viewBox="0 0 842 219" preserveAspectRatio="xMaxYMax meet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="translate(-381.000000, -362.000000)" fill="#FFFFFF"><path class="decor-path" d="M1223,362 L1223,581 L381,581 C868.912802,575.666667 1149.57947,502.666667 1223,362 Z"></path></g></svg>
@@ -81,7 +81,7 @@
       <div class="col-sm-7">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="createProfileForm" (ngSubmit)="onCreate()" id="formValidate">
+            <form [formGroup]="createProfileForm" (ngSubmit)="onCreate()">
               <div class="element-info">
                 <div class="element-info-with-icon">
                   <div class="element-info-icon">
@@ -124,26 +124,30 @@
                  </div>
               </fieldset>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="purpose">Purpose</label><input class="form-control" formControlName="purpose" placeholder="Enter account purpose" required="required" type="text">
-                  <div [hidden]="purpose.valid || purpose.pristine" class="alert alert-danger">A purpose is required.</div>
-                </div>
-              </fieldset>
+              <div *ngIf="accountType.value === 'organization' || accountType.value == 'both'">
+                <legend><span>Organization Information</span></legend>
 
-              <fieldset *ngIf="accountType.value === 'organization' || accountType.value == 'both'" class="form-group">
-                <div class="form-group">
-                  <label for="organization name">Organization Name</label><input class="form-control" formControlName="organizationName" placeholder="Enter organization name" [required]="requiredState" type="text">
-                  <div [hidden]="organizationName.valid || organizationName.pristine" class="alert alert-danger">Enter organization name.</div>
-                </div>
-              </fieldset>
+                <fieldset class="form-group">
+                  <div class="form-group">
+                    <label for="purpose">Purpose</label><input class="form-control" formControlName="purpose" placeholder="Enter account purpose" [required]="requiredState" type="text">
+                    <div [hidden]="purpose.valid || purpose.pristine" class="alert alert-danger">A purpose is required.</div>
+                  </div>
+                </fieldset>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="description">Description</label><textarea class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
-                  <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
-                </div>
-              </fieldset>
+                <fieldset class="form-group">
+                  <div class="form-group">
+                    <label for="organization name">Organization Name</label><input class="form-control" formControlName="organizationName" placeholder="Enter organization name" [required]="requiredState" type="text">
+                    <div [hidden]="organizationName.valid || organizationName.pristine" class="alert alert-danger">Enter organization name.</div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="form-group">
+                  <div class="form-group">
+                    <label for="description">Description</label><textarea class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
+                    <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
+                  </div>
+                </fieldset>
+              </div>
 
 
               <legend><span>Personal Information</span></legend>

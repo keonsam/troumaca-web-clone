@@ -13,6 +13,7 @@ import {AttributeListComponent} from "./attribute-list/attribute.list.component"
 import {AttributeTopMenuComponent} from "./attribute-top-menu/attribute.top.menu.component";
 import {SearchModule} from "../search/search.module";
 import {PagingModule} from "../paging/paging.module";
+import {Ng2CompleterModule} from "ng2-completer";
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import {PagingModule} from "../paging/paging.module";
     NgbModule,
     RouterModule,
     FormsModule,
+    Ng2CompleterModule,
     ReactiveFormsModule,
     MenuModule,
     SearchModule,

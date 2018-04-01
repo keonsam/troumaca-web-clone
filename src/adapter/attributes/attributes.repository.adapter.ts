@@ -10,6 +10,7 @@ import {Attributes} from "../../attributes/attributes";
 import {AttributeState} from "../../client/attribute/attribute.state";
 import {DataType} from "../../attributes/data.type";
 import {DataTypes} from "../../attributes/data.types";
+import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 
@@ -52,6 +53,15 @@ export class AttributeRepositoryAdapter extends AttributeRepository {
       .getAttributeState(attributeId)
       .map(value => {
          return mapObjectProps(value, new Attribute());
+      });
+  }
+
+  public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
+    return this.attributeClient.findUnitOfMeasureIdState(searchStr, pageSize)
+      .map(data => {
+        return map(data, value => {
+          return mapObjectProps(value, new UnitOfMeasure());
+        });
       });
   }
 

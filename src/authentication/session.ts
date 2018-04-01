@@ -2,40 +2,28 @@ export class Session {
 
   private _sessionId:string;
   private _partyId:string;
-  private _accountStatus: string;
-  private _credentialConfirmationId: string;
-  private _created:Date;
-  private _modified:Date;
-  private _data:Map<string, Object>;
+  private _credentialId:string;
+  private _customerId:string;
+  private _expirationTime:Date;
+  private _createdOn:Date;
+  private _modifiedOn:Date;
+  private _data:Map<String, Object>;
 
-  get data(): Map<string, Object> {
-    return this._data;
-  }
 
-  set data(value: Map<string, Object>) {
-    this._data = value;
-  }
-  get modified(): Date {
-    return this._modified;
-  }
-
-  set modified(value: Date) {
-    this._modified = value;
-  }
-  get created(): Date {
-    return this._created;
+  constructor(sessionId?: string, credentialId?:string, customerId?:string, expirationTime?: Date, createdOn?: Date, modifiedOn?: Date, data?: Map<String, Object>) {
+    this._sessionId = sessionId;
+    this._credentialId = credentialId;
+    this._customerId = customerId;
+    this._expirationTime = expirationTime;
+    this._createdOn = createdOn;
+    this._modifiedOn = modifiedOn;
+    if (data) {
+      this._data = data;
+    } else {
+      this.data = new Map<String, Object>();
+    }
   }
 
-  set created(value: Date) {
-    this._created = value;
-  }
-  get partyId(): string {
-    return this._partyId;
-  }
-
-  set partyId(value: string) {
-    this._partyId = value;
-  }
   get sessionId(): string {
     return this._sessionId;
   }
@@ -44,20 +32,59 @@ export class Session {
     this._sessionId = value;
   }
 
-  get accountStatus(): string {
-    return this._accountStatus;
+  get partyId(): string {
+    return this._partyId;
   }
 
-  set accountStatus(value: string) {
-    this._accountStatus = value;
+  set partyId(value: string) {
+    this._partyId = value;
   }
 
-  get credentialConfirmationId(): string {
-    return this._credentialConfirmationId;
+  get credentialId(): string {
+    return this._credentialId;
   }
 
-  set credentialConfirmationId(value: string) {
-    this._credentialConfirmationId = value;
+  set credentialId(value: string) {
+    this._credentialId = value;
   }
 
+  get customerId(): string {
+    return this._customerId;
+  }
+
+  set customerId(value: string) {
+    this._customerId = value;
+  }
+
+  get expirationTime(): Date {
+    return this._expirationTime;
+  }
+
+  set expirationTime(value: Date) {
+    this._expirationTime = value;
+  }
+
+  get createdOn(): Date {
+    return this._createdOn;
+  }
+
+  set createdOn(value: Date) {
+    this._createdOn = value;
+  }
+
+  get modifiedOn(): Date {
+    return this._modifiedOn;
+  }
+
+  set modifiedOn(value: Date) {
+    this._modifiedOn = value;
+  }
+
+  get data(): Map<String, Object> {
+    return this._data;
+  }
+
+  set data(value: Map<String, Object>) {
+    this._data = value;
+  }
 }

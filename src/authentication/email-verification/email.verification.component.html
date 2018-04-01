@@ -9,7 +9,9 @@
       </h4>
 
         <form>
-
+          <h6>
+         {{message}}
+          </h6>
           <div *ngIf="newUser">
             <p>Thank you for signing up to Troumaca!<br />
              An e-mail Confirmation link has been sent to your email address. <br />
@@ -31,6 +33,11 @@
                <strong>Error!</strong> but it looks like this session has expired.<br />
                Please check your email for a new one.
              </div>
+
+            <div *ngIf="sendConfirmationCodeConfirmed" class="alert alert-info">
+              <strong>Confirmed!</strong> This account is confirmed.
+              Please login.
+            </div>
 
              <div class="alert alert-info">
                <a href="#" (click)="sendConfirmationCode();false"><strong>Click here!</strong> If you didn't get the email within 5 minutes.</a>

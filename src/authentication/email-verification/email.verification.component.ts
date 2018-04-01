@@ -22,7 +22,8 @@ export class EmailVerificationComponent implements OnInit {
   private emailMessageFailure: boolean;
   private sendConfirmationCodeConfirmed: boolean;
   private verifiedPass: boolean;
-  private verifiedFailed: boolean
+  private verifiedFailed: boolean;
+  private _message: string = "";
 
   constructor(//private eventService: EventService,
               private route: ActivatedRoute,
@@ -52,22 +53,34 @@ export class EmailVerificationComponent implements OnInit {
            this.authenticationService
            .verifyCredentialConfirmation(this.credentialConfirmation)
            .subscribe(next => {
-             if(next.status == 'CONFIRMED') {
+             console.log(next);
+             if(!next.fail) {
+               this.message = next.message;
                this.verifiedPass = true;
                setTimeout(() => {
                  this.router.navigate(['/authentication/login']);
-               }, 1000 * 10);
-             }else {
+               }, 1000 * 5);
+             } else {
                // display errors
+               this.message = next.message;
                this.verifiedFailed = true;
              }
            }, error => {
-             /// better errors
+             /// better error
                this.verifiedFailed = true;
            });
          };
        });
      });
+  }
+
+
+  get message(): string {
+    return this._message;
+  }
+
+  set message(value: string) {
+    this._message = value;
   }
 
   sendConfirmationCode() {
@@ -77,25 +90,35 @@ export class EmailVerificationComponent implements OnInit {
     this.authenticationService
     .sendConfirmationCode(this.credentialConfirmation.credentialConfirmationId, "email")
     .subscribe(next => {
-      if(next) {
-        if (next.status == 'CONFIRMED') {
-          this.sendConfirmationCodeConfirmed = true;
-          setTimeout(()=> {
-            this.router.navigate(['/authentication/login']);
-          }, 1000 *10);
-        }else if (next.status == 'NEW' && next.credentialConfirmationId != this.credentialConfirmation.credentialConfirmationId) {
-          this.emailMessageFailure = true;
+        if(!next.fail) {
+          this.message = next.message;
+          if ( next.data.credentialConfirmationId != this.credentialConfirmation.credentialConfirmationId) {
+            this.emailMessageFailure = true;
+            setTimeout(()=> {
+              this.router.navigate([`/authentication/phone-verification/${next.data.credentialConfirmationId}`]);
+            }, 1000 *5);
+          }else {
+            this.emailMessageSuccess = true;
+            setTimeout(()=> {
+              this.emailMessageSuccess = false;
+            }, 5000);
+          }
         }else {
-          this.emailMessageSuccess = true;
-          setTimeout(()=> {
-            this.emailMessageSuccess = false;
-          }, 5000);
+          if (next.data.credentialStatus == 'CONFIRMED') {
+            this.message = next.message;
+            this.sendConfirmationCodeConfirmed = true;
+            setTimeout(() => {
+              this.router.navigate(['/authentication/login']);
+            }, 1000 * 5);
+          } else {
+            this.message = next.message;
+            this.emailMessageFailure = true;
+          }
         }
-      }
-    }, error =>{
-      // add better error message
-      this.emailMessageFailure = true;
-    });
+      }, error => {
+        /// make better error for this
+        this.emailMessageFailure = true;
+      });
   }
 
 }

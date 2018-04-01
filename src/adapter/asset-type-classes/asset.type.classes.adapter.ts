@@ -18,6 +18,10 @@ import {Attribute} from "../../attributes/attribute";
 import {AttributeState} from "../../client/attribute/attribute.state";
 import {DataTypes} from "../../attributes/data.types";
 import {DataType} from  "../../attributes/data.type";
+import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
+import {AssignedAttributeState} from "../../client/asset-type-class/assigned.attribute.state";
+import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
+import {AssetTypeClassResponse} from "../../asset-type-classes/asset.type.class.response";
 
 export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
 
@@ -37,17 +41,26 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
     });
   }
 
-  getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass> {
+  public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
+    return this.assetTypeClassClient.findUnitOfMeasureIdState(searchStr, pageSize)
+      .map(data => {
+        return map(data, value => {
+          return mapObjectProps(value, new UnitOfMeasure());
+        });
+      });
+  }
+
+  getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassResponse> {
     return this.assetTypeClassClient
     .getAssetTypeClass(assetTypeClassId)
     .map(value =>{
-      return mapObjectProps(value, new AssetTypeClass());
+      return  mapObjectProps(value, new AssetTypeClassResponse());
     });
   }
 
-  getAvailableAttribute(attributeId: string): Observable<Attribute> {
+  getAttribute(attributeId: string): Observable<Attribute> {
     return this.assetTypeClassClient
-    .getAvailableAttribute(attributeId)
+    .getAttribute(attributeId)
     .map(value =>{
       return mapObjectProps(value, new Attribute());
     });
@@ -65,23 +78,6 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
 
      assetTypeClasses.page = mapObjectProps(values.page, new Page());
      assetTypeClasses.sort = mapObjectProps(values.sort, new Sort());
-          // if (assetTypeClass) {
-          //   assetTypeModel.assetTypeClass = mapObjectProps(assetTypeClass, new AssetTypeClassModel());
-          // }
-
-          // let attributes = assetTypeState.attributes;
-          // if (attributes && attributes.length > 0) {
-          //   assetTypeModel.attributes = attributes.map(assetTypeAttribute => {
-          //     return mapObjectProps(assetTypeAttribute, new AssetTypeAttributeModel());
-          //   })
-          // }
-
-          // let assetTypeAttributeValues = assetTypeState.assetTypeAttributeValues;
-          // if (assetTypeAttributeValues && assetTypeAttributeValues.length > 0) {
-          //   assetTypeModel.assetTypeAttributeValues = assetTypeAttributeValues.map(assetTypeAttribute => {
-          //     return mapObjectProps(assetTypeAttribute, new AssetTypeAttributeValueModel());
-          //   })
-          // }
 
           return assetTypeClasses;
         });
@@ -103,9 +99,9 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
         });
   }
 
-  getAssignedAttributes(pageNumber: number, pageSize:number, sortOrder:string, assignedArray: string[]): Observable<Attributes> {
+  getAssignAttributes(pageNumber: number, pageSize:number, sortOrder:string, assignedArray: string[]): Observable<Attributes> {
     return this.assetTypeClassClient
-    .getAssignedAttributes(pageNumber, pageSize, sortOrder, assignedArray)
+    .getAssignAttributes(pageNumber, pageSize, sortOrder, assignedArray)
     .map(values => {
       let attributes: Attributes = new Attributes();
       attributes.attributes = map(values.attributes, value =>{
@@ -119,17 +115,17 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
         });
   }
 
-  addAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass> {
+  addAssetTypeClass(assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute): Observable<AssetTypeClass> {
     return this.assetTypeClassClient
-    .addAssetTypeClass(mapObjectProps(assetTypeClass, new AssetTypeClassState()))
+    .addAssetTypeClass(mapObjectProps(assetTypeClass, new AssetTypeClassState()), mapObjectProps(assignedAttributes, new AssignedAttributeState()))
     .map(value =>{
       return mapObjectProps(value, new AssetTypeClass());
     });
   }
 
-  addAvailableAttribute(availableAttribute: Attribute): Observable<Attribute> {
+  addAttribute(availableAttribute: Attribute): Observable<Attribute> {
     return this.assetTypeClassClient
-    .addAvailableAttribute(mapObjectProps(availableAttribute, new AttributeState()))
+    .addAttribute(mapObjectProps(availableAttribute, new AttributeState()))
     .map(value =>{
       return mapObjectProps(value, new Attribute());
     });
@@ -139,15 +135,15 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
     return this.assetTypeClassClient.deleteAssetTypeClass(assetTypeClassId);
   }
 
-  deleteAvailableAttribute(attributeId: string): Observable<number> {
-    return this.assetTypeClassClient.deleteAvailableAttribute(attributeId);
+  deleteAttribute(attributeId: string): Observable<number> {
+    return this.assetTypeClassClient.deleteAttribute(attributeId);
   }
 
-  updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass): Observable<number> {
-    return this.assetTypeClassClient.updateAssetTypeClass(assetTypeClassId,mapObjectProps(assetTypeClass, new AssetTypeClassState()));
+  updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute): Observable<number> {
+    return this.assetTypeClassClient.updateAssetTypeClass(assetTypeClassId,mapObjectProps(assetTypeClass, new AssetTypeClassState()), mapObjectProps(assignedAttributes, new AssignedAttributeState()));
   }
 
-  updateAvailableAttribute(attributeId: string, availableAttribute: Attribute): Observable<number> {
-    return this.assetTypeClassClient.updateAvailableAttribute(attributeId,mapObjectProps(availableAttribute, new AttributeState()));
+  updateAttribute(attributeId: string, availableAttribute: Attribute): Observable<number> {
+    return this.assetTypeClassClient.updateAttribute(attributeId,mapObjectProps(availableAttribute, new AttributeState()));
   }
 }

@@ -4,13 +4,12 @@ import {Observable} from "rxjs/Observable";
 import {Credential} from "./credential";
 import {Organization} from "./organization";
 import {Organizations} from "./organizations";
-import {Account} from "./account";
+import {AccountResponse} from "./account.response";
 
 export abstract class PartyRepository {
   abstract getUsers(pageNumber:number, pageSize:number, sortOrder:string):Observable<Users>;
 
   abstract getOrganizations(pageNumber:number, pageSize:number, sortOrder:string):Observable<Organizations>;
-
 
   abstract getUser(partyId: string): Observable<User>;
 
@@ -22,17 +21,13 @@ export abstract class PartyRepository {
 
   abstract addOrganization(organization: Organization): Observable<Organization>;
 
-  abstract addCredential(credential: Credential): Observable<Credential>;
-
   abstract addPhoto(partyId: string, croppedImage: string): Observable<any>;
 
-  abstract addAccount(account: Account): Observable<Account>;
+  abstract addAccount(accountType: string, user: User, organization: Organization): Observable<AccountResponse>;
 
   abstract deleteUser(partyId: string): Observable<number>;
 
   abstract deleteOrganization(partyId: string): Observable<number>;
-
-  abstract deleteCredential(partyId: string): Observable<number>;
 
   abstract updateUser(user: User): Observable<number>;
 

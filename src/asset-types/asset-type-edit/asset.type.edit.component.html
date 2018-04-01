@@ -56,8 +56,19 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Unit Of Measure Id">Unit Of Measure Id</label><input class="form-control" formControlName="unitOfMeasureId" placeholder="Unit Of Measure Id" type="text">
-                  <div [hidden]="unitOfMeasureId.valid || unitOfMeasureId.pristine" class="alert alert-danger">Invalid unit of measure Id.</div>
+                  <label for="">Unit Of Measurement</label>
+                  <ng2-completer [datasource]="unitOfMeasureIdDataService"
+                                 [inputClass]="'form-control form-control-inline'"
+                                 [minSearchLength]="0"
+                                 [maxChars]="4"
+                                 [inputClass]="'form-control'"
+                                 [placeholder]="'Search for Unit of Measurement'"
+                                 [matchClass]="'match'"
+                                 formControlName="unitOfMeasureId"
+                                 [autofocus]="true"
+                                 [textSearching]="false"
+                                 (selected)="onUnitOfMeasureIdSelect($event)">
+                  </ng2-completer>
                 </div>
               </fieldset>
 
@@ -71,7 +82,7 @@
             </form>
 
             <form [formGroup]="attributeEditForm" >
-              <fieldset *ngFor="let attribute of assignedAttributes.attributes" class="form-group">
+              <fieldset *ngFor="let attribute of attributes" class="form-group">
                 <div *ngIf="attribute.dataType.name == 'Boolean'; else normalInput" class="form-check">
                   <label class="form-check-label"><input class="form-check-input" formControlName="{{attribute.attributeId}}" type="checkbox" [required]="getRequired(attribute.attributeId)">{{attribute.name}}</label>
                 </div>

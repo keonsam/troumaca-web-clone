@@ -5,6 +5,9 @@ import {AssetTypeClasses} from "./asset.type.classes";
 import {Attributes} from "../attributes/attributes";
 import {Attribute} from "../attributes/attribute";
 import {DataTypes} from "../attributes/data.types";
+import {AssignedAttribute} from "./assigned.attribute";
+import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
+import {AssetTypeClassResponse} from "./asset.type.class.response";
 
 export class AssetTypeClassService {
 
@@ -14,48 +17,53 @@ export class AssetTypeClassService {
   public getDataTypes(): Observable<DataTypes> {
     return this.assetTypeClassRepository.getDataTypes();
   }
-  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass> {
+
+  public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]>{
+    return this.assetTypeClassRepository.findUnitOfMeasureId(searchStr,pageSize);
+  }
+
+  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassResponse> {
     return this.assetTypeClassRepository.getAssetTypeClass(assetTypeClassId);
   }
 
-  public getAvailableAttribute(attributeId: string): Observable<Attribute> {
-    return this.assetTypeClassRepository.getAvailableAttribute(attributeId);
+  public getAttribute(attributeId: string): Observable<Attribute> {
+    return this.assetTypeClassRepository.getAttribute(attributeId);
   }
 
   public getAssetTypeClasses(pageNumber: number, pageSize:number, sortOrder:string):Observable<AssetTypeClasses> {
     return this.assetTypeClassRepository.getAssetTypeClasses(pageNumber, pageSize, sortOrder);
   }
 
-  public getAvailableAttributes(pageNumber: number, pageSize:number, sortOrder:string, assignedArray: any[]): Observable<Attributes> {
+  public getAvailableAttributes(pageNumber: number, pageSize:number, sortOrder:string, assignedArray: string[]): Observable<Attributes> {
     return this.assetTypeClassRepository.getAvailableAttributes(pageNumber, pageSize, sortOrder, assignedArray);
   }
 
-  public getAssignedAttributes(pageNumber: number, pageSize:number, sortOrder:string, assignedArray: any[]): Observable<Attributes> {
-    return this.assetTypeClassRepository.getAssignedAttributes(pageNumber, pageSize, sortOrder, assignedArray);
+  public getAssignAttributes(pageNumber: number, pageSize:number, sortOrder:string, assignedArray: string[]): Observable<Attributes> {
+    return this.assetTypeClassRepository.getAssignAttributes(pageNumber, pageSize, sortOrder, assignedArray);
   }
 
-  public addAssetTypeClass(assetTypeClass: AssetTypeClass): Observable<AssetTypeClass> {
-    return this.assetTypeClassRepository.addAssetTypeClass(assetTypeClass);
+  public addAssetTypeClass(assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute): Observable<AssetTypeClass> {
+    return this.assetTypeClassRepository.addAssetTypeClass(assetTypeClass, assignedAttributes);
   }
 
-  public addAvailableAttribute(availableAttribute: Attribute): Observable<Attribute> {
-    return this.assetTypeClassRepository.addAvailableAttribute(availableAttribute);
+  public addAttribute(attribute: Attribute): Observable<Attribute> {
+    return this.assetTypeClassRepository.addAttribute(attribute);
   }
 
   public deleteAssetTypeClass(assetTypeClassId: string): Observable<number> {
     return this.assetTypeClassRepository.deleteAssetTypeClass(assetTypeClassId);
   }
 
-  public deleteAvailableAttribute(attributeId: string): Observable<number> {
-    return this.assetTypeClassRepository.deleteAvailableAttribute(attributeId);
+  public deleteAttribute(attributeId: string): Observable<number> {
+    return this.assetTypeClassRepository.deleteAttribute(attributeId);
   }
 
-  public updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass): Observable<number> {
-    return this.assetTypeClassRepository.updateAssetTypeClass(assetTypeClassId, assetTypeClass);
+  public updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute): Observable<number> {
+    return this.assetTypeClassRepository.updateAssetTypeClass(assetTypeClassId, assetTypeClass, assignedAttributes);
   }
 
-  public updateAvailableAttribute(attributeId: string, availableAttribute: Attribute): Observable<number> {
-    return this.assetTypeClassRepository.updateAvailableAttribute(attributeId, availableAttribute);
+  public updateAttribute(attributeId: string, availableAttribute: Attribute): Observable<number> {
+    return this.assetTypeClassRepository.updateAttribute(attributeId, availableAttribute);
   }
 
 }

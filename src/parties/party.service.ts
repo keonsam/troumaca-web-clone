@@ -6,6 +6,7 @@ import {Credential} from "./credential";
 import {Organization} from "./organization";
 import {Organizations} from "./organizations";
 import {Account} from "./account";
+import {AccountResponse} from "./account.response";
 
 export class PartyService {
 
@@ -40,16 +41,12 @@ export class PartyService {
     return this.partyRepository.addOrganization(organization);
   }
 
-  public addCredential(credential: Credential): Observable<Credential> {
-    return this.partyRepository.addCredential(credential);
-  }
-
   public addPhoto(partyId: string, croppedImage: string): Observable<any> {
     return this.partyRepository.addPhoto(partyId, croppedImage);
   }
 
-  public addAccount(account: Account): Observable<Account> {
-    return this.partyRepository.addAccount(account);
+  public addAccount(accountType:string, user:User, organization: Organization ): Observable<AccountResponse> {
+    return this.partyRepository.addAccount(accountType, user, organization);
   }
 
   public deleteUser(partyId: string): Observable<number> {
@@ -58,10 +55,6 @@ export class PartyService {
 
   public deleteOrganization(partyId: string): Observable<number> {
     return this.partyRepository.deleteOrganization(partyId);
-  }
-
-  public deleteCredential(partyId: string): Observable<number> {
-    return this.partyRepository.deleteCredential(partyId);
   }
 
   public updateUser(user: User): Observable<number> {

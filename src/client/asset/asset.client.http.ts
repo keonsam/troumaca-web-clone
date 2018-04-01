@@ -7,7 +7,7 @@ import {JsonConvert, OperationMode, ValueCheckingMode} from "json2typescript";
 import {AssetKindStates} from "./asset.kind.states";
 import {AssetState} from "./asset.state";
 import {AssetTypeStates} from "../asset-type/asset.type.states";
-import {UnitOfMeasureStates} from "../unit-of-measure/unit.of.measure.states";
+import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
 import {UnionOfPhysicalSiteStates} from "../site/union.of.physical.site.states";
 import {PersonStates} from "../party/person.states";
 
@@ -82,7 +82,7 @@ export class AssetClientHttp extends AssetClient {
   public getAssetKinds(): Observable<AssetKindStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets/kinds");
+    array.push("/asset-kinds");
 
     return this.http.get<AssetKindStates>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
@@ -94,7 +94,7 @@ export class AssetClientHttp extends AssetClient {
   public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetTypeStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets/asset-types");
+    array.push("/find-asset-types");
 
     let queryStr = [];
     if (searchStr) {
@@ -102,7 +102,7 @@ export class AssetClientHttp extends AssetClient {
     }
 
     if (pageSize) {
-      queryStr.push("pageSize=" + searchStr);
+      queryStr.push("pageSize=" + pageSize);
     }
 
     if (queryStr.length > 0) {
@@ -120,7 +120,7 @@ export class AssetClientHttp extends AssetClient {
   public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets/sites");
+    array.push("/find-sites");
 
     let queryStr = [];
     if (searchStr) {
@@ -128,7 +128,7 @@ export class AssetClientHttp extends AssetClient {
     }
 
     if (pageSize) {
-      queryStr.push("pageSize=" + searchStr);
+      queryStr.push("pageSize=" + pageSize);
     }
 
     if (queryStr.length > 0) {
@@ -139,14 +139,15 @@ export class AssetClientHttp extends AssetClient {
     return this.http.get<UnionOfPhysicalSiteStates>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
+
       return data;
     });
   }
 
-  public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasureStates> {
+  public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets/unit-of-measures");
+    array.push("/find-unit-of-measures");
 
     let queryStr = [];
     if (searchStr) {
@@ -154,7 +155,7 @@ export class AssetClientHttp extends AssetClient {
     }
 
     if (pageSize) {
-      queryStr.push("pageSize=" + searchStr);
+      queryStr.push("pageSize=" + pageSize);
     }
 
     if (queryStr.length > 0) {
@@ -162,7 +163,7 @@ export class AssetClientHttp extends AssetClient {
       array.push(queryStr.join("&"));
     }
 
-    return this.http.get<UnitOfMeasureStates>(array.join(""), {
+    return this.http.get<UnitOfMeasureState[]>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
@@ -172,7 +173,7 @@ export class AssetClientHttp extends AssetClient {
   public findPersons(searchStr: string, pageSize: number): Observable<PersonStates> {
     let array = [];
     array.push(this.hostPort);
-    array.push("/assets/persons");
+    array.push("/find-persons");
 
     let queryStr = [];
     if (searchStr) {
@@ -180,7 +181,7 @@ export class AssetClientHttp extends AssetClient {
     }
 
     if (pageSize) {
-      queryStr.push("pageSize=" + searchStr);
+      queryStr.push("pageSize=" + pageSize);
     }
 
     if (queryStr.length > 0) {
@@ -191,6 +192,7 @@ export class AssetClientHttp extends AssetClient {
     return this.http.get<PersonStates>(array.join(""), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
+      console.log(data);
       return data;
     });
   }

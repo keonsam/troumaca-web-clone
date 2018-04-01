@@ -39,7 +39,7 @@ module.exports = function AssetTypeClassesOrchestrator() {
   this.getAssignedAttributes = function (number, size, field, direction, assignedArray) {
     let sort = getSortOrderOrDefault(field, direction);
     return assetTypeClassesRepository
-    .getAssignedAttributes(number, size, sort, assignedArray)
+    .getAssignAttributes(number, size, sort, assignedArray)
     .flatMap(value => {
       return assetTypeClassesRepository
         .getAvailableAttributeCount()
@@ -54,7 +54,7 @@ module.exports = function AssetTypeClassesOrchestrator() {
   };
 
   this.getAvailableAttribute = function (attributeId) {
-    return assetTypeClassesRepository.getAvailableAttribute(attributeId);
+    return assetTypeClassesRepository.getAttribute(attributeId);
   };
 
   this.saveAssetTypeClass = function (assetTypeClass) {
@@ -70,7 +70,7 @@ module.exports = function AssetTypeClassesOrchestrator() {
   };
 
   this.deleteAvailableAttribute = function (attributeId) {
-    return assetTypeClassesRepository.deleteAvailableAttribute(attributeId);
+    return assetTypeClassesRepository.deleteAttribute(attributeId);
   };
 
   this.updateAssetTypeClass = function (assetTypeClassId, assetTypeClass) {
@@ -78,7 +78,7 @@ module.exports = function AssetTypeClassesOrchestrator() {
   };
 
   this.updateAvailableAttribute = function (attributeId, attribute) {
-    return assetTypeClassesRepository.updateAvailableAttribute(attributeId, attribute);
+    return assetTypeClassesRepository.updateAttribute(attributeId, attribute);
   };
 
   function getSortOrderOrDefault(field, direction) {

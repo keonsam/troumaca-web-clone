@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   private _message:string = "";
 
   private _errorExists:boolean;
-  private accountDisabled:boolean;
+  private accountFailed:boolean;
 
   constructor(private eventService: EventService,
               private formBuilder: FormBuilder,
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
       "rememberMe": this.rememberMe
     });
 
-    this.accountDisabled = false;
+    this.accountFailed = false;
   }
 
   ngOnInit(): void {
@@ -111,7 +111,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.errorExists = false;
-    this.accountDisabled = false;
+    this.accountFailed = false;
     let credential:Credential = new Credential();
     credential.username = this.username.value;
     credential.password = this.password.value;
@@ -120,30 +120,29 @@ export class LoginComponent implements OnInit {
 
     this.authenticationService
       .authenticate(credential)
-      .subscribe(session => {
-        if(session) {
-          if(session.accountStatus == "ACTIVE"){
-            if(session.partyId){
+      .subscribe(authenticateResponse => {
+        console.log(authenticateResponse);
+        console.log(authenticateResponse.authenticated);
+        if(authenticateResponse.authenticated) {
+          if(authenticateResponse.usernameConfirmed) {
+            if (authenticateResponse.accountExists) {
               this.router.navigate(['/home/lobby']);
-            }else {
-              this.router.navigate(['/create-profile']);
-            };
-          } else if (session.accountStatus == "NEW"){
-            if(regex.test(this.username.value)) {
-              this.router.navigate([`/authentication/email-verification/${session.credentialConfirmationId}`]);
             } else {
-              this.router.navigate([`/authentication/phone-verification/${session.credentialConfirmationId}`]);
-            };
-          }else if(session.accountStatus == "DISABLED") {
-          // TODO// Make Error better in the future
-            this.accountDisabled = true;
+              console.log("working");
+              this.router.navigate(['/create-profile']);
+            }
+          }else {
+            if (regex.test(this.username.value)) { // switched to response to avoid errors
+              this.router.navigate([`/authentication/email-verification/${authenticateResponse.credentialConfirmationId}`]);
+            } else {
+              this.router.navigate([`/authentication/phone-verification/${authenticateResponse.credentialConfirmationId}`]);
+            }
           }
         }else {
-          this.errorExists = true;
+          this.accountFailed = true;
         }
       }, error => {
         this.errorExists = true;
-
       });
   }
 

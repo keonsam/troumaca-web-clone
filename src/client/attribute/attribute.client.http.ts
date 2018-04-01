@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AttributeState} from "./attribute.state";
 import {AttributeStates} from "./attribute.states";
 import {DataTypeStates} from "./data.type.states"
+import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
 
 export class AttributeClientHttp extends AttributeClient {
 
@@ -15,7 +16,7 @@ export class AttributeClientHttp extends AttributeClient {
   }
 
   public getDataTypes(): Observable<DataTypeStates>{
-    let url = `${this.hostPort}/attributes/data-types`;
+    let url = `${this.hostPort}/data-types`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .get<DataTypeStates>(url, {headers:headers})
@@ -60,6 +61,32 @@ export class AttributeClientHttp extends AttributeClient {
     return this.httpClient
     .get<AttributeState>(url, {headers:headers})
     .map(data => {
+      return data;
+    });
+  }
+
+  public findUnitOfMeasureIdState(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
+    let array = [];
+    array.push(this.hostPort);
+    array.push("/find-unit-of-measures");
+
+    let queryStr = [];
+    if (searchStr) {
+      queryStr.push("q=" + searchStr);
+    }
+
+    if (pageSize) {
+      queryStr.push("pageSize=" + pageSize);
+    }
+
+    if (queryStr.length > 0) {
+      array.push("?");
+      array.push(queryStr.join("&"));
+    }
+
+    return this.httpClient.get<UnitOfMeasureState[]>(array.join(""), {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
       return data;
     });
   }
