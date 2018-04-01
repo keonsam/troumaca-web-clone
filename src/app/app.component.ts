@@ -41,18 +41,20 @@ export class AppComponent implements OnInit{
         .subscribe(value => {
           if(value) {
             this.isLoggedIn = true;
+          }else {
+            this.isLoggedIn = false;
           }
         });
     });
   }
 
   ngOnInit(): void {
+    let url = this.route.url ? this.route.url[0].path : '';
     this.sessionService.activeSessionExists()
       .subscribe(value => {
-        if(value) {
+        if(value && url !== "create-profile") {
           this.isLoggedIn = true;
         }
-        console.log("app completed");
       });
   }
 

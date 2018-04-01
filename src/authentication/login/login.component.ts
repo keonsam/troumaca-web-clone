@@ -125,8 +125,8 @@ export class LoginComponent implements OnInit {
         if(authenticateResponse.authenticated) {
           if(authenticateResponse.usernameConfirmed) {
             // TODO: I think this should return a value
-            this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
             if (authenticateResponse.accountExists) {
+              this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
               this.router.navigate(['/home/lobby']);
             } else {
               this.router.navigate(['/create-profile']);
