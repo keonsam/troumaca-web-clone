@@ -13,16 +13,16 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     let url: string = state.url;
-    this.authGuardService.redirectUrl = 'home';
+    this.authGuardService.redirectUrl = '/home';
     return this.authGuardService.isLoggedIn
       .map(value => {
         if (!value && this.validateExcludedUrls(url)) {
           return true;
         } else if (!value && !this.validateExcludedUrls(url)) {
-          this.router.navigate(['home']);
+          this.router.navigate(['/home']);
           return false;
         }else if (value && this.validateExcludedUrls(url)) {
-          this.router.navigate(['home/lobby']);
+          this.router.navigate(['/home/lobby']);
           return false;
         }
         return true;
@@ -33,16 +33,16 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     //to avoid the childRoute.url[0] error
     let url: string = state.url;
-    this.authGuardService.redirectUrl = 'home';
+    this.authGuardService.redirectUrl = '/home';
     return this.authGuardService.isLoggedIn
       .map(value => {
         if (!value && this.validateExcludedUrls(url)) {
           return true;
         } else if (!value && !this.validateExcludedUrls(url)) {
-          this.router.navigate(['home']);
+          this.router.navigate(['/home']);
           return false;
         }else if (value && this.validateExcludedUrls(url)) {
-          this.router.navigate(['home/lobby']);
+          this.router.navigate(['/home/lobby']);
           return false;
         }
         return true;

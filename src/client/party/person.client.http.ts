@@ -8,12 +8,31 @@ import {CredentialState} from "./credential.state";
 import {OrganizationState} from "./organization.state";
 import {OrganizationStates} from "./organization.states";
 import {AccountResponse} from "../../parties/account.response";
+import {SessionState} from "../session/session.state";
 
 export class PersonClientHttp implements PersonClient {
 
   constructor(private uuidGenerator: UUIDGenerator,
               private httpClient: HttpClient,
               private hostPort:string) {
+  }
+
+  public getPartyId(): Observable<string> {
+    let url = `${this.hostPort}/partyId`;
+
+    const httpOptions = {
+      withCredentials: true,
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<string>(url, httpOptions)
+      .map(data => {
+        return data;
+      });
   }
 
   public getUsers(pageNumber:number, pageSize:number, sortOrder:string): Observable<UserStates> {

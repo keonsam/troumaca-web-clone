@@ -16,6 +16,19 @@ export let getSimpleSession = (req: Request, res: Response) => {
     });
 };
 
+export let getPartyId = (req: Request, res: Response) => {
+  let sessionId = req.cookies["sessionId"];
+  sessionOrchestrator.getSimpleSession(sessionId)
+    .subscribe(next => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(next.partyId));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    });
+};
+
 export let isValidSession = (req: Request, res: Response) => {
   let sessionId = req.cookies["sessionId"];
   sessionOrchestrator.isValidSession(sessionId)

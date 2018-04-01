@@ -60,27 +60,31 @@ export class OrganizationCompanyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-     this.partyId = "83e51087-cc18-4a91-93dd-62fc41f5d513";
-     this.partyService.getOrganization(this.partyId)
-     .subscribe(organization =>{
-      this.purpose.setValue(organization.purpose);
-      this.name.setValue(organization.name);
-      this.organization = organization;
-    }, error => {
-      console.log(error);
-    });
+     this.partyService.getPartyId()
+       .subscribe((partyId: string) => {
+         console.log(partyId);
+         this.partyId = partyId;
+         this.partyService.getOrganization(this.partyId)
+           .subscribe(organization =>{
+             this.purpose.setValue(organization.purpose);
+             this.name.setValue(organization.name);
+             this.organization = organization;
+           }, error => {
+             console.log(error);
+           });
 
-    this.partyService.getPhoto(this.partyId)
-    .subscribe(imageStr => {
-      if(imageStr) {
-        this.backgroundImage= `url(${imageStr})`;
-      }else {
-        // default image moved to the front end
-        this.backgroundImage= this.defaultImage;
-      }
-    },error => {
-      console.log(error);
-    });
+         this.partyService.getPhoto(this.partyId)
+           .subscribe(imageStr => {
+             if(imageStr) {
+               this.backgroundImage= `url(${imageStr})`;
+             }else {
+               // default image moved to the front end
+               this.backgroundImage= this.defaultImage;
+             }
+           },error => {
+             console.log(error);
+           });
+       });
   }
 
 

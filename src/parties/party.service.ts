@@ -13,6 +13,10 @@ export class PartyService {
   constructor(private partyRepository: PartyRepository) {
   }
 
+  public getPartyId(): Observable<string> {
+    return this.partyRepository.getPartyId();
+  }
+
   public getUsers(pageNumber:number, pageSize:number, sortOrder:string):Observable<Users> {
     return this.partyRepository.getUsers(pageNumber, pageSize, sortOrder);
   }

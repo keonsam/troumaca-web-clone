@@ -149,6 +149,7 @@ app.get("/send-confirmation-codes/phone/:confirmationId", confirmationController
 app.get("/send-confirmation-codes/email/:confirmationId", confirmationController.sendEmailVerificationCode);
 app.get("/sessions/current-user-session", sessionController.getSimpleSession);
 app.get("/sessions/is-valid-session", sessionController.isValidSession);
+app.get("/partyId", sessionController.getPartyId);
 
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.

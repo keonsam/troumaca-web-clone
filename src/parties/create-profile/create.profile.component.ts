@@ -7,6 +7,7 @@ import {User} from "../user";
 import {Organization} from "../organization";
 import {EventName} from "../../event/event.name";
 import {EventService} from "../../event/event.service";
+import {Event} from "../../authentication/event";
 
 @Component({
   selector: 'create-profile',
@@ -101,6 +102,16 @@ export class CreateAccountComponent implements OnInit {
       }
       this.createProfileForm.updateValueAndValidity();
     });
+  }
+
+  createEventModel() {
+    let event:Event = new Event();
+    event.partyId = "123";
+    event.timestamp = new Date().getTime();
+    event.source = "create.profile.component";
+    event.name = "login";
+
+    return event;
   }
 
   get accountType(): FormControl {

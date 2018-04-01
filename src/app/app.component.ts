@@ -34,28 +34,37 @@ export class AppComponent implements OnInit{
               private route:ActivatedRoute,
               private eventService:EventService,
               private sessionService: SessionService) {
-
     this.isLoggedIn = false;
     this.eventService.subscribeToLoginEvent( (data) => {
       this.sessionService.activeSessionExists()
         .subscribe(value => {
           if(value) {
             this.isLoggedIn = true;
-          }else {
-            this.isLoggedIn = false;
           }
         });
     });
+
+    this.eventService.subscribeToSessionExpiredEvent( (data) => {
+      //prevent
+      this.isLoggedIn = false;
+      router.navigate(['/home'])
+    });
+
   }
 
   ngOnInit(): void {
-    let url = this.route.url ? this.route.url[0].path : '';
-    this.sessionService.activeSessionExists()
-      .subscribe(value => {
-        if(value && url !== "create-profile") {
-          this.isLoggedIn = true;
-        }
-      });
+    this.router.events.subscribe((event:any) => {
+      if (event instanceof NavigationEnd ) {
+        let url = event.url;
+        this.sessionService.activeSessionExists()
+          .subscribe(value => {
+
+            if (value && url !== "/create-profile") {
+              this.isLoggedIn = true;
+            }
+          });
+      }
+    });
   }
 
   get title(): string {

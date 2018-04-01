@@ -4,20 +4,33 @@ import {Observable} from "rxjs/Observable";
 import "rxjs/add/observable/of";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {SessionState} from "./session.state";
+import {EventService} from "../../event/event.service";
+import {EventName} from "../../event/event.name";
+import {Event} from "../../authentication/event";
 
 export class SessionClientHttp extends SessionClient {
 
   private sessionState:SessionState;
   private sessionStateCachedDate:number;
   private readonly duration:number;
-  private logInState: boolean;
+  private logInState: boolean = false;
 
   constructor(private uuidGenerator: UUIDGenerator,
               private httpClient: HttpClient,
-              private hostPort:string) {
+              private hostPort:string,
+              private eventService: EventService) {
     super();
-    this.logInState = false;
     this.duration = 1000 * 60 * 20;
+  }
+
+  createEventModel() {
+    let event:Event = new Event();
+    event.partyId = "123";
+    event.timestamp = new Date().getTime();
+    event.source = "session.client.http";
+    event.name = "session expired";
+
+    return event;
   }
 
   getSession():Observable<SessionState> {
@@ -64,16 +77,17 @@ export class SessionClientHttp extends SessionClient {
 
   activeSessionExists(): Observable<boolean> {
     if(this.logInState === true) {
-      return Observable.of(true);
+      return Observable.of(this.logInState);
     }
     return this.getRemoteSession()
       .map(session => {
+        console.log(session);
         if(session.sessionId && this.isNotExpiredSession(session)) {
           this.logInState= true;
           let calculatedExpiredTime = new Date(session.expirationTime).getTime() - new Date().getTime();
-          console.log(calculatedExpiredTime);
           setTimeout( () => {
             this.logInState = false;
+            this.eventService.sendEvent(EventName.SESSION_EXPIRED, this.createEventModel());
           }, calculatedExpiredTime);
           return true;
         }else {
