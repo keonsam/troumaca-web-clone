@@ -3,10 +3,9 @@ import {SessionOrchestrator} from './session.orchestrator'
 
 let sessionOrchestrator:SessionOrchestrator = new SessionOrchestrator();
 
-// router.post("/active", function (req, res, next) {
-export let isValidSession = (req: Request, res: Response) => {
-  let credential:any = req.body;
-  sessionOrchestrator.isValidSession(credential)
+export let getSimpleSession = (req: Request, res: Response) => {
+  let sessionId = req.cookies["sessionId"];
+  sessionOrchestrator.getSimpleSession(sessionId)
     .subscribe(next => {
       res.setHeader('Content-Type', 'application/json');
       res.send(next);
@@ -17,10 +16,22 @@ export let isValidSession = (req: Request, res: Response) => {
     });
 };
 
-// router.post("/sessions/current-user-session", function (req, res, next) {
-export let getSimpleSession = (req: Request, res: Response) => {
-  let credential:any = req.body;
-  sessionOrchestrator.getSimpleSession(credential)
+export let getPartyId = (req: Request, res: Response) => {
+  let sessionId = req.cookies["sessionId"];
+  sessionOrchestrator.getSimpleSession(sessionId)
+    .subscribe(next => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(next.partyId));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    });
+};
+
+export let isValidSession = (req: Request, res: Response) => {
+  let sessionId = req.cookies["sessionId"];
+  sessionOrchestrator.isValidSession(sessionId)
     .subscribe(next => {
       res.setHeader('Content-Type', 'application/json');
       res.send(next);

@@ -5,6 +5,9 @@ import {Router} from "@angular/router";
 import {PartyService} from "../party.service";
 import {User} from "../user";
 import {Organization} from "../organization";
+import {EventName} from "../../event/event.name";
+import {EventService} from "../../event/event.service";
+import {Event} from "../../authentication/event";
 
 @Component({
   selector: 'create-profile',
@@ -35,6 +38,7 @@ export class CreateAccountComponent implements OnInit {
   private requiredState: boolean = false;
 
   constructor(private partyService: PartyService,
+              private eventService: EventService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
@@ -98,6 +102,16 @@ export class CreateAccountComponent implements OnInit {
       }
       this.createProfileForm.updateValueAndValidity();
     });
+  }
+
+  createEventModel() {
+    let event:Event = new Event();
+    event.partyId = "123";
+    event.timestamp = new Date().getTime();
+    event.source = "create.profile.component";
+    event.name = "login";
+
+    return event;
   }
 
   get accountType(): FormControl {
@@ -193,11 +207,8 @@ export class CreateAccountComponent implements OnInit {
     this.partyService
     .addPhoto(partyId, this.croppedImage)
     .subscribe(value => {
-      if(value){
-        this.router.navigate(['/home/lobby']);
-      } else {
-        this.doNotDisplayFailureMessage2 = false;
-      }
+      this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
+      this.router.navigate(['/home/lobby']);
     }, error => {
       console.log(error);
     });
@@ -210,11 +221,11 @@ export class CreateAccountComponent implements OnInit {
     this.partyService
       .addAccount(this.accountType.value, this.user ,this.organization)
       .subscribe(value => {
-        console.log(value)
         if(value.created){
           if(this.croppedImage){
             this.savePhoto(value.user.partyId);
           }else {
+            this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
             this.router.navigate(['/home/lobby']);
           }
         }else {

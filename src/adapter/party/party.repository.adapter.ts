@@ -22,6 +22,10 @@ export class PartyRepositoryAdapter extends PartyRepository {
     super();
   }
 
+  public getPartyId(): Observable<string> {
+    return this.personClient.getPartyId();
+  }
+
   public getUsers(pageNumber:number, pageSize:number, sortOrder:string): Observable<Users> {
     return this.personClient
       .getUsers(pageNumber, pageSize, sortOrder)

@@ -24,7 +24,7 @@ export abstract class AssetTypeClassRepository {
 
   abstract getAssignAttributes(pageNumber:number, pageSize:number, sortOrder:string, assignedArray: string[]): Observable<Attributes>;
 
-  abstract addAssetTypeClass(assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute): Observable<AssetTypeClass>;
+  abstract addAssetTypeClass(assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute[]): Observable<AssetTypeClass>;
 
   abstract addAttribute(availableAttribute: Attribute): Observable<Attribute>;
 
@@ -32,7 +32,7 @@ export abstract class AssetTypeClassRepository {
 
   abstract deleteAttribute(attributeId: string): Observable<number>;
 
-  abstract updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute): Observable<number>;
+  abstract updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute[]): Observable<number>;
 
   abstract updateAttribute(attributeId: string, availableAttribute: Attribute): Observable<number>;
 }

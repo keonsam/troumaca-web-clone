@@ -6,7 +6,7 @@ import {AttributeState} from "../attribute/attribute.state";
 import {DataTypeStates} from "../attribute/data.type.states";
 import {AssignedAttributeState} from "./assigned.attribute.state";
 import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
-import {AssetTypeClassResponseState} from "./asset.type.class.response.state";
+import {AssetTypeClassResponse} from "../../asset-type-classes/asset.type.class.response";
 
 export abstract class AssetTypeClassClient {
 
@@ -14,7 +14,7 @@ export abstract class AssetTypeClassClient {
 
   abstract findUnitOfMeasureIdState(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]>
 
-  abstract getAssetTypeClass(assetTypeClassId: string) : Observable<AssetTypeClassResponseState>;
+  abstract getAssetTypeClass(assetTypeClassId: string) : Observable<AssetTypeClassResponse>;
 
   abstract getAttribute(attributeId: string) : Observable<AttributeState>;
 
@@ -24,7 +24,7 @@ export abstract class AssetTypeClassClient {
 
   abstract getAssignAttributes(pageNumber: number, pageSize:number, sortOrder:string, assignedArray: string[]): Observable<AttributeStates>;
 
-  abstract addAssetTypeClass(assetTypeClassState: AssetTypeClassState, assignedAttributes: AssignedAttributeState):Observable<AssetTypeClassState>;
+  abstract addAssetTypeClass(assetTypeClassState: AssetTypeClassState, assignedAttributes: AssignedAttributeState[]):Observable<AssetTypeClassState>;
 
   abstract addAttribute(attributeState: AttributeState):Observable<AttributeState>;
 
@@ -32,7 +32,7 @@ export abstract class AssetTypeClassClient {
 
   abstract deleteAttribute(attributeId: string): Observable<number>;
 
-  abstract updateAssetTypeClass(assetTypeClassId: string, assetTypeClassState: AssetTypeClassState, assignedAttributes: AssignedAttributeState) : Observable<number>;
+  abstract updateAssetTypeClass(assetTypeClassId: string, assetTypeClassState: AssetTypeClassState, assignedAttributes: AssignedAttributeState[]) : Observable<number>;
 
   abstract updateAttribute(attributeId: string, attributeState: AttributeState) : Observable<number>;
 }

@@ -51,11 +51,7 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
   }
 
   getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassResponse> {
-    return this.assetTypeClassClient
-    .getAssetTypeClass(assetTypeClassId)
-    .map(value =>{
-      return  mapObjectProps(value, new AssetTypeClassResponse());
-    });
+    return this.assetTypeClassClient.getAssetTypeClass(assetTypeClassId);
   }
 
   getAttribute(attributeId: string): Observable<Attribute> {
@@ -115,9 +111,12 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
         });
   }
 
-  addAssetTypeClass(assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute): Observable<AssetTypeClass> {
+  addAssetTypeClass(assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute[]): Observable<AssetTypeClass> {
+    let newAssignedAttributes = map(assignedAttributes, next => {
+      return  mapObjectProps(next, new AssignedAttributeState());
+    });
     return this.assetTypeClassClient
-    .addAssetTypeClass(mapObjectProps(assetTypeClass, new AssetTypeClassState()), mapObjectProps(assignedAttributes, new AssignedAttributeState()))
+    .addAssetTypeClass(mapObjectProps(assetTypeClass, new AssetTypeClassState()), newAssignedAttributes)
     .map(value =>{
       return mapObjectProps(value, new AssetTypeClass());
     });
@@ -139,8 +138,11 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
     return this.assetTypeClassClient.deleteAttribute(attributeId);
   }
 
-  updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute): Observable<number> {
-    return this.assetTypeClassClient.updateAssetTypeClass(assetTypeClassId,mapObjectProps(assetTypeClass, new AssetTypeClassState()), mapObjectProps(assignedAttributes, new AssignedAttributeState()));
+  updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute[]): Observable<number> {
+    let newAssignedAttributes = map(assignedAttributes, next => {
+      return  mapObjectProps(next, new AssignedAttributeState());
+    });
+    return this.assetTypeClassClient.updateAssetTypeClass(assetTypeClassId,mapObjectProps(assetTypeClass, new AssetTypeClassState()), newAssignedAttributes);
   }
 
   updateAttribute(attributeId: string, availableAttribute: Attribute): Observable<number> {

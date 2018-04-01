@@ -106,32 +106,36 @@ export class UserMeComponent implements OnInit {
     }
     this.userMeForm.updateValueAndValidity();
     });
-       this.partyId = "c079cf94-2db5-4048-a5de-db7d8c3e1351";
-       this.partyService.getUser(this.partyId)
-       .subscribe(user =>{
-        this.firstName.setValue(user.firstName);
-        this.middleName.setValue(user.middleName);
-        this.lastName.setValue(user.lastName);
-        this.username.setValue(user.username);
-        this.user = user;
-        this.partyId = user.partyId;
-        this.credential.partyId = user.partyId;
-        this.credential.username = user.username;
-      }, error => {
-        console.log(error);
-      });
 
-      this.partyService.getPhoto(this.partyId)
-      .subscribe(imageStr => {
-        if(imageStr) {
-          this.backgroundImage= `url(${imageStr})`;
-        }else {
-          // default image moved to the front end
-          this.backgroundImage= this.defaultImage;
-        }
-      },error => {
-        console.log(error);
-      });
+       this.partyService.getPartyId()
+         .subscribe((partyId: string) => {
+           this.partyId = partyId;
+           this.partyService.getUser(this.partyId)
+             .subscribe(user =>{
+               this.firstName.setValue(user.firstName);
+               this.middleName.setValue(user.middleName);
+               this.lastName.setValue(user.lastName);
+               this.username.setValue(user.username);
+               this.user = user;
+               this.partyId = user.partyId;
+               this.credential.partyId = user.partyId;
+               this.credential.username = user.username;
+             }, error => {
+               console.log(error);
+             });
+
+           this.partyService.getPhoto(this.partyId)
+             .subscribe(imageStr => {
+               if(imageStr) {
+                 this.backgroundImage= `url(${imageStr})`;
+               }else {
+                 // default image moved to the front end
+                 this.backgroundImage= this.defaultImage;
+               }
+             },error => {
+               console.log(error);
+             });
+         });
   }
 
   usernameEditValidator(partyService:PartyService) {

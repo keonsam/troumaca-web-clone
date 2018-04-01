@@ -5,7 +5,7 @@ export class AssetTypeClassResponse {
 
   private _created:boolean;
   private _assetTypeClass: AssetTypeClass;
-  private _assignedAttributes: AssignedAttribute;
+  private _assignedAttributes: AssignedAttribute[];
 
   get created(): boolean {
     return this._created;
@@ -23,11 +23,11 @@ export class AssetTypeClassResponse {
     this._assetTypeClass = value;
   }
 
-  get assignedAttributes(): AssignedAttribute {
+  get assignedAttributes(): AssignedAttribute[] {
     return this._assignedAttributes;
   }
 
-  set assignedAttributes(value: AssignedAttribute) {
+  set assignedAttributes(value: AssignedAttribute[]) {
     this._assignedAttributes = value;
   }
 }

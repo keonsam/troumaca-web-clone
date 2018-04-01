@@ -7,7 +7,6 @@ import {AssetTypeClassService} from "../asset.type.class.service";
 import {AssetTypeClass} from "../asset.type.class";
 import {Router} from "@angular/router";
 import {Attributes} from "../../attributes/attributes";
-import {AttributeArray} from "../attribute.array";
 import {AssignedAttribute} from "../assigned.attribute";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
@@ -39,7 +38,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
   private _attributeForm: FormGroup;
 
   private _assignedArray: string[];
-  private _assignedAttributes: AssignedAttribute;
+  private _assignedAttributes: AssignedAttribute[];
 
   private attribute: Attribute;
   private _dataTypes: DataType[];
@@ -133,8 +132,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
     });
 
     this.assignedArray = [];
-    this.assignedAttributes = new AssignedAttribute();
-    this.assignedAttributes.attribute = [];
+    this.assignedAttributes = [];
 
     this.dataTypes = [];
 
@@ -309,11 +307,11 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this._assignedArray = value;
   }
 
-  get assignedAttributes() : AssignedAttribute {
+  get assignedAttributes() : AssignedAttribute[] {
     return this._assignedAttributes;
   }
 
-  set assignedAttributes(value: AssignedAttribute) {
+  set assignedAttributes(value: AssignedAttribute[]) {
     this._assignedAttributes = value;
   }
 
@@ -379,19 +377,21 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
 
   onCheckBoxChange(event,attributeId) {
-    this.assignedAttributes.attribute.find(x => x.attributeId == attributeId).required = event.target.checked;
+    this.assignedAttributes.find(x => x.attributeId == attributeId).required = event.target.checked;
   }
 
-  onAvailableDoubleClick(attributeId: string) {
+  onAvailableDoubleClick(attributeId: string, dataType: string) {
    this.assignedArray.push(attributeId);
-   this.assignedAttributes.attribute.push(new AttributeArray(attributeId, true).toJson());
+   let required = dataType !== "Boolean" ? true: false; // true and false must not  required in asset Type
    this.updateTable();
+    // update and push to make sure no error
+    this.assignedAttributes.push(new AssignedAttribute(attributeId, required));
   }
 
   onAssignedDoubleClick(attributeId: string) {
   this.assignedArray = this.assignedArray.filter(val => val != attributeId);
-  this.assignedAttributes.attribute = this.assignedAttributes.attribute.filter(val => val.attributeId != attributeId);
-  this.updateTable();
+    this.updateTable();
+    this.assignedAttributes = this.assignedAttributes.filter(val => val.attributeId != attributeId);
   }
 
   onOpenDeleteModal(attributeId: string){
@@ -456,7 +456,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
-
     this.assetTypeClassService
     .addAssetTypeClass(this.assetTypeClass, this.assignedAttributes)
     .subscribe(value => {

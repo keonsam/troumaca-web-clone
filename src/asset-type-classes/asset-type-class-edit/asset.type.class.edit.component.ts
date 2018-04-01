@@ -15,7 +15,6 @@ import {Sort} from "../../sort/sort";
 import {DataType} from "../../attributes/data.type";
 import {Attribute} from "../../attributes/attribute";
 import {AssignedAttribute} from "../assigned.attribute";
-import {AttributeArray} from "../attribute.array";
 import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 
@@ -45,7 +44,7 @@ export class AssetTypeClassEditComponent implements OnInit {
   private _attributeForm: FormGroup;
 
   private _assignedArray: string[];
-  private _assignedAttributes: AssignedAttribute;
+  private _assignedAttributes: AssignedAttribute[];
 
   private attribute: Attribute;
   private _dataTypes: DataType[];
@@ -129,8 +128,7 @@ export class AssetTypeClassEditComponent implements OnInit {
      this.assignAttributes = newAttributes;
 
      this.assignedArray = [];
-     this.assignedAttributes = new AssignedAttribute();
-     this.assignedAttributes.attribute = [];
+     this.assignedAttributes = [];
 
      this.dataTypes = [];
 
@@ -189,7 +187,7 @@ export class AssetTypeClassEditComponent implements OnInit {
         this.name.setValue(data.assetTypeClass.name);
         this.description.setValue(data.assetTypeClass.description);
         this.assetTypeClass = data.assetTypeClass;
-        this.assignedArray = data.assignedAttributes.attribute.map(x => x.attributeId);
+        this.assignedArray = data.assignedAttributes.map(x => x.attributeId);
         this.assignedAttributes = data.assignedAttributes;
         this.updateTable();
       }, error => {
@@ -328,11 +326,11 @@ export class AssetTypeClassEditComponent implements OnInit {
      this._assignedArray = value;
    }
 
-   get assignedAttributes() : AssignedAttribute {
+   get assignedAttributes() : AssignedAttribute[] {
      return this._assignedAttributes;
    }
 
-   set assignedAttributes(value: AssignedAttribute) {
+   set assignedAttributes(value: AssignedAttribute[]) {
      this._assignedAttributes = value;
    }
 
@@ -367,12 +365,13 @@ export class AssetTypeClassEditComponent implements OnInit {
   }
 
    isChecked(attributeId) {
-     let isChecked = this.assignedAttributes.attribute.find(x => x.attributeId == attributeId);
+    // weird error where isChecked get called when you removed an item for assignAttribute
+     let isChecked = this.assignedAttributes.find(x => x.attributeId == attributeId);
      return isChecked ? isChecked.required: false;
    }
 
    onCheckBoxChange(event,attributeId) {
-     this.assignedAttributes.attribute.find(x => x.attributeId == attributeId).required = event.target.checked;
+     this.assignedAttributes.find(x => x.attributeId == attributeId).required = event.target.checked;
    }
 
    getAvailableAttributes() {
@@ -406,17 +405,19 @@ export class AssetTypeClassEditComponent implements OnInit {
      this.getAvailableAttributes();
    }
 
-   onAvailableDoubleClick(attributeId: string) {
-    this.assignedArray.push(attributeId);
-    this.updateTable();
-    this.assignedAttributes.attribute.push(new AttributeArray(attributeId, true).toJson());
+   onAvailableDoubleClick(attributeId: string, dataType: string) {
+     let required = dataType !== "Boolean" ? true: false; // true and false must not  required in asset Type
+     this.assignedArray.push(attributeId);
+     this.updateTable();
+     // update and push to make sure no error
+     this.assignedAttributes.push(new AssignedAttribute(attributeId, required));
+
    }
 
    onAssignedDoubleClick(attributeId: string) {
-   this.assignedArray = this.assignedArray.filter(val => val != attributeId);
-     this.assignedAttributes.attribute = this.assignedAttributes.attribute.filter(val => val.attributeId != attributeId);
-
-     this.updateTable();
+    this.assignedArray = this.assignedArray.filter(val => val != attributeId);
+    this.updateTable();
+    this.assignedAttributes = this.assignedAttributes.filter(val => val.attributeId != attributeId);
    }
 
    onOpenDeleteModal(attributeId: string){
@@ -481,6 +482,9 @@ export class AssetTypeClassEditComponent implements OnInit {
 
    onCreate() {
      this.doNotDisplayFailureMessage = true;
+     this.assignedAttributes.forEach(value => {
+       value.assetTypeClassId = this.assetTypeClassId;
+     });
      this.assetTypeClassService
      .updateAssetTypeClass(this.assetTypeClassId, this.assetTypeClass, this.assignedAttributes)
      .subscribe(value => {

@@ -36,7 +36,7 @@ export class AssetTypeCreationComponent implements OnInit {
   private _attributeForm: FormGroup;
 
   private assetType: AssetType;
-  private _assignedAttributes: AssignedAttribute;
+  private _assignedAttributes: AssignedAttribute[];
   private _attributes: Attribute[] = [];
 
   private _value: Value[] = [];
@@ -76,8 +76,7 @@ export class AssetTypeCreationComponent implements OnInit {
     assetType.unitOfMeasure = new UnitOfMeasure();
     this.assetType = assetType;
 
-    this.assignedAttributes = new AssignedAttribute();
-    this.assignedAttributes.attribute = [];
+    this.assignedAttributes = [];
 
     this.assetTypeForm
     .valueChanges
@@ -241,11 +240,11 @@ export class AssetTypeCreationComponent implements OnInit {
     this._attributeForm = value;
   }
 
-  get assignedAttributes(): AssignedAttribute {
+  get assignedAttributes(): AssignedAttribute[] {
     return this._assignedAttributes;
   }
 
-  set assignedAttributes(value: AssignedAttribute) {
+  set assignedAttributes(value: AssignedAttribute[]) {
     this._assignedAttributes = value;
   }
 
@@ -290,7 +289,7 @@ export class AssetTypeCreationComponent implements OnInit {
   }
 
   getRequired(attributeId: string) {
-    return this.assignedAttributes.attribute.find(x => x.attributeId == attributeId).required;
+    return this.assignedAttributes.find(x => x.attributeId == attributeId).required;
   }
 
   onAssetTypeClassIdSelect(selected: CompleterItem) {
@@ -323,7 +322,7 @@ export class AssetTypeCreationComponent implements OnInit {
       let group: any = {};
       this.attributes.forEach(value => {
       let editValue = this.value.find(x => x.attributeId == value.attributeId);
-      let required = this.assignedAttributes.attribute.find(x => x.attributeId == value.attributeId).required;
+      let required = this.assignedAttributes.find(x => x.attributeId == value.attributeId).required;
       if(!editValue) {
         this.value.push(new Value(value.attributeId,""));
         editValue = this.value.find(x => x.attributeId == value.attributeId);

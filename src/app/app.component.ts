@@ -34,25 +34,38 @@ export class AppComponent implements OnInit{
               private route:ActivatedRoute,
               private eventService:EventService,
               private sessionService: SessionService) {
-
-    // the default is off
-    this.isLoggedIn = true;
-
+    this.isLoggedIn = false;
     this.eventService.subscribeToLoginEvent( (data) => {
-      // this.sessionService.activeSessionExists()
-      //   .subscribe(activeSession => {
-      //   this.isLoggedIn = activeSession;
-      // });
+      this.sessionService.activeSessionExists()
+        .subscribe(value => {
+          if(value) {
+            this.isLoggedIn = true;
+          }
+        });
+    });
+
+    this.eventService.subscribeToSessionExpiredEvent( (data) => {
+      //prevent
+      this.isLoggedIn = false;
+      router.navigate(['/home'])
     });
 
   }
 
   // check with the server to see if there's and active session
   ngOnInit(): void {
-    // this.sessionService.activeSessionExists()
-    //   .subscribe(activeSession => {
-    //     this.isLoggedIn = activeSession;
-    //   });
+    this.router.events.subscribe((event:any) => {
+      if (event instanceof NavigationEnd ) {
+        let url = event.url;
+        this.sessionService.activeSessionExists()
+          .subscribe(value => {
+
+            if (value && url !== "/create-profile") {
+              this.isLoggedIn = true;
+            }
+          });
+      }
+    });
   }
 
   get title(): string {

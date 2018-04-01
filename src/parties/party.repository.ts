@@ -7,6 +7,8 @@ import {Organizations} from "./organizations";
 import {AccountResponse} from "./account.response";
 
 export abstract class PartyRepository {
+
+  abstract getPartyId(): Observable<string>;
   abstract getUsers(pageNumber:number, pageSize:number, sortOrder:string):Observable<Users>;
 
   abstract getOrganizations(pageNumber:number, pageSize:number, sortOrder:string):Observable<Organizations>;

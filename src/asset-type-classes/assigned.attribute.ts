@@ -2,10 +2,15 @@ export class AssignedAttribute {
 
   private _assignedAttributeId:string;
   private _assetTypeClassId: string;
-  private _attribute: any[];
+  private _attributeId: string;
+  private _required: boolean;
   private _createdOn: string;
   private _modifiedOn: string;
 
+  constructor(attributeId: string, required: boolean) {
+    this._attributeId = attributeId;
+    this._required = required;
+  }
 
   get assignedAttributeId(): string {
     return this._assignedAttributeId;
@@ -22,13 +27,20 @@ export class AssignedAttribute {
   set assetTypeClassId(value: string) {
     this._assetTypeClassId = value;
   }
-
-  get attribute(): any[] {
-    return this._attribute;
+  get attributeId(): string {
+    return this._attributeId;
   }
 
-  set attribute(value: any[]) {
-    this._attribute = value;
+  set attributeId(value: string) {
+    this._attributeId = value;
+  }
+
+  get required(): boolean {
+    return this._required;
+  }
+
+  set required(value: boolean) {
+    this._required = value;
   }
 
   get createdOn(): string {
