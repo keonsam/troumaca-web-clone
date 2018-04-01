@@ -35,16 +35,24 @@ export class AppComponent implements OnInit{
               private eventService:EventService,
               private sessionService: SessionService) {
 
-    this.isLoggedIn = false;
-    // this.eventService.subscribeToLoginEvent( (data) => {
-    //   this.sessionService.activeSessionExists()
-    //   this.isLoggedIn = true;
-    // });
+    // the default is off
+    this.isLoggedIn = true;
+
+    this.eventService.subscribeToLoginEvent( (data) => {
+      // this.sessionService.activeSessionExists()
+      //   .subscribe(activeSession => {
+      //   this.isLoggedIn = activeSession;
+      // });
+    });
 
   }
 
+  // check with the server to see if there's and active session
   ngOnInit(): void {
-
+    // this.sessionService.activeSessionExists()
+    //   .subscribe(activeSession => {
+    //     this.isLoggedIn = activeSession;
+    //   });
   }
 
   get title(): string {
