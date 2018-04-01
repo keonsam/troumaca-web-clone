@@ -52,6 +52,7 @@ export class AppComponent implements OnInit{
         if(value) {
           this.isLoggedIn = true;
         }
+        console.log("app completed");
       });
   }
 

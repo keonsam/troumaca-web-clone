@@ -1,4 +1,8 @@
 export const excludedRoutes: string[] = [
-  'home',
-  'authentication'
+  '/home',
+  '/authentication',
+  '/authentication/login',
+  '/authentication/register',
+  '/authentication/phone-verification',
+  '/authentication/email-verification'
 ];

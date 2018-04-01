@@ -31,6 +31,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    //to avoid the childRoute.url[0] error
     let url: string = state.url;
     this.authGuardService.redirectUrl = 'home';
     return this.authGuardService.isLoggedIn
@@ -49,15 +50,17 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 
   validateExcludedUrls(url) {
-    console.log(url);
-    let newUrl = this.router.parseUrl(url);
-    console.log(newUrl)
-    return true
-    /*if (excludedRoutes.indexOf(newUrl) !== -1) {
+    //this may not be maintainable
+    let testRegex = /\/[a-z-]*\/[a-z-]*\/[a-z-]*/gi; // test the string not a pro
+    let matchRegex = /\/[a-z-]*\/[a-z-]*\//gi; // not good with regex if you can fix this that will be great
+    if(testRegex.test(url)) {
+      url = url.match(matchRegex)[0].slice(0, -1);
+    }
+    if (excludedRoutes.indexOf(url) !== -1) {
       return true;
     }else {
       return false;
-    }*/
+    }
   }
 
 }

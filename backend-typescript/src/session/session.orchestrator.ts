@@ -1,6 +1,7 @@
 import {createSessionRepositoryFactory} from "./session.repository.factory";
 import {SessionRepository} from "./session.repository";
 import {Observable} from "rxjs/Observable";
+import {Session} from "./session";
 
 export class SessionOrchestrator {
 
@@ -17,12 +18,12 @@ export class SessionOrchestrator {
     });
   }
 
-  getSimpleSession(sessionId:string) {
+  getSimpleSession(sessionId:string): Observable<Session> {
     // Todo: Need to verify.
-    return this.sessionRepository.getSessionById(sessionId)
-    .map(session => {
-      return session;
-    });
+    if(!sessionId) {
+      return Observable.of(new Session());
+    }
+    return this.sessionRepository.getSessionById(sessionId);
   }
 
 }

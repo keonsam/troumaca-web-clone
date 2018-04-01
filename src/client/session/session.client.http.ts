@@ -10,12 +10,14 @@ export class SessionClientHttp extends SessionClient {
   private sessionState:SessionState;
   private sessionStateCachedDate:number;
   private readonly duration:number;
+  private logInState: boolean;
 
   constructor(private uuidGenerator: UUIDGenerator,
               private httpClient: HttpClient,
               private hostPort:string) {
     super();
-    this.duration = 1000 * 10;
+    this.logInState = false;
+    this.duration = 1000 * 60 * 20;
   }
 
   getSession():Observable<SessionState> {
@@ -37,13 +39,8 @@ export class SessionClientHttp extends SessionClient {
       return false;
     }
 
-    if (!this.sessionStateCachedDate) {
-      return false;
-    }
-
-    let expiredDate = this.sessionStateCachedDate + this.duration;
+    let expiredDate = new Date(sessionState.expirationTime).getTime();
     let now = new Date().getTime();
-
     return expiredDate > now;
   }
 
@@ -51,6 +48,7 @@ export class SessionClientHttp extends SessionClient {
     let url = `${this.hostPort}/sessions/current-user-session`;
 
     const httpOptions = {
+      withCredentials: true,
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'correlationId': this.uuidGenerator.generateUUID()
@@ -65,40 +63,29 @@ export class SessionClientHttp extends SessionClient {
   }
 
   activeSessionExists(): Observable<boolean> {
-    let url = `${this.hostPort}/sessions/is-valid-session`;
-
-    const httpOptions = {
-      withCredentials: true,
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
-    };
-
-    return this.httpClient
-      .get<boolean>(url, httpOptions)
-      .map(data => {
-        return data;
+    if(this.logInState === true) {
+      return Observable.of(true);
+    }
+    return this.getRemoteSession()
+      .map(session => {
+        if(session.sessionId && this.isNotExpiredSession(session)) {
+          this.logInState= true;
+          let calculatedExpiredTime = new Date(session.expirationTime).getTime() - new Date().getTime();
+          console.log(calculatedExpiredTime);
+          setTimeout( () => {
+            this.logInState = false;
+          }, calculatedExpiredTime);
+          return true;
+        }else {
+          this.logInState= false;
+          return false;
+        }
       });
   }
 
   get isLoggedIn(): Observable<boolean> {
-
-    let url = `${this.hostPort}/sessions/is-valid-session`;
-
-    const httpOptions = {
-      withCredentials: true,
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
-    };
-
-    return this.httpClient
-      .get<boolean>(url, httpOptions)
-      .map(data => {
-        return data;
-      });
+    //this to increase performance
+    return this.activeSessionExists();
   }
 
 }

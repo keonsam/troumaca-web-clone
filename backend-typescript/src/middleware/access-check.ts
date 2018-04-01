@@ -27,7 +27,7 @@ let checkAccess = () => {
   // production mode > session id > view close page
 
   function isNotSecureEndPoint(originalPath:string) {
-    console.log(originalPath);
+    console.log("this is the url " +originalPath);
     if (dev) {
       return true;
     }
@@ -53,15 +53,15 @@ let checkAccess = () => {
     if (isNotSecureEndPoint(req.originalUrl)) {
       next();
     } else if (sessionId) {
-      // sessionOrchestrator
-      //   .isValidSession(sessionId)
-      //   .map(isValid => {
-      //     if (isValid) {
-      //       next();
-      //     } else {
-      //       //res.send(401, "Invalid session...")
-      //     }
-      //   });
+      sessionOrchestrator
+        .isValidSession(sessionId)
+        .map(isValid => {
+          if (isValid) {
+            next();
+          } else {
+            //res.send(401, "Invalid session...")
+          }
+        });
     } else {
       //res.send(401, "Cannot access this resource with a session...")
     }
