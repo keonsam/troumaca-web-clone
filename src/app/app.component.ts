@@ -52,6 +52,7 @@ export class AppComponent implements OnInit{
 
   }
 
+  // check with the server to see if there's and active session
   ngOnInit(): void {
     this.router.events.subscribe((event:any) => {
       if (event instanceof NavigationEnd ) {
