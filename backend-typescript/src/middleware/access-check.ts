@@ -14,8 +14,7 @@ let checkAccess = (req: Request, res: Response, next: NextFunction) => {
   // TODO: move this to its own file
   let openPaths:Array<string> = [
     '/sessions/is-valid-session',
-    '/send-confirmation-codes/email',
-    '/send-confirmation-codes/phone',
+    '/send-confirmation-codes',
     '/verify-credentials-confirmations',
     '/forgot-password',
     '/authenticate',
@@ -71,7 +70,7 @@ let checkAccess = (req: Request, res: Response, next: NextFunction) => {
           if (isValid) {
             next();
           } else {
-            res.status(401);
+            res.status(440);
             res.send("Invalid session...");
           }
         });

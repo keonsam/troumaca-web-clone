@@ -48,7 +48,6 @@ export class SessionInterceptor implements HttpInterceptor {
     if (err instanceof HttpErrorResponse) {
       if (err.status === 401) {
         // redirect to the login route or show a modal
-        console.log(this);
         this.clientEvent.sendUnauthorizedEvent({"unauthorized":true});
       } else if (err.status === 440) {
         this.clientEvent.sendLoginTimeOutEvent({"loginTimeOut":true});

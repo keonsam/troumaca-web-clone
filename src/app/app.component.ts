@@ -31,14 +31,24 @@ export class AppComponent implements OnInit{
     "register"
   ];
 
+  private logInSub: any;
+  private initLogSub: any;
+
+
   constructor(private router:Router,
               private route:ActivatedRoute,
               private eventService:EventService,
               private sessionService: SessionService,
               private clientEvent: ClientEvent) {
     this.isLoggedIn = false;
+
     this.eventService.subscribeToLoginEvent( (data) => {
-      this.isLoggedIn = true;
+      this.logInSub = this.router.events.subscribe( (event:any) => {
+        if (event instanceof NavigationEnd) {
+          this.isLoggedIn = true;
+          this.logInSub.unsubscribe();
+        }
+      });
     });
 
     this.clientEvent.subscribeToUnauthorizedEvent((data) => {
@@ -50,18 +60,18 @@ export class AppComponent implements OnInit{
       this.isLoggedIn = false;
       this.router.navigate(['/home']);
     });
-
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe((event:any) => {
-      if (event instanceof NavigationEnd ) {
-        let url = event.url;
+    this.initLogSub = this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
         this.sessionService.activeSessionExists()
           .subscribe(value => {
+            let url = event.url;
             if (value && url !== "/create-profile") {
               this.isLoggedIn = true;
             }
+            this.initLogSub.unsubscribe();
           });
       }
     });
