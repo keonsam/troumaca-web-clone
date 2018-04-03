@@ -3,7 +3,11 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 
 import {PartyService} from "../party.service";
-import {Account} from "../account";
+import {User} from "../user";
+import {Organization} from "../organization";
+import {EventName} from "../../event/event.name";
+import {EventService} from "../../event/event.service";
+import {Event} from "../../authentication/event";
 
 @Component({
   selector: 'create-profile',
@@ -22,7 +26,8 @@ export class CreateAccountComponent implements OnInit {
 
   private _createProfileForm: FormGroup;
 
-  private account: Account;
+  private user: User;
+  private organization: Organization;
 
   private imageChangedEvent: any = '';
   private croppedImage: any = '';
@@ -33,6 +38,7 @@ export class CreateAccountComponent implements OnInit {
   private requiredState: boolean = false;
 
   constructor(private partyService: PartyService,
+              private eventService: EventService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
@@ -41,7 +47,7 @@ export class CreateAccountComponent implements OnInit {
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
     this.purpose = new FormControl("", [Validators.required]);
-    this.organizationName = new FormControl("");
+    this.organizationName = new FormControl("", [Validators.required]);
     this.description = new FormControl("");
 
     this.createProfileForm = formBuilder.group({
@@ -54,18 +60,19 @@ export class CreateAccountComponent implements OnInit {
       "description": this.description
     });
 
-    this.account = new Account();
+    this.user = new User();
+    this.organization = new Organization();
 
     this.createProfileForm
      .valueChanges
      .subscribe(value => {
-       this.account.accountType = value.accountType;
-       this.account.firstName = value.firstName;
-       this.account.middleName = value.middleName;
-       this.account.lastName = value.lastName;
-       this.account.purpose = value.purpose;
-       this.account.organizationName = value.organizationName;
-       this.account.description = value.description;
+       this.user.firstName = value.firstName;
+       this.user.middleName = value.middleName;
+       this.user.lastName = value.lastName;
+       this.organization.purpose = value.purpose;
+       this.organization.name = value.organizationName;
+       this.organization.description = value.description;
+       console.log(this.createProfileForm);
      }, error2 => {
        console.log(error2);
      });
@@ -80,19 +87,31 @@ export class CreateAccountComponent implements OnInit {
     this.createProfileForm.get("accountType")
     .valueChanges
     .subscribe(type => {
-      console.log(this.organizationName);
       if(type === "personal"){
-        console.log("working")
         this.requiredState = false;
         this.createProfileForm.get("organizationName").setValidators(null);
+        this.createProfileForm.get("purpose").setValidators(null);
+        this.createProfileForm.get("organizationName").updateValueAndValidity();
+        this.createProfileForm.get("purpose").updateValueAndValidity();
       }else {
-        console.log("workf");
         this.requiredState = true;
         this.createProfileForm.get("organizationName").setValidators([Validators.required]);
+        this.createProfileForm.get("purpose").setValidators([Validators.required]);
+        this.createProfileForm.get("organizationName").updateValueAndValidity();
+        this.createProfileForm.get("purpose").updateValueAndValidity();
       }
-      this.createProfileForm.get("organizationName").updateValueAndValidity();
-      console.log(this.createProfileForm);
+      this.createProfileForm.updateValueAndValidity();
     });
+  }
+
+  createEventModel() {
+    let event:Event = new Event();
+    event.partyId = "123";
+    event.timestamp = new Date().getTime();
+    event.source = "create.profile.component";
+    event.name = "login";
+
+    return event;
   }
 
   get accountType(): FormControl {
@@ -188,11 +207,8 @@ export class CreateAccountComponent implements OnInit {
     this.partyService
     .addPhoto(partyId, this.croppedImage)
     .subscribe(value => {
-      if(value){
-        this.router.navigate(['/home/lobby']);
-      } else {
-        this.doNotDisplayFailureMessage2 = false;
-      }
+      this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
+      this.router.navigate(['/home/lobby']);
     }, error => {
       console.log(error);
     });
@@ -201,23 +217,25 @@ export class CreateAccountComponent implements OnInit {
   onCreate() {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
-
-      this.partyService
-      .addAccount(this.account)
+     // changed to avoid errors one called to the serve
+    this.partyService
+      .addAccount(this.accountType.value, this.user ,this.organization)
       .subscribe(value => {
-        if (value && value.partyId) {
+        if(value.created){
           if(this.croppedImage){
-            this.savePhoto(value.partyId);
+            this.savePhoto(value.user.partyId);
           }else {
+            this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
             this.router.navigate(['/home/lobby']);
           }
-        } else {
+        }else {
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
         console.log(error);
         this.doNotDisplayFailureMessage = false;
       });
+
   }
 
 }

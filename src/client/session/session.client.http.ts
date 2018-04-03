@@ -4,18 +4,33 @@ import {Observable} from "rxjs/Observable";
 import "rxjs/add/observable/of";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {SessionState} from "./session.state";
+import {EventService} from "../../event/event.service";
+import {EventName} from "../../event/event.name";
+import {Event} from "../../authentication/event";
 
 export class SessionClientHttp extends SessionClient {
 
   private sessionState:SessionState;
   private sessionStateCachedDate:number;
   private readonly duration:number;
+  private logInState: boolean = false;
 
   constructor(private uuidGenerator: UUIDGenerator,
               private httpClient: HttpClient,
-              private hostPort:string) {
+              private hostPort:string,
+              private eventService: EventService) {
     super();
-    this.duration = 1000 * 10;
+    this.duration = 1000 * 60 * 20;
+  }
+
+  createEventModel() {
+    let event:Event = new Event();
+    event.partyId = "123";
+    event.timestamp = new Date().getTime();
+    event.source = "session.client.http";
+    event.name = "session expired";
+
+    return event;
   }
 
   getSession():Observable<SessionState> {
@@ -37,13 +52,8 @@ export class SessionClientHttp extends SessionClient {
       return false;
     }
 
-    if (!this.sessionStateCachedDate) {
-      return false;
-    }
-
-    let expiredDate = this.sessionStateCachedDate + this.duration;
+    let expiredDate = new Date(sessionState.expirationTime).getTime();
     let now = new Date().getTime();
-
     return expiredDate > now;
   }
 
@@ -51,6 +61,7 @@ export class SessionClientHttp extends SessionClient {
     let url = `${this.hostPort}/sessions/current-user-session`;
 
     const httpOptions = {
+      //withCredentials: true,
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'correlationId': this.uuidGenerator.generateUUID()
@@ -65,7 +76,7 @@ export class SessionClientHttp extends SessionClient {
   }
 
   activeSessionExists(): Observable<boolean> {
-    let url = `${this.hostPort}/sessions/exists`;
+    let url = `${this.hostPort}/sessions/is-valid-session`;
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -78,11 +89,12 @@ export class SessionClientHttp extends SessionClient {
       .get<boolean>(url, httpOptions)
       .map(data => {
         return data;
-    });
+      });
   }
 
   get isLoggedIn(): Observable<boolean> {
-    return Observable.of(true);
+    //this to increase performance
+    return this.activeSessionExists();
   }
 
 }

@@ -27,4 +27,20 @@ export class ClientEvent {
     this._subject.next({name:EventName.LOGIN_TIME_OUT, data:data});
   }
 
+  subscribeToLogoutEvent(func) {
+    this.subject.subscribe( next => {
+      if(next.name === EventName.LOGIN_TIME_OUT) {
+        func(next.data);
+      }
+    })
+  }
+
+  subscribeToUnauthorizedEvent(func) {
+    this.subject.subscribe( next => {
+      if(next.name === EventName.UNAUTHORIZED) {
+        func(next.data);
+      }
+    })
+  }
+
 }

@@ -7,6 +7,7 @@ import {Values} from "./values";
 import {Attributes} from "../attributes/attributes";
 import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
 import {AssetTypeClasses} from "../asset-type-classes/asset.type.classes";
+import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
 
 export class AssetTypeService {
   constructor(private assetTypeRepository: AssetTypeRepository) {
@@ -16,8 +17,8 @@ export class AssetTypeService {
     return this.assetTypeRepository.getAssetTypes(pageNumber, pageSize, sortOrder);
   }
 
-  public getAttributes(assetTypeClassId: string): Observable<Attributes> {
-    return this.assetTypeRepository.getAttributes(assetTypeClassId);
+  public getAssignedAttributes(assetTypeClassId: string): Observable<any> {
+    return this.assetTypeRepository.getAssignedAttributes(assetTypeClassId);
   }
 
   public getValues(assetTypeId: string): Observable<Values> {
@@ -36,11 +37,15 @@ export class AssetTypeService {
     return this.assetTypeRepository.findAssetTypeClassId(searchStr, pageSize);
   }
 
+  public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
+    return this.assetTypeRepository.findUnitOfMeasureId(searchStr, pageSize);
+  }
+
   public addAssetType(assetType: AssetType): Observable<AssetType> {
     return this.assetTypeRepository.addAssetType(assetType);
   }
 
-  public addValue(value: Value): Observable<Value> {
+  public addValue(value: Value[]): Observable<Value[]> {
     return this.assetTypeRepository.addValue(value);
   }
 
@@ -56,8 +61,8 @@ export class AssetTypeService {
     return this.assetTypeRepository.updateAssetType(assetTypeId, assetType);
   }
 
-  public updateValue(value: Value): Observable<number> {
-    return this.assetTypeRepository.updateValue(value);
+  public updateValue(assetTypeId, value: Value[]): Observable<number> {
+    return this.assetTypeRepository.updateValue(assetTypeId,value);
   }
 
 }

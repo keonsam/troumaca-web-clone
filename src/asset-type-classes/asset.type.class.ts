@@ -4,7 +4,6 @@ export class AssetTypeClass {
   private _tenantId: string;
   private _name:string;
   private _description:string;
-  private _assignedAttributes : any[] = [];
   private _createdOn:Date;
   private _modifiedOn:Date;
 
@@ -40,13 +39,6 @@ export class AssetTypeClass {
     this._description = value;
   }
 
-  get assignedAttributes(): any[] {
-    return this._assignedAttributes;
-  }
-
-  set assignedAttributes(value: any[]) {
-    this._assignedAttributes = value;
-  }
 
   get createdOn(): Date {
     return this._createdOn;

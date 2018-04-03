@@ -100,7 +100,7 @@ router.get("/:assetId", function  (req, res, next) {
 
 router.post("/", function (req, res, ndex) {
   let asset = req.body;
-  assetOrch
+  AssetOrchestrator
   .saveAsset(asset)
   .subscribe(asset => {
     res.send(JSON.stringify(asset));

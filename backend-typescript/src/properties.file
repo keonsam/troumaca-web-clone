@@ -1,0 +1,10 @@
+# contents of properties file
+
+[credential]
+host = localhost
+port = 8080
+host.port = localhost:8080
+
+[asset]
+host = localhost
+port = 8080

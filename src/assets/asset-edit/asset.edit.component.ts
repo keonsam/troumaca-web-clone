@@ -9,7 +9,7 @@ import {Asset} from "../asset";
 //import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
 import {AssetKind} from "../asset.kind";
 import {AssetType} from "../../asset-types/asset.type";
-import {UnitOfMeasure} from "../asset.unit.of.measure";
+import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {AssetPerson} from "../asset.person";
 import {Site} from "../asset.site";
 import {ActivatedRoute} from '@angular/router';
@@ -191,7 +191,7 @@ export class AssetEditComponent implements OnInit {
         that.assetService
           .findUnitOfMeasures(value, that.pageSize) // send search request to the backend
           .map(value2 => { // convert results to dropdown data
-            return value2.unitOfMeasures.map(v2 => {
+            return value2.map(v2 => {
               return {
                 unitOfMeasureId: v2.unitOfMeasureId,
                 name: v2.name
@@ -221,15 +221,15 @@ export class AssetEditComponent implements OnInit {
           .findUnionOfPhysicalSites(value, that.pageSize) // send search request to the backend
           .map(value2 => { // convert results to dropdown data
             return value2.unionOfPhysicalSites.map(v2 => {
-              let name = "";
+              /*let name = "";
               if (v2.postOfficeBoxNumber) {
                 name = v2.postOfficeBoxNumber;
               } else {
                 name = v2.streetNumber + " " + v2.street;
-              }
+              }*/
               return {
                 siteId: v2.siteId,
-                name: name
+                name: v2.name
               };
             })
           })

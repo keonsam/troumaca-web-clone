@@ -55,9 +55,9 @@
                       </tr>
                     </tfoot>
                     <tbody>
-                      <tr role="row" *ngFor="let attribute of assignedAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedDoubleClick(attribute.attributeId)">
+                      <tr role="row" *ngFor="let attribute of assignAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedDoubleClick(attribute.attributeId)">
                         <td class="text-center">
-                          <input class="form-control" type="checkbox" (change)="onCheckBoxChange($event, attribute.attributeId)" checked>
+                          <input class="form-control" type="checkbox" (change)="onCheckBoxChange($event, attribute.attributeId)" [checked]="attribute.dataType.name !== 'Boolean' ? true:false">
                         </td>
                         <td>{{attribute.name}}</td>
                         <td>{{attribute.dataType.name}}</td>
@@ -65,12 +65,12 @@
                           <a (click)="onOpenFormModal(attribute.attributeId); onNewOrEdit('Edit'); open(content)"><i class="os-icon os-icon-ui-49"></i></a><a  class="danger" (click)="onAssignedDoubleClick(attribute.attributeId)" ><i class="os-icon os-icon-ui-15"></i></a>
                         </td>
                       </tr>
-                      <tr *ngIf="assignedAttributes.attributes.length <= 0" class="odd">
+                      <tr *ngIf="assignAttributes.attributes.length <= 0" class="odd">
                         <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No Assigned Attributes</td>
                       </tr>
                    </tbody>
                   </table>
-                  <paging [page]="assignedAttributes.page" (requestPage)="onAssignedRequestPage($event)"></paging>
+                  <paging [page]="assignAttributes.page" (requestPage)="onAssignedRequestPage($event)"></paging>
                 </div>
             </div>
               <!-- End of Assigned Attributes -->
@@ -105,7 +105,7 @@
                 </tr>
               </tfoot>
               <tbody>
-                <tr role="row" *ngFor="let attribute of availableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAvailableDoubleClick(attribute.attributeId)">
+                <tr role="row" *ngFor="let attribute of availableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAvailableDoubleClick(attribute.attributeId, attribute.dataType.name)">
                   <td>{{attribute.name}}</td>
                   <td>{{attribute.dataType.name}}</td>
                   <td class="row-actions">
@@ -185,8 +185,19 @@
 
           <fieldset class="form-group">
             <div class="form-group">
-              <label for="Attribute Unit Of Measure Id">Unit Of Measure ID</label><input class="form-control" formControlName="unitOfMeasureId" placeholder="Unit of Measure ID">
-              <div [hidden]="unitOfMeasureId.valid || unitOfMeasureId.pristine" class="alert alert-danger">Invalid Unit Of Measure ID.</div>
+              <label for="">Unit Of Measurement</label>
+              <ng2-completer [datasource]="unitOfMeasureIdDataService"
+                             [inputClass]="'form-control form-control-inline'"
+                             [minSearchLength]="0"
+                             [maxChars]="4"
+                             [inputClass]="'form-control'"
+                             [placeholder]="'Search for Unit of Measurement'"
+                             [matchClass]="'match'"
+                             formControlName="unitOfMeasureId"
+                             [autofocus]="true"
+                             [textSearching]="false"
+                             (selected)="onUnitOfMeasureIdSelect($event)">
+              </ng2-completer>
             </div>
           </fieldset>
 

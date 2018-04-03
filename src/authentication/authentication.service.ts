@@ -4,6 +4,8 @@ import {Cookie} from "ng2-cookies/ng2-cookies";
 import {AuthenticationRepository} from "./authentication.repository";
 import {Credential} from "./credential";
 import {CredentialConfirmation} from "./credential.confirmation";
+import {Result} from "../result/result.success";
+import {AuthenticateResponse} from "./authenticate.response";
 
 export class AuthenticationService {
 
@@ -21,17 +23,20 @@ export class AuthenticationService {
     return this.authenticationRepository.isValidPassword(password);
   }
 
-  public authenticate(credential:Credential):Observable<Session> {
+  public authenticate(credential:Credential):Observable<AuthenticateResponse> {
     let that = this;
     return this
     .authenticationRepository
     .authenticate(credential)
-    .map(session => {
-      Cookie.set(that.sessionIdName, session.sessionId);
-      if (credential.rememberMe) {
-        Cookie.set(this.rememberMeName, String(credential.rememberMe));
-      }
-      return session;
+    .map(authenticateResponse => {
+      // TODO: I believe this needs changing
+      /*if(authenticateResponse.session) {
+        Cookie.set(that.sessionIdName, authenticateResponse.session.sessionId);
+        if (authenticateResponse.credential.rememberMe) {
+          Cookie.set(that.rememberMeName, String(authenticateResponse.credential.rememberMe));
+        }
+      }*/
+      return authenticateResponse;
     });
   }
 
@@ -43,11 +48,11 @@ export class AuthenticationService {
     return this.authenticationRepository.addCredential(credential);
   }
 
-  public verifyCredentialConfirmation(credentialConfirmation: CredentialConfirmation,): Observable<CredentialConfirmation> {
+  public verifyCredentialConfirmation(credentialConfirmation: CredentialConfirmation,): Observable<Result<CredentialConfirmation>>{
     return this.authenticationRepository.verifyCredentialConfirmation(credentialConfirmation);
   }
 
-  public sendConfirmationCode(credentialConfirmationId: string, type: string): Observable<CredentialConfirmation> {
+  public sendConfirmationCode(credentialConfirmationId: string, type: string): Observable<Result<CredentialConfirmation>> {
     return this.authenticationRepository.sendConfirmationCode(credentialConfirmationId, type);
   }
 

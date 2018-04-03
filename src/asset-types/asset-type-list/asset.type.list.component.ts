@@ -67,6 +67,7 @@ export class AssetTypeListComponent implements OnInit {
     this.assetTypeService
     .deleteAssetType(this.assetTypeId)
     .subscribe(value => {
+      // server decide what to do with the values
     this.getAssetTypes();
     }, error => {
     console.log(error);

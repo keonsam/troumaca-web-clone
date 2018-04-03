@@ -16,6 +16,7 @@ import {ValueState} from "../../client/asset-type/value.state";
 //import {ValueStates} from "../../client/asset-type/value.states";
 import {Value} from "../../asset-types/value";
 import {Values} from "../../asset-types/values";
+import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 
@@ -42,15 +43,11 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
       });
   }
 
-  public getAttributes(assetTypeClassId: string): Observable<Attributes> {
+  public getAssignedAttributes(assetTypeClassId: string): Observable<any> {
     return this.assetTypesClient
-      .getAttributes(assetTypeClassId)
+      .getAssignedAttributes(assetTypeClassId)
       .map(values => {
-        let attributeModels:Attributes = new Attributes();
-        attributeModels.attributes = map(values.attributes, value => {
-          return mapObjectProps(value, new Attribute());
-        });
-        return attributeModels;
+        return values;
       });
   }
 
@@ -82,18 +79,6 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     });
   }
 
-  public findAssetTypes(searchStr: string, pageSize:number): Observable<AssetTypes> {
-    return this.assetTypesClient
-    .findAssetTypes(searchStr, pageSize)
-    .map(values => {
-      let assetTypes:AssetTypes = new AssetTypes();
-      assetTypes.assetTypes = map(values.assetTypes, value => {
-        return mapObjectProps(value, new AssetType());
-      });
-      return assetTypes;
-    });
-  }
-
   public findAssetTypeClassId(searchStr: string, pageSize:number): Observable<AssetTypeClasses> {
     return this.assetTypesClient
     .findAssetTypeClassId(searchStr, pageSize)
@@ -106,6 +91,16 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     });
   }
 
+  public findUnitOfMeasureId(searchStr: string, pageSize:number): Observable<UnitOfMeasure[]> {
+    return this.assetTypesClient
+      .findUnitOfMeasureIdState(searchStr, pageSize)
+      .map(data => {
+        return map(data, value => {
+          return mapObjectProps(value, new UnitOfMeasure());
+        });
+      });
+  }
+
   public addAssetType(assetType: AssetType): Observable<AssetType> {
     return this.assetTypesClient
     .addAssetTypeState(mapObjectProps(assetType, new AssetTypeState()))
@@ -114,12 +109,16 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     });
   }
 
-  public addValue(value: Value): Observable<Value> {
+  public addValue(value: Value[]): Observable<Value[]> {
     return this.assetTypesClient
-    .addValueState(mapObjectProps(value, new ValueState()))
-    .map(value2 => {
-      return mapObjectProps(value2, new Value());
-    });
+    .addValueState( map(value, next =>{
+      return mapObjectProps(next, new ValueState());
+    })
+  ).map(values => {
+        return map(values, next => {
+          return mapObjectProps(values, new Value());
+        });
+      });
   }
 
   public deleteAssetType(assetTypeId: string): Observable<number> {
@@ -134,8 +133,8 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     return this.assetTypesClient.updateAssetType(assetTypeId,  mapObjectProps(assetType, new AssetTypeState()));
   }
 
-  public updateValue(value: Value): Observable<number> {
-    return this.assetTypesClient.updateValue(mapObjectProps(value, new ValueState()));
+  public updateValue(assetTypeId, value: Value[]): Observable<number> {
+    return this.assetTypesClient.updateValue(assetTypeId, map(value , next => { return mapObjectProps(next, new ValueState()) }));
   }
 
 }

@@ -3,7 +3,7 @@ import {AssetKind} from "./asset.kind";
 import {AssetType} from "../asset-types/asset.type";
 import {Site} from "./asset.site";
 import {Lot} from "./asset.lot";
-import {UnitOfMeasure} from "./asset.unit.of.measure";
+import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
 import {AssetPerson} from "./asset.person";
 //import {AssetKind} from "./asset.kind";
 

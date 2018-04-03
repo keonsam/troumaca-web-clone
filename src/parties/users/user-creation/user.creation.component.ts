@@ -21,7 +21,6 @@ import {Credential} from "../../credential";
 })
 export class UserCreationComponent implements OnInit {
 
-  private partyId: string;
   private _firstName: FormControl;
   private _middleName: FormControl;
   private _lastName: FormControl;
@@ -171,7 +170,7 @@ export class UserCreationComponent implements OnInit {
     this._doNotDisplayFailureMessage2 = value;
   }
 
-  addCredential() {
+  /*addCredential() {
     this.credential.partyId = this.partyId;
     console.log(this.credential)
     this.partyService
@@ -186,19 +185,17 @@ export class UserCreationComponent implements OnInit {
       console.log(error);
       this.doNotDisplayFailureMessage2 = false;
     });
-  }
+  }*/
 
   onCreate() {
 
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
-    if(!this.partyId) {
       this.partyService
       .addUser(this.user)
       .subscribe(value => {
         if (value && value.partyId) {
-          this.partyId = value.partyId;
-          this.addCredential();
+          this.router.navigate(['/parties/users']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -206,9 +203,6 @@ export class UserCreationComponent implements OnInit {
         console.log(error);
         this.doNotDisplayFailureMessage = false;
       });
-    } else {
-      this.addCredential();
-    }
   }
 
   cancel() {

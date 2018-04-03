@@ -9,6 +9,9 @@ export class User extends Party {
   private _dateOfBirth:Date;
 
   get name(): string {
+    if(!this.lastName && !this.firstName) {
+      return "";
+    }
     return `${this.lastName}, ${this.firstName}`;
   }
 

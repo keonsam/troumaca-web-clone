@@ -97,39 +97,45 @@ export class UserMeComponent implements OnInit {
       this.requiredState = true;
       this.userMeForm.get("password").setValidators([Validators.required, this.passwordValidator(this.partyService)]);
       this.userMeForm.get("confirmPassword").setValidators([Validators.required, this.confirmPasswordValidator(this.password)]);
-    }else if (!value) {
+      this.userMeForm.get("confirmPassword").updateValueAndValidity();
+      }else if (!value) {
       this.requiredState = false;
       this.userMeForm.get("password").setValidators(null);
       this.userMeForm.get("confirmPassword").setValidators(null);
+      this.userMeForm.get("confirmPassword").updateValueAndValidity();
     }
     this.userMeForm.updateValueAndValidity();
     });
 
-    this.partyId = "77e771fc-cfdd-4562-b934-5c7d84f723a7";
-       this.partyService.getUser(this.partyId)
-       .subscribe(user =>{
-        this.firstName.setValue(user.firstName);
-        this.middleName.setValue(user.middleName);
-        this.lastName.setValue(user.lastName);
-        this.username.setValue(user.username);
-        this.user = user;
-        this.credential.partyId = user.partyId;
-        this.credential.username = user.username;
-      }, error => {
-        console.log(error);
-      });
+       this.partyService.getPartyId()
+         .subscribe((partyId: string) => {
+           this.partyId = partyId;
+           this.partyService.getUser(this.partyId)
+             .subscribe(user =>{
+               this.firstName.setValue(user.firstName);
+               this.middleName.setValue(user.middleName);
+               this.lastName.setValue(user.lastName);
+               this.username.setValue(user.username);
+               this.user = user;
+               this.partyId = user.partyId;
+               this.credential.partyId = user.partyId;
+               this.credential.username = user.username;
+             }, error => {
+               console.log(error);
+             });
 
-      this.partyService.getPhoto(this.partyId)
-      .subscribe(imageStr => {
-        if(imageStr) {
-          this.backgroundImage= `url(${imageStr})`;
-        }else {
-          // default image moved to the front end
-          this.backgroundImage= this.defaultImage;
-        }
-      },error => {
-        console.log(error);
-      });
+           this.partyService.getPhoto(this.partyId)
+             .subscribe(imageStr => {
+               if(imageStr) {
+                 this.backgroundImage= `url(${imageStr})`;
+               }else {
+                 // default image moved to the front end
+                 this.backgroundImage= this.defaultImage;
+               }
+             },error => {
+               console.log(error);
+             });
+         });
   }
 
   usernameEditValidator(partyService:PartyService) {

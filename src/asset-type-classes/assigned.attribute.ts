@@ -1,0 +1,61 @@
+export class AssignedAttribute {
+
+  private _assignedAttributeId:string;
+  private _assetTypeClassId: string;
+  private _attributeId: string;
+  private _required: boolean;
+  private _createdOn: string;
+  private _modifiedOn: string;
+
+  constructor(attributeId: string, required: boolean) {
+    this._attributeId = attributeId;
+    this._required = required;
+  }
+
+  get assignedAttributeId(): string {
+    return this._assignedAttributeId;
+  }
+
+  set assignedAttributeId(value: string) {
+    this._assignedAttributeId = value;
+  }
+
+  get assetTypeClassId(): string {
+    return this._assetTypeClassId;
+  }
+
+  set assetTypeClassId(value: string) {
+    this._assetTypeClassId = value;
+  }
+  get attributeId(): string {
+    return this._attributeId;
+  }
+
+  set attributeId(value: string) {
+    this._attributeId = value;
+  }
+
+  get required(): boolean {
+    return this._required;
+  }
+
+  set required(value: boolean) {
+    this._required = value;
+  }
+
+  get createdOn(): string {
+    return this._createdOn;
+  }
+
+  set createdOn(value: string) {
+    this._createdOn = value;
+  }
+
+  get modifiedOn(): string {
+    return this._modifiedOn;
+  }
+
+  set modifiedOn(value: string) {
+    this._modifiedOn = value;
+  }
+}

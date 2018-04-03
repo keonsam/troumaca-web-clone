@@ -27,6 +27,7 @@ import {AssetTypesModule} from "../asset-types/asset.type.module";
 import {RequestModule} from "../request/request.module";
 import {WorkOrderModule} from "../work-order/work.order.module";
 import {authGuardProvider} from "../auth-guard/auth.guard.provider";
+import {sessionInterceptorProvider} from "../client/session.interceptor.provider";
 import {GoodsModule} from "../goods/goods.module";
 import {AssetModule} from "../assets/asset.module";
 import {AppRoutingModule} from "./app.routing.module";
@@ -86,7 +87,8 @@ import {SessionModule} from "../session/session.module";
     {provide: APP_BASE_HREF, useValue: '/'},
     {provide: AppConfig, useClass: AppConfig},
     {provide: UUIDGenerator, useClass: UUIDGenerator},
-    authGuardProvider
+    authGuardProvider,
+    sessionInterceptorProvider
   ],
   bootstrap: [AppComponent]
 })

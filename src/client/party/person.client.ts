@@ -4,11 +4,13 @@ import {UserStates} from "./user.states";
 import {CredentialState} from "./credential.state";
 import {OrganizationState} from "./organization.state";
 import {OrganizationStates} from "./organization.states";
-import {AccountState} from "./account.state";
+import {AccountResponse} from "../../parties/account.response";
 
 export abstract class PersonClient {
-  public abstract getUsers(pageNumber:number, pageSize:number, sortOrder:string):Observable<UserStates>
-  public abstract getOrganizations(pageNumber:number, pageSize:number, sortOrder:string):Observable<OrganizationStates>
+
+  public  abstract getPartyId(): Observable<string>;
+  public abstract getUsers(pageNumber:number, pageSize:number, sortOrder:string):Observable<UserStates>;
+  public abstract getOrganizations(pageNumber:number, pageSize:number, sortOrder:string):Observable<OrganizationStates>;
 
   public abstract getUserState(partyId: string): Observable<UserState>;
   public abstract getOrganizationState(partyId: string): Observable<OrganizationState>;
@@ -17,13 +19,11 @@ export abstract class PersonClient {
 
   public abstract addUserState(userState: UserState): Observable<UserState>;
   public abstract addOrganizationState(organizationState: OrganizationState): Observable<OrganizationState>;
-  public abstract addCredentialState(credentialState: CredentialState): Observable<CredentialState>;
   public abstract addPhoto(partyId: string, croppedImage:string): Observable<any>;
-  public abstract addAccountState(accountState: AccountState): Observable<AccountState>;
+  public abstract addAccountState(accountType:string, userState: UserState, organizationState: OrganizationState): Observable<AccountResponse>;
 
   public abstract deleteUser(partyId: string): Observable<number>;
   public abstract deleteOrganization(partyId: string): Observable<number>;
-  public abstract deleteCredential(partyId: string): Observable<number>;
 
   public abstract updateUser(userState: UserState): Observable<number>;
   public abstract updateOrganization(organizationState: OrganizationState): Observable<number>;

@@ -1,6 +1,6 @@
 import {AssetTypeClassState} from "../asset-type-class/asset.type.class.state";
 // import {AttributeState} from "./attribute.state";
-
+import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
 
 export class AssetTypeState {
 
@@ -9,7 +9,7 @@ export class AssetTypeState {
   private _description:string;
   private _name:string;
   private _materialCode:string;
-  private _unitOfMeasureId:string;
+  private _unitOfMeasure:UnitOfMeasureState;
   private _assetTypeClass:AssetTypeClassState;
 
 
@@ -70,12 +70,12 @@ export class AssetTypeState {
     this._materialCode = value;
   }
 
-  get unitOfMeasureId(): string {
-    return this._unitOfMeasureId;
+  get unitOfMeasure(): UnitOfMeasureState {
+    return this._unitOfMeasure;
   }
 
-  set unitOfMeasureId(value: string) {
-    this._unitOfMeasureId = value;
+  set unitOfMeasure(value: UnitOfMeasureState) {
+    this._unitOfMeasure = value;
   }
 
   toJson() {
@@ -86,7 +86,7 @@ export class AssetTypeState {
       description: this.description,
       modelNumber: this.modelNumber,
       materialCode: this.materialCode,
-      unitOfMeasureId: this.unitOfMeasureId
+      unitOfMeasure: this.unitOfMeasure
     }
   }
 

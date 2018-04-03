@@ -24,7 +24,7 @@ import {unitOfMeasureClientProvider} from "./unit-of-measure/unit.of.measure.cli
 import {contractClientProvider} from "./contract/contract.client.provider";
 import {quoteClientProvider} from "./quote/quote.client.provider";
 import {shipmentClientProvider} from "./shipment/shipment.client.provider";
-//import {sessionInterceptorProvider} from "./session.interceptor.provider";
+import {sessionInterceptorProvider} from "./session.interceptor.provider";
 import {clientEventProvider} from "./client.event.provider";
 
 @NgModule({
@@ -57,7 +57,8 @@ import {clientEventProvider} from "./client.event.provider";
     contractClientProvider,
     quoteClientProvider,
     shipmentClientProvider,
-    clientEventProvider
+    clientEventProvider,
+    sessionInterceptorProvider
   ]
 })
 export class ClientModule { }

@@ -11,14 +11,14 @@ let favicon = require('serve-favicon');
 let logger = require('morgan');
 let cors = require('cors');
 let bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
+let cookieParser = require('cookie-parser');
 
 
-var accessMiddleware = require('./feature/access-middleware');
+let accessMiddleware = require('./feature/access-middleware');
 
 // need to transition to the new resources approach
 // let assets = require('./routes/assets');
-let asset = require('./routes/asset');
+// let asset = require('./routes/asset');
 // let lots = require('./routes/lots');
 // let assetTypes = require('./routes/asset-types');
 let unitOfMeasures = require('./routes/unit-of-measures');
@@ -49,7 +49,7 @@ app.use(cors());
 
 
 
-app.use('/asset', asset);
+// app.use('/asset', asset);
 app.use('/unit-of-measures', unitOfMeasures);
 app.use('/sites/physical-sites', unionOfPhysicalSites);
 app.use('/assets', assetResource);

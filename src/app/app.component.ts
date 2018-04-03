@@ -4,6 +4,7 @@ import "rxjs/add/operator/filter";
 import {AppDynamicStyle} from "./app.dynamic.style";
 import {EventService} from "../event/event.service";
 import {SessionService} from "../session/session.service";
+import {ClientEvent} from "../client/client.event";
 
 @Component({
   selector: 'app',
@@ -33,18 +34,37 @@ export class AppComponent implements OnInit{
   constructor(private router:Router,
               private route:ActivatedRoute,
               private eventService:EventService,
-              private sessionService: SessionService) {
-
+              private sessionService: SessionService,
+              private clientEvent: ClientEvent) {
     this.isLoggedIn = false;
-    // this.eventService.subscribeToLoginEvent( (data) => {
-    //   this.sessionService.activeSessionExists()
-    //   this.isLoggedIn = true;
-    // });
+    this.eventService.subscribeToLoginEvent( (data) => {
+      this.isLoggedIn = true;
+    });
+
+    this.clientEvent.subscribeToUnauthorizedEvent((data) => {
+      this.isLoggedIn = false;
+      this.router.navigate(['/home']);
+    });
+
+    this.clientEvent.subscribeToLogoutEvent((data) => {
+      this.isLoggedIn = false;
+      this.router.navigate(['/home']);
+    });
 
   }
 
   ngOnInit(): void {
-
+    this.router.events.subscribe((event:any) => {
+      if (event instanceof NavigationEnd ) {
+        let url = event.url;
+        this.sessionService.activeSessionExists()
+          .subscribe(value => {
+            if (value && url !== "/create-profile") {
+              this.isLoggedIn = true;
+            }
+          });
+      }
+    });
   }
 
   get title(): string {

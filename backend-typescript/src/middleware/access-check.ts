@@ -1,16 +1,28 @@
-// import sessionOrchestrator = require("./session/session.orchestrator");
+import {NextFunction, Request, Response} from "express";
+import {SessionOrchestrator} from "../session/session.orchestrator";
 
-export let checkAccess = () => {
+let checkAccess = (req: Request, res: Response, next: NextFunction) => {
+
+  const sessionOrchestrator = new SessionOrchestrator();
 
   // GET 'http://www.example.com/admin/new'
   // console.log(req.originalUrl); // '/admin/new'
   // console.log(req.baseUrl); // '/admin'
   // console.log(req.path); // '/new'
 
-  let dev = true;
-
-  let openPaths = [
-    '/authenticate', '/register'
+  let dev:boolean = true;
+  // TODO: move this to its own file
+  let openPaths:Array<string> = [
+    '/sessions/is-valid-session',
+    '/send-confirmation-codes/email',
+    '/send-confirmation-codes/phone',
+    '/verify-credentials-confirmations',
+    '/forgot-password',
+    '/authenticate',
+    '/validate-edit-username',
+    '/validate-username',
+    '/validate-password',
+    '/credentials'
   ];
 
   // dev mode > no session id > view open page
@@ -23,46 +35,51 @@ export let checkAccess = () => {
   // production mode > session id > view open page
   // production mode > session id > view close page
 
-  function isNotSecureEndPoint(originalPath) {
-    if (dev) {
+  function isNotSecureEndPoint(originalPath:string) {
+    // if (dev) {
+    //   return true;
+    // }
+    // this limit the url if you can think of a better regex let me know
+    let testRegex = /\/[a-z-]*\/[a-z-]*\/[a-z-]*/gi; // test the string not a pro
+    let matchRegex = /\/[a-z-]*\/[a-z-]*\//gi; // not good with regex if you can fix this that will be great
+    if(testRegex.test(originalPath)) {
+      originalPath = originalPath.match(matchRegex)[0].slice(0, -1);
+    }
+
+    if(openPaths.indexOf(originalPath) !== -1) {
       return true;
+    }else {
+      return false;
     }
-    for (let i = 0; i < openPaths.length; i++) {
-      const obj = openPaths[i];
-      if (obj === originalPath) {
-        return true;
-      }
-    }
-    return false;
   }
 
-  function isMode() {
-
-  }
-
-  return function(req, res, next) {
-
-    let cookies = req.cookies;
-    let sessionId = cookies["sessionId"];
-
+  // function isMode() {
+  //
+  // }
+   // probably because the this is invoke or it don't have req, res, and next
+  // return function(/*req:Request, res:Response, next:NextFunction*/) {
+    let cookies:any = req.cookies;
+    let sessionId:string = cookies["sessionId"];
+    let originalUrl = req.originalUrl;
     // if requesting an open page do nothing
-    if (isNotSecureEndPoint(req.originalUrl)) {
+    if (isNotSecureEndPoint(originalUrl)) {
       next();
     } else if (sessionId) {
       sessionOrchestrator
         .isValidSession(sessionId)
-        .map(isValid => {
+        .subscribe(isValid => {
           if (isValid) {
             next();
           } else {
-            res.send(401, "Invalid session...")
+            res.status(401);
+            res.send("Invalid session...");
           }
-        })
+        });
     } else {
-      res.send(401, "Cannot access this resource with a session...")
+      res.status(401);
+      res.send( "Cannot access this resource without a session...");
     }
-
-
-    next()
-  }
+  //};
 };
+
+export default checkAccess;

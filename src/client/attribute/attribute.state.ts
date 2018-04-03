@@ -1,4 +1,5 @@
 import {DataTypeState} from "./data.type.state";
+import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
 
 export class AttributeState {
 
@@ -9,7 +10,7 @@ export class AttributeState {
   // replace with data type
   private _dataType: DataTypeState;
   // replace with unit of measure
-  private _unitOfMeasureId:string;
+  private _unitOfMeasure: UnitOfMeasureState;
   private _maximumValue:string;
   private _minimumValue:string;
   private _createdOn:Date;
@@ -55,12 +56,12 @@ export class AttributeState {
     this._dataType = value;
   }
 
-  get unitOfMeasureId(): string {
-    return this._unitOfMeasureId;
+  get unitOfMeasure(): UnitOfMeasureState {
+    return this._unitOfMeasure;
   }
 
-  set unitOfMeasureId(value: string) {
-    this._unitOfMeasureId = value;
+  set unitOfMeasure(value: UnitOfMeasureState) {
+    this._unitOfMeasure = value;
   }
 
   get maximumValue(): string {
@@ -103,7 +104,7 @@ export class AttributeState {
       name: this.name,
       format: this.format,
       dataType: this.dataType.toJson(),
-      unitOfMeasureId: this.unitOfMeasureId,
+      unitOfMeasure: this.unitOfMeasure,
       maximumValue: this.maximumValue,
       minimumValue: this.minimumValue,
       createdOn: this.createdOn,
