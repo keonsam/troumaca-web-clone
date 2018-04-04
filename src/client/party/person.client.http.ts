@@ -17,11 +17,27 @@ export class PersonClientHttp implements PersonClient {
               private hostPort:string) {
   }
 
+  public logOutUser(): Observable<boolean> {
+    let url = `${this.hostPort}/sessions/log-out-user`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<boolean>(url, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
   public getPartyId(): Observable<string> {
     let url = `${this.hostPort}/partyId`;
 
     const httpOptions = {
-      withCredentials: true,
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'correlationId': this.uuidGenerator.generateUUID()

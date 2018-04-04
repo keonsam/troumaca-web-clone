@@ -8,6 +8,8 @@ import {AccountResponse} from "./account.response";
 
 export abstract class PartyRepository {
 
+  abstract logOutUser(): Observable<boolean>;
+
   abstract getPartyId(): Observable<string>;
   abstract getUsers(pageNumber:number, pageSize:number, sortOrder:string):Observable<Users>;
 

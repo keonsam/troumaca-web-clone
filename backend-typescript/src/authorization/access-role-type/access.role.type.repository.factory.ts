@@ -5,23 +5,70 @@ import {AccessRoleType} from "./access.role.type";
 import {Observable} from "rxjs/Observable";
 import {RepositoryKind} from "../../repository.kind";
 import {Observer} from "rxjs/Observer";
+import {generateUUID} from "../../uuid.generator";
 
 class AccessRoleTypeDBRepository implements AccessRoleTypeRepository {
 
   addAccessRoleType(accessRoleType: AccessRoleType): Observable<AccessRoleType> {
-    return undefined;
+    accessRoleType.accessRoleTypeId = generateUUID();
+    return Rx.Observable.create(function(observer:Observer<AccessRoleType>) {
+      accessRoleTypes.insert(accessRoleType, function(err:any, doc:any) {
+        if (err) {
+          observer.error(err);
+        } else {
+          observer.next(accessRoleType);
+        }
+        observer.complete();
+      });
+    });
   }
 
   deleteAccessRoleType(accessRoleTypeId: string): Observable<number> {
-    return undefined;
+    return Rx.Observable.create(function (observer:Observer<number>) {
+      let query = {
+        "accessRoleTypeId":accessRoleTypeId
+      };
+      accessRoleTypes.remove(query, {}, function (err:any, numRemoved:number) {
+        if (!err) {
+          observer.next(numRemoved);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
   }
 
   getAccessRoleTypeById(accessRoleTypeId: string, ownerParyId: string): Observable<AccessRoleType> {
-    return undefined;
+    return Rx.Observable.create(function (observer:Observer<AccessRoleType>) {
+      let query = {
+        "accessRoleTypeId":accessRoleTypeId
+      };
+      accessRoleTypes.findOne(query, function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
   }
 
   updateAccessRoleType(accessRoleTypeId: string, accessRoleType: AccessRoleType): Observable<number> {
-    return undefined;
+    return Rx.Observable.create(function (observer:Observer<number>) {
+      let query = {
+        "accessRoleTypeId":accessRoleTypeId
+      };
+      accessRoleTypes.update(query, accessRoleType, {}, function (err:any, numReplaced:number) {
+        if (!err) {
+          observer.next(numReplaced);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
   }
 
 }

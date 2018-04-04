@@ -3,7 +3,7 @@ export class Resource {
   private _resourceId:string;
   private _name:string;
   private _description:string;
-  private _ownerPartyId:string;
+  //private _ownerPartyId:string;
   private _createdOn:Date;
   private _modifiedOn:Date;
 
@@ -31,13 +31,13 @@ export class Resource {
     this._description = value;
   }
 
-  get ownerPartyId(): string {
-    return this._ownerPartyId;
-  }
-
-  set ownerPartyId(value: string) {
-    this._ownerPartyId = value;
-  }
+  // get ownerPartyId(): string {
+  //   return this._ownerPartyId;
+  // }
+  //
+  // set ownerPartyId(value: string) {
+  //   this._ownerPartyId = value;
+  // }
 
   get createdOn(): Date {
     return this._createdOn;
@@ -54,5 +54,5 @@ export class Resource {
   set modifiedOn(value: Date) {
     this._modifiedOn = value;
   }
-  
+
 }

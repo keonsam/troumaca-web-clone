@@ -8,7 +8,8 @@ import {AccountResponse} from "../../parties/account.response";
 
 export abstract class PersonClient {
 
-  public  abstract getPartyId(): Observable<string>;
+  public abstract logOutUser(): Observable<boolean>;
+  public abstract getPartyId(): Observable<string>;
   public abstract getUsers(pageNumber:number, pageSize:number, sortOrder:string):Observable<UserStates>;
   public abstract getOrganizations(pageNumber:number, pageSize:number, sortOrder:string):Observable<OrganizationStates>;
 

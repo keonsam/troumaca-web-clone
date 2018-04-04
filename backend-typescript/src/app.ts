@@ -151,6 +151,7 @@ app.get("/send-confirmation-codes/email/:confirmationId", confirmationController
 app.get("/sessions/current-user-session", sessionController.getSimpleSession);
 app.get("/sessions/is-valid-session", sessionController.isValidSession);
 app.get("/partyId", sessionController.getPartyId);
+app.get("/sessions/log-out-user", sessionController.handleSessionLogOut);
 
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.

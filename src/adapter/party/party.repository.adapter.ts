@@ -22,6 +22,10 @@ export class PartyRepositoryAdapter extends PartyRepository {
     super();
   }
 
+  public logOutUser(): Observable<boolean> {
+    return this.personClient.logOutUser();
+  }
+
   public getPartyId(): Observable<string> {
     return this.personClient.getPartyId();
   }

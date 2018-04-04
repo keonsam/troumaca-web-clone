@@ -3,7 +3,7 @@ export class ResourcePermission {
   private _resourcePermissionId:string;
   private _resourceId:string;
   private _permissionId:string;
-  private _ownerPartyId:string;
+  //private _ownerPartyId:string;
   private _createdOn:Date;
   private _modifiedOn:Date;
 
@@ -31,13 +31,13 @@ export class ResourcePermission {
     this._permissionId = value;
   }
 
-  get ownerPartyId(): string {
-    return this._ownerPartyId;
-  }
-
-  set ownerPartyId(value: string) {
-    this._ownerPartyId = value;
-  }
+  // get ownerPartyId(): string {
+  //   return this._ownerPartyId;
+  // }
+  //
+  // set ownerPartyId(value: string) {
+  //   this._ownerPartyId = value;
+  // }
 
   get createdOn(): Date {
     return this._createdOn;

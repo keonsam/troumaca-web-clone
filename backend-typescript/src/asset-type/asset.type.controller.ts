@@ -57,7 +57,6 @@ export let getAssetTypeById = (req: Request, res: Response) => {
 };
 
 export let findAssetTypes = (req: Request, res: Response) => {
-  console.log(req);
   let searchStr:string =  req.query.q;
   let pageSize:number = req.query.pageSize;
 

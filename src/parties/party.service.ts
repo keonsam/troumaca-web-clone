@@ -13,6 +13,11 @@ export class PartyService {
   constructor(private partyRepository: PartyRepository) {
   }
 
+
+  public logOutUser(): Observable<boolean> {
+    return this.partyRepository.logOutUser();
+  }
+
   public getPartyId(): Observable<string> {
     return this.partyRepository.getPartyId();
   }

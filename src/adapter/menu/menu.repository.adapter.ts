@@ -18,7 +18,7 @@ export class MenuRepositoryAdapter implements MenuRepository, LeftMenuRepository
 
   constructor(private menuClient: MenuClient) {
   }
-
+  
   getMenuModel(isLoggedIn:boolean): Observable<MenuModel> {
     return this.menuClient
       .getTopMenuState(isLoggedIn)

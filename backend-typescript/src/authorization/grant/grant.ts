@@ -2,7 +2,9 @@ export class Grant {
 
   private _grantId:string;
   private _resourcePermissionId:string;
-  private _ownerPartyId:string;
+  private _permissionId: string;
+  private _accessRoleId: string;
+  //private _ownerPartyId:string;
   private _createdOn:Date;
   private _modifiedOn:Date;
 
@@ -22,13 +24,29 @@ export class Grant {
     this._resourcePermissionId = value;
   }
 
-  get ownerPartyId(): string {
-    return this._ownerPartyId;
+  get permissionId(): string {
+    return this._permissionId;
   }
 
-  set ownerPartyId(value: string) {
-    this._ownerPartyId = value;
+  set permissionId(value: string) {
+    this._permissionId = value;
   }
+
+  get accessRoleId(): string {
+    return this._accessRoleId;
+  }
+
+  set accessRoleId(value: string) {
+    this._accessRoleId = value;
+  }
+
+// get ownerPartyId(): string {
+  //   return this._ownerPartyId;
+  // }
+  //
+  // set ownerPartyId(value: string) {
+  //   this._ownerPartyId = value;
+  // }
 
   get createdOn(): Date {
     return this._createdOn;

@@ -60,6 +60,11 @@ export class AppComponent implements OnInit{
       this.isLoggedIn = false;
       this.router.navigate(['/home']);
     });
+
+    this.eventService.subscribeToLogoutEvent((data) => {
+      this.isLoggedIn = false;
+      this.router.navigate(['/home']);
+    });
   }
 
   ngOnInit(): void {
