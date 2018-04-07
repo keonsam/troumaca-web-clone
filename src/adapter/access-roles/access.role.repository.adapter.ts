@@ -2,6 +2,9 @@ import {AccessRoleRepository} from "../../access-roles/access.role.repository";
 import {Permission} from "../../access-roles/permission";
 import {Permissions} from "../../access-roles/permissions";
 import {PermissionState} from "../../client/access-roles/permission.state";
+import {Resource} from "../../access-roles/resource";
+import {Resources} from "../../access-roles/resources";
+import {ResourceState} from "../../client/access-roles/resource.state";
 import {Observable} from "rxjs/Observable";
 import {AccessRolesClient} from "../../client/access-roles/access.roles.client";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
@@ -50,5 +53,42 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   public deletePermission(permissionId: string): Observable<number> {
     return this.accessRolesClient.deletePermission(permissionId);
   }
+
+  //resources
+  public getResources(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<Resources> {
+    return this.accessRolesClient.getResources(defaultPage, defaultPageSize, defaultSortOrder)
+      .map( resourceStates => {
+        let resourceModels: Resources = new Resources();
+        resourceModels.resources = map(resourceStates.resources, value => {
+          return mapObjectProps(value, new Resource());
+        });
+        resourceModels.page = mapObjectProps(resourceStates.pageState, new Page());
+        resourceModels.sort = mapObjectProps(resourceStates.sortState, new Sort());
+        return resourceModels;
+      });
+  }
+
+  public getResourceById(resourceId: string): Observable<Resource> {
+    return this.accessRolesClient.getResourceById(resourceId)
+      .map(value => {
+        return mapObjectProps(value, new Resource());
+      });
+  }
+
+  public addResource(resource: Resource): Observable<Resource> {
+    return this.accessRolesClient.addResource(mapObjectProps(resource, new ResourceState()))
+      .map(value => {
+        return mapObjectProps(value, new Resource());
+      });
+  }
+
+  public updateResource(resource: Resource): Observable<number> {
+    return this.accessRolesClient.updateResource(mapObjectProps(resource, new ResourceState()));
+  }
+
+  public deleteResource(resourceId: string): Observable<number> {
+    return this.accessRolesClient.deleteResource(resourceId);
+  }
+
 
 }

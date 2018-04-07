@@ -17,6 +17,9 @@ import {AccessRoleListComponent} from "./access-role-list/access.role.list.compo
 import {PermissionEditComponent} from "./permissions/permission-edit/permission.edit.component";
 import {PermissionListComponent} from "./permissions/permission-list/permission.list.component";
 import {PermissionCreationComponent} from "./permissions/permission-creation/permission.creation.component";
+import {ResourceListComponent} from "./resources/resource-list/resource.list.component";
+import {ResourceCreationComponent} from "./resources/resource-creation/resource.creation.component";
+import {ResourceEditComponent} from "./resources/resource-edit/resource.edit.component";
 
 @NgModule({
   imports: [
@@ -38,7 +41,10 @@ import {PermissionCreationComponent} from "./permissions/permission-creation/per
     PermissionEditComponent,
     PermissionListComponent,
     PermissionCreationComponent,
-    AccessRoleTopMenuComponent
+    AccessRoleTopMenuComponent,
+    ResourceListComponent,
+    ResourceCreationComponent,
+    ResourceEditComponent
   ],
   providers: [{
     provide: AccessRoleService,
@@ -59,6 +65,9 @@ import {PermissionCreationComponent} from "./permissions/permission-creation/per
     PermissionEditComponent,
     PermissionListComponent,
     PermissionCreationComponent,
+    ResourceEditComponent,
+    ResourceCreationComponent,
+    ResourceListComponent,
     AccessRoleTopMenuComponent
   ]
 })

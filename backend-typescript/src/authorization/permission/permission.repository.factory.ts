@@ -25,7 +25,7 @@ class PermissionDBRepository implements PermissionRepository {
         observer.complete();
       });
     });
-  }
+  };
 
   getPermissionCount():Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {

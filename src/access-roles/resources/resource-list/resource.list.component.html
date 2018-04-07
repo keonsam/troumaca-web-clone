@@ -6,7 +6,7 @@
 
     <div class="element-wrapper">
       <h6 class="element-header">
-        Permission Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right"  href="#" [routerLink]="['/access-roles/permissions/create']">New</a></object>
+        Resource Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right"  href="#" [routerLink]="['/access-roles/resources/create']">New</a></object>
       </h6>
       <div class="element-box">
 
@@ -27,14 +27,14 @@
               </tr>
             </tfoot>
             <tbody>
-              <tr role="row" *ngFor="let permission of permissions.permissions; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-                <td>{{permission.name}}</td>
-                <td>{{permission.description}}</td>
+              <tr role="row" *ngFor="let resource of resources.resources; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+                <td>{{resource.name}}</td>
+                <td>{{resource.description}}</td>
                 <td class="row-actions">
-                 <a [routerLink]="['/access-roles/permissions', permission.permissionId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(permission.permissionId, permission.name)" ><i class="os-icon os-icon-ui-15"></i></a>
+                 <a [routerLink]="['/access-roles/resources', resource.resourceId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(resource.resourceId, resource.name)" ><i class="os-icon os-icon-ui-15"></i></a>
                 </td>
               </tr>
-              <tr *ngIf="permissions.permissions.length <= 0" class="odd">
+              <tr *ngIf="resources.resources.length <= 0" class="odd">
                 <td valign="top" align="" colspan="7" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
               </tr>
             </tbody>
@@ -44,12 +44,12 @@
             <div class="modal-content">
              <div class="modal-header">
               <h5 class="modal-title" id="DeleteModalLabel">
-               Delete {{permissionName}}
+               Delete {{resourceName}}
               </h5>
               <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
              </div>
              <div class="modal-body">
-             <p>Are you sure you want to delete {{permissionName}}?</p>
+             <p>Are you sure you want to delete {{resourceName}}?</p>
              </div>
                 <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
@@ -58,8 +58,8 @@
               </div>
              </div>
            </div>
-          <!--<pre>{{permissions | json}}</pre>-->
-          <paging [page]="permissions.page" (requestPage)="onRequestPage($event)"></paging>
+          <!--<pre>{{resources | json}}</pre>-->
+          <paging [page]="resources.page" (requestPage)="onRequestPage($event)"></paging>
         </div>
       </div>
     </div>

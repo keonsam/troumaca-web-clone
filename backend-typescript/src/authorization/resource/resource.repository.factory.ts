@@ -6,8 +6,39 @@ import {Observable} from "rxjs/Observable";
 import {RepositoryKind} from "../../repository.kind";
 import {Observer} from "rxjs/Observer";
 import {generateUUID} from "../../uuid.generator";
+import {calcSkip} from "../../db.util";
 
 class ResourceDBRepository implements ResourceRepository {
+
+  private defaultPageSize:number = 10;
+
+  getResources(pageNumber:number, pageSize:number, order:string):Observable<Resource[]> {
+    let localDefaultPageSize = this.defaultPageSize;
+    return Rx.Observable.create(function (observer:Observer<Resource[]>) {
+      let skip = calcSkip(pageNumber, pageSize, localDefaultPageSize);
+      resources.find({}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  getResourceCount():Observable<number> {
+    return Rx.Observable.create(function (observer:Observer<number>) {
+      resources.count({}, function (err:any, count:number) {
+        if (!err) {
+          observer.next(count);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
 
   addResource(resource: Resource): Observable<Resource> {
     resource.resourceId = generateUUID();
@@ -39,7 +70,7 @@ class ResourceDBRepository implements ResourceRepository {
     });
   }
 
-  getResourceById(resourceId: string, ownerPartyId: string): Observable<Resource> {
+  getResourceById(resourceId: string): Observable<Resource> {
     return Rx.Observable.create(function (observer:Observer<Resource>) {
       let query = {
         "resourceId":resourceId
@@ -76,6 +107,14 @@ class ResourceDBRepository implements ResourceRepository {
 
 class ResourceRestRepository implements ResourceRepository {
 
+  getResources(pageNumber:number, pageSize:number, order:string):Observable<Resource[]> {
+    return undefined;
+  }
+
+  getResourceCount():Observable<number> {
+    return undefined;
+  }
+
   addResource(resource: Resource): Observable<Resource> {
     return undefined;
   }
@@ -84,7 +123,7 @@ class ResourceRestRepository implements ResourceRepository {
     return undefined;
   }
 
-  getResourceById(resourceId: string, ownerPartyId: string): Observable<Resource> {
+  getResourceById(resourceId: string): Observable<Resource> {
     return undefined;
   }
 

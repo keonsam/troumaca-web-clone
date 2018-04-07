@@ -74,6 +74,9 @@ import {AccessRoleListComponent} from "../access-roles/access-role-list/access.r
 import {PermissionCreationComponent} from "../access-roles/permissions/permission-creation/permission.creation.component";
 import {PermissionEditComponent} from "../access-roles/permissions/permission-edit/permission.edit.component";
 import {PermissionListComponent} from "../access-roles/permissions/permission-list/permission.list.component";
+import {ResourceCreationComponent} from "../access-roles/resources/resource-creation/resource.creation.component";
+import {ResourceEditComponent} from "../access-roles/resources/resource-edit/resource.edit.component";
+import {ResourceListComponent} from "../access-roles/resources/resource-list/resource.list.component";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -150,6 +153,9 @@ const appRoutes: Routes = [
       { path: 'permissions/listing', component: PermissionListComponent, data:{menuName: 'access-role-menu'} },
       { path: 'permissions/create', component: PermissionCreationComponent, data:{menuName:'access-role-menu'} },
       { path: 'permissions/:permissionId/edit', component: PermissionEditComponent, data:{menuName:'access-role-menu'} },
+      { path: 'resources/listing', component: ResourceListComponent, data:{menuName: 'access-role-menu'} },
+      { path: 'resources/create', component: ResourceCreationComponent, data:{menuName:'access-role-menu'} },
+      { path: 'resources/:resourceId/edit', component: ResourceEditComponent, data:{menuName:'access-role-menu'} },
     ]},
   { path: 'contracts', component: ContractComponent, canActivate: [AuthGuard], children:[
     { path: '', redirectTo: 'orders', pathMatch: 'full' },

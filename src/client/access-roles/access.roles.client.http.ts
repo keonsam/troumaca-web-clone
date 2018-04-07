@@ -3,9 +3,10 @@ import { map, reduce, somethingElse } from "underscore";
 import {AccessRolesClient} from "./access.roles.client";
 import {PermissionStates} from "./permission.states";
 import {PermissionState} from "./permission.state";
+import {ResourceState} from "./resource.state";
+import {ResourceStates} from "./resource.states";
 import {Observable} from "rxjs/Observable";
 import {UUIDGenerator} from "../../uuid.generator";
-import {AssetTypeStates} from "../asset-type/asset.type.states";
 
 export class AccessRolesClientHttp extends AccessRolesClient {
 
@@ -55,4 +56,47 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       return data;
     });
   }
+
+  //resources
+  public getResources(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<ResourceStates>{
+    let url = `${this.hostPort}/resources?defaultPage=${defaultPage}&defaultPageSize=${defaultPageSize}&defaultSortOrder=${defaultSortOrder}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.get<ResourceStates>(url, {headers}).map(data => {
+      console.log(data);
+      return data;
+    });
+  }
+
+  public getResourceById(resourceId: string): Observable<ResourceState>{
+    let url = `${this.hostPort}/resources/${resourceId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.get<ResourceState>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public addResource(resourceState: ResourceState): Observable<ResourceState>{
+    let url = `${this.hostPort}/resources`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.post<ResourceState>(url, resourceState.toJson(), {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public updateResource(resourceState: ResourceState): Observable<number> {
+    let url = `${this.hostPort}/resources/${resourceState.resourceId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.put<number>(url, resourceState.toJson(), {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public deleteResource(resourceId: string): Observable<number> {
+    let url = `${this.hostPort}/resources/${resourceId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.delete<number>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
 }

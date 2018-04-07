@@ -3,7 +3,6 @@ import {AccessRoleService} from "../../access.role.service";
 import {Page} from "../../../page/page";
 import {Sort} from "../../../sort/sort";
 import {Permissions} from "../../permissions";
-import {Assets} from "../../../assets/assets";
 
 @Component({
   selector: 'permission-list',

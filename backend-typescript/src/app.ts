@@ -38,6 +38,7 @@ import * as credentialController from "./authentication/credential/credential.co
 import * as confirmationController from "./authentication/credential/confirmation/confirmation.controller";
 import * as sessionController from "./session/session.controller";
 import * as permissionController from "./authorization/permission/permission.controller";
+import * as resourceController from "./authorization/resource/resource.controller";
 import * as accessRoleController from "./authorization/access-role/access.role.controller";
 
 const app = express();
@@ -161,8 +162,12 @@ app.get("/permissions/:permissionId", permissionController.getPermissionById);
 app.post("/permissions", permissionController.savePermission);
 app.put("/permissions/:permissionId", permissionController.updatePermission);
 app.delete("/permissions/:permissionId", permissionController.deletePermission);
-// accessRoles
-
+//resources
+app.get("/resources", resourceController.getResources);
+app.get("/resources/:resourceId", resourceController.getResourceById);
+app.post("/resources", resourceController.saveResource);
+app.put("/resources/:resourceId", resourceController.updateResource);
+app.delete("/resources/:resourceId", resourceController.deleteResource);
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
 
