@@ -9,6 +9,20 @@ import {generateUUID} from "../../uuid.generator";
 
 class AccessRoleDBRepository implements AccessRoleRepository {
 
+  findAccessRoles(searchStr: string, pageSize: number): Observable<AccessRole[]> {
+    let searchStrLocal = new RegExp(searchStr);
+    return Rx.Observable.create(function(observer:Observer<AccessRole[]>) {
+      accessRoles.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   addAccessRole(accessRole: AccessRole): Observable<AccessRole> {
     accessRole.accessRoleId = generateUUID();
     return Rx.Observable.create(function(observer:Observer<AccessRole>) {
@@ -75,6 +89,10 @@ class AccessRoleDBRepository implements AccessRoleRepository {
 
 
 class AccessRoleRestRepository implements AccessRoleRepository {
+
+  findAccessRoles(searchStr: string, pageSize: number): Observable<AccessRole[]> {
+    return undefined;
+  };
 
   addAccessRole(accessRole: AccessRole): Observable<AccessRole> {
     return undefined;

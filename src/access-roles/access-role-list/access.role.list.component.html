@@ -1,0 +1,80 @@
+<div class="content-i">
+
+  <access-role-top-menu></access-role-top-menu>
+
+  <div class="content-box">
+
+    <!--<div class="element-wrapper">
+      <h6 class="element-header">
+        Access Role Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right"  href="#" routerLink="create" >New</a></object>
+      </h6>
+      <div class="element-box">
+
+        <div class="table-responsive table-section">
+          <table class="table table-striped table-lightfont table-full-width">
+            <thead>
+              <tr>
+                <th>Asset Type Class</th>
+                <th>name</th>
+                <th>Model Number</th>
+                <th>Material Code</th>
+                <th>Unit Of Measurement</th>
+                <th>description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Asset Type Class</th>
+                <th>name</th>
+                <th>Model Number</th>
+                <th>Material Code</th>
+                <th>Unit Of Measurement</th>
+                <th>description</th>
+                <th>Actions</th>
+              </tr>
+            </tfoot>
+            <tbody>
+              <tr role="row" *ngFor="let assetType of assetTypes.assetTypes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+                <td>{{assetType.assetTypeClass.name}}</td>
+                <td>{{assetType.name}}</td>
+                <td>{{assetType.modelNumber}}</td>
+                <td>{{assetType.materialCode}}</td>
+                <td>{{assetType.unitOfMeasureId}}</td>
+                <td>{{assetType.description}}</td>
+                <td class="row-actions">
+                 <a [routerLink]="['/asset-types', assetType.assetTypeId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(assetType.assetTypeId)" ><i class="os-icon os-icon-ui-15"></i></a>
+                </td>
+              </tr>
+              <tr *ngIf="assetTypes.assetTypes.length <= 0" class="odd">
+                <td valign="top" align="" colspan="7" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+              </tr>
+            </tbody>
+          </table>
+          <div aria-labelledby="DeleteModalLabel" class="modal fade bd-example-modal-sm" id="DeleteModal1" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+           <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+             <div class="modal-header">
+              <h5 class="modal-title" id="DeleteModalLabel">
+               Delete Asset Type
+              </h5>
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
+             </div>
+             <div class="modal-body">
+             <p>Are you sure you want to delete this?</p>
+             </div>
+                <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
+                <button class="btn btn-danger" type="button" data-dismiss="modal" (click)="onDelete()"> Delete</button>
+               </div>
+              </div>
+             </div>
+           </div>
+          <!--<pre>{{assetTypes | json}}</pre>-->
+          <!--<paging [page]="assetTypes.page" (requestPage)="onRequestPage($event)"></paging>
+        </div>
+      </div>
+    </div> -->
+  </div>
+
+</div>

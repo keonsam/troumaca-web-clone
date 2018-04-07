@@ -15,11 +15,21 @@ import {CredentialState} from "../../client/party/credential.state";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 import {AccountResponse} from "../../parties/account.response";
+import {AccessRole} from "../../parties/access.role";
 
 export class PartyRepositoryAdapter extends PartyRepository {
 
   constructor(private personClient: PersonClient) {
     super();
+  }
+
+  public findAccessRole(searchStr: string, pageSize: number) :Observable<AccessRole[]> {
+    return this.personClient.findAccessRole(searchStr, pageSize)
+      .map(accessRoles => {
+        return map(accessRoles, value => {
+          return mapObjectProps(value, new AccessRole());
+        })
+      });
   }
 
   public logOutUser(): Observable<boolean> {
@@ -66,6 +76,14 @@ export class PartyRepositoryAdapter extends PartyRepository {
     });
   }
 
+  public getAccessRoleById(partyId: string) :Observable<AccessRole> {
+    return this.personClient
+      .getAccessRoleById(partyId)
+      .map(value => {
+        return mapObjectProps(value, new AccessRole());
+      });
+  }
+
   public getOrganization(partyId: string): Observable<Organization> {
     return this.personClient
     .getOrganizationState(partyId)
@@ -78,9 +96,9 @@ export class PartyRepositoryAdapter extends PartyRepository {
     return this.personClient.getPhoto(partyId);
   }
 
-  public addUser(user: User): Observable<User> {
+  public addUser(user: User, accessRoleId: string): Observable<User> {
     return this.personClient
-    .addUserState(mapObjectProps(user, new UserState()))
+    .addUserState(mapObjectProps(user, new UserState()), accessRoleId)
     .map(value => {
       return mapObjectProps(value, new User());
     });
@@ -115,8 +133,8 @@ export class PartyRepositoryAdapter extends PartyRepository {
     return this.personClient.deleteOrganization(partyId);
   }
 
-  public updateUser(user: User): Observable<number> {
-    return this.personClient.updateUser(mapObjectProps(user, new UserState()));
+  public updateUser(user: User, accessRoleId: string): Observable<number> {
+    return this.personClient.updateUser(mapObjectProps(user, new UserState()), accessRoleId);
   }
 
   public updateOrganization(organization: Organization): Observable<number> {

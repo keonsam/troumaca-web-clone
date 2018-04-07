@@ -66,6 +66,14 @@ import {LobbyHomeComponent} from "../home/lobby-home/lobby.home.component";
 import {PhoneVerificationComponent} from "../authentication/phone-verification/phone.verification.component";
 import {EmailVerificationComponent} from "../authentication/email-verification/email.verification.component";
 import {AuthGuard} from "../auth-guard/auth.guard";
+//access Roles
+import {AccessRoleComponent} from "../access-roles/access.role.component";
+import {AccessRoleCreationComponent} from "../access-roles/access-role-creation/access.role.creation.component";
+import {AccessRoleEditComponent} from "../access-roles/access-role-edit/access.role.edit.component";
+import {AccessRoleListComponent} from "../access-roles/access-role-list/access.role.list.component";
+import {PermissionCreationComponent} from "../access-roles/permissions/permission-creation/permission.creation.component";
+import {PermissionEditComponent} from "../access-roles/permissions/permission-edit/permission.edit.component";
+import {PermissionListComponent} from "../access-roles/permissions/permission-list/permission.list.component";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -134,6 +142,15 @@ const appRoutes: Routes = [
     { path: 'users/:partyId/edit', component: UserEditComponent, data:{menuName:'users-menu'} },
     { path: 'users/me', component: UserMeComponent, data:{menuName:'users-menu'}}
   ]},
+  { path: 'access-roles', component: AccessRoleComponent, canActivate: [AuthGuard], children:[
+      { path: '', redirectTo: 'listing', pathMatch: 'full' },
+      { path: 'listing', component: AccessRoleListComponent, data:{menuName:'access-role-menu'} },
+      { path: 'create', component: AccessRoleCreationComponent, data:{menuName: 'access-role-menu'} },
+      { path: ':accessRoleId/edit', component: AccessRoleEditComponent, data:{menuName: 'access-role-menu'} },
+      { path: 'permissions/listing', component: PermissionListComponent, data:{menuName: 'access-role-menu'} },
+      { path: 'permissions/create', component: PermissionCreationComponent, data:{menuName:'access-role-menu'} },
+      { path: 'permissions/:permissionId/edit', component: PermissionEditComponent, data:{menuName:'access-role-menu'} },
+    ]},
   { path: 'contracts', component: ContractComponent, canActivate: [AuthGuard], children:[
     { path: '', redirectTo: 'orders', pathMatch: 'full' },
     { path: 'listing', component: ContractListComponent, data:{menuName:'orders-menu'}},

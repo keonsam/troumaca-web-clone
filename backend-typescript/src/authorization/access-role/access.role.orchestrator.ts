@@ -11,6 +11,10 @@ export class AccessRoleOrchestrator {
     this.accessRoleRepository = createAccessRoleRepositoryFactory();
   }
 
+  findAccessRoles(searchStr: string, pageSize: number): Observable<AccessRole[]> {
+    return this.accessRoleRepository.findAccessRoles(searchStr, pageSize);
+  };
+
   addAccessRole(accessRole:AccessRole):Observable<AccessRole> {
     return this.accessRoleRepository.addAccessRole(accessRole);
   };

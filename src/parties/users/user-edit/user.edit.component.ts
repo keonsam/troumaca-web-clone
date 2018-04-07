@@ -1,4 +1,5 @@
 import {Component, OnInit} from "@angular/core";
+import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from '@angular/router';
 import {Router} from "@angular/router";
@@ -29,17 +30,23 @@ export class UserEditComponent implements OnInit {
   private _middleName: FormControl;
   private _lastName: FormControl;
   private _username: FormControl;
+  private _accessRole: FormControl;
+  private _accessRoleId: string;
+
+  private _accessRoleDataService: CompleterData;
 
   private _userEditForm: FormGroup;
 
   private user: User;
   private credential: Credential;
 
+  private pageSize:number = 15;
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
 
   constructor(private partyEventService:PartyEventService,
               private partyService: PartyService,
+              private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
@@ -50,12 +57,14 @@ export class UserEditComponent implements OnInit {
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
     this.username = new FormControl("", [Validators.required, this.usernameEditValidator(partyService)]);
+    this.accessRole = new FormControl("", [Validators.required]);
 
     this.userEditForm = formBuilder.group({
       "firstName": this.firstName,
       "middleName": this.middleName,
       "lastName": this.lastName,
-      "username": this.username
+      "username": this.username,
+      "accessRole": this.accessRole
     });
 
     this.userEditForm
@@ -88,10 +97,49 @@ export class UserEditComponent implements OnInit {
         this.user = user;
         this.credential.partyId = user.partyId;
         this.credential.username = user.username;
+        this.getAccessRole();
       }, error => {
         console.log(error);
       });
     });
+
+    this.populateAccessRoleDropDown();
+  }
+
+  getAccessRole() {
+    this.partyService.getAccessRoleById(this.partyId)
+      .subscribe(accessRole => {
+        this.accessRole.setValue(accessRole.name);
+      });
+  }
+
+  populateAccessRoleDropDown() {
+    this.accessRoleDataService = this.completerService.local([], 'name', 'name');
+    let that = this;
+    this.userEditForm.get("accessRole").valueChanges
+      .debounceTime(1000) // debounce
+      .filter(value => { // filter out empty values
+        return !!(value);
+      })
+      .subscribe(value => {
+        console.log("value: " + value);
+        that.partyService
+          .findAccessRole(value, that.pageSize) // send search request to the backend
+          .map(value2 => { // convert results to dropdown data
+            return value2.map(v2 => {
+              return {
+                accessRoleId: v2.accessRoleId,
+                name: v2.name,
+              };
+            })
+          })
+          .subscribe(next => { // update the data
+            console.log("findAccessRole next - " + next);
+            this.accessRoleDataService = this.completerService.local(next, 'name', 'name');
+          }, error => {
+            console.log("findAccessRole error - " + error);
+          });
+      });
   }
 
   usernameEditValidator(partyService:PartyService) {
@@ -165,6 +213,30 @@ export class UserEditComponent implements OnInit {
     this._username = value;
   }
 
+  get accessRole(): FormControl {
+    return this._accessRole;
+  }
+
+  set accessRole(value: FormControl) {
+    this._accessRole = value;
+  }
+
+  get accessRoleDataService(): CompleterData {
+    return this._accessRoleDataService;
+  }
+
+  set accessRoleDataService(value: CompleterData) {
+    this._accessRoleDataService = value;
+  }
+
+  get accessRoleId(): string {
+    return this._accessRoleId;
+  }
+
+  set accessRoleId(value: string) {
+    this._accessRoleId = value;
+  }
+
   get userEditForm(): FormGroup {
     return this._userEditForm;
   }
@@ -189,6 +261,12 @@ export class UserEditComponent implements OnInit {
     this._doNotDisplayFailureMessage2 = value;
   }
 
+  onAccessRoleSelect(selected: CompleterItem) {
+    if (selected) {
+      this.accessRoleId = selected.originalObject.accessRoleId;
+    }
+  }
+
   updateCredential() {
     this.partyService
     .updateCredential(this.credential)
@@ -208,7 +286,7 @@ export class UserEditComponent implements OnInit {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
       this.partyService
-      .updateUser(this.user)
+      .updateUser(this.user, this.accessRoleId)
       .subscribe(value => {
         if (value) {
           if(this.username.value != this.firstUsername){

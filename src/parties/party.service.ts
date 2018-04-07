@@ -7,12 +7,16 @@ import {Organization} from "./organization";
 import {Organizations} from "./organizations";
 import {Account} from "./account";
 import {AccountResponse} from "./account.response";
+import {AccessRole} from "./access.role";
 
 export class PartyService {
 
   constructor(private partyRepository: PartyRepository) {
   }
 
+  public findAccessRole(searchStr: string, pageSize: number) :Observable<AccessRole[]> {
+    return this.partyRepository.findAccessRole(searchStr, pageSize);
+  }
 
   public logOutUser(): Observable<boolean> {
     return this.partyRepository.logOutUser();
@@ -34,6 +38,10 @@ export class PartyService {
     return this.partyRepository.getUser(partyId);
   }
 
+  public getAccessRoleById(partyId:string) :Observable<AccessRole> {
+    return this.partyRepository.getAccessRoleById(partyId);
+  }
+
   public getOrganization(partyId: string):Observable<Organization> {
     return this.partyRepository.getOrganization(partyId);
   }
@@ -42,8 +50,8 @@ export class PartyService {
     return this.partyRepository.getPhoto(partyId);
   }
 
-  public addUser(user: User): Observable<User> {
-    return this.partyRepository.addUser(user);
+  public addUser(user: User, accessRoleId: string): Observable<User> {
+    return this.partyRepository.addUser(user, accessRoleId);
   }
 
   public addOrganization(organization: Organization): Observable<Organization> {
@@ -66,8 +74,8 @@ export class PartyService {
     return this.partyRepository.deleteOrganization(partyId);
   }
 
-  public updateUser(user: User): Observable<number> {
-    return this.partyRepository.updateUser(user);
+  public updateUser(user: User, accessRoleId: string): Observable<number> {
+    return this.partyRepository.updateUser(user, accessRoleId);
   }
 
   public updateOrganization(organization: Organization): Observable<number> {

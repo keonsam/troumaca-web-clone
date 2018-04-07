@@ -5,9 +5,11 @@ import {Credential} from "./credential";
 import {Organization} from "./organization";
 import {Organizations} from "./organizations";
 import {AccountResponse} from "./account.response";
+import {AccessRole} from "./access.role";
 
 export abstract class PartyRepository {
 
+  abstract findAccessRole(searchStr: string, pageSize: number) :Observable<AccessRole[]>;
   abstract logOutUser(): Observable<boolean>;
 
   abstract getPartyId(): Observable<string>;
@@ -17,11 +19,13 @@ export abstract class PartyRepository {
 
   abstract getUser(partyId: string): Observable<User>;
 
+  abstract getAccessRoleById(partyId:string): Observable<AccessRole>;
+
   abstract getOrganization(partyId: string): Observable<Organization>;
 
   abstract getPhoto(partyId: string): Observable<string>;
 
-  abstract addUser(user: User): Observable<User>;
+  abstract addUser(user: User, accessRoleId: string): Observable<User>;
 
   abstract addOrganization(organization: Organization): Observable<Organization>;
 
@@ -33,7 +37,7 @@ export abstract class PartyRepository {
 
   abstract deleteOrganization(partyId: string): Observable<number>;
 
-  abstract updateUser(user: User): Observable<number>;
+  abstract updateUser(user: User, accessRoleId: string): Observable<number>;
 
   abstract updateOrganization(organization: Organization): Observable<number>;
 

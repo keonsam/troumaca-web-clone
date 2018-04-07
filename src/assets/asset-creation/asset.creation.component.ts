@@ -401,7 +401,6 @@ export class AssetCreationComponent implements OnInit {
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
-        console.log(error);
         this.doNotDisplayFailureMessage = false;
       });
   }

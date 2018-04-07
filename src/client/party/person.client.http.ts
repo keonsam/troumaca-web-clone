@@ -9,12 +9,24 @@ import {OrganizationState} from "./organization.state";
 import {OrganizationStates} from "./organization.states";
 import {AccountResponse} from "../../parties/account.response";
 import {SessionState} from "../session/session.state";
+import {AccessRoleState} from "./access.role.state";
+import {AssetTypeClassStates} from "../asset-type-class/asset.type.class.states";
 
 export class PersonClientHttp implements PersonClient {
 
   constructor(private uuidGenerator: UUIDGenerator,
               private httpClient: HttpClient,
               private hostPort:string) {
+  }
+
+  public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRoleState[]> {
+    let url = `${this.hostPort}/find-access-roles?q=${searchStr}?pageSize=${pageSize}`;
+
+    return this.httpClient.get<AccessRoleState[]>(url, {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
   }
 
   public logOutUser(): Observable<boolean> {
@@ -29,6 +41,23 @@ export class PersonClientHttp implements PersonClient {
 
     return this.httpClient
       .get<boolean>(url, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
+  public getAccessRoleById(partyId: string): Observable<AccessRoleState> {
+    let url = `${this.hostPort}/access-roles/${partyId}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<AccessRoleState>(url, httpOptions)
       .map(data => {
         return data;
       });
@@ -144,8 +173,8 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public addUserState(userState: UserState): Observable<UserState> {
-    let url = `${this.hostPort}/users`;
+  public addUserState(userState: UserState, accessRoleId: string): Observable<UserState> {
+    let url = `${this.hostPort}/users/${accessRoleId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .post<UserState>(url, userState.toJson(), {headers: headers})
@@ -212,8 +241,8 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public updateUser(userState: UserState): Observable<number> {
-    let url = `${this.hostPort}/users/${userState.partyId}`;
+  public updateUser(userState: UserState, accessRoleId: string): Observable<number> {
+    let url = `${this.hostPort}/users/${userState.partyId}/${accessRoleId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .put<number>(url, userState.toJson(), {headers:headers})

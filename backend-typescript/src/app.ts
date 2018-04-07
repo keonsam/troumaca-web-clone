@@ -37,6 +37,8 @@ import * as accountController from "./party/account.controller";
 import * as credentialController from "./authentication/credential/credential.controller";
 import * as confirmationController from "./authentication/credential/confirmation/confirmation.controller";
 import * as sessionController from "./session/session.controller";
+import * as permissionController from "./authorization/permission/permission.controller";
+import * as accessRoleController from "./authorization/access-role/access.role.controller";
 
 const app = express();
 //const checkAccess = new CheckAccess();
@@ -69,6 +71,7 @@ app.get("/find-sites", siteController.findSite);
 app.get("/find-unit-of-measures", unitOfMeasureController.findUnitOfMeasure);
 app.get("/find-persons", userController.findUser);
 app.get("/find-asset-type-classes", assetTypeClassController.findAssetTypeClass);
+app.get("/find-access-roles", accessRoleController.findAccessRoles);
 app.get("/data-types", dataTypeController.getDataTypes);
 app.get("/assets", assetController.getAssets);
 app.get("/assets/:assetId", assetController.getAssetById);
@@ -152,6 +155,13 @@ app.get("/sessions/current-user-session", sessionController.getSimpleSession);
 app.get("/sessions/is-valid-session", sessionController.isValidSession);
 app.get("/partyId", sessionController.getPartyId);
 app.get("/sessions/log-out-user", sessionController.handleSessionLogOut);
+//permissions
+app.get("/permissions", permissionController.getPermissions);
+app.get("/permissions/:permissionId", permissionController.getPermissionById);
+app.post("/permissions", permissionController.savePermission);
+app.put("/permissions/:permissionId", permissionController.updatePermission);
+app.delete("/permissions/:permissionId", permissionController.deletePermission);
+// accessRoles
 
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.

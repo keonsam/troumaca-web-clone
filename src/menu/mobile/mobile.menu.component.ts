@@ -4,7 +4,8 @@ import {PartyService} from "../../parties/party.service";
 import {MenuItemModel} from "../menu.item.model";
 import {EventService} from "../../event/event.service";
 import {MenuModel} from "../menu.model";
-//import * as $ from 'jquery';
+import * as $ from 'jquery';
+
 @Component({
   selector: 'mobile-menu',
   templateUrl: './mobile.menu.component.html',
@@ -74,21 +75,21 @@ export class MobileMenuComponent implements OnInit {
       });
 
 
-    // $('.mobile-menu-trigger').on('click', function () {
-    //   $('.menu-mobile .menu-and-user').slideToggle(200, 'swing');
-    //   return false;
-    // });
-    //
-    // $('.menu-activated-on-click li.has-sub-menu > a').on('click', function (event) {
-    //   var $elem = $(this).closest('li');
-    //   if ($elem.hasClass('active')) {
-    //     $elem.removeClass('active');
-    //   } else {
-    //     $elem.closest('ul').find('li.active').removeClass('active');
-    //     $elem.addClass('active');
-    //   }
-    //   return false;
-    // });
+    $('.mobile-menu-trigger').on('click', function () {
+      $('.menu-mobile .menu-and-user').slideToggle(200, 'swing');
+      return false;
+    });
+
+    $('.menu-activated-on-click li.has-sub-menu > a').on('click', function (event) {
+      var $elem = $(this).closest('li');
+      if ($elem.hasClass('active')) {
+        $elem.removeClass('active');
+      } else {
+        $elem.closest('ul').find('li.active').removeClass('active');
+        $elem.addClass('active');
+      }
+      return false;
+    });
 
   }
 

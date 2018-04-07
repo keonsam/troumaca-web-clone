@@ -85,7 +85,6 @@ export class AssetTypeCreationComponent implements OnInit {
       this.assetType.description = value.description;
       this.assetType.modelNumber = value.modelNumber;
       this.assetType.materialCode = value.materialCode;
-      console.log(value);
     }, error2 => {
       console.log(error2);
     });

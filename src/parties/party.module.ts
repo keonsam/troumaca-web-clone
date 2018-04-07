@@ -30,7 +30,7 @@ import {UserMeComponent} from "./users/user-me/user.me.component";
 import {CreateAccountComponent} from "./create-profile/create.profile.component";
 import {PartyEventService} from "./party.event.service";
 import { ImageCropperModule } from 'ngx-image-cropper';
-
+import {Ng2CompleterModule} from "ng2-completer";
 
 @NgModule({
   imports: [
@@ -41,6 +41,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ReactiveFormsModule,
     PagingModule,
     MenuModule,
+    Ng2CompleterModule,
     ImageCropperModule
   ],
   declarations: [

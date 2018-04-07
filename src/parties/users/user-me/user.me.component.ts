@@ -354,7 +354,7 @@ export class UserMeComponent implements OnInit {
     this.doNotDisplayFailureMessage2 = true;
 
       this.partyService
-      .updateUser(this.user)
+      .updateUser(this.user, "")
       .subscribe(value => {
         if (value) {
            this.updateCredential();

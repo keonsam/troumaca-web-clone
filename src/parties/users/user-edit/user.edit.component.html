@@ -43,6 +43,24 @@
                 </div>
               </fieldset>
 
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Enter Access Role">Access Role</label>
+                  <ng2-completer [datasource]="accessRoleDataService"
+                                 [inputClass]="'form-control form-control-inline'"
+                                 [minSearchLength]="0"
+                                 [maxChars]="4"
+                                 [inputClass]="'form-control'"
+                                 [placeholder]="'Search for Access Role'"
+                                 [matchClass]="'match'"
+                                 formControlName="accessRole"
+                                 [autofocus]="true"
+                                 [textSearching]="false"
+                                 (selected)="onAccessRoleSelect($event)">
+                  </ng2-completer>
+                </div>
+              </fieldset>
+
               <div class="form-buttons-w">
                 <button class="btn btn-primary button1" [disabled]="!userEditForm.valid" type="submit"> Create</button>
                 <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>

@@ -42,6 +42,7 @@ import {QuoteModule} from "../quotes/quote.module";
 import {ShipmentModule} from "../shipments/shipment.module";
 import {AuthenticationModule} from "../authentication/authentication.module";
 import {SessionModule} from "../session/session.module";
+import {AccessRoleModule} from "../access-roles/access.role.module";
 
 @NgModule({
   imports: [
@@ -77,7 +78,8 @@ import {SessionModule} from "../session/session.module";
     QuoteModule,
     AppRoutingModule,
     ShipmentModule,
-    SessionModule
+    SessionModule,
+    AccessRoleModule
   ],
   declarations: [
     AppComponent,

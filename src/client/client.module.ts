@@ -17,6 +17,7 @@ import {assetClientProvider} from "./asset/asset.client.provider";
 import {assetTypesClientProvider} from "./asset-type/asset.types.client.provider";
 import {attributeClientProvider} from "./attribute/attribute.client.provider";
 import {assetTypeClassClientProvider} from "./asset-type-class/asset.type.class.client.provider";
+import {accessRolesClientProvider} from "./access-roles/access.roles.client.provider";
 import {HttpClientModule} from "@angular/common/http";
 // import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserModule} from "@angular/platform-browser";
@@ -58,7 +59,8 @@ import {clientEventProvider} from "./client.event.provider";
     quoteClientProvider,
     shipmentClientProvider,
     clientEventProvider,
-    sessionInterceptorProvider
+    sessionInterceptorProvider,
+    accessRolesClientProvider
   ]
 })
 export class ClientModule { }
