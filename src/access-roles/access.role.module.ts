@@ -1,6 +1,7 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {Ng2CompleterModule} from "ng2-completer";
 import {ReactiveFormsModule} from "@angular/forms";
 import {AccessRoleComponent} from "./access.role.component";
 import {AccessRoleService} from "./access.role.service";
@@ -20,6 +21,9 @@ import {PermissionCreationComponent} from "./permissions/permission-creation/per
 import {ResourceListComponent} from "./resources/resource-list/resource.list.component";
 import {ResourceCreationComponent} from "./resources/resource-creation/resource.creation.component";
 import {ResourceEditComponent} from "./resources/resource-edit/resource.edit.component";
+import {ResourceTypeCreationComponent} from "./resource-types/resorce.type.creation/resource.type.creation.component";
+import {ResourceTypeEditComponent} from "./resource-types/resource.type.edit/resource.type.edit.component";
+import {ResourceTypeListComponent} from "./resource-types/resource.type.list/resource.type.list.component";
 
 @NgModule({
   imports: [
@@ -27,6 +31,7 @@ import {ResourceEditComponent} from "./resources/resource-edit/resource.edit.com
     NgbModule,
     // FormsModule,
     RouterModule,
+    Ng2CompleterModule,
     ReactiveFormsModule,
     accessRoleRouting,
     MenuModule,
@@ -44,7 +49,10 @@ import {ResourceEditComponent} from "./resources/resource-edit/resource.edit.com
     AccessRoleTopMenuComponent,
     ResourceListComponent,
     ResourceCreationComponent,
-    ResourceEditComponent
+    ResourceEditComponent,
+    ResourceTypeCreationComponent,
+    ResourceTypeEditComponent,
+    ResourceTypeListComponent
   ],
   providers: [{
     provide: AccessRoleService,
@@ -68,6 +76,9 @@ import {ResourceEditComponent} from "./resources/resource-edit/resource.edit.com
     ResourceEditComponent,
     ResourceCreationComponent,
     ResourceListComponent,
+    ResourceTypeCreationComponent,
+    ResourceTypeEditComponent,
+    ResourceTypeListComponent,
     AccessRoleTopMenuComponent
   ]
 })

@@ -6,7 +6,7 @@
 
     <div class="element-wrapper">
       <h6 class="element-header">
-        Resource Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right"  href="#" [routerLink]="['/access-roles/resources/create']">New</a></object>
+        Resource Type Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right"  href="#" [routerLink]="['/access-roles/resource-types/create']">New</a></object>
       </h6>
       <div class="element-box">
 
@@ -15,7 +15,6 @@
             <thead>
               <tr>
                 <th>name</th>
-                <th>resource type</th>
                 <th>description</th>
                 <th>Actions</th>
               </tr>
@@ -23,21 +22,19 @@
             <tfoot>
               <tr>
                 <th>name</th>
-                <th>resource type</th>
                 <th>description</th>
                 <th>Actions</th>
               </tr>
             </tfoot>
             <tbody>
-              <tr role="row" *ngFor="let resource of resources.resources; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-                <td>{{resource.name}}</td>
-                <td>{{resource.resourceType.name}}</td>
-                <td>{{resource.description}}</td>
+              <tr role="row" *ngFor="let resourceType of resourceTypes.resourceTypes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+                <td>{{resourceType.name}}</td>
+                <td>{{resourceType.description}}</td>
                 <td class="row-actions">
-                 <a [routerLink]="['/access-roles/resources', resource.resourceId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(resource.resourceId, resource.name)" ><i class="os-icon os-icon-ui-15"></i></a>
+                 <a [routerLink]="['/access-roles/resource-types', resourceType.resourceTypeId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(resourceType.resourceTypeId, resourceType.name)" ><i class="os-icon os-icon-ui-15"></i></a>
                 </td>
               </tr>
-              <tr *ngIf="resources.resources.length <= 0" class="odd">
+              <tr *ngIf="resourceTypes.resourceTypes.length <= 0" class="odd">
                 <td valign="top" align="" colspan="7" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
               </tr>
             </tbody>
@@ -47,12 +44,12 @@
             <div class="modal-content">
              <div class="modal-header">
               <h5 class="modal-title" id="DeleteModalLabel">
-               Delete {{resourceName}}
+               Delete {{resourceTypeName}}
               </h5>
               <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
              </div>
              <div class="modal-body">
-             <p>Are you sure you want to delete {{resourceName}}?</p>
+             <p>Are you sure you want to delete {{resourceTypeName}}?</p>
              </div>
                 <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
@@ -61,8 +58,8 @@
               </div>
              </div>
            </div>
-          <!--<pre>{{resources | json}}</pre>-->
-          <paging [page]="resources.page" (requestPage)="onRequestPage($event)"></paging>
+          <!--<pre>{{resourceTypes | json}}</pre>-->
+          <paging [page]="resourceTypes.page" (requestPage)="onRequestPage($event)"></paging>
         </div>
       </div>
     </div>

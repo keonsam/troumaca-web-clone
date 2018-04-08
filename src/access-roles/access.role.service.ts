@@ -5,6 +5,8 @@ import {Permission} from './permission';
 import {Permissions} from './permissions';
 import {Resource} from "./resource";
 import {Resources} from "./resources";
+import {ResourceType} from "./resource.type";
+import {ResourceTypes} from "./resource.types";
 
 export class AccessRoleService {
 
@@ -33,6 +35,10 @@ export class AccessRoleService {
   }
 
   // resources
+  public findResourceTypeId(searchStr: string, pageSize: number): Observable<ResourceType[]> {
+    return this.accessRoleRepository.findResourceTypeId(searchStr, pageSize);
+  }
+  
   public getResources(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<Resources> {
     return this.accessRoleRepository.getResources(defaultPage, defaultPageSize, defaultSortOrder);
   }
@@ -51,6 +57,27 @@ export class AccessRoleService {
 
   public deleteResource(resourceId: string): Observable<number> {
     return this.accessRoleRepository.deleteResource(resourceId);
+  }
+
+  // resourceTypes
+  public getResourceTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<ResourceTypes> {
+    return this.accessRoleRepository.getResourceTypes(defaultPage, defaultPageSize, defaultSortOrder);
+  }
+
+  public getResourceTypeById(resourceTypeId: string): Observable<ResourceType> {
+    return this.accessRoleRepository.getResourceTypeById(resourceTypeId);
+  }
+
+  public addResourceType(resourceType: ResourceType): Observable<ResourceType> {
+    return this.accessRoleRepository.addResourceType(resourceType);
+  }
+
+  public updateResourceType(resourceType: ResourceType): Observable<number> {
+    return this.accessRoleRepository.updateResourceType(resourceType);
+  }
+
+  public deleteResourceType(resourceTypeId: string): Observable<number> {
+    return this.accessRoleRepository.deleteResourceType(resourceTypeId);
   }
 
 }

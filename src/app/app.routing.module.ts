@@ -77,6 +77,9 @@ import {PermissionListComponent} from "../access-roles/permissions/permission-li
 import {ResourceCreationComponent} from "../access-roles/resources/resource-creation/resource.creation.component";
 import {ResourceEditComponent} from "../access-roles/resources/resource-edit/resource.edit.component";
 import {ResourceListComponent} from "../access-roles/resources/resource-list/resource.list.component";
+import {ResourceTypeCreationComponent} from "../access-roles/resource-types/resorce.type.creation/resource.type.creation.component";
+import {ResourceTypeEditComponent} from "../access-roles/resource-types/resource.type.edit/resource.type.edit.component";
+import {ResourceTypeListComponent} from "../access-roles/resource-types/resource.type.list/resource.type.list.component";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -156,6 +159,9 @@ const appRoutes: Routes = [
       { path: 'resources/listing', component: ResourceListComponent, data:{menuName: 'access-role-menu'} },
       { path: 'resources/create', component: ResourceCreationComponent, data:{menuName:'access-role-menu'} },
       { path: 'resources/:resourceId/edit', component: ResourceEditComponent, data:{menuName:'access-role-menu'} },
+      { path: 'resource-types/listing', component: ResourceTypeListComponent, data:{menuName: 'access-role-menu'} },
+      { path: 'resource-types/create', component: ResourceTypeCreationComponent, data:{menuName:'access-role-menu'} },
+      { path: 'resource-types/:resourceTypeId/edit', component: ResourceTypeEditComponent, data:{menuName:'access-role-menu'} }
     ]},
   { path: 'contracts', component: ContractComponent, canActivate: [AuthGuard], children:[
     { path: '', redirectTo: 'orders', pathMatch: 'full' },

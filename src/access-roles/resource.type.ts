@@ -1,29 +1,18 @@
-import {ResourceTypeState} from "./resource.type.state";
+export class ResourceType {
 
-export class ResourceState {
-
-  private _resourceId:string;
-  private _resourceType: ResourceTypeState;
+  private _resourceTypeId:string;
   private _name:string;
   private _description:string;
   private _ownerPartyId:string;
   private _createdOn:Date;
   private _modifiedOn:Date;
 
-  get resourceId(): string {
-    return this._resourceId;
+  get resourceTypeId(): string {
+    return this._resourceTypeId;
   }
 
-  set resourceId(value: string) {
-    this._resourceId = value;
-  }
-
-  get resourceType(): ResourceTypeState {
-    return this._resourceType;
-  }
-
-  set resourceType(value: ResourceTypeState) {
-    this._resourceType = value;
+  set resourceTypeId(value: string) {
+    this._resourceTypeId = value;
   }
 
   get name(): string {
@@ -64,18 +53,6 @@ export class ResourceState {
 
   set modifiedOn(value: Date) {
     this._modifiedOn = value;
-  }
-
-  toJson() {
-    return {
-      resourceId: this.resourceId,
-      resourceType: this.resourceType,
-      name: this.name,
-      description: this.description,
-      ownerPartyId: this.ownerPartyId,
-      createdOn: this.createdOn,
-      modifiedOn: this.modifiedOn
-    }
   }
 
 }

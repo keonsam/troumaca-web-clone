@@ -1,6 +1,9 @@
+import {ResourceType} from "./resource.type";
+
 export class Resource {
 
   private _resourceId:string;
+  private _resourceType: ResourceType;
   private _name:string;
   private _description:string;
   private _ownerPartyId:string;
@@ -13,6 +16,14 @@ export class Resource {
 
   set resourceId(value: string) {
     this._resourceId = value;
+  }
+  
+  get resourceType(): ResourceType {
+    return this._resourceType;
+  }
+
+  set resourceType(value: ResourceType) {
+    this._resourceType = value;
   }
 
   get name(): string {

@@ -5,8 +5,11 @@ import {PermissionStates} from "./permission.states";
 import {PermissionState} from "./permission.state";
 import {ResourceState} from "./resource.state";
 import {ResourceStates} from "./resource.states";
+import {ResourceTypeState} from "./resource.type.state";
+import {ResourceTypeStates} from "./resource.type.states";
 import {Observable} from "rxjs/Observable";
 import {UUIDGenerator} from "../../uuid.generator";
+import {ResourceType} from "../../access-roles/resource.type";
 
 export class AccessRolesClientHttp extends AccessRolesClient {
 
@@ -20,7 +23,6 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     let url = `${this.hostPort}/permissions?defaultPage=${defaultPage}&defaultPageSize=${defaultPageSize}&defaultSortOrder=${defaultSortOrder}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient.get<PermissionStates>(url, {headers}).map(data => {
-      console.log(data);
       return data;
     });
   }
@@ -58,11 +60,18 @@ export class AccessRolesClientHttp extends AccessRolesClient {
   }
 
   //resources
+  public findResourceTypeId(searchStr: string, pageSize: number): Observable<ResourceTypeState[]> {
+    let url = `${this.hostPort}/find-resource-types?q=${searchStr}&pageSize=${pageSize}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.get<ResourceTypeState[]>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
   public getResources(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<ResourceStates>{
     let url = `${this.hostPort}/resources?defaultPage=${defaultPage}&defaultPageSize=${defaultPageSize}&defaultSortOrder=${defaultSortOrder}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient.get<ResourceStates>(url, {headers}).map(data => {
-      console.log(data);
       return data;
     });
   }
@@ -99,4 +108,44 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     });
   }
 
+  //resourceTypes
+  public getResourceTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<ResourceTypeStates>{
+    let url = `${this.hostPort}/resource-types?defaultPage=${defaultPage}&defaultPageSize=${defaultPageSize}&defaultSortOrder=${defaultSortOrder}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.get<ResourceTypeStates>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public getResourceTypeById(resourceTypeId: string): Observable<ResourceTypeState>{
+    let url = `${this.hostPort}/resource-types/${resourceTypeId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.get<ResourceTypeState>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public addResourceType(resourceTypeState: ResourceTypeState): Observable<ResourceTypeState>{
+    let url = `${this.hostPort}/resource-types`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.post<ResourceTypeState>(url, resourceTypeState.toJson(), {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public updateResourceType(resourceTypeState: ResourceTypeState): Observable<number> {
+    let url = `${this.hostPort}/resource-types/${resourceTypeState.resourceTypeId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.put<number>(url, resourceTypeState.toJson(), {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public deleteResourceType(resourceTypeId: string): Observable<number> {
+    let url = `${this.hostPort}/resource-types/${resourceTypeId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.delete<number>(url, {headers}).map(data => {
+      return data;
+    });
+  }
 }

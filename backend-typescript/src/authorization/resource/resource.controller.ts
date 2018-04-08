@@ -4,8 +4,6 @@ import {getNumericValueOrDefault} from '../../number.util';
 import {getStringValueOrDefault} from '../../string.util';
 
 let orchestrator:ResourceOrchestrator = new ResourceOrchestrator();
-
-
 export let getResources = (req: Request, res: Response) => {
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
   let size = getNumericValueOrDefault(req.query.pageSize, 10);

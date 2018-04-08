@@ -39,8 +39,8 @@ import * as confirmationController from "./authentication/credential/confirmatio
 import * as sessionController from "./session/session.controller";
 import * as permissionController from "./authorization/permission/permission.controller";
 import * as resourceController from "./authorization/resource/resource.controller";
+import * as resourceTypeController from "./authorization/resource-type/resource.type.controller";
 import * as accessRoleController from "./authorization/access-role/access.role.controller";
-
 const app = express();
 //const checkAccess = new CheckAccess();
 
@@ -72,8 +72,10 @@ app.get("/find-sites", siteController.findSite);
 app.get("/find-unit-of-measures", unitOfMeasureController.findUnitOfMeasure);
 app.get("/find-persons", userController.findUser);
 app.get("/find-asset-type-classes", assetTypeClassController.findAssetTypeClass);
+app.get("/find-resource-types", resourceTypeController.findResourceTypes);
 app.get("/find-access-roles", accessRoleController.findAccessRoles);
 app.get("/data-types", dataTypeController.getDataTypes);
+//assets
 app.get("/assets", assetController.getAssets);
 app.get("/assets/:assetId", assetController.getAssetById);
 app.post("/assets", assetController.saveAsset);
@@ -168,6 +170,13 @@ app.get("/resources/:resourceId", resourceController.getResourceById);
 app.post("/resources", resourceController.saveResource);
 app.put("/resources/:resourceId", resourceController.updateResource);
 app.delete("/resources/:resourceId", resourceController.deleteResource);
+//resourcetypes
+app.get("/resource-types", resourceTypeController.getResourceTypes);
+app.get("/resource-types/:resourceTypeId", resourceTypeController.getResourceTypeById);
+app.post("/resource-types", resourceTypeController.saveResourceType);
+app.put("/resource-types/:resourceTypeId", resourceTypeController.updateResourceType);
+app.delete("/resource-types/:resourceTypeId", resourceTypeController.deleteResourceType);
+
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
 

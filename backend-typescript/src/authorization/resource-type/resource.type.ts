@@ -1,29 +1,18 @@
-import {ResourceType} from "../resource-type/resource.type";
+export class ResourceType {
 
-export class Resource {
-
-  private _resourceId:string;
-  private _resourceType: ResourceType;
+  private _resourceTypeId:string;
   private _name:string;
   private _description:string;
   //private _ownerPartyId:string;
   private _createdOn:Date;
   private _modifiedOn:Date;
 
-  get resourceId(): string {
-    return this._resourceId;
+  get resourceTypeId(): string {
+    return this._resourceTypeId;
   }
 
-  set resourceId(value: string) {
-    this._resourceId = value;
-  }
-
-  get resourceType(): ResourceType {
-    return this._resourceType;
-  }
-
-  set resourceType(value: ResourceType) {
-    this._resourceType = value;
+  set resourceTypeId(value: string) {
+    this._resourceTypeId = value;
   }
 
   get name(): string {

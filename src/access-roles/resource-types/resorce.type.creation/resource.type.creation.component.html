@@ -5,35 +5,17 @@
       <div class="col-sm-12">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="resourceForm" (ngSubmit)="onCreate()" id="formValidate">
+            <form [formGroup]="resourceTypeForm" (ngSubmit)="onCreate()" id="formValidate">
               <h5 class="form-header">
-                New Resource
+                New Resource Type
               </h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to create resource.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to create resource type.</div>
 
               <fieldset class="form-group">
                 <div class="form-group">
                   <label for="Name">Name</label><input class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
                   <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
-                </div>
-              </fieldset>
-
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="">Resource Type</label>
-                  <ng2-completer [datasource]="resourceTypeIdDataService"
-                                 [inputClass]="'form-control form-control-inline'"
-                                 [minSearchLength]="0"
-                                 [maxChars]="4"
-                                 [inputClass]="'form-control'"
-                                 [placeholder]="'Search for Resource Type'"
-                                 [matchClass]="'match'"
-                                 formControlName="resourceTypeId"
-                                 [autofocus]="true"
-                                 [textSearching]="false"
-                                 (selected)="onResourceTypeIdSelect($event)">
-                  </ng2-completer>
                 </div>
               </fieldset>
 
@@ -45,7 +27,7 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [disabled]="!resourceForm.valid" type="submit"> Submit</button>
+                <button class="btn btn-primary button1" [disabled]="!resourceTypeForm.valid" type="submit"> Submit</button>
                 <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>
               </div>
 
