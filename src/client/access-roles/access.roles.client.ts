@@ -5,7 +5,7 @@ import {ResourceState} from "./resource.state";
 import {ResourceStates} from "./resource.states";
 import {ResourceTypeState} from "./resource.type.state";
 import {ResourceTypeStates} from "./resource.type.states";
-import {ResourceType} from "../../access-roles/resource.type";
+import {ResourcePermissionState} from "./resource.permission.state";
 
 export abstract class AccessRolesClient {
 
@@ -21,15 +21,19 @@ export abstract class AccessRolesClient {
   abstract deletePermission(permissionId: string): Observable<number>;
 
   // resources
+  abstract getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<PermissionStates>;
+
+  abstract getResourcePermissionsByResourceId(permissionId: string): Observable<ResourcePermissionState[]>;
+  
   abstract findResourceTypeId(searchStr: string, pageSize: number): Observable<ResourceTypeState[]>;
 
   abstract getResources(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<ResourceStates>;
 
   abstract getResourceById(resourceId: string): Observable<ResourceState>;
 
-  abstract addResource(resourceState: ResourceState): Observable<ResourceState>;
+  abstract addResource(resourceState: ResourceState, resourcePermissionState:ResourcePermissionState[]): Observable<ResourceState>;
 
-  abstract updateResource(resourceState: ResourceState): Observable<number>;
+  abstract updateResource(resourceState: ResourceState, resourcePermissionState:ResourcePermissionState[]): Observable<number>;
 
   abstract deleteResource(resourceId: string): Observable<number>;
 

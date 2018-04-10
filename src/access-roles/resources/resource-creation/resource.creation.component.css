@@ -433,6 +433,249 @@ legend:before {
   margin-bottom: 1rem;
 }
 
+/* Start of Table Section*/
+
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
+
+.table th,
+.table td {
+  padding: 0.8rem 0.9rem;
+  vertical-align: top;
+  border-top: 1px solid rgba(83, 101, 140, 0.33);
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid rgba(83, 101, 140, 0.33);
+}
+
+.table tbody + tbody {
+  border-top: 2px solid rgba(83, 101, 140, 0.33);
+}
+
+.table .table {
+  background-color: #fff;
+}
+
+.table-sm th,
+.table-sm td {
+  padding: 0.3rem;
+}
+
+.table-bordered {
+  border: 1px solid rgba(83, 101, 140, 0.33);
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid rgba(83, 101, 140, 0.33);
+}
+
+.table-bordered thead th,
+.table-bordered thead td {
+  border-bottom-width: 2px;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(94, 130, 152, 0.05);
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(18, 95, 142, 0.075);
+}
+
+.table-active,
+.table-active > th,
+.table-active > td {
+  background-color: rgba(18, 95, 142, 0.075);
+}
+
+.table-hover .table-active:hover {
+  background-color: rgba(15, 80, 119, 0.075);
+}
+
+.table-hover .table-active:hover > td,
+.table-hover .table-active:hover > th {
+  background-color: rgba(15, 80, 119, 0.075);
+}
+
+.table-success,
+.table-success > th,
+.table-success > td {
+  background-color: #dff0d8;
+}
+
+.table-hover .table-success:hover {
+  background-color: #d0e9c6;
+}
+
+.table-hover .table-success:hover > td,
+.table-hover .table-success:hover > th {
+  background-color: #d0e9c6;
+}
+
+.table-info,
+.table-info > th,
+.table-info > td {
+  background-color: #d9edf7;
+}
+
+.table-hover .table-info:hover {
+  background-color: #c4e3f3;
+}
+
+.table-hover .table-info:hover > td,
+.table-hover .table-info:hover > th {
+  background-color: #c4e3f3;
+}
+
+.table-warning,
+.table-warning > th,
+.table-warning > td {
+  background-color: #fbf5d6;
+}
+
+.table-hover .table-warning:hover {
+  background-color: #f9efbf;
+}
+
+.table-hover .table-warning:hover > td,
+.table-hover .table-warning:hover > th {
+  background-color: #f9efbf;
+}
+
+.table-danger,
+.table-danger > th,
+.table-danger > td {
+  background-color: #f2dede;
+}
+
+.table-hover .table-danger:hover {
+  background-color: #ebcccc;
+}
+
+.table-hover .table-danger:hover > td,
+.table-hover .table-danger:hover > th {
+  background-color: #ebcccc;
+}
+
+.thead-inverse th {
+  color: #fff;
+  background-color: #292b2c;
+}
+
+.thead-default th {
+  color: #464a4c;
+  background-color: #eceeef;
+}
+
+.table-inverse {
+  color: #fff;
+  background-color: #292b2c;
+}
+
+.table-inverse th,
+.table-inverse td,
+.table-inverse thead th {
+  border-color: #fff;
+}
+
+.table-inverse.table-bordered {
+  border: 0;
+}
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.table-responsive.table-bordered {
+  border: 0;
+}
+
+@media (max-width: 1000px) {
+  .description {
+    display: none !important;
+  }
+}
+
+
+
+/*
+  Troumaca overrides etc.
+*/
+.table-full-width {
+  width: 100%;
+}
+
+.classification {
+  display: block;
+}
+
+.description {
+  display: block;
+}
+
+.element-wrapper {
+  padding-bottom: 2rem;
+}
+
+:host  {
+  width: 100%;
+  height: 100% !important;
+}
+
+@media (max-width: 850px) {
+  .classification {
+    display: none !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .description {
+    display: none !important;
+  }
+}
+
+/*tr:nth-child(even) {*/
+/*background: #CCC*/
+/*}*/
+
+tbody tr:nth-child(odd) {
+  /*background: #FFF*/
+  background-color: rgba(94, 130, 152, 0.05);
+}
+
+tbody tr {
+  height: 50px;
+  border-bottom: 1px solid #999;
+}
+
+tfoot tr {
+  border-top: 1px solid #999;
+}
+
+.no-data-center {
+  text-align: center;
+}
+
+.paging-section {
+  margin-top: 30px;
+}
+
+.table-section {
+  margin-top: 30px;
+}
+
+/* End of table section css */
+
 
 /*
   Troumaca overrides etc.
@@ -504,3 +747,6 @@ li {
 :host(.ng-invalid:not(form)) {
  border-left: 5px solid #42A948;
 }
+
+
+

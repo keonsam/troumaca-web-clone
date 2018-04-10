@@ -40,6 +40,7 @@ import * as sessionController from "./session/session.controller";
 import * as permissionController from "./authorization/permission/permission.controller";
 import * as resourceController from "./authorization/resource/resource.controller";
 import * as resourceTypeController from "./authorization/resource-type/resource.type.controller";
+import * as resourcePermissionController from "./authorization/resource-permission/resource.permission.controller";
 import * as accessRoleController from "./authorization/access-role/access.role.controller";
 const app = express();
 //const checkAccess = new CheckAccess();
@@ -162,6 +163,8 @@ app.get("/sessions/log-out-user", sessionController.handleSessionLogOut);
 app.get("/permissions", permissionController.getPermissions);
 app.get("/permissions/:permissionId", permissionController.getPermissionById);
 app.post("/permissions", permissionController.savePermission);
+app.post("/permissions/permissions", permissionController.getPermissionsByArray);
+app.post("/permissions/resource-permissions", permissionController.getResourcePermissionsByArray);
 app.put("/permissions/:permissionId", permissionController.updatePermission);
 app.delete("/permissions/:permissionId", permissionController.deletePermission);
 //resources
@@ -176,6 +179,8 @@ app.get("/resource-types/:resourceTypeId", resourceTypeController.getResourceTyp
 app.post("/resource-types", resourceTypeController.saveResourceType);
 app.put("/resource-types/:resourceTypeId", resourceTypeController.updateResourceType);
 app.delete("/resource-types/:resourceTypeId", resourceTypeController.deleteResourceType);
+//resourcePermissions
+app.get("/resource-permissions-by-id/:resourceId", resourcePermissionController.getResourcePermissionsByResourceId);
 
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.

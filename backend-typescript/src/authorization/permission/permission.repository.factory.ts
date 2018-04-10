@@ -12,6 +12,38 @@ class PermissionDBRepository implements PermissionRepository {
 
   private defaultPageSize:number = 10;
 
+  getPermissionsByArray(pageNumber:number, pageSize:number, order:string, assignedArray:string[]):Observable<Permission[]> {
+    return Rx.Observable.create(function (observer:Observer<Permission[]>) {
+      let skip = calcSkip(pageNumber, pageSize, this.defaultPageSize);
+      permissions.find({ permissionId: { $nin: assignedArray }}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  getResourcePermissionsByArray(pageNumber:number, pageSize:number, order:string, assignedArray:string[]):Observable<Permission[]> {
+    return Rx.Observable.create(function (observer:Observer<Permission[]>) {
+      let skip = calcSkip(pageNumber, pageSize, this.defaultPageSize);
+      permissions.find({ permissionId: { $in: assignedArray }}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+
+
+
+
   getPermissions(pageNumber:number, pageSize:number, order:string):Observable<Permission[]> {
     let localDefaultPageSize = this.defaultPageSize;
     return Rx.Observable.create(function (observer:Observer<Permission[]>) {
@@ -106,6 +138,18 @@ class PermissionDBRepository implements PermissionRepository {
 
 
 class PermissionRestRepository implements PermissionRepository {
+
+  getPermissionsByArray(pageNumber:number, pageSize:number, order:string, assignedArray:string[]):Observable<Permission[]> {
+    return undefined;
+  }
+
+  getResourcePermissionsByArray(pageNumber:number, pageSize:number, order:string, assignedArray:string[]):Observable<Permission[]> {
+    return undefined;
+  }
+
+  getAllPermissions():Observable<Permission[]> {
+    return undefined;
+  }
 
   getPermissions(pageNumber:number, pageSize:number, order:string):Observable<Permission[]> {
     return undefined;

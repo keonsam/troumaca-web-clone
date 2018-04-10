@@ -1,4 +1,4 @@
-{"resourceId":"08cf90f0-92f2-43e3-b751-ddd8490dec50","name":"Assets","description":"testingB","_id":"OlDbURqsy1m9lWBn"}
+{"resourceType":{"resourceTypeId":"7714d005-59a0-40f5-87f6-c2cb656215f6","name":"Assets"},"name":"Truck","description":"testing","resourceId":"65eba9f6-7c91-439b-9ab6-b9955672fe19","_id":"fNb6B8Ut7wlX2syE"}
 {"$$indexCreated":{"fieldName":"resourceId","unique":true,"sparse":false}}
-{"resourceType":{"resourceTypeId":"7714d005-59a0-40f5-87f6-c2cb656215f6","name":"Assets"},"name":"Car","description":"Company Car","resourceId":"95e6d8f3-0df3-4801-98d4-8a61389a04fb","_id":"0g0AdBvL9E1o4djm"}
-{"$$deleted":true,"_id":"OlDbURqsy1m9lWBn"}
+{"resourceId":"65eba9f6-7c91-439b-9ab6-b9955672fe19","resourceType":{"resourceTypeId":"7714d005-59a0-40f5-87f6-c2cb656215f6","name":"Assets"},"name":"Truck","description":"testing","_id":"fNb6B8Ut7wlX2syE"}
+{"resourceId":"65eba9f6-7c91-439b-9ab6-b9955672fe19","resourceType":{"resourceTypeId":"7714d005-59a0-40f5-87f6-c2cb656215f6","name":"Assets"},"name":"Truck","description":"testing","_id":"fNb6B8Ut7wlX2syE"}

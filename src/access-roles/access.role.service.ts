@@ -7,6 +7,7 @@ import {Resource} from "./resource";
 import {Resources} from "./resources";
 import {ResourceType} from "./resource.type";
 import {ResourceTypes} from "./resource.types";
+import {ResourcePermission} from "./resource.permission";
 
 export class AccessRoleService {
 
@@ -35,10 +36,18 @@ export class AccessRoleService {
   }
 
   // resources
+  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<Permissions> {
+   return this.accessRoleRepository.getPermissionsByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray, type);
+  }
+
+  public getResourcePermissionsByResourceId(resourceId: string): Observable<ResourcePermission[]> {
+    return this.accessRoleRepository.getResourcePermissionsByResourceId(resourceId);
+  }
+
   public findResourceTypeId(searchStr: string, pageSize: number): Observable<ResourceType[]> {
     return this.accessRoleRepository.findResourceTypeId(searchStr, pageSize);
   }
-  
+
   public getResources(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<Resources> {
     return this.accessRoleRepository.getResources(defaultPage, defaultPageSize, defaultSortOrder);
   }
@@ -47,12 +56,12 @@ export class AccessRoleService {
     return this.accessRoleRepository.getResourceById(resourceId);
   }
 
-  public addResource(resource: Resource): Observable<Resource> {
-    return this.accessRoleRepository.addResource(resource);
+  public addResource(resource: Resource, resourcePermissions: ResourcePermission[]): Observable<Resource> {
+    return this.accessRoleRepository.addResource(resource, resourcePermissions);
   }
 
-  public updateResource(resource: Resource): Observable<number> {
-    return this.accessRoleRepository.updateResource(resource);
+  public updateResource(resource: Resource, resourcePermissions: ResourcePermission[]): Observable<number> {
+    return this.accessRoleRepository.updateResource(resource, resourcePermissions);
   }
 
   public deleteResource(resourceId: string): Observable<number> {

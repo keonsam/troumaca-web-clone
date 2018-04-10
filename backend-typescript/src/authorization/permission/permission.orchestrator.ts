@@ -14,6 +14,34 @@ export class PermissionOrchestrator {
     this.permissionRepository = createPermissionRepositoryFactory();
   }
 
+  getPermissionsByArray(number:number, size:number, field:string, direction:string, assignedArray:string[]):Observable<Result<any>> {
+    let sort = getSortOrderOrDefault(field, direction);
+    return this.permissionRepository
+      .getPermissionsByArray(number, size, sort, assignedArray)
+      .flatMap(value => {
+        return this.permissionRepository
+          .getPermissionCount()
+          .map(count => {
+            let shapePermissionsResp = shapePermissionsResponse( value, number, size, value.length, count, sort);
+            return new Result<any>(false, "", shapePermissionsResp);
+          });
+      });
+  }
+
+  getResourcePermissionsByArray(number:number, size:number, field:string, direction:string, assignedArray:string[]):Observable<Result<any>> {
+    let sort = getSortOrderOrDefault(field, direction);
+    return this.permissionRepository
+      .getResourcePermissionsByArray(number, size, sort, assignedArray)
+      .flatMap(value => {
+        return this.permissionRepository
+          .getPermissionCount()
+          .map(count => {
+            let shapePermissionsResp = shapePermissionsResponse( value, number, size, value.length, count, sort);
+            return new Result<any>(false, "", shapePermissionsResp);
+          });
+      });
+  }
+
   getPermissions(number:number, size:number, field:string, direction:string):Observable<Result<any>> {
     let sort:string = getSortOrderOrDefault(field, direction);
     return this.permissionRepository

@@ -37,6 +37,70 @@
                 </div>
               </fieldset>
 
+              <!-- start of permissions -->
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="table-responsive table-section">
+                    <table class="table table-striped table-lightfont table-full-width">
+                      <thead>
+                      <tr>
+                        <th>name</th>
+                        <th>description</th>
+                      </tr>
+                      </thead>
+                      <tfoot>
+                      <tr>
+                        <th>name</th>
+                        <th>description</th>
+                      </tr>
+                      </tfoot>
+                      <tbody>
+                      <tr role="row" *ngFor="let permission of permissions.permissions; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onPermissionDoubleClick(permission.permissionId)">
+                        <td>{{permission.name}}</td>
+                        <td>{{permission.description}}</td>
+                      </tr>
+                      <tr *ngIf="permissions.permissions.length <= 0" class="odd">
+                        <td valign="top" align="" colspan="7" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                    <paging [page]="permissions.page" (requestPage)="onRequestPage($event, 'permissions')"></paging>
+                  </div>
+                </div>
+                <!-- end of permissions -->
+
+                <!-- start of  resource permissions -->
+                <div class="col-6">
+                  <div class="table-responsive table-section">
+                    <table class="table table-striped table-lightfont table-full-width">
+                      <thead>
+                      <tr>
+                        <th>name</th>
+                        <th>description</th>
+                      </tr>
+                      </thead>
+                      <tfoot>
+                      <tr>
+                        <th>name</th>
+                        <th>description</th>
+                      </tr>
+                      </tfoot>
+                      <tbody>
+                      <tr role="row" *ngFor="let resourcePermission of resourcePermissions.permissions; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven"(dblclick)="onResourceDoubleClick(resourcePermission.permissionId)" >
+                        <td>{{resourcePermission.name}}</td>
+                        <td>{{resourcePermissions.description}}</td>
+                      </tr>
+                      <tr *ngIf="resourcePermissions.permissions.length <= 0" class="odd">
+                        <td valign="top" align="" colspan="7" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                    <paging [page]="resourcePermissions.page" (requestPage)="onRequestPage($event,'resource-permissions')"></paging>
+                  </div>
+                </div>
+              </div>
+              <!-- end of permissions -->
+
               <fieldset class="form-group">
                 <div class="form-group">
                   <label for="description">Description</label><input class="form-control" formControlName="description" placeholder="Description" type="text">

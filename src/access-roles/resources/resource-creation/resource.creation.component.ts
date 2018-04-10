@@ -6,6 +6,10 @@ import {Resource} from "../../resource";
 import {ResourceType} from "../../resource.type";
 import {AccessRoleService} from "../../access.role.service";
 import {Router} from "@angular/router";
+import {ResourcePermission} from "../../resource.permission";
+import {Permissions} from "../../permissions";
+import {Page} from "../../../page/page";
+import {Sort} from "../../../sort/sort";
 
 @Component({
   selector: 'resource-creation',
@@ -17,10 +21,17 @@ export class ResourceCreationComponent implements OnInit {
   private _resourceTypeId: FormControl;
   private _description: FormControl;
   private resource: Resource;
-
+  private _assignedArray: string[];
+  private _resourcePermissionIds: ResourcePermission[];
+  private _permissions: Permissions;
+  private _resourcePermissions: Permissions;
   private _resourceTypeIdDataService: CompleterData;
-
   private _resourceForm: FormGroup;
+
+
+  private defaultPage:number = 1;
+  private defaultPageSize:number = 10;
+  private defaultSortOrder = "asc";
 
   private pageSize:number = 15;
   private _doNotDisplayFailureMessage:boolean;
@@ -48,16 +59,39 @@ export class ResourceCreationComponent implements OnInit {
         console.log(error2);
       });
 
+    this.resourcePermissionIds = [];
+    let newPermissions = new Permissions();
+    newPermissions.permissions = [];
+    newPermissions.page = new Page();
+    newPermissions.sort = new Sort();
+    this.permissions = newPermissions;
+    this.resourcePermissions = newPermissions;
+
+    this.assignedArray = [];
     this.resource = new Resource();
     this.resource.resourceType = new ResourceType();
-
     this.doNotDisplayFailureMessage = true;
   }
 
 
   ngOnInit(): void {
+    this.getPermissions("permissions");
     this.populateResourceTypeIdDropDown();
   }
+
+  private getPermissions(type) {
+    this.accessRoleService.getPermissionsByArray(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray, type)
+        .subscribe(values => {
+          console.log(type);
+          if(type === "permissions") {
+            this.permissions = values;
+          }else{
+            this.resourcePermissions = values;
+          }
+        }, onError => {
+          console.log(onError);
+        });
+  };
 
   private populateResourceTypeIdDropDown() {
     this.resourceTypeIdDataService = this.completerService.local([], 'name', 'name');
@@ -112,6 +146,38 @@ export class ResourceCreationComponent implements OnInit {
     this._resourceTypeIdDataService = value;
   }
 
+  get assignedArray(): string[] {
+    return this._assignedArray;
+  }
+
+  set assignedArray(value: string[]) {
+    this._assignedArray = value;
+  }
+
+  get permissions(): Permissions {
+    return this._permissions;
+  }
+
+  set permissions(value: Permissions) {
+    this._permissions = value;
+  }
+
+  get resourcePermissions(): Permissions {
+    return this._resourcePermissions;
+  }
+
+  set resourcePermissions(value: Permissions) {
+    this._resourcePermissions = value;
+  }
+
+  get resourcePermissionIds(): ResourcePermission[] {
+    return this._resourcePermissionIds;
+  }
+
+  set resourcePermissionIds(value: ResourcePermission[]) {
+    this._resourcePermissionIds = value;
+  }
+
   get description(): FormControl {
     return this._description;
   }
@@ -142,10 +208,33 @@ export class ResourceCreationComponent implements OnInit {
     }
   }
 
+  onPermissionDoubleClick(permissionId: string) {
+    this.assignedArray.push(permissionId);
+    this.resourcePermissionIds.push(new ResourcePermission(permissionId));
+    this.getPermissions("permissions");
+    this.getPermissions("resource-permissions");
+  }
+
+  onResourceDoubleClick(permissionId: string) {
+    this.assignedArray = this.assignedArray.filter(val => {
+      return val !== permissionId;
+    });
+    this.resourcePermissionIds = this.resourcePermissionIds.filter( val =>{
+      return val.permissionId !== permissionId;
+    });
+    this.getPermissions("permissions");
+    this.getPermissions("resource-permissions");
+  }
+
+  onRequestPage(pageNumber: number, type: string) {
+    this.defaultPage = pageNumber;
+    this.getPermissions(type);
+  }
+
   onCreate() {
     this.doNotDisplayFailureMessage = true;
 
-    this.accessRoleService.addResource(this.resource)
+    this.accessRoleService.addResource(this.resource, this.resourcePermissionIds)
       .subscribe( resource => {
         if (resource.resourceId) {
           this.router.navigate(['/access-roles/resources/listing']);

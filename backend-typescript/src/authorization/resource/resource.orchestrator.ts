@@ -5,13 +5,18 @@ import {Resource} from "./resource";
 import {shapeResourcesResponse} from "./resource.response.shaper";
 import {Result} from "../../result.success";
 import {getSortOrderOrDefault} from "../../sort.order.util";
+import {ResourcePermission} from "../resource-permission/resource.permission";
+import {ResourcePermissionRepository} from "../resource-permission/resource.permission.repository";
+import {createResourcePermissionRepositoryFactory} from "../resource-permission/resource.permission.repository.factory";
 
 export class ResourceOrchestrator {
 
   private resourceRepository:ResourceRepository;
+  private resourcePermissionRepository: ResourcePermissionRepository;
 
   constructor() {
     this.resourceRepository = createResourceRepositoryFactory();
+    this.resourcePermissionRepository = createResourcePermissionRepositoryFactory();
   }
 
   getResources(number:number, size:number, field:string, direction:string):Observable<Result<any>> {
@@ -28,16 +33,45 @@ export class ResourceOrchestrator {
       });
   };
 
-  addResource(resource:Resource):Observable<Resource> {
-    return this.resourceRepository.addResource(resource);
+  addResource(resource:Resource, resourcePermissions: ResourcePermission[]):Observable<Resource> {
+    return this.resourceRepository.addResource(resource)
+      .switchMap( value => {
+        let resourceId = value.resourceId;
+        if(resourceId) {
+          resourcePermissions.forEach(val => {
+            val.resourceId = resourceId;
+          });
+          return this.resourcePermissionRepository.addResourcePermission(resourcePermissions)
+            .map( resourcePermissions => {
+              if(resourcePermissions.length > 0) {
+                return value;
+              }
+            });
+        }
+      });
   };
 
   getResourceById(resourceId:string):Observable<Resource> {
     return this.resourceRepository.getResourceById(resourceId);
   };
 
-  updateResource(resourceId:string, resource:Resource):Observable<number> {
-    return this.resourceRepository.updateResource(resourceId, resource);
+  updateResource(resourceId:string, resource:Resource, resourcePermissions: ResourcePermission[]):Observable<number> {
+    return this.resourceRepository.updateResource(resourceId, resource)
+      .switchMap( numReplaced => {
+        if(numReplaced) {
+          return this.resourcePermissionRepository.deleteResourcePermission(resourceId)
+            .switchMap(numReplaced2 => {
+              if(numReplaced2) {
+                return this.resourcePermissionRepository.addResourcePermission(resourcePermissions)
+                  .map( docs => {
+                    if(docs.length > 0) {
+                      return numReplaced;
+                    }
+                  });
+              }
+            });
+        }
+      });
   };
 
   deleteResource(resourceId:string):Observable<number>{

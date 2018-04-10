@@ -9,26 +9,44 @@ import {generateUUID} from "../../uuid.generator";
 
 class ResourcePermissionDBRepository implements ResourcePermissionRepository {
 
-  addResourcePermission(resourcePermission: ResourcePermission): Observable<ResourcePermission> {
-    resourcePermission.resourcePermissionId = generateUUID();
-    return Rx.Observable.create(function(observer:Observer<ResourcePermission>) {
-      resourcePermissions.insert(resourcePermission, function(err:any, doc:any) {
+  getResourcePermissionsByResourceId(resourceId:string):Observable<ResourcePermission[]> {
+    return Rx.Observable.create(function(observer:Observer<ResourcePermission[]>) {
+      resourcePermissions.find({resourceId}, function (err:any, docs:any) {
         if (err) {
           observer.error(err);
         } else {
-          observer.next(resourcePermission);
+          observer.next(docs);
         }
         observer.complete();
       });
     });
   }
 
-  deleteResourcePermission(resourcePermissionId: string): Observable<number> {
+  addResourcePermission(resourcePermission: ResourcePermission[]): Observable<ResourcePermission[]> {
+    // more than one here
+    resourcePermission.forEach(value => {
+      if(!value.resourcePermissionId) {
+        value.resourcePermissionId = generateUUID();
+      }
+    });
+    return Rx.Observable.create(function(observer:Observer<ResourcePermission[]>) {
+      resourcePermissions.insert(resourcePermission, function(err:any, doc:any) {
+        if (err) {
+          observer.error(err);
+        } else {
+          observer.next(doc);
+        }
+        observer.complete();
+      });
+    });
+  }
+
+  deleteResourcePermission(resourceId: string): Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
-        "resourcePermissionId":resourcePermissionId
+        "resourceId":resourceId
       };
-      resourcePermissions.remove(query, {}, function (err:any, numRemoved:number) {
+      resourcePermissions.remove(query, {multi: true}, function (err:any, numRemoved:number) {
         if (!err) {
           observer.next(numRemoved);
         } else {
@@ -76,11 +94,15 @@ class ResourcePermissionDBRepository implements ResourcePermissionRepository {
 
 class ResourcePermissionRestRepository implements ResourcePermissionRepository {
 
-  addResourcePermission(resourcePermission: ResourcePermission): Observable<ResourcePermission> {
+  getResourcePermissionsByResourceId(resourceId:string):Observable<ResourcePermission[]> {
     return undefined;
   }
 
-  deleteResourcePermission(resourcePermissionId: string): Observable<number> {
+  addResourcePermission(resourcePermission: ResourcePermission[]): Observable<ResourcePermission[]> {
+    return undefined;
+  }
+
+  deleteResourcePermission(resourceId: string): Observable<number> {
     return undefined;
   }
 

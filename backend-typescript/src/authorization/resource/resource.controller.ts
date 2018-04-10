@@ -28,7 +28,9 @@ export let getResourceById = (req: Request, res: Response) => {
 };
 
 export let saveResource = (req: Request, res: Response) => {
-  orchestrator.addResource(req.body)
+  let resource = req.body.resource;
+  let resourcePermissions = req.body.resourcePermission;
+  orchestrator.addResource(resource, resourcePermissions)
     .subscribe(resource => {
       res.send(JSON.stringify(resource));
     }, error => {
@@ -39,9 +41,10 @@ export let saveResource = (req: Request, res: Response) => {
 
 export let updateResource = (req: Request, res: Response) => {
   let resourceId = req.params.resourceId;
-  let resource = req.body;
+  let resource = req.body.resource;
+  let resourcePermissions = req.body.resourcePermission;
   orchestrator
-    .updateResource(resourceId, resource)
+    .updateResource(resourceId, resource, resourcePermissions)
     .subscribe(resource => {
       res.send(JSON.stringify(resource));
     });

@@ -5,6 +5,45 @@ import {getStringValueOrDefault} from '../../string.util';
 
 let orchestrator:PermissionOrchestrator = new PermissionOrchestrator();
 
+
+export let getPermissionsByArray = (req: Request, res: Response) => {
+
+  let number = getNumericValueOrDefault(req.query.pageNumber, 1);
+  let size = getNumericValueOrDefault(req.query.pageSize, 10);
+  let field = getStringValueOrDefault(req.query.sortField, "");
+  let direction = getStringValueOrDefault(req.query.sortOrder, "");
+  let assignedArray = req.body.assignedArray;
+
+  orchestrator.getPermissionsByArray(number, size, field, direction, assignedArray)
+    .subscribe(result => {
+      res.send(JSON.stringify(result.data));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    });
+
+};
+
+export let getResourcePermissionsByArray = (req: Request, res: Response) => {
+
+  let number = getNumericValueOrDefault(req.query.pageNumber, 1);
+  let size = getNumericValueOrDefault(req.query.pageSize, 10);
+  let field = getStringValueOrDefault(req.query.sortField, "");
+  let direction = getStringValueOrDefault(req.query.sortOrder, "");
+  let assignedArray = req.body.assignedArray;
+
+  orchestrator.getResourcePermissionsByArray(number, size, field, direction, assignedArray)
+    .subscribe(result => {
+      res.send(JSON.stringify(result.data));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    });
+
+};
+
 export let getPermissions = (req: Request, res: Response) => {
   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
   let size = getNumericValueOrDefault(req.query.pageSize, 10);

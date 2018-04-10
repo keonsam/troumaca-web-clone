@@ -15,6 +15,8 @@ import { _ } from "underscore";
 import { map, reduce, somethingElse } from "underscore";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
+import {ResourcePermission} from "../../access-roles/resource.permission";
+import {ResourcePermissionState} from "../../client/access-roles/resource.permission.state";
 
 export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
 
@@ -58,6 +60,29 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   }
 
   //resources
+
+  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<Permissions> {
+    return this.accessRolesClient.getPermissionsByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray, type)
+      .map( permissionStates => {
+        let permissionModels: Permissions = new Permissions();
+        permissionModels.permissions = map(permissionStates.permissions, value => {
+          return mapObjectProps(value, new Permission());
+        });
+        permissionModels.page = mapObjectProps(permissionStates.pageState, new Page());
+        permissionModels.sort = mapObjectProps(permissionStates.sortState, new Sort());
+        return permissionModels;
+      });
+  }
+
+  public getResourcePermissionsByResourceId(resourceId: string): Observable<ResourcePermission[]> {
+    return this.accessRolesClient.getResourcePermissionsByResourceId(resourceId)
+      .map(data => {
+        return map(data, value => {
+          return mapObjectProps(value, new ResourcePermission());
+        });
+      });
+  }
+
   public findResourceTypeId(searchStr: string, pageSize: number): Observable<ResourceType[]> {
     return this.accessRolesClient.findResourceTypeId(searchStr, pageSize)
       .map(data => {
@@ -87,15 +112,19 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
       });
   }
 
-  public addResource(resource: Resource): Observable<Resource> {
-    return this.accessRolesClient.addResource(mapObjectProps(resource, new ResourceState()))
+  public addResource(resource: Resource, resourcePermissions: ResourcePermission[]): Observable<Resource> {
+    return this.accessRolesClient.addResource(mapObjectProps(resource, new ResourceState()), map(resourcePermissions, value =>{
+      return mapObjectProps(value, new ResourcePermissionState());
+    }))
       .map(value => {
         return mapObjectProps(value, new Resource());
       });
   }
 
-  public updateResource(resource: Resource): Observable<number> {
-    return this.accessRolesClient.updateResource(mapObjectProps(resource, new ResourceState()));
+  public updateResource(resource: Resource, resourcePermissions: ResourcePermission[]): Observable<number> {
+    return this.accessRolesClient.updateResource(mapObjectProps(resource, new ResourceState()),map(resourcePermissions, value =>{
+      return mapObjectProps(value, new ResourcePermissionState());
+    }));
   }
 
   public deleteResource(resourceId: string): Observable<number> {

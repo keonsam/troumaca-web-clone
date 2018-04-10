@@ -7,9 +7,9 @@ import {ResourceState} from "./resource.state";
 import {ResourceStates} from "./resource.states";
 import {ResourceTypeState} from "./resource.type.state";
 import {ResourceTypeStates} from "./resource.type.states";
+import {ResourcePermissionState} from "./resource.permission.state";
 import {Observable} from "rxjs/Observable";
 import {UUIDGenerator} from "../../uuid.generator";
-import {ResourceType} from "../../access-roles/resource.type";
 
 export class AccessRolesClientHttp extends AccessRolesClient {
 
@@ -60,6 +60,23 @@ export class AccessRolesClientHttp extends AccessRolesClient {
   }
 
   //resources
+  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<PermissionStates> {
+    let url = `${this.hostPort}/permissions/${type}?defaultPage=${defaultPage}&defaultPageSize=${defaultPageSize}&defaultSortOrder=${defaultSortOrder}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.post<PermissionStates>(url, {assignedArray},{headers}).map(data => {
+      console.log(data);
+      return data;
+    });
+  }
+
+  public  getResourcePermissionsByResourceId(permissionId: string): Observable<ResourcePermissionState[]> {
+    let url = `${this.hostPort}/resource-permissions-by-id/${permissionId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.get<ResourcePermissionState[]>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
   public findResourceTypeId(searchStr: string, pageSize: number): Observable<ResourceTypeState[]> {
     let url = `${this.hostPort}/find-resource-types?q=${searchStr}&pageSize=${pageSize}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
@@ -84,18 +101,28 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     });
   }
 
-  public addResource(resourceState: ResourceState): Observable<ResourceState>{
+
+  public addResource(resourceState: ResourceState, resourcePermissionState:ResourcePermissionState[]): Observable<ResourceState>{
     let url = `${this.hostPort}/resources`;
+    let resource = resourceState.toJson();
+    let resourcePermission = map(resourcePermissionState, value => {
+      return value.toJson();
+    });
+    console.log(resourcePermission);
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
-    return this.httpClient.post<ResourceState>(url, resourceState.toJson(), {headers}).map(data => {
+    return this.httpClient.post<ResourceState>(url, {resource, resourcePermission}, {headers}).map(data => {
       return data;
     });
   }
 
-  public updateResource(resourceState: ResourceState): Observable<number> {
+  public updateResource(resourceState: ResourceState, resourcePermissionState:ResourcePermissionState[]): Observable<number> {
     let url = `${this.hostPort}/resources/${resourceState.resourceId}`;
+    let resource = resourceState.toJson();
+    let resourcePermission = map(resourcePermissionState, value => {
+      return value.toJson();
+    });
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
-    return this.httpClient.put<number>(url, resourceState.toJson(), {headers}).map(data => {
+    return this.httpClient.put<number>(url, {resource, resourcePermission}, {headers}).map(data => {
       return data;
     });
   }
