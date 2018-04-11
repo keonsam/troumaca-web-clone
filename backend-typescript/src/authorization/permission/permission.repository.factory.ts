@@ -40,10 +40,6 @@ class PermissionDBRepository implements PermissionRepository {
     });
   };
 
-
-
-
-
   getPermissions(pageNumber:number, pageSize:number, order:string):Observable<Permission[]> {
     let localDefaultPageSize = this.defaultPageSize;
     return Rx.Observable.create(function (observer:Observer<Permission[]>) {

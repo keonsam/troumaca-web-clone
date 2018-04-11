@@ -181,7 +181,12 @@ app.put("/resource-types/:resourceTypeId", resourceTypeController.updateResource
 app.delete("/resource-types/:resourceTypeId", resourceTypeController.deleteResourceType);
 //resourcePermissions
 app.get("/resource-permissions-by-id/:resourceId", resourcePermissionController.getResourcePermissionsByResourceId);
-
+// access-roles
+app.get("/access-roles", accessRoleController.getAccessRoles);
+app.get("/access-roles/:accessRoleId", accessRoleController.getAccessRoleById);
+app.post("/access-roles",accessRoleController.saveAccessRole);
+app.put("/access-roles/:accessRoleId", accessRoleController.updateAccessRole);
+app.delete("/access-roles/:accessRoleId", accessRoleController.deleteAccessRole);
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
 

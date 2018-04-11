@@ -8,6 +8,9 @@ import {ResourceState} from "../../client/access-roles/resource.state";
 import {ResourceType} from "../../access-roles/resource.type";
 import {ResourceTypes} from "../../access-roles/resource.types";
 import {ResourceTypeState} from "../../client/access-roles/resource.type.state";
+import {AccessRole} from "../../access-roles/access.role";
+import {AccessRoles} from "../../access-roles/access.roles";
+import {AccessRoleState} from "../../client/access-roles/access.role.state";
 import {Observable} from "rxjs/Observable";
 import {AccessRolesClient} from "../../client/access-roles/access.roles.client";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
@@ -165,6 +168,42 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
 
   public deleteResourceType(resourceTypeId: string): Observable<number> {
     return this.accessRolesClient.deleteResourceType(resourceTypeId);
+  }
+
+  //access-roles
+  public getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoles> {
+    return this.accessRolesClient.getAccessRoles(defaultPage, defaultPageSize, defaultSortOrder)
+      .map( accessRoleStates => {
+        let accessRoleModels: AccessRoles = new AccessRoles();
+        accessRoleModels.accessRoles = map(accessRoleStates.accessRoles, value => {
+          return mapObjectProps(value, new AccessRole());
+        });
+        accessRoleModels.page = mapObjectProps(accessRoleStates.pageState, new Page());
+        accessRoleModels.sort = mapObjectProps(accessRoleStates.sortState, new Sort());
+        return accessRoleModels;
+      });
+  }
+
+  public getAccessRoleById(accessRoleId: string): Observable<AccessRole> {
+    return this.accessRolesClient.getAccessRoleById(accessRoleId)
+      .map(value => {
+        return mapObjectProps(value, new AccessRole());
+      });
+  }
+
+  public addAccessRole(accessRole: AccessRole): Observable<AccessRole> {
+    return this.accessRolesClient.addAccessRole(mapObjectProps(accessRole, new AccessRoleState()))
+      .map(value => {
+        return mapObjectProps(value, new AccessRole());
+      });
+  }
+
+  public updateAccessRole(accessRole: AccessRole): Observable<number> {
+    return this.accessRolesClient.updateAccessRole(mapObjectProps(accessRole, new AccessRoleState()));
+  }
+
+  public deleteAccessRole(accessRoleId: string): Observable<number> {
+    return this.accessRolesClient.deleteAccessRole(accessRoleId);
   }
 
 

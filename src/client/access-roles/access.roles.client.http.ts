@@ -8,6 +8,8 @@ import {ResourceStates} from "./resource.states";
 import {ResourceTypeState} from "./resource.type.state";
 import {ResourceTypeStates} from "./resource.type.states";
 import {ResourcePermissionState} from "./resource.permission.state";
+import {AccessRoleState} from "./access.role.state";
+import {AccessRoleStates} from "./access.role.states";
 import {Observable} from "rxjs/Observable";
 import {UUIDGenerator} from "../../uuid.generator";
 
@@ -171,6 +173,47 @@ export class AccessRolesClientHttp extends AccessRolesClient {
   public deleteResourceType(resourceTypeId: string): Observable<number> {
     let url = `${this.hostPort}/resource-types/${resourceTypeId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.delete<number>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
+  //access-roles
+  public getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleStates>{
+    let url = `${this.hostPort}/access-roles?defaultPage=${defaultPage}&defaultPageSize=${defaultPageSize}&defaultSortOrder=${defaultSortOrder}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.get<AccessRoleStates>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public getAccessRoleById(accessRoleId: string): Observable<AccessRoleState>{
+    let url = `${this.hostPort}/access-roles/${accessRoleId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.get<AccessRoleState>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public addAccessRole(accessRoleState: AccessRoleState): Observable<AccessRoleState>{
+    let url = `${this.hostPort}/access-roles`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.post<AccessRoleState>(url, accessRoleState.toJson(), {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public updateAccessRole(accessRoleState: AccessRoleState): Observable<number> {
+    let url = `${this.hostPort}/access-roles/${accessRoleState.accessRoleId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.put<number>(url, accessRoleState.toJson(), {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public deleteAccessRole(accessRoleId: string): Observable<number> {
+    let url = `${this.hostPort}/access-roles/${accessRoleId}`;
+    let headers: HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient.delete<number>(url, {headers}).map(data => {
       return data;
     });

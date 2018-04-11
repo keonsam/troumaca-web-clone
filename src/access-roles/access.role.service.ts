@@ -8,6 +8,8 @@ import {Resources} from "./resources";
 import {ResourceType} from "./resource.type";
 import {ResourceTypes} from "./resource.types";
 import {ResourcePermission} from "./resource.permission";
+import {AccessRole} from "./access.role";
+import {AccessRoles} from "./access.roles";
 
 export class AccessRoleService {
 
@@ -87,6 +89,27 @@ export class AccessRoleService {
 
   public deleteResourceType(resourceTypeId: string): Observable<number> {
     return this.accessRoleRepository.deleteResourceType(resourceTypeId);
+  }
+
+  //access-roles
+  public getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoles> {
+    return this.accessRoleRepository.getAccessRoles(defaultPage, defaultPageSize, defaultSortOrder);
+  }
+
+  public getAccessRoleById(accessRoleId: string): Observable<AccessRole> {
+    return this.accessRoleRepository.getAccessRoleById(accessRoleId);
+  }
+
+  public addAccessRole(accessRole: AccessRole): Observable<AccessRole> {
+    return this.accessRoleRepository.addAccessRole(accessRole);
+  }
+
+  public updateAccessRole(accessRole: AccessRole): Observable<number> {
+    return this.accessRoleRepository.updateAccessRole(accessRole);
+  }
+
+  public deleteAccessRole(accessRoleId: string): Observable<number> {
+    return this.accessRoleRepository.deleteAccessRole(accessRoleId);
   }
 
 }

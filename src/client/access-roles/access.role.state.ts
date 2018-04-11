@@ -1,4 +1,4 @@
-export class AccessRole {
+export class AccessRoleState {
 
   private _accessRoleId:string;
   private _name:string;
@@ -81,4 +81,19 @@ export class AccessRole {
   set modifiedOn(value: Date) {
     this._modifiedOn = value;
   }
+
+  toJson() {
+    return {
+      accessRoleId: this.accessRoleId,
+      name: this.name,
+      description: this.description,
+      ownerPartyId: this.ownerPartyId,
+      prohibitionIndicator: this.prohibitionIndicator,
+      effectiveDate: this.effectiveDate,
+      untilDate: this.untilDate,
+      createdOn: this.createdOn,
+      modifiedOn: this.modifiedOn
+    }
+  }
+
 }

@@ -2,7 +2,6 @@ import {Request, Response} from "express";
 import {AccessRoleOrchestrator} from "./access.role.orchestrator";
 import {getNumericValueOrDefault} from '../../number.util';
 import {getStringValueOrDefault} from '../../string.util';
-import {shapeAccessRoleResponse2} from './access.role.response.shaper';
 
 let orchestrator:AccessRoleOrchestrator = new AccessRoleOrchestrator();
 
@@ -19,56 +18,57 @@ export let findAccessRoles = (req: Request, res: Response) => {
     console.log(error);
   });
 };
-// export let getAccessRoles = (req: Request, res: Response) => {
-//   let number = getNumericValueOrDefault(req.query.pageNumber, 1);
-//   let size = getNumericValueOrDefault(req.query.pageSize, 10);
-//   let field = getStringValueOrDefault(req.query.sortField, "");
-//   let direction = getStringValueOrDefault(req.query.sortOrder, "");
-//
-//   orchestrator
-//     .getAccessRoles(number, size, field, direction)
-//     .subscribe(accessRoles => {
-//       res.send(JSON.stringify(accessRoles.data));
-//     });
-// };
 
-// export let getAccessRoleById = (req: Request, res: Response) => {
-//   let accessRoleId = req.params.accessRoleId;
-//   orchestrator
-//     .getAccessRoleById(accessRoleId)
-//     .subscribe(accessRole => {
-//       let body = JSON.stringify(accessRole);
-//       res.send(body);
-//     });
-// };
-//
-// export let saveAccessRole = (req: Request, res: Response) => {
-//   orchestrator.addAccessRole(req.body)
-//     .subscribe(accessRole => {
-//       res.send(JSON.stringify(accessRole));
-//     }, error => {
-//       res.send(error);
-//       console.log(error);
-//     });
-// }
-//
-// export let updateAccessRole = (req: Request, res: Response) => {
-//   let accessRoleId = req.params.accessRoleId;
-//   let accessRole = req.body;
-//   orchestrator
-//     .updateAccessRole(accessRoleId, accessRole)
-//     .subscribe(accessRole => {
-//       res.send(JSON.stringify(accessRole));
-//     });
-//
-// };
-//
-// export let deleteAccessRole = (req: Request, res: Response) => {
-//   let accessRoleId = req.params.accessRoleId;
-//   orchestrator
-//     .deleteAccessRole(accessRoleId)
-//     .subscribe(numRemoved => {
-//       res.send(JSON.stringify(numRemoved));
-//     });
-// };
+export let getAccessRoles = (req: Request, res: Response) => {
+  let number = getNumericValueOrDefault(req.query.pageNumber, 1);
+  let size = getNumericValueOrDefault(req.query.pageSize, 10);
+  let field = getStringValueOrDefault(req.query.sortField, "");
+  let direction = getStringValueOrDefault(req.query.sortOrder, "");
+
+  orchestrator
+    .getAccessRoles(number, size, field, direction)
+    .subscribe(accessRoles => {
+      res.send(JSON.stringify(accessRoles.data));
+    });
+};
+
+export let getAccessRoleById = (req: Request, res: Response) => {
+  let accessRoleId = req.params.accessRoleId;
+  orchestrator
+    .getAccessRoleById(accessRoleId)
+    .subscribe(accessRole => {
+      let body = JSON.stringify(accessRole);
+      res.send(body);
+    });
+};
+
+export let saveAccessRole = (req: Request, res: Response) => {
+  orchestrator.addAccessRole(req.body)
+    .subscribe(accessRole => {
+      res.send(JSON.stringify(accessRole));
+    }, error => {
+      res.send(error);
+      console.log(error);
+    });
+}
+
+export let updateAccessRole = (req: Request, res: Response) => {
+  let accessRoleId = req.params.accessRoleId;
+  let accessRole = req.body;
+  orchestrator
+    .updateAccessRole(accessRoleId, accessRole)
+    .subscribe(accessRole => {
+      res.send(JSON.stringify(accessRole));
+    });
+
+};
+
+export let deleteAccessRole = (req: Request, res: Response) => {
+  let accessRoleId = req.params.accessRoleId;
+  orchestrator
+    .deleteAccessRole(accessRoleId)
+    .subscribe(numRemoved => {
+      res.send(JSON.stringify(numRemoved));
+    });
+};
 
