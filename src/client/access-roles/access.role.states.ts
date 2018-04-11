@@ -4,8 +4,8 @@ import {SortState} from "../sort/sort.state";
 
 export class  AccessRoleStates {
   private _accessRoles: AccessRoleState[];
-  private _page: PageState;
-  private _sort: SortState;
+  private _pageState: PageState;
+  private _sortState: SortState;
 
   get accessRoles(): AccessRoleState[] {
     return this._accessRoles;
@@ -15,19 +15,19 @@ export class  AccessRoleStates {
     this._accessRoles = value;
   }
 
-  get page(): PageState {
-    return this._page;
+  get pageState(): PageState {
+    return this._pageState;
   }
 
-  set page(value: PageState) {
-    this._page = value;
+  set pageState(value: PageState) {
+    this._pageState = value;
   }
 
-  get sort(): SortState {
-    return this._sort;
+  get sortState(): SortState {
+    return this._sortState;
   }
 
-  set sort(value: SortState) {
-    this._sort = value;
+  set sortState(value: SortState) {
+    this._sortState = value;
   }
 }

@@ -187,7 +187,7 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   public getAccessRoleById(accessRoleId: string): Observable<AccessRole> {
     return this.accessRolesClient.getAccessRoleById(accessRoleId)
       .map(value => {
-        return mapObjectProps(value, new AccessRole());
+       return mapObjectProps(value, new AccessRole());
       });
   }
 

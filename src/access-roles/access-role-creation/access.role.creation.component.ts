@@ -30,8 +30,8 @@ export class AccessRoleCreationComponent implements OnInit {
               private router: Router) {
     this.prohibitionIndicator = new FormControl(false);
     this.name = new FormControl("", [Validators.required]);
-    this.effectiveDate = new FormControl(new Date(), [Validators.required]);
-    this.untilDate = new FormControl(new Date( new Date().getTime() + (2678400000 * 6)), [Validators.required]);
+    this.effectiveDate = new FormControl( this.getDateString(new Date()), [Validators.required]);
+    this.untilDate = new FormControl(this.getDateString(new Date( new Date().getTime() + (2678400000 * 6))), [Validators.required]);
     this.description = new FormControl("");
 
     this.accessRoleForm = formBuilder.group({
@@ -47,8 +47,8 @@ export class AccessRoleCreationComponent implements OnInit {
       .subscribe( value => {
         this.accessRole.prohibitionIndicator = value.prohibitionIndicator;
         this.accessRole.name = value.name;
-        this.accessRole.effectiveDate = new Date(value.effectiveDate);
-        this.accessRole.untilDate = new Date(value.untilDate);
+        this.accessRole.effectiveDate = value.effectiveDate;
+        this.accessRole.untilDate = value.untilDate;
         this.accessRole.description = value.description;
       });
 
@@ -59,7 +59,9 @@ export class AccessRoleCreationComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
+  getDateString(date: Date) {
+    return date.toISOString().substring(0,10);
+  }
   get prohibitionIndicator(): FormControl {
     return this._prohibitionIndicator;
   }
