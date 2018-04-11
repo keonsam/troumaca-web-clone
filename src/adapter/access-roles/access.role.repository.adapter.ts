@@ -11,6 +11,9 @@ import {ResourceTypeState} from "../../client/access-roles/resource.type.state";
 import {AccessRole} from "../../access-roles/access.role";
 import {AccessRoles} from "../../access-roles/access.roles";
 import {AccessRoleState} from "../../client/access-roles/access.role.state";
+import {AccessRoleType} from "../../access-roles/access.role.type";
+import {AccessRoleTypes} from "../../access-roles/access.role.types";
+import {AccessRoleTypeState} from "../../client/access-roles/access.role.type.state";
 import {Observable} from "rxjs/Observable";
 import {AccessRolesClient} from "../../client/access-roles/access.roles.client";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
@@ -171,6 +174,15 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   }
 
   //access-roles
+  public findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleType[]> {
+    return this.accessRolesClient.findAccessRoleTypeId(searchStr, pageSize)
+      .map(data => {
+        return map(data, value => {
+          return mapObjectProps(value, new AccessRoleType());
+        });
+      });
+  }
+
   public getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoles> {
     return this.accessRolesClient.getAccessRoles(defaultPage, defaultPageSize, defaultSortOrder)
       .map( accessRoleStates => {
@@ -206,5 +218,39 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
     return this.accessRolesClient.deleteAccessRole(accessRoleId);
   }
 
+  //access-role-types
+  public getAccessRoleTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleTypes> {
+    return this.accessRolesClient.getAccessRoleTypes(defaultPage, defaultPageSize, defaultSortOrder)
+      .map( accessRoleTypeStates => {
+        let accessRoleTypeModels: AccessRoleTypes = new AccessRoleTypes();
+        accessRoleTypeModels.accessRoleTypes = map(accessRoleTypeStates.accessRoleTypes, value => {
+          return mapObjectProps(value, new AccessRoleType());
+        });
+        accessRoleTypeModels.page = mapObjectProps(accessRoleTypeStates.pageState, new Page());
+        accessRoleTypeModels.sort = mapObjectProps(accessRoleTypeStates.sortState, new Sort());
+        return accessRoleTypeModels;
+      });
+  }
 
+  public getAccessRoleTypeById(accessRoleTypeId: string): Observable<AccessRoleType> {
+    return this.accessRolesClient.getAccessRoleTypeById(accessRoleTypeId)
+      .map(value => {
+        return mapObjectProps(value, new AccessRoleType());
+      });
+  }
+
+  public addAccessRoleType(accessRoleType: AccessRoleType): Observable<AccessRoleType> {
+    return this.accessRolesClient.addAccessRoleType(mapObjectProps(accessRoleType, new AccessRoleTypeState()))
+      .map(value => {
+        return mapObjectProps(value, new AccessRoleType());
+      });
+  }
+
+  public updateAccessRoleType(accessRoleType: AccessRoleType): Observable<number> {
+    return this.accessRolesClient.updateAccessRoleType(mapObjectProps(accessRoleType, new AccessRoleTypeState()));
+  }
+
+  public deleteAccessRoleType(accessRoleTypeId: string): Observable<number> {
+    return this.accessRolesClient.deleteAccessRoleType(accessRoleTypeId);
+  }
 }

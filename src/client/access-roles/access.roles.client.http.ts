@@ -10,6 +10,8 @@ import {ResourceTypeStates} from "./resource.type.states";
 import {ResourcePermissionState} from "./resource.permission.state";
 import {AccessRoleState} from "./access.role.state";
 import {AccessRoleStates} from "./access.role.states";
+import {AccessRoleTypeState} from "./access.role.type.state";
+import {AccessRoleTypeStates} from "./access.role.type.states";
 import {Observable} from "rxjs/Observable";
 import {UUIDGenerator} from "../../uuid.generator";
 
@@ -179,6 +181,14 @@ export class AccessRolesClientHttp extends AccessRolesClient {
   }
 
   //access-roles
+  public findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleTypeState[]> {
+    let url = `${this.hostPort}/find-access-role-types?q=${searchStr}&pageSize=${pageSize}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.get<AccessRoleTypeState[]>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
   public getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleStates>{
     let url = `${this.hostPort}/access-roles?defaultPage=${defaultPage}&defaultPageSize=${defaultPageSize}&defaultSortOrder=${defaultSortOrder}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
@@ -213,6 +223,47 @@ export class AccessRolesClientHttp extends AccessRolesClient {
 
   public deleteAccessRole(accessRoleId: string): Observable<number> {
     let url = `${this.hostPort}/access-roles/${accessRoleId}`;
+    let headers: HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.delete<number>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
+  //access-role-types
+  public getAccessRoleTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleTypeStates>{
+    let url = `${this.hostPort}/access-role-types?defaultPage=${defaultPage}&defaultPageSize=${defaultPageSize}&defaultSortOrder=${defaultSortOrder}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.get<AccessRoleTypeStates>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public getAccessRoleTypeById(accessRoleTypeId: string): Observable<AccessRoleTypeState>{
+    let url = `${this.hostPort}/access-role-types/${accessRoleTypeId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.get<AccessRoleTypeState>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public addAccessRoleType(accessRoleTypeState: AccessRoleTypeState): Observable<AccessRoleTypeState>{
+    let url = `${this.hostPort}/access-role-types`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.post<AccessRoleTypeState>(url, accessRoleTypeState.toJson(), {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public updateAccessRoleType(accessRoleTypeState: AccessRoleTypeState): Observable<number> {
+    let url = `${this.hostPort}/access-role-types/${accessRoleTypeState.accessRoleTypeId}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.put<number>(url, accessRoleTypeState.toJson(), {headers}).map(data => {
+      return data;
+    });
+  }
+
+  public deleteAccessRoleType(accessRoleTypeId: string): Observable<number> {
+    let url = `${this.hostPort}/access-role-types/${accessRoleTypeId}`;
     let headers: HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient.delete<number>(url, {headers}).map(data => {
       return data;

@@ -7,10 +7,10 @@
           <div class="element-box">
             <form [formGroup]="accessRoleForm" (ngSubmit)="onCreate()" id="formValidate">
               <h5 class="form-header">
-                New Access Role
+                Edit Access Role
               </h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to create access role.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to edit access role.</div>
 
               <fieldset class="form-group">
                 <div class="form-check">
@@ -25,13 +25,31 @@
                 </div>
               </fieldset>
 
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Enter Access Role Type">Access Role Type</label>
+                  <ng2-completer [datasource]="accessRoleTypeDataService"
+                                 [inputClass]="'form-control form-control-inline'"
+                                 [minSearchLength]="0"
+                                 [maxChars]="4"
+                                 [inputClass]="'form-control'"
+                                 [placeholder]="'Search for Access Role Type'"
+                                 [matchClass]="'match'"
+                                 formControlName="accessRoleTypeId"
+                                 [autofocus]="true"
+                                 [textSearching]="false"
+                                 (selected)="onAccessRoleTypeSelect($event)">
+                  </ng2-completer>
+                </div>
+              </fieldset>
+
               <div class="row">
                 <div class="col-sm-6">
                   <fieldset class="form-group">
                     <div class="form-group">
                       <label for="effective date"> Effective Date</label>
                       <div class="date-input">
-                        <input class="form-control" formControlName="effectiveDate" type="date">
+                        <input class="single-daterange form-control" formControlName="effectiveDate" type="text">
                       </div>
                     </div>
                   </fieldset>
@@ -42,7 +60,7 @@
                     <div class="form-group">
                       <label for="until date">Until Date</label>
                       <div class="date-input">
-                        <input class="form-control"  formControlName="untilDate" type="date">
+                        <input class="single-daterange form-control"  formControlName="untilDate" type="text">
                       </div>
                     </div>
                   </fieldset>

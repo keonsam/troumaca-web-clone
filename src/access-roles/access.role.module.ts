@@ -24,6 +24,9 @@ import {ResourceEditComponent} from "./resources/resource-edit/resource.edit.com
 import {ResourceTypeCreationComponent} from "./resource-types/resorce.type.creation/resource.type.creation.component";
 import {ResourceTypeEditComponent} from "./resource-types/resource.type.edit/resource.type.edit.component";
 import {ResourceTypeListComponent} from "./resource-types/resource.type.list/resource.type.list.component";
+import {AccessRoleTypeCreationComponent} from "./access-role-types/access-role-type-creation/access.role.type.creation.component";
+import {AccessRoleTypeEditComponent} from "./access-role-types/access-role-type-edit/access.role.type.edit.component";
+import {AccessRoleTypeListComponent} from "./access-role-types/access-role-type-list/access.role.type.list.component";
 
 @NgModule({
   imports: [
@@ -52,7 +55,10 @@ import {ResourceTypeListComponent} from "./resource-types/resource.type.list/res
     ResourceEditComponent,
     ResourceTypeCreationComponent,
     ResourceTypeEditComponent,
-    ResourceTypeListComponent
+    ResourceTypeListComponent,
+    AccessRoleTypeCreationComponent,
+    AccessRoleTypeEditComponent,
+    AccessRoleTypeListComponent,
   ],
   providers: [{
     provide: AccessRoleService,
@@ -79,6 +85,9 @@ import {ResourceTypeListComponent} from "./resource-types/resource.type.list/res
     ResourceTypeCreationComponent,
     ResourceTypeEditComponent,
     ResourceTypeListComponent,
+    AccessRoleTypeCreationComponent,
+    AccessRoleTypeEditComponent,
+    AccessRoleTypeListComponent,
     AccessRoleTopMenuComponent
   ]
 })

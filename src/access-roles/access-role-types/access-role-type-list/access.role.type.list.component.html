@@ -6,7 +6,7 @@
 
     <div class="element-wrapper">
       <h6 class="element-header">
-        Access Role Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right"  href="#" [routerLink]="['/access-roles/create']">New</a></object>
+        Access Role Type Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right"  href="#" [routerLink]="['/access-roles/access-role-types/create']">New</a></object>
       </h6>
       <div class="element-box">
 
@@ -14,39 +14,27 @@
           <table class="table table-striped table-lightfont table-full-width">
             <thead>
             <tr>
-              <th>prohibition indicator</th>
               <th>name</th>
-              <th>Access Role Type</th>
-              <th>effective date</th>
-              <th>until date</th>
               <th>description</th>
               <th>Actions</th>
             </tr>
             </thead>
             <tfoot>
             <tr>
-              <th>prohibition indicator</th>
               <th>name</th>
-              <th>Access Role Type</th>
-              <th>effective date</th>
-              <th>until date</th>
               <th>description</th>
               <th>Actions</th>
             </tr>
             </tfoot>
             <tbody>
-            <tr role="row" *ngFor="let accessRole of accessRoles.accessRoles; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-              <td>{{accessRole.prohibitionIndicator}}</td>
-              <td>{{accessRole.name}}</td>
-              <td>{{accessRole.accessRoleType.accessRoleTypeId}}</td>
-              <td>{{accessRole.effectiveDate}}</td>
-              <td>{{accessRole.untilDate}}</td>
-              <td>{{accessRole.description}}</td>
+            <tr role="row" *ngFor="let accessRoleType of accessRoleTypes.accessRoleTypes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+              <td>{{accessRoleType.name}}</td>
+              <td>{{accessRoleType.description}}</td>
               <td class="row-actions">
-                <a [routerLink]="['/access-roles', accessRole.accessRoleId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(accessRole.accessRoleId, accessRole.name)" ><i class="os-icon os-icon-ui-15"></i></a>
+                <a [routerLink]="['/access-roles/access-role-types', accessRoleType.accessRoleTypeId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(accessRoleType.accessRoleTypeId, accessRoleType.name)" ><i class="os-icon os-icon-ui-15"></i></a>
               </td>
             </tr>
-            <tr *ngIf="accessRoles.accessRoles.length <= 0" class="odd">
+            <tr *ngIf="accessRoleTypes.accessRoleTypes.length <= 0" class="odd">
               <td valign="top" align="" colspan="7" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
             </tr>
             </tbody>
@@ -56,12 +44,12 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="DeleteModalLabel">
-                    Delete {{accessRoleName}}
+                    Delete {{accessRoleTypeName}}
                   </h5>
                   <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
                 </div>
                 <div class="modal-body">
-                  <p>Are you sure you want to delete {{accessRoleName}}?</p>
+                  <p>Are you sure you want to delete {{accessRoleTypeName}}?</p>
                 </div>
                 <div class="modal-footer">
                   <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
@@ -70,8 +58,8 @@
               </div>
             </div>
           </div>
-          <!--<pre>{{accessRoles | json}}</pre>-->
-          <paging [page]="accessRoles.page" (requestPage)="onRequestPage($event)"></paging>
+          <!--<pre>{{accessRoleTypes | json}}</pre>-->
+          <paging [page]="accessRoleTypes.page" (requestPage)="onRequestPage($event)"></paging>
         </div>
       </div>
     </div>

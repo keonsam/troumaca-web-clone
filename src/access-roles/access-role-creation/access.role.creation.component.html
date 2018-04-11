@@ -25,6 +25,24 @@
                 </div>
               </fieldset>
 
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Enter Access Role Type">Access Role Type</label>
+                  <ng2-completer [datasource]="accessRoleTypeDataService"
+                                 [inputClass]="'form-control form-control-inline'"
+                                 [minSearchLength]="0"
+                                 [maxChars]="4"
+                                 [inputClass]="'form-control'"
+                                 [placeholder]="'Search for Access Role Type'"
+                                 [matchClass]="'match'"
+                                 formControlName="accessRoleTypeId"
+                                 [autofocus]="true"
+                                 [textSearching]="false"
+                                 (selected)="onAccessRoleTypeSelect($event)">
+                  </ng2-completer>
+                </div>
+              </fieldset>
+
               <div class="row">
                 <div class="col-sm-6">
                   <fieldset class="form-group">

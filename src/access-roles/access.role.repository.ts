@@ -8,6 +8,8 @@ import {ResourceTypes} from "./resource.types";
 import {ResourcePermission} from "./resource.permission";
 import {AccessRole} from "./access.role";
 import {AccessRoles} from "./access.roles";
+import {AccessRoleType} from "./access.role.type";
+import {AccessRoleTypes} from "./access.role.types";
 
 export abstract class AccessRoleRepository {
 
@@ -52,6 +54,8 @@ export abstract class AccessRoleRepository {
   abstract deleteResourceType(resourceTypeId: string): Observable<number>;
 
   //access-roles
+  abstract findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleType[]>;
+
   abstract getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoles>;
 
   abstract getAccessRoleById(accessRoleId: string): Observable<AccessRole>;
@@ -61,4 +65,16 @@ export abstract class AccessRoleRepository {
   abstract updateAccessRole(accessRole: AccessRole): Observable<number>;
 
   abstract deleteAccessRole(accessRoleId: string): Observable<number>;
+
+  //access-role-types
+  abstract getAccessRoleTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleTypes>;
+
+  abstract getAccessRoleTypeById(accessRoleTypeId: string): Observable<AccessRoleType>;
+
+  abstract addAccessRoleType(accessRoleType: AccessRoleType): Observable<AccessRoleType>;
+
+  abstract updateAccessRoleType(accessRoleType: AccessRoleType): Observable<number>;
+
+  abstract deleteAccessRoleType(accessRoleTypeId: string): Observable<number>;
+
 }

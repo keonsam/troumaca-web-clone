@@ -80,6 +80,9 @@ import {ResourceListComponent} from "../access-roles/resources/resource-list/res
 import {ResourceTypeCreationComponent} from "../access-roles/resource-types/resorce.type.creation/resource.type.creation.component";
 import {ResourceTypeEditComponent} from "../access-roles/resource-types/resource.type.edit/resource.type.edit.component";
 import {ResourceTypeListComponent} from "../access-roles/resource-types/resource.type.list/resource.type.list.component";
+import {AccessRoleTypeCreationComponent} from "../access-roles/access-role-types/access-role-type-creation/access.role.type.creation.component";
+import {AccessRoleTypeEditComponent} from "../access-roles/access-role-types/access-role-type-edit/access.role.type.edit.component";
+import {AccessRoleTypeListComponent} from "../access-roles/access-role-types/access-role-type-list/access.role.type.list.component";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -161,7 +164,10 @@ const appRoutes: Routes = [
       { path: 'resources/:resourceId/edit', component: ResourceEditComponent, data:{menuName:'access-role-menu'} },
       { path: 'resource-types/listing', component: ResourceTypeListComponent, data:{menuName: 'access-role-menu'} },
       { path: 'resource-types/create', component: ResourceTypeCreationComponent, data:{menuName:'access-role-menu'} },
-      { path: 'resource-types/:resourceTypeId/edit', component: ResourceTypeEditComponent, data:{menuName:'access-role-menu'} }
+      { path: 'resource-types/:resourceTypeId/edit', component: ResourceTypeEditComponent, data:{menuName:'access-role-menu'} },
+      { path: 'access-role-types/create', component: AccessRoleTypeCreationComponent, data:{menuName:'access-role-menu'} },
+      { path: 'access-role-types/:accessRoleTypeId/edit', component: AccessRoleTypeEditComponent, data:{menuName:'access-role-menu'} },
+      { path: 'access-role-types/listing', component: AccessRoleTypeListComponent, data:{menuName:'access-role-menu'} }
     ]},
   { path: 'contracts', component: ContractComponent, canActivate: [AuthGuard], children:[
     { path: '', redirectTo: 'orders', pathMatch: 'full' },

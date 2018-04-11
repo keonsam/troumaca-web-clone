@@ -1,7 +1,10 @@
+import {AccessRoleTypeState} from "./access.role.type.state";
+
 export class AccessRoleState {
 
   private _accessRoleId:string;
   private _name:string;
+  private _accessRoleType: AccessRoleTypeState;
   private _prohibitionIndicator: boolean;
   private _effectiveDate: Date;
   private _untilDate: Date;
@@ -24,6 +27,14 @@ export class AccessRoleState {
 
   set name(value: string) {
     this._name = value;
+  }
+
+  get accessRoleType(): AccessRoleTypeState {
+    return this._accessRoleType;
+  }
+
+  set accessRoleType(value: AccessRoleTypeState) {
+    this._accessRoleType = value;
   }
 
   get description(): string {
@@ -86,6 +97,7 @@ export class AccessRoleState {
     return {
       accessRoleId: this.accessRoleId,
       name: this.name,
+      accessRoleType: {accessRoleTypeId: this.accessRoleType.accessRoleTypeId},
       description: this.description,
       ownerPartyId: this.ownerPartyId,
       prohibitionIndicator: this.prohibitionIndicator,

@@ -1,7 +1,10 @@
+import {AccessRoleType} from "./access.role.type";
+
 export class AccessRole {
 
   private _accessRoleId:string;
   private _name:string;
+  private _accessRoleType: AccessRoleType;
   private _prohibitionIndicator: boolean;
   private _effectiveDate: Date;
   private _untilDate: Date;
@@ -24,6 +27,14 @@ export class AccessRole {
 
   set name(value: string) {
     this._name = value;
+  }
+
+  get accessRoleType(): AccessRoleType {
+    return this._accessRoleType;
+  }
+
+  set accessRoleType(value: AccessRoleType) {
+    this._accessRoleType = value;
   }
 
   get description(): string {

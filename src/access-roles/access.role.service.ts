@@ -10,6 +10,8 @@ import {ResourceTypes} from "./resource.types";
 import {ResourcePermission} from "./resource.permission";
 import {AccessRole} from "./access.role";
 import {AccessRoles} from "./access.roles";
+import {AccessRoleType} from "./access.role.type";
+import {AccessRoleTypes} from "./access.role.types";
 
 export class AccessRoleService {
 
@@ -92,6 +94,10 @@ export class AccessRoleService {
   }
 
   //access-roles
+  public findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleType[]> {
+    return this.accessRoleRepository.findAccessRoleTypeId(searchStr, pageSize);
+  }
+
   public getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoles> {
     return this.accessRoleRepository.getAccessRoles(defaultPage, defaultPageSize, defaultSortOrder);
   }
@@ -110,6 +116,27 @@ export class AccessRoleService {
 
   public deleteAccessRole(accessRoleId: string): Observable<number> {
     return this.accessRoleRepository.deleteAccessRole(accessRoleId);
+  }
+
+  //access-role-types
+  public getAccessRoleTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleTypes> {
+    return this.accessRoleRepository.getAccessRoleTypes(defaultPage, defaultPageSize, defaultSortOrder);
+  }
+
+  public getAccessRoleTypeById(accessRoleTypeId: string): Observable<AccessRoleType> {
+    return this.accessRoleRepository.getAccessRoleTypeById(accessRoleTypeId);
+  }
+
+  public addAccessRoleType(accessRoleType: AccessRoleType): Observable<AccessRoleType> {
+    return this.accessRoleRepository.addAccessRoleType(accessRoleType);
+  }
+
+  public updateAccessRoleType(accessRoleType: AccessRoleType): Observable<number> {
+    return this.accessRoleRepository.updateAccessRoleType(accessRoleType);
+  }
+
+  public deleteAccessRoleType(accessRoleTypeId: string): Observable<number> {
+    return this.accessRoleRepository.deleteAccessRoleType(accessRoleTypeId);
   }
 
 }

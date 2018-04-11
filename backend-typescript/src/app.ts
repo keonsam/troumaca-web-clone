@@ -42,6 +42,8 @@ import * as resourceController from "./authorization/resource/resource.controlle
 import * as resourceTypeController from "./authorization/resource-type/resource.type.controller";
 import * as resourcePermissionController from "./authorization/resource-permission/resource.permission.controller";
 import * as accessRoleController from "./authorization/access-role/access.role.controller";
+import * as accessRoleTypeController from "./authorization/access-role-type/access.role.type.controller";
+
 const app = express();
 //const checkAccess = new CheckAccess();
 
@@ -75,6 +77,7 @@ app.get("/find-persons", userController.findUser);
 app.get("/find-asset-type-classes", assetTypeClassController.findAssetTypeClass);
 app.get("/find-resource-types", resourceTypeController.findResourceTypes);
 app.get("/find-access-roles", accessRoleController.findAccessRoles);
+app.get("/find-access-role-types", accessRoleTypeController.findAccessRoleTypes);
 app.get("/data-types", dataTypeController.getDataTypes);
 //assets
 app.get("/assets", assetController.getAssets);
@@ -187,6 +190,12 @@ app.get("/access-roles/:accessRoleId", accessRoleController.getAccessRoleById);
 app.post("/access-roles",accessRoleController.saveAccessRole);
 app.put("/access-roles/:accessRoleId", accessRoleController.updateAccessRole);
 app.delete("/access-roles/:accessRoleId", accessRoleController.deleteAccessRole);
+// access-role-types
+app.get("/access-role-types", accessRoleTypeController.getAccessRoleTypes);
+app.get("/access-role-types/:accessRoleTypeId", accessRoleTypeController.getAccessRoleTypeById);
+app.post("/access-role-types",accessRoleTypeController.saveAccessRoleType);
+app.put("/access-role-types/:accessRoleTypeId", accessRoleTypeController.updateAccessRoleType);
+app.delete("/access-role-types/:accessRoleTypeId", accessRoleTypeController.deleteAccessRoleType);
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
 

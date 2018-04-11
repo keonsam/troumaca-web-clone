@@ -1,6 +1,8 @@
 import {Component, OnInit} from "@angular/core";
+import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {AccessRole} from "../access.role";
+import {AccessRoleType} from "../access.role.type";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/filter";
 import {Router} from "@angular/router";
@@ -18,18 +20,24 @@ export class AccessRoleCreationComponent implements OnInit {
   private _effectiveDate: FormControl;
   private _untilDate: FormControl;
   private _description: FormControl;
+  private _accessRoleTypeId: FormControl;
+  private _accessRoleTypeDataService: CompleterData;
 
   private accessRole: AccessRole;
 
   private _accessRoleForm: FormGroup;
 
+  private pageSize:number = 15;
   private _doNotDisplayFailureMessage:boolean;
 
   constructor(private accessRoleService: AccessRoleService,
+              private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private router: Router) {
+
     this.prohibitionIndicator = new FormControl(false);
     this.name = new FormControl("", [Validators.required]);
+    this.accessRoleTypeId = new FormControl("", [Validators.required]);
     this.effectiveDate = new FormControl( this.getDateString(new Date()), [Validators.required]);
     this.untilDate = new FormControl(this.getDateString(new Date( new Date().getTime() + (2678400000 * 6))), [Validators.required]);
     this.description = new FormControl("");
@@ -37,6 +45,7 @@ export class AccessRoleCreationComponent implements OnInit {
     this.accessRoleForm = formBuilder.group({
       "prohibitionIndicator": this.prohibitionIndicator,
       "name": this.name,
+      "accessRoleTypeId": this.accessRoleTypeId,
       "effectiveDate": this.effectiveDate,
       "untilDate": this.untilDate,
       "description": this.description
@@ -53,10 +62,41 @@ export class AccessRoleCreationComponent implements OnInit {
       });
 
     this.accessRole = new AccessRole();
+    this.accessRole.accessRoleType = new AccessRoleType();
     this.doNotDisplayFailureMessage = true;
   }
 
   ngOnInit(): void {
+    this.populateAccessRoleTypeDropDown();
+  }
+
+  populateAccessRoleTypeDropDown() {
+    this.accessRoleTypeDataService = this.completerService.local([], 'name', 'name');
+    let that = this;
+    this.accessRoleForm.get("accessRoleTypeId").valueChanges
+      .debounceTime(1000) // debounce
+      .filter(value => { // filter out empty values
+        return !!(value);
+      })
+      .subscribe(value => {
+        console.log("value: " + value);
+        that.accessRoleService
+          .findAccessRoleTypeId(value, that.pageSize) // send search request to the backend
+          .map(value2 => { // convert results to dropdown data
+            return value2.map(v2 => {
+              return {
+                accessRoleTypeId: v2.accessRoleTypeId,
+                name: v2.name,
+              };
+            })
+          })
+          .subscribe(next => { // update the data
+            console.log("findAccessRoleType next - " + next);
+            this.accessRoleTypeDataService = this.completerService.local(next, 'name', 'name');
+          }, error => {
+            console.log("findAccessRoleType error - " + error);
+          });
+      });
   }
 
   getDateString(date: Date) {
@@ -102,6 +142,22 @@ export class AccessRoleCreationComponent implements OnInit {
     this._description = value;
   }
 
+  get accessRoleTypeId(): FormControl {
+    return this._accessRoleTypeId;
+  }
+
+  set accessRoleTypeId(value: FormControl) {
+    this._accessRoleTypeId = value;
+  }
+
+  get accessRoleTypeDataService(): CompleterData {
+    return this._accessRoleTypeDataService;
+  }
+
+  set accessRoleTypeDataService(value: CompleterData) {
+    this._accessRoleTypeDataService = value;
+  }
+
   get accessRoleForm(): FormGroup {
     return this._accessRoleForm;
   }
@@ -116,6 +172,12 @@ export class AccessRoleCreationComponent implements OnInit {
 
   set doNotDisplayFailureMessage(value: boolean) {
     this._doNotDisplayFailureMessage = value;
+  }
+
+  onAccessRoleTypeSelect(selected: CompleterItem) {
+    if (selected) {
+      this.accessRole.accessRoleType.accessRoleTypeId = selected.originalObject.accessRoleTypeId;
+    }
   }
 
   onCreate() {

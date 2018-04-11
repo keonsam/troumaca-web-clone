@@ -6,6 +6,7 @@ import "rxjs/add/operator/filter";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AccessRoleService} from "../access.role.service";
 import {AccessRole} from "../access.role";
+import {AccessRoleType} from "../access.role.type";
 
 @Component({
   selector: 'access-role-edit',
@@ -19,6 +20,8 @@ export class AccessRoleEditComponent implements OnInit {
   private _effectiveDate: FormControl;
   private _untilDate: FormControl;
   private _description: FormControl;
+  private _accessRoleTypeId: FormControl;
+  private _accessRoleTypeDataService: CompleterData;
 
   private accessRole: AccessRole;
   private accessRoleId: string;
@@ -26,21 +29,25 @@ export class AccessRoleEditComponent implements OnInit {
 
   private _accessRoleForm: FormGroup;
 
+  private pageSize:number = 15;
   private _doNotDisplayFailureMessage:boolean;
 
   constructor(private accessRoleService: AccessRoleService,
+              private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
     this.prohibitionIndicator = new FormControl(false);
     this.name = new FormControl("", [Validators.required]);
-    this.effectiveDate = new FormControl(this.getDateString(new Date()), [Validators.required]);
-    this.untilDate = new FormControl(this.getDateString(new Date( new Date().getTime() + (2678400000 * 6))), [Validators.required]);
+    this.accessRoleTypeId = new FormControl("", [Validators.required]);
+    this.effectiveDate = new FormControl(new Date(), [Validators.required]);
+    this.untilDate = new FormControl(new Date( new Date().getTime() + (2678400000 * 6)), [Validators.required]);
     this.description = new FormControl("");
 
     this.accessRoleForm = formBuilder.group({
       "prohibitionIndicator": this.prohibitionIndicator,
       "name": this.name,
+      "accessRoleTypeId": this.accessRoleTypeId,
       "effectiveDate": this.effectiveDate,
       "untilDate": this.untilDate,
       "description": this.description
@@ -51,12 +58,13 @@ export class AccessRoleEditComponent implements OnInit {
       .subscribe( value => {
         this.accessRole.prohibitionIndicator = value.prohibitionIndicator;
         this.accessRole.name = value.name;
-        this.accessRole.effectiveDate = value.effectiveDate;
-        this.accessRole.untilDate = value.untilDate;
+        this.accessRole.effectiveDate = new Date(value.effectiveDate);
+        this.accessRole.untilDate = new Date(value.untilDate);
         this.accessRole.description = value.description;
       });
 
     this.accessRole = new AccessRole();
+    this.accessRole.accessRoleType = new AccessRoleType();
     this.doNotDisplayFailureMessage = true;
   }
 
@@ -65,8 +73,10 @@ export class AccessRoleEditComponent implements OnInit {
       this.accessRoleId = params['accessRoleId'];
       this.accessRoleService.getAccessRoleById(this.accessRoleId)
         .subscribe( accessRole => {
+          console.log(accessRole);
           this.prohibitionIndicator.setValue(accessRole.prohibitionIndicator);
           this.name.setValue(accessRole.name);
+          this.accessRoleTypeId.setValue(accessRole.accessRoleType.accessRoleTypeId);
           this.effectiveDate.setValue(accessRole.effectiveDate);
           this.untilDate.setValue(accessRole.untilDate);
           this.description.setValue(accessRole.description);
@@ -77,10 +87,36 @@ export class AccessRoleEditComponent implements OnInit {
           console.log("complete");
         });
     });
+    this.populateAccessRoleTypeDropDown();
   }
 
-  getDateString(date: Date) {
-    return date.toISOString().substring(0,10);
+  populateAccessRoleTypeDropDown() {
+    this.accessRoleTypeDataService = this.completerService.local([], 'name', 'name');
+    let that = this;
+    this.accessRoleForm.get("accessRoleTypeId").valueChanges
+      .debounceTime(1000) // debounce
+      .filter(value => { // filter out empty values
+        return !!(value);
+      })
+      .subscribe(value => {
+        console.log("value: " + value);
+        that.accessRoleService
+          .findAccessRoleTypeId(value, that.pageSize) // send search request to the backend
+          .map(value2 => { // convert results to dropdown data
+            return value2.map(v2 => {
+              return {
+                accessRoleTypeId: v2.accessRoleTypeId,
+                name: v2.name,
+              };
+            })
+          })
+          .subscribe(next => { // update the data
+            console.log("findAccessRoleType next - " + next);
+            this.accessRoleTypeDataService = this.completerService.local(next, 'name', 'name');
+          }, error => {
+            console.log("findAccessRoleType error - " + error);
+          });
+      });
   }
 
   get prohibitionIndicator(): FormControl {
@@ -123,6 +159,22 @@ export class AccessRoleEditComponent implements OnInit {
     this._description = value;
   }
 
+  get accessRoleTypeId(): FormControl {
+    return this._accessRoleTypeId;
+  }
+
+  set accessRoleTypeId(value: FormControl) {
+    this._accessRoleTypeId = value;
+  }
+
+  get accessRoleTypeDataService(): CompleterData {
+    return this._accessRoleTypeDataService;
+  }
+
+  set accessRoleTypeDataService(value: CompleterData) {
+    this._accessRoleTypeDataService = value;
+  }
+
   get accessRoleForm(): FormGroup {
     return this._accessRoleForm;
   }
@@ -137,6 +189,12 @@ export class AccessRoleEditComponent implements OnInit {
 
   set doNotDisplayFailureMessage(value: boolean) {
     this._doNotDisplayFailureMessage = value;
+  }
+
+  onAccessRoleTypeSelect(selected: CompleterItem) {
+    if (selected) {
+      this.accessRole.accessRoleType.accessRoleTypeId = selected.originalObject.accessRoleTypeId;
+    }
   }
 
   onCreate() {
