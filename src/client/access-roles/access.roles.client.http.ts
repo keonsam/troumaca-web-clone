@@ -14,6 +14,7 @@ import {AccessRoleTypeState} from "./access.role.type.state";
 import {AccessRoleTypeStates} from "./access.role.type.states";
 import {Observable} from "rxjs/Observable";
 import {UUIDGenerator} from "../../uuid.generator";
+import {GrantState} from "./grant.state";
 
 export class AccessRolesClientHttp extends AccessRolesClient {
 
@@ -68,7 +69,6 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     let url = `${this.hostPort}/permissions/${type}?defaultPage=${defaultPage}&defaultPageSize=${defaultPageSize}&defaultSortOrder=${defaultSortOrder}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient.post<PermissionStates>(url, {assignedArray},{headers}).map(data => {
-      console.log(data);
       return data;
     });
   }
@@ -112,7 +112,6 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     let resourcePermission = map(resourcePermissionState, value => {
       return value.toJson();
     });
-    console.log(resourcePermission);
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient.post<ResourceState>(url, {resource, resourcePermission}, {headers}).map(data => {
       return data;
@@ -181,6 +180,22 @@ export class AccessRolesClientHttp extends AccessRolesClient {
   }
 
   //access-roles
+  public getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<ResourceStates> {
+    let url = `${this.hostPort}/get-resources/${type}?defaultPage=${defaultPage}&defaultPageSize=${defaultPageSize}&defaultSortOrder=${defaultSortOrder}`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.post<ResourceStates>(url, {assignedArray},{headers}).map(data => {
+      return data;
+    });
+  }
+
+  public getAllResourcePermissions(): Observable<ResourcePermissionState[]> {
+    let url = `${this.hostPort}/get-all-resource-permissions/`;
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.get<ResourcePermissionState[]>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
   public findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleTypeState[]> {
     let url = `${this.hostPort}/find-access-role-types?q=${searchStr}&pageSize=${pageSize}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
@@ -205,18 +220,26 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     });
   }
 
-  public addAccessRole(accessRoleState: AccessRoleState): Observable<AccessRoleState>{
+  public addAccessRole(accessRoleState: AccessRoleState, grants: GrantState[]): Observable<AccessRoleState>{
     let url = `${this.hostPort}/access-roles`;
+    let accessRole = accessRoleState.toJson();
+    let grant = map(grants, next => {
+      return next.toJson();
+    });
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
-    return this.httpClient.post<AccessRoleState>(url, accessRoleState.toJson(), {headers}).map(data => {
+    return this.httpClient.post<AccessRoleState>(url, {accessRole, grant}, {headers}).map(data => {
       return data;
     });
   }
 
-  public updateAccessRole(accessRoleState: AccessRoleState): Observable<number> {
+  public updateAccessRole(accessRoleState: AccessRoleState, grants: GrantState[]): Observable<number> {
     let url = `${this.hostPort}/access-roles/${accessRoleState.accessRoleId}`;
+    let accessRole = accessRoleState.toJson();
+    let grant = map(grants, next => {
+      return next.toJson();
+    });
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
-    return this.httpClient.put<number>(url, accessRoleState.toJson(), {headers}).map(data => {
+    return this.httpClient.put<number>(url, {accessRole, grant}, {headers}).map(data => {
       return data;
     });
   }
@@ -225,6 +248,15 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     let url = `${this.hostPort}/access-roles/${accessRoleId}`;
     let headers: HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient.delete<number>(url, {headers}).map(data => {
+      return data;
+    });
+  }
+
+  //grants
+  public getGrantsByAccessRoleId(accessRoleId:string): Observable<GrantState[]> {
+    let url = `${this.hostPort}/grants/${accessRoleId}`;
+    let headers: HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient.get<GrantState[]>(url, {headers}).map(data => {
       return data;
     });
   }

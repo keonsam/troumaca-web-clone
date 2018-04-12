@@ -82,7 +82,6 @@ export class ResourceCreationComponent implements OnInit {
   private getPermissions(type) {
     this.accessRoleService.getPermissionsByArray(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray, type)
         .subscribe(values => {
-          console.log(type);
           if(type === "permissions") {
             this.permissions = values;
           }else{

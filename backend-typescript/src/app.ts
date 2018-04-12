@@ -43,6 +43,7 @@ import * as resourceTypeController from "./authorization/resource-type/resource.
 import * as resourcePermissionController from "./authorization/resource-permission/resource.permission.controller";
 import * as accessRoleController from "./authorization/access-role/access.role.controller";
 import * as accessRoleTypeController from "./authorization/access-role-type/access.role.type.controller";
+import * as grantController from "./authorization/grant/grant.controller";
 
 const app = express();
 //const checkAccess = new CheckAccess();
@@ -173,6 +174,8 @@ app.delete("/permissions/:permissionId", permissionController.deletePermission);
 //resources
 app.get("/resources", resourceController.getResources);
 app.get("/resources/:resourceId", resourceController.getResourceById);
+app.post("/get-resources/resources", resourceController.getResourcesByArray);
+app.post("/get-resources/assigned-resources", resourceController.getAssignedResourcesByArray);
 app.post("/resources", resourceController.saveResource);
 app.put("/resources/:resourceId", resourceController.updateResource);
 app.delete("/resources/:resourceId", resourceController.deleteResource);
@@ -184,6 +187,7 @@ app.put("/resource-types/:resourceTypeId", resourceTypeController.updateResource
 app.delete("/resource-types/:resourceTypeId", resourceTypeController.deleteResourceType);
 //resourcePermissions
 app.get("/resource-permissions-by-id/:resourceId", resourcePermissionController.getResourcePermissionsByResourceId);
+app.get("/get-all-resource-permissions", resourcePermissionController.getAllResourcePermissions);
 // access-roles
 app.get("/access-roles", accessRoleController.getAccessRoles);
 app.get("/access-roles/:accessRoleId", accessRoleController.getAccessRoleById);
@@ -196,6 +200,9 @@ app.get("/access-role-types/:accessRoleTypeId", accessRoleTypeController.getAcce
 app.post("/access-role-types",accessRoleTypeController.saveAccessRoleType);
 app.put("/access-role-types/:accessRoleTypeId", accessRoleTypeController.updateAccessRoleType);
 app.delete("/access-role-types/:accessRoleTypeId", accessRoleTypeController.deleteAccessRoleType);
+//grants
+app.get("/grants/:accessRoleId",grantController.getGrantsByAccessRoleId);
+
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
 

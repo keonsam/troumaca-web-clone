@@ -11,8 +11,12 @@ export class GrantOrchestrator {
     this.grantRepository = createGrantRepositoryFactory();
   }
 
-  addGrant(grant:Grant):Observable<Grant> {
-    return this.grantRepository.addGrant(grant);
+  getGrantsByAccessRoleId(accessRoleId: string): Observable<Grant[]> {
+    return this.grantRepository.getGrantsByAccessRoleId(accessRoleId);
+  }
+
+  addGrant(grants:Grant[]):Observable<Grant[]> {
+    return this.grantRepository.addGrant(grants);
   };
 
   getGrantById(grantId:string, ownerPartyId:string):Observable<Grant> {
@@ -23,8 +27,8 @@ export class GrantOrchestrator {
     return this.grantRepository.updateGrant(grantId, grant);
   };
 
-  deleteGrant(grantId:string):Observable<number>{
-    return this.grantRepository.deleteGrant(grantId);
+  deleteGrant(accessRoleId:string):Observable<number>{
+    return this.grantRepository.deleteGrant(accessRoleId);
   };
 
 }

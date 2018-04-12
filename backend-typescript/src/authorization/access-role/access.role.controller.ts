@@ -43,7 +43,9 @@ export let getAccessRoleById = (req: Request, res: Response) => {
 };
 
 export let saveAccessRole = (req: Request, res: Response) => {
-  orchestrator.addAccessRole(req.body)
+  let accessRole = req.body.accessRole;
+  let grants = req.body.grant
+  orchestrator.addAccessRole(accessRole, grants)
     .subscribe(accessRole => {
       res.send(JSON.stringify(accessRole));
     }, error => {
@@ -54,9 +56,10 @@ export let saveAccessRole = (req: Request, res: Response) => {
 
 export let updateAccessRole = (req: Request, res: Response) => {
   let accessRoleId = req.params.accessRoleId;
-  let accessRole = req.body;
+  let accessRole = req.body.accessRole;
+  let grants = req.body.grant
   orchestrator
-    .updateAccessRole(accessRoleId, accessRole)
+    .updateAccessRole(accessRoleId, accessRole, grants)
     .subscribe(accessRole => {
       res.send(JSON.stringify(accessRole));
     });

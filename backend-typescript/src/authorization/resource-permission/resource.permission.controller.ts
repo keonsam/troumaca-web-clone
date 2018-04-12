@@ -5,6 +5,13 @@ import {getStringValueOrDefault} from '../../string.util';
 
 let orchestrator:ResourcePermissionOrchestrator = new ResourcePermissionOrchestrator();
 
+export  let getAllResourcePermissions = (req: Request, res: Response) => {
+  orchestrator
+    .getAllResourcePermissions()
+    .subscribe(response => {
+      res.send(JSON.stringify(response));
+    });
+};
 
 export let  getResourcePermissionsByResourceId = (req: Request, res: Response) => {
   let resourceId = req.params.resourceId;

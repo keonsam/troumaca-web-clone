@@ -9,10 +9,30 @@ import {generateUUID} from "../../uuid.generator";
 
 class GrantDBRepository implements GrantRepository {
 
-  addGrant(grant: Grant): Observable<Grant> {
-    grant.grantId = generateUUID();
-    return Rx.Observable.create(function(observer:Observer<Grant>) {
-      grants.insert(grant, function(err:any, doc:any) {
+  getGrantsByAccessRoleId(accessRoleId: string): Observable<Grant[]>{
+    let query = {
+      "accessRoleId":accessRoleId
+    };
+    return Rx.Observable.create(function(observer:Observer<Grant[]>) {
+      grants.find(query, function (err:any, docs:any[]) {
+        if (!err) {
+          observer.next(docs);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+        });
+    });
+  }
+
+  addGrant(grant: Grant[]): Observable<Grant[]> {
+    grant.forEach(value => {
+      if(!value.grantId){
+        value.grantId = generateUUID();
+      }
+    });
+    return Rx.Observable.create(function(observer:Observer<Grant[]>) {
+      grants.insert(grant, function(err:any, docs:any) {
         if (err) {
           observer.error(err);
         } else {
@@ -23,12 +43,12 @@ class GrantDBRepository implements GrantRepository {
     });
   }
 
-  deleteGrant(grantId: string): Observable<number> {
+  deleteGrant(accessRoleId: string): Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
-        "grantId":grantId
+        "accessRoleId":accessRoleId
       };
-      grants.remove(query, {}, function (err:any, numRemoved:number) {
+      grants.remove(query, {multi: true}, function (err:any, numRemoved:number) {
         if (!err) {
           observer.next(numRemoved);
         } else {
@@ -76,11 +96,15 @@ class GrantDBRepository implements GrantRepository {
 
 class GrantRestRepository implements GrantRepository {
 
-  addGrant(grant: Grant): Observable<Grant> {
+  getGrantsByAccessRoleId(accessRoleId: string): Observable<Grant[]> {
     return undefined;
   }
 
-  deleteGrant(grantId: string): Observable<number> {
+  addGrant(grant: Grant[]): Observable<Grant[]> {
+    return undefined;
+  }
+
+  deleteGrant(accessRoleId: string): Observable<number> {
     return undefined;
   }
 

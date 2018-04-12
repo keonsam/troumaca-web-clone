@@ -1,1 +1,12 @@
 {"$$indexCreated":{"fieldName":"grantId","unique":true,"sparse":false}}
+{"resourceId":"65eba9f6-7c91-439b-9ab6-b9955672fe19","resourcePermissionId":"fa9b2443-4b7a-4901-ad68-33b32035ec38","accessRoleId":"5c985114-93be-4bc6-83ff-802302b679e9","grantId":"79653649-ec29-4a5a-89ad-1a73b670211d","_id":"boy9rsnbt46F6fHE"}
+{"$$deleted":true,"_id":"boy9rsnbt46F6fHE"}
+{"grantId":"79653649-ec29-4a5a-89ad-1a73b670211d","resourceId":"65eba9f6-7c91-439b-9ab6-b9955672fe19","resourcePermissionId":"fa9b2443-4b7a-4901-ad68-33b32035ec38","accessRoleId":"5c985114-93be-4bc6-83ff-802302b679e9","_id":"L1HgtxszxLWmCTOF"}
+{"resourceId":"65eba9f6-7c91-439b-9ab6-b9955672fe19","resourcePermissionId":"2c8e9aa4-54b2-4a20-8d56-3969a680e464","accessRoleId":"5c985114-93be-4bc6-83ff-802302b679e9","grantId":"7acdd081-72e8-4dfd-9529-32c6c5c7373e","_id":"A7ir5uoW1Ds9iCM8"}
+{"$$deleted":true,"_id":"A7ir5uoW1Ds9iCM8"}
+{"$$deleted":true,"_id":"L1HgtxszxLWmCTOF"}
+{"grantId":"79653649-ec29-4a5a-89ad-1a73b670211d","resourceId":"65eba9f6-7c91-439b-9ab6-b9955672fe19","resourcePermissionId":"fa9b2443-4b7a-4901-ad68-33b32035ec38","accessRoleId":"5c985114-93be-4bc6-83ff-802302b679e9","_id":"byVDnhEzdN4pjGR1"}
+{"resourceId":"65eba9f6-7c91-439b-9ab6-b9955672fe19","resourcePermissionId":"2c8e9aa4-54b2-4a20-8d56-3969a680e464","accessRoleId":"c4a36b29-126d-4f91-b098-8f9c88b95b47","grantId":"c840598b-0055-488e-9917-f3f1b9897de4","_id":"fFtbxfQSzokTJChD"}
+{"$$deleted":true,"_id":"fFtbxfQSzokTJChD"}
+{"grantId":"c840598b-0055-488e-9917-f3f1b9897de4","resourceId":"65eba9f6-7c91-439b-9ab6-b9955672fe19","resourcePermissionId":"2c8e9aa4-54b2-4a20-8d56-3969a680e464","accessRoleId":"c4a36b29-126d-4f91-b098-8f9c88b95b47","_id":"e2dFCfXTfYp58zGy"}
+{"$$deleted":true,"_id":"e2dFCfXTfYp58zGy"}

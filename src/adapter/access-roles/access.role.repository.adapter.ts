@@ -23,6 +23,8 @@ import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 import {ResourcePermission} from "../../access-roles/resource.permission";
 import {ResourcePermissionState} from "../../client/access-roles/resource.permission.state";
+import {Grant} from "../../access-roles/grant";
+import {GrantState} from "../../client/access-roles/grant.state";
 
 export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
 
@@ -174,6 +176,28 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   }
 
   //access-roles
+  public getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<Resources> {
+    return this.accessRolesClient.getResourcesByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray, type)
+      .map(resourceStates => {
+        let resourceModels: Resources = new Resources();
+        resourceModels.resources = map(resourceStates.resources, value => {
+          return mapObjectProps(value, new Resource());
+        });
+        resourceModels.page = mapObjectProps(resourceStates.pageState, new Page());
+        resourceModels.sort = mapObjectProps(resourceStates.sortState, new Sort());
+        return resourceModels;
+      });
+  }
+
+  public getAllResourcePermissions(): Observable<ResourcePermission[]> {
+    return this.accessRolesClient.getAllResourcePermissions()
+      .map(data =>{
+        return map(data, value => {
+          return mapObjectProps(value, new ResourcePermission());
+        });
+      });
+  }
+
   public findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleType[]> {
     return this.accessRolesClient.findAccessRoleTypeId(searchStr, pageSize)
       .map(data => {
@@ -203,19 +227,33 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
       });
   }
 
-  public addAccessRole(accessRole: AccessRole): Observable<AccessRole> {
-    return this.accessRolesClient.addAccessRole(mapObjectProps(accessRole, new AccessRoleState()))
+  public addAccessRole(accessRole: AccessRole, grants: Grant[]): Observable<AccessRole> {
+    return this.accessRolesClient.addAccessRole(mapObjectProps(accessRole, new AccessRoleState()), map(grants, next => {
+      return mapObjectProps(next, new GrantState());
+    }))
       .map(value => {
         return mapObjectProps(value, new AccessRole());
       });
   }
 
-  public updateAccessRole(accessRole: AccessRole): Observable<number> {
-    return this.accessRolesClient.updateAccessRole(mapObjectProps(accessRole, new AccessRoleState()));
+  public updateAccessRole(accessRole: AccessRole, grants: Grant[]): Observable<number> {
+    return this.accessRolesClient.updateAccessRole(mapObjectProps(accessRole, new AccessRoleState()),  map(grants, next => {
+      return mapObjectProps(next, new GrantState());
+    }));
   }
 
   public deleteAccessRole(accessRoleId: string): Observable<number> {
     return this.accessRolesClient.deleteAccessRole(accessRoleId);
+  }
+
+  //grants
+  public getGrantsByAccessRoleId(accessRoleId:string): Observable<Grant[]> {
+    return this.accessRolesClient.getGrantsByAccessRoleId(accessRoleId)
+      .map(data => {
+        return map(data, value => {
+          return mapObjectProps(value, new Grant());
+        });
+      });
   }
 
   //access-role-types

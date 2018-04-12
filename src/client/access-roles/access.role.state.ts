@@ -97,7 +97,7 @@ export class AccessRoleState {
     return {
       accessRoleId: this.accessRoleId,
       name: this.name,
-      accessRoleType: {accessRoleTypeId: this.accessRoleType.accessRoleTypeId},
+      accessRoleType: this.accessRoleType,
       description: this.description,
       ownerPartyId: this.ownerPartyId,
       prohibitionIndicator: this.prohibitionIndicator,

@@ -12,6 +12,7 @@ class PermissionDBRepository implements PermissionRepository {
 
   private defaultPageSize:number = 10;
 
+
   getPermissionsByArray(pageNumber:number, pageSize:number, order:string, assignedArray:string[]):Observable<Permission[]> {
     return Rx.Observable.create(function (observer:Observer<Permission[]>) {
       let skip = calcSkip(pageNumber, pageSize, this.defaultPageSize);

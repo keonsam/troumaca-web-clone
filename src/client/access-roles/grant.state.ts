@@ -1,20 +1,27 @@
-export class Grant {
+export class GrantState {
 
   private _grantId:string;
+  private _resourceId: string;
   private _resourcePermissionId:string;
-  private _resourceId:string;
-  private _permissionId: string;
   private _accessRoleId: string;
   private _ownerPartyId:string;
   private _createdOn:Date;
   private _modifiedOn:Date;
-
+  
   get grantId(): string {
     return this._grantId;
   }
 
   set grantId(value: string) {
     this._grantId = value;
+  }
+
+  get resourceId(): string {
+    return this._resourceId;
+  }
+
+  set resourceId(value: string) {
+    this._resourceId = value;
   }
 
   get resourcePermissionId(): string {
@@ -25,28 +32,12 @@ export class Grant {
     this._resourcePermissionId = value;
   }
 
-  get permissionId(): string {
-    return this._permissionId;
-  }
-
-  set permissionId(value: string) {
-    this._permissionId = value;
-  }
-
   get accessRoleId(): string {
     return this._accessRoleId;
   }
 
   set accessRoleId(value: string) {
     this._accessRoleId = value;
-  }
-  
-  get resourceId(): string {
-    return this._resourceId;
-  }
-
-  set resourceId(value: string) {
-    this._resourceId = value;
   }
 
   get ownerPartyId(): string {
@@ -73,4 +64,16 @@ export class Grant {
     this._modifiedOn = value;
   }
 
+  toJson() {
+    return {
+      grantId: this.grantId,
+      resourceId: this.resourceId,
+      resourcePermissionId: this.resourcePermissionId,
+      accessRoleId: this.accessRoleId,
+      ownerPartyId: this.ownerPartyId,
+      createdOn: this.createdOn,
+      modifiedOn: this.modifiedOn
+    }
+  }
+  
 }

@@ -12,6 +12,34 @@ class ResourceDBRepository implements ResourceRepository {
 
   private defaultPageSize:number = 10;
 
+  getResourcesByArray(pageNumber:number, pageSize:number, order:string, assignedArray:string[]):Observable<Resource[]> {
+    return Rx.Observable.create(function (observer:Observer<Resource[]>) {
+      let skip = calcSkip(pageNumber, pageSize, this.defaultPageSize);
+      resources.find({ resourceId: { $nin: assignedArray }}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  getAssignedResourcesByArray(pageNumber:number, pageSize:number, order:string, assignedArray:string[]):Observable<Resource[]> {
+    return Rx.Observable.create(function (observer:Observer<Resource[]>) {
+      let skip = calcSkip(pageNumber, pageSize, this.defaultPageSize);
+      resources.find({ resourceId: { $in: assignedArray }}).sort(order).skip(skip).limit(pageSize).exec(function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   getResources(pageNumber:number, pageSize:number, order:string):Observable<Resource[]> {
     let localDefaultPageSize = this.defaultPageSize;
     return Rx.Observable.create(function (observer:Observer<Resource[]>) {
@@ -106,6 +134,15 @@ class ResourceDBRepository implements ResourceRepository {
 
 
 class ResourceRestRepository implements ResourceRepository {
+
+
+  getResourcesByArray(pageNumber:number, pageSize:number, order:string, assignedArray:string[]):Observable<Resource[]> {
+    return undefined;
+  }
+
+  getAssignedResourcesByArray(pageNumber:number, pageSize:number, order:string, assignedArray:string[]):Observable<Resource[]> {
+    return undefined;
+  }
 
   getResources(pageNumber:number, pageSize:number, order:string):Observable<Resource[]> {
     return undefined;

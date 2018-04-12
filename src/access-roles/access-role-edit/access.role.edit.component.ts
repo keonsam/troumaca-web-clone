@@ -7,6 +7,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AccessRoleService} from "../access.role.service";
 import {AccessRole} from "../access.role";
 import {AccessRoleType} from "../access.role.type";
+import {Resources} from "../resources";
+import {ResourcePermission} from "../resource.permission";
+import {Grant} from "../grant";
+import {Sort} from "../../sort/sort";
+import {Page} from "../../page/page";
 
 @Component({
   selector: 'access-role-edit',
@@ -24,8 +29,19 @@ export class AccessRoleEditComponent implements OnInit {
   private _accessRoleTypeDataService: CompleterData;
 
   private accessRole: AccessRole;
+  private _resources: Resources;
+  private _assignedResources: Resources;
+  private _resourcePermissions : ResourcePermission[];
+  private _grants: Grant[];
+  private _assignedArray: string[];
+
   private accessRoleId: string;
   private sub: any;
+
+
+  private defaultPage:number = 1;
+  private defaultPageSize:number = 10;
+  private defaultSortOrder = "asc";
 
   private _accessRoleForm: FormGroup;
 
@@ -65,6 +81,17 @@ export class AccessRoleEditComponent implements OnInit {
 
     this.accessRole = new AccessRole();
     this.accessRole.accessRoleType = new AccessRoleType();
+
+    let newResources = new Resources();
+    newResources.resources = [];
+    newResources.page = new Page();
+    newResources.sort = new Sort();
+    this.resources = newResources;
+    this.assignedResources = newResources;
+
+    this.resourcePermissions = [];
+    this.assignedArray = [];
+    this.grants = [];
     this.doNotDisplayFailureMessage = true;
   }
 
@@ -76,21 +103,45 @@ export class AccessRoleEditComponent implements OnInit {
           console.log(accessRole);
           this.prohibitionIndicator.setValue(accessRole.prohibitionIndicator);
           this.name.setValue(accessRole.name);
-          this.accessRoleTypeId.setValue(accessRole.accessRoleType.accessRoleTypeId);
+          this.accessRoleTypeId.setValue(accessRole.accessRoleType.name);
           this.effectiveDate.setValue(accessRole.effectiveDate);
           this.untilDate.setValue(accessRole.untilDate);
           this.description.setValue(accessRole.description);
           this.accessRole = accessRole;
+          this.getGrants();
         }, error => {
           console.log(error);
         }, () => {
           console.log("complete");
         });
     });
+    this.getResourcePermissions();
     this.populateAccessRoleTypeDropDown();
   }
 
-  populateAccessRoleTypeDropDown() {
+  private getResources(type) {
+    this.accessRoleService.getResourcesByArray(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray, type)
+      .subscribe(values => {
+        if(type === "resources") {
+          this.resources = values;
+        }else{
+          this.assignedResources = values;
+        }
+      }, onError => {
+        console.log(onError);
+      });
+  };
+
+  private getResourcePermissions() {
+    this.accessRoleService.getAllResourcePermissions()
+      .subscribe(values => {
+        this.resourcePermissions = values;
+      }, onError => {
+        console.log(onError);
+      });
+  }
+
+  private populateAccessRoleTypeDropDown() {
     this.accessRoleTypeDataService = this.completerService.local([], 'name', 'name');
     let that = this;
     this.accessRoleForm.get("accessRoleTypeId").valueChanges
@@ -175,6 +226,46 @@ export class AccessRoleEditComponent implements OnInit {
     this._accessRoleTypeDataService = value;
   }
 
+  get resources(): Resources {
+    return this._resources;
+  }
+
+  set resources(value: Resources) {
+    this._resources = value;
+  }
+
+  get assignedResources(): Resources {
+    return this._assignedResources;
+  }
+
+  set assignedResources(value: Resources) {
+    this._assignedResources = value;
+  }
+
+  get resourcePermissions(): ResourcePermission[] {
+    return this._resourcePermissions;
+  }
+
+  set resourcePermissions(value: ResourcePermission[]) {
+    this._resourcePermissions = value;
+  }
+
+  get grants(): Grant[] {
+    return this._grants;
+  }
+
+  set grants(value: Grant[]) {
+    this._grants = value;
+  }
+
+  get assignedArray(): string[] {
+    return this._assignedArray;
+  }
+
+  set assignedArray(value: string[]) {
+    this._assignedArray = value;
+  }
+
   get accessRoleForm(): FormGroup {
     return this._accessRoleForm;
   }
@@ -191,16 +282,80 @@ export class AccessRoleEditComponent implements OnInit {
     this._doNotDisplayFailureMessage = value;
   }
 
+  getGrants() {
+    this.accessRoleService.getGrantsByAccessRoleId(this.accessRoleId)
+      .subscribe( values => {
+        this.grants = values;
+        values.forEach(value =>{
+          if(this.assignedArray.indexOf(value.resourceId) === -1){
+            this.assignedArray.push(value.resourceId);
+          }
+        });
+        this.getResources("resources");
+        this.getResources("assigned-resources");
+      });
+    }
+
+  getPermission(resourceId: string) {
+    let newArray = this.resourcePermissions.filter(value => {
+      return value.resourceId === resourceId;
+    });
+    return newArray;
+  }
+
+  onPermissionsChange(event, resourceId: string, resourcePermissionId: string) {
+    if (event.target.checked) {
+      this.grants.push(new Grant(resourceId, resourcePermissionId));
+    }else {
+      this.grants = this.grants.filter(value => {
+        return value.resourcePermissionId !== resourcePermissionId;
+      });
+    }
+  }
+
+  onResourceDoubleClick(resourceId: string) {
+    this.assignedArray.push(resourceId);
+    this.getResources("resources");
+    this.getResources("assigned-resources");
+  }
+
+  onAssignedResourceDoubleClick(resourceId: string) {
+    this.assignedArray = this.assignedArray.filter(value => {
+      return value !== resourceId;
+    });
+    this.grants = this.grants.filter(value => {
+      value.resourceId !== resourceId;
+    });
+    this.getResources("resources");
+    this.getResources("assigned-resources");
+  }
+
+  onRequestPage(pageNumber: number, type: string) {
+    this.defaultPage = pageNumber;
+    this.getResources(type);
+  }
+
   onAccessRoleTypeSelect(selected: CompleterItem) {
     if (selected) {
-      this.accessRole.accessRoleType.accessRoleTypeId = selected.originalObject.accessRoleTypeId;
+      this.accessRole.accessRoleType = selected.originalObject;
+    }
+  }
+
+  isChecked(resourcePermissionId) {
+    let index = this.grants.find(x => { return x.resourcePermissionId === resourcePermissionId});
+    if(index) {
+       return true;
+    }else {
+      return false;
     }
   }
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
-
-    this.accessRoleService.updateAccessRole(this.accessRole)
+    this.grants.forEach(value => {
+      value.accessRoleId = this.accessRoleId;
+    });
+    this.accessRoleService.updateAccessRole(this.accessRole, this.grants)
       .subscribe( numUpdated => {
         if (numUpdated) {
           this.router.navigate(['/access-roles/listing']);

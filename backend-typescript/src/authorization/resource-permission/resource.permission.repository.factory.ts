@@ -9,6 +9,19 @@ import {generateUUID} from "../../uuid.generator";
 
 class ResourcePermissionDBRepository implements ResourcePermissionRepository {
 
+  getAllResourcePermissions(): Observable<ResourcePermission[]> {
+    return Rx.Observable.create(function(observer:Observer<ResourcePermission[]>) {
+      resourcePermissions.find({}, function (err:any, docs:any) {
+        if (err) {
+          observer.error(err);
+        } else {
+          observer.next(docs);
+        }
+        observer.complete();
+      });
+    });
+  };
+
   getResourcePermissionsByResourceId(resourceId:string):Observable<ResourcePermission[]> {
     return Rx.Observable.create(function(observer:Observer<ResourcePermission[]>) {
       resourcePermissions.find({resourceId}, function (err:any, docs:any) {
@@ -20,7 +33,7 @@ class ResourcePermissionDBRepository implements ResourcePermissionRepository {
         observer.complete();
       });
     });
-  }
+  };
 
   addResourcePermission(resourcePermission: ResourcePermission[]): Observable<ResourcePermission[]> {
     // more than one here
@@ -93,6 +106,10 @@ class ResourcePermissionDBRepository implements ResourcePermissionRepository {
 
 
 class ResourcePermissionRestRepository implements ResourcePermissionRepository {
+
+  getAllResourcePermissions(): Observable<ResourcePermission[]> {
+    return undefined;
+  }
 
   getResourcePermissionsByResourceId(resourceId:string):Observable<ResourcePermission[]> {
     return undefined;

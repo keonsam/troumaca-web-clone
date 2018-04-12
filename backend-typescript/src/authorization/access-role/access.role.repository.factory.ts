@@ -61,7 +61,7 @@ class AccessRoleDBRepository implements AccessRoleRepository {
         if (err) {
           observer.error(err);
         } else {
-          observer.next(accessRole);
+          observer.next(doc);
         }
         observer.complete();
       });

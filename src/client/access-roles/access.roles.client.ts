@@ -10,6 +10,7 @@ import {AccessRoleState} from "./access.role.state";
 import {AccessRoleStates} from "./access.role.states";
 import {AccessRoleTypeState} from "./access.role.type.state";
 import {AccessRoleTypeStates} from "./access.role.type.states";
+import {GrantState} from "./grant.state";
 
 export abstract class AccessRolesClient {
 
@@ -53,17 +54,24 @@ export abstract class AccessRolesClient {
   abstract deleteResourceType(resourceTypeId: string): Observable<number>;
 
   //access-roles
+  abstract getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<ResourceStates>;
+
+  abstract getAllResourcePermissions(): Observable<ResourcePermissionState[]>;
+
   abstract findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleTypeState[]>;
 
   abstract getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleStates>;
 
   abstract getAccessRoleById(accessRoleId: string): Observable<AccessRoleState>;
 
-  abstract addAccessRole(accessRoleState: AccessRoleState): Observable<AccessRoleState>;
+  abstract addAccessRole(accessRoleState: AccessRoleState, grants: GrantState[]): Observable<AccessRoleState>;
 
-  abstract updateAccessRole(accessRoleState: AccessRoleState): Observable<number>;
+  abstract updateAccessRole(accessRoleState: AccessRoleState, grants: GrantState[]): Observable<number>;
 
   abstract deleteAccessRole(accessRoleId: string): Observable<number>;
+
+  //grants
+  abstract getGrantsByAccessRoleId(accessRoleId:string): Observable<GrantState[]>;
 
   //access-role-types
   abstract getAccessRoleTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleTypeStates>;

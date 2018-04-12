@@ -3,6 +3,8 @@ import {ResourcePermission} from "./resource.permission";
 
 export interface ResourcePermissionRepository {
 
+  getAllResourcePermissions(): Observable<ResourcePermission[]>;
+
   getResourcePermissionsByResourceId(resourceId:string):Observable<ResourcePermission[]>;
 
   addResourcePermission(resourcePermissions:ResourcePermission[]):Observable<ResourcePermission[]>;

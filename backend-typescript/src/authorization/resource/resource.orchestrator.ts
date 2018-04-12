@@ -19,6 +19,33 @@ export class ResourceOrchestrator {
     this.resourcePermissionRepository = createResourcePermissionRepositoryFactory();
   }
 
+  getResourcesByArray(number:number, size:number, field:string, direction:string, assignedArray:string[]):Observable<Result<any>> {
+    let sort = getSortOrderOrDefault(field, direction);
+    return this.resourceRepository
+      .getResourcesByArray(number, size, sort, assignedArray)
+      .flatMap(value => {
+        return this.resourceRepository
+          .getResourceCount()
+          .map(count => {
+            let shapeResourcesResp = shapeResourcesResponse( value, number, size, value.length, count, sort);
+            return new Result<any>(false, "", shapeResourcesResp);
+          });
+      });
+  }
+
+  getAssignedResourcesByArray(number:number, size:number, field:string, direction:string, assignedArray:string[]):Observable<Result<any>> {
+    let sort = getSortOrderOrDefault(field, direction);
+    return this.resourceRepository
+      .getAssignedResourcesByArray(number, size, sort, assignedArray)
+      .flatMap(value => {
+        return this.resourceRepository
+          .getResourceCount()
+          .map(count => {
+            let shapeResourcesResp = shapeResourcesResponse( value, number, size, value.length, count, sort);
+            return new Result<any>(false, "", shapeResourcesResp);
+          });
+      });
+  }
   getResources(number:number, size:number, field:string, direction:string):Observable<Result<any>> {
     let sort:string = getSortOrderOrDefault(field, direction);
     return this.resourceRepository

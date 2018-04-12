@@ -12,6 +12,7 @@ import {AccessRole} from "./access.role";
 import {AccessRoles} from "./access.roles";
 import {AccessRoleType} from "./access.role.type";
 import {AccessRoleTypes} from "./access.role.types";
+import {Grant} from "./grant";
 
 export class AccessRoleService {
 
@@ -94,6 +95,14 @@ export class AccessRoleService {
   }
 
   //access-roles
+  public getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<Resources> {
+    return this.accessRoleRepository.getResourcesByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray, type);
+  }
+
+  public getAllResourcePermissions(): Observable<ResourcePermission[]> {
+    return this.accessRoleRepository.getAllResourcePermissions();
+  }
+
   public findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleType[]> {
     return this.accessRoleRepository.findAccessRoleTypeId(searchStr, pageSize);
   }
@@ -106,16 +115,21 @@ export class AccessRoleService {
     return this.accessRoleRepository.getAccessRoleById(accessRoleId);
   }
 
-  public addAccessRole(accessRole: AccessRole): Observable<AccessRole> {
-    return this.accessRoleRepository.addAccessRole(accessRole);
+  public addAccessRole(accessRole: AccessRole, grants: Grant[]): Observable<AccessRole> {
+    return this.accessRoleRepository.addAccessRole(accessRole, grants);
   }
 
-  public updateAccessRole(accessRole: AccessRole): Observable<number> {
-    return this.accessRoleRepository.updateAccessRole(accessRole);
+  public updateAccessRole(accessRole: AccessRole, grants: Grant[]): Observable<number> {
+    return this.accessRoleRepository.updateAccessRole(accessRole, grants);
   }
 
   public deleteAccessRole(accessRoleId: string): Observable<number> {
     return this.accessRoleRepository.deleteAccessRole(accessRoleId);
+  }
+
+  //grants
+  public getGrantsByAccessRoleId(accessRoleId:string): Observable<Grant[]> {
+    return this.accessRoleRepository.getGrantsByAccessRoleId(accessRoleId);
   }
 
   //access-role-types
