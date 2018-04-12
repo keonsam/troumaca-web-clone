@@ -15,7 +15,9 @@ import {CredentialState} from "../../client/party/credential.state";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 import {AccountResponse} from "../../parties/account.response";
-import {AccessRole} from "../../parties/access.role";
+import {PartyAccessRole} from "../../parties/party.access.role";
+import {AccessRole} from "../../access-roles/access.role";
+import {PartyAccessRoleState} from "../../client/party/party.access.role.state";
 
 export class PartyRepositoryAdapter extends PartyRepository {
 
@@ -76,11 +78,20 @@ export class PartyRepositoryAdapter extends PartyRepository {
     });
   }
 
-  public getAccessRoleById(partyId: string) :Observable<AccessRole> {
+  public getPartyAccessRoleById(partyId: string) :Observable<PartyAccessRole> {
     return this.personClient
-      .getAccessRoleById(partyId)
+      .getPartyAccessRoleById(partyId)
       .map(value => {
-        return mapObjectProps(value, new AccessRole());
+        return mapObjectProps(value, new PartyAccessRole());
+      });
+  }
+
+  public getPartyAccessRoles() :Observable<PartyAccessRole[]> {
+    return this.personClient.getPartyAccessRoles()
+      .map(value => {
+        return map(value, next =>{
+          return mapObjectProps(next , new PartyAccessRole());
+        });
       });
   }
 
@@ -96,9 +107,9 @@ export class PartyRepositoryAdapter extends PartyRepository {
     return this.personClient.getPhoto(partyId);
   }
 
-  public addUser(user: User, accessRoleId: string): Observable<User> {
+  public addUser(user: User, partyAccessRole: PartyAccessRole): Observable<User> {
     return this.personClient
-    .addUserState(mapObjectProps(user, new UserState()), accessRoleId)
+    .addUserState(mapObjectProps(user, new UserState()), mapObjectProps(partyAccessRole, new PartyAccessRoleState()))
     .map(value => {
       return mapObjectProps(value, new User());
     });
@@ -133,8 +144,8 @@ export class PartyRepositoryAdapter extends PartyRepository {
     return this.personClient.deleteOrganization(partyId);
   }
 
-  public updateUser(user: User, accessRoleId: string): Observable<number> {
-    return this.personClient.updateUser(mapObjectProps(user, new UserState()), accessRoleId);
+  public updateUser(user: User, partyAccessRole: PartyAccessRole): Observable<number> {
+    return this.personClient.updateUser(mapObjectProps(user, new UserState()),  mapObjectProps(partyAccessRole, new PartyAccessRoleState()));
   }
 
   public updateOrganization(organization: Organization): Observable<number> {

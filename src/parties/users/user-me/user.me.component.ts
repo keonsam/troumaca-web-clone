@@ -13,6 +13,7 @@ import {PartyEventService} from "../../party.event.service";
 import {PartyService} from "../../party.service";
 import {User} from "../../user";
 import {Credential} from "../../credential";
+import {PartyAccessRole} from "../../party.access.role";
 
 @Component({
   selector: 'user-me',
@@ -22,7 +23,6 @@ import {Credential} from "../../credential";
 export class UserMeComponent implements OnInit {
 
   private partyId: string;
-  private firstUsername: string;
   private _firstName: FormControl;
   private _middleName: FormControl;
   private _lastName: FormControl;
@@ -354,7 +354,7 @@ export class UserMeComponent implements OnInit {
     this.doNotDisplayFailureMessage2 = true;
 
       this.partyService
-      .updateUser(this.user, "")
+      .updateUser(this.user, new PartyAccessRole())
       .subscribe(value => {
         if (value) {
            this.updateCredential();

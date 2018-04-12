@@ -15,6 +15,8 @@ import {PartyEventService} from "../../party.event.service";
 import {PartyService} from "../../party.service";
 import {User} from "../../user";
 import {Credential} from "../../credential";
+import {PartyAccessRole} from "../../party.access.role";
+import {AccessRole} from "../../../access-roles/access.role";
 
 @Component({
   selector: 'user-creation',
@@ -36,6 +38,7 @@ export class UserCreationComponent implements OnInit {
   private _userForm: FormGroup;
 
   private user: User;
+  private partyAccessRole: PartyAccessRole;
   private credential: Credential;
 
   private pageSize:number = 15;
@@ -50,6 +53,8 @@ export class UserCreationComponent implements OnInit {
 
     this.user = new User();
     this.credential = new Credential();
+    this.partyAccessRole = new PartyAccessRole();
+    this.partyAccessRole.accessRole = new AccessRole();
 
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
@@ -237,7 +242,7 @@ export class UserCreationComponent implements OnInit {
 
   onAccessRoleSelect(selected: CompleterItem) {
     if (selected) {
-      this.accessRoleId = selected.originalObject.accessRoleId;
+      this.partyAccessRole.accessRole = selected.originalObject;
     }
   }
 
@@ -246,7 +251,7 @@ export class UserCreationComponent implements OnInit {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
       this.partyService
-      .addUser(this.user, this.accessRoleId)
+      .addUser(this.user, this.partyAccessRole)
       .subscribe(value => {
         if (value && value.partyId) {
           this.router.navigate(['/parties/users']);

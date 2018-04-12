@@ -15,6 +15,8 @@ import {PartyEventService} from "../../party.event.service";
 import {PartyService} from "../../party.service";
 import {User} from "../../user";
 import {Credential} from "../../credential";
+import {PartyAccessRole} from "../../party.access.role";
+import {AccessRole} from "../../../access-roles/access.role";
 
 @Component({
   selector: 'user-edit',
@@ -39,6 +41,7 @@ export class UserEditComponent implements OnInit {
 
   private user: User;
   private credential: Credential;
+  private partyAccessRole: PartyAccessRole;
 
   private pageSize:number = 15;
   private _doNotDisplayFailureMessage: boolean;
@@ -53,6 +56,9 @@ export class UserEditComponent implements OnInit {
 
     this.user = new User();
     this.credential = new Credential();
+    this.partyAccessRole = new PartyAccessRole();
+    this.partyAccessRole.accessRole = new AccessRole();
+
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
@@ -97,7 +103,7 @@ export class UserEditComponent implements OnInit {
         this.user = user;
         this.credential.partyId = user.partyId;
         this.credential.username = user.username;
-        this.getAccessRole();
+        this.getPartyAccessRole();
       }, error => {
         console.log(error);
       });
@@ -106,10 +112,11 @@ export class UserEditComponent implements OnInit {
     this.populateAccessRoleDropDown();
   }
 
-  getAccessRole() {
-    this.partyService.getAccessRoleById(this.partyId)
-      .subscribe(accessRole => {
-        this.accessRole.setValue(accessRole.name);
+  getPartyAccessRole() {
+    this.partyService.getPartyAccessRoleById(this.partyId)
+      .subscribe(partyAccessRole => {
+        this.accessRole.setValue(partyAccessRole.accessRole.name);
+        this.partyAccessRole = partyAccessRole;
       });
   }
 
@@ -263,7 +270,7 @@ export class UserEditComponent implements OnInit {
 
   onAccessRoleSelect(selected: CompleterItem) {
     if (selected) {
-      this.accessRoleId = selected.originalObject.accessRoleId;
+      this.partyAccessRole.accessRole = selected.originalObject;
     }
   }
 
@@ -286,7 +293,7 @@ export class UserEditComponent implements OnInit {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
       this.partyService
-      .updateUser(this.user, this.accessRoleId)
+      .updateUser(this.user, this.partyAccessRole)
       .subscribe(value => {
         if (value) {
           if(this.username.value != this.firstUsername){

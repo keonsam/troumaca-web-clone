@@ -5,7 +5,8 @@ import {CredentialState} from "./credential.state";
 import {OrganizationState} from "./organization.state";
 import {OrganizationStates} from "./organization.states";
 import {AccountResponse} from "../../parties/account.response";
-import {AccessRoleState} from "./access.role.state";
+import {AccessRoleState} from "../access-roles/access.role.state";
+import {PartyAccessRoleState} from "./party.access.role.state";
 
 export abstract class PersonClient {
 
@@ -15,13 +16,16 @@ export abstract class PersonClient {
   public abstract getUsers(pageNumber:number, pageSize:number, sortOrder:string):Observable<UserStates>;
   public abstract getOrganizations(pageNumber:number, pageSize:number, sortOrder:string):Observable<OrganizationStates>;
 
-  public abstract getAccessRoleById(partyId: string): Observable<AccessRoleState>;
+  public abstract getPartyAccessRoleById(partyId: string): Observable<PartyAccessRoleState>;
+  public abstract getPartyAccessRoles() :Observable<PartyAccessRoleState[]>;
+
+
   public abstract getUserState(partyId: string): Observable<UserState>;
   public abstract getOrganizationState(partyId: string): Observable<OrganizationState>;
 
   public abstract getPhoto(partyId: string): Observable<string>;
 
-  public abstract addUserState(userState: UserState, accessRoleId:string): Observable<UserState>;
+  public abstract addUserState(userState: UserState, partyAccessRoleState:PartyAccessRoleState): Observable<UserState>;
   public abstract addOrganizationState(organizationState: OrganizationState): Observable<OrganizationState>;
   public abstract addPhoto(partyId: string, croppedImage:string): Observable<any>;
   public abstract addAccountState(accountType:string, userState: UserState, organizationState: OrganizationState): Observable<AccountResponse>;
@@ -29,7 +33,7 @@ export abstract class PersonClient {
   public abstract deleteUser(partyId: string): Observable<number>;
   public abstract deleteOrganization(partyId: string): Observable<number>;
 
-  public abstract updateUser(userState: UserState, accessRoleId:string): Observable<number>;
+  public abstract updateUser(userState: UserState, partyAccessRoleState:PartyAccessRoleState): Observable<number>;
   public abstract updateOrganization(organizationState: OrganizationState): Observable<number>;
   public abstract updateCredential(credentialState: CredentialState): Observable<number>;
 

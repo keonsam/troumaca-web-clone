@@ -44,6 +44,7 @@ import * as resourcePermissionController from "./authorization/resource-permissi
 import * as accessRoleController from "./authorization/access-role/access.role.controller";
 import * as accessRoleTypeController from "./authorization/access-role-type/access.role.type.controller";
 import * as grantController from "./authorization/grant/grant.controller";
+import * as partyAccessRoleController from "./authorization/party-access-role/party.access.role.controller";
 
 const app = express();
 //const checkAccess = new CheckAccess();
@@ -202,7 +203,9 @@ app.put("/access-role-types/:accessRoleTypeId", accessRoleTypeController.updateA
 app.delete("/access-role-types/:accessRoleTypeId", accessRoleTypeController.deleteAccessRoleType);
 //grants
 app.get("/grants/:accessRoleId",grantController.getGrantsByAccessRoleId);
-
+//partyAccessRoles
+app.get("/party-access-roles",partyAccessRoleController.getPartyAccessRoles);
+app.get("/party-access-roles/:partyId",partyAccessRoleController.getPartyAccessRoleById);
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
 
