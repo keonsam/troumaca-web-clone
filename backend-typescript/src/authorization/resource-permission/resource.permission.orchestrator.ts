@@ -14,6 +14,7 @@ export class ResourcePermissionOrchestrator {
   getAllResourcePermissions(): Observable<ResourcePermission[]> {
     return this.resourcePermissionRepository.getAllResourcePermissions();
   }
+
   getResourcePermissionsByResourceId(resourceId:string):Observable<ResourcePermission[]> {
     return this.resourcePermissionRepository.getResourcePermissionsByResourceId(resourceId);
   }
