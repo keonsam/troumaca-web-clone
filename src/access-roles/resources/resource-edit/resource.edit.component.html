@@ -58,7 +58,7 @@
                       </tr>
                       </tfoot>
                       <tbody>
-                      <tr role="row" *ngFor="let permission of permissions.permissions; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onPermissionDoubleClick(permission.permissionId)">
+                      <tr role="row" *ngFor="let permission of permissions.permissions; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onPermissionDoubleClick(permission.name, permission.permissionId)">
                         <td>{{permission.name}}</td>
                         <td>{{permission.description}}</td>
                       </tr>

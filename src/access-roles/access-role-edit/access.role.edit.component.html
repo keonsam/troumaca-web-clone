@@ -13,12 +13,6 @@
               <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to edit access role.</div>
 
               <fieldset class="form-group">
-                <div class="form-check">
-                  <label class="form-check-label"><input class="form-check-input" formControlName="prohibitionIndicator" type="checkbox">Prohibition Indicator</label>
-                </div>
-              </fieldset>
-
-              <fieldset class="form-group">
                 <div class="form-group">
                   <label for="Name">Name</label><input class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
                   <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
@@ -43,13 +37,19 @@
                 </div>
               </fieldset>
 
+              <fieldset class="form-group">
+                <div class="form-check">
+                  <label class="form-check-label"><input class="form-check-input" formControlName="prohibitionIndicator" type="checkbox">Prohibition Indicator</label>
+                </div>
+              </fieldset>
+
               <div class="row">
                 <div class="col-sm-6">
                   <fieldset class="form-group">
                     <div class="form-group">
                       <label for="effective date"> Effective Date</label>
                       <div class="date-input">
-                        <input class="single-daterange form-control" formControlName="effectiveDate" type="text">
+                        <input class="single-daterange form-control" formControlName="effectiveDate" type="date">
                       </div>
                     </div>
                   </fieldset>
@@ -60,103 +60,51 @@
                     <div class="form-group">
                       <label for="until date">Until Date</label>
                       <div class="date-input">
-                        <input class="single-daterange form-control"  formControlName="untilDate" type="text">
+                        <input class="single-daterange form-control"  formControlName="untilDate" type="date">
                       </div>
                     </div>
                   </fieldset>
                 </div>
               </div>
 
-              <!-- start of Available Resources & Permissions -->
-              <div class="row">
-                <div class="col-sm-6">
-                  <h6>
-                    Available Resources & Permissions
-                  </h6>
-                  <div class="table-responsive table-section">
-                    <table class="table table-striped table-lightfont table-full-width">
-                      <thead>
-                      <tr>
-                        <th>name</th>
-                        <th>Type</th>
-                        <th>description</th>
-                        <th>Permissions</th>
-                      </tr>
-                      </thead>
-                      <tfoot>
-                      <tr>
-                        <th>name</th>
-                        <th>Type</th>
-                        <th>description</th>
-                        <th>Permissions</th>
-                      </tr>
-                      </tfoot>
-                      <tbody>
-                      <tr role="row" *ngFor="let resource of resources.resources; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onResourceDoubleClick(resource.resourceId)">
-                        <td>{{resource.name}}</td>
-                        <td>{{resource.resourceType.name}}</td>
-                        <td>{{resource.description}}</td>
-                        <td>
-                          <ul>
-                            <li *ngFor="let permission of getPermission(resource.resourceId)">{{permission.resourcePermissionId}}</li>
-                          </ul>
-                        </td>
-                      </tr>
-                      <tr *ngIf="resources.resources.length <= 0" class="odd">
-                        <td valign="top" align="" colspan="7" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                    <paging [page]="resources.page" (requestPage)="onRequestPage($event, 'resources')"></paging>
-                  </div>
-                </div>
-                <!-- end of Available Resources & Permissions -->
-
-                <!-- start of  assigned Resources & Permissions -->
-
-                <div class="col-sm-6">
-                  <h6>
-                    Assigned Resources & Permissions
-                  </h6>
-                  <div class="table-responsive table-section">
-                    <table class="table table-striped table-lightfont table-full-width">
-                      <thead>
-                      <tr>
-                        <th>name</th>
-                        <th>Type</th>
-                        <th>description</th>
-                        <th>Permissions</th>
-                      </tr>
-                      </thead>
-                      <tfoot>
-                      <tr>
-                        <th>name</th>
-                        <th>Type</th>
-                        <th>description</th>
-                        <th>Permissions</th>
-                      </tr>
-                      </tfoot>
-                      <tbody>
-                      <tr role="row" *ngFor="let resource of assignedResources.resources; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedResourceDoubleClick(resource.resourceId)">
-                        <td>{{resource.name}}</td>
-                        <td>{{resource.resourceType.name}}</td>
-                        <td>{{resource.description}}</td>
-                        <td>
-                          <ul class="list-unstyled">
-                            <li *ngFor="let permission of getPermission(resource.resourceId)">
-                              <label class="form-check-label"><input class="form-check-input" type="checkbox" (change)="onPermissionsChange($event, resource.resourceId,permission.resourcePermissionId)" [checked]="isChecked(permission.resourcePermissionId)">{{permission.resourcePermissionId}}</label>
-                            </li>
-                          </ul>
-                        </td>
-                      </tr>
-                      <tr *ngIf="resources.resources.length <= 0" class="odd">
-                        <td valign="top" align="" colspan="7" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                    <paging [page]="resources.page" (requestPage)="onRequestPage($event, 'resources')"></paging>
-                  </div>
-                </div>
+              <!-- start of  assigned Resources & Permissions -->
+              <h6>
+                Resources & Permissions
+              </h6>
+              <div class="table-responsive table-section">
+                <table class="table table-striped table-lightfont table-full-width">
+                  <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>Type</th>
+                    <th>Permissions</th>
+                  </tr>
+                  </thead>
+                  <tfoot>
+                  <tr>
+                    <th>name</th>
+                    <th>Type</th>
+                    <th>Permissions</th>
+                  </tr>
+                  </tfoot>
+                  <tbody>
+                  <tr role="row" *ngFor="let resource of resources.resources; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+                    <td>{{resource.name}}</td>
+                    <td>{{resource.resourceType.name}}</td>
+                    <td>
+                      <ul id="resourceMenu">
+                        <li *ngFor="let permission of getPermission(resource.resourceId)">
+                          <label class="form-check-label"><input class="form-check-input" type="checkbox" (change)="onPermissionsChange($event, resource.resourceId,permission.resourcePermissionId)" [checked]="isChecked(permission.resourcePermissionId)">{{permission.permission.name}}</label>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr *ngIf="resources.resources.length <= 0" class="odd">
+                    <td valign="top" align="" colspan="7" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+                  </tr>
+                  </tbody>
+                </table>
+                <paging [page]="resources.page" (requestPage)="onRequestPage($event)"></paging>
               </div>
               <!-- end of Assigned Resources & Permissions-->
 

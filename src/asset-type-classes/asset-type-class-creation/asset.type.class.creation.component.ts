@@ -380,12 +380,11 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this.assignedAttributes.find(x => x.attributeId == attributeId).required = event.target.checked;
   }
 
-  onAvailableDoubleClick(attributeId: string, dataType: string) {
+  onAvailableDoubleClick(attributeId: string) {
    this.assignedArray.push(attributeId);
-   let required = dataType !== "Boolean" ? true: false; // true and false must not  required in asset Type
    this.updateTable();
     // update and push to make sure no error
-    this.assignedAttributes.push(new AssignedAttribute(attributeId, required));
+    this.assignedAttributes.push(new AssignedAttribute(attributeId));
   }
 
   onAssignedDoubleClick(attributeId: string) {

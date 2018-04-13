@@ -30,14 +30,11 @@ export class AccessRoleEditComponent implements OnInit {
 
   private accessRole: AccessRole;
   private _resources: Resources;
-  private _assignedResources: Resources;
   private _resourcePermissions : ResourcePermission[];
   private _grants: Grant[];
-  private _assignedArray: string[];
 
   private accessRoleId: string;
   private sub: any;
-
 
   private defaultPage:number = 1;
   private defaultPageSize:number = 10;
@@ -56,8 +53,8 @@ export class AccessRoleEditComponent implements OnInit {
     this.prohibitionIndicator = new FormControl(false);
     this.name = new FormControl("", [Validators.required]);
     this.accessRoleTypeId = new FormControl("", [Validators.required]);
-    this.effectiveDate = new FormControl(new Date(), [Validators.required]);
-    this.untilDate = new FormControl(new Date( new Date().getTime() + (2678400000 * 6)), [Validators.required]);
+    this.effectiveDate = new FormControl(this.getDateString(new Date()), [Validators.required]);
+    this.untilDate = new FormControl(this.getDateString(new Date( new Date().getTime() + (2678400000 * 6))));
     this.description = new FormControl("");
 
     this.accessRoleForm = formBuilder.group({
@@ -74,8 +71,8 @@ export class AccessRoleEditComponent implements OnInit {
       .subscribe( value => {
         this.accessRole.prohibitionIndicator = value.prohibitionIndicator;
         this.accessRole.name = value.name;
-        this.accessRole.effectiveDate = new Date(value.effectiveDate);
-        this.accessRole.untilDate = new Date(value.untilDate);
+        this.accessRole.effectiveDate = value.effectiveDate;
+        this.accessRole.untilDate = value.untilDate;
         this.accessRole.description = value.description;
       });
 
@@ -87,10 +84,8 @@ export class AccessRoleEditComponent implements OnInit {
     newResources.page = new Page();
     newResources.sort = new Sort();
     this.resources = newResources;
-    this.assignedResources = newResources;
 
     this.resourcePermissions = [];
-    this.assignedArray = [];
     this.grants = [];
     this.doNotDisplayFailureMessage = true;
   }
@@ -100,7 +95,6 @@ export class AccessRoleEditComponent implements OnInit {
       this.accessRoleId = params['accessRoleId'];
       this.accessRoleService.getAccessRoleById(this.accessRoleId)
         .subscribe( accessRole => {
-          console.log(accessRole);
           this.prohibitionIndicator.setValue(accessRole.prohibitionIndicator);
           this.name.setValue(accessRole.name);
           this.accessRoleTypeId.setValue(accessRole.accessRoleType.name);
@@ -119,14 +113,10 @@ export class AccessRoleEditComponent implements OnInit {
     this.populateAccessRoleTypeDropDown();
   }
 
-  private getResources(type) {
-    this.accessRoleService.getResourcesByArray(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray, type)
+  private getResources() {
+    this.accessRoleService.getResources(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
       .subscribe(values => {
-        if(type === "resources") {
-          this.resources = values;
-        }else{
-          this.assignedResources = values;
-        }
+        this.resources = values;
       }, onError => {
         console.log(onError);
       });
@@ -168,6 +158,10 @@ export class AccessRoleEditComponent implements OnInit {
             console.log("findAccessRoleType error - " + error);
           });
       });
+  }
+
+  getDateString(date: Date) {
+    return date.toISOString().substring(0,10);
   }
 
   get prohibitionIndicator(): FormControl {
@@ -234,14 +228,6 @@ export class AccessRoleEditComponent implements OnInit {
     this._resources = value;
   }
 
-  get assignedResources(): Resources {
-    return this._assignedResources;
-  }
-
-  set assignedResources(value: Resources) {
-    this._assignedResources = value;
-  }
-
   get resourcePermissions(): ResourcePermission[] {
     return this._resourcePermissions;
   }
@@ -256,14 +242,6 @@ export class AccessRoleEditComponent implements OnInit {
 
   set grants(value: Grant[]) {
     this._grants = value;
-  }
-
-  get assignedArray(): string[] {
-    return this._assignedArray;
-  }
-
-  set assignedArray(value: string[]) {
-    this._assignedArray = value;
   }
 
   get accessRoleForm(): FormGroup {
@@ -286,13 +264,7 @@ export class AccessRoleEditComponent implements OnInit {
     this.accessRoleService.getGrantsByAccessRoleId(this.accessRoleId)
       .subscribe( values => {
         this.grants = values;
-        values.forEach(value =>{
-          if(this.assignedArray.indexOf(value.resourceId) === -1){
-            this.assignedArray.push(value.resourceId);
-          }
-        });
-        this.getResources("resources");
-        this.getResources("assigned-resources");
+        this.getResources();
       });
     }
 
@@ -313,26 +285,9 @@ export class AccessRoleEditComponent implements OnInit {
     }
   }
 
-  onResourceDoubleClick(resourceId: string) {
-    this.assignedArray.push(resourceId);
-    this.getResources("resources");
-    this.getResources("assigned-resources");
-  }
-
-  onAssignedResourceDoubleClick(resourceId: string) {
-    this.assignedArray = this.assignedArray.filter(value => {
-      return value !== resourceId;
-    });
-    this.grants = this.grants.filter(value => {
-      value.resourceId !== resourceId;
-    });
-    this.getResources("resources");
-    this.getResources("assigned-resources");
-  }
-
-  onRequestPage(pageNumber: number, type: string) {
+  onRequestPage(pageNumber: number) {
     this.defaultPage = pageNumber;
-    this.getResources(type);
+    this.getResources();
   }
 
   onAccessRoleTypeSelect(selected: CompleterItem) {

@@ -227,16 +227,16 @@ export class ResourceEditComponent implements OnInit {
       .subscribe( values => {
         this.resourcePermissionIds = values;
         values.forEach(value => {
-          this.assignedArray.push(value.permissionId);
+          this.assignedArray.push(value.permission.permissionId);
         });
         this.getPermissions("permissions");
         this.getPermissions("resource-permissions");
       });
   }
 
-  onPermissionDoubleClick(permissionId: string) {
+  onPermissionDoubleClick(name:string,permissionId: string) {
     this.assignedArray.push(permissionId);
-    this.resourcePermissionIds.push(new ResourcePermission(permissionId));
+    this.resourcePermissionIds.push(new ResourcePermission(name, permissionId));
     this.getPermissions("permissions");
     this.getPermissions("resource-permissions");
   }
@@ -246,7 +246,7 @@ export class ResourceEditComponent implements OnInit {
       return val !== permissionId;
     });
     this.resourcePermissionIds = this.resourcePermissionIds.filter( val =>{
-      return val.permissionId !== permissionId;
+      return val.permission.permissionId !== permissionId;
     });
     this.getPermissions("permissions");
     this.getPermissions("resource-permissions");

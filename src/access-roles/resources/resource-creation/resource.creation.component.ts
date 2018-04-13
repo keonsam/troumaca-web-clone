@@ -28,7 +28,6 @@ export class ResourceCreationComponent implements OnInit {
   private _resourceTypeIdDataService: CompleterData;
   private _resourceForm: FormGroup;
 
-
   private defaultPage:number = 1;
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
@@ -207,9 +206,9 @@ export class ResourceCreationComponent implements OnInit {
     }
   }
 
-  onPermissionDoubleClick(permissionId: string) {
+  onPermissionDoubleClick(name,permissionId: string) {
     this.assignedArray.push(permissionId);
-    this.resourcePermissionIds.push(new ResourcePermission(permissionId));
+    this.resourcePermissionIds.push(new ResourcePermission(name,permissionId));
     this.getPermissions("permissions");
     this.getPermissions("resource-permissions");
   }
@@ -219,7 +218,7 @@ export class ResourceCreationComponent implements OnInit {
       return val !== permissionId;
     });
     this.resourcePermissionIds = this.resourcePermissionIds.filter( val =>{
-      return val.permissionId !== permissionId;
+      return val.permission.permissionId !== permissionId;
     });
     this.getPermissions("permissions");
     this.getPermissions("resource-permissions");

@@ -3,11 +3,14 @@ import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapsh
 import {Observable} from "rxjs/Observable";
 import {AuthGuardService} from "./auth.guard.service";
 import {excludedRoutes} from './excluded.routes';
+import {EventService} from "../event/event.service";
+import {Event} from "../authentication/event";
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
 
   constructor(private authGuardService: AuthGuardService,
+              private eventService: EventService,
               private router: Router) {
   }
 
@@ -19,7 +22,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         if (!value && this.validateExcludedUrls(url)) {
           return true;
         } else if (!value && !this.validateExcludedUrls(url)) {
-          this.router.navigate(['/home']);
+          this.eventService.sendSessionExpiredEvent(this.createEventModel());
           return false;
         }else if (value && this.validateExcludedUrls(url)) {
           this.router.navigate(['/home/lobby']);
@@ -52,8 +55,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   validateExcludedUrls(url) {
     //this may not be maintainable
-    let testRegex = /\/[a-z-]*\/[a-z-]*\/[a-z-]*/gi; // test the string not a pro
-    let matchRegex = /\/[a-z-]*\/[a-z-]*\//gi; // not good with regex if you can fix this that will be great
+    let matchRegex = /\/[a-z-]*\/[a-z-]*\//gi; // not good with regex if you can fix this, that will be great
     if(url.indexOf('phone-verification') !== -1 || url.indexOf('email-verification') !== -1 ) {
       url = url.match(matchRegex)[0].slice(0, -1);
     }
@@ -62,6 +64,16 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     }else {
       return false;
     }
+  };
+
+  createEventModel() {
+    let event:Event = new Event();
+    event.partyId = "123";
+    event.timestamp = new Date().getTime();
+    event.source = "AuthGuard.component";
+    event.name = "AuthGuard";
+
+    return event;
   }
 
 }

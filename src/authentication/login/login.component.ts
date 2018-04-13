@@ -4,7 +4,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/filter';
 import {Event} from "../event";
-import {EventName} from '../../event/event.name';
 import "rxjs/add/observable/of";
 import {Router} from "@angular/router";
 import {EventService} from "../../event/event.service";
@@ -126,7 +125,7 @@ export class LoginComponent implements OnInit {
           if(authenticateResponse.usernameConfirmed) {
             // TODO: I think this should return a value
             if (authenticateResponse.accountExists) {
-              this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
+              this.eventService.sendLoginEvent(this.createEventModel());
               this.router.navigate(['/home/lobby']);
             } else {
               this.router.navigate(['/create-profile']);

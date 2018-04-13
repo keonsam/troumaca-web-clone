@@ -43,7 +43,6 @@
                         <th>Required</th>
                         <th>Name</th>
                         <th>data Type</th>
-                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tfoot>
@@ -51,19 +50,15 @@
                         <th>Required</th>
                         <th>Name</th>
                         <th>data Type</th>
-                        <th>Actions</th>
                       </tr>
                     </tfoot>
                     <tbody>
                       <tr role="row" *ngFor="let attribute of assignAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedDoubleClick(attribute.attributeId)">
                         <td class="text-center">
-                          <input class="form-control" type="checkbox" (change)="onCheckBoxChange($event, attribute.attributeId)" [checked]="attribute.dataType.name !== 'Boolean' ? true:false">
+                          <input class="form-control" type="checkbox" (change)="onCheckBoxChange($event, attribute.attributeId)">
                         </td>
                         <td>{{attribute.name}}</td>
                         <td>{{attribute.dataType.name}}</td>
-                        <td class="row-actions">
-                          <a (click)="onOpenFormModal(attribute.attributeId); onNewOrEdit('Edit'); open(content)"><i class="os-icon os-icon-ui-49"></i></a><a  class="danger" (click)="onAssignedDoubleClick(attribute.attributeId)" ><i class="os-icon os-icon-ui-15"></i></a>
-                        </td>
                       </tr>
                       <tr *ngIf="assignAttributes.attributes.length <= 0" class="odd">
                         <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No Assigned Attributes</td>
@@ -105,7 +100,7 @@
                 </tr>
               </tfoot>
               <tbody>
-                <tr role="row" *ngFor="let attribute of availableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAvailableDoubleClick(attribute.attributeId, attribute.dataType.name)">
+                <tr role="row" *ngFor="let attribute of availableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAvailableDoubleClick(attribute.attributeId)">
                   <td>{{attribute.name}}</td>
                   <td>{{attribute.dataType.name}}</td>
                   <td class="row-actions">

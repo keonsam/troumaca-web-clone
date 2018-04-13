@@ -3,13 +3,12 @@ export class AssignedAttribute {
   private _assignedAttributeId:string;
   private _assetTypeClassId: string;
   private _attributeId: string;
-  private _required: boolean;
+  private _required: boolean = false;
   private _createdOn: string;
   private _modifiedOn: string;
 
-  constructor(attributeId: string, required: boolean) {
+  constructor(attributeId: string) {
     this._attributeId = attributeId;
-    this._required = required;
   }
 
   get assignedAttributeId(): string {

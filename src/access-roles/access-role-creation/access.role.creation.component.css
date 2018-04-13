@@ -438,8 +438,12 @@ legend:before {
   Troumaca overrides etc.
 */
 
-li {
-  float: left;
+/*li {*/
+  /*float: left;*/
+/*}*/
+
+#resourceMenu li{
+  list-style: none;
 }
 
 .outer {

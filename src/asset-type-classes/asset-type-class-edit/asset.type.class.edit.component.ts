@@ -405,12 +405,11 @@ export class AssetTypeClassEditComponent implements OnInit {
      this.getAvailableAttributes();
    }
 
-   onAvailableDoubleClick(attributeId: string, dataType: string) {
-     let required = dataType !== "Boolean" ? true: false; // true and false must not  required in asset Type
+   onAvailableDoubleClick(attributeId: string,) {
      this.assignedArray.push(attributeId);
      this.updateTable();
      // update and push to make sure no error
-     this.assignedAttributes.push(new AssignedAttribute(attributeId, required));
+     this.assignedAttributes.push(new AssignedAttribute(attributeId));
 
    }
 
