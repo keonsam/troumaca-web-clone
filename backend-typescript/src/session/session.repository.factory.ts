@@ -139,24 +139,6 @@ class SessionDBRepository implements SessionRepository {
       return readExpirationDate  > now;
     })
   }
-
-  expireSession(sessionId:string): Observable<number> {
-    return Rx.Observable.create(function (observer:Observer<number>) {
-      let query = {
-        sessionId
-      };
-
-      let expirationTime = new Date();
-      sessions.update(query, {$set : {expirationTime}}, {}, function (err:any, numReplaced:number) {
-        if (!err) {
-          observer.next(numReplaced);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    });
-  }
 }
 
 class SessionRestRepository implements SessionRepository {
@@ -186,10 +168,6 @@ class SessionRestRepository implements SessionRepository {
 
   updateSessionPartyId(sessionId:string, partyId:string): Observable<number> {
     return undefined;
-  }
-
-  expireSession(sessionId:string): Observable<number> {
-   return undefined;
   }
 
 }

@@ -17,6 +17,4 @@ export interface SessionRepository {
 
   isValidSession(sessionId:string):Observable<boolean>;
 
-  expireSession(sessionId:string): Observable<number>;
-
 }

@@ -41,16 +41,3 @@ export let isValidSession = (req: Request, res: Response) => {
       console.log(error);
     });
 };
-
-export let handleSessionLogOut = (req: Request, res: Response) => {
-  let sessionId = req.cookies["sessionId"];
-  sessionOrchestrator.handleSessionLogOut(sessionId)
-    .subscribe(next => {
-      res.setHeader('Content-Type', 'application/json');
-      res.send(next);
-    }, error => {
-      res.status(400);
-      res.send(error);
-      console.log(error);
-    });
-};

@@ -483,9 +483,7 @@ export class AssetTypeClassEditComponent implements OnInit {
    onCreate() {
      this.doNotDisplayFailureMessage = true;
      this.assignedAttributes.forEach(value => {
-       if(!value.assetTypeClassId) {
-         value.assetTypeClassId = this.assetTypeClassId;
-       }
+       value.assetTypeClassId = this.assetTypeClassId;
      });
      this.assetTypeClassService
      .updateAssetTypeClass(this.assetTypeClassId, this.assetTypeClass, this.assignedAttributes)
