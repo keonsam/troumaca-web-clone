@@ -15,11 +15,27 @@ import {CredentialState} from "../../client/party/credential.state";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 import {AccountResponse} from "../../parties/account.response";
+import {PartyAccessRole} from "../../parties/party.access.role";
+import {AccessRole} from "../../access-roles/access.role";
+import {PartyAccessRoleState} from "../../client/party/party.access.role.state";
 
 export class PartyRepositoryAdapter extends PartyRepository {
 
   constructor(private personClient: PersonClient) {
     super();
+  }
+
+  public findAccessRole(searchStr: string, pageSize: number) :Observable<AccessRole[]> {
+    return this.personClient.findAccessRole(searchStr, pageSize)
+      .map(accessRoles => {
+        return map(accessRoles, value => {
+          return mapObjectProps(value, new AccessRole());
+        })
+      });
+  }
+
+  public logOutUser(): Observable<boolean> {
+    return this.personClient.logOutUser();
   }
 
   public getPartyId(): Observable<string> {
@@ -62,6 +78,23 @@ export class PartyRepositoryAdapter extends PartyRepository {
     });
   }
 
+  public getPartyAccessRoleById(partyId: string) :Observable<PartyAccessRole> {
+    return this.personClient
+      .getPartyAccessRoleById(partyId)
+      .map(value => {
+        return mapObjectProps(value, new PartyAccessRole());
+      });
+  }
+
+  public getPartyAccessRoles() :Observable<PartyAccessRole[]> {
+    return this.personClient.getPartyAccessRoles()
+      .map(value => {
+        return map(value, next =>{
+          return mapObjectProps(next , new PartyAccessRole());
+        });
+      });
+  }
+
   public getOrganization(partyId: string): Observable<Organization> {
     return this.personClient
     .getOrganizationState(partyId)
@@ -74,9 +107,9 @@ export class PartyRepositoryAdapter extends PartyRepository {
     return this.personClient.getPhoto(partyId);
   }
 
-  public addUser(user: User): Observable<User> {
+  public addUser(user: User, partyAccessRole: PartyAccessRole): Observable<User> {
     return this.personClient
-    .addUserState(mapObjectProps(user, new UserState()))
+    .addUserState(mapObjectProps(user, new UserState()), mapObjectProps(partyAccessRole, new PartyAccessRoleState()))
     .map(value => {
       return mapObjectProps(value, new User());
     });
@@ -111,8 +144,8 @@ export class PartyRepositoryAdapter extends PartyRepository {
     return this.personClient.deleteOrganization(partyId);
   }
 
-  public updateUser(user: User): Observable<number> {
-    return this.personClient.updateUser(mapObjectProps(user, new UserState()));
+  public updateUser(user: User, partyAccessRole: PartyAccessRole): Observable<number> {
+    return this.personClient.updateUser(mapObjectProps(user, new UserState()),  mapObjectProps(partyAccessRole, new PartyAccessRoleState()));
   }
 
   public updateOrganization(organization: Organization): Observable<number> {

@@ -11,18 +11,22 @@ import {CredentialStatus} from "../../authentication/credential/credential.statu
 //import  generatePassword from 'password-generator';
 import {generate} from "generate-password";
 import {getSortOrderOrDefault} from "../../sort.order.util";
-
+import {PartyAccessRole} from "../../authorization/party-access-role/party.access.role";
+import {PartyAccessRoleRepository} from "../../authorization/party-access-role/party.access.role.repository";
+import {createPartyAccessRoleRepositoryFactory} from "../../authorization/party-access-role/party.access.role.repository.factory";
 
 export class UserOrchestrator {
 
   private userRepository:UserRepository;
   private credentialRepository: CredentialRepository;
   private credential: Credential;
+  private partyAccessRoleRepository: PartyAccessRoleRepository;
 
   constructor() {
     this.credential = new Credential();
     this.userRepository = createUserRepository();
     this.credentialRepository = createCredentialRepositoryFactory();
+    this.partyAccessRoleRepository = createPartyAccessRoleRepositoryFactory();
   }
 
 
@@ -48,26 +52,33 @@ export class UserOrchestrator {
       return this.userRepository.getUser(partyId);
     };
 
-     saveUser (user:User): Observable<Result<any>> {
+     saveUser (user:User, partyAccessRole:PartyAccessRole): Observable<Result<any>> {
        return this.userRepository.saveUser(user)
          .switchMap(user => {
-           if(!user){
+           if (!user) {
              return Observable.of(new Result<any>(true, "users", user));
-           }else {
-
-               this.credential.partyId = user.partyId;
-               this.credential.username = user.username;
-               this.credential.password = generate({ // upgraded to a new module https://www.npmjs.com/package/generate-password
-                 length: 10,
-                 numbers: true
-               });
-               this.credential.credentialStatus = CredentialStatus.ACTIVE;
-             return this.credentialRepository.addUserCredential(this.credential)
-               .map(credential =>{
-                 if(!credential){
-                   return new Result<any>(true, "credential", credential);
-                 }else {
-                   return new Result<any>(false, "credential", user);
+           } else {
+             partyAccessRole.partyId = user.partyId
+             return this.partyAccessRoleRepository.addPartyAccessRole(partyAccessRole)
+               .switchMap(partyAccessRole => {
+                 if (!partyAccessRole) {
+                   return Observable.of(new Result<any>(true, "users", user));
+                 } else {
+                   this.credential.partyId = user.partyId;
+                   this.credential.username = user.username;
+                   this.credential.password = generate({ // upgraded to a new module https://www.npmjs.com/package/generate-password
+                     length: 10,
+                     numbers: true
+                   });
+                   this.credential.credentialStatus = CredentialStatus.ACTIVE;
+                   return this.credentialRepository.addUserCredential(this.credential)
+                     .map(credential => {
+                       if (!credential) {
+                         return new Result<any>(true, "credential", credential);
+                       } else {
+                         return new Result<any>(false, "credential", user);
+                       }
+                     });
                  }
                });
            }
@@ -80,13 +91,27 @@ export class UserOrchestrator {
            if(!value) {
              return Observable.of(value);
            }else {
-             return this.credentialRepository.deleteCredentialByPartyId(partyId);
+             return this.partyAccessRoleRepository.deletePartyAccessRole(partyId)
+               .switchMap(numRemoved => {
+                 if(!numRemoved){
+                   return Observable.of(value);
+                 }else {
+                   return this.credentialRepository.deleteCredentialByPartyId(partyId);
+                 }
+               });
            }
          });
     };
 
-    updateUser (partyId:string, user:User):Observable<number> {
-       return this.userRepository.updateUser(partyId, user);
+    updateUser (partyId:string, user:User, partyAccessRole:PartyAccessRole):Observable<number> {
+       return this.userRepository.updateUser(partyId, user)
+         .switchMap(numUpdated => {
+           if (numUpdated) {
+             return this.partyAccessRoleRepository.updatePartyAccessRole(partyAccessRole.partyAccessRoleId, partyAccessRole);
+           }else {
+             return Observable.of(0);
+           }
+         });
     };
 
 }

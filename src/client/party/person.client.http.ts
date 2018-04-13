@@ -8,7 +8,8 @@ import {CredentialState} from "./credential.state";
 import {OrganizationState} from "./organization.state";
 import {OrganizationStates} from "./organization.states";
 import {AccountResponse} from "../../parties/account.response";
-import {SessionState} from "../session/session.state";
+import {AccessRoleState} from "../access-roles/access.role.state";
+import {PartyAccessRoleState} from "./party.access.role.state";
 
 export class PersonClientHttp implements PersonClient {
 
@@ -17,11 +18,71 @@ export class PersonClientHttp implements PersonClient {
               private hostPort:string) {
   }
 
+  public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRoleState[]> {
+    let url = `${this.hostPort}/find-access-roles?q=${searchStr}&pageSize=${pageSize}`;
+
+    return this.httpClient.get<AccessRoleState[]>(url, {
+      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
+    }).map(data => {
+      return data;
+    });
+  }
+
+  public logOutUser(): Observable<boolean> {
+    let url = `${this.hostPort}/sessions/log-out-user`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<boolean>(url, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
+  public getPartyAccessRoleById(partyId: string): Observable<PartyAccessRoleState> {
+    let url = `${this.hostPort}/party-access-roles/${partyId}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<PartyAccessRoleState>(url, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
+  public getPartyAccessRoles() :Observable<PartyAccessRoleState[]> {
+    let url = `${this.hostPort}/party-access-roles`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<PartyAccessRoleState[]>(url, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
   public getPartyId(): Observable<string> {
     let url = `${this.hostPort}/partyId`;
 
     const httpOptions = {
-      withCredentials: true,
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'correlationId': this.uuidGenerator.generateUUID()
@@ -128,11 +189,13 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public addUserState(userState: UserState): Observable<UserState> {
+  public addUserState(userState: UserState, partyAccessRoleState: PartyAccessRoleState): Observable<UserState> {
     let url = `${this.hostPort}/users`;
+    let user = userState.toJson();
+    let partyAccessRole = partyAccessRoleState.toJson();
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post<UserState>(url, userState.toJson(), {headers: headers})
+    .post<UserState>(url, {user, partyAccessRole}, {headers: headers})
     .map(data => {
       return data;
     });
@@ -196,11 +259,13 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public updateUser(userState: UserState): Observable<number> {
+  public updateUser(userState: UserState, partyAccessRoleState: PartyAccessRoleState): Observable<number> {
     let url = `${this.hostPort}/users/${userState.partyId}`;
+    let user = userState.toJson();
+    let partyAccessRole = partyAccessRoleState.toJson();
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .put<number>(url, userState.toJson(), {headers:headers})
+    .put<number>(url, {user, partyAccessRole}, {headers:headers})
     .map(data => {
       return data;
     });

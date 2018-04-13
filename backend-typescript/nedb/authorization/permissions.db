@@ -1,1 +1,4 @@
+{"permissionId":"6b7aa89b-0d01-4bf8-94c2-f74860ea6a54","name":"testg","description":"tester","_id":"Ic9Ytfv1BwA6IIgu"}
+{"permissionId":"f3265b6c-667e-4689-b3ce-f0b2f48eeed3","name":"read","description":"","_id":"jNrAI1Z75rSSpcTM"}
+{"name":"edit","description":"","permissionId":"50ccd7e1-1ea9-4004-b87a-afaf5b1a45a6","_id":"yLAfywySfEIoYA7a"}
 {"$$indexCreated":{"fieldName":"permissionId","unique":true,"sparse":false}}

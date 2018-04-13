@@ -1,7 +1,13 @@
+import {AccessRoleType} from "../access-role-type/access.role.type";
+
 export class AccessRole {
 
   private _accessRoleId:string;
   private _name:string;
+  private _accessRoleType: AccessRoleType;
+  private _prohibitionIndicator: boolean;
+  private _effectiveDate: Date;
+  private _untilDate: Date;
   private _description:string;
   private _ownerPartyId:string;
   private _createdOn:Date;
@@ -23,6 +29,14 @@ export class AccessRole {
     this._name = value;
   }
 
+  get accessRoleType(): AccessRoleType {
+    return this._accessRoleType;
+  }
+
+  set accessRoleType(value: AccessRoleType) {
+    this._accessRoleType = value;
+  }
+
   get description(): string {
     return this._description;
   }
@@ -37,6 +51,30 @@ export class AccessRole {
 
   set ownerPartyId(value: string) {
     this._ownerPartyId = value;
+  }
+
+  get prohibitionIndicator(): boolean {
+    return this._prohibitionIndicator;
+  }
+
+  set prohibitionIndicator(value: boolean) {
+    this._prohibitionIndicator = value;
+  }
+
+  get effectiveDate(): Date {
+    return this._effectiveDate;
+  }
+
+  set effectiveDate(value: Date) {
+    this._effectiveDate = value;
+  }
+
+  get untilDate(): Date {
+    return this._untilDate;
+  }
+
+  set untilDate(value: Date) {
+    this._untilDate = value;
   }
 
   get createdOn(): Date {

@@ -39,26 +39,17 @@ let sessionDb = path.resolve(__dirname, '..',) + '/nedb/session/sessions.db';
 
 let theShipmentsDb = path.resolve(__dirname, '..',) + '/nedb/shipment/shipments.db';
 
+//authorization
 let accessRolesDb = path.resolve(__dirname, '..',) + '/nedb/authorization/access-roles.db';
 let accessRoleTypesDb = path.resolve(__dirname, '..',) + '/nedb/authorization/access-role-types.db';
 let grantsDb = path.resolve(__dirname, '..',) + '/nedb/authorization/grants.db';
 let permissionsDb = path.resolve(__dirname, '..',) + '/nedb/authorization/permissions.db';
 let resourcesDb = path.resolve(__dirname, '..',) + '/nedb/authorization/resources.db';
+let resourceTypesDb = path.resolve(__dirname, '..',) + '/nedb/authorization/resource-types.db';
 let resourcePermissionsDb = path.resolve(__dirname, '..',) + '/nedb/authorization/resource-permissions.db';
-
+let partyAccessRolesDb = path.resolve(__dirname, '..',) + '/nedb/authorization/party-access-roles.db';
 
 // Todo: Fix remove
-let theOrganizationAccountsInformationsDb = path.resolve(__dirname, '..') + '/nedb/accounts/organization-information.db';
-let thePersonalAccountsInformationsDb = path.resolve(__dirname, '..') + '/nedb/accounts/personal-information.db';
-
-
-export let organizationsInformation = new Datastore(theOrganizationAccountsInformationsDb);
-organizationsInformation.loadDatabase(handleError);
-organizationsInformation.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
-
-export let personalsInformation = new Datastore(thePersonalAccountsInformationsDb);
-personalsInformation.loadDatabase(handleError);
-personalsInformation.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
 export let photos = new Datastore(thePhotosDb);
 photos.loadDatabase(handleError);
@@ -182,6 +173,14 @@ resourcePermissions.ensureIndex({ fieldName: 'resourcePermissionId', unique: tru
 export let resources = new Datastore(resourcesDb);
 resources.loadDatabase(handleError);
 resources.ensureIndex({ fieldName: 'resourceId', unique: true }, handleError);
+
+export let resourceTypes = new Datastore(resourceTypesDb);
+resourceTypes.loadDatabase(handleError);
+resourceTypes.ensureIndex({ fieldName: 'resourceTypeId', unique: true }, handleError);
+
+export let partyAccessRoles = new Datastore(partyAccessRolesDb);
+partyAccessRoles.loadDatabase(handleError);
+partyAccessRoles.ensureIndex({ fieldName: 'partyAccessRoleId', unique: true }, handleError);
 
 function handleError( err:any ) {
   if (err) {

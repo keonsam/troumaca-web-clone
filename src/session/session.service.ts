@@ -6,7 +6,7 @@ export class SessionService {
   constructor(private sessionRepository:SessionRepository) {
   }
 
-  public activeSessionExists():Observable<boolean> {
+  activeSessionExists():Observable<boolean> {
     return this.sessionRepository.activeSessionExists();
   }
 

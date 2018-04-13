@@ -5,12 +5,21 @@ import {Users} from "./users";
 import {Credential} from "./credential";
 import {Organization} from "./organization";
 import {Organizations} from "./organizations";
-import {Account} from "./account";
 import {AccountResponse} from "./account.response";
+import {PartyAccessRole} from "./party.access.role";
+import {AccessRole} from "../access-roles/access.role";
 
 export class PartyService {
 
   constructor(private partyRepository: PartyRepository) {
+  }
+
+  public findAccessRole(searchStr: string, pageSize: number) :Observable<AccessRole[]> {
+    return this.partyRepository.findAccessRole(searchStr, pageSize);
+  }
+
+  public logOutUser(): Observable<boolean> {
+    return this.partyRepository.logOutUser();
   }
 
   public getPartyId(): Observable<string> {
@@ -29,6 +38,14 @@ export class PartyService {
     return this.partyRepository.getUser(partyId);
   }
 
+  public getPartyAccessRoleById(partyId:string) :Observable<PartyAccessRole> {
+    return this.partyRepository.getPartyAccessRoleById(partyId);
+  }
+
+  public getPartyAccessRoles() :Observable<PartyAccessRole[]> {
+    return this.partyRepository.getPartyAccessRoles();
+  }
+
   public getOrganization(partyId: string):Observable<Organization> {
     return this.partyRepository.getOrganization(partyId);
   }
@@ -37,8 +54,8 @@ export class PartyService {
     return this.partyRepository.getPhoto(partyId);
   }
 
-  public addUser(user: User): Observable<User> {
-    return this.partyRepository.addUser(user);
+  public addUser(user: User, partyAccessRole: PartyAccessRole): Observable<User> {
+    return this.partyRepository.addUser(user, partyAccessRole);
   }
 
   public addOrganization(organization: Organization): Observable<Organization> {
@@ -61,8 +78,8 @@ export class PartyService {
     return this.partyRepository.deleteOrganization(partyId);
   }
 
-  public updateUser(user: User): Observable<number> {
-    return this.partyRepository.updateUser(user);
+  public updateUser(user: User, partyAccessRole: PartyAccessRole): Observable<number> {
+    return this.partyRepository.updateUser(user, partyAccessRole);
   }
 
   public updateOrganization(organization: Organization): Observable<number> {

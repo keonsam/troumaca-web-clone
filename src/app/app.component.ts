@@ -4,6 +4,7 @@ import "rxjs/add/operator/filter";
 import {AppDynamicStyle} from "./app.dynamic.style";
 import {EventService} from "../event/event.service";
 import {SessionService} from "../session/session.service";
+import {ClientEvent} from "../client/client.event";
 
 @Component({
   selector: 'app',
@@ -30,39 +31,52 @@ export class AppComponent implements OnInit{
     "register"
   ];
 
+  private logInSub: any;
+  private initLogSub: any;
+
+
   constructor(private router:Router,
               private route:ActivatedRoute,
               private eventService:EventService,
-              private sessionService: SessionService) {
+              private sessionService: SessionService,
+              private clientEvent: ClientEvent) {
     this.isLoggedIn = false;
+
     this.eventService.subscribeToLoginEvent( (data) => {
-      this.sessionService.activeSessionExists()
-        .subscribe(value => {
-          if(value) {
-            this.isLoggedIn = true;
-          }
-        });
+      this.logInSub = this.router.events.subscribe( (event:any) => {
+        if (event instanceof NavigationEnd) {
+          this.isLoggedIn = true;
+          this.logInSub.unsubscribe();
+        }
+      });
     });
 
-    this.eventService.subscribeToSessionExpiredEvent( (data) => {
-      //prevent
+    this.clientEvent.subscribeToUnauthorizedEvent((data) => {
       this.isLoggedIn = false;
-      router.navigate(['/home'])
+      this.router.navigate(['/home']);
     });
 
+    this.clientEvent.subscribeToLogoutEvent((data) => {
+      this.isLoggedIn = false;
+      this.router.navigate(['/home']);
+    });
+
+    this.eventService.subscribeToLogoutEvent((data) => {
+      this.isLoggedIn = false;
+      this.router.navigate(['/home']);
+    });
   }
 
-  // check with the server to see if there's and active session
   ngOnInit(): void {
-    this.router.events.subscribe((event:any) => {
-      if (event instanceof NavigationEnd ) {
-        let url = event.url;
+    this.initLogSub = this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
         this.sessionService.activeSessionExists()
           .subscribe(value => {
-
+            let url = event.url;
             if (value && url !== "/create-profile") {
               this.isLoggedIn = true;
             }
+            this.initLogSub.unsubscribe();
           });
       }
     });

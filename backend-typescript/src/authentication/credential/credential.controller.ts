@@ -65,8 +65,7 @@ export let authenticate = (req: Request, res: Response) => {
       if (authenticateResponse && authenticateResponse.session && authenticateResponse.session.sessionId) {
         let sessionId = authenticateResponse.session.sessionId;
         // { path: '/', httpOnly: true, secure: false, maxAge: null }
-        console.log("sessionId: " + sessionId);
-        res.cookie("sessionId", sessionId, { path: '/', maxAge: 20*60*1000, httpOnly: true });
+        res.cookie("sessionId", sessionId, {path: '/', maxAge: 20*60*1000, httpOnly: true });
       }
       res.send(JSON.stringify(authenticateResponse.toJson()));
     }, error => {

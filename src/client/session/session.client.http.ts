@@ -61,7 +61,7 @@ export class SessionClientHttp extends SessionClient {
     let url = `${this.hostPort}/sessions/current-user-session`;
 
     const httpOptions = {
-      withCredentials: true,
+      //withCredentials: true,
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'correlationId': this.uuidGenerator.generateUUID()
@@ -76,24 +76,19 @@ export class SessionClientHttp extends SessionClient {
   }
 
   activeSessionExists(): Observable<boolean> {
-    if(this.logInState === true) {
-      return Observable.of(this.logInState);
-    }
-    return this.getRemoteSession()
-      .map(session => {
-        console.log(session);
-        if(session.sessionId && this.isNotExpiredSession(session)) {
-          this.logInState= true;
-          let calculatedExpiredTime = new Date(session.expirationTime).getTime() - new Date().getTime();
-          setTimeout( () => {
-            this.logInState = false;
-            this.eventService.sendEvent(EventName.SESSION_EXPIRED, this.createEventModel());
-          }, calculatedExpiredTime);
-          return true;
-        }else {
-          this.logInState= false;
-          return false;
-        }
+    let url = `${this.hostPort}/sessions/is-valid-session`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<boolean>(url, httpOptions)
+      .map(data => {
+        return data;
       });
   }
 

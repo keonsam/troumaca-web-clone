@@ -13,7 +13,6 @@ import {Attribute} from "../../attributes/attribute";
 import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
 import {Router} from "@angular/router";
 
-
 @Component({
   selector: 'asset-type-creation',
   templateUrl: './asset.type.creation.component.html',
@@ -36,6 +35,7 @@ export class AssetTypeCreationComponent implements OnInit {
   private _attributeForm: FormGroup;
 
   private assetType: AssetType;
+
   private _assignedAttributes: AssignedAttribute[];
   private _attributes: Attribute[] = [];
 
@@ -85,7 +85,6 @@ export class AssetTypeCreationComponent implements OnInit {
       this.assetType.description = value.description;
       this.assetType.modelNumber = value.modelNumber;
       this.assetType.materialCode = value.materialCode;
-      console.log(value);
     }, error2 => {
       console.log(error2);
     });

@@ -13,7 +13,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 
 // middleware
-import accessChecker from "./middleware/access-check";
+import checkAccess from "./middleware/access-check";
 
 // Controllers (route handlers)
 import * as assetTypeController from "./asset-type/asset.type.controller";
@@ -37,21 +37,30 @@ import * as accountController from "./party/account.controller";
 import * as credentialController from "./authentication/credential/credential.controller";
 import * as confirmationController from "./authentication/credential/confirmation/confirmation.controller";
 import * as sessionController from "./session/session.controller";
+import * as permissionController from "./authorization/permission/permission.controller";
+import * as resourceController from "./authorization/resource/resource.controller";
+import * as resourceTypeController from "./authorization/resource-type/resource.type.controller";
+import * as resourcePermissionController from "./authorization/resource-permission/resource.permission.controller";
+import * as accessRoleController from "./authorization/access-role/access.role.controller";
+import * as accessRoleTypeController from "./authorization/access-role-type/access.role.type.controller";
+import * as grantController from "./authorization/grant/grant.controller";
+import * as partyAccessRoleController from "./authorization/party-access-role/party.access.role.controller";
 
 const app = express();
+//const checkAccess = new CheckAccess();
 
 app.use(logger("dev"));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, "dist")));
-//app.use(accessChecker());
 var corsOptions = {
   origin: "http://localhost:4200",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   credentials: true
 };
 app.use(cors(corsOptions));
+app.use(checkAccess);
 //app.use(cors());
 // need cookieParser middleware before we can do anything with cookies
 // app.use(accessMiddleware());
@@ -68,7 +77,11 @@ app.get("/find-sites", siteController.findSite);
 app.get("/find-unit-of-measures", unitOfMeasureController.findUnitOfMeasure);
 app.get("/find-persons", userController.findUser);
 app.get("/find-asset-type-classes", assetTypeClassController.findAssetTypeClass);
+app.get("/find-resource-types", resourceTypeController.findResourceTypes);
+app.get("/find-access-roles", accessRoleController.findAccessRoles);
+app.get("/find-access-role-types", accessRoleTypeController.findAccessRoleTypes);
 app.get("/data-types", dataTypeController.getDataTypes);
+//assets
 app.get("/assets", assetController.getAssets);
 app.get("/assets/:assetId", assetController.getAssetById);
 app.post("/assets", assetController.saveAsset);
@@ -150,7 +163,49 @@ app.get("/send-confirmation-codes/email/:confirmationId", confirmationController
 app.get("/sessions/current-user-session", sessionController.getSimpleSession);
 app.get("/sessions/is-valid-session", sessionController.isValidSession);
 app.get("/partyId", sessionController.getPartyId);
-
+app.get("/sessions/log-out-user", sessionController.handleSessionLogOut);
+//permissions
+app.get("/permissions", permissionController.getPermissions);
+app.get("/permissions/:permissionId", permissionController.getPermissionById);
+app.post("/permissions", permissionController.savePermission);
+app.post("/permissions/permissions", permissionController.getPermissionsByArray);
+app.post("/permissions/resource-permissions", permissionController.getResourcePermissionsByArray);
+app.put("/permissions/:permissionId", permissionController.updatePermission);
+app.delete("/permissions/:permissionId", permissionController.deletePermission);
+//resources
+app.get("/resources", resourceController.getResources);
+app.get("/resources/:resourceId", resourceController.getResourceById);
+app.post("/get-resources/resources", resourceController.getResourcesByArray);
+app.post("/get-resources/assigned-resources", resourceController.getAssignedResourcesByArray);
+app.post("/resources", resourceController.saveResource);
+app.put("/resources/:resourceId", resourceController.updateResource);
+app.delete("/resources/:resourceId", resourceController.deleteResource);
+//resourcetypes
+app.get("/resource-types", resourceTypeController.getResourceTypes);
+app.get("/resource-types/:resourceTypeId", resourceTypeController.getResourceTypeById);
+app.post("/resource-types", resourceTypeController.saveResourceType);
+app.put("/resource-types/:resourceTypeId", resourceTypeController.updateResourceType);
+app.delete("/resource-types/:resourceTypeId", resourceTypeController.deleteResourceType);
+//resourcePermissions
+app.get("/resource-permissions-by-id/:resourceId", resourcePermissionController.getResourcePermissionsByResourceId);
+app.get("/get-all-resource-permissions", resourcePermissionController.getAllResourcePermissions);
+// access-roles
+app.get("/access-roles", accessRoleController.getAccessRoles);
+app.get("/access-roles/:accessRoleId", accessRoleController.getAccessRoleById);
+app.post("/access-roles",accessRoleController.saveAccessRole);
+app.put("/access-roles/:accessRoleId", accessRoleController.updateAccessRole);
+app.delete("/access-roles/:accessRoleId", accessRoleController.deleteAccessRole);
+// access-role-types
+app.get("/access-role-types", accessRoleTypeController.getAccessRoleTypes);
+app.get("/access-role-types/:accessRoleTypeId", accessRoleTypeController.getAccessRoleTypeById);
+app.post("/access-role-types",accessRoleTypeController.saveAccessRoleType);
+app.put("/access-role-types/:accessRoleTypeId", accessRoleTypeController.updateAccessRoleType);
+app.delete("/access-role-types/:accessRoleTypeId", accessRoleTypeController.deleteAccessRoleType);
+//grants
+app.get("/grants/:accessRoleId",grantController.getGrantsByAccessRoleId);
+//partyAccessRoles
+app.get("/party-access-roles",partyAccessRoleController.getPartyAccessRoles);
+app.get("/party-access-roles/:partyId",partyAccessRoleController.getPartyAccessRoleById);
 // Needs to introduce a middle where that will check active session
 // and and add the session information to the request.
 
