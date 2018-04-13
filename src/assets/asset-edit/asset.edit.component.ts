@@ -12,8 +12,7 @@ import {AssetType} from "../../asset-types/asset.type";
 import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {AssetPerson} from "../asset.person";
 import {Site} from "../asset.site";
-import {ActivatedRoute} from '@angular/router';
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'asset-edit',

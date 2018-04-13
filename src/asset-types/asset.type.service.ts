@@ -4,7 +4,6 @@ import {AssetType} from "./asset.type";
 import {AssetTypes} from "./asset.types";
 import {Value} from "./value";
 import {Values} from "./values";
-import {Attributes} from "../attributes/attributes";
 import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
 import {AssetTypeClasses} from "../asset-type-classes/asset.type.classes";
 import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";

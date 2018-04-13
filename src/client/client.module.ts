@@ -17,6 +17,7 @@ import {assetClientProvider} from "./asset/asset.client.provider";
 import {assetTypesClientProvider} from "./asset-type/asset.types.client.provider";
 import {attributeClientProvider} from "./attribute/attribute.client.provider";
 import {assetTypeClassClientProvider} from "./asset-type-class/asset.type.class.client.provider";
+import {accessRolesClientProvider} from "./access-roles/access.roles.client.provider";
 import {HttpClientModule} from "@angular/common/http";
 // import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserModule} from "@angular/platform-browser";
@@ -24,7 +25,7 @@ import {unitOfMeasureClientProvider} from "./unit-of-measure/unit.of.measure.cli
 import {contractClientProvider} from "./contract/contract.client.provider";
 import {quoteClientProvider} from "./quote/quote.client.provider";
 import {shipmentClientProvider} from "./shipment/shipment.client.provider";
-//import {sessionInterceptorProvider} from "./session.interceptor.provider";
+import {sessionInterceptorProvider} from "./session.interceptor.provider";
 import {clientEventProvider} from "./client.event.provider";
 
 @NgModule({
@@ -57,7 +58,9 @@ import {clientEventProvider} from "./client.event.provider";
     contractClientProvider,
     quoteClientProvider,
     shipmentClientProvider,
-    clientEventProvider
+    clientEventProvider,
+    sessionInterceptorProvider,
+    accessRolesClientProvider
   ]
 })
 export class ClientModule { }

@@ -85,7 +85,7 @@ export class AssetCreationComponent implements OnInit {
    this.assetForm
     .valueChanges
     .subscribe(value => {
-      this.asset.assetKind = this.assetKinds.find(x => x.assetKindId ==value.assetKindId);
+      this.asset.assetKind = this.assetKinds.find(x => x.assetKindId == value.assetKindId);
       this.asset.serialNumber = value.serialNumber;
       this.asset.quantity = value.quantity;
       this.asset.description = value.description;
@@ -101,7 +101,6 @@ export class AssetCreationComponent implements OnInit {
     this.assetService
     .getAssetKinds()
     .subscribe(assetKinds => {
-      console.log(assetKinds);
       if (assetKinds) {
         that.assetKinds = assetKinds.assetKinds;
       }
@@ -401,7 +400,6 @@ export class AssetCreationComponent implements OnInit {
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
-        console.log(error);
         this.doNotDisplayFailureMessage = false;
       });
   }

@@ -22,6 +22,7 @@ import {contractRepositoryProvider} from "./contracts/contracts.repository.adapt
 import {quoteRepositoryProvider} from "./quote/quote.repository.adapter.provider";
 import {shipmentRepositoryProvider} from "./shipment/shipment.repository.adapter.provider";
 import {authenticationRepositoryProvider} from "./authentication/authentication.repository.adapter.provider";
+import {accessRoleRepositoryProvider} from "./access-roles/access.role.adapter.provider";
 
 @NgModule({
   imports:      [],
@@ -54,7 +55,8 @@ import {authenticationRepositoryProvider} from "./authentication/authentication.
     contractRepositoryProvider,
     quoteRepositoryProvider,
     shipmentRepositoryProvider,
-    authenticationRepositoryProvider
+    authenticationRepositoryProvider,
+    accessRoleRepositoryProvider
   ]
 })
 export class AdapterModule { }

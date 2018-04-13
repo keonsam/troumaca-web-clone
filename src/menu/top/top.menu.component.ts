@@ -24,9 +24,9 @@ export class TopMenuComponent implements OnInit {
     this.menuModel.menuItemModels = [];
     this.menuName = "side-menu";
     this.displaySearchBox = false;
-    if (true) {
-      console.log("Ok.");
-    }
+    // if (true) {
+    //   console.log("Ok.");
+    // }
   }
 
   ngOnInit(): void {

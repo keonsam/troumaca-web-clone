@@ -3,7 +3,6 @@ import {AssetService} from "../asset.service";
 import {Assets} from "../assets";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'asset-list',
@@ -35,7 +34,6 @@ export class AssetListComponent implements OnInit {
   getAssets() {
     this.assetService.getAssets(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.assets = next;
     }, error => {
       console.log(error);

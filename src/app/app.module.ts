@@ -27,6 +27,7 @@ import {AssetTypesModule} from "../asset-types/asset.type.module";
 import {RequestModule} from "../request/request.module";
 import {WorkOrderModule} from "../work-order/work.order.module";
 import {authGuardProvider} from "../auth-guard/auth.guard.provider";
+import {sessionInterceptorProvider} from "../client/session.interceptor.provider";
 import {GoodsModule} from "../goods/goods.module";
 import {AssetModule} from "../assets/asset.module";
 import {AppRoutingModule} from "./app.routing.module";
@@ -41,6 +42,7 @@ import {QuoteModule} from "../quotes/quote.module";
 import {ShipmentModule} from "../shipments/shipment.module";
 import {AuthenticationModule} from "../authentication/authentication.module";
 import {SessionModule} from "../session/session.module";
+import {AccessRoleModule} from "../access-roles/access.role.module";
 
 @NgModule({
   imports: [
@@ -76,7 +78,8 @@ import {SessionModule} from "../session/session.module";
     QuoteModule,
     AppRoutingModule,
     ShipmentModule,
-    SessionModule
+    SessionModule,
+    AccessRoleModule
   ],
   declarations: [
     AppComponent,
@@ -86,7 +89,8 @@ import {SessionModule} from "../session/session.module";
     {provide: APP_BASE_HREF, useValue: '/'},
     {provide: AppConfig, useClass: AppConfig},
     {provide: UUIDGenerator, useClass: UUIDGenerator},
-    authGuardProvider
+    authGuardProvider,
+    sessionInterceptorProvider
   ],
   bootstrap: [AppComponent]
 })

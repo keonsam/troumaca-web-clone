@@ -53,7 +53,6 @@ export class AssetTypesClientHttp extends AssetTypesClient {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
-
     });
   }
 
