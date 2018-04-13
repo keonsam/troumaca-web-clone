@@ -26,16 +26,4 @@ export class SessionOrchestrator {
     return this.sessionRepository.getSessionById(sessionId);
   }
 
-  handleSessionLogOut(sessionId: string): Observable<boolean> {
-    return this.sessionRepository.expireSession(sessionId)
-      .map( numReplaced => {
-        if(numReplaced) {
-          return true;
-        }else {
-          return false;
-        }
-      });
-  }
-
-
 }

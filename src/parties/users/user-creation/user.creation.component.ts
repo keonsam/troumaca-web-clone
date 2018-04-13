@@ -1,7 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-
 import {Router} from "@angular/router";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/filter";
@@ -15,8 +13,6 @@ import {PartyEventService} from "../../party.event.service";
 import {PartyService} from "../../party.service";
 import {User} from "../../user";
 import {Credential} from "../../credential";
-import {PartyAccessRole} from "../../party.access.role";
-import {AccessRole} from "../../../access-roles/access.role";
 
 @Component({
   selector: 'user-creation',
@@ -29,46 +25,34 @@ export class UserCreationComponent implements OnInit {
   private _middleName: FormControl;
   private _lastName: FormControl;
   private _username: FormControl;
-  private _accessRole: FormControl;
 
-  private _accessRoleId: string;
-
-  private _accessRoleDataService: CompleterData;
 
   private _userForm: FormGroup;
 
   private user: User;
-  private partyAccessRole: PartyAccessRole;
   private credential: Credential;
 
-  private pageSize:number = 15;
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
 
   constructor(private partyEventService: PartyEventService,
               private partyService: PartyService,
-              private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
     this.user = new User();
     this.credential = new Credential();
-    this.partyAccessRole = new PartyAccessRole();
-    this.partyAccessRole.accessRole = new AccessRole();
 
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
     this.lastName = new FormControl("", [Validators.required]);
     this.username = new FormControl("", [Validators.required, this.usernameValidator(partyService)]);
-    this.accessRole = new FormControl("", [Validators.required]);
-
 
     this.userForm = formBuilder.group({
       "firstName": this.firstName,
       "middleName": this.middleName,
       "lastName": this.lastName,
-      "username": this.username,
-      "accessRole": this.accessRole
+      "username": this.username
     });
 
     this.userForm
@@ -89,36 +73,6 @@ export class UserCreationComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.populateAccessRoleDropDown();
-  }
-
-  populateAccessRoleDropDown() {
-    this.accessRoleDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
-    this.userForm.get("accessRole").valueChanges
-      .debounceTime(1000) // debounce
-      .filter(value => { // filter out empty values
-        return !!(value);
-      })
-      .subscribe(value => {
-        console.log("value: " + value);
-        that.partyService
-          .findAccessRole(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.map(v2 => {
-              return {
-                accessRoleId: v2.accessRoleId,
-                name: v2.name,
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findAccessRole next - " + next);
-            this.accessRoleDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findAccessRole error - " + error);
-          });
-      });
   }
 
   usernameValidator(partyService:PartyService) {
@@ -192,30 +146,6 @@ export class UserCreationComponent implements OnInit {
     this._username = value;
   }
 
-  get accessRole(): FormControl {
-    return this._accessRole;
-  }
-
-  set accessRole(value: FormControl) {
-    this._accessRole = value;
-  }
-
-  get accessRoleId(): string {
-    return this._accessRoleId;
-  }
-
-  set accessRoleId(value: string) {
-    this._accessRoleId = value;
-  }
-
-  get accessRoleDataService(): CompleterData {
-    return this._accessRoleDataService;
-  }
-
-  set accessRoleDataService(value: CompleterData) {
-    this._accessRoleDataService = value;
-  }
-
   get userForm(): FormGroup {
     return this._userForm;
   }
@@ -240,18 +170,29 @@ export class UserCreationComponent implements OnInit {
     this._doNotDisplayFailureMessage2 = value;
   }
 
-  onAccessRoleSelect(selected: CompleterItem) {
-    if (selected) {
-      this.partyAccessRole.accessRole = selected.originalObject;
-    }
-  }
+  /*addCredential() {
+    this.credential.partyId = this.partyId;
+    console.log(this.credential)
+    this.partyService
+    .addCredential(this.credential)
+    .subscribe(value => {
+      if (value && value.credentialId) {
+        this.router.navigate(['/parties/users']);
+      } else {
+        this.doNotDisplayFailureMessage2 = false;
+      }
+    }, error => {
+      console.log(error);
+      this.doNotDisplayFailureMessage2 = false;
+    });
+  }*/
 
   onCreate() {
 
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
       this.partyService
-      .addUser(this.user, this.partyAccessRole)
+      .addUser(this.user)
       .subscribe(value => {
         if (value && value.partyId) {
           this.router.navigate(['/parties/users']);

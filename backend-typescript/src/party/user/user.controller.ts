@@ -54,9 +54,8 @@ export  let getUser = (req: Request, res: Response) => {
 };
 
 export  let saveUser = (req: Request, res: Response) => {
-  let user = req.body.user;
-  let partyAccessRole = req.body.partyAccessRole;
-  userOrchestrator.saveUser(user, partyAccessRole)
+  let user = req.body;
+  userOrchestrator.saveUser(user)
     .subscribe(result => {
       res.send(JSON.stringify(result.data));
     }, error => {
@@ -82,10 +81,9 @@ export let deleteUser = (req: Request, res: Response) => {
 
 export let updateUser = (req: Request, res: Response) => {
   let partyId = req.params.partyId;
-  let user = req.body.user;
-  let partyAccessRole = req.body.partyAccessRole;
+  let user = req.body;
   userOrchestrator
-    .updateUser(partyId, user, partyAccessRole)
+    .updateUser(partyId, user)
     .subscribe(numUpdated => {
       res.send(JSON.stringify(numUpdated));
     }, error => {
