@@ -31,10 +31,7 @@ export class CreateAccountComponent implements OnInit {
 
   private imageChangedEvent: any = '';
   private croppedImage: any = '';
-  private userImage: any = '';
-  private imageChangedEvent2: any = '';
-  private croppedImage2: any = '';
-  private organizationImage: any = '';
+  private backgroundImage: any = '';
 
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
@@ -85,21 +82,18 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userImage= `url(http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825)`;
+    this.backgroundImage= `url(http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825)`;
 
     this.createProfileForm.get("accountType")
     .valueChanges
     .subscribe(type => {
-      console.log(type);
-      if(type === "personal" || ""){
-        this.userImage= `url(http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825)`;
+      if(type === "personal"){
         this.requiredState = false;
         this.createProfileForm.get("organizationName").setValidators(null);
         this.createProfileForm.get("purpose").setValidators(null);
         this.createProfileForm.get("organizationName").updateValueAndValidity();
         this.createProfileForm.get("purpose").updateValueAndValidity();
       }else {
-        this.userImage = `http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825)`;
         this.requiredState = true;
         this.createProfileForm.get("organizationName").setValidators([Validators.required]);
         this.createProfileForm.get("purpose").setValidators([Validators.required]);
@@ -206,36 +200,7 @@ export class CreateAccountComponent implements OnInit {
 
   imageCropped(image: string) {
     this.croppedImage = image;
-    if(this.accountType.value === "personal") {
-      this.userImage = `url(${this.croppedImage})`;
-    }else {
-      this.userImage = this.croppedImage;
-    }
-  }
-
-  imageLoaded() {
-    //console.log("imageLoaded");
-  }
-
-  loadImageFailed() {
-    //console.log("loadImageFailed");
-  }
-
-  fileChangeEvent2(event: any): void {
-    this.imageChangedEvent2 = event;
-  }
-
-  imageCropped2(image: string) {
-    this.croppedImage2 = image;
-    this.organizationImage = `url(${this.croppedImage2})`;
-  }
-
-  imageLoaded2() {
-    //console.log("imageLoaded");
-  }
-
-  loadImageFailed2() {
-    //console.log("loadImageFailed");
+    this.backgroundImage = `url(${this.croppedImage})`;
   }
 
   savePhoto(partyId) {

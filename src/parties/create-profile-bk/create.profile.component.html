@@ -1,57 +1,82 @@
 <div class="content-w">
   <div class="content-box">
     <div class="row">
-
-      <!-- START ORGANIZATION / BOTH / VIEW USER IN ORGANIZATION PROFILE PICTURE -->
-      <div class="col-sm-5" *ngIf="accountType.value === 'organization' || accountType.value === 'both'">
+      <div class="col-sm-5">
         <div class="user-profile compact">
-          <div class="up-head-w" [style.background-image]="organizationImage">
+          <div class="up-head-w" [style.background-image]="backgroundImage">
             <div class="up-social">
-              <a data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon-user-male-circle2 primary"></i></a>
-              <a data-target="#PhotoModal2" data-toggle="modal"><i class="os-icon os-icon-documents-07 primary"></i></a>
+              <a data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon os-icon-pencil-2 primary"></i></a>
             </div>
             <div class="up-main-info">
-              <div class="user-avatar-w">
-                <div class="user-avatar">
-                  <img alt="" [src]="userImage">
+              <h2 class="up-header">
+                {{user.name}}
+              </h2>
+              <h6 class="up-sub-header">
+                {{organization.purpose}} <!-- what would you put here if the user is personal alone -->
+              </h6>
+            </div>
+            <svg class="decor" width="842px" height="219px" viewBox="0 0 842 219" preserveAspectRatio="xMaxYMax meet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="translate(-381.000000, -362.000000)" fill="#FFFFFF"><path class="decor-path" d="M1223,362 L1223,581 L381,581 C868.912802,575.666667 1149.57947,502.666667 1223,362 Z"></path></g></svg>
+          </div>
+          <div class="up-contents">
+            <div class="m-b">
+              <div class="row m-b">
+                <div class="col-sm-6 b-r b-b">
+                  <div class="el-tablo centered padded-v">
+                    <div class="value">
+                      0
+                    </div>
+                    <div class="label">
+                      Assets
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 b-b">
+                  <div class="el-tablo centered padded-v">
+                    <div class="value">
+                      0
+                    </div>
+                    <div class="label">
+                      Requests
+                    </div>
+                  </div>
                 </div>
               </div>
-              <h2 class="up-header">
-                {{user.name}}
-              </h2>
-              <h6 class="up-sub-header">
-                {{organization.purpose}} <!-- what would you put here if the user is personal alone -->
-              </h6>
+
             </div>
-            <svg class="decor" width="842px" height="219px" viewBox="0 0 842 219" preserveAspectRatio="xMaxYMax meet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="translate(-381.000000, -362.000000)" fill="#FFFFFF"><path class="decor-path" d="M1223,362 L1223,581 L381,581 C868.912802,575.666667 1149.57947,502.666667 1223,362 Z"></path></g></svg>
           </div>
         </div>
-      </div>
-      <!-- END ORGANIZATION / BOTH / VIEW USER IN ORGANIZATION PROFILE PICTURE -->
-
-      <!-- START DEFAULT / PERSONAL PROFILE IMAGE -->
-      <div class="col-sm-5" *ngIf="accountType.value === 'personal' || accountType.value === ''">
-        <div class="user-profile compact">
-          <div class="up-head-w" [style.background-image]="userImage">
-            <div class="up-social">
-              <a data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon-user-male-circle2 primary"></i></a>
+        <!--                         -->
+        <!-- START OF USER ACTIVITY -->
+        <div class="element-wrapper">
+          <div class="element-box">
+            <h6 class="element-header">
+              Activities
+            </h6>
+            <div class="timed-activities compact">
+              <div class="timed-activity">
+                <div class="ta-date">
+                  <span>Assets</span>
+                </div>
+                <div class="ta-record-w">
+                  No record found
+                </div>
+              </div>
+              <div class="timed-activity">
+                <div class="ta-date">
+                  <span>Request Orders</span>
+                </div>
+                <div class="ta-record-w">
+                  No record found
+                </div>
+              </div>
             </div>
-            <div class="up-main-info">
-              <h2 class="up-header">
-                {{user.name}}
-              </h2>
-              <h6 class="up-sub-header">
-                {{organization.purpose}} <!-- what would you put here if the user is personal alone -->
-              </h6>
-            </div>
-            <svg class="decor" width="842px" height="219px" viewBox="0 0 842 219" preserveAspectRatio="xMaxYMax meet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="translate(-381.000000, -362.000000)" fill="#FFFFFF"><path class="decor-path" d="M1223,362 L1223,581 L381,581 C868.912802,575.666667 1149.57947,502.666667 1223,362 Z"></path></g></svg>
           </div>
         </div>
+        <!-- END OF USER ACTIVITY -->
       </div>
-      <!-- START DEFAULT / PERSONAL PROFILE IMAGE -->
-
 
 <!-- END OF Profile SECTION -->
+
 
       <div class="col-sm-7">
         <div class="element-wrapper">
@@ -123,7 +148,7 @@
               </fieldset>
 
 
-              <div *ngIf="accountType.value === 'organization' || accountType.value === 'both'">
+              <div *ngIf="accountType.value === 'organization' || accountType.value == 'both'">
                 <legend><span>Organization Information</span></legend>
 
                 <fieldset class="form-group">
@@ -157,13 +182,14 @@
         </div>
       </div>
 
-      <!-- START PROFILE UPLOAD MODAL -->
+      <!-- Upload Modal -->
+
       <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="PhotoModal1" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">
-                User Profile Photo
+                Profile Photo
               </h5>
               <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> &times;</span></button>
             </div>
@@ -173,10 +199,9 @@
               [imageChangedEvent]="imageChangedEvent"
               [maintainAspectRatio]="true"
               [aspectRatio]="4 / 3"
-              [resizeToWidth]="0"
+              [resizeToWidth]="128"
               format="png"
               (imageCropped)="imageCropped($event)"
-              (imageLoaded)="imageLoaded()"
               (loadImageFailed)="loadImageFailed()"
                >
                </image-cropper>
@@ -188,41 +213,29 @@
           </div>
         </div>
       </div>
-      <!-- END OF PROFILE UPLOAD MODAL -->
 
-      <!-- START ORGANIZATION UPLOAD MODAL -->
-      <div aria-hidden="true" aria-labelledby="exampleModalLabel2" class="modal fade" id="PhotoModal2" role="dialog" tabindex="-1">
-        <div class="modal-dialog" role="document">
+
+      <!--<div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-lg" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel2">
-                Organization Profile Photo
+              <h5 class="modal-title" id="exampleModalLabel">
+                Profile Photo
               </h5>
               <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> &times;</span></button>
             </div>
             <div class="modal-body">
-              <input #fileid2 type='file' (change)="fileChangeEvent2($event)" hidden/>
-              <image-cropper
-                [imageChangedEvent]="imageChangedEvent2"
-                [maintainAspectRatio]="true"
-                [aspectRatio]="4 / 3"
-                [resizeToWidth]="0"
-                format="png"
-                (imageCropped)="imageCropped2($event)"
-                (imageLoaded)="imageLoaded2()"
-                (loadImageFailed)="loadImageFailed2()"
-              >
-              </image-cropper>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-white button1" type="button" (click)="fileid2.click()"> Change Photo</button>
-              <button class="btn btn-primary" type="button" data-dismiss="modal"> Save changes</button>
+              <input #fileid type='file' hidden/>
+              <button class="btn btn-white" type="button"(click)="fileid.click()"> Change Photo</button>
+              <button class="btn btn-primary" type="button"> Save changes</button>
             </div>
           </div>
         </div>
-      </div>
-      <!-- END OF ORGANIZATION UPLOAD MODAL -->
+      </div> -->
 
+      <!-- END OF UPLOAD MODAL -->
     </div>
   </div>
 </div>

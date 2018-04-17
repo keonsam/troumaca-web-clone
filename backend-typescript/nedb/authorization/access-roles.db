@@ -1,6 +1,2 @@
-{"$$indexCreated":{"fieldName":"accessRoleId","unique":true,"sparse":false}}
-{"name":"Users","accessRoleType":{"accessRoleTypeId":"4b164b02-fa8c-470e-98c3-fdcf71897740","name":"Permission Role"},"description":"assets users","prohibitionIndicator":false,"effectiveDate":"2018-04-13","untilDate":"2018-10-16","accessRoleId":"d6422e6f-0576-419a-b11a-4100ad061347","_id":"neq5l7CkGVIClAtY"}
-{"accessRoleId":"d6422e6f-0576-419a-b11a-4100ad061347","name":"Users","accessRoleType":{"accessRoleTypeId":"4b164b02-fa8c-470e-98c3-fdcf71897740","name":"Permission Role"},"description":"assets users","prohibitionIndicator":false,"effectiveDate":"2018-05-13T00:00:00.000Z","untilDate":"2018-10-16T00:00:00.000Z","_id":"neq5l7CkGVIClAtY"}
-{"$$deleted":true,"_id":"neq5l7CkGVIClAtY"}
-{"name":"Users","accessRoleType":{"accessRoleTypeId":"4b164b02-fa8c-470e-98c3-fdcf71897740","name":"Permission Role"},"description":"simple users","prohibitionIndicator":true,"effectiveDate":"2018-04-13","untilDate":"2018-10-16","accessRoleId":"f261a0e1-949f-45f4-b46b-776dea2f4897","_id":"MsYy7GxOP2bbxSOX"}
 {"accessRoleId":"f261a0e1-949f-45f4-b46b-776dea2f4897","name":"Users","accessRoleType":{"accessRoleTypeId":"4b164b02-fa8c-470e-98c3-fdcf71897740","name":"Permission Role"},"description":"simple users","prohibitionIndicator":true,"effectiveDate":"2018-05-03","untilDate":"2018-10-16","_id":"MsYy7GxOP2bbxSOX"}
+{"$$indexCreated":{"fieldName":"accessRoleId","unique":true,"sparse":false}}

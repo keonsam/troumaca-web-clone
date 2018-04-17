@@ -1,2 +1,3 @@
 {"resourceType":{"resourceTypeId":"7714d005-59a0-40f5-87f6-c2cb656215f6","name":"Assets"},"name":"Buildings","description":"constructions ","resourceId":"56575aed-ad9d-4179-94b0-b4508258fc92","_id":"9vafc0I9vqNK8n1I"}
+{"resourceType":{"resourceTypeId":"7714d005-59a0-40f5-87f6-c2cb656215f6","name":"Assets"},"name":"Phone","description":"company phone network","resourceId":"c1959386-18be-4c1a-8c7e-5c6aa9a9c25f","_id":"oAoQjhEW6HrRNfdi"}
 {"$$indexCreated":{"fieldName":"resourceId","unique":true,"sparse":false}}
