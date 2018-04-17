@@ -328,7 +328,6 @@ export class AssetTypeCreationComponent implements OnInit {
       }
         group[value.attributeId] = required ? new FormControl(editValue.text, [Validators.required])
                                             : new FormControl(editValue.text);
-        console.log(group);
       });
 
       this.attributeForm = new FormGroup(group);
@@ -336,9 +335,7 @@ export class AssetTypeCreationComponent implements OnInit {
         let index = this.value.findIndex(x => x.attributeId == key);
         this.attributeForm.get(key).valueChanges
         .subscribe(value2 => {
-          console.log(value2);
           this.value[index].text = value2;
-          console.log(this.value[index].text);
         }, error2 => {
           console.log(error2);
         });

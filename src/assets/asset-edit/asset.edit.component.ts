@@ -94,7 +94,6 @@ export class AssetEditComponent implements OnInit {
       this.asset.serialNumber = value.serialNumber;
       this.asset.quantity = value.quantity;
       this.asset.description = value.description;
-      console.log(value);
     }, error2 => {
       console.log(error2);
     });

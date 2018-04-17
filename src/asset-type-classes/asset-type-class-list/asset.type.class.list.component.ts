@@ -36,7 +36,6 @@ export class AssetTypeClassListComponent implements OnInit {
     this.assetTypeClassService
     .getAssetTypeClasses(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.zone.run(() => {
         this.assetTypeClasses = next;
       });

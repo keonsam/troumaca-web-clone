@@ -50,7 +50,6 @@ export class SiteStreetAddressListComponent implements OnInit {
   this.siteService
     .getStreetAddresses(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.streetAddresses = next;
     }, error => {
       console.log(error);

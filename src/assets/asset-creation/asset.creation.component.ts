@@ -365,7 +365,6 @@ export class AssetCreationComponent implements OnInit {
 
   onAssetTypeSelect(selected: CompleterItem) {
       this.asset.assetType = selected.originalObject;
-      console.log(this.assetForm);
   }
 
   onUnitOfMeasureSelect(selected: CompleterItem) {

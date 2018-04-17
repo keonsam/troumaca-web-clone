@@ -5,7 +5,7 @@
       <!-- START ORGANIZATION / BOTH / VIEW USER IN ORGANIZATION PROFILE PICTURE -->
       <div class="col-sm-5" *ngIf="accountType.value === 'organization' || accountType.value === 'both'">
         <div class="user-profile compact">
-          <div class="up-head-w" [style.background-image]="organizationImage">
+          <div class="up-head-w" [style.background-image]="getBackgroundStyle('organization')">
             <div class="up-social">
               <a data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon-user-male-circle2 primary"></i></a>
               <a data-target="#PhotoModal2" data-toggle="modal"><i class="os-icon os-icon-documents-07 primary"></i></a>
@@ -32,7 +32,7 @@
       <!-- START DEFAULT / PERSONAL PROFILE IMAGE -->
       <div class="col-sm-5" *ngIf="accountType.value === 'personal' || accountType.value === ''">
         <div class="user-profile compact">
-          <div class="up-head-w" [style.background-image]="userImage">
+          <div class="up-head-w" [style.background-image]="getBackgroundStyle('user')">
             <div class="up-social">
               <a data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon-user-male-circle2 primary"></i></a>
             </div>
@@ -71,7 +71,8 @@
               </div>
 
               <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed create your profile.</div>
-              <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">Failed save image.</div>
+              <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">Failed save user photo.</div>
+              <div [hidden]="doNotDisplayFailureMessage3" class="alert alert-danger">Failed save organization photo.</div>
 
               <fieldset class="form-group">
                 <div class="form-group row">
@@ -176,8 +177,6 @@
               [resizeToWidth]="0"
               format="png"
               (imageCropped)="imageCropped($event)"
-              (imageLoaded)="imageLoaded()"
-              (loadImageFailed)="loadImageFailed()"
                >
                </image-cropper>
             </div>
@@ -209,8 +208,6 @@
                 [resizeToWidth]="0"
                 format="png"
                 (imageCropped)="imageCropped2($event)"
-                (imageLoaded)="imageLoaded2()"
-                (loadImageFailed)="loadImageFailed2()"
               >
               </image-cropper>
             </div>

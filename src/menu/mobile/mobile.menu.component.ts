@@ -94,7 +94,7 @@ export class MobileMenuComponent implements OnInit {
   }
 
   getPhoto() {
-    this.partyService.getPhoto(this.partyId)
+    this.partyService.getPhoto(this.partyId, "user")
       .subscribe(imgStr => {
         if(imgStr) {
           this.imageStr = imgStr;

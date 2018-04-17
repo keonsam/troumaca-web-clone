@@ -49,7 +49,6 @@ export class SiteWebListComponent implements OnInit {
   getWebSites() {
     this.siteService.getWebSites(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.webSites = next;
     }, error => {
       console.log(error);

@@ -107,7 +107,6 @@ export class AttributeEditComponent implements OnInit {
           this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
           this.attribute.maximumValue = value.maximumValue;
           this.attribute.minimumValue = value.minimumValue;
-          console.log(value);
         }, error2 => {
           console.log(error2);
         });

@@ -73,7 +73,7 @@ export class OrganizationCompanyComponent implements OnInit {
              console.log(error);
            });
 
-         this.partyService.getPhoto(this.partyId)
+         this.partyService.getPhoto(this.partyId, "organization")
            .subscribe(imageStr => {
              if(imageStr) {
                this.backgroundImage= `url(${imageStr})`;
@@ -132,7 +132,7 @@ export class OrganizationCompanyComponent implements OnInit {
   uploadPhoto() {
     if(this.backgroundImage === this.defaultImage) {
       this.partyService
-      .addPhoto(this.partyId, this.croppedImage)
+      .addPhoto(this.partyId, this.croppedImage, "organization")
       .subscribe(value => {
         if(value){
         this.backgroundImage = `url(${this.croppedImage})`;
@@ -144,7 +144,7 @@ export class OrganizationCompanyComponent implements OnInit {
       });
     }else {
       this.partyService
-      .updatePhoto(this.partyId, this.croppedImage)
+      .updatePhoto(this.partyId, this.croppedImage, "organization")
       .subscribe(value => {
         if(value){
         this.backgroundImage = `url(${this.croppedImage})`;

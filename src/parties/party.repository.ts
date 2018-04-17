@@ -26,13 +26,13 @@ export abstract class PartyRepository {
 
   abstract getOrganization(partyId: string): Observable<Organization>;
 
-  abstract getPhoto(partyId: string): Observable<string>;
+  abstract getPhoto(partyId: string, type:string): Observable<string>;
 
   abstract addUser(user: User, partyAccessRole: PartyAccessRole): Observable<User>;
 
   abstract addOrganization(organization: Organization): Observable<Organization>;
 
-  abstract addPhoto(partyId: string, croppedImage: string): Observable<any>;
+  abstract addPhoto(partyId: string, croppedImage: string, type: string): Observable<boolean>;
 
   abstract addAccount(accountType: string, user: User, organization: Organization): Observable<AccountResponse>;
 
@@ -46,7 +46,7 @@ export abstract class PartyRepository {
 
   abstract updateCredential(credential: Credential): Observable<number>;
 
-  abstract updatePhoto(partyId: string, croppedImage: string): Observable<number>;
+  abstract updatePhoto(partyId: string, croppedImage: string, type: string): Observable<number>;
 
   // authentication part
   abstract isValidUsername(username: string):Observable<boolean>;

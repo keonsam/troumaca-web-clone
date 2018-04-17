@@ -179,8 +179,8 @@ export class PersonClientHttp implements PersonClient {
   }
 
 
-  public getPhoto(partyId: string): Observable<string>{
-    let url = `${this.hostPort}/photos/${partyId}`;
+  public getPhoto(partyId: string, type: string): Observable<string>{
+    let url = `${this.hostPort}/photos/${type}/${partyId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
     .get<string>(url, {headers:headers})
@@ -211,8 +211,8 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public addPhoto(partyId: string, croppedImage: string): Observable<any> {
-    let url = `${this.hostPort}/photos/${partyId}`;
+  public addPhoto(partyId: string, croppedImage: string, type: string): Observable<boolean> {
+    let url = `${this.hostPort}/photos/${type}/${partyId}`;
     const httpOptions = {
     headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -221,7 +221,7 @@ export class PersonClientHttp implements PersonClient {
     };
 
     return this.httpClient
-    .post<number>(url, {croppedImage}, httpOptions)
+    .post<boolean>(url, {imageStr:croppedImage}, httpOptions)
     .map(data => {
       return data;
     });
@@ -293,8 +293,8 @@ export class PersonClientHttp implements PersonClient {
 
 
 
-  public updatePhoto(partyId: string, croppedImage: string): Observable<number> {
-    let url = `${this.hostPort}photos/${partyId}`;
+  public updatePhoto(partyId: string, croppedImage: string, type: string): Observable<number> {
+    let url = `${this.hostPort}photos/${type}/${partyId}`;
     const httpOptions = {
     headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -302,7 +302,7 @@ export class PersonClientHttp implements PersonClient {
       })
     };
     return this.httpClient
-    .put<number>(url, {croppedImage}, httpOptions)
+    .put<number>(url, {imageStr:croppedImage}, httpOptions)
     .map(data => {
       return data;
     });

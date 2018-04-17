@@ -48,7 +48,6 @@ export class SiteEmailEditComponent implements OnInit {
      .valueChanges
      .subscribe(value => {
        this.setEmailValue(value);
-       console.log(value);
      }, error2 => {
        console.log(error2);
      });
@@ -73,7 +72,6 @@ export class SiteEmailEditComponent implements OnInit {
         .valueChanges
         .subscribe(value => {
           this.setEmailValue(value);
-          console.log(value);
         }, error2 => {
           console.log(error2);
         });
@@ -141,7 +139,6 @@ export class SiteEmailEditComponent implements OnInit {
     this.siteService
     .updateEmail(this.siteId, this.email)
     .subscribe(value => {
-      console.log(value);
       if (value) {
         this.router.navigate(['/sites/emails']);
       } else {

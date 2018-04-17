@@ -3,7 +3,6 @@ import { AttributeService } from "../attribute.service";
 import {Attributes} from "../attributes";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'attribute-list',
@@ -19,8 +18,7 @@ export class AttributeListComponent implements OnInit {
   private defaultSortOrder = "asc";
   private _routerLinkCreateAttribute:string = "/attributes/create";
 
-  constructor(private attributeService: AttributeService,
-              private router: Router) {
+  constructor(private attributeService: AttributeService) {
 
      let newAttributes = new Attributes();
      newAttributes.page = new Page(0, 0, 0);
@@ -36,7 +34,6 @@ export class AttributeListComponent implements OnInit {
     this.attributeService
     .getAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.attributes = next;
     }, error => {
       console.log(error);

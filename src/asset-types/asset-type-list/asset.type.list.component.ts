@@ -50,7 +50,6 @@ export class AssetTypeListComponent implements OnInit {
     this.assetTypeService
     .getAssetTypes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.assetTypes = next;
     }, error => {
       console.log(error);

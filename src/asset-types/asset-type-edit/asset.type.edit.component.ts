@@ -81,7 +81,6 @@ export class AssetTypeEditComponent implements OnInit {
       .valueChanges
       .subscribe(value => {
        this.setAssetTypeValue(value);
-        console.log(value);
       }, error2 => {
         console.log(error2);
       });
@@ -122,7 +121,6 @@ export class AssetTypeEditComponent implements OnInit {
         .valueChanges
         .subscribe(value => {
           this.setAssetTypeValue(value);
-          console.log(value);
         }, error2 => {
           console.log(error2);
         });

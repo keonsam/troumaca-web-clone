@@ -49,7 +49,6 @@ export class SiteEmailListComponent implements OnInit {
   getEmails() {
     this.siteService.getEmails(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.emails = next;
     }, error => {
       console.log(error);

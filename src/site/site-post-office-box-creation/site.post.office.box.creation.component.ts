@@ -59,7 +59,6 @@ export class SitePostOfficeBoxCreationComponent implements OnInit {
        this.postOfficeBox.stateOrProvince = value.stateOrProvince;
        this.postOfficeBox.postalCode = value.postalCode;
        this.postOfficeBox.country = value.country;
-       console.log(value);
      }, error2 => {
        console.log(error2);
      });

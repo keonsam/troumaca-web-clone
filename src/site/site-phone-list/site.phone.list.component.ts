@@ -49,7 +49,6 @@ export class SitePhoneListComponent implements OnInit {
     this.siteService
     .getPhones(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.phones = next;
     }, error => {
       console.log(error);

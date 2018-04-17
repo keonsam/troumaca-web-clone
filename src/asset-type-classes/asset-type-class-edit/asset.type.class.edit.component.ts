@@ -110,7 +110,6 @@ export class AssetTypeClassEditComponent implements OnInit {
        this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
        this.attribute.maximumValue = value.maximumValue;
        this.attribute.minimumValue = value.minimumValue;
-       console.log(value);
      }, error2 => {
        console.log(error2);
      });
@@ -183,7 +182,6 @@ export class AssetTypeClassEditComponent implements OnInit {
        this.assetTypeClassId = params['assetTypeClassId'];
        this.assetTypeClassService.getAssetTypeClass(this.assetTypeClassId)
        .subscribe(data =>{
-         console.log(data);
         this.name.setValue(data.assetTypeClass.name);
         this.description.setValue(data.assetTypeClass.description);
         this.assetTypeClass = data.assetTypeClass;
@@ -198,7 +196,6 @@ export class AssetTypeClassEditComponent implements OnInit {
         .subscribe(value => {
           this.assetTypeClass.name = value.name;
           this.assetTypeClass.description = value.description;
-          console.log(value);
         }, error2 => {
           console.log(error2);
         });
@@ -378,7 +375,6 @@ export class AssetTypeClassEditComponent implements OnInit {
      this.assetTypeClassService
      .getAvailableAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
      .subscribe(next => {
-       console.log(next);
        this.availableAttributes = next;
      }, error => {
        console.log(error);
@@ -391,7 +387,6 @@ export class AssetTypeClassEditComponent implements OnInit {
      this.assetTypeClassService
      .getAssignAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
      .subscribe(next => {
-       console.log(next);
        this.assignAttributes = next;
      }, error => {
        console.log(error);

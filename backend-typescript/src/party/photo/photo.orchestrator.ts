@@ -11,16 +11,16 @@ export class PhotoOrchestrator {
     this.photoRepository = createPhotoRepository();
   }
 
-  savePhoto(partyId: string,photo:Photo):Observable<Photo> {
-    return this.photoRepository.savePhoto(partyId, photo);
+  savePhoto(partyId: string, type:string, photo:Photo):Observable<Photo> {
+    return this.photoRepository.savePhoto(partyId, type, photo);
   };
 
-  getPhotoById(partyId:string):Observable<Photo> {
-    return this.photoRepository.getPhotoById(partyId);
+  getPhotoById(partyId:string, type:string):Observable<Photo> {
+    return this.photoRepository.getPhotoById(partyId, type);
   };
 
-  updatePhoto(partyId:string, photo:Photo):Observable<number> {
-    return this.photoRepository.updatePhoto(partyId, photo);
+  updatePhoto(partyId:string, type:string, photo:Photo):Observable<number> {
+    return this.photoRepository.updatePhoto(partyId, type, photo);
   };
 
   deletePhoto(partyId:string):Observable<number> {

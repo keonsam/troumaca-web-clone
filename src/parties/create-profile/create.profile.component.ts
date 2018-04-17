@@ -29,6 +29,7 @@ export class CreateAccountComponent implements OnInit {
   private user: User;
   private organization: Organization;
 
+  private partyId: string;
   private imageChangedEvent: any = '';
   private croppedImage: any = '';
   private userImage: any = '';
@@ -38,6 +39,8 @@ export class CreateAccountComponent implements OnInit {
 
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
+  private _doNotDisplayFailureMessage3: boolean;
+  private userImageComplete: boolean = false;
   private requiredState: boolean = false;
 
   constructor(private partyService: PartyService,
@@ -75,31 +78,28 @@ export class CreateAccountComponent implements OnInit {
        this.organization.purpose = value.purpose;
        this.organization.name = value.organizationName;
        this.organization.description = value.description;
-       console.log(this.createProfileForm);
      }, error2 => {
        console.log(error2);
      });
 
      this.doNotDisplayFailureMessage = true;
      this.doNotDisplayFailureMessage2 = true;
+     this.doNotDisplayFailureMessage3 = true;
   }
 
   ngOnInit(): void {
-    this.userImage= `url(http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825)`;
+    this.userImage = `http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825`;
 
     this.createProfileForm.get("accountType")
     .valueChanges
     .subscribe(type => {
-      console.log(type);
       if(type === "personal" || ""){
-        this.userImage= `url(http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825)`;
         this.requiredState = false;
         this.createProfileForm.get("organizationName").setValidators(null);
         this.createProfileForm.get("purpose").setValidators(null);
         this.createProfileForm.get("organizationName").updateValueAndValidity();
         this.createProfileForm.get("purpose").updateValueAndValidity();
       }else {
-        this.userImage = `http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825)`;
         this.requiredState = true;
         this.createProfileForm.get("organizationName").setValidators([Validators.required]);
         this.createProfileForm.get("purpose").setValidators([Validators.required]);
@@ -200,25 +200,29 @@ export class CreateAccountComponent implements OnInit {
     this._doNotDisplayFailureMessage2 = value;
   }
 
+  get doNotDisplayFailureMessage3(): boolean {
+    return this._doNotDisplayFailureMessage3;
+  }
+
+  set doNotDisplayFailureMessage3(value: boolean) {
+    this._doNotDisplayFailureMessage3 = value;
+  }
+
+  getBackgroundStyle(type){
+    if(type === 'user') {
+      return `url(${this.userImage})`;
+    }else {
+      return `url(${this.organizationImage})`;
+    }
+  }
+
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
   }
 
   imageCropped(image: string) {
     this.croppedImage = image;
-    if(this.accountType.value === "personal") {
-      this.userImage = `url(${this.croppedImage})`;
-    }else {
-      this.userImage = this.croppedImage;
-    }
-  }
-
-  imageLoaded() {
-    //console.log("imageLoaded");
-  }
-
-  loadImageFailed() {
-    //console.log("loadImageFailed");
+    this.userImage = this.croppedImage;
   }
 
   fileChangeEvent2(event: any): void {
@@ -227,38 +231,59 @@ export class CreateAccountComponent implements OnInit {
 
   imageCropped2(image: string) {
     this.croppedImage2 = image;
-    this.organizationImage = `url(${this.croppedImage2})`;
+    this.organizationImage = this.croppedImage2;
   }
 
-  imageLoaded2() {
-    //console.log("imageLoaded");
+  loginUserIn() {
+    this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
+    this.router.navigate(['/home/lobby']);
   }
 
-  loadImageFailed2() {
-    //console.log("loadImageFailed");
+  addOrganizationPhoto() {
+   this.partyService.addPhoto(this.partyId, this.croppedImage2, 'organization')
+     .subscribe(value => {
+       if(value) {
+         this.loginUserIn();
+       }else {
+         this.doNotDisplayFailureMessage3 = false;
+       }
+     }, error => {
+       console.log(error);
+       this.doNotDisplayFailureMessage3 = false;
+     });
   }
 
-  savePhoto(partyId) {
-    this.partyService
-    .addPhoto(partyId, this.croppedImage)
-    .subscribe(value => {
-      this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
-      this.router.navigate(['/home/lobby']);
-    }, error => {
-      console.log(error);
-    });
+  savePhoto() {
+    if (this.croppedImage && !this.userImageComplete) {
+      this.partyService.addPhoto(this.partyId, this.croppedImage, 'user')
+        .subscribe(value => {
+          if (value) {
+            this.userImageComplete = true;
+            if (this.croppedImage2) {
+              this.addOrganizationPhoto();
+            } else {
+              this.loginUserIn();
+            }
+          } else {
+            this.doNotDisplayFailureMessage2 = false;
+          }
+        }, error => {
+          console.log(error);
+          this.doNotDisplayFailureMessage2 = false;
+        });
+    } else {
+      this.addOrganizationPhoto();
+    }
   }
 
-  onCreate() {
-    this.doNotDisplayFailureMessage = true;
-    this.doNotDisplayFailureMessage2 = true;
-     // changed to avoid errors one called to the serve
+  addAccount() {
     this.partyService
       .addAccount(this.accountType.value, this.user ,this.organization)
       .subscribe(value => {
         if(value.created){
-          if(this.croppedImage){
-            this.savePhoto(value.user.partyId);
+          this.partyId = value.user.partyId;
+          if(this.croppedImage || this.croppedImage2){
+            this.savePhoto();
           }else {
             this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
             this.router.navigate(['/home/lobby']);
@@ -270,7 +295,18 @@ export class CreateAccountComponent implements OnInit {
         console.log(error);
         this.doNotDisplayFailureMessage = false;
       });
+  }
 
+
+  onCreate() {
+    this.doNotDisplayFailureMessage = true;
+    this.doNotDisplayFailureMessage2 = true;
+    this.savePhoto();
+    if(this.partyId) {
+      this.savePhoto();
+    }else {
+      this.addAccount();
+    }
   }
 
 }

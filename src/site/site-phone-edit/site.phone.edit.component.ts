@@ -99,7 +99,6 @@ export class SitePhoneEditComponent implements OnInit {
           this.phone.telephoneNumber = value.telephoneNumber;
           this.phone.extension = value.extension;
           this.phone.description = value.description;
-          console.log(value);
         }, error2 => {
           console.log(error2);
         });

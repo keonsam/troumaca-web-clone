@@ -59,7 +59,6 @@ export class SitePostOfficeBoxEditComponent implements OnInit {
      .valueChanges
      .subscribe(value => {
        this.setPostOfficeBoxValue(value);
-       console.log(value);
      }, error2 => {
        console.log(error2);
      });
@@ -87,7 +86,6 @@ export class SitePostOfficeBoxEditComponent implements OnInit {
         .valueChanges
         .subscribe(value => {
           this.setPostOfficeBoxValue(value);
-          console.log(value);
         }, error2 => {
           console.log(error2);
         });

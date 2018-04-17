@@ -47,7 +47,6 @@ export class SiteEmailCreationComponent implements OnInit {
        this.email.description = value.description;
        this.email.domainName = value.domainName;
        this.email.emailAddress = value.emailAddress;
-       console.log(value);
      }, error2 => {
        console.log(error2);
      });
@@ -111,7 +110,6 @@ export class SiteEmailCreationComponent implements OnInit {
     this.siteService
     .addEmail(this.email)
     .subscribe(value => {
-      console.log(value);
       if (value && value.siteId) {
         this.router.navigate(['/sites/emails']);
       } else {

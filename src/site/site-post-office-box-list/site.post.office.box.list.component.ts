@@ -48,7 +48,6 @@ export class SitePostOfficeBoxListComponent implements OnInit {
   this.siteService
     .getPostOfficeBoxes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.postOfficeBoxes = next;
     }, error => {
       console.log(error);

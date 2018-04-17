@@ -113,7 +113,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
     .subscribe(value => {
       this.assetTypeClass.name = value.name;
       this.assetTypeClass.description = value.description;
-      console.log(value);
     }, error2 => {
       console.log(error2);
     });
@@ -126,7 +125,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
       this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
       this.attribute.maximumValue = value.maximumValue;
       this.attribute.minimumValue = value.minimumValue;
-      console.log(value);
     }, error2 => {
       console.log(error2);
     });
@@ -349,7 +347,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this.assetTypeClassService
     .getAvailableAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
     .subscribe(next => {
-      console.log(next);
       this.availableAttributes = next;
     }, error => {
       console.log(error);
