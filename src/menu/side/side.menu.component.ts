@@ -26,6 +26,11 @@ export class SideMenuComponent implements OnInit {
     this.isLoggedIn = true;
     this.menuModel = new MenuModel();
     this.menuModel.menuItemModels = [];
+
+    this.eventService.subscribeToPhotoChangeEvent((data) => {
+      this.getPhoto();
+    });
+
   }
 
   get title(): string {

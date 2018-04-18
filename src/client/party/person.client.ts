@@ -34,6 +34,7 @@ export abstract class PersonClient {
   public abstract deleteOrganization(partyId: string): Observable<number>;
 
   public abstract updateUser(userState: UserState, partyAccessRoleState:PartyAccessRoleState): Observable<number>;
+  public abstract updateUserMe(userState: UserState, credentialState:CredentialState): Observable<number>;
   public abstract updateOrganization(organizationState: OrganizationState): Observable<number>;
   public abstract updateCredential(credentialState: CredentialState): Observable<number>;
 

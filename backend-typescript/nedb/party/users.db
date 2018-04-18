@@ -1,6 +1,3 @@
-{"firstName":"Keon","middleName":"Erran","lastName":"Samuel","username":"admin@troumaca.com","partyId":"46bf37eb-2626-4a7f-9fa7-d9e491d0d3b1","_id":"i8sJDeMWcxhSB6yg"}
-{"firstName":"Keon","middleName":"Erran","lastName":"Samuel","username":"admin@troumaca.com","partyId":"7c472ac5-d006-4483-8859-bd1db29f1c6b","_id":"krQmEcAWeWfMDa01"}
-{"partyId":"b5414de2-ec18-48cb-8e42-b6260c95c1da","firstName":"Kimorn","middleName":"Rohanica","lastName":"Donaldson","username":"Kimornsam@hotmail.com","_id":"omS8XMxG0B6FknEN"}
+{"partyId":"46bf37eb-2626-4a7f-9fa7-d9e491d0d3b1","firstName":"Keon","middleName":"Erran","lastName":"Samuel","username":"admin@troumaca.com","_id":"i8sJDeMWcxhSB6yg"}
 {"$$indexCreated":{"fieldName":"partyId","unique":true,"sparse":false}}
-{"$$deleted":true,"_id":"krQmEcAWeWfMDa01"}
-{"$$deleted":true,"_id":"omS8XMxG0B6FknEN"}
+{"partyId":"46bf37eb-2626-4a7f-9fa7-d9e491d0d3b1","firstName":"Keon","middleName":"Erran","lastName":"Samuel","username":"admin@troumaca.com","_id":"i8sJDeMWcxhSB6yg"}

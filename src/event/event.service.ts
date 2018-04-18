@@ -37,6 +37,18 @@ export class EventService {
     })
   }
 
+  sendPhotoChangeEvent(data:any) {
+    this.subject.next({ "name":EventName.USER_PHOTO_CHANGE, "data":data });
+  }
+
+  subscribeToPhotoChangeEvent(func) {
+    this.subject.subscribe( next => {
+      if(next.name === EventName.USER_PHOTO_CHANGE) {
+        func(next.data);
+      }
+    })
+  }
+
   sendSessionExpiredEvent(data:any) {
     this.subject.next({ "name":EventName.SESSION_EXPIRED, "data":data });
   }

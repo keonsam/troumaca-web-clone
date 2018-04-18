@@ -167,13 +167,14 @@ export class MenuClientMock extends MenuClient {
     return [
       this.toMenuItem({id:'1031', rank:'31', name: 'Users', routeName: '/parties/users', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
       this.toMenuItem({id:'1032', rank:'32', name: 'Access Roles', routeName: '/access-roles', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id:'1033', rank:'33', name: 'Me', routeName: '/parties/users/me', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id:'1033', rank:'33', name: 'Me', routeName: '/parties/users/me', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
     ];
   }
 
   private organizationsMenuItems2() {
     return [
-      this.toMenuItem({id:'1041', rank:'31', name: 'Company', routeName: 'organizations/company', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
+      this.toMenuItem({id:'1041', rank:'31', name: 'Organizations', routeName: 'organizations/listing', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id:'1042', rank:'32', name: 'Company', routeName: 'organizations/company', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
     // , this.toMenuItem({id:'1042', rank:'32', name: 'Customers', routeName: 'customers', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: false, secured: false})
     // , this.toMenuItem({id:'1042', rank:'32', name: 'Vendors', routeName: 'vendors', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: false, secured: false})
     ];

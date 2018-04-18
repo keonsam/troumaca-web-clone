@@ -82,6 +82,10 @@ export class PartyService {
     return this.partyRepository.updateUser(user, partyAccessRole);
   }
 
+  public updateUserMe(user: User, credential: Credential): Observable<number> {
+    return this.partyRepository.updateUserMe(user, credential);
+  }
+
   public updateOrganization(organization: Organization): Observable<number> {
     return this.partyRepository.updateOrganization(organization);
   }

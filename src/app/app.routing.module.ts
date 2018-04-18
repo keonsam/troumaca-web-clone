@@ -141,7 +141,7 @@ const appRoutes: Routes = [
     { path: 'phones/create', component: SitePhoneCreationComponent}
   ]},
   { path: 'parties', component: PartyComponent, canActivate: [AuthGuard], children:[
-    { path: '', redirectTo: 'organizations/company', pathMatch: 'full' },
+    { path: '', redirectTo: 'organizations/listing', pathMatch: 'full' },
     { path: 'organizations/company', component: OrganizationCompanyComponent, data:{menuName:'organizations-menu'} },
     { path: 'organizations/listing', component: OrganizationListComponent, data:{menuName: 'organizations-menu'} },
     { path: 'organizations/create', component: OrganizationCreationComponent, data:{menuName: 'organizations-menu'} },

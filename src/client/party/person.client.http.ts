@@ -271,6 +271,18 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
+  public updateUserMe(userState: UserState, credentialState: CredentialState): Observable<number> {
+    let url = `${this.hostPort}/users-me/${userState.partyId}`;
+    let user = userState.toJson();
+    let credential = credentialState.toJson();
+    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    return this.httpClient
+      .put<number>(url, {user, credential}, {headers:headers})
+      .map(data => {
+        return data;
+      });
+  }
+
   public updateOrganization(organizationState: OrganizationState): Observable<number> {
     let url = `${this.hostPort}/organizations/${organizationState.partyId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
@@ -294,7 +306,7 @@ export class PersonClientHttp implements PersonClient {
 
 
   public updatePhoto(partyId: string, croppedImage: string, type: string): Observable<number> {
-    let url = `${this.hostPort}photos/${type}/${partyId}`;
+    let url = `${this.hostPort}/photos/${type}/${partyId}`;
     const httpOptions = {
     headers: new HttpHeaders({
         'Content-Type': 'application/json',

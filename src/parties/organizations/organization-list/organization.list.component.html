@@ -21,22 +21,25 @@
           <table class="table table-striped table-lightfont table-full-width">
             <thead>
             <tr>
-              <th>Purpose</th>
               <th>Name</th>
+              <th>Purpose</th>
+              <th>Description</th>
               <th>Actions</th>
             </tr>
             </thead>
             <tfoot>
             <tr>
-              <th>Purpose</th>
               <th>Name</th>
+              <th>Purpose</th>
+              <th>Description</th>
               <th>Actions</th>
             </tr>
             </tfoot>
             <tbody>
             <tr role="row" *ngFor="let organization of organizations.organizations; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-              <td>{{organization.purpose}}</td>
               <td>{{organization.name}}</td>
+              <td>{{organization.purpose}}</td>
+              <td>{{organization.description}}</td>
               <td class="row-actions">
                 <a [routerLink]="['/parties/organizations', organization.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(organization.partyId, organization.name)"><i class="os-icon os-icon-ui-15"></i></a>
               </td>

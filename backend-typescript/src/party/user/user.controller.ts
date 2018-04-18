@@ -95,3 +95,17 @@ export let updateUser = (req: Request, res: Response) => {
     });
 };
 
+export let updateUserMe = (req: Request, res: Response) => {
+  let partyId = req.params.partyId;
+  let user = req.body.user;
+  let credential = req.body.credential;
+  userOrchestrator
+    .updateUserMe(partyId, user, credential)
+    .subscribe(numUpdated => {
+      res.send(JSON.stringify(numUpdated));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    });
+};

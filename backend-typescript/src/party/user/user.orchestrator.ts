@@ -114,4 +114,15 @@ export class UserOrchestrator {
          });
     };
 
+  updateUserMe (partyId:string, user:User, credential:Credential):Observable<number> {
+    return this.userRepository.updateUser(partyId, user)
+      .switchMap(numUpdated => {
+        if (numUpdated) {
+          return this.credentialRepository.updateCredential(partyId, credential);
+        }else {
+          return Observable.of(0);
+        }
+      });
+  };
+
 }

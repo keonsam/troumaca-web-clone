@@ -1,3 +1,1 @@
-{"partyAccessRoleId":"220c2034-620b-442d-9df6-5c4e9e945e6a","partyId":"b5414de2-ec18-48cb-8e42-b6260c95c1da","accessRole":{"accessRoleId":"dd605ce3-0301-4103-b7be-e38b444ea92e","name":"Users"},"_id":"UBadFDxAP5scD6DN"}
 {"$$indexCreated":{"fieldName":"partyAccessRoleId","unique":true,"sparse":false}}
-{"$$deleted":true,"_id":"UBadFDxAP5scD6DN"}

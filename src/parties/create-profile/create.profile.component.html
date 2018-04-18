@@ -129,15 +129,15 @@
 
                 <fieldset class="form-group">
                   <div class="form-group">
-                    <label for="purpose">Purpose</label><input class="form-control" formControlName="purpose" placeholder="Enter account purpose" [required]="requiredState" type="text">
-                    <div [hidden]="purpose.valid || purpose.pristine" class="alert alert-danger">A purpose is required.</div>
+                    <label for="organization name">Organization Name</label><input class="form-control" formControlName="organizationName" placeholder="Enter organization name" [required]="requiredState" type="text">
+                    <div [hidden]="organizationName.valid || organizationName.pristine" class="alert alert-danger">Enter organization name.</div>
                   </div>
                 </fieldset>
 
                 <fieldset class="form-group">
                   <div class="form-group">
-                    <label for="organization name">Organization Name</label><input class="form-control" formControlName="organizationName" placeholder="Enter organization name" [required]="requiredState" type="text">
-                    <div [hidden]="organizationName.valid || organizationName.pristine" class="alert alert-danger">Enter organization name.</div>
+                    <label for="purpose">Purpose</label><input class="form-control" formControlName="purpose" placeholder="Enter account purpose" [required]="requiredState" type="text">
+                    <div [hidden]="purpose.valid || purpose.pristine" class="alert alert-danger">A purpose is required.</div>
                   </div>
                 </fieldset>
 

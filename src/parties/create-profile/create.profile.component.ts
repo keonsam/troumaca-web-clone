@@ -5,7 +5,6 @@ import {Router} from "@angular/router";
 import {PartyService} from "../party.service";
 import {User} from "../user";
 import {Organization} from "../organization";
-import {EventName} from "../../event/event.name";
 import {EventService} from "../../event/event.service";
 import {Event} from "../../authentication/event";
 
@@ -235,7 +234,7 @@ export class CreateAccountComponent implements OnInit {
   }
 
   loginUserIn() {
-    this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
+    this.eventService.sendLoginEvent(this.createEventModel());
     this.router.navigate(['/home/lobby']);
   }
 
@@ -285,7 +284,7 @@ export class CreateAccountComponent implements OnInit {
           if(this.croppedImage || this.croppedImage2){
             this.savePhoto();
           }else {
-            this.eventService.sendEvent(EventName.LOGIN, this.createEventModel());
+            this.eventService.sendLoginEvent(this.createEventModel());
             this.router.navigate(['/home/lobby']);
           }
         }else {

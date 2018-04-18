@@ -148,6 +148,10 @@ export class PartyRepositoryAdapter extends PartyRepository {
     return this.personClient.updateUser(mapObjectProps(user, new UserState()),  mapObjectProps(partyAccessRole, new PartyAccessRoleState()));
   }
 
+  public updateUserMe(user: User, credential: Credential): Observable<number> {
+    return this.personClient.updateUserMe(mapObjectProps(user, new UserState()),  mapObjectProps(credential, new CredentialState()));
+  }
+
   public updateOrganization(organization: Organization): Observable<number> {
     return this.personClient.updateOrganization(mapObjectProps(organization, new OrganizationState()));
   }

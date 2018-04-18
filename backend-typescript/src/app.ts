@@ -139,6 +139,7 @@ app.get("/users", userController.getUsers);
 app.get("/users/:partyId", userController.getUser);
 app.post("/users", userController.saveUser);
 app.put("/users/:partyId", userController.updateUser);
+app.put("/users-me/:partyId", userController.updateUserMe);
 app.delete("/users/:partyId", userController.deleteUser);
 app.get("/organizations", organizationController.getOrganizations);
 app.get("/organizations/:partyId", organizationController.getOrganization);

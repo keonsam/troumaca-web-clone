@@ -13,7 +13,8 @@ import {PartyEventService} from "../../party.event.service";
 import {PartyService} from "../../party.service";
 import {User} from "../../user";
 import {Credential} from "../../credential";
-import {PartyAccessRole} from "../../party.access.role";
+import {EventService} from "../../../event/event.service";
+import {Event} from "../../../authentication/event";
 
 @Component({
   selector: 'user-me',
@@ -38,14 +39,14 @@ export class UserMeComponent implements OnInit {
   private imageChangedEvent: any = '';
   private croppedImage: any = '';
   private backgroundImage: any = '';
+  private updateImage: boolean = false;
 
   private _doNotDisplayFailureMessage: boolean;
-  private _doNotDisplayFailureMessage2: boolean;
   private requiredState: boolean = false;
-  private defaultImage: string;
 
   constructor(private partyEventService:PartyEventService,
               private partyService: PartyService,
+              private eventService: EventService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
@@ -81,16 +82,12 @@ export class UserMeComponent implements OnInit {
        console.log(error2);
      });
 
-     this.defaultImage = "url(http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825)";
-
-
      this.doNotDisplayFailureMessage = true;
-     this.doNotDisplayFailureMessage2 = true;
   }
 
   ngOnInit(): void {
-    let that = this;
-    // this need fixing
+    this.backgroundImage = "http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825";
+
     this.userMeForm.get("password").valueChanges
     .subscribe(value => {
       if(value.length === 1 && !this.requiredState){
@@ -127,10 +124,8 @@ export class UserMeComponent implements OnInit {
            this.partyService.getPhoto(this.partyId, "user")
              .subscribe(imageStr => {
                if(imageStr) {
-                 this.backgroundImage= `url(${imageStr})`;
-               }else {
-                 // default image moved to the front end
-                 this.backgroundImage= this.defaultImage;
+                 this.updateImage = true;
+                 this.backgroundImage = imageStr;
                }
              },error => {
                console.log(error);
@@ -226,6 +221,16 @@ export class UserMeComponent implements OnInit {
     };
   }
 
+  createEventModel() {
+    let event:Event = new Event();
+    event.partyId = this.partyId
+    event.timestamp = new Date().getTime();
+    event.source = "user.me.component";
+    event.name = "image change";
+
+    return event;
+  }
+
   get firstName(): FormControl {
     return this._firstName;
   }
@@ -290,14 +295,6 @@ export class UserMeComponent implements OnInit {
     this._doNotDisplayFailureMessage = value;
   }
 
-  get doNotDisplayFailureMessage2(): boolean {
-    return this._doNotDisplayFailureMessage2;
-  }
-
-  set doNotDisplayFailureMessage2(value: boolean) {
-    this._doNotDisplayFailureMessage2 = value;
-  }
-
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
   }
@@ -306,58 +303,59 @@ export class UserMeComponent implements OnInit {
     this.croppedImage = image;
   }
 
-  uploadPhoto() {
-    if(this.backgroundImage === this.defaultImage) {
-      this.partyService
-      .addPhoto(this.partyId, this.croppedImage, "user")
-      .subscribe(value => {
-        if(value){
-        this.backgroundImage = `url(${this.croppedImage})`;
-        }else {
-          console.log("error");
-        }
-      }, error => {
-        console.log(error);
-      });
-    }else {
-      this.partyService
-      .updatePhoto(this.partyId, this.croppedImage, "user")
-      .subscribe(value => {
-        if(value){
-        this.backgroundImage = `url(${this.croppedImage})`;
-        }else {
-          console.log("error");
-        }
-      }, error => {
-        console.log(error);
-      });
+  getBackgroundImage() {
+    if(this.croppedImage && this.croppedImage !== this.backgroundImage) {
+      return `url(${this.croppedImage})`;
     }
+    return `url(${this.backgroundImage})`;
   }
 
-  updateCredential() {
-    this.partyService
-    .updateCredential(this.credential)
-    .subscribe(value => {
-      if (value) {
-        this.router.navigate(['/parties/users']);
-      } else {
-        this.doNotDisplayFailureMessage2 = false;
-      }
-    }, error => {
-      console.log(error);
-      this.doNotDisplayFailureMessage2 = false;
-    });
+  pictureModalClose() {
+    this.croppedImage = this.backgroundImage;
+  }
+
+  uploadPhoto() {
+    // New and better algorithm
+    if(this.updateImage && this.croppedImage !== this.backgroundImage) {
+      this.partyService
+        .updatePhoto(this.partyId, this.croppedImage, "user")
+        .subscribe(value => {
+          if(value){
+            this.backgroundImage = this.croppedImage;
+            this.eventService.sendPhotoChangeEvent(this.createEventModel());
+          }else {
+            console.log("error");
+          }
+        }, error => {
+          console.log(error);
+        });
+    }else if(this.croppedImage) {
+      this.partyService
+        .addPhoto(this.partyId, this.croppedImage, "user")
+        .subscribe(value => {
+          if(value){
+            this.backgroundImage = this.croppedImage;
+            this.eventService.sendPhotoChangeEvent(this.createEventModel());
+          }else {
+            // TODO: make errors fail to upload picture or something like that.
+            console.log("error");
+          }
+        }, error => {
+          console.log(error);
+        });
+    }else {
+      console.log("image not uploaded");
+    }
   }
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
-    this.doNotDisplayFailureMessage2 = true;
 
       this.partyService
-      .updateUser(this.user, new PartyAccessRole())
+      .updateUserMe(this.user, this.credential)
       .subscribe(value => {
         if (value) {
-           this.updateCredential();
+          this.router.navigate(['/parties/users']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }

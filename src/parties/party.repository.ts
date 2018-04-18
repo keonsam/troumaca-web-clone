@@ -42,6 +42,8 @@ export abstract class PartyRepository {
 
   abstract updateUser(user: User, partyAccessRole: PartyAccessRole): Observable<number>;
 
+  abstract updateUserMe(user: User, credential: Credential): Observable<number>;
+
   abstract updateOrganization(organization: Organization): Observable<number>;
 
   abstract updateCredential(credential: Credential): Observable<number>;
