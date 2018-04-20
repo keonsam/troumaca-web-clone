@@ -31,6 +31,8 @@
                                  [matchClass]="'match'"
                                  formControlName="resourceTypeId"
                                  [autofocus]="true"
+                                 [clearUnselected]="true"
+                                 [openOnClick]="true"
                                  [textSearching]="false"
                                  (selected)="onResourceTypeIdSelect($event)">
                   </ng2-completer>

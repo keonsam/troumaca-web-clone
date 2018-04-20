@@ -131,32 +131,35 @@ export class AccessRoleEditComponent implements OnInit {
       });
   }
 
-  private populateAccessRoleTypeDropDown() {
-    this.accessRoleTypeDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
+  populateAccessRoleTypeDropDown() {
+    if(!this.accessRole.accessRoleType.accessRoleTypeId) {
+      this.findAccessRoleTypeId("");
+    }
     this.accessRoleForm.get("accessRoleTypeId").valueChanges
-      .debounceTime(1000) // debounce
+      //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.accessRoleService
-          .findAccessRoleTypeId(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.map(v2 => {
-              return {
-                accessRoleTypeId: v2.accessRoleTypeId,
-                name: v2.name,
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findAccessRoleType next - " + next);
-            this.accessRoleTypeDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findAccessRoleType error - " + error);
-          });
+        this.findAccessRoleTypeId(value);
+      });
+  }
+
+  findAccessRoleTypeId(value) {
+    this.accessRoleService
+      .findAccessRoleTypeId(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => {
+          return {
+            accessRoleTypeId: v2.accessRoleTypeId,
+            name: v2.name,
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.accessRoleTypeDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("findAccessRoleType error - " + error);
       });
   }
 

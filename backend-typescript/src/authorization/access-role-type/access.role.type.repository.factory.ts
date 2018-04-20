@@ -14,17 +14,28 @@ class AccessRoleTypeDBRepository implements AccessRoleTypeRepository {
 
   findAccessRoleTypes(searchStr: string, pageSize: number): Observable<AccessRoleType[]> {
     let searchStrLocal = new RegExp(searchStr);
-    return Rx.Observable.create(function(observer:Observer<AccessRoleType[]>) {
-      accessRoleTypes.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
+    return Rx.Observable.create(function (observer: Observer<AccessRoleType[]>) {
+      if (!searchStr) {
+        accessRoleTypes.find({}).limit(100).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      } else {
+        accessRoleTypes.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      };
     });
-  };
+  }
 
   getAccessRoleTypes(pageNumber:number, pageSize:number, order:string):Observable<AccessRoleType[]> {
     let localDefaultPageSize = this.defaultPageSize;

@@ -92,25 +92,9 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetTypeStates> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/find-asset-types");
+    let url = `${this.hostPort}/find-asset-types?q=${searchStr}&pageSize=${pageSize}`;
 
-    let queryStr = [];
-    if (searchStr) {
-      queryStr.push("q=" + searchStr);
-    }
-
-    if (pageSize) {
-      queryStr.push("pageSize=" + pageSize);
-    }
-
-    if (queryStr.length > 0) {
-      array.push("?");
-      array.push(queryStr.join("&"));
-    }
-
-    return this.http.get<AssetTypeStates>(array.join(""), {
+    return this.http.get<AssetTypeStates>(url, {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
@@ -118,25 +102,9 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteStates> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/find-sites");
+    let url = `${this.hostPort}/find-sites?q=${searchStr}&pageSize=${pageSize}`;
 
-    let queryStr = [];
-    if (searchStr) {
-      queryStr.push("q=" + searchStr);
-    }
-
-    if (pageSize) {
-      queryStr.push("pageSize=" + pageSize);
-    }
-
-    if (queryStr.length > 0) {
-      array.push("?");
-      array.push(queryStr.join("&"));
-    }
-
-    return this.http.get<UnionOfPhysicalSiteStates>(array.join(""), {
+    return this.http.get<UnionOfPhysicalSiteStates>(url, {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
 
@@ -145,25 +113,9 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/find-unit-of-measures");
+    let url = `${this.hostPort}/find-unit-of-measures?q=${searchStr}&pageSize=${pageSize}`;
 
-    let queryStr = [];
-    if (searchStr) {
-      queryStr.push("q=" + searchStr);
-    }
-
-    if (pageSize) {
-      queryStr.push("pageSize=" + pageSize);
-    }
-
-    if (queryStr.length > 0) {
-      array.push("?");
-      array.push(queryStr.join("&"));
-    }
-
-    return this.http.get<UnitOfMeasureState[]>(array.join(""), {
+    return this.http.get<UnitOfMeasureState[]>(url, {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;
@@ -171,28 +123,11 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public findPersons(searchStr: string, pageSize: number): Observable<PersonStates> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/find-persons");
+    let url = `${this.hostPort}/find-persons?q=${searchStr}&pageSize=${pageSize}`;
 
-    let queryStr = [];
-    if (searchStr) {
-      queryStr.push("q=" + searchStr);
-    }
-
-    if (pageSize) {
-      queryStr.push("pageSize=" + pageSize);
-    }
-
-    if (queryStr.length > 0) {
-      array.push("?");
-      array.push(queryStr.join("&"));
-    }
-
-    return this.http.get<PersonStates>(array.join(""), {
+    return this.http.get<PersonStates>(url, {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
-      console.log(data);
       return data;
     });
   }

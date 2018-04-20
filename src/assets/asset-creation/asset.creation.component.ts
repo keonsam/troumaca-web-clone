@@ -112,134 +112,137 @@ export class AssetCreationComponent implements OnInit {
   }
 
   private createAndPopulateDropDowns() {
-    this.assetTypeDataService = this.completerService.local([], 'name', 'name');
-    this.unitOfMeasureDataService = this.completerService.local([], 'name', 'unitOfMeasureId');
-    this.siteDataService = this.completerService.local([], 'name', 'name');
-    this.personDataService = this.completerService.local([], 'name', 'name');
-
     this.populateAssetTypeDropDown();
     this.populateUnitOfMeasureDropDown();
     this.populateSiteDropDown();
     this.populatePersonDropDown();
   }
 
-
   private populateAssetTypeDropDown() {
-    let that = this;
+    this.findAssetTypes("");
     this.assetForm.get("assetType").valueChanges
-      .debounceTime(1000) // debounce
+      //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.assetService
-          .findAssetTypes(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.assetTypes.map(v2 => {
-              return {
-                assetTypeId: v2.assetTypeId,
-                name: v2.name
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findAssetTypes next - " + next);
-            this.assetTypeDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findAssetTypes error - " + error);
-          });
+        this.findAssetTypes(value);
+      });
+  }
+
+  findAssetTypes(value) {
+    this.assetService
+      .findAssetTypes(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.assetTypes.map(v2 => {
+          return {
+            assetTypeId: v2.assetTypeId,
+            name: v2.name
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.assetTypeDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("findAssetTypes error - " + error);
       });
   }
 
   private populateUnitOfMeasureDropDown() {
-    let that = this;
+    this.findUnitOfMeasures("");
     this.assetForm.get("unitOfMeasure").valueChanges
-      .debounceTime(1000) // debounce
+      //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.assetService
-          .findUnitOfMeasures(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.map(v2 => { //updated to new method
-              return {
-                unitOfMeasureId: v2.unitOfMeasureId,
-                name: v2.name
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findUnitOfMeasures next - " + next);
-            this.unitOfMeasureDataService = this.completerService
-              .local(next, 'name', 'name');
-          }, error => {
-            console.log("findAssetTypes error - " + error);
-          });
+        this.findUnitOfMeasures(value);
+      });
+  }
+
+  findUnitOfMeasures(value) {
+    this.assetService
+      .findUnitOfMeasures(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => { //updated to new method
+          return {
+            unitOfMeasureId: v2.unitOfMeasureId,
+            name: v2.name
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.unitOfMeasureDataService = this.completerService
+          .local(next, 'name', 'name');
+      }, error => {
+        console.log("findAssetTypes error - " + error);
       });
   }
 
   private populateSiteDropDown() {
-    let that = this;
+    this.findUnionOfPhysicalSites("");
     this.assetForm.get("site").valueChanges
-      .debounceTime(1000) // debounce
+      //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
         console.log("value: " + value);
-        that.assetService
-          .findUnionOfPhysicalSites(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.unionOfPhysicalSites.map(v2 => {
-              /*let name = "";
-              if (v2.postOfficeBoxNumber) {
-                name = v2.postOfficeBoxNumber;
-              } else {
-                name = v2.streetNumber + " " + v2.street;
-              }*/
-              return {
-                siteId: v2.siteId,
-                name: v2.name
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findUnionOfPhysicalSites next - " + next);
-            this.siteDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findUnionOfPhysicalSites error - " + error);
-          });
+        this.findUnionOfPhysicalSites(value);
+      });
+  }
+
+  findUnionOfPhysicalSites(value) {
+    this.assetService
+      .findUnionOfPhysicalSites(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.unionOfPhysicalSites.map(v2 => {
+          /*let name = "";
+          if (v2.postOfficeBoxNumber) {
+            name = v2.postOfficeBoxNumber;
+          } else {
+            name = v2.streetNumber + " " + v2.street;
+          }*/
+          return {
+            siteId: v2.siteId,
+            name: v2.name
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.siteDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("findUnionOfPhysicalSites error - " + error);
       });
   }
 
   private populatePersonDropDown() {
-    let that = this;
+    this.findPersons("");
     this.assetForm.get("person").valueChanges
-      .debounceTime(1000) // debounce
+      //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.assetService
-          .findPersons(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.persons.map(v2 => {
-              return {
-                partyId: v2.partyId,
-                name: v2.firstName
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findPersons next - " + next);
-            this.personDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findPersons error - " + error);
-          });
+        this.findPersons(value);
+      });
+  }
+
+  findPersons(value) {
+    this.assetService
+      .findPersons(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.persons.map(v2 => {
+          return {
+            partyId: v2.partyId,
+            name: v2.firstName
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.personDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("findPersons error - " + error);
       });
   }
 

@@ -27,6 +27,8 @@
                                  [matchClass]="'match'"
                                  formControlName="assetTypeClassId"
                                  [autofocus]="true"
+                                 [clearUnselected]="true"
+                                 [openOnClick]="true"
                                  [textSearching]="false"
                                  (selected)="onAssetTypeClassIdSelect($event)">
                   </ng2-completer>
@@ -66,6 +68,8 @@
                                  [matchClass]="'match'"
                                  formControlName="unitOfMeasureId"
                                  [autofocus]="true"
+                                 [clearUnselected]="true"
+                                 [openOnClick]="true"
                                  [textSearching]="false"
                                  (selected)="onUnitOfMeasureIdSelect($event)">
                   </ng2-completer>

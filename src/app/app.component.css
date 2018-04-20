@@ -60,6 +60,12 @@
   height: 100% !important;
 }
 
+.container-content2 {
+  order: 2;
+  width: calc(100% - 90px);
+  height: 100% !important;
+}
+
 .layout-w {
   min-height: 768px;
 }
@@ -68,6 +74,9 @@
 @media only screen and (max-width: 750px) {
   .menu-container-side {
     display: none;
+  }
+  .container-content2 {
+    width: 100%;
   }
 }
 

@@ -51,8 +51,11 @@
                                  [matchClass]="'match'"
                                  formControlName="unitOfMeasureId"
                                  [autofocus]="true"
+                                 [clearUnselected]="true"
+                                 [openOnClick]="true"
                                  [textSearching]="false"
-                                 (selected)="onUnitOfMeasureIdSelect($event)">
+                                 (selected)="onUnitOfMeasureIdSelect($event)"
+                                  >
                   </ng2-completer>
                 </div>
               </fieldset>

@@ -117,31 +117,34 @@ export class AttributeEditComponent implements OnInit {
   }
 
   private populateUnitOfMeasureIdDropDown() {
-    this.unitOfMeasureIdDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
+    if (!this.attribute.unitOfMeasure.unitOfMeasureId) {
+      this.findUnitOfMeasureId("");
+    }
+
     this.attributeEditForm.get("unitOfMeasureId").valueChanges
-      .debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.attributeService
-          .findUnitOfMeasureId(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.map(v2 => { //update to the new way of doing this
-              return {
-                unitOfMeasureId: v2.unitOfMeasureId,
-                name: v2.name,
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findUnitOfMeasureId next - " + next);
-            this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findUnitOfMeasureId error - " + error);
-          });
+        this.findUnitOfMeasureId(value);
+      });
+  }
+
+  findUnitOfMeasureId(value) {
+    this.attributeService
+      .findUnitOfMeasureId(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => { //update to the new way of doing this
+          return {
+            unitOfMeasureId: v2.unitOfMeasureId,
+            name: v2.name,
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("findUnitOfMeasureId error - " + error);
       });
   }
 

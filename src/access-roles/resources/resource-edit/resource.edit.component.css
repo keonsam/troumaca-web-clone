@@ -504,3 +504,9 @@ li {
 :host(.ng-invalid:not(form)) {
  border-left: 5px solid #42A948;
 }
+
+:host >>> .completer-dropdown {
+  max-height: 200px !important;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

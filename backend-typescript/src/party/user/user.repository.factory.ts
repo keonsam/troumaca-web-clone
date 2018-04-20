@@ -14,15 +14,26 @@ class UserDBRepository implements UserRepository {
 
   findUser(searchStr:string, pageSize:number):Observable<User[]> {
     let searchStrLocal = new RegExp(searchStr);
-    return Rx.Observable.create(function (observer:Observer<User[]>) {
-      users.find({firstName: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err:any, doc:any) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
+    return Rx.Observable.create(function (observer: Observer<User[]>) {
+      if (!searchStr) {
+        users.find({}).limit(100).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      } else {
+        users.find({firstName: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      };
     });
   }
 

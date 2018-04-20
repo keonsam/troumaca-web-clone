@@ -114,31 +114,34 @@ export class ResourceEditComponent implements OnInit {
   };
 
   private populateResourceTypeIdDropDown() {
-    this.resourceTypeIdDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
+    if(!this.resource.resourceType.resourceTypeId){
+      this.findResourceTypeId("");
+    }
     this.resourceForm.get("resourceTypeId").valueChanges
-      .debounceTime(1000) // debounce
+    //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.accessRoleService
-          .findResourceTypeId(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.map(v2 => {
-              return {
-                resourceTypeId: v2.resourceTypeId,
-                name: v2.name,
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findResourceTypeId next - " + next);
-            this.resourceTypeIdDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findResourceTypeId error - " + error);
-          });
+        this.findResourceTypeId(value);
+      });
+  }
+
+  findResourceTypeId(value) {
+    this.accessRoleService
+      .findResourceTypeId(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => {
+          return {
+            resourceTypeId: v2.resourceTypeId,
+            name: v2.name,
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.resourceTypeIdDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("findResourceTypeId error - " + error);
       });
   }
 

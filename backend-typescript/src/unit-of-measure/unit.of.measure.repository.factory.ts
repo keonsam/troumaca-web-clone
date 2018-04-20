@@ -7,17 +7,28 @@ import {unitOfMeasures} from "../db";
 import {Observer} from "rxjs/Observer";
 
 class UnitOfMeasureDBRepository implements UnitOfMeasureRepository {
-  findUnitOfMeasure(searchStr: string, pageSize:number):Observable<UnitOfMeasure[]> {
+  findUnitOfMeasure(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
     let searchStrLocal = new RegExp(searchStr);
-    return Rx.Observable.create(function (observer:Observer<UnitOfMeasure[]>) {
-      unitOfMeasures.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err:any, doc:any) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
+    return Rx.Observable.create(function (observer: Observer<UnitOfMeasure[]>) {
+      if (!searchStr) {
+        unitOfMeasures.find({}).limit(100).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      } else {
+        unitOfMeasures.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      }
     });
   }
 }

@@ -16,14 +16,25 @@ class AssetTypeDBRepository implements AssetTypeRepository {
     let searchStrLocal = new RegExp(searchStr);
 
     return Rx.Observable.create(function (observer: Observer<AssetType[]>) {
-      assetTypes.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
+      if (!searchStr) {
+        assetTypes.find({}).limit(100).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      } else {
+        assetTypes.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      };
     });
   }
 

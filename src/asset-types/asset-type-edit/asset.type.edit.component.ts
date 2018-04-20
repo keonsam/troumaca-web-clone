@@ -132,60 +132,62 @@ export class AssetTypeEditComponent implements OnInit {
   }
 
   private populateAssetTypeClassIdDropDown() {
-    this.assetTypeClassIdDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
+    this.findAssetTypeClassId("");
     this.assetTypeEditForm.get("assetTypeClassId").valueChanges
-      .debounceTime(1000) // debounce
+    //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.assetTypeService
-          .findAssetTypeClassId(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.assetTypeClasses.map(v2 => {
-              return {
-                assetTypeClassId: v2.assetTypeClassId,
-                name: v2.name
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findAssetTypeClassId next - " + next);
-            this.assetTypeClassIdDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findAssetTypeClassId error - " + error);
-          });
+        this.findAssetTypeClassId(value);
+      });
+  }
+
+  findAssetTypeClassId(value) {
+    this.assetTypeService
+      .findAssetTypeClassId(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.assetTypeClasses.map(v2 => {
+          return {
+            assetTypeClassId: v2.assetTypeClassId,
+            name: v2.name,
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.assetTypeClassIdDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("findAssetTypeClassId error - " + error);
       });
   }
 
   private populateUnitOfMeasureIdDropDown() {
-    this.unitOfMeasureIdDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
+    this.findUnitOfMeasureId("");
     this.assetTypeEditForm.get("unitOfMeasureId").valueChanges
-      .debounceTime(1000) // debounce
+    //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.assetTypeService
-          .findUnitOfMeasureId(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.map(v2 => {
-              return {
-                unitOfMeasureId: v2.unitOfMeasureId,
-                name: v2.name
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findUnitOfMeasureId next - " + next);
-            this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("finUnitOfMeasureId error - " + error);
-          });
+        this.findUnitOfMeasureId(value);
+      });
+  }
+
+  findUnitOfMeasureId(value) {
+    this.assetTypeService
+      .findUnitOfMeasureId(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => {
+          return {
+            unitOfMeasureId: v2.unitOfMeasureId,
+            name: v2.name
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("finUnitOfMeasureId error - " + error);
       });
   }
 
