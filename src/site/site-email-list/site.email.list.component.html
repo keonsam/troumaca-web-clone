@@ -42,7 +42,7 @@
               <td>{{email.emailAddress}}</td>
               <td>{{email.createdOn}}</td>
               <td class="row-actions">
-                <a [routerLink]="['/sites/emails', email.siteId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(email.siteId);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+                <a [routerLink]="['/sites/emails', email.siteId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(email.siteId, email.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
               </td>
             </tr>
             <tr *ngIf="emails.emails.length <= 0" class="odd">
@@ -55,12 +55,12 @@
             <div class="modal-content">
              <div class="modal-header">
               <h5 class="modal-title" id="DeleteModalLabel">
-               Delete Email
+               Delete {{emailName}}
               </h5>
               <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
              </div>
              <div class="modal-body">
-             <p>Are you sure you want to delete this?</p>
+             <p>Are you sure you want to delete {{emailName}}?</p>
              </div>
                 <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>

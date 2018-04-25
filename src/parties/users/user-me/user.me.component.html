@@ -148,8 +148,7 @@
         </div>
       </div>
 
-      <!-- Upload Modal -->
-
+      <!-- UPLOAD MODAL -->
       <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="PhotoModal1" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -162,14 +161,14 @@
             <div class="modal-body">
               <input #fileid type='file' (change)="fileChangeEvent($event)" hidden/>
               <image-cropper
-              [imageChangedEvent]="imageChangedEvent"
-              [maintainAspectRatio]="true"
-              [aspectRatio]="4 / 3"
-              [resizeToWidth]="0"
-              format="png"
-              (imageCropped)="imageCropped($event)"
-               >
-               </image-cropper>
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="4 / 3"
+                [resizeToWidth]="0"
+                format="png"
+                (imageCropped)="imageCropped($event)"
+              >
+              </image-cropper>
             </div>
             <div class="modal-footer">
               <button class="btn btn-white button1" type="button" (click)="fileid.click()"> Change Photo</button>
@@ -178,8 +177,8 @@
           </div>
         </div>
       </div>
-
       <!-- END OF UPLOAD MODAL -->
+
     </div>
   </div>
 </div>

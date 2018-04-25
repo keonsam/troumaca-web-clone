@@ -502,3 +502,16 @@ li {
   overflow-y: scroll;
   overflow-x: hidden;
 }
+
+/*:host >>> .completer-input {*/
+  /*border-left: 5px solid #a94442; !* red *!*/
+/*}*/
+
+.greenBorder {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.redBorder {
+  border-left: 5px solid #a94442; /* red */
+}
+

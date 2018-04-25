@@ -44,6 +44,18 @@
   transition: all 0.2s ease;
 }
 
+.sub-menu li a:active {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 10px;
+  background-color: #FBB463;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+}
+
 .sub-menu li a:hover {
   text-decoration: none;
 }

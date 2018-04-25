@@ -7,7 +7,7 @@
           <div class="element-box">
             <form [formGroup]="resourceForm" (ngSubmit)="onCreate()" id="formValidate">
               <h5 class="form-header">
-                Edit Resource
+                Edit Resource Form
               </h5>
 
               <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to update resource.</div>
@@ -42,7 +42,7 @@
               <!-- start of permissions -->
               <div class="row">
                 <div class="col-sm-6">
-                  <h6>
+                  <h6 class="text-center">
                     Available Permissions
                   </h6>
                   <div class="table-responsive table-section">
@@ -60,7 +60,7 @@
                       </tr>
                       </tfoot>
                       <tbody>
-                      <tr role="row" *ngFor="let permission of permissions.permissions; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onPermissionDoubleClick(permission.name, permission.permissionId)">
+                      <tr  class="clickable-tr" role="row" *ngFor="let permission of permissions.permissions; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onPermissionDoubleClick(permission.name, permission.permissionId)">
                         <td>{{permission.name}}</td>
                         <td>{{permission.description}}</td>
                       </tr>
@@ -76,7 +76,7 @@
 
                 <!-- start of  resource permissions -->
                 <div class="col-sm-6">
-                  <h6>
+                  <h6 class="text-center">
                     Assigned Permissions
                   </h6>
                   <div class="table-responsive table-section">
@@ -94,7 +94,7 @@
                       </tr>
                       </tfoot>
                       <tbody>
-                      <tr role="row" *ngFor="let resourcePermission of resourcePermissions.permissions; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven"(dblclick)="onResourceDoubleClick(resourcePermission.permissionId)" >
+                      <tr class="clickable-tr" role="row" *ngFor="let resourcePermission of resourcePermissions.permissions; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven"(dblclick)="onResourceDoubleClick(resourcePermission.permissionId)" >
                         <td>{{resourcePermission.name}}</td>
                         <td>{{resourcePermissions.description}}</td>
                       </tr>

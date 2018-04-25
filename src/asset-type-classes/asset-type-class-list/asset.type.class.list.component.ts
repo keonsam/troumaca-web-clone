@@ -18,6 +18,7 @@ export class AssetTypeClassListComponent implements OnInit {
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
   private _routerLinkCreateAssetTypeClass:string = "/asset-type-classes/create";
+  private assetTypeClassName:string;
 
  constructor(private assetTypeClassService: AssetTypeClassService,
              private zone:NgZone) {
@@ -66,8 +67,9 @@ export class AssetTypeClassListComponent implements OnInit {
     console.log("W:" + event.target.innerWidth + " H:" + event.target.innerHeight);
   }
 
-  onOpenModal(assetTypeClassId: string){
+  onOpenModal(assetTypeClassId: string, assetTypeClassName:string){
     this.assetTypeClassId = assetTypeClassId;
+    this.assetTypeClassName = assetTypeClassName;
   }
 
   onRequestPage(pageNumber:number) {

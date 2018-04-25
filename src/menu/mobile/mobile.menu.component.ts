@@ -74,23 +74,26 @@ export class MobileMenuComponent implements OnInit {
         }
       });
 
+    // $('.mobile-menu-trigger').on('click', function () {
+    //
+    // });
 
-    $('.mobile-menu-trigger').on('click', function () {
-      $('.menu-mobile .menu-and-user').slideToggle(200, 'swing');
-      return false;
-    });
+    // $('.menu-activated-on-click li.has-sub-menu > a').on('click', function (event) {
+    //   var $elem = $(this).closest('li');
+    //   if ($elem.hasClass('active')) {
+    //     $elem.removeClass('active');
+    //   } else {
+    //     $elem.closest('ul').find('li.active').removeClass('active');
+    //     $elem.addClass('active');
+    //   }
+    //   return false;
+    // });
 
-    $('.menu-activated-on-click li.has-sub-menu > a').on('click', function (event) {
-      var $elem = $(this).closest('li');
-      if ($elem.hasClass('active')) {
-        $elem.removeClass('active');
-      } else {
-        $elem.closest('ul').find('li.active').removeClass('active');
-        $elem.addClass('active');
-      }
-      return false;
-    });
+  }
 
+  mobileMenuTrigger() {
+    $('.menu-mobile .menu-and-user').slideToggle(200, 'swing');
+    return false;
   }
 
   getPhoto() {

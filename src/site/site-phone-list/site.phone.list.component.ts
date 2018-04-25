@@ -17,6 +17,7 @@ export class SitePhoneListComponent implements OnInit {
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
   private _routerLinkCreatePhone:string = "/sites/phones/create";
+  private phoneName:string;
 
   constructor(private siteService:SiteService) {
     let newPhones = new Phones();
@@ -57,8 +58,9 @@ export class SitePhoneListComponent implements OnInit {
     });
   }
 
-  onOpenModal(siteId: string) {
+  onOpenModal(siteId: string, phoneName:string) {
     this.siteId = siteId;
+    this.phoneName = phoneName;
   }
 
   onDelete() {

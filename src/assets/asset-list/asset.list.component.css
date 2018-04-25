@@ -675,7 +675,7 @@ th {
 }
 
 /*tr:nth-child(even) {*/
-  /*background: #CCC*/
+/*background: #CCC*/
 /*}*/
 
 tbody tr:nth-child(odd) {
@@ -704,3 +704,6 @@ tfoot tr {
   margin-top: 30px;
 }
 
+.table .row-actions i:hover{
+  text-decoration: underline;
+}

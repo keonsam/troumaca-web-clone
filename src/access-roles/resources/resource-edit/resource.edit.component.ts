@@ -28,7 +28,6 @@ export class ResourceEditComponent implements OnInit {
   private _resourceTypeIdDataService: CompleterData;
   private _resourceForm: FormGroup;
 
-
   private defaultPage:number = 1;
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";

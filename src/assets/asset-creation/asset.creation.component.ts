@@ -70,6 +70,7 @@ export class AssetCreationComponent implements OnInit {
       "description": this.description
     });
 
+
     this.pageSize = 15;
 
     this.assetKinds = [];

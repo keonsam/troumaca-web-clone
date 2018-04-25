@@ -13,7 +13,7 @@ import {Sort} from "../../../sort/sort";
 export class OrganizationListComponent implements OnInit {
 
   private partyId: string;
-  private name: string;
+  private organizationName: string;
   private _organizations:Organizations;
   private defaultPage:number = 1;
   private defaultPageSize:number = 10;
@@ -66,9 +66,9 @@ export class OrganizationListComponent implements OnInit {
     });
   }
 
-  onOpenModal(partyId: string, name: string) {
+  onOpenModal(partyId: string, organizationName: string) {
     this.partyId = partyId;
-    this.name = name;
+    this.organizationName = organizationName;
   }
 
   onDelete() {

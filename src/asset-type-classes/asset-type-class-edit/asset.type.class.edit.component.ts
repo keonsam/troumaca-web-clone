@@ -65,6 +65,7 @@ export class AssetTypeClassEditComponent implements OnInit {
   private _newOrEdit: string;
   private modalReference: NgbModalRef;
   private pageSize: number = 15;
+  private attributeNameTwo:string;
 
   constructor(private assetTypeClassService:AssetTypeClassService,
               private completerService: CompleterService,
@@ -414,8 +415,9 @@ export class AssetTypeClassEditComponent implements OnInit {
     this.assignedAttributes = this.assignedAttributes.filter(val => val.attributeId != attributeId);
    }
 
-   onOpenDeleteModal(attributeId: string){
+   onOpenDeleteModal(attributeId: string, attributeName:string){
      this.attributeId = attributeId;
+     this.attributeNameTwo = attributeName;
    }
 
    onOpenFormModal(attributeId: string){

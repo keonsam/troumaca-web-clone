@@ -31,7 +31,7 @@
                 <td>{{resourceType.name}}</td>
                 <td>{{resourceType.description}}</td>
                 <td class="row-actions">
-                 <a [routerLink]="['/access-roles/resource-types', resourceType.resourceTypeId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(resourceType.resourceTypeId, resourceType.name)" ><i class="os-icon os-icon-ui-15"></i></a>
+                 <a [routerLink]="['/access-roles/resource-types', resourceType.resourceTypeId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(resourceType.resourceTypeId, resourceType.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
                 </td>
               </tr>
               <tr *ngIf="resourceTypes.resourceTypes.length <= 0" class="odd">

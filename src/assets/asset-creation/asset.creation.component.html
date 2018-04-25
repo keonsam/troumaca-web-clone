@@ -33,6 +33,7 @@
                                  [minSearchLength]="0"
                                  [maxChars]="4"
                                  [inputClass]="'form-control'"
+                                 [inputClass]="(assetType.valid) ? 'greenBorder':'redBorder'"
                                  [placeholder]="'Search for Asset Type'"
                                  [matchClass]="'match'"
                                  formControlName="assetType"
@@ -43,6 +44,7 @@
                                  (selected)="onAssetTypeSelect($event)">
                   </ng2-completer>
                 </div>
+
               </fieldset>
 
               <fieldset *ngIf="isDiscreteItem()" class="form-group">

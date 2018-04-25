@@ -51,7 +51,7 @@
                 <td>{{asset.site.name}}</td>
                 <td>{{asset.description}}</td>
                 <td class="row-actions">
-                  <a [routerLink]="['/assets', asset.assetId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(asset.assetId);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+                  <a [routerLink]="['/assets', asset.assetId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(asset.assetId, asset.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
                 </td>
               </tr>
               <tr *ngIf="assets.assets.length <= 0" class="odd">
@@ -64,12 +64,12 @@
             <div class="modal-content">
              <div class="modal-header">
               <h5 class="modal-title" id="DeleteModalLabel">
-               Delete Asset
+               Delete {{assetName}}
               </h5>
               <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
              </div>
              <div class="modal-body">
-             <p>Are you sure you want to delete this?</p>
+             <p>Are you sure you want to delete {{assetName}}?</p>
              </div>
                 <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>

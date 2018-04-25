@@ -493,7 +493,7 @@ li {
   border-left: 5px solid #42A948; /* green */
 }
 
-.ng-invalid:not(form):not(ng2-completer)  {
+.ng-invalid:not(form)  {
   border-left: 5px solid #a94442; /* red */
 }
 
@@ -503,10 +503,10 @@ li {
   overflow-x: hidden;
 }
 
-/*:host(.greenBorder) {*/
+/*:host >>> .completer-input .greenBorder {*/
   /*border-left: 5px solid #42A948; !* green *!*/
 /*}*/
 
-/*:host(.redBorder) {*/
+/*:host >>> .completer-input .redBorder {*/
   /*border-left: 5px solid #a94442; !* red *!*/
 /*}*/

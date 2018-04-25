@@ -72,7 +72,6 @@ export class AttributeCreationComponent implements OnInit {
       this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
       this.attribute.maximumValue = value.maximumValue;
       this.attribute.minimumValue = value.minimumValue;
-      console.log(this.unitOfMeasureId);
     }, error2 => {
       console.log(error2);
     });
@@ -210,6 +209,7 @@ export class AttributeCreationComponent implements OnInit {
 
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
     if (selected) {
+      this.unitOfMeasureId.setValue(selected.originalObject.name);
       this.attribute.unitOfMeasure = selected.originalObject;
     }
   }

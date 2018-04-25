@@ -9,7 +9,7 @@
   justify-content: center;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  top: 100%;
+  /*top: 100%;*/
   padding: 15px 20px;
   background-color: #0061da;
   -webkit-box-shadow: 0 2px 40px 0 rgba(26, 138, 255, 0.5);
@@ -42,6 +42,17 @@
   opacity: 0;
   -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
+}
+
+.sub-menu li a.active {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 10px;
+  background-color: #FBB463;
+  position: absolute;
+  left: 10px;
+  top: 50%;
 }
 
 .sub-menu li a:hover {
