@@ -3,7 +3,7 @@
   left: 0px;
   right: 0px;
   list-style: none;
-  /*display: none;*/
+  display: flex;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
@@ -44,17 +44,6 @@
   transition: all 0.2s ease;
 }
 
-.sub-menu li a.active {
-  display: block;
-  width: 6px;
-  height: 6px;
-  border-radius: 10px;
-  background-color: #FBB463;
-  position: absolute;
-  left: 10px;
-  top: 50%;
-}
-
 .sub-menu li a:hover {
   text-decoration: none;
 }
@@ -90,4 +79,24 @@ ul {
   margin-top: 0;
   height: 40px;
   margin-bottom: 0;
+}
+
+@media only screen and (max-width: 898px) {
+  ul {
+    height: 65px;
+  }
+}
+
+@media only screen and (max-width: 473px) {
+  ul {
+    height: auto;
+  }
+}
+
+.sub-menu li.active a:before{
+  -webkit-transform: translate(0px, -50%);
+  transform: translate(0px, -50%);
+  -webkit-transition-property: none;
+  transition-property: none;
+  opacity: 1;
 }

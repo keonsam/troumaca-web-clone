@@ -49,7 +49,7 @@
 }
 
 .menu-mobile .mm-logo-buttons-w .content-panel-open {
-  display: none;
+  /*display: none;*/
   font-size: 18px;
   cursor: pointer;
   margin-right: 20px;
@@ -67,7 +67,7 @@
 }
 
 .menu-mobile .menu-and-user {
-  display: none;
+  /*display: none;*/
   padding-bottom: 20px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }

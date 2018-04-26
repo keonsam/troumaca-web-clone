@@ -5,5 +5,5 @@ import {Component} from "@angular/core";
   templateUrl: './access.role.top.menu.component.html',
   styleUrls: ['./access.role.top.menu.component.css']
 })
-export class AccessRoleTopMenuComponent {
+export class AccessRoleTopMenuComponent{
 }

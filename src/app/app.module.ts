@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {APP_BASE_HREF} from "@angular/common";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 // App Component
 import {AppComponent} from './app.component';
 import {routing, appRoutingProviders} from "./app.routing";
@@ -46,6 +46,7 @@ import {AccessRoleModule} from "../access-roles/access.role.module";
 
 @NgModule({
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     Ng2CompleterModule,
     FormsModule,

@@ -1,15 +1,27 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
 import {MenuService} from "../menu.service";
 import {PartyService} from "../../parties/party.service";
-import {MenuItemModel} from "../menu.item.model";
+//import {MenuItemModel} from "../menu.item.model";
 import {EventService} from "../../event/event.service";
 import {MenuModel} from "../menu.model";
-import * as $ from 'jquery';
+import {trigger, state, style, transition, animate} from "@angular/animations";
 
 @Component({
   selector: 'mobile-menu',
   templateUrl: './mobile.menu.component.html',
-  styleUrls: ['./mobile.menu.component.css']
+  styleUrls: ['./mobile.menu.component.css'],
+  animations: [
+    trigger('mobileMenuAnimation', [
+      state('inactive', style({
+        'display': 'none', 'height': '0', opacity: 0
+      })),
+      state('active', style({
+        'display': 'block', 'height': '*', opacity: 1
+      })),
+      transition('inactive => active', animate('200ms ease-in-out')),
+      transition('active => inactive', animate('200ms ease-in-out')),
+    ]),
+  ]
 })
 export class MobileMenuComponent implements OnInit {
 
@@ -20,6 +32,7 @@ export class MobileMenuComponent implements OnInit {
   private _name:string;
   private _menuModel:MenuModel;
   private _isLoggedIn:boolean;
+  private state: string = 'inactive';
 
   constructor(private eventService:EventService, private menuService:MenuService, private partyService: PartyService, private cd: ChangeDetectorRef) {
     // this.title = "mobile-menu";
@@ -73,27 +86,10 @@ export class MobileMenuComponent implements OnInit {
           this.getUserInformation();
         }
       });
-
-    // $('.mobile-menu-trigger').on('click', function () {
-    //
-    // });
-
-    // $('.menu-activated-on-click li.has-sub-menu > a').on('click', function (event) {
-    //   var $elem = $(this).closest('li');
-    //   if ($elem.hasClass('active')) {
-    //     $elem.removeClass('active');
-    //   } else {
-    //     $elem.closest('ul').find('li.active').removeClass('active');
-    //     $elem.addClass('active');
-    //   }
-    //   return false;
-    // });
-
   }
 
   mobileMenuTrigger() {
-    $('.menu-mobile .menu-and-user').slideToggle(200, 'swing');
-    return false;
+    this.state = (this.state === 'inactive' ? 'active': 'inactive');
   }
 
   getPhoto() {
