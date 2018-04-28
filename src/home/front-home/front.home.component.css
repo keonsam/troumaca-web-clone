@@ -121,14 +121,50 @@
 }
 
 
+
+/* ADDED FROM MAIN BY KEON */
+
+@media (max-width: 1650px) {
+  .auth-wrapper .all-wrapper {
+    padding: 40px 40px 100px;
+  }
+}
+
+@media (max-width: 1550px) {
+  .auth-wrapper .all-wrapper {
+    padding: 20px 20px 100px;
+  }
+}
+
+@media (max-width: 1250px) {
+  .auth-wrapper .all-wrapper {
+    padding: 0px 0px 100px;
+  }
+  .all-wrapper {
+    border-radius: 0px !important;
+    overflow: hidden;
+  }
+}
+
+.logged-user-w {
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
 /*
   Troumaca overrides etc.
 */
 
 .login-register-container {
-  margin-top: 20px;
-  margin-bottom: 100px;
-  margin-left: 100px;
-  margin-right: 100px;
+  padding-top: 1rem;
+  margin: 20px 100px 100px;
 }
+
+/*for phones*/
+@media (max-width: 350px) {
+  .login-register-container {
+    margin: 20px 20% 100px;
+  }
+}
+
 

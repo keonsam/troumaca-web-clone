@@ -30,7 +30,7 @@
         <div [hidden]="confirmPassword.valid || confirmPassword.pristine">Invalid password confirmation.</div>
       </div>
       <div class="buttons-w">
-        <button class="btn btn-primary" [disabled]="!registrationForm.valid">Register Now</button> <object style="margin-top: 22px;" align="right"><a routerLink="/authentication/login">Login</a></object>
+        <button class="btn btn-primary" [disabled]="!registrationForm.valid">Register Now</button> <object class="auth-object-button"><a routerLink="/authentication/login">Login</a></object>
       </div>
     </form>
   </div>

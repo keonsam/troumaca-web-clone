@@ -124,9 +124,22 @@
   Troumaca overrides etc.
 */
 
+.auth-object-button {
+  margin-top: 22px;
+  float: right;
+}
 .ng-valid[required], .ng-valid.required  {
   border-left: 5px solid #42A948; /* green */
 }
 .ng-invalid:not(form)  {
   border-left: 5px solid #a94442; /* red */
+}
+
+@media (max-width: 350px) {
+  .buttons-w button {
+    display: block;
+  }
+  .auth-object-button {
+    float: left;
+  }
 }

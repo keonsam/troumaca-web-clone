@@ -121,6 +121,30 @@
 }
 
 
+/* ADDED FROM MAIN BY KEON */
+
+@media (max-width: 1650px) {
+  .auth-wrapper .all-wrapper {
+    padding: 40px 40px 100px;
+  }
+}
+
+@media (max-width: 1550px) {
+  .auth-wrapper .all-wrapper {
+    padding: 20px 20px 100px;
+  }
+}
+
+@media (max-width: 1250px) {
+  .auth-wrapper .all-wrapper {
+    padding: 0px 0px 100px;
+  }
+  .all-wrapper {
+    border-radius: 0px !important;
+    overflow: hidden;
+  }
+}
+
 /*
   Troumaca overrides etc.
 */
@@ -135,3 +159,27 @@
 .ng-invalid:not(form)  {
   border-left: 5px solid #a94442; /* red */
 }
+
+#object1 {
+  margin-right: 3rem;
+}
+
+@media (max-width: 399px) {
+  .buttons-w button {
+    display: block;
+  }
+
+  .auth-box-w form .form-check-inline {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+
+}
+
+@media (max-width: 392px) {
+  #object2 {
+    margin-top: 0.5rem;
+   float: left;
+  }
+}
+
