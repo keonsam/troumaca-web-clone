@@ -65,8 +65,6 @@ export class CredentialOrchestrator {
         let credentialConfirmation:CredentialConfirmation = new CredentialConfirmation();
 
         credentialConfirmation.credentialId = credential.credentialId;
-        credentialConfirmation.createdOn = new Date();
-        credentialConfirmation.modifiedOn = new Date();
 
         return this.confirmationRepository
           .addCredentialConfirmation(credentialConfirmation);

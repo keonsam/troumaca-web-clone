@@ -9,18 +9,18 @@
       </h4>
 
         <form>
-          <h6>
+          <h6 id="heading-message">
          {{message}}
           </h6>
           <div *ngIf="newUser">
             <p>Thank you for signing up to Troumaca!<br />
-             An e-mail Confirmation link has been sent to your email address. <br />
-             In that e-mail is a link<br />
-             Click on that link verify your account.
+             An e-mail Confirmation link has been sent to your email address.<br />
+             In that e-mail is a link.<br />
+             Please click on that link verify your account.
             </p>
 
              <p>
-             The e-mail may end up in your junk mail or spam folder. <br />
+             The e-mail may have ended up in your junk mail or spam folder.<br />
              Please check there if you don’t see it in your inbox<br />
              </p>
 
@@ -30,7 +30,7 @@
              </div>
 
              <div *ngIf="emailMessageFailure" class="alert alert-danger">
-               <strong>Error!</strong> but it looks like this session has expired.<br />
+               <strong>Error!</strong> Sorry this session has expired.<br />
                Please check your email for a new one.
              </div>
 
@@ -59,10 +59,10 @@
           </div>
 
           <div *ngIf="verifiedFailed">
-            <p>Verification has Failed</p>
+            <p>Verification has Failed.</p>
 
             <div class="alert alert-danger">
-              <strong>Error!</strong> but it looks like this session has expired.<br />
+              <strong>Error!</strong> Sorry this session has expired.<br />
               <a href="#" (click)="sendConfirmationCode();false">Click here!</a> for a new one.
             </div>
 

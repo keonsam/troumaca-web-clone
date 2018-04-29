@@ -14,7 +14,8 @@ let checkAccess = (req: Request, res: Response, next: NextFunction) => {
   // TODO: move this to its own file
   let openPaths:Array<string> = [
     '/sessions/is-valid-session',
-    '/send-confirmation-codes',
+    '/send-confirmation-codes/email',
+    '/send-confirmation-codes/phone',
     '/verify-credentials-confirmations',
     '/forgot-password',
     '/authenticate',

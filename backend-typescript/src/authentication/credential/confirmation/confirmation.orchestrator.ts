@@ -109,10 +109,10 @@ export class ConfirmationOrchestrator {
             .updateCredentialConfirmation(credentialConfirmation)
             .switchMap(numReplaced => {
               if(numReplaced > 0) {
-                credentialConfirmation.createdOn = new Date();
-                credentialConfirmation.modifiedOn = new Date();
+                let newCredentialConfirmation:CredentialConfirmation = new CredentialConfirmation();
+                newCredentialConfirmation.credentialId = credentialConfirmation.credentialId;
                 return this.confirmationRepository
-                  .addCredentialConfirmation(credentialConfirmation)
+                  .addCredentialConfirmation(newCredentialConfirmation)
                   .map((credentialConfirmation:CredentialConfirmation) => {
                     return new Result<CredentialConfirmation>(false, "Updated", credentialConfirmation);
                   });
@@ -142,10 +142,10 @@ export class ConfirmationOrchestrator {
             .updateCredentialConfirmation(credentialConfirmation)
             .switchMap((numReplaced: number) => { //this is so to make the old links still work.
               if (numReplaced > 0) {
-                credentialConfirmation.createdOn = new Date();
-                credentialConfirmation.modifiedOn = new Date();
+                let newCredentialConfirmation:CredentialConfirmation = new CredentialConfirmation();
+                newCredentialConfirmation.credentialId = credentialConfirmation.credentialId;
                 return this.confirmationRepository
-                  .addCredentialConfirmation(credentialConfirmation)
+                  .addCredentialConfirmation(newCredentialConfirmation)
                   .map((credentialConfirmation: CredentialConfirmation) => {
                     return new Result<CredentialConfirmation>(false, "Updated", credentialConfirmation);
                   });

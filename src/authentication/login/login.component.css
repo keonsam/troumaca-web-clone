@@ -161,7 +161,7 @@
 }
 
 #object1 {
-  margin-right: 3rem;
+  margin-right: 2rem;
 }
 
 @media (max-width: 399px) {
@@ -172,11 +172,11 @@
   .auth-box-w form .form-check-inline {
     margin-left: 0;
     margin-top: 1rem;
+    margin-bottom: 1rem;
   }
-
 }
 
-@media (max-width: 392px) {
+@media (max-width: 376px) {
   #object2 {
     margin-top: 0.5rem;
    float: left;

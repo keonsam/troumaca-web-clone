@@ -15,7 +15,8 @@ class ConfirmationDBRepository implements ConfirmationRepository {
     credentialConfirmation.credentialConfirmationId = generateUUID();
     credentialConfirmation.confirmationCode = phoneToken(6, {type: 'string'});
     credentialConfirmation.credentialStatus = CredentialStatus.NEW;
-
+    credentialConfirmation.createdOn = new Date();
+    credentialConfirmation.modifiedOn = new Date();
     return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
       credentialConfirmations.insert(credentialConfirmation.toJson(), function (err:any, doc:any) {
         if (!err) {
