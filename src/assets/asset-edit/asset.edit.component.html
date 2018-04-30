@@ -16,8 +16,8 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="">Asset Kind</label><br/>
-                  <select class="form-control" formControlName="assetKindId" name="assetKind">
+                  <label for="asset kind">Asset Kind</label><br/>
+                  <select class="form-control" formControlName="assetKindId" name="assetKind" required>
                     <option value="" disabled selected>Select an Asset Kind</option>
                     <option *ngFor="let assetKind of assetKinds" [value]="assetKind.assetKindId">{{assetKind.name}}</option>
                   </select>
@@ -26,50 +26,55 @@
               </fieldset>
 
               <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="">Asset Type</label>
+                <div class="form-group" [class]="(assetType.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
+                  <label for="asset type">Asset Type</label>
                   <ng2-completer [datasource]="assetTypeDataService"
                                  [minSearchLength]="0"
                                  [maxChars]="4"
                                  [inputClass]="'form-control'"
-                                 [placeholder]="'Search for Asset Type'"
+                                 [placeholder]="'Select an Asset Type'"
                                  [matchClass]="'match'"
                                  formControlName="assetType"
                                  [autofocus]="true"
                                  [clearUnselected]="true"
+                                 [fillHighlighted]="false"
                                  [openOnClick]="true"
                                  [textSearching]="false"
-                                 (selected)="onAssetTypeSelect($event)">
+                                 (selected)="onAssetTypeSelect($event)"
+                                 required>
                   </ng2-completer>
+                  <div [hidden]="assetType.valid || assetType.pristine" class="alert alert-danger">Please Select an Asset Type.</div>
                 </div>
+
               </fieldset>
 
               <fieldset *ngIf="isDiscreteItem()" class="form-group">
                 <div class="form-group">
-                  <label for="">Serial Number</label><input class="form-control" formControlName="serialNumber"  data-error="Your email address is invalid" placeholder="Serial Number" type="text">
+                  <label for="serial number">Serial Number</label><input class="form-control" formControlName="serialNumber"  data-error="Your email address is invalid" placeholder="Serial Number" type="text">
                   <div [hidden]="serialNumber.valid || serialNumber.pristine" class="alert alert-danger">Please Enter a Serial Number.</div>
                 </div>
               </fieldset>
 
               <fieldset *ngIf="isInventory()" class="form-group">
                 <div class="form-group">
-                  <label for="">Quantity</label><input class="form-control" formControlName="quantity" data-error="Your email address is invalid" placeholder="Quantity" type="number">
+                  <label for="quantity">Quantity</label><input class="form-control" formControlName="quantity" data-error="Your email address is invalid" placeholder="Quantity" type="number">
                   <div [hidden]="quantity.valid || quantity.pristine" class="alert alert-danger">Please Enter an Quantity.</div>
                 </div>
               </fieldset>
 
-              <fieldset *ngIf="isInventory()" class="form-group">
+              <fieldset *ngIf="isInventory()" class="form-group ng2-completer">
                 <div class="form-group">
-                  <label for="">Unit Of Measure</label>
+                  <label for="unit of measure">Unit Of Measure</label>
                   <ng2-completer [datasource]="unitOfMeasureDataService"
                                  [minSearchLength]="0"
                                  [maxChars]="4"
                                  [inputClass]="'form-control'"
-                                 [placeholder]="'Search for Unit Of Measure'"
+                                 [placeholder]="'Select an Unit Of Measure'"
                                  [matchClass]="'match'"
                                  formControlName="unitOfMeasure"
                                  [autofocus]="true"
                                  [clearUnselected]="true"
+                                 [fillHighlighted]="false"
                                  [openOnClick]="true"
                                  [textSearching]="false"
                                  (selected)="onUnitOfMeasureSelect($event)">
@@ -79,16 +84,17 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="">Assignee</label>
+                  <label for="assignee">Assignee</label>
                   <ng2-completer [datasource]="personDataService"
                                  [minSearchLength]="0"
                                  [maxChars]="4"
                                  [inputClass]="'form-control'"
-                                 [placeholder]="'Search for Person'"
+                                 [placeholder]="'Select a Person'"
                                  [matchClass]="'match'"
                                  formControlName="person"
                                  [autofocus]="true"
                                  [clearUnselected]="true"
+                                 [fillHighlighted]="false"
                                  [openOnClick]="true"
                                  [textSearching]="false"
                                  (selected)="onPersonSelect($event)">
@@ -98,16 +104,17 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="">Site</label>
+                  <label for="site">Site</label>
                   <ng2-completer [datasource]="siteDataService"
                                  [minSearchLength]="0"
                                  [maxChars]="4"
                                  [inputClass]="'form-control'"
-                                 [placeholder]="'Search for Site'"
+                                 [placeholder]="'Select a Site'"
                                  [matchClass]="'match'"
                                  formControlName="site"
                                  [autofocus]="true"
                                  [clearUnselected]="true"
+                                 [fillHighlighted]="false"
                                  [openOnClick]="true"
                                  [textSearching]="false"
                                  (selected)="onPhysicalSiteSelect($event)">

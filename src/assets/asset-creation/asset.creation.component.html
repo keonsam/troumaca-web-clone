@@ -17,7 +17,7 @@
               <fieldset class="form-group">
                 <div class="form-group">
                   <label for="asset kind">Asset Kind</label><br/>
-                  <select class="form-control" formControlName="assetKindId" name="assetKind">
+                  <select class="form-control" formControlName="assetKindId" name="assetKind" required>
                     <option value="" disabled selected>Select an Asset Kind</option>
                     <option *ngFor="let assetKind of assetKinds" [value]="assetKind.assetKindId">{{assetKind.name}}</option>
                   </select>
@@ -26,23 +26,25 @@
               </fieldset>
 
               <fieldset class="form-group">
-                <div class="form-group">
+                <div class="form-group" [class]="(assetType.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
                   <label for="asset type">Asset Type</label>
                   <ng2-completer [datasource]="assetTypeDataService"
                                  [minSearchLength]="0"
                                  [maxChars]="4"
-                                 [inputClass]="(assetType.valid) ? 'form-control' : 'form-control form-control-danger'"
-                                 [placeholder]="'Search for Asset Type'"
+                                 [inputClass]="'form-control'"
+                                 [placeholder]="'Select an Asset Type'"
                                  [matchClass]="'match'"
                                  formControlName="assetType"
                                  [autofocus]="true"
                                  [clearUnselected]="true"
+                                 [fillHighlighted]="false"
                                  [openOnClick]="true"
                                  [textSearching]="false"
-                                 (selected)="onAssetTypeSelect($event)">
+                                 (selected)="onAssetTypeSelect($event)"
+                                  required>
                   </ng2-completer>
+                  <div [hidden]="assetType.valid || assetType.pristine" class="alert alert-danger">Please Select an Asset Type.</div>
                 </div>
-
               </fieldset>
 
               <fieldset *ngIf="isDiscreteItem()" class="form-group">
@@ -66,11 +68,12 @@
                                  [minSearchLength]="0"
                                  [maxChars]="4"
                                  [inputClass]="'form-control'"
-                                 [placeholder]="'Search for Unit Of Measure'"
+                                 [placeholder]="'Select an Unit Of Measure'"
                                  [matchClass]="'match'"
                                  formControlName="unitOfMeasure"
                                  [autofocus]="true"
                                  [clearUnselected]="true"
+                                 [fillHighlighted]="false"
                                  [openOnClick]="true"
                                  [textSearching]="false"
                                  (selected)="onUnitOfMeasureSelect($event)">
@@ -85,11 +88,12 @@
                                  [minSearchLength]="0"
                                  [maxChars]="4"
                                  [inputClass]="'form-control'"
-                                 [placeholder]="'Search for Person'"
+                                 [placeholder]="'Select a Person'"
                                  [matchClass]="'match'"
                                  formControlName="person"
                                  [autofocus]="true"
                                  [clearUnselected]="true"
+                                 [fillHighlighted]="false"
                                  [openOnClick]="true"
                                  [textSearching]="false"
                                  (selected)="onPersonSelect($event)">
@@ -104,11 +108,12 @@
                                  [minSearchLength]="0"
                                  [maxChars]="4"
                                  [inputClass]="'form-control'"
-                                 [placeholder]="'Search for Site'"
+                                 [placeholder]="'Select a Site'"
                                  [matchClass]="'match'"
                                  formControlName="site"
                                  [autofocus]="true"
                                  [clearUnselected]="true"
+                                 [fillHighlighted]="false"
                                  [openOnClick]="true"
                                  [textSearching]="false"
                                  (selected)="onPhysicalSiteSelect($event)">

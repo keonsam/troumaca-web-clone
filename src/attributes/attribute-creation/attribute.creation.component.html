@@ -40,21 +40,20 @@
               </fieldset>
 
               <fieldset class="form-group">
-                <div [ngClass]="(unitOfMeasureId.valid) ? 'greenBorder':'redBorder'">
-                  <label for="">Unit Of Measurement</label>
+                <div class="form-group">
+                  <label for="unit of measurement">Unit Of Measurement</label>
                   <ng2-completer [datasource]="unitOfMeasureIdDataService"
                                  [inputClass]="'form-control form-control-inline'"
                                  [minSearchLength]="0"
                                  [maxChars]="4"
                                  [inputClass]="'form-control'"
-                                 [placeholder]="'Search for Unit of Measurement'"
+                                 [placeholder]="'Select an Unit of Measurement'"
                                  [matchClass]="'match'"
                                  [autofocus]="true"
-                                 [fillHighlighted]="false"
+                                 [clearUnselected]="true"
                                  [openOnClick]="true"
                                  [textSearching]="false"
-                                 (selected)="onUnitOfMeasureIdSelect($event)"
-                  >
+                                 (selected)="onUnitOfMeasureIdSelect($event)">
                   </ng2-completer>
                 </div>
               </fieldset>

@@ -732,26 +732,26 @@ li {
   margin-right: 1rem;
 }
 
-.ng-valid[required], .ng-valid.required  {
+.ng-valid[required]:not(ng2-completer), .ng-valid.required:not(ng2-completer)  {
   border-left: 5px solid #42A948; /* green */
 }
-.ng-invalid:not(form)  {
+
+.ng-invalid:not(form):not(ng2-completer)  {
   border-left: 5px solid #a94442; /* red */
-
-}
-
-:host(ng-valid[required], .ng-valid.required) {
-  border-left: 5px solid #42A948;
-}
-
-:host(.ng-invalid:not(form)) {
- border-left: 5px solid #42A948;
 }
 
 :host >>> .completer-dropdown {
   max-height: 200px !important;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+.ng2-completer-invalid /deep/ .completer-input {
+  border-left: 5px solid #a94442; /* red */
+}
+
+.ng2-completer-valid /deep/ .completer-input {
+  border-left: 5px solid #42A948; /* green */
 }
 
 .clickable-tr {

@@ -48,10 +48,6 @@ export class AssetTypeEditComponent implements OnInit {
   private pageSize:number = 15;
   private _doNotDisplayFailureMessage:boolean;
   private _doNotDisplayFailureMessage2:boolean;
-  private _doNotDisplayFailureMessage3:boolean;
-  private errorCount: number = 0;
-  private deleteError: boolean = true;
-  private error: boolean = false;
 
   constructor(private assetTypeService:AssetTypeService,
               private completerService: CompleterService,
@@ -97,7 +93,6 @@ export class AssetTypeEditComponent implements OnInit {
 
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
-    this.doNotDisplayFailureMessage3 = true;
 
   }
 
@@ -332,14 +327,6 @@ export class AssetTypeEditComponent implements OnInit {
     this._doNotDisplayFailureMessage2 = value;
   }
 
-  get doNotDisplayFailureMessage3(): boolean {
-    return this._doNotDisplayFailureMessage3;
-  }
-
-  set doNotDisplayFailureMessage3(value: boolean) {
-    this._doNotDisplayFailureMessage3 = value;
-  }
-
   getRequired(attributeId: string) {
     return this.assignedAttributes.find(x => x.attributeId == attributeId).required;
   }
@@ -429,14 +416,19 @@ export class AssetTypeEditComponent implements OnInit {
       if(value) {
         this.router.navigate(['/asset-types']);
       } else {
-        this.doNotDisplayFailureMessage;
+        this.doNotDisplayFailureMessage2 = false;
       }
+    }, error => {
+      console.log(error);
+      this.doNotDisplayFailureMessage2 = false;
     });
   }
 
   onCreate() {
     // updated to one error message
     this.doNotDisplayFailureMessage = true;
+    this.doNotDisplayFailureMessage2 = true;
+
     this.removeValues();
     this.assetTypeService
       .updateAssetType(this.assetTypeId, this.assetType)
@@ -444,8 +436,12 @@ export class AssetTypeEditComponent implements OnInit {
         if (value) {
           this.updateValues();
         } else {
-          this.doNotDisplayFailureMessage = true;
+          this.doNotDisplayFailureMessage = false;
         }
+      }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage = false;
+
       });
   }
 
