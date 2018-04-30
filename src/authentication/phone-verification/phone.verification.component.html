@@ -18,7 +18,7 @@
         <div class="form-group">
           <label for="">Enter Verification Code</label><input class="form-control" formControlName="confirmationCode" placeholder="Enter the 6-digit code" required type="text">
         </div>
-        <h6>
+        <h6 id="heading-message">
           {{message}}
         </h6>
         <div *ngIf="errorExists" class="alert alert-danger">
@@ -41,9 +41,9 @@
           <a href="#" (click)="sendConfirmationCode();false">Click here</a> for a new session
         </div>
 
-        <div *ngIf="textMessageFailure" class="alert alert-info">
-          <strong>Sent!</strong> But it seems this session has expired.
-          A new text message will be sent to your phone number, please enter the code for that one.
+        <div *ngIf="textMessageFailure" class="alert alert-danger">
+          <strong>Error!</strong> Sorry this session has expired.<br />
+           Please enter the code of the new one.
         </div>
 
         <div *ngIf="noEntry" class="alert alert-danger">
@@ -52,8 +52,8 @@
 
         <div class="buttons-w">
           <div>
-            <button class="btn btn-white" routerLink="/authentication/register">Change Number</button>
-            <button [disabled]="!phoneVerificationForm.valid" class="btn btn-primary float-right" type="submit">Verify</button>
+            <button class="btn btn-white" id="button1" routerLink="/authentication/register">Change Number</button>
+            <button [disabled]="!phoneVerificationForm.valid" id="button2" class="btn btn-primary" type="submit">Verify</button>
           </div>
           <div class="sendPhoneCode">
             <a href="#" (click)="sendConfirmationCode();false">Didn't get the text message?</a>

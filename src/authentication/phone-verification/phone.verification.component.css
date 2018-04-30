@@ -160,3 +160,28 @@
   margin-top: 2rem;
   text-align: center;
 }
+
+#button1 {
+  margin-right: 3rem;
+}
+
+#heading-message {
+  margin-bottom: 3rem;
+}
+
+#button2 {
+  float: right;
+}
+
+@media (max-width: 428px) {
+
+  #button2 {
+    margin-top: 1rem;
+    float: left;
+  }
+
+  .sendPhoneCode {
+    padding-top: 2rem;
+    text-align: left;
+  }
+}

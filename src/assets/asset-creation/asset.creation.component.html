@@ -29,11 +29,9 @@
                 <div class="form-group">
                   <label for="asset type">Asset Type</label>
                   <ng2-completer [datasource]="assetTypeDataService"
-                                 [inputClass]="'form-control form-control-inline'"
                                  [minSearchLength]="0"
                                  [maxChars]="4"
-                                 [inputClass]="'form-control'"
-                                 [inputClass]="(assetType.valid) ? 'greenBorder':'redBorder'"
+                                 [inputClass]="(assetType.valid) ? 'form-control' : 'form-control form-control-danger'"
                                  [placeholder]="'Search for Asset Type'"
                                  [matchClass]="'match'"
                                  formControlName="assetType"

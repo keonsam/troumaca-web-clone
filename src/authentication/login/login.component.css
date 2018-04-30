@@ -172,14 +172,13 @@
   .auth-box-w form .form-check-inline {
     margin-left: 0;
     margin-top: 1rem;
-    margin-bottom: 1rem;
   }
 }
 
 @media (max-width: 376px) {
   #object2 {
-    margin-top: 0.5rem;
-   float: left;
+    margin-top: 0.2rem;
+    float: left;
   }
 }
 
