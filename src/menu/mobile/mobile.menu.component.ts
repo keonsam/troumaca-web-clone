@@ -32,14 +32,12 @@ export class MobileMenuComponent implements OnInit {
   private _name:string;
   private _menuModel:MenuModel;
   private _isLoggedIn:boolean;
-  private state: string = 'inactive';
+  private state: string;
+  private popUpState: string;
 
   constructor(private eventService:EventService, private menuService:MenuService, private partyService: PartyService, private cd: ChangeDetectorRef) {
-    // this.title = "mobile-menu";
-    // this.name = "mobile-menu";
-    // this.isLoggedIn = true;
-    // this.menuModel = new MenuModel();
-    // this.menuModel.menuItemModels = [];
+    this.state = 'inactive';
+    this.popUpState = 'hide';
   }
 
   get title(): string {
@@ -89,7 +87,12 @@ export class MobileMenuComponent implements OnInit {
   }
 
   mobileMenuTrigger() {
-    this.state = (this.state === 'inactive' ? 'active': 'inactive');
+    this.popUpState = 'hide';
+    this.state = this.state === 'inactive' ? 'active': 'inactive';
+  }
+
+  popUpTrigger() {
+    this.popUpState = this.popUpState === 'hide' ? 'show': 'hide';
   }
 
   getPhoto() {
@@ -118,29 +121,6 @@ export class MobileMenuComponent implements OnInit {
       //that.getMenu(this.isLoggedIn);
     });
   }
-
-  // getMenu(isLoggedIn:boolean) {
-  //   if (!isLoggedIn) { return; }
-  //
-  //   let that = this;
-  //   this.menuService.getMenuByName(this.name).subscribe(function (menu) {
-  //     that.menuModel.menuItemModels = [];
-  //     menu.menuItemModels.forEach(value => {
-  //       that.menuModel.menuItemModels.push(value);
-  //     });
-  //
-  //     that.cd.markForCheck();
-  //   });
-  // }
-  //
-  // onSelected(menuItemModel:MenuItemModel) {
-  //   this._menuModel.menuItemModels.forEach(mi => {
-  //     if (mi.active) {
-  //       mi.active = false
-  //     }
-  //   });
-  //   menuItemModel.active = true;
-  // }
 
   logOutEvent() {
     this.partyService.logOutUser()

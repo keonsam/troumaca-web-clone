@@ -683,6 +683,26 @@ legend:before {
   background-color: rgba(0, 0, 0, 0.1);
   z-index: 1;
 }
+
+/* Import from main by Keon */
+
+
+/* #9.  Tablets (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .content-box {
+    padding: 1.5rem;
+  }
+
+  .content-w {
+    display: table-cell;
+  }
+}
+
+@media (max-width: 767px) {
+  .content-w {
+    display: block;
+  }
+}
 /*
   Troumaca overrides etc.
 */
