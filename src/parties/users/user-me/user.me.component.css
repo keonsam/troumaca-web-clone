@@ -684,23 +684,56 @@ legend:before {
   z-index: 1;
 }
 
-/* Import from main by Keon */
-
+/* IMPORTED FROM MAIN BY KEON */
 
 /* #9.  Tablets (768px - 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
   .content-box {
     padding: 1.5rem;
   }
+}
 
-  .content-w {
-    display: table-cell;
+/* #7.  Screen size <= 1250px */
+@media (max-width: 1250px) {
+  .element-box {
+    padding: 1rem 1.5rem;
   }
 }
 
+/* #11. Phones (< 767px) */
 @media (max-width: 767px) {
-  .content-w {
+  .user-profile .up-head-w .up-social {
+    top: 5px;
+    right: 10px;
+  }
+  .user-profile .up-head-w .up-social a {
+    font-size: 24px;
+  }
+  .user-profile .up-main-info {
+    padding-bottom: 10%;
+  }
+  .user-profile .up-header {
+    font-size: 1.75rem;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+  }
+  .user-profile .up-sub-header {
+    font-size: 1rem;
+  }
+
+  .content-i {
     display: block;
+  }
+  .content-i .content-box {
+    display: block;
+    padding: 15px;
+  }
+
+  .element-wrapper {
+    padding-bottom: 1.5rem;
+  }
+  .element-box {
+    padding: 1rem;
   }
 }
 /*

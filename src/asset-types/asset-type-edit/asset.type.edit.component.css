@@ -434,6 +434,41 @@ legend:before {
 }
 
 
+/* IMPORTED FROM MAIN BY KEON */
+
+/* #9.  Tablets (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .content-box {
+    padding: 1.5rem;
+  }
+}
+
+/* #7.  Screen size <= 1250px */
+@media (max-width: 1250px) {
+  .element-box {
+    padding: 1rem 1.5rem;
+  }
+}
+
+
+/* #11. Phones (< 767px) */
+@media (max-width: 767px) {
+  .content-i {
+    display: block;
+  }
+  .content-i .content-box {
+    display: block;
+    padding: 15px;
+  }
+
+  .element-wrapper {
+    padding-bottom: 1.5rem;
+  }
+  .element-box {
+    padding: 1rem;
+  }
+}
+
 /*
   Troumaca overrides etc.
 */

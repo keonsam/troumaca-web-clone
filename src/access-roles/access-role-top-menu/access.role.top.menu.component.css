@@ -81,7 +81,7 @@ ul {
   margin-bottom: 0;
 }
 
-@media only screen and (max-width: 898px) {
+@media only screen and (max-width: 968px) {
   ul {
     height: 65px;
   }

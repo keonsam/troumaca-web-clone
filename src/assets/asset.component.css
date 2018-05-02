@@ -23,7 +23,12 @@
   vertical-align: top;
 }
 
-
+/* #11. Phones (< 767px) */
+@media (max-width: 767px) {
+  .content-w{
+    display: block;
+  }
+}
 /*
   Troumaca overrides etc. */
 .content-w {
