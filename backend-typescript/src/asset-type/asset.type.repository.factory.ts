@@ -127,35 +127,34 @@ class AssetTypeDBRepository implements AssetTypeRepository {
 
 }
 
-class AssetTypeRestRepository implements AssetTypeRepository {
-  findAssetTypes(searchStr:string, pageSize:number): Observable<AssetType[]> {
-    return undefined;
-  };
+  class AssetTypeRestRepository implements AssetTypeRepository {
+    findAssetTypes(searchStr:string, pageSize:number): Observable<AssetType[]> {
+      return undefined;
+    };
 
+    saveAssetType(assetType:AssetType):Observable<AssetType> {
+      return null
+    }
 
-  saveAssetType(assetType:AssetType):Observable<AssetType> {
-    return null
-  }
+    getAssetTypes(pageNumber:number, pageSize:number, order:string):Observable<AssetType[]> {
+      return null;
+    }
 
-  getAssetTypes(pageNumber:number, pageSize:number, order:string):Observable<AssetType[]> {
-    return null;
-  }
+    getAssetTypeCount():Observable<number> {
+      return null;
+    };
 
-  getAssetTypeCount():Observable<number> {
-    return null;
-  };
+    getAssetTypeById(assetTypeId:string):Observable<AssetType> {
+      return null;
+    };
 
-  getAssetTypeById(assetTypeId:string):Observable<AssetType> {
-    return null;
-  };
+    updateAssetType(assetTypeId:string, assetType:AssetType):Observable<number> {
+      return null;
+    };
 
-  updateAssetType(assetTypeId:string, assetType:AssetType):Observable<number> {
-    return null;
-  };
-
-  deleteAssetType(assetTypeId:string): Observable<number> {
-    return null;
-  };
+    deleteAssetType(assetTypeId:string): Observable<number> {
+      return null;
+    };
   }
 
 export function createAssetTypeRepository(kind?:RepositoryKind):AssetTypeRepository {

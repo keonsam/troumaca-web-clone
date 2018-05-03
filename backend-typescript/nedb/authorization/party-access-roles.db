@@ -1,5 +1,2 @@
-{"partyAccessRoleId":"220c2034-620b-442d-9df6-5c4e9e945e6a","partyId":"b5414de2-ec18-48cb-8e42-b6260c95c1da","accessRole":{"accessRoleId":"5c985114-93be-4bc6-83ff-802302b679e9","name":"Dfksf"},"_id":"UBadFDxAP5scD6DN"}
-{"$$indexCreated":{"fieldName":"partyAccessRoleId","unique":true,"sparse":false}}
 {"partyAccessRoleId":"220c2034-620b-442d-9df6-5c4e9e945e6a","partyId":"b5414de2-ec18-48cb-8e42-b6260c95c1da","accessRole":{"accessRoleId":"dd605ce3-0301-4103-b7be-e38b444ea92e","name":"Users"},"_id":"UBadFDxAP5scD6DN"}
-{"accessRole":{"accessRoleId":"5c985114-93be-4bc6-83ff-802302b679e9","name":"Dfksf"},"partyId":"ebd6634d-b6fc-4d4e-a0ea-2b57f307fc89","partyAccessRoleId":"1bdfc1d7-ea2d-42be-b3db-9e6cc198253e","_id":"1yFgD1Fm3poU142I"}
-{"$$deleted":true,"_id":"1yFgD1Fm3poU142I"}
+{"$$indexCreated":{"fieldName":"partyAccessRoleId","unique":true,"sparse":false}}
