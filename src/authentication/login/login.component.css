@@ -79,8 +79,8 @@
 }
 
 .auth-box-w form {
-  padding: 20px 80px;
-  padding-bottom: 60px;
+  padding: 20px 80px 60px;
+  /*padding-bottom: 60px;*/
 }
 
 .auth-box-w form .form-check-inline {
@@ -160,25 +160,10 @@
   border-left: 5px solid #a94442; /* red */
 }
 
-#object1 {
-  margin-right: 2rem;
-}
 
 @media (max-width: 399px) {
-  .buttons-w button {
-    display: block;
-  }
-
-  .auth-box-w form .form-check-inline {
-    margin-left: 0;
-    margin-top: 1rem;
-  }
-}
-
-@media (max-width: 376px) {
-  #object2 {
-    margin-top: 0.2rem;
-    float: left;
+  .auth-box-w form {
+    padding: 20px 40px 60px;
   }
 }
 

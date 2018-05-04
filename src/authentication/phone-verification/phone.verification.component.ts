@@ -129,6 +129,8 @@ export class PhoneVerificationComponent implements OnInit {
         }
       }
       }, error => {
+      console.log(error)
+
       /// make better error for this
       this.noEntry = true;
     });
