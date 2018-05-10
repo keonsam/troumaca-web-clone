@@ -374,8 +374,8 @@
 .user-tab-div.active .logged-user-menu {
   visibility: visible;
   opacity: 1;
-  -webkit-transform: translateY(0px);
-  transform: translateY(0px);
+  -webkit-transform: translateY(55px);
+  transform: translateY(55px);
 }
 
 .user-tab-div .logged-user-menu {
@@ -390,8 +390,8 @@
   z-index: 999;
   visibility: hidden;
   opacity: 0;
-  -webkit-transform: translateY(20px);
-  transform: translateY(20px);
+  -webkit-transform: translateY(75px);
+  transform: translateY(75px);
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
   text-align: left;

@@ -9,7 +9,7 @@
     <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" >
 
       <div class="form-group">
-        <label for=""> Email or Phone</label><input class="form-control" formControlName="username" autocomplete="username" placeholder="Enter Email or Phone" required type="text">
+        <label for=""> Username</label><input class="form-control" formControlName="username" autocomplete="username" placeholder="Enter Email or Phone" required type="text">
         <div class="pre-icon os-icon os-icon-email-2-at2"></div>
       </div>
       <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid phone or email username.</div>
