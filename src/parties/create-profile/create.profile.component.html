@@ -1,11 +1,11 @@
 <div class="content-w">
   <div class="content-i">
     <div class="content-box">
-      <div class="row">
+      <div class="create-profile">
 
         <!-- START ORGANIZATION / BOTH / VIEW USER IN ORGANIZATION PROFILE PICTURE -->
-        <div class="col-sm-5" *ngIf="accountType.value === 'organization' || accountType.value === 'both'">
-          <div class="user-profile compact">
+        <div *ngIf="accountType.value === 'organization' || accountType.value === 'both'">
+          <div class="user-profile">
             <div class="up-head-w" [style.background-image]="getBackgroundStyle('organization')">
               <div class="up-social">
                 <a data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon-user-male-circle2 primary"></i></a>
@@ -31,8 +31,8 @@
         <!-- END ORGANIZATION / BOTH / VIEW USER IN ORGANIZATION PROFILE PICTURE -->
 
         <!-- START DEFAULT / PERSONAL PROFILE IMAGE -->
-        <div class="col-sm-5" *ngIf="accountType.value === 'personal' || accountType.value === ''">
-          <div class="user-profile compact">
+        <div *ngIf="accountType.value === 'personal' || accountType.value === ''">
+          <div class="user-profile">
             <div class="up-head-w" [style.background-image]="getBackgroundStyle('user')">
               <div class="up-social">
                 <a data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon-user-male-circle2 primary"></i></a>
@@ -54,7 +54,7 @@
 
   <!-- END OF Profile SECTION -->
 
-        <div class="col-sm-7">
+        <div >
           <div class="element-wrapper">
             <div class="element-box">
               <form [formGroup]="createProfileForm" (ngSubmit)="onCreate()">
@@ -77,20 +77,20 @@
 
                 <fieldset class="form-group">
                   <div class="form-group row">
-                    <label for="account type"class="col-sm-4 col-form-label">Account Type</label>
-                    <div class="col-sm-8">
+                    <label for="account type"class="col-sm-2 col-form-label">Account Type</label>
+                    <div class="col-sm-10">
                       <div class="row">
-                        <div class="col-xl-4">
+                        <div class="col-sm-4">
                           <div class="form-check">
                             <label for="organization" class="form-check-label"><input checked="" class="form-check-input" formControlName="accountType" type="radio" value="organization" required> Organization</label>
                           </div>
                         </div>
-                        <div class="col-xl-4">
+                        <div class="col-sm-4">
                           <div class="form-check">
                             <label for="personal" class="form-check-label"><input class="form-check-input" formControlName="accountType" type="radio" value="personal"> Personal</label>
                           </div>
                         </div>
-                        <div class="col-xl-4">
+                        <div class="col-sm-4">
                           <div class="form-check">
                             <label for="both" class="form-check-label"><input class="form-check-input" formControlName="accountType" type="radio" value="both"> Both</label>
                           </div>
