@@ -156,14 +156,20 @@
   border-left: 5px solid #a94442; /* red */
 }
 
+@media (max-width: 399px) {
+  .auth-box-w form {
+    padding: 20px 40px 60px;
+  }
+}
+
 .sendPhoneCode {
   margin-top: 2rem;
   text-align: center;
 }
 
-#button1 {
-  margin-right: 3rem;
-}
+/*#button1 {*/
+  /*margin-right: 3rem;*/
+/*}*/
 
 #heading-message {
   margin-bottom: 3rem;
@@ -173,15 +179,15 @@
   float: right;
 }
 
-@media (max-width: 428px) {
+/*@media (max-width: 428px) {*/
 
-  #button2 {
-    margin-top: 1rem;
-    float: left;
-  }
+  /*#button2 {*/
+    /*margin-top: 1rem;*/
+    /*float: left;*/
+  /*}*/
 
-  .sendPhoneCode {
-    padding-top: 2rem;
-    text-align: left;
-  }
-}
+  /*.sendPhoneCode {*/
+    /*padding-top: 2rem;*/
+    /*text-align: left;*/
+  /*}*/
+/*}*/

@@ -156,10 +156,12 @@
   border-left: 5px solid #a94442; /* red */
 }
 
-.submitButton {
-  margin-bottom: 2rem;
-}
-
 #heading-message {
   margin-bottom: 3rem;
+}
+
+@media (max-width: 399px) {
+  .auth-box-w form {
+    padding: 20px 40px 60px;
+  }
 }
