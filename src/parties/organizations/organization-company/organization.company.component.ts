@@ -66,7 +66,6 @@ export class OrganizationCompanyComponent implements OnInit {
 
     this.partyService.getPartyId()
        .subscribe((partyId: string) => {
-         console.log(partyId);
          this.partyId = partyId;
          this.partyService.getOrganization(this.partyId)
            .subscribe(organization =>{

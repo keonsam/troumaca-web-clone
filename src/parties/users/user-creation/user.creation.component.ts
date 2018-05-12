@@ -18,6 +18,8 @@ import {Credential} from "../../credential";
 import {PartyAccessRole} from "../../party.access.role";
 import {AccessRole} from "../../../access-roles/access.role";
 
+import { Select2OptionData } from 'ng2-select2';
+
 @Component({
   selector: 'user-creation',
   templateUrl:'./user.creation.component.html',
@@ -44,6 +46,9 @@ export class UserCreationComponent implements OnInit {
   private pageSize:number = 15;
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
+
+  public exampleData: Array<Select2OptionData>;
+  public options: Select2Options;
 
   constructor(private partyEventService: PartyEventService,
               private partyService: PartyService,
@@ -89,6 +94,25 @@ export class UserCreationComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.exampleData = [
+      {
+        id: 'multiple1',
+        text: 'Multiple 1'
+      },
+      {
+        id: 'multiple2',
+        text: 'Multiple 2'
+      },
+      {
+        id: 'multiple3',
+        text: 'Multiple 3'
+      },
+      {
+        id: 'multiple4',
+        text: 'Multiple 4'
+      }
+    ];
+
     this.populateAccessRoleDropDown();
   }
 

@@ -44,6 +44,17 @@
               </fieldset>
 
               <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Enter Access Role">Access Role</label>
+                  <select2 [data]="exampleData"
+                           [options]="options"
+
+                  ></select2>
+                  <div [hidden]="accessRole.valid || accessRole.pristine" class="alert alert-danger">Select an Access Role from the dropdown.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
                 <div class="form-group" [class]="(accessRole.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
                   <label for="Enter Access Role">Access Role</label>
                   <ng2-completer [datasource]="accessRoleDataService"
