@@ -32,8 +32,8 @@ export let getPartyAccessRoleById = (req: Request, res: Response) => {
   let partyId = req.params.partyId;
   orchestrator
     .getPartyAccessRoleById(partyId)
-    .subscribe(partyAccessRole => {
-      let body = JSON.stringify(partyAccessRole);
+    .subscribe(partyAccessRoles => {
+      let body = JSON.stringify(partyAccessRoles);
       res.send(body);
     });
 };

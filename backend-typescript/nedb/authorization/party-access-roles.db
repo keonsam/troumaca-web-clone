@@ -1,2 +1,16 @@
 {"accessRole":{"accessRoleId":"f261a0e1-949f-45f4-b46b-776dea2f4897","name":"Users"},"partyId":"46af049b-7672-486b-8e7b-2b48d448e843","partyAccessRoleId":"ee887247-552d-40d5-9e15-56015f822086","_id":"1SpWvNfN1B1tepvs"}
+{"accessRole":{"accessRoleId":"3a1e6371-5d6b-4d2d-a35d-7dd40e51ca2f","name":"Administration"},"partyId":"2d23e8c8-14b7-45ae-8a4f-e71ff4cfcf41","partyAccessRoleId":"ea1c95f3-e762-4ff5-ac1d-b4cbc6eddcfe","_id":"LklBnjfOmFq5vjW9"}
+{"accessRole":{"accessRoleId":"f261a0e1-949f-45f4-b46b-776dea2f4897","name":"Users"},"partyId":"2d23e8c8-14b7-45ae-8a4f-e71ff4cfcf41","partyAccessRoleId":"227ee2aa-7b8f-4e79-833e-8f6ddc4e798b","_id":"a6l5dhErTsgrO4Xm"}
 {"$$indexCreated":{"fieldName":"partyAccessRoleId","unique":true,"sparse":false}}
+{"$$deleted":true,"_id":"LklBnjfOmFq5vjW9"}
+{"$$deleted":true,"_id":"a6l5dhErTsgrO4Xm"}
+{"partyAccessRoleId":"227ee2aa-7b8f-4e79-833e-8f6ddc4e798b","partyId":"2d23e8c8-14b7-45ae-8a4f-e71ff4cfcf41","accessRole":{"accessRoleId":"f261a0e1-949f-45f4-b46b-776dea2f4897","name":"Users"},"_id":"UMH1DXZX5DpUfVcZ"}
+{"$$deleted":true,"_id":"UMH1DXZX5DpUfVcZ"}
+{"partyAccessRoleId":"227ee2aa-7b8f-4e79-833e-8f6ddc4e798b","partyId":"2d23e8c8-14b7-45ae-8a4f-e71ff4cfcf41","accessRole":{"accessRoleId":"f261a0e1-949f-45f4-b46b-776dea2f4897","name":"Users"},"_id":"RZkgO8q7J8t3jq7S"}
+{"partyId":"2d23e8c8-14b7-45ae-8a4f-e71ff4cfcf41","accessRole":{"accessRoleId":"3a1e6371-5d6b-4d2d-a35d-7dd40e51ca2f","name":"Administration"},"partyAccessRoleId":"436e3064-1b57-4148-8838-f949c6e325fe","_id":"JEm8Q1Ue5ptlJ1FC"}
+{"partyId":"2d23e8c8-14b7-45ae-8a4f-e71ff4cfcf41","accessRole":{"accessRoleId":"065e77dd-5173-4e9c-9e9e-756b96ef4a9b","name":"test2"},"partyAccessRoleId":"52816dec-21ad-4c35-93fb-1ab127dd520f","_id":"5ooqh4yh9fWlX6qV"}
+{"$$deleted":true,"_id":"5ooqh4yh9fWlX6qV"}
+{"$$deleted":true,"_id":"JEm8Q1Ue5ptlJ1FC"}
+{"$$deleted":true,"_id":"RZkgO8q7J8t3jq7S"}
+{"partyAccessRoleId":"52816dec-21ad-4c35-93fb-1ab127dd520f","partyId":"2d23e8c8-14b7-45ae-8a4f-e71ff4cfcf41","accessRole":{"accessRoleId":"065e77dd-5173-4e9c-9e9e-756b96ef4a9b","name":"test2"},"_id":"0PL3LrzvCl2SxKbl"}
+{"partyAccessRoleId":"227ee2aa-7b8f-4e79-833e-8f6ddc4e798b","partyId":"2d23e8c8-14b7-45ae-8a4f-e71ff4cfcf41","accessRole":{"accessRoleId":"f261a0e1-949f-45f4-b46b-776dea2f4897","name":"Users"},"_id":"mup8legbytvCsgCN"}

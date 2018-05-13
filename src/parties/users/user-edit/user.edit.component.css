@@ -545,3 +545,11 @@ li {
 .ng2-completer-valid /deep/ .completer-input {
   border-left: 5px solid #42A948; /* green */
 }
+
+.select2-invalid /deep/ .select2-selection--multiple {
+  border-left: 5px solid #a94442; /* red */
+}
+
+.select2-valid /deep/ .select2-selection--multiple {
+  border-left: 5px solid #42A948; /* green */
+}

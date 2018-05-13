@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
+//import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from '@angular/router';
 import {Router} from "@angular/router";
@@ -11,12 +11,14 @@ import "rxjs/add/operator/single";
 import "rxjs/add/operator/take";
 import "rxjs/add/operator/switchMap";
 
+import { map, reduce, somethingElse } from "underscore";
+
 import {PartyEventService} from "../../party.event.service";
 import {PartyService} from "../../party.service";
 import {User} from "../../user";
 import {Credential} from "../../credential";
 import {PartyAccessRole} from "../../party.access.role";
-import {AccessRole} from "../../../access-roles/access.role";
+import {Select2OptionData} from "ng2-select2";
 
 @Component({
   selector: 'user-edit',
@@ -35,29 +37,33 @@ export class UserEditComponent implements OnInit {
   private _accessRole: FormControl;
   private _accessRoleId: string;
 
-  private _accessRoleDataService: CompleterData;
+  // private _accessRoleDataService: CompleterData;
 
   private _userEditForm: FormGroup;
 
   private user: User;
   private credential: Credential;
-  private partyAccessRole: PartyAccessRole;
+  private partyAccessRoles: PartyAccessRole[];
 
   private pageSize:number = 15;
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
 
+  public accessRoleData: Array<Select2OptionData>;
+  public options: Select2Options;
+  private value: string[];
+  private accessRoles: string[];
+
   constructor(private partyEventService:PartyEventService,
               private partyService: PartyService,
-              private completerService: CompleterService,
+              //private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
 
     this.user = new User();
     this.credential = new Credential();
-    this.partyAccessRole = new PartyAccessRole();
-    this.partyAccessRole.accessRole = new AccessRole();
+    this.partyAccessRoles = [];
 
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
@@ -91,6 +97,23 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.findAccessRole("");
+
+    this.options = {
+      width: "100%",
+      placeholder: "Select Access Roles",
+      multiple: true,
+      closeOnSelect: false,
+      containerCss: {
+        "display": "block"
+      },
+      dropdownCss: {
+        "max-height": "200px !important",
+        "overflow-y": "scroll",
+        "overflow-x": "hidden"
+      }
+    };
+
     this.sub = this.route.params.subscribe(params => {
        this.partyId = params['partyId'];
        this.partyService.getUser(this.partyId)
@@ -109,45 +132,71 @@ export class UserEditComponent implements OnInit {
       });
     });
 
-    this.populateAccessRoleDropDown();
+    // this.populateAccessRoleDropDown();
   }
+
 
   getPartyAccessRole() {
     this.partyService.getPartyAccessRoleById(this.partyId)
-      .subscribe(partyAccessRole => {
-        this.accessRole.setValue(partyAccessRole.accessRole.name);
-        this.partyAccessRole = partyAccessRole;
+      .subscribe(partyAccessRoles => {
+        let values = map(partyAccessRoles, value => value.accessRole.accessRoleId);
+        this.accessRole.setValue(values.join(","));
+        this.value = values;
+        this.partyAccessRoles = partyAccessRoles;
       });
   }
 
-  populateAccessRoleDropDown() {
-    this.accessRoleDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
-    this.userEditForm.get("accessRole").valueChanges
-      .debounceTime(1000) // debounce
-      .filter(value => { // filter out empty values
-        return !!(value);
+  changed(data: {value: string[]}) {
+    this.accessRole.setValue(data.value.join(","));
+    this.accessRoles = data.value;
+  }
+
+  findAccessRole(value) {
+    this.partyService
+      .findAccessRole(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => {
+          return {
+            id: v2.accessRoleId,
+            text: v2.name,
+          };
+        })
       })
-      .subscribe(value => {
-        console.log("value: " + value);
-        that.partyService
-          .findAccessRole(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.map(v2 => {
-              return {
-                accessRoleId: v2.accessRoleId,
-                name: v2.name,
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findAccessRole next - " + next);
-            this.accessRoleDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findAccessRole error - " + error);
-          });
+      .subscribe(next => { // update the data
+        this.accessRoleData = next;
+      }, error => {
+        console.log("findAccessRole error - " + error);
       });
   }
+
+  // populateAccessRoleDropDown() {
+  //   this.accessRoleDataService = this.completerService.local([], 'name', 'name');
+  //   let that = this;
+  //   this.userEditForm.get("accessRole").valueChanges
+  //     .debounceTime(1000) // debounce
+  //     .filter(value => { // filter out empty values
+  //       return !!(value);
+  //     })
+  //     .subscribe(value => {
+  //       console.log("value: " + value);
+  //       that.partyService
+  //         .findAccessRole(value, that.pageSize) // send search request to the backend
+  //         .map(value2 => { // convert results to dropdown data
+  //           return value2.map(v2 => {
+  //             return {
+  //               accessRoleId: v2.accessRoleId,
+  //               name: v2.name,
+  //             };
+  //           })
+  //         })
+  //         .subscribe(next => { // update the data
+  //           console.log("findAccessRole next - " + next);
+  //           this.accessRoleDataService = this.completerService.local(next, 'name', 'name');
+  //         }, error => {
+  //           console.log("findAccessRole error - " + error);
+  //         });
+  //     });
+  // }
 
   usernameEditValidator(partyService:PartyService) {
     let usernameControl = null;
@@ -228,13 +277,13 @@ export class UserEditComponent implements OnInit {
     this._accessRole = value;
   }
 
-  get accessRoleDataService(): CompleterData {
-    return this._accessRoleDataService;
-  }
-
-  set accessRoleDataService(value: CompleterData) {
-    this._accessRoleDataService = value;
-  }
+  // get accessRoleDataService(): CompleterData {
+  //   return this._accessRoleDataService;
+  // }
+  //
+  // set accessRoleDataService(value: CompleterData) {
+  //   this._accessRoleDataService = value;
+  // }
 
   get accessRoleId(): string {
     return this._accessRoleId;
@@ -268,11 +317,11 @@ export class UserEditComponent implements OnInit {
     this._doNotDisplayFailureMessage2 = value;
   }
 
-  onAccessRoleSelect(selected: CompleterItem) {
-    if (selected) {
-      this.partyAccessRole.accessRole = selected.originalObject;
-    }
-  }
+  // onAccessRoleSelect(selected: CompleterItem) {
+  //   if (selected) {
+  //     this.partyAccessRole.accessRole = selected.originalObject;
+  //   }
+  // }
 
   updateCredential() {
     this.partyService
@@ -289,11 +338,32 @@ export class UserEditComponent implements OnInit {
     });
   }
 
+  removePartyAccessRoles() {
+    this.partyAccessRoles = this.partyAccessRoles.filter(value => {
+      if(this.accessRoles.indexOf(value.accessRole.accessRoleId) > -1) {
+        if(!value.partyId) {
+          value.partyId = this.partyId;
+        }
+        return value;
+      }
+    });
+  }
+
+  getAccessRole(id: string) {
+    return this.accessRoleData.find(x => x.id === id).text;
+  }
+
   onCreate() {
+    this.accessRoles.forEach( value => {
+      if(this.partyAccessRoles.findIndex(x => x.accessRole.accessRoleId === value) < 0){
+        this.partyAccessRoles.push(new PartyAccessRole(value, this.getAccessRole(value)));
+      }
+    });
+    this.removePartyAccessRoles();
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
       this.partyService
-      .updateUser(this.user, this.partyAccessRole)
+      .updateUser(this.user, this.partyAccessRoles)
       .subscribe(value => {
         if (value) {
           if(this.username.value != this.firstUsername){

@@ -68,7 +68,7 @@ export class PartyAccessRoleState {
     return {
       partyAccessRoleId: this.partyAccessRoleId,
       partyId: this.partyId,
-      accessRole: this.accessRole,
+      accessRole: {accessRoleId:this.accessRole.accessRoleId, name:this.accessRole.name},
       effectiveDate: this.effectiveDate,
       untilDate: this.untilDate,
       createdOn: this.createdOn,

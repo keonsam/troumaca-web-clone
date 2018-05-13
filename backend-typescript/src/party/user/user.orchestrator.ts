@@ -52,16 +52,18 @@ export class UserOrchestrator {
       return this.userRepository.getUser(partyId);
     };
 
-     saveUser (user:User, partyAccessRole:PartyAccessRole): Observable<Result<any>> {
+     saveUser (user:User, partyAccessRoles:PartyAccessRole[]): Observable<Result<any>> {
        return this.userRepository.saveUser(user)
          .switchMap(user => {
            if (!user) {
              return Observable.of(new Result<any>(true, "users", user));
            } else {
-             partyAccessRole.partyId = user.partyId
-             return this.partyAccessRoleRepository.addPartyAccessRole(partyAccessRole)
+             partyAccessRoles.forEach( value => {
+               value.partyId = user.partyId;
+             });
+             return this.partyAccessRoleRepository.addPartyAccessRole(partyAccessRoles)
                .switchMap(partyAccessRole => {
-                 if (!partyAccessRole) {
+                 if (partyAccessRole.length === 0) {
                    return Observable.of(new Result<any>(true, "users", user));
                  } else {
                    this.credential.partyId = user.partyId;
@@ -103,11 +105,25 @@ export class UserOrchestrator {
          });
     };
 
-    updateUser (partyId:string, user:User, partyAccessRole:PartyAccessRole):Observable<number> {
+    updateUser (partyId:string, user:User, partyAccessRoles:PartyAccessRole[]):Observable<number> {
        return this.userRepository.updateUser(partyId, user)
          .switchMap(numUpdated => {
            if (numUpdated) {
-             return this.partyAccessRoleRepository.updatePartyAccessRole(partyAccessRole.partyAccessRoleId, partyAccessRole);
+             return this.partyAccessRoleRepository.deletePartyAccessRole(partyId)
+               .switchMap(numRemoved => {
+                 if(!numRemoved) {
+                   return Observable.of(0);
+                 }else {
+                   return this.partyAccessRoleRepository.addPartyAccessRole(partyAccessRoles)
+                     .map( next => {
+                       if(next.length === 0) {
+                         return 0;
+                       }else {
+                         return numUpdated;
+                       }
+                     });
+                 }
+               });
            }else {
              return Observable.of(0);
            }

@@ -41,7 +41,7 @@ export class PartyAccessRoleOrchestrator {
   //     });
   // };
 
-  getPartyAccessRoleById(partyPartyAccessRoleId:string):Observable<PartyAccessRole> {
+  getPartyAccessRoleById(partyPartyAccessRoleId:string):Observable<PartyAccessRole[]> {
     return this.partyPartyAccessRoleRepository.getPartyAccessRoleById(partyPartyAccessRoleId);
   };
 

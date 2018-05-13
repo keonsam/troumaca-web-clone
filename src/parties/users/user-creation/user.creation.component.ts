@@ -35,20 +35,21 @@ export class UserCreationComponent implements OnInit {
 
   private _accessRoleId: string;
 
-  private _accessRoleDataService: CompleterData;
+  // private _accessRoleDataService: CompleterData;
 
   private _userForm: FormGroup;
 
   private user: User;
-  private partyAccessRole: PartyAccessRole;
+  private partyAccessRoles: PartyAccessRole[];
   private credential: Credential;
 
   private pageSize:number = 15;
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
 
-  public exampleData: Array<Select2OptionData>;
+  public accessRoleData: Array<Select2OptionData>;
   public options: Select2Options;
+  private accessRoles: string[];
 
   constructor(private partyEventService: PartyEventService,
               private partyService: PartyService,
@@ -58,8 +59,7 @@ export class UserCreationComponent implements OnInit {
 
     this.user = new User();
     this.credential = new Credential();
-    this.partyAccessRole = new PartyAccessRole();
-    this.partyAccessRole.accessRole = new AccessRole();
+    this.partyAccessRoles = [];
 
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
@@ -94,38 +94,27 @@ export class UserCreationComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.exampleData = [
-      {
-        id: 'multiple1',
-        text: 'Multiple 1'
-      },
-      {
-        id: 'multiple2',
-        text: 'Multiple 2'
-      },
-      {
-        id: 'multiple3',
-        text: 'Multiple 3'
-      },
-      {
-        id: 'multiple4',
-        text: 'Multiple 4'
-      }
-    ];
+    this.findAccessRole("");
 
-    this.populateAccessRoleDropDown();
+    this.options = {
+      width: "100%",
+      placeholder: "Select Access Roles",
+      multiple: true,
+      closeOnSelect: false,
+      containerCss: {
+        "display": "block"
+      },
+      dropdownCss: {
+        "max-height": "200px !important",
+        "overflow-y": "scroll",
+        "overflow-x": "hidden"
+      }
+    }
   }
 
-  populateAccessRoleDropDown() {
-    this.findAccessRole("");
-    this.userForm.get("accessRole").valueChanges
-      //.debounceTime(1000) // debounce
-      .filter(value => { // filter out empty values
-        return !!(value);
-      })
-      .subscribe(value => {
-        this.findAccessRole(value);
-      });
+  changed(data: {value: string[]}) {
+    this.accessRole.setValue(data.value.join(","));
+    this.accessRoles = data.value;
   }
 
   findAccessRole(value) {
@@ -134,17 +123,47 @@ export class UserCreationComponent implements OnInit {
       .map(value2 => { // convert results to dropdown data
         return value2.map(v2 => {
           return {
-            accessRoleId: v2.accessRoleId,
-            name: v2.name,
+            id: v2.accessRoleId,
+            text: v2.name,
           };
         })
       })
       .subscribe(next => { // update the data
-        this.accessRoleDataService = this.completerService.local(next, 'name', 'name');
+        this.accessRoleData = next;
       }, error => {
         console.log("findAccessRole error - " + error);
       });
   }
+
+  // populateAccessRoleDropDown() {
+  //   this.findAccessRole("");
+  //   this.userForm.get("accessRole").valueChanges
+  //     //.debounceTime(1000) // debounce
+  //     .filter(value => { // filter out empty values
+  //       return !!(value);
+  //     })
+  //     .subscribe(value => {
+  //       this.findAccessRole(value);
+  //     });
+  // }
+  //
+  // findAccessRole(value) {
+  //   this.partyService
+  //     .findAccessRole(value, this.pageSize) // send search request to the backend
+  //     .map(value2 => { // convert results to dropdown data
+  //       return value2.map(v2 => {
+  //         return {
+  //           accessRoleId: v2.accessRoleId,
+  //           name: v2.name,
+  //         };
+  //       })
+  //     })
+  //     .subscribe(next => { // update the data
+  //       this.accessRoleDataService = this.completerService.local(next, 'name', 'name');
+  //     }, error => {
+  //       console.log("findAccessRole error - " + error);
+  //     });
+  // }
 
   usernameValidator(partyService:PartyService) {
     let usernameControl = null;
@@ -233,13 +252,13 @@ export class UserCreationComponent implements OnInit {
     this._accessRoleId = value;
   }
 
-  get accessRoleDataService(): CompleterData {
-    return this._accessRoleDataService;
-  }
-
-  set accessRoleDataService(value: CompleterData) {
-    this._accessRoleDataService = value;
-  }
+  // get accessRoleDataService(): CompleterData {
+  //   return this._accessRoleDataService;
+  // }
+  //
+  // set accessRoleDataService(value: CompleterData) {
+  //   this._accessRoleDataService = value;
+  // }
 
   get userForm(): FormGroup {
     return this._userForm;
@@ -265,18 +284,25 @@ export class UserCreationComponent implements OnInit {
     this._doNotDisplayFailureMessage2 = value;
   }
 
-  onAccessRoleSelect(selected: CompleterItem) {
-    if (selected) {
-      this.partyAccessRole.accessRole = selected.originalObject;
-    }
+  // onAccessRoleSelect(selected: CompleterItem) {
+  //   if (selected) {
+  //     this.partyAccessRole.accessRole = selected.originalObject;
+  //   }
+  // }
+
+  getAccessRole(id: string) {
+    return this.accessRoleData.find(x => x.id === id).text;
   }
 
   onCreate() {
 
+    this.accessRoles.forEach( value => {
+      this.partyAccessRoles.push(new PartyAccessRole(value, this.getAccessRole(value)));
+    });
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
       this.partyService
-      .addUser(this.user, this.partyAccessRole)
+      .addUser(this.user, this.partyAccessRoles)
       .subscribe(value => {
         if (value && value.partyId) {
           this.router.navigate(['/parties/users']);

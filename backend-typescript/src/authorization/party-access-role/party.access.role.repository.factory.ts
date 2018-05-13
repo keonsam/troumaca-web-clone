@@ -52,14 +52,18 @@ class PartyAccessRoleDBRepository implements PartyAccessRoleRepository {
   //   });
   // };
 
-  addPartyAccessRole(partyAccessRole: PartyAccessRole): Observable<PartyAccessRole> {
-    partyAccessRole.partyAccessRoleId = generateUUID();
-    return Rx.Observable.create(function(observer:Observer<PartyAccessRole>) {
-      partyAccessRoles.insert(partyAccessRole, function(err:any, doc:any) {
+  addPartyAccessRole(partyAccessRole: PartyAccessRole[]): Observable<PartyAccessRole[]> {
+    partyAccessRole.forEach( value => {
+      if(!value.partyAccessRoleId){
+        value.partyAccessRoleId = generateUUID();
+      }
+    });
+    return Rx.Observable.create(function(observer:Observer<PartyAccessRole[]>) {
+      partyAccessRoles.insert(partyAccessRole, function(err:any, docs:any) {
         if (err) {
           observer.error(err);
         } else {
-          observer.next(doc);
+          observer.next(docs);
         }
         observer.complete();
       });
@@ -71,7 +75,7 @@ class PartyAccessRoleDBRepository implements PartyAccessRoleRepository {
       let query = {
         "partyId":partyId
       };
-      partyAccessRoles.remove(query, {}, function (err:any, numRemoved:number) {
+      partyAccessRoles.remove(query, {multi:true}, function (err:any, numRemoved:number) {
         if (!err) {
           observer.next(numRemoved);
         } else {
@@ -82,14 +86,14 @@ class PartyAccessRoleDBRepository implements PartyAccessRoleRepository {
     });
   }
 
-  getPartyAccessRoleById(partyId: string): Observable<PartyAccessRole> {
-    return Rx.Observable.create(function (observer:Observer<PartyAccessRole>) {
+  getPartyAccessRoleById(partyId: string): Observable<PartyAccessRole[]> {
+    return Rx.Observable.create(function (observer:Observer<PartyAccessRole[]>) {
       let query = {
         "partyId":partyId
       };
-      partyAccessRoles.findOne(query, function (err:any, doc:any) {
+      partyAccessRoles.find(query, function (err:any, docs:any) {
         if (!err) {
-          observer.next(doc);
+          observer.next(docs);
         } else {
           observer.error(err);
         }
@@ -132,7 +136,7 @@ class PartyAccessRoleRestRepository implements PartyAccessRoleRepository {
   //   return undefined;
   // }
 
-  addPartyAccessRole(partyAccessRole: PartyAccessRole): Observable<PartyAccessRole> {
+  addPartyAccessRole(partyAccessRole: PartyAccessRole[]): Observable<PartyAccessRole[]> {
     return undefined;
   }
 
@@ -140,7 +144,7 @@ class PartyAccessRoleRestRepository implements PartyAccessRoleRepository {
     return undefined;
   }
 
-  getPartyAccessRoleById(partyId: string): Observable<PartyAccessRole> {
+  getPartyAccessRoleById(partyId: string): Observable<PartyAccessRole[]> {
     return undefined;
   }
 

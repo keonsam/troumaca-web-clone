@@ -9,6 +9,13 @@ export class PartyAccessRole {
   private _createdOn: Date;
   private _modifiedOn: Date;
 
+
+  constructor(accessRoleId?: string, name?:string) {
+    this._accessRole = new AccessRole();
+    this._accessRole.accessRoleId = accessRoleId;
+    this._accessRole.name = name;
+  }
+
   get partyAccessRoleId(): string {
     return this._partyAccessRoleId;
   }

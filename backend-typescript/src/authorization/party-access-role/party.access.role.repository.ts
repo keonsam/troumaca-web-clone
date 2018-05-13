@@ -9,9 +9,9 @@ export interface PartyAccessRoleRepository {
 
   //getPartyAccessRoleCount():Observable<number>;
 
-  addPartyAccessRole(partyAccessRole:PartyAccessRole):Observable<PartyAccessRole>;
+  addPartyAccessRole(partyAccessRole:PartyAccessRole[]):Observable<PartyAccessRole[]>;
 
-  getPartyAccessRoleById(partyId:string):Observable<PartyAccessRole>;
+  getPartyAccessRoleById(partyId:string):Observable<PartyAccessRole[]>;
 
   updatePartyAccessRole(partyAccessRoleId:string, partyAccessRole:PartyAccessRole):Observable<number>;
 

@@ -16,7 +16,7 @@ export abstract class PersonClient {
   public abstract getUsers(pageNumber:number, pageSize:number, sortOrder:string):Observable<UserStates>;
   public abstract getOrganizations(pageNumber:number, pageSize:number, sortOrder:string):Observable<OrganizationStates>;
 
-  public abstract getPartyAccessRoleById(partyId: string): Observable<PartyAccessRoleState>;
+  public abstract getPartyAccessRoleById(partyId: string): Observable<PartyAccessRoleState[]>;
   public abstract getPartyAccessRoles() :Observable<PartyAccessRoleState[]>;
 
 
@@ -25,7 +25,7 @@ export abstract class PersonClient {
 
   public abstract getPhoto(partyId: string, type:string): Observable<string>;
 
-  public abstract addUserState(userState: UserState, partyAccessRoleState:PartyAccessRoleState): Observable<UserState>;
+  public abstract addUserState(userState: UserState, partyAccessRoleStates:PartyAccessRoleState[]): Observable<UserState>;
   public abstract addOrganizationState(organizationState: OrganizationState): Observable<OrganizationState>;
   public abstract addPhoto(partyId: string, croppedImage:string, type:string): Observable<boolean>;
   public abstract addAccountState(accountType:string, userState: UserState, organizationState: OrganizationState): Observable<AccountResponse>;
@@ -33,7 +33,7 @@ export abstract class PersonClient {
   public abstract deleteUser(partyId: string): Observable<number>;
   public abstract deleteOrganization(partyId: string): Observable<number>;
 
-  public abstract updateUser(userState: UserState, partyAccessRoleState:PartyAccessRoleState): Observable<number>;
+  public abstract updateUser(userState: UserState, partyAccessRoleState:PartyAccessRoleState[]): Observable<number>;
   public abstract updateUserMe(userState: UserState, credentialState:CredentialState): Observable<number>;
   public abstract updateOrganization(organizationState: OrganizationState): Observable<number>;
   public abstract updateCredential(credentialState: CredentialState): Observable<number>;
