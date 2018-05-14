@@ -86,6 +86,23 @@ class PartyAccessRoleDBRepository implements PartyAccessRoleRepository {
     });
   }
 
+  deletePartyAccessRoleByAccessRoleId(accessRoleId: string): Observable<number> {
+    return Rx.Observable.create(function (observer:Observer<number>) {
+      let query = {
+        "accessRole.accessRoleId":accessRoleId
+      };
+      partyAccessRoles.remove(query, {multi:true}, function (err:any, numRemoved:number) {
+        if (!err) {
+          console.log(numRemoved);
+          observer.next(numRemoved);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      })
+    });
+  }
+
   getPartyAccessRoleById(partyId: string): Observable<PartyAccessRole[]> {
     return Rx.Observable.create(function (observer:Observer<PartyAccessRole[]>) {
       let query = {
@@ -141,6 +158,10 @@ class PartyAccessRoleRestRepository implements PartyAccessRoleRepository {
   }
 
   deletePartyAccessRole(partyId: string): Observable<number> {
+    return undefined;
+  }
+
+  deletePartyAccessRoleByAccessRoleId(accessRoleId: string): Observable<number> {
     return undefined;
   }
 

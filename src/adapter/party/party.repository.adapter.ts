@@ -50,6 +50,9 @@ export class PartyRepositoryAdapter extends PartyRepository {
         userModels.users = map(values.users, value => {
           return mapObjectProps(value, new User());
         });
+        userModels.partyAccessRoles = map(values.partyAccessRoles, value => {
+          return mapObjectProps(value, new PartyAccessRole());
+        });
        userModels.page = mapObjectProps(values.page, new Page());
        userModels.sort = mapObjectProps(values.sort, new Sort());
         return userModels;

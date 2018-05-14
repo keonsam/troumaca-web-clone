@@ -45,7 +45,7 @@
               <td>{{user.middleName}}</td>
               <td>{{user.lastName}}</td>
               <td>{{user.username}}</td>
-              <td>{{getUserAccessRole(user.partyId)}}</td>
+              <td>{{getUserAccessRole(user.partyId).join(" , ")}}</td>
               <td class="row-actions">
                 <a [routerLink]="['/parties/users', user.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(user.partyId, user.username)"><i class="os-icon os-icon-ui-15"></i></a>
               </td>

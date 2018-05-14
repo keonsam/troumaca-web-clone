@@ -36,8 +36,7 @@ export class UserOrchestrator {
 
     getUsers (number:number, size:number, field:string, direction:string):Observable<Result<any>> {
       let sort = getSortOrderOrDefault(field, direction);
-      return this.userRepository
-        .getUsers(number, size, sort)
+      return this.userRepository.getUsers(number, size, sort)
         .flatMap(value => {
           return this.userRepository
             .getUserCount()

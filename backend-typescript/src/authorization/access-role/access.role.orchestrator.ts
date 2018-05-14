@@ -8,15 +8,19 @@ import {getSortOrderOrDefault} from "../../sort.order.util";
 import {Grant} from "../grant/grant";
 import {GrantRepository} from "../grant/grant.repository";
 import {createGrantRepositoryFactory} from "../grant/grant.repository.factory";
+import {PartyAccessRoleRepository} from "../party-access-role/party.access.role.repository";
+import {createPartyAccessRoleRepositoryFactory} from "../party-access-role/party.access.role.repository.factory";
 
 export class AccessRoleOrchestrator {
 
   private accessRoleRepository:AccessRoleRepository;
   private grantRepository: GrantRepository;
-  
+  private partyAccessRoleRepository: PartyAccessRoleRepository;
+
   constructor() {
     this.accessRoleRepository = createAccessRoleRepositoryFactory();
     this.grantRepository = createGrantRepositoryFactory();
+    this.partyAccessRoleRepository = createPartyAccessRoleRepositoryFactory();
   }
 
   findAccessRoles(searchStr: string, pageSize: number): Observable<AccessRole[]> {
@@ -69,7 +73,7 @@ export class AccessRoleOrchestrator {
                 return this.grantRepository.addGrant(grants)
                   .map(docs => {
                     if(docs) {
-                     return numUpdated; 
+                     return numUpdated;
                     }
                   });
               }
@@ -82,7 +86,12 @@ export class AccessRoleOrchestrator {
     return this.accessRoleRepository.deleteAccessRole(accessRoleId)
       .switchMap(numReplaced => {
         if(numReplaced){
-          return this.grantRepository.deleteGrant(accessRoleId);
+          return this.grantRepository.deleteGrant(accessRoleId)
+            .switchMap(numReplaced2 => {
+              if(numReplaced2) {
+                return this.partyAccessRoleRepository.deletePartyAccessRoleByAccessRoleId(accessRoleId);
+              }
+            });
         }
         });
   };

@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
+//import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 import {Router} from "@angular/router";
@@ -16,7 +16,6 @@ import {PartyService} from "../../party.service";
 import {User} from "../../user";
 import {Credential} from "../../credential";
 import {PartyAccessRole} from "../../party.access.role";
-import {AccessRole} from "../../../access-roles/access.role";
 
 import { Select2OptionData } from 'ng2-select2';
 
@@ -53,7 +52,7 @@ export class UserCreationComponent implements OnInit {
 
   constructor(private partyEventService: PartyEventService,
               private partyService: PartyService,
-              private completerService: CompleterService,
+              //private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
