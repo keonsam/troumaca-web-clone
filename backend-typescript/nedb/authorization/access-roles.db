@@ -1,9 +1,3 @@
 {"accessRoleId":"f261a0e1-949f-45f4-b46b-776dea2f4897","name":"Users","accessRoleType":{"accessRoleTypeId":"4b164b02-fa8c-470e-98c3-fdcf71897740","name":"Permission Role"},"description":"simple users","prohibitionIndicator":true,"effectiveDate":"2018-05-03","untilDate":"2018-10-16","_id":"MsYy7GxOP2bbxSOX"}
 {"name":"Administration","accessRoleType":{"accessRoleTypeId":"4b164b02-fa8c-470e-98c3-fdcf71897740","name":"Permission Role"},"description":"Access to all resources","prohibitionIndicator":false,"effectiveDate":"2018-05-13","untilDate":"2018-11-15","accessRoleId":"3a1e6371-5d6b-4d2d-a35d-7dd40e51ca2f","_id":"bXzfLhvwK6XdjBzf"}
 {"$$indexCreated":{"fieldName":"accessRoleId","unique":true,"sparse":false}}
-{"name":"test6","accessRoleType":{"accessRoleTypeId":"4b164b02-fa8c-470e-98c3-fdcf71897740","name":"Permission Role"},"description":"","prohibitionIndicator":false,"effectiveDate":"2018-05-14","untilDate":"2018-11-16","accessRoleId":"8db6dbe7-a4a8-4f62-97a8-88b2108f4429","_id":"zW1LgcmevuaxDfs4"}
-{"$$deleted":true,"_id":"zW1LgcmevuaxDfs4"}
-{"name":"test13","accessRoleType":{"accessRoleTypeId":"4b164b02-fa8c-470e-98c3-fdcf71897740","name":"Permission Role"},"description":"","prohibitionIndicator":false,"effectiveDate":"2018-05-14","untilDate":"2018-11-16","accessRoleId":"2268acc1-d2fb-42af-b6f0-6b9de58bacff","_id":"dc2pwWP7CCQueR5M"}
-{"$$deleted":true,"_id":"dc2pwWP7CCQueR5M"}
-{"name":"test123","accessRoleType":{"accessRoleTypeId":"4b164b02-fa8c-470e-98c3-fdcf71897740","name":"Permission Role"},"description":"","prohibitionIndicator":false,"effectiveDate":"2018-05-14","untilDate":"2018-11-16","accessRoleId":"1410daf9-3f0f-44e5-8328-aab65ebd7d87","_id":"yx0pdmGibDPdUPeO"}
-{"$$deleted":true,"_id":"yx0pdmGibDPdUPeO"}

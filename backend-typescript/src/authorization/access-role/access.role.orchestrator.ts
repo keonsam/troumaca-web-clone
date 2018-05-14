@@ -89,7 +89,10 @@ export class AccessRoleOrchestrator {
           return this.grantRepository.deleteGrant(accessRoleId)
             .switchMap(numReplaced2 => {
               if(numReplaced2) {
-                return this.partyAccessRoleRepository.deletePartyAccessRoleByAccessRoleId(accessRoleId);
+                return this.partyAccessRoleRepository.deletePartyAccessRoleByAccessRoleId(accessRoleId)
+                  .map( numReplaced3 => {
+                    return numReplaced;
+                  });
               }
             });
         }
