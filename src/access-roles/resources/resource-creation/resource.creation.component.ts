@@ -68,7 +68,6 @@ export class ResourceCreationComponent implements OnInit {
 
     this.assignedArray = [];
     this.resource = new Resource();
-    this.resource.resourceType = new ResourceType();
     this.doNotDisplayFailureMessage = true;
   }
 
@@ -203,7 +202,7 @@ export class ResourceCreationComponent implements OnInit {
 
   onResourceTypeIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.resource.resourceType = selected.originalObject;
+      this.resource.resourceTypeId = selected.originalObject.resourceTypeId;
     }
   }
 

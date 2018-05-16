@@ -261,7 +261,7 @@ export class ResourceEditComponent implements OnInit {
 
   onResourceTypeIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.resource.resourceType = selected.originalObject;
+      this.resource.resourceTypeId = selected.originalObject.resourceTypeId;
     }
   }
 

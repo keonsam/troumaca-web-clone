@@ -35,6 +35,7 @@ export class AttributeListComponent implements OnInit {
     this.attributeService
     .getAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
+      console.log(next);
       this.attributes = next;
     }, error => {
       console.log(error);

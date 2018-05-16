@@ -40,7 +40,7 @@
                 <td>{{assetType.assetTypeClass.name}}</td>
                 <td>{{assetType.modelNumber}}</td>
                 <td>{{assetType.materialCode}}</td>
-                <td>{{assetType.unitOfMeasureId}}</td>
+                <td>{{assetType.unitOfMeasure.name}}</td>
                 <td>{{assetType.description}}</td>
                 <td class="row-actions">
                  <a [routerLink]="['/asset-types', assetType.assetTypeId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(assetType.assetTypeId, assetType.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>

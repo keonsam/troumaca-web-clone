@@ -3,10 +3,9 @@ import {AssetTypeRepository} from "../../asset-types/asset.type.repository";
 import {AssetTypesClient} from "../../client/asset-type/asset.types.client";
 import {Observable} from "rxjs/Observable";
 import {mapObjectProps} from "../../mapper/object.property.mapper";
-import { _ } from "underscore";
-import { map, reduce, somethingElse } from "underscore";
-import {Attribute} from "../../attributes/attribute";
-import {Attributes} from "../../attributes/attributes";
+import { map, reduce, somethingElse, _ } from "underscore";
+// import {Attribute} from "../../attributes/attribute";
+// import {Attributes} from "../../attributes/attributes";
 import {AssetType} from "../../asset-types/asset.type";
 import {AssetTypes} from "../../asset-types/asset.types";
 import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
@@ -19,6 +18,7 @@ import {Values} from "../../asset-types/values";
 import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
+import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
 
 export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
 
@@ -43,11 +43,13 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
       });
   }
 
-  public getAssignedAttributes(assetTypeClassId: string): Observable<any> {
+  public getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]> {
     return this.assetTypesClient
       .getAssignedAttributes(assetTypeClassId)
-      .map(values => {
-        return values;
+      .map(assignedAttributes => {
+        return map(assignedAttributes, value => {
+         return mapObjectProps(value, new AssignedAttribute());
+        });
       });
   }
 

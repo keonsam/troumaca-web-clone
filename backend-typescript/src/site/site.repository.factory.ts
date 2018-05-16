@@ -5,6 +5,7 @@ import {Observer} from "rxjs/Observer";
 import {RepositoryKind} from "../repository.kind";
 import {sites} from "../db";
 import {UnionOfPhysicalSite} from "./union.of.physical.site";
+import {Site} from "./site";
 
 class SiteDBRepository implements SiteRepository {
   findSite(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSite[]> {
@@ -31,12 +32,54 @@ class SiteDBRepository implements SiteRepository {
       };
     });
   }
+
+  getSiteById(siteId: string): Observable<Site> {
+    let query = {
+      "siteId": siteId
+    };
+    return Rx.Observable.create(function (observer: Observer<Site>) {
+      sites.findOne(query, function (err: any, doc: any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
+  getSiteByIds(siteIds: string[]): Observable<Site[]> {
+    // let query = {
+    //   "siteId": siteId
+    // };
+    return Rx.Observable.create(function (observer: Observer<Site[]>) {
+      sites.find({siteId:{$in:siteIds}}, function (err: any, doc: any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
 }
 
 class SiteRestRepository implements SiteRepository {
-  findSite(searchStr:string, pageSize:number): Observable<UnionOfPhysicalSite[]> {
+  findSite(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSite[]> {
     return undefined;
   }
+
+  getSiteById(siteId: string): Observable<Site> {
+    return undefined;
+  }
+
+  getSiteByIds(siteIds: string[]): Observable<Site[]> {
+    return undefined;
+  }
+
 }
 
 export function createSiteRepository(kind?:RepositoryKind):SiteRepository {

@@ -10,6 +10,7 @@ import {ValueStates} from "./value.states";
 import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { map, reduce, somethingElse } from "underscore";
+import {AssignedAttributeState} from "../asset-type-class/assigned.attribute.state";
 
 export class AssetTypesClientHttp extends AssetTypesClient {
 
@@ -56,7 +57,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     });
   }
 
-  public getAssignedAttributes(assetTypeClassId: string): Observable<any> {
+  public getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttributeState[]> {
     let url = `${this.hostPort}/assigned-attributes/${assetTypeClassId}`;
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient

@@ -31,10 +31,49 @@ class UnitOfMeasureDBRepository implements UnitOfMeasureRepository {
       }
     });
   }
+
+  getUnitOfMeasureById(unitOfMeasureId: string): Observable<UnitOfMeasure> {
+    let query = {
+      "unitOfMeasureId": unitOfMeasureId
+    }
+    return Rx.Observable.create(function (observer: Observer<UnitOfMeasure>) {
+      unitOfMeasures.findOne(query, function (err: any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
+  getUnitOfMeasureByIds(unitOfMeasureIds: string[]): Observable<UnitOfMeasure[]> {
+
+    return Rx.Observable.create(function (observer: Observer<UnitOfMeasure[]>) {
+      unitOfMeasures.find({unitOfMeasureId: { $in: unitOfMeasureIds}}, function (err: any, docs:any) {
+        if (!err) {
+          observer.next(docs);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
 }
 
 class UnitOfMeasureRestRepository implements UnitOfMeasureRepository {
   findUnitOfMeasure(searchStr: string, pageSize:number): Observable<UnitOfMeasure[]> {
+    return null;
+  }
+
+  getUnitOfMeasureById(unitOfMeasureId: string): Observable<UnitOfMeasure> {
+    return null;
+  }
+
+  getUnitOfMeasureByIds(unitOfMeasureIds: string[]): Observable<UnitOfMeasure[]> {
     return null;
   }
 }

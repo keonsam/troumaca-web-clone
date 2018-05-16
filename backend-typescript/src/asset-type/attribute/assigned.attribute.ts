@@ -1,8 +1,11 @@
+import {Attribute} from "./attribute";
+
 export class AssignedAttribute {
 
   private _assignedAttributeId:string;
   private _assetTypeClassId: string;
   private _attributeId: string;
+  private _attribute: Attribute;
   private _required: boolean;
   private _createdOn: string;
   private _modifiedOn: string;
@@ -30,6 +33,14 @@ export class AssignedAttribute {
 
   set attributeId(value: string) {
     this._attributeId = value;
+  }
+
+  get attribute(): Attribute {
+    return this._attribute;
+  }
+
+  set attribute(value: Attribute) {
+    this._attribute = value;
   }
 
   get required(): boolean {

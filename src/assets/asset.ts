@@ -11,13 +11,18 @@ export class Asset {
 
   private _assetId:string;
   private _tenantId:string;
+  private _assetKindId: string;
   private _assetKind: AssetKind;
+  private _assetTypeId: string;
   private _assetType: AssetType;
   private _serialNumber:string;
   private _quantity:string;
+  private _unitOfMeasureId: string;
   private _unitOfMeasure:UnitOfMeasure;
   private _description:string;
+  private _personId: string;
   private _person: AssetPerson;
+  private _siteId: string;
   private _site: Site;
   //private _lot:Lot;
   //private _assetTypeClass: AssetTypeClass;
@@ -51,12 +56,28 @@ export class Asset {
     this._tenantId = value;
   }
 
+  get assetKindId(): string {
+    return this._assetKindId;
+  }
+
+  set assetKindId(value: string) {
+    this._assetKindId = value;
+  }
+
   get assetKind(): AssetKind {
     return this._assetKind;
   }
 
   set assetKind(value: AssetKind) {
     this._assetKind = value;
+  }
+
+  get assetTypeId(): string {
+    return this._assetTypeId;
+  }
+
+  set assetTypeId(value: string) {
+    this._assetTypeId = value;
   }
 
   get assetType(): AssetType {
@@ -91,6 +112,14 @@ export class Asset {
     this._quantity = value;
   }
 
+  get unitOfMeasureId(): string {
+    return this._unitOfMeasureId;
+  }
+
+  set unitOfMeasureId(value: string) {
+    this._unitOfMeasureId = value;
+  }
+
   get unitOfMeasure(): UnitOfMeasure {
     return this._unitOfMeasure;
   }
@@ -115,12 +144,28 @@ export class Asset {
     this._lot = value;
   }*/
 
+  get personId(): string {
+    return this._personId;
+  }
+
+  set personId(value: string) {
+    this._personId = value;
+  }
+
   get person(): AssetPerson {
   return  this._person;
   }
 
   set person(value: AssetPerson) {
     this._person = value
+  }
+
+  get siteId(): string {
+    return this._siteId;
+  }
+
+  set siteId(value: string) {
+    this._siteId = value;
   }
 
   get site(): Site {

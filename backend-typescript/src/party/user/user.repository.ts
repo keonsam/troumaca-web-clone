@@ -1,5 +1,6 @@
 import {Observable} from "rxjs/Observable";
 import {User} from "./user";
+import {Person} from "../person/person";
 
 export interface UserRepository {
 
@@ -10,6 +11,10 @@ export interface UserRepository {
   getUserCount():Observable<number>;
 
   getUser(partyId:string):Observable<User>;
+
+  getPerson(partyId:string):Observable<Person>;
+
+  getPersonByIds(partyIds:string[]):Observable<Person[]>;
 
   saveUser(user:User):Observable<User>;
 

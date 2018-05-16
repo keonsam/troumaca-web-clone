@@ -8,8 +8,10 @@ export class AttributeState {
   private _name:string;
   private _format:string;
   // replace with data type
+  private _dataTypeId: string;
   private _dataType: DataTypeState;
   // replace with unit of measure
+  private _unitOfMeasureId: string;
   private _unitOfMeasure: UnitOfMeasureState;
   private _maximumValue:string;
   private _minimumValue:string;
@@ -47,6 +49,14 @@ export class AttributeState {
   set format(value: string) {
     this._format = value;
   }
+  
+  get dataTypeId(): string {
+    return this._dataTypeId;
+  }
+
+  set dataTypeId(value: string) {
+    this._dataTypeId = value;
+  }
 
   get dataType(): DataTypeState {
     return this._dataType;
@@ -54,6 +64,14 @@ export class AttributeState {
 
   set dataType(value: DataTypeState) {
     this._dataType = value;
+  }
+  
+  get unitOfMeasureId(): string {
+    return this._unitOfMeasureId;
+  }
+
+  set unitOfMeasureId(value: string) {
+    this._unitOfMeasureId = value;
   }
 
   get unitOfMeasure(): UnitOfMeasureState {
@@ -103,8 +121,8 @@ export class AttributeState {
       tenantId: this.tenantId,
       name: this.name,
       format: this.format,
-      dataType: this.dataType.toJson(),
-      unitOfMeasure: this.unitOfMeasure,
+      dataTypeId: this.dataTypeId,
+      unitOfMeasureId: this.unitOfMeasureId,
       maximumValue: this.maximumValue,
       minimumValue: this.minimumValue,
       createdOn: this.createdOn,

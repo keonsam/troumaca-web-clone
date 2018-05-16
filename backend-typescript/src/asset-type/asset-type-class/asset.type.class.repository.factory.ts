@@ -82,6 +82,19 @@ class AssetTypeClassDBRepository implements AssetTypeClassRepository {
     });
   }
 
+  getAssetTypeClassByIds(assetTypeClassIds:string[]):Observable<AssetTypeClass[]> {
+    return Rx.Observable.create(function (observer:Observer<AssetTypeClass[]>) {
+      assetTypeClasses.find({assetTypeClassId: { $in: assetTypeClassIds}}, function (err:any, docs:any) {
+        if (!err) {
+          observer.next(docs);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
   saveAssetTypeClass(assetTypeClass:AssetTypeClass):Observable<AssetTypeClass> {
     assetTypeClass.assetTypeClassId = generateUUID();
     return Rx.Observable.create(function (observer:Observer<AssetTypeClass>) {
@@ -144,6 +157,10 @@ class AssetTypeClassRestRepository implements AssetTypeClassRepository {
   }
 
   getAssetTypeClassById(assetTypeClassId: string): Observable<AssetTypeClass> {
+    return undefined;
+  }
+
+  getAssetTypeClassByIds(assetTypeClassIds: string[]): Observable<AssetTypeClass[]> {
     return undefined;
   }
 

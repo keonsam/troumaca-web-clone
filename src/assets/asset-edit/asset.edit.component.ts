@@ -90,7 +90,7 @@ export class AssetEditComponent implements OnInit {
    this.assetEditForm
     .valueChanges
     .subscribe(value => {
-      this.asset.assetKind = this.assetKinds.find(x => x.assetKindId ==value.assetKindId);
+      this.asset.assetKindId = value.assetKindId;
       this.asset.serialNumber = value.serialNumber;
       this.asset.quantity = value.quantity;
       this.asset.description = value.description;
@@ -117,13 +117,14 @@ export class AssetEditComponent implements OnInit {
        this.assetId = params['assetId'];
        this.assetService.getAssetById(this.assetId)
        .subscribe(asset =>{
+         console.log(asset);
         this.assetKindId.setValue(asset.assetKind.assetKindId);
         this.assetType.setValue(asset.assetType.name);
         this.serialNumber.setValue(asset.serialNumber);
         this.quantity.setValue(asset.quantity);
         this.unitOfMeasure.setValue(asset.unitOfMeasure.name);
         this.site.setValue(asset.site.name);
-        this.person.setValue(asset.person.name);
+        this.person.setValue(asset.person.firstName);
         this.description.setValue(asset.description);
         this.asset = asset;
       }, error => {
@@ -400,19 +401,19 @@ export class AssetEditComponent implements OnInit {
   }
 
   onAssetTypeSelect(selected: CompleterItem) {
-      this.asset.assetType = selected.originalObject;
+      this.asset.assetTypeId = selected.originalObject.assetTypeId;
   }
 
   onUnitOfMeasureSelect(selected: CompleterItem) {
-      this.asset.unitOfMeasure = selected.originalObject;
+      this.asset.unitOfMeasureId = selected.originalObject.unitOfMeasureId;
   }
 
   onPhysicalSiteSelect(selected: CompleterItem) {
-      this.asset.site = selected.originalObject;
+      this.asset.siteId = selected.originalObject.siteId;
   }
 
   onPersonSelect(selected: CompleterItem) {
-      this.asset.person = selected.originalObject;
+      this.asset.personId = selected.originalObject.partyId;
   }
 
 

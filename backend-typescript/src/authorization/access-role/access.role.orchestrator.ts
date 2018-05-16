@@ -10,17 +10,22 @@ import {GrantRepository} from "../grant/grant.repository";
 import {createGrantRepositoryFactory} from "../grant/grant.repository.factory";
 import {PartyAccessRoleRepository} from "../party-access-role/party.access.role.repository";
 import {createPartyAccessRoleRepositoryFactory} from "../party-access-role/party.access.role.repository.factory";
+import {AccessRoleTypeRepository} from "../access-role-type/access.role.type.repository";
+import {createAccessRoleTypeRepositoryFactory} from "../access-role-type/access.role.type.repository.factory";
+import {AccessRoleType} from "../access-role-type/access.role.type";
 
 export class AccessRoleOrchestrator {
 
   private accessRoleRepository:AccessRoleRepository;
   private grantRepository: GrantRepository;
   private partyAccessRoleRepository: PartyAccessRoleRepository;
+  private accessRoleTypeRepository:AccessRoleTypeRepository;
 
   constructor() {
     this.accessRoleRepository = createAccessRoleRepositoryFactory();
     this.grantRepository = createGrantRepositoryFactory();
     this.partyAccessRoleRepository = createPartyAccessRoleRepositoryFactory();
+    this.accessRoleTypeRepository = createAccessRoleTypeRepositoryFactory();
   }
 
   findAccessRoles(searchStr: string, pageSize: number): Observable<AccessRole[]> {
@@ -28,16 +33,28 @@ export class AccessRoleOrchestrator {
   };
 
   getAccessRoles(number:number, size:number, field:string, direction:string):Observable<Result<any>> {
-    let sort:string = getSortOrderOrDefault(field, direction);
-    return this.accessRoleRepository
-      .getAccessRoles(number, size, sort)
-      .flatMap(value => {
-        return this.accessRoleRepository
-          .getAccessRoleCount()
-          .map(count => {
-            let shapeAccessRolesResp:any = shapeAccessRolesResponse(value, number, size, value.length, count, sort);
-            return new Result<any>(false, "accessRoles", shapeAccessRolesResp);
-          });
+    let sort: string = getSortOrderOrDefault(field, direction);
+    return this.accessRoleRepository.getAccessRoles(number, size, sort)
+      .switchMap((accessRoles: AccessRole[]) => {
+        if(accessRoles.length === 0) {
+          let shapeAccessRolesResp:any = shapeAccessRolesResponse(accessRoles, 0, 0, 0, 0, sort);
+          return Observable.of(new Result<any>(false, "no data found", shapeAccessRolesResp));
+        }else {
+          let accessRoleTypeIds:string[] = accessRoles.map(x => {if(x.accessRoleTypeId) return x.accessRoleTypeId});
+          return this.accessRoleTypeRepository.getAccessRoleTypeByIds(accessRoleTypeIds)
+            .switchMap((accessRoleTypes:AccessRoleType[]) => {
+              accessRoles.forEach(value => {
+                let index = accessRoleTypes.findIndex(x => x.accessRoleTypeId === value.accessRoleTypeId);
+                value.accessRoleType = accessRoleTypes[index];
+              });
+              return this.accessRoleRepository
+                .getAccessRoleCount()
+                .map(count => {
+                  let shapeAccessRolesResp:any = shapeAccessRolesResponse(accessRoles, number, size, accessRoles.length, count, sort);
+                  return new Result<any>(false, "accessRoles", shapeAccessRolesResp);
+                });
+            });
+        }
       });
   };
 
@@ -60,7 +77,16 @@ export class AccessRoleOrchestrator {
   };
 
   getAccessRoleById(accessRoleId:string):Observable<AccessRole> {
-    return this.accessRoleRepository.getAccessRoleById(accessRoleId);
+    return this.accessRoleRepository.getAccessRoleById(accessRoleId)
+      .switchMap((accessRole:AccessRole)=> {
+        return this.accessRoleTypeRepository.getAccessRoleTypeById(accessRole.accessRoleTypeId)
+          .map(accessRoleType => {
+            if(accessRoleType) {
+              accessRole.accessRoleType = accessRoleType;
+            }
+            return accessRole;
+          });
+      });
   };
 
   updateAccessRole(accessRoleId:string, accessRole:AccessRole, grants: Grant[]):Observable<number> {

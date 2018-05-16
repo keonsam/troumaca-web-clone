@@ -74,7 +74,6 @@ export class AccessRoleCreationComponent implements OnInit {
       });
 
     this.accessRole = new AccessRole();
-    this.accessRole.accessRoleType = new AccessRoleType();
 
     let newResources = new Resources();
     newResources.resources = [];
@@ -264,7 +263,7 @@ export class AccessRoleCreationComponent implements OnInit {
 
   onAccessRoleTypeSelect(selected: CompleterItem) {
     if (selected) {
-      this.accessRole.accessRoleType = selected.originalObject;
+      this.accessRole.accessRoleTypeId = selected.originalObject.accessRoleTypeId;
     }
   }
 

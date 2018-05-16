@@ -112,6 +112,22 @@ class ResourceTypeDBRepository implements ResourceTypeRepository {
     });
   }
 
+  getResourceTypeByIds(resourceTypeIds: string[]): Observable<ResourceType[]> {
+    return Rx.Observable.create(function (observer:Observer<ResourceType[]>) {
+      // let query = {
+      //   "resourceTypeId":resourceTypeId
+      // };
+      resourceTypes.find({resourceType:{$in:resourceTypeIds}}, function (err:any, docs:any) {
+        if (!err) {
+          observer.next(docs);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
   updateResourceType(resourceTypeId: string, resourceType: ResourceType): Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
@@ -153,6 +169,10 @@ class ResourceTypeRestRepository implements ResourceTypeRepository {
   }
 
   getResourceTypeById(resourceTypeId: string): Observable<ResourceType> {
+    return undefined;
+  }
+
+  getResourceTypeByIds(resourceTypeIds: string[]): Observable<ResourceType[]> {
     return undefined;
   }
 

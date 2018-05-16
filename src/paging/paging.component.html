@@ -10,9 +10,9 @@
       <li *ngFor="let p of pages;">
         <a [ngClass]="{'current':isCurrent(p)}" (click)="onRequestPage(p);false" href="#">{{p}}</a>
       </li>
-      <li>
-        <a *ngIf="hasNextPage" (click)="onNextPage();false" href="#">Next</a>
-      </li>
+      <!--<li>-->
+        <!--<a *ngIf="hasNextPage" (click)="onNextPage();false" href="#">Next</a>-->
+      <!--</li>-->
     </ul>
   </div>
 </div>

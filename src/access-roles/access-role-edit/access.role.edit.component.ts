@@ -295,7 +295,7 @@ export class AccessRoleEditComponent implements OnInit {
 
   onAccessRoleTypeSelect(selected: CompleterItem) {
     if (selected) {
-      this.accessRole.accessRoleType = selected.originalObject;
+      this.accessRole.accessRoleTypeId = selected.originalObject.accessRoleTypeId;
     }
   }
 
