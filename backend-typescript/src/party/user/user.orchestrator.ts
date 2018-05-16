@@ -94,11 +94,7 @@ export class UserOrchestrator {
            }else {
              return this.partyAccessRoleRepository.deletePartyAccessRole(partyId)
                .switchMap(numRemoved => {
-                 if(!numRemoved){
-                   return Observable.of(value);
-                 }else {
-                   return this.credentialRepository.deleteCredentialByPartyId(partyId);
-                 }
+                 return this.credentialRepository.deleteCredentialByPartyId(partyId);
                });
            }
          });
@@ -110,18 +106,10 @@ export class UserOrchestrator {
            if (numUpdated) {
              return this.partyAccessRoleRepository.deletePartyAccessRole(partyId)
                .switchMap(numRemoved => {
-                 if(!numRemoved) {
-                   return Observable.of(0);
-                 }else {
-                   return this.partyAccessRoleRepository.addPartyAccessRole(partyAccessRoles)
-                     .map( next => {
-                       if(next.length === 0) {
-                         return 0;
-                       }else {
-                         return numUpdated;
-                       }
-                     });
-                 }
+                 return this.partyAccessRoleRepository.addPartyAccessRole(partyAccessRoles)
+                   .map(next => {
+                     return numUpdated;
+                   });
                });
            }else {
              return Observable.of(0);

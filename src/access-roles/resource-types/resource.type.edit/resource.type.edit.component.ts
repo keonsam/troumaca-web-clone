@@ -102,7 +102,7 @@ export class ResourceTypeEditComponent implements OnInit {
     this.accessRoleService.updateResourceType(this.resourceType)
       .subscribe( resourceType => {
         if (resourceType) {
-          this.router.navigate(['/access-roles/resource-types/listing']);
+          this.router.navigate(['/access-roles/resource-types']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -112,7 +112,7 @@ export class ResourceTypeEditComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/access-roles/resource-types/listing']);
+    this.router.navigate(['/access-roles/resource-types']);
   }
 
 }

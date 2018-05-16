@@ -289,14 +289,11 @@ export class UserCreationComponent implements OnInit {
   //   }
   // }
 
-  getAccessRole(id: string) {
-    return this.accessRoleData.find(x => x.id === id).text;
-  }
 
   onCreate() {
 
     this.accessRoles.forEach( value => {
-      this.partyAccessRoles.push(new PartyAccessRole(value, this.getAccessRole(value)));
+      this.partyAccessRoles.push(new PartyAccessRole(value));
     });
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;

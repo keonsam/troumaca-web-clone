@@ -87,7 +87,7 @@ export class PermissionCreationComponent implements OnInit {
     this.accessRoleService.addPermission(this.permission)
       .subscribe( permission => {
         if (permission.permissionId) {
-          this.router.navigate(['/access-roles/permissions/listing']);
+          this.router.navigate(['/access-roles/permissions']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -97,7 +97,7 @@ export class PermissionCreationComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/access-roles/permissions/listing']);
+    this.router.navigate(['/access-roles/permissions']);
   }
 
 }

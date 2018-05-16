@@ -12,4 +12,5 @@
 {"name":"test10","format":"","dataTypeId":"972d0758-03c0-45e8-82e1-99815cbc77e5","unitOfMeasureId":"d1acfefe-d7fe-11e7-9296-cec278b6b50a","maximumValue":"","minimumValue":"","attributeId":"a4c5a0bd-2bbb-4537-adab-d2de202de783","_id":"sn5huxDcw19ll4og"}
 {"name":"test3","format":"","dataTypeId":"1739b494-4404-4dcd-a386-a6221f5a2248","unitOfMeasureId":"da9e69da-d7fe-11e7-9296-cec278b6b50a","maximumValue":"","minimumValue":"","attributeId":"2335f5f0-5fdb-48b1-807d-058b5746a45e","_id":"t7QvFbhrMzpR5EHX"}
 {"name":"test6","format":"","dataTypeId":"f8400178-5f14-45ec-80ac-bbd0daca1e8a","maximumValue":"","minimumValue":"","attributeId":"aaf735fe-4a2c-4bdd-8cd7-990917105e57","_id":"vOAwBpCY0JxWtGn3"}
+{"name":"test1232","format":"","dataTypeId":"f8400178-5f14-45ec-80ac-bbd0daca1e8a","unitOfMeasureId":"d1acfefe-d7fe-11e7-9296-cec278b6b50a","maximumValue":"","minimumValue":"","attributeId":"e8bf129e-0238-446b-9591-794cd3c0d22b","_id":"wkdoBiAo9OZwB6p8"}
 {"$$indexCreated":{"fieldName":"attributeId","unique":true,"sparse":false}}

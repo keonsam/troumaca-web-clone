@@ -87,7 +87,7 @@ export class ResourceTypeCreationComponent implements OnInit {
     this.accessRoleService.addResourceType(this.resourceType)
       .subscribe( resourceType => {
         if (resourceType.resourceTypeId) {
-          this.router.navigate(['/access-roles/resource-types/listing']);
+          this.router.navigate(['/access-roles/resource-types']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -97,7 +97,7 @@ export class ResourceTypeCreationComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/access-roles/resource-types/listing']);
+    this.router.navigate(['/access-roles/resource-types']);
   }
 
 }

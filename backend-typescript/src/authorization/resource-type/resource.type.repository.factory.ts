@@ -117,7 +117,7 @@ class ResourceTypeDBRepository implements ResourceTypeRepository {
       // let query = {
       //   "resourceTypeId":resourceTypeId
       // };
-      resourceTypes.find({resourceType:{$in:resourceTypeIds}}, function (err:any, docs:any) {
+      resourceTypes.find({resourceTypeId:{$in:resourceTypeIds}}, function (err:any, docs:any) {
         if (!err) {
           observer.next(docs);
         } else {

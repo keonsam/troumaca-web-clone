@@ -89,13 +89,12 @@ export class UserListComponent implements OnInit {
   }
 
   getUserAccessRole(partyId) {
-    let values = []
+    let values = [];
     this.partyAccessRoles.forEach(value => {
-      if(value.partyId === partyId) {
+      if(value.partyId === partyId && value.accessRole.name) {
         values.push(value.accessRole.name);
       }
     });
-    console.log(values);
     return values;
   }
 

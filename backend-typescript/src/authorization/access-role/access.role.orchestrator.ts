@@ -61,6 +61,9 @@ export class AccessRoleOrchestrator {
   addAccessRole(accessRole:AccessRole, grants: Grant[]):Observable<AccessRole> {
     return this.accessRoleRepository.addAccessRole(accessRole)
       .switchMap(doc => {
+        if(grants.length === 0) {
+          return Observable.of(doc);
+        }
         if(doc) {
           let accessRoleId = doc.accessRoleId;
           grants.forEach(value => {
@@ -95,7 +98,10 @@ export class AccessRoleOrchestrator {
         if(numUpdated) {
           return this.grantRepository.deleteGrant(accessRoleId)
             .switchMap(numReplaced => {
-              if(numReplaced) {
+              if(grants.length === 0) {
+                return Observable.of(numUpdated);
+              }
+              if(numUpdated) {
                 return this.grantRepository.addGrant(grants)
                   .map(docs => {
                     if(docs) {
@@ -114,7 +120,7 @@ export class AccessRoleOrchestrator {
         if(numReplaced){
           return this.grantRepository.deleteGrant(accessRoleId)
             .switchMap(numReplaced2 => {
-              if(numReplaced2) {
+              if(numReplaced) {
                 return this.partyAccessRoleRepository.deletePartyAccessRoleByAccessRoleId(accessRoleId)
                   .map( numReplaced3 => {
                     return numReplaced;

@@ -58,50 +58,39 @@ export class AssetOrchestrator {
           let shapeAssetsResp: any = shapeAssetsResponse(assets, 0, 0, 0, 0, sort);
           return Observable.of(new Result<any>(false, "no data found", shapeAssetsResp));
         } else {
-           let assetKindIds:string[] = assets.map(x => {
-             if (x.assetKindId) return x.assetKindId;
-           });
+          let assetKindIds:string[] = [];
+          let assetTypeIds:string[] = [];
+          let unitOfMeasureIds:string[] = [];
+          let personIds:string[] = [];
+          let siteIds:string[] = [];
+             assets.forEach(x => {
+             if (x.assetKindId) assetKindIds.push(x.assetKindId);
+             if (x.assetTypeId) assetTypeIds.push(x.assetTypeId);
+             if (x.unitOfMeasureId) unitOfMeasureIds.push(x.unitOfMeasureId);
+             if (x.personId) personIds.push(x.personId);
+             if (x.siteId) siteIds.push(x.siteId);
+             });
            return this.assetKindRepository.getAssetKindByIds(assetKindIds)
              .switchMap((assetKinds: AssetKind[]) => {
-               assets.forEach(value => {
-                 let index = assetKinds.findIndex(x => x.assetKindId === value.assetKindId);
-                 value.assetKind = assetKinds[index];
-               });
-               let assetTypeIds:string[] = assets.map(x => {
-                 if (x.assetTypeId) return x.assetTypeId;
-               });
                return this.assetTypeRepository.getAssetTypeByIds(assetTypeIds)
                  .switchMap((assetTypes: AssetType[]) => {
-                   assets.forEach(value => {
-                     let index = assetTypes.findIndex(x => x.assetTypeId === value.assetTypeId);
-                     value.assetType = assetTypes[index];
-                   });
-                   let unitOfMeasureIds:string[] = assets.map(x => {
-                     if (x.unitOfMeasureId) return x.unitOfMeasureId;
-                   });
                    return this.unitOfMeasureRepository.getUnitOfMeasureByIds(unitOfMeasureIds)
                      .switchMap((unitOfMeasures: UnitOfMeasure[]) => {
-                       assets.forEach(value => {
-                         let index = unitOfMeasures.findIndex(x => x.unitOfMeasureId === value.unitOfMeasureId);
-                         value.unitOfMeasure = unitOfMeasures[index];
-                       });
-                       let personIds:string[] = assets.map(x => {
-                         if (x.personId) return x.personId;
-                       });
                        return this.userRepository.getPersonByIds(personIds)
                          .switchMap((persons:Person[]) => {
-                           assets.forEach(value => {
-                             let index = persons.findIndex(x => x.partyId === value.personId);
-                             value.person = persons[index];
-                           });
-                           let siteIds:string[] = assets.map(x => {
-                             if (x.siteId) return x.siteId;
-                           });
                            return this.siteRepository.getSiteByIds(siteIds)
                              .switchMap((sites: Site[]) => {
                                assets.forEach(value => {
-                                 let index = sites.findIndex(x => x.siteId === value.siteId);
-                                 value.site = sites[index];
+                                 let index = assetKinds.findIndex(x => x.assetKindId === value.assetKindId);
+                                 let index2 = assetTypes.findIndex(x => x.assetTypeId === value.assetTypeId);
+                                 let index3 = unitOfMeasures.findIndex(x => x.unitOfMeasureId === value.unitOfMeasureId);
+                                 let index4 = persons.findIndex(x => x.partyId === value.personId);
+                                 let index5 = sites.findIndex(x => x.siteId === value.siteId);
+                                 value.assetKind = assetKinds[index];
+                                 value.assetType = assetTypes[index2];
+                                 value.unitOfMeasure = unitOfMeasures[index3];
+                                 value.person = persons[index4];
+                                 value.site = sites[index5];
                                });
                                return this.assetRepository
                                  .getAssetCount()

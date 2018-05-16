@@ -99,27 +99,21 @@ export class AttributeOrchestrator {
         return this.attributeClassRepository
           .getAttributeCount()
           .switchMap(count => {
-            let unitOfMeasureIds: string[] = attributes.map(value => {
-              if (value.unitOfMeasureId)  return value.unitOfMeasureId;
+            let unitOfMeasureIds: string[] = [];
+            let dataTypeIds: string[] = [];
+            attributes.forEach(value => {
+            if (value.unitOfMeasureId)  unitOfMeasureIds.push(value.unitOfMeasureId);
+            if (value.dataTypeId) dataTypeIds.push(value.dataTypeId);
             });
-            if(unitOfMeasureIds.length === 0) {
-              let shapeAttributesResp:any = shapeAttributesResponse(attributes, number, size, attributes.length, count, sort);
-              return Observable.of(new Result<any>(false, "attributes", shapeAttributesResp));
-            }
             return this.unitOfMeasureRepository.getUnitOfMeasureByIds(unitOfMeasureIds)
               .switchMap((unitOfMeasures: UnitOfMeasure[]) => {
-                attributes.forEach(value => {
-                  let index = unitOfMeasures.findIndex(x => x.unitOfMeasureId === value.unitOfMeasureId);
-                  value.unitOfMeasure = unitOfMeasures[index];
-                });
-                let dataTypeIds: string[] = attributes.map(value => {
-                  if (value.dataTypeId) return value.dataTypeId;
-                });
                 return this.dataTypeRepository.getDataTypeByIds(dataTypeIds)
                   .map((dataTypes: DataType[]) => {
                     attributes.forEach(value => {
-                      let index = dataTypes.findIndex(x => x.dataTypeId === value.dataTypeId);
-                      value.dataType = dataTypes[index];
+                      let index = unitOfMeasures.findIndex(x => x.unitOfMeasureId === value.unitOfMeasureId);
+                      let index2 = dataTypes.findIndex(x => x.dataTypeId === value.dataTypeId);
+                      value.unitOfMeasure = unitOfMeasures[index];
+                      value.dataType = dataTypes[index2];
                     });
                     let shapeAttributesResp: any = shapeAttributesResponse(attributes, number, size, attributes.length, count, sort);
                     return new Result<any>(false, "attributes", shapeAttributesResp);
@@ -132,23 +126,22 @@ export class AttributeOrchestrator {
   getAttributesForAssigned(assignedArray: string[]):Observable<Attribute[]> {
     return this.attributeClassRepository.getAttributeByArray(assignedArray)
       .switchMap((attributes: Attribute[]) => {
-        let unitOfMeasureIds: string[] = attributes.map(value => {
-          if(value.unitOfMeasureId) return value.unitOfMeasureId;
+        if(attributes.length === 0) return Observable.of(attributes);
+        let unitOfMeasureIds: string[] = [];
+        let dataTypeIds: string[] = [];
+        attributes.forEach(value => {
+          if (value.unitOfMeasureId)  unitOfMeasureIds.push(value.unitOfMeasureId);
+          if (value.dataTypeId) dataTypeIds.push(value.dataTypeId);
         });
         return this.unitOfMeasureRepository.getUnitOfMeasureByIds(unitOfMeasureIds)
           .switchMap((unitOfMeasures: UnitOfMeasure[]) => {
-            attributes.forEach(value => {
-              let index = unitOfMeasures.findIndex(x => x.unitOfMeasureId === value.unitOfMeasureId);
-              value.unitOfMeasure = unitOfMeasures[index];
-            });
-            let dataTypeIds: string[] = attributes.map(value => {
-              if(value.dataTypeId) return value.dataTypeId;
-            });
             return this.dataTypeRepository.getDataTypeByIds(dataTypeIds)
               .map((dataTypes: DataType[]) => {
                 attributes.forEach(value => {
-                  let index = dataTypes.findIndex(x => x.dataTypeId === value.dataTypeId);
-                  value.dataType = dataTypes[index];
+                  let index = unitOfMeasures.findIndex(x => x.unitOfMeasureId === value.unitOfMeasureId);
+                  let index2 = dataTypes.findIndex(x => x.dataTypeId === value.dataTypeId);
+                  value.unitOfMeasure = unitOfMeasures[index];
+                  value.dataType = dataTypes[index2];
                 });
                 return attributes;
               });

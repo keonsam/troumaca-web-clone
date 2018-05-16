@@ -86,7 +86,7 @@ export class AccessRoleTypeCreationComponent implements OnInit {
     this.accessRoleService.addAccessRoleType(this.accessRoleType)
       .subscribe( accessRoleType => {
         if (accessRoleType.accessRoleTypeId) {
-          this.router.navigate(['/access-roles/access-role-types/listing']);
+          this.router.navigate(['/access-roles/access-role-types']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -96,7 +96,7 @@ export class AccessRoleTypeCreationComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/access-roles/access-role-types/listing']);
+    this.router.navigate(['/access-roles/access-role-types']);
   }
 
 }

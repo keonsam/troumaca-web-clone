@@ -340,7 +340,7 @@ export class UserEditComponent implements OnInit {
 
   removePartyAccessRoles() {
     this.partyAccessRoles = this.partyAccessRoles.filter(value => {
-      if(this.accessRoles.indexOf(value.accessRole.accessRoleId) > -1) {
+      if(this.accessRoles.indexOf(value.accessRoleId) > -1) {
         if(!value.partyId) {
           value.partyId = this.partyId;
         }
@@ -349,17 +349,16 @@ export class UserEditComponent implements OnInit {
     });
   }
 
-  getAccessRole(id: string) {
-    return this.accessRoleData.find(x => x.id === id).text;
-  }
-
   onCreate() {
+    console.log(this.accessRoles);
     this.accessRoles.forEach( value => {
-      if(this.partyAccessRoles.findIndex(x => x.accessRole.accessRoleId === value) < 0){
-        this.partyAccessRoles.push(new PartyAccessRole(value, this.getAccessRole(value)));
+      if(this.partyAccessRoles.findIndex(x => x.accessRoleId === value) < 0){
+        this.partyAccessRoles.push(new PartyAccessRole(value));
       }
     });
+    console.log(this.partyAccessRoles);
     this.removePartyAccessRoles();
+    console.log(this.partyAccessRoles);
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
       this.partyService

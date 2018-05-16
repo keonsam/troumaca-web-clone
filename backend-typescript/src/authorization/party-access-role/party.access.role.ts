@@ -3,6 +3,7 @@ import {AccessRole} from "../access-role/access.role";
 export class PartyAccessRole {
   private _partyAccessRoleId: string;
   private _partyId: string;
+  private _accessRoleId: string;
   private _accessRole: AccessRole;
   private _effectiveDate: Date;
   private _untilDate: Date;
@@ -23,6 +24,14 @@ export class PartyAccessRole {
 
   set partyId(value: string) {
     this._partyId = value;
+  }
+
+  get accessRoleId(): string {
+    return this._accessRoleId;
+  }
+
+  set accessRoleId(value: string) {
+    this._accessRoleId = value;
   }
 
   get accessRole(): AccessRole {

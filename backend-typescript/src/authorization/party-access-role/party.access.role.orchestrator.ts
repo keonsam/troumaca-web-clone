@@ -2,6 +2,9 @@ import {PartyAccessRoleRepository} from "./party.access.role.repository";
 import {createPartyAccessRoleRepositoryFactory} from "./party.access.role.repository.factory";
 import {Observable} from "rxjs/Observable";
 import {PartyAccessRole} from "./party.access.role";
+import {AccessRoleRepository} from "../access-role/access.role.repository";
+import {createAccessRoleRepositoryFactory} from "../access-role/access.role.repository.factory";
+import {accessRoles} from "../../db";
 //import {shapePartyAccessRolesResponse} from "./party.access.role.response.shaper";
 //import {Result} from "../../result.success";
 //import {getSortOrderOrDefault} from "../../sort.order.util";
@@ -9,9 +12,11 @@ import {PartyAccessRole} from "./party.access.role";
 export class PartyAccessRoleOrchestrator {
 
   private partyPartyAccessRoleRepository:PartyAccessRoleRepository;
+  private accessRoleRepository:AccessRoleRepository;
 
   constructor() {
     this.partyPartyAccessRoleRepository = createPartyAccessRoleRepositoryFactory();
+    this.accessRoleRepository = createAccessRoleRepositoryFactory();
   }
 
   // findPartyAccessRoles(searchStr: string, pageSize: number): Observable<PartyAccessRole[]> {
@@ -19,7 +24,23 @@ export class PartyAccessRoleOrchestrator {
   // };
 
   getPartyAccessRoles():Observable<PartyAccessRole[]> {
-    return this.partyPartyAccessRoleRepository.getPartyAccessRoles();
+    return this.partyPartyAccessRoleRepository.getPartyAccessRoles()
+      .switchMap( partyAccessRoles => {
+        if(partyAccessRoles.length === 0) {
+          return Observable.of(partyAccessRoles);
+        }else {
+          let accessRoleIds = partyAccessRoles.map(x => { if(x.accessRoleId) return x.accessRoleId});
+          if(accessRoleIds.length === 0) return Observable.of(partyAccessRoles);
+          return this.accessRoleRepository.getAccessRoleByIds(accessRoleIds)
+            .map( accessRoles => {
+              partyAccessRoles.forEach( value => {
+                let index = accessRoles.findIndex(x => x.accessRoleId === value.accessRoleId);
+                value.accessRole = accessRoles[index];
+              });
+              return partyAccessRoles;
+            });
+        }
+      });
   };
 
   //
@@ -42,7 +63,23 @@ export class PartyAccessRoleOrchestrator {
   // };
 
   getPartyAccessRoleById(partyPartyAccessRoleId:string):Observable<PartyAccessRole[]> {
-    return this.partyPartyAccessRoleRepository.getPartyAccessRoleById(partyPartyAccessRoleId);
+    return this.partyPartyAccessRoleRepository.getPartyAccessRoleById(partyPartyAccessRoleId)
+      .switchMap( partyAccessRoles => {
+        if(partyAccessRoles.length === 0) {
+          return Observable.of(partyAccessRoles);
+        }else {
+         let accessRoleIds = partyAccessRoles.map(x => { if(x.accessRoleId) return x.accessRoleId});
+         if(accessRoleIds.length === 0) return Observable.of(partyAccessRoles);
+          return this.accessRoleRepository.getAccessRoleByIds(accessRoleIds)
+           .map( accessRoles => {
+             partyAccessRoles.forEach( value => {
+               let index = accessRoles.findIndex(x => x.accessRoleId === value.accessRoleId);
+               value.accessRole = accessRoles[index];
+             });
+             return partyAccessRoles;
+           });
+        }
+      });
   };
 
   // updatePartyAccessRole(partyPartyAccessRoleId:string, partyPartyAccessRole:PartyAccessRole, grants: Grant[]):Observable<number> {

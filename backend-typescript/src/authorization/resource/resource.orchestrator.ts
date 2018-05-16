@@ -80,6 +80,9 @@ export class ResourceOrchestrator {
   addResource(resource:Resource, resourcePermissions: ResourcePermission[]):Observable<Resource> {
     return this.resourceRepository.addResource(resource)
       .switchMap( value => {
+        if(resourcePermissions.length === 0) {
+          return Observable.of(value);
+        }
         let resourceId = value.resourceId;
         if(resourceId) {
           resourcePermissions.forEach(val => {
@@ -111,6 +114,9 @@ export class ResourceOrchestrator {
   updateResource(resourceId:string, resource:Resource, resourcePermissions: ResourcePermission[]):Observable<number> {
     return this.resourceRepository.updateResource(resourceId, resource)
       .switchMap( numReplaced => {
+        if(resourcePermissions.length === 0) {
+          return Observable.of(numReplaced);
+        }
         if(numReplaced) {
           return this.resourcePermissionRepository.deleteResourcePermission(resourceId)
             .switchMap(numReplaced2 => {

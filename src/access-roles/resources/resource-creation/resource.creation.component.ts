@@ -235,7 +235,7 @@ export class ResourceCreationComponent implements OnInit {
     this.accessRoleService.addResource(this.resource, this.resourcePermissionIds)
       .subscribe( resource => {
         if (resource.resourceId) {
-          this.router.navigate(['/access-roles/resources/listing']);
+          this.router.navigate(['/access-roles/resources']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -245,7 +245,7 @@ export class ResourceCreationComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/access-roles/resources/listing']);
+    this.router.navigate(['/access-roles/resources']);
   }
 
 }

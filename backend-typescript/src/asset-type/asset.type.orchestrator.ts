@@ -49,23 +49,21 @@ export class AssetTypeOrchestrator {
           let shapeAssetTypesResp:any = shapeAssetTypesResponse(assetTypes, 0, 0, 0, 0, sort);
           return Observable.of(new Result<any>(false, "No entry in database", shapeAssetTypesResp));
         }else {
-          let assetTypeClassIds:string[] = assetTypes.map(value => {
-            if(value.assetTypeClassId) return value.assetTypeClassId
+          let assetTypeClassIds:string[] = [];
+          let unitOfMeasureIds:string[] = [];
+          assetTypes.forEach(value => {
+            if(value.assetTypeClassId) assetTypeClassIds.push(value.assetTypeClassId);
+            if(value.unitOfMeasureId) unitOfMeasureIds.push(value.unitOfMeasureId);
           });
           return this.assetTypeClassRepository.getAssetTypeClassByIds(assetTypeClassIds)
             .switchMap((assetTypeClasses:AssetTypeClass[]) => {
-              assetTypes.forEach(value => {
-                let index = assetTypeClasses.findIndex(x => x.assetTypeClassId === value.assetTypeClassId);
-                value.assetTypeClass = assetTypeClasses[index];
-              });
-              let unitOfMeasureIds:string[]= assetTypes.map(value => {
-                if (value.unitOfMeasureId) return value.unitOfMeasureId;
-              });
               return this.unitOfMeasureRepository.getUnitOfMeasureByIds(unitOfMeasureIds)
                 .switchMap((unitOfMeasures:UnitOfMeasure[]) => {
                   assetTypes.forEach(value => {
-                    let index = unitOfMeasures.findIndex(x => x.unitOfMeasureId === value.unitOfMeasureId);
-                    value.unitOfMeasure = unitOfMeasures[index];
+                    let index = assetTypeClasses.findIndex(x => x.assetTypeClassId === value.assetTypeClassId);
+                    let index2 = unitOfMeasures.findIndex(x => x.unitOfMeasureId === value.unitOfMeasureId);
+                    value.assetTypeClass = assetTypeClasses[index];
+                    value.unitOfMeasure = unitOfMeasures[index2];
                   });
                   return this.assetTypeRepository
                     .getAssetTypeCount()

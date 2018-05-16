@@ -11,6 +11,9 @@ export class Resource {
   private _createdOn:Date;
   private _modifiedOn:Date;
 
+  constructor() {
+    this._resourceType = new ResourceType();
+  }
   get resourceId(): string {
     return this._resourceId;
   }

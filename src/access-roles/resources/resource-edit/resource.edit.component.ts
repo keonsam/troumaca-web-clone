@@ -275,7 +275,7 @@ export class ResourceEditComponent implements OnInit {
     this.accessRoleService.updateResource(this.resource, this.resourcePermissionIds)
       .subscribe( resource => {
         if (resource) {
-          this.router.navigate(['/access-roles/resources/listing']);
+          this.router.navigate(['/access-roles/resources']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }

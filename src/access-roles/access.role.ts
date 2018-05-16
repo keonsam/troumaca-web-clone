@@ -14,6 +14,10 @@ export class AccessRole {
   private _createdOn:Date;
   private _modifiedOn:Date;
 
+  constructor() {
+    this._accessRoleType = new AccessRoleType();
+  }
+
   get accessRoleId(): string {
     return this._accessRoleId;
   }
@@ -29,7 +33,7 @@ export class AccessRole {
   set name(value: string) {
     this._name = value;
   }
-  
+
   get accessRoleTypeId(): string {
     return this._accessRoleTypeId;
   }

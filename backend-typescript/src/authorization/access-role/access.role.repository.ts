@@ -13,6 +13,8 @@ export interface AccessRoleRepository {
 
   getAccessRoleById(accessRoleId:string):Observable<AccessRole>;
 
+  getAccessRoleByIds(accessRoleIds:string[]):Observable<AccessRole[]>;
+
   updateAccessRole(accessRoleId:string, accessRole:AccessRole):Observable<number>;
 
   deleteAccessRole(accessRoleId:string):Observable<number>;
