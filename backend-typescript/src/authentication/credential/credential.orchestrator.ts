@@ -59,19 +59,19 @@ export class CredentialOrchestrator {
 
   addCredential(credential:Credential):Observable<CredentialConfirmation> {
     return this.credentialRepository
-      .addCredential(credential)
-      .switchMap(credential => {
-
-        let credentialConfirmation:CredentialConfirmation = new CredentialConfirmation();
-
-        credentialConfirmation.credentialId = credential.credentialId;
-        credentialConfirmation.createdOn = new Date();
-        credentialConfirmation.modifiedOn = new Date();
-
-        return this.confirmationRepository
-          .addCredentialConfirmation(credentialConfirmation);
-
-      });
+      .addCredential(credential);
+      // .switchMap(credential => {
+      //
+      //   let credentialConfirmation:CredentialConfirmation = new CredentialConfirmation();
+      //
+      //   credentialConfirmation.credentialId = credential.credentialId;
+      //   credentialConfirmation.createdOn = new Date();
+      //   credentialConfirmation.modifiedOn = new Date();
+      //
+      //   return this.confirmationRepository
+      //     .addCredentialConfirmation(credentialConfirmation);
+      //
+      // });
   };
 
   authenticate(credential:Credential):Observable<AuthenticateResponse> {
