@@ -418,7 +418,7 @@ class CredentialRestRepository implements CredentialRepository {
 
       request(requestOptions, function (error:any, response:any, body:any) {
         console.log("check works 2");
-        if (response.statusCode != 200) {
+        if (response && response.statusCode != 200) {
           console.log("failed" + error);
           observer.error(body);
         } else {
