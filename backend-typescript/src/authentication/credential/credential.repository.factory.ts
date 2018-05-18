@@ -231,7 +231,7 @@ class CredentialDBRepository implements CredentialRepository {
     });
   };
 
-  addCredential(credential:Credential):Observable<CredentialConfirmation> {
+  addCredential(credential:Credential, options?:any):Observable<CredentialConfirmation> {
     return this.addCredentialLocal(credential)
       .switchMap(credential => {
       let credentialConfirmation:CredentialConfirmation = new CredentialConfirmation();
@@ -405,21 +405,22 @@ class CredentialRestRepository implements CredentialRepository {
     let uri:string = properties.get("credential.host.port") as string;
 
     let headerMap = jsonRequestHeaderMap(options ? options : {});
-    let headers:any = strMapToJson(headerMap);
+    // let headers:any = strMapToJson(headerMap);
     let credentialJson = classToPlain(credential);
 
-    uri = uri + '/credentials';
+    uri = uri + '/authentication/credentials';
 
-    let requestOptions:any = postJsonOptions(uri, headers, credentialJson);
+    let requestOptions:any = postJsonOptions(uri, headerMap, credentialJson);
 
     console.log(requestOptions);
 
     return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
+
       request(requestOptions, function (error:any, response:any, body:any) {
         console.log("check works 2");
-        if (error) {
+        if (response.statusCode != 200) {
           console.log("failed" + error);
-          observer.error(error);
+          observer.error(body);
         } else {
           console.log("good");
           console.log(body);

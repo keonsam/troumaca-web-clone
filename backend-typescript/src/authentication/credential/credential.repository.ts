@@ -21,7 +21,7 @@ export interface CredentialRepository {
 
   checkUsernameValid(partyId:string, username:string):Observable<Credential>;
 
-  addCredential(credential:Credential):Observable<CredentialConfirmation>;
+  addCredential(credential:Credential, options?:any):Observable<CredentialConfirmation>;
 
   addUserCredential(credential:Credential):Observable<Credential>;
 

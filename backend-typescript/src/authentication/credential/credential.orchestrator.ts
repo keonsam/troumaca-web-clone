@@ -1,4 +1,3 @@
-import  Rx from "rxjs";
 import validator from 'validator';
 import {CredentialStatus} from './credential.status';
 import {ValidateResponse} from "./validate.response";
@@ -57,8 +56,8 @@ export class CredentialOrchestrator {
   };
 
 
-  addCredential(credential:Credential):Observable<CredentialConfirmation> {
-    return this.credentialRepository.addCredential(credential);
+  addCredential(credential:Credential, options?:any):Observable<CredentialConfirmation> {
+    return this.credentialRepository.addCredential(credential, options);
       // .switchMap(credential => {
       //
       //   let credentialConfirmation:CredentialConfirmation = new CredentialConfirmation();
