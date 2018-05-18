@@ -884,3 +884,9 @@ li {
 .clickable-tr {
   cursor: pointer;
 }
+
+:host >>> .completer-dropdown {
+  max-height: 200px !important;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

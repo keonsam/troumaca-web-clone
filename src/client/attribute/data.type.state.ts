@@ -18,11 +18,5 @@ export class DataTypeState {
   set name(value: string) {
     this._name = value;
   }
-
-  toJson() {
-    return {
-      dataTypeId: this.dataTypeId,
-      name: this.name
-    }
-  }
+  
 }

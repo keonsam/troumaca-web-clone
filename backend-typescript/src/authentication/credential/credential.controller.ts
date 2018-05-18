@@ -19,7 +19,7 @@ export let isValidUsername = (req: Request, res: Response) => {
 
 export let isValidEditUsername = (req: Request, res: Response) => {
   let partyId = req.body.partyId;
-  let username = req.body.username
+  let username = req.body.username;
   credentialOrchestrator.isValidEditUsername(partyId, username)
     .subscribe((next:ValidateResponse) => {
       res.send(next.valid);

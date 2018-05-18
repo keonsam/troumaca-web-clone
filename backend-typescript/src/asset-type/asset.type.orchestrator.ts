@@ -7,15 +7,25 @@ import {Result} from "../result.success";
 import {getSortOrderOrDefault} from "../sort.order.util";
 import {createValueRepository} from "./value/value.repository.factory";
 import {ValueRepository} from "./value/value.repository";
+import {AssetTypeClassRepository} from "./asset-type-class/asset.type.class.repository";
+import {createAssetTypeClassesRepositoryFactory} from "./asset-type-class/asset.type.class.repository.factory";
+import {UnitOfMeasureRepository} from "../unit-of-measure/unit.of.measure.repository";
+import {createUnitOfMeasureRepository} from "../unit-of-measure/unit.of.measure.repository.factory";
+import {AssetTypeClass} from "./asset-type-class/asset.type.class";
+import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
 
 export class AssetTypeOrchestrator {
 
   private assetTypeRepository:AssetTypeRepository;
   private valueRepository: ValueRepository;
+  private assetTypeClassRepository: AssetTypeClassRepository;
+  private unitOfMeasureRepository: UnitOfMeasureRepository;
 
   constructor(options?:any) {
     this.assetTypeRepository = createAssetTypeRepository(options);
+    this.assetTypeClassRepository = createAssetTypeClassesRepositoryFactory(options);
     this.valueRepository = createValueRepository(options);
+    this.unitOfMeasureRepository = createUnitOfMeasureRepository(options);
   }
 
   findAssetTypes(searchStr:string, pageSize:number):Observable<AssetType[]> {
@@ -34,18 +44,60 @@ export class AssetTypeOrchestrator {
     let sort:string = getSortOrderOrDefault(field, direction);
     return this.assetTypeRepository
       .getAssetTypes(number, size, sort)
-      .flatMap(value => {
-        return this.assetTypeRepository
-          .getAssetTypeCount()
-          .map(count => {
-            let shapeAssetTypesResp:any = shapeAssetTypesResponse(value, number, size, value.length, count, sort);
-            return new Result<any>(false, "assetTypes", shapeAssetTypesResp);
+      .switchMap(assetTypes => {
+        if(assetTypes.length === 0) {
+          let shapeAssetTypesResp:any = shapeAssetTypesResponse(assetTypes, 0, 0, 0, 0, sort);
+          return Observable.of(new Result<any>(false, "No entry in database", shapeAssetTypesResp));
+        }else {
+          let assetTypeClassIds:string[] = [];
+          let unitOfMeasureIds:string[] = [];
+          assetTypes.forEach(value => {
+            if(value.assetTypeClassId) assetTypeClassIds.push(value.assetTypeClassId);
+            if(value.unitOfMeasureId) unitOfMeasureIds.push(value.unitOfMeasureId);
           });
+          return this.assetTypeClassRepository.getAssetTypeClassByIds(assetTypeClassIds)
+            .switchMap((assetTypeClasses:AssetTypeClass[]) => {
+              return this.unitOfMeasureRepository.getUnitOfMeasureByIds(unitOfMeasureIds)
+                .switchMap((unitOfMeasures:UnitOfMeasure[]) => {
+                  assetTypes.forEach(value => {
+                    let index = assetTypeClasses.findIndex(x => x.assetTypeClassId === value.assetTypeClassId);
+                    let index2 = unitOfMeasures.findIndex(x => x.unitOfMeasureId === value.unitOfMeasureId);
+                    value.assetTypeClass = assetTypeClasses[index];
+                    value.unitOfMeasure = unitOfMeasures[index2];
+                  });
+                  return this.assetTypeRepository
+                    .getAssetTypeCount()
+                    .map(count => {
+                      let shapeAssetTypesResp:any = shapeAssetTypesResponse(assetTypes, number, size, assetTypes.length, count, sort);
+                      return new Result<any>(false, "assetTypes", shapeAssetTypesResp);
+                    });
+                });
+            });
+        }
       });
   }
 
   getAssetTypeById(assetTypeId:string):Observable<AssetType> {
-    return this.assetTypeRepository.getAssetTypeById(assetTypeId);
+    return this.assetTypeRepository.getAssetTypeById(assetTypeId)
+      .switchMap((assetType: AssetType) => {
+        if (!assetType.assetTypeId) {
+          return Observable.of(new AssetType());
+        } else {
+          return this.assetTypeClassRepository.getAssetTypeClassById(assetType.assetTypeClassId)
+            .switchMap(assetTypeClass => {
+              if (assetTypeClass) {
+                assetType.assetTypeClass = assetTypeClass;
+              }
+              return this.unitOfMeasureRepository.getUnitOfMeasureById(assetType.unitOfMeasureId)
+                .map(unitOfMeasure => {
+                  if (unitOfMeasure) {
+                    assetType.unitOfMeasure = unitOfMeasure;
+                  }
+                  return assetType;
+                });
+            });
+        }
+      });
   }
 
   updateAssetType(assetTypeId:string, assetType:AssetType):Observable<number> {

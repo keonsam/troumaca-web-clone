@@ -15,6 +15,7 @@ import {ConfirmationRepository} from "./confirmation/confirmation.repository";
 import {CredentialConfirmation} from "./confirmation/credential.confirmation";
 import {AuthenticateResponse} from "./authenticate.response";
 import {Result} from "../../result.success";
+import {RepositoryKind} from "../../repository.kind";
 
 export class CredentialOrchestrator {
 
@@ -24,7 +25,7 @@ export class CredentialOrchestrator {
 
   constructor() {
     this.sessionRepository = createSessionRepositoryFactory();
-    this.credentialRepository = createCredentialRepositoryFactory();
+    this.credentialRepository = createCredentialRepositoryFactory(RepositoryKind.Rest);
     this.confirmationRepository = createCredentialConfirmationRepositoryFactory();
   }
 

@@ -324,7 +324,7 @@ class CredentialDBRepository implements CredentialRepository {
         partyId
       };
 
-      credentials.remove(query, {}, function (err:any, numRemoved:number) {
+      credentials.remove(query, {multi:true}, function (err:any, numRemoved:number) {
         if (!err) {
           observer.next(numRemoved);
         } else {

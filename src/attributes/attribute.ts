@@ -3,22 +3,25 @@ import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
 
 export class Attribute {
 
-  constructor() {
-    this._dataType = new DataType();
-  }
-
   private _attributeId:string;
   private _tenantId:string;
   private _name:string;
   private _format:string;
   // replace with data type
+  private _dataTypeId: string;
   private _dataType: DataType;
   // replace with unit of measure
+  private _unitOfMeasureId: string;
   private _unitOfMeasure: UnitOfMeasure;
   private _maximumValue:string;
   private _minimumValue:string;
   private _createdOn:Date;
   private _modifiedOn:Date;
+
+  constructor() {
+    this._dataType = new DataType();
+    this._unitOfMeasure = new UnitOfMeasure();
+  }
 
   get attributeId(): string {
     return this._attributeId;
@@ -52,12 +55,28 @@ export class Attribute {
     this._format = value;
   }
 
+  get dataTypeId(): string {
+    return this._dataTypeId;
+  }
+
+  set dataTypeId(value: string) {
+    this._dataTypeId = value;
+  }
+
   get dataType(): DataType {
     return this._dataType;
   }
 
   set dataType(value: DataType) {
     this._dataType = value;
+  }
+
+  get unitOfMeasureId(): string {
+    return this._unitOfMeasureId;
+  }
+
+  set unitOfMeasureId(value: string) {
+    this._unitOfMeasureId = value;
   }
 
   get unitOfMeasure(): UnitOfMeasure {

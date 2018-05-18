@@ -20,7 +20,7 @@ export abstract class PartyRepository {
 
   abstract getUser(partyId: string): Observable<User>;
 
-  abstract getPartyAccessRoleById(partyId:string): Observable<PartyAccessRole>;
+  abstract getPartyAccessRoleById(partyId:string): Observable<PartyAccessRole[]>;
 
   abstract getPartyAccessRoles() :Observable<PartyAccessRole[]>;
 
@@ -28,7 +28,7 @@ export abstract class PartyRepository {
 
   abstract getPhoto(partyId: string, type:string): Observable<string>;
 
-  abstract addUser(user: User, partyAccessRole: PartyAccessRole): Observable<User>;
+  abstract addUser(user: User, partyAccessRoles: PartyAccessRole[]): Observable<User>;
 
   abstract addOrganization(organization: Organization): Observable<Organization>;
 
@@ -40,7 +40,7 @@ export abstract class PartyRepository {
 
   abstract deleteOrganization(partyId: string): Observable<number>;
 
-  abstract updateUser(user: User, partyAccessRole: PartyAccessRole): Observable<number>;
+  abstract updateUser(user: User, partyAccessRoles: PartyAccessRole[]): Observable<number>;
 
   abstract updateUserMe(user: User, credential: Credential): Observable<number>;
 

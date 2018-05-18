@@ -61,7 +61,6 @@ export class AttributeCreationComponent implements OnInit {
     });
 
     let attribute = new Attribute();
-    attribute.unitOfMeasure = new UnitOfMeasure();
     this.attribute = attribute;
 
     this.attributeForm
@@ -69,7 +68,7 @@ export class AttributeCreationComponent implements OnInit {
     .subscribe(value => {
       this.attribute.name = value.name;
       this.attribute.format = value.format;
-      this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
+      this.attribute.dataTypeId = value.dataType;
       this.attribute.maximumValue = value.maximumValue;
       this.attribute.minimumValue = value.minimumValue;
     }, error2 => {
@@ -209,8 +208,7 @@ export class AttributeCreationComponent implements OnInit {
 
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.unitOfMeasureId.setValue(selected.originalObject.name);
-      this.attribute.unitOfMeasure = selected.originalObject;
+      this.attribute.unitOfMeasureId = selected.originalObject.unitOfMeasureId;
     }
   }
 

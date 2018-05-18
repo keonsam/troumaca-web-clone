@@ -50,6 +50,9 @@ export class PartyRepositoryAdapter extends PartyRepository {
         userModels.users = map(values.users, value => {
           return mapObjectProps(value, new User());
         });
+        userModels.partyAccessRoles = map(values.partyAccessRoles, value => {
+          return mapObjectProps(value, new PartyAccessRole());
+        });
        userModels.page = mapObjectProps(values.page, new Page());
        userModels.sort = mapObjectProps(values.sort, new Sort());
         return userModels;
@@ -78,11 +81,13 @@ export class PartyRepositoryAdapter extends PartyRepository {
     });
   }
 
-  public getPartyAccessRoleById(partyId: string) :Observable<PartyAccessRole> {
+  public getPartyAccessRoleById(partyId: string) :Observable<PartyAccessRole[]> {
     return this.personClient
       .getPartyAccessRoleById(partyId)
-      .map(value => {
-        return mapObjectProps(value, new PartyAccessRole());
+      .map(values => {
+        return map(values, value => {
+          return mapObjectProps(value, new PartyAccessRole())
+        });
       });
   }
 
@@ -107,9 +112,11 @@ export class PartyRepositoryAdapter extends PartyRepository {
     return this.personClient.getPhoto(partyId, type);
   }
 
-  public addUser(user: User, partyAccessRole: PartyAccessRole): Observable<User> {
+  public addUser(user: User, partyAccessRoles: PartyAccessRole[]): Observable<User> {
     return this.personClient
-    .addUserState(mapObjectProps(user, new UserState()), mapObjectProps(partyAccessRole, new PartyAccessRoleState()))
+    .addUserState(mapObjectProps(user, new UserState()), map(partyAccessRoles, data => {
+      return mapObjectProps(data, new PartyAccessRoleState());
+    }))
     .map(value => {
       return mapObjectProps(value, new User());
     });
@@ -144,8 +151,10 @@ export class PartyRepositoryAdapter extends PartyRepository {
     return this.personClient.deleteOrganization(partyId);
   }
 
-  public updateUser(user: User, partyAccessRole: PartyAccessRole): Observable<number> {
-    return this.personClient.updateUser(mapObjectProps(user, new UserState()),  mapObjectProps(partyAccessRole, new PartyAccessRoleState()));
+  public updateUser(user: User, partyAccessRoles: PartyAccessRole[]): Observable<number> {
+    return this.personClient.updateUser(mapObjectProps(user, new UserState()),  map(partyAccessRoles, value => {
+      return mapObjectProps(value, new PartyAccessRoleState());
+    }));
   }
 
   public updateUserMe(user: User, credential: Credential): Observable<number> {

@@ -13,6 +13,9 @@ export interface AccessRoleTypeRepository {
 
   getAccessRoleTypeById(accessRoleTypeId:string):Observable<AccessRoleType>;
 
+  getAccessRoleTypeByIds(accessRoleTypeIds:string[]):Observable<AccessRoleType[]>;
+
+
   updateAccessRoleType(accessRoleTypeId:string, accessRoleType:AccessRoleType):Observable<number>;
 
   deleteAccessRoleType(accessRoleTypeId:string):Observable<number>;

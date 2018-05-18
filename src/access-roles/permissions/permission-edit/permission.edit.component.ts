@@ -102,7 +102,7 @@ export class PermissionEditComponent implements OnInit {
     this.accessRoleService.updatePermission(this.permission)
       .subscribe( permission => {
         if (permission) {
-          this.router.navigate(['/access-roles/permissions/listing']);
+          this.router.navigate(['/access-roles/permissions']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -112,7 +112,7 @@ export class PermissionEditComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/access-roles/permissions/listing']);
+    this.router.navigate(['/access-roles/permissions']);
   }
 
 }

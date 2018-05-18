@@ -75,18 +75,12 @@ export class AssetCreationComponent implements OnInit {
 
     this.assetKinds = [];
 
-    let asset = new Asset();
-    asset.assetKind = new AssetKind();
-    asset.assetType = new AssetType();
-    asset.unitOfMeasure = new UnitOfMeasure();
-    asset.person = new AssetPerson();
-    asset.site = new Site();
-    this.asset = asset;
+    this.asset = new Asset();
 
    this.assetForm
     .valueChanges
     .subscribe(value => {
-      this.asset.assetKind = this.assetKinds.find(x => x.assetKindId == value.assetKindId);
+      this.asset.assetKindId = value.assetKindId;
       this.asset.serialNumber = value.serialNumber;
       this.asset.quantity = value.quantity;
       this.asset.description = value.description;
@@ -368,19 +362,19 @@ export class AssetCreationComponent implements OnInit {
   }
 
   onAssetTypeSelect(selected: CompleterItem) {
-      this.asset.assetType = selected.originalObject;
+      this.asset.assetTypeId = selected.originalObject.assetTypeId;
   }
 
   onUnitOfMeasureSelect(selected: CompleterItem) {
-      this.asset.unitOfMeasure = selected.originalObject;
+      this.asset.unitOfMeasureId = selected.originalObject.unitOfMeasureId;
   }
 
   onPhysicalSiteSelect(selected: CompleterItem) {
-      this.asset.site = selected.originalObject;
+      this.asset.siteId = selected.originalObject.siteId;
   }
 
   onPersonSelect(selected: CompleterItem) {
-      this.asset.person = selected.originalObject;
+      this.asset.personId = selected.originalObject.partyId;
   }
 
   isDiscreteItem() {

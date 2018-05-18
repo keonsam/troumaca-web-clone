@@ -123,7 +123,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
     .subscribe(value => {
       this.attribute.name = value.attributeName;
       this.attribute.format = value.format;
-      this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
+      this.attribute.dataTypeId = value.dataType;
       this.attribute.maximumValue = value.maximumValue;
       this.attribute.minimumValue = value.minimumValue;
     }, error2 => {
@@ -158,31 +158,32 @@ export class AssetTypeClassCreationComponent implements OnInit {
   }
 
   private populateUnitOfMeasureIdDropDown() {
-    this.unitOfMeasureIdDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
+    this.findUnitOfMeasureId("");
     this.attributeForm.get("unitOfMeasureId").valueChanges
-      .debounceTime(1000) // debounce
+    //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.assetTypeClassService
-          .findUnitOfMeasureId(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.map(v2 => { //update to the new way of doing this
-              return {
-                unitOfMeasureId: v2.unitOfMeasureId,
-                name: v2.name,
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findUnitOfMeasureId next - " + next);
-            this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findUnitOfMeasureId error - " + error);
-          });
+        this.findUnitOfMeasureId(value);
+      });
+  }
+
+  findUnitOfMeasureId(value) {
+    this.assetTypeClassService
+      .findUnitOfMeasureId(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => {
+          return {
+            unitOfMeasureId: v2.unitOfMeasureId,
+            name: v2.name
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("finUnitOfMeasureId error - " + error);
       });
   }
 
@@ -338,9 +339,17 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this._newOrEdit = value;
   }
 
+  getDataType(dataTypeId: string) {
+    let index = this.dataTypes.findIndex( x => x.dataTypeId === dataTypeId);
+    if(index === -1 ) {
+      return "";
+    }
+    return this.dataTypes[index].name;
+  }
+
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.attribute.unitOfMeasure = selected.originalObject;
+      this.attribute.unitOfMeasureId = selected.originalObject.unitOfMeasureId;
     }
   }
 
@@ -360,7 +369,8 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this.assetTypeClassService
     .getAssignAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
     .subscribe(next => {
-      this.assignAttributes = next;
+      //TODO: UPDATE NAMES IN THE FUTURE
+      this.assignAttributes = next
     }, error => {
       console.log(error);
     }, () => {
@@ -391,6 +401,12 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this.assignedAttributes = this.assignedAttributes.filter(val => val.attributeId != attributeId);
   }
 
+  isChecked(attributeId) {
+    // weird error where isChecked get called when you removed an item for assignAttribute
+    let isChecked = this.assignedAttributes.find(x => x.attributeId == attributeId);
+    return isChecked ? isChecked.required: false;
+  }
+
   onOpenDeleteModal(attributeId: string, attributeName){
     this.attributeId = attributeId;
     this.attributeNameTwo = attributeName;
@@ -403,7 +419,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
     .subscribe(attribute =>{
       this.attributeName.setValue(attribute.name);
       this.format.setValue(attribute.format);
-      this.dataType.setValue(attribute.dataType.dataTypeId);
+      this.dataType.setValue(attribute.dataTypeId);
       this.unitOfMeasureId.setValue(attribute.unitOfMeasure.name);
       this.maximumValue.setValue(attribute.maximumValue);
       this.minimumValue.setValue(attribute.minimumValue);

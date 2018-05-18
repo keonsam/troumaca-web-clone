@@ -38,7 +38,7 @@ export class PartyService {
     return this.partyRepository.getUser(partyId);
   }
 
-  public getPartyAccessRoleById(partyId:string) :Observable<PartyAccessRole> {
+  public getPartyAccessRoleById(partyId:string) :Observable<PartyAccessRole[]> {
     return this.partyRepository.getPartyAccessRoleById(partyId);
   }
 
@@ -54,8 +54,8 @@ export class PartyService {
     return this.partyRepository.getPhoto(partyId, type);
   }
 
-  public addUser(user: User, partyAccessRole: PartyAccessRole): Observable<User> {
-    return this.partyRepository.addUser(user, partyAccessRole);
+  public addUser(user: User, partyAccessRoles: PartyAccessRole[]): Observable<User> {
+    return this.partyRepository.addUser(user, partyAccessRoles);
   }
 
   public addOrganization(organization: Organization): Observable<Organization> {
@@ -78,8 +78,8 @@ export class PartyService {
     return this.partyRepository.deleteOrganization(partyId);
   }
 
-  public updateUser(user: User, partyAccessRole: PartyAccessRole): Observable<number> {
-    return this.partyRepository.updateUser(user, partyAccessRole);
+  public updateUser(user: User, partyAccessRoles: PartyAccessRole[]): Observable<number> {
+    return this.partyRepository.updateUser(user, partyAccessRoles);
   }
 
   public updateUserMe(user: User, credential: Credential): Observable<number> {

@@ -111,6 +111,22 @@ class AccessRoleTypeDBRepository implements AccessRoleTypeRepository {
     });
   }
 
+  getAccessRoleTypeByIds(accessRoleTypeIds: string[]): Observable<AccessRoleType[]> {
+    return Rx.Observable.create(function (observer:Observer<AccessRoleType[]>) {
+      // let query = {
+      //   "accessRoleTypeId":accessRoleTypeId
+      // };
+      accessRoleTypes.find({accessRoleTypeId:{$in: accessRoleTypeIds}}, function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
   updateAccessRoleType(accessRoleTypeId: string, accessRoleType: AccessRoleType): Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
@@ -153,6 +169,10 @@ class AccessRoleTypeRestRepository implements AccessRoleTypeRepository {
   }
 
   getAccessRoleTypeById(accessRoleTypeId: string): Observable<AccessRoleType> {
+    return undefined;
+  }
+
+  getAccessRoleTypeByIds(accessRoleTypeIds: string[]): Observable<AccessRoleType[]> {
     return undefined;
   }
 

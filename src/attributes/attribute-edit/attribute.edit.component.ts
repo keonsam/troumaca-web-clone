@@ -91,7 +91,7 @@ export class AttributeEditComponent implements OnInit {
        .subscribe(attribute =>{
         this.name.setValue(attribute.name);
         this.format.setValue(attribute.format);
-        this.dataType.setValue(attribute.dataType.dataTypeId);
+        this.dataType.setValue(attribute.dataTypeId);
         this.unitOfMeasureId.setValue(  attribute.unitOfMeasure.name); // backend needs to set the value
         this.maximumValue.setValue(attribute.maximumValue);
         this.minimumValue.setValue(attribute.minimumValue);
@@ -104,7 +104,7 @@ export class AttributeEditComponent implements OnInit {
         .subscribe(value => {
           this.attribute.name = value.name;
           this.attribute.format = value.format;
-          this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
+          this.attribute.dataTypeId = value.dataType;
           this.attribute.maximumValue = value.maximumValue;
           this.attribute.minimumValue = value.minimumValue;
         }, error2 => {
@@ -230,7 +230,7 @@ export class AttributeEditComponent implements OnInit {
 
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.attribute.unitOfMeasure = selected.originalObject;
+      this.attribute.unitOfMeasureId = selected.originalObject.unitOfMeasureId;
     }
   }
 

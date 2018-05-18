@@ -7,6 +7,7 @@ import {User} from "./user";
 import {users} from "../../db";
 import {calcSkip} from "../../db.util";
 import {generateUUID} from "../../uuid.generator";
+import {Person} from "../person/person";
 
 class UserDBRepository implements UserRepository {
 
@@ -82,6 +83,38 @@ class UserDBRepository implements UserRepository {
     });
   }
 
+  getPerson(partyId:string):Observable<Person> {
+    return Rx.Observable.create(function (observer:Observer<Person>) {
+      let query = {
+        "partyId": partyId
+      };
+      users.findOne(query, function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
+  getPersonByIds(partyIds:string[]):Observable<Person[]> {
+    return Rx.Observable.create(function (observer:Observer<Person[]>) {
+      // let query = {
+      //   "partyId": partyId
+      // };
+      users.find({partyId:{$in:partyIds}}, function (err:any, docs:any) {
+        if (!err) {
+          observer.next(docs);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
   saveUser(user:User):Observable<User> {
     user.partyId = generateUUID();
     return Rx.Observable.create(function (observer:Observer<User>) {
@@ -142,6 +175,14 @@ class UserRestRepository implements UserRepository {
 
   getUser(partyId: string): Observable<User> {
     return undefined;
+  }
+
+  getPerson(partyId:string):Observable<Person> {
+    return undefined
+  }
+
+  getPersonByIds(partyIds:string[]):Observable<Person[]> {
+    return undefined
   }
 
   getUserCount(): Observable<number> {

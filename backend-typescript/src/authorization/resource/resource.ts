@@ -3,6 +3,7 @@ import {ResourceType} from "../resource-type/resource.type";
 export class Resource {
 
   private _resourceId:string;
+  private _resourceTypeId: string;
   private _resourceType: ResourceType;
   private _name:string;
   private _description:string;
@@ -16,6 +17,14 @@ export class Resource {
 
   set resourceId(value: string) {
     this._resourceId = value;
+  }
+
+  get resourceTypeId(): string {
+    return this._resourceTypeId;
+  }
+
+  set resourceTypeId(value: string) {
+    this._resourceTypeId = value;
   }
 
   get resourceType(): ResourceType {

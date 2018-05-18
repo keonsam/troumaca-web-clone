@@ -13,6 +13,9 @@ export interface ResourceTypeRepository {
 
   getResourceTypeById(resourceTypeId:string):Observable<ResourceType>;
 
+  getResourceTypeByIds(resourceTypeIds:string[]):Observable<ResourceType[]>;
+
+
   updateResourceType(resourceTypeId:string, resourceType:ResourceType):Observable<number>;
 
   deleteResourceType(resourceTypeId:string):Observable<number>;

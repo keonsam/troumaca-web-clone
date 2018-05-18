@@ -68,7 +68,6 @@ export class ResourceCreationComponent implements OnInit {
 
     this.assignedArray = [];
     this.resource = new Resource();
-    this.resource.resourceType = new ResourceType();
     this.doNotDisplayFailureMessage = true;
   }
 
@@ -203,7 +202,7 @@ export class ResourceCreationComponent implements OnInit {
 
   onResourceTypeIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.resource.resourceType = selected.originalObject;
+      this.resource.resourceTypeId = selected.originalObject.resourceTypeId;
     }
   }
 
@@ -236,7 +235,7 @@ export class ResourceCreationComponent implements OnInit {
     this.accessRoleService.addResource(this.resource, this.resourcePermissionIds)
       .subscribe( resource => {
         if (resource.resourceId) {
-          this.router.navigate(['/access-roles/resources/listing']);
+          this.router.navigate(['/access-roles/resources']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -246,7 +245,7 @@ export class ResourceCreationComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/access-roles/resources/listing']);
+    this.router.navigate(['/access-roles/resources']);
   }
 
 }

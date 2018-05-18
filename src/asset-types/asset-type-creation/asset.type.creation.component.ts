@@ -7,9 +7,9 @@ import "rxjs/add/operator/filter";
 import {AssetTypeService} from "../asset.type.service";
 import {AssetType} from "../asset.type";
 import {Value} from "../value";
-import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
-import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
-import {Attribute} from "../../attributes/attribute";
+// import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
+// import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
+//import {Attribute} from "../../attributes/attribute";
 import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
 import {Router} from "@angular/router";
 
@@ -30,14 +30,12 @@ export class AssetTypeCreationComponent implements OnInit {
   private _assetTypeClassIdDataService: CompleterData;
   private _unitOfMeasureIdDataService: CompleterData;
 
-
   private _assetTypeForm:FormGroup;
   private _attributeForm: FormGroup;
 
   private assetType: AssetType;
 
   private _assignedAttributes: AssignedAttribute[];
-  private _attributes: Attribute[] = [];
 
   private _value: Value[] = [];
   private _saveValue: Value[];
@@ -72,8 +70,7 @@ export class AssetTypeCreationComponent implements OnInit {
       });
 
     let assetType = new AssetType();
-    assetType.assetTypeClass = new AssetTypeClass();
-    assetType.unitOfMeasure = new UnitOfMeasure();
+    //assetType.assetTypeClass = new AssetTypeClass();
     this.assetType = assetType;
 
     this.assignedAttributes = [];
@@ -249,14 +246,6 @@ export class AssetTypeCreationComponent implements OnInit {
     this._assignedAttributes = value;
   }
 
-  get attributes(): Attribute[] {
-    return this._attributes;
-  }
-
-  set attributes(value: Attribute[]) {
-    this._attributes = value;
-  }
-
   get value(): Value[] {
     return this._value;
   }
@@ -289,20 +278,16 @@ export class AssetTypeCreationComponent implements OnInit {
     this._doNotDisplayFailureMessage2 = value;
   }
 
-  getRequired(attributeId: string) {
-    return this.assignedAttributes.find(x => x.attributeId == attributeId).required;
-  }
-
   onAssetTypeClassIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.assetType.assetTypeClass = selected.originalObject;
+      this.assetType.assetTypeClassId = selected.originalObject.assetTypeClassId;
     }
     this.getAttributes();
   }
 
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.assetType.unitOfMeasure = selected.originalObject;
+      this.assetType.unitOfMeasureId = selected.originalObject.unitOfMeasureId;
     }
   }
 
@@ -316,20 +301,18 @@ export class AssetTypeCreationComponent implements OnInit {
 
   getAttributes() {
     this.assetTypeService
-    .getAssignedAttributes(this.assetType.assetTypeClass.assetTypeClassId)
+    .getAssignedAttributes(this.assetType.assetTypeClassId)
     .subscribe(next => {
-      this.assignedAttributes = next.assignedAttribute;
-      this.attributes = next.attributes;
+      this.assignedAttributes = next;
       let group: any = {};
-      this.attributes.forEach(value => {
+      this.assignedAttributes.forEach(value => {
       let editValue = this.value.find(x => x.attributeId == value.attributeId);
-      let required = this.assignedAttributes.find(x => x.attributeId == value.attributeId).required;
       if(!editValue) {
         this.value.push(new Value(value.attributeId,""));
         editValue = this.value.find(x => x.attributeId == value.attributeId);
       }
-        group[value.attributeId] = required ? new FormControl(editValue.text, [Validators.required])
-                                            : new FormControl(editValue.text);
+        group[value.attributeId] = value.required ? new FormControl(editValue.text, [Validators.required])
+                                                  : new FormControl(editValue.text);
       });
 
       this.attributeForm = new FormGroup(group);
@@ -370,7 +353,7 @@ export class AssetTypeCreationComponent implements OnInit {
 
   removeValues() {
       this.saveValue = this.value.filter((value) => {
-      if(this.attributes.find(x => x.attributeId == value.attributeId)){
+      if(this.assignedAttributes.find(x => x.attributeId == value.attributeId)){
           return value;
         }
       });

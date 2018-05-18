@@ -11,6 +11,8 @@ export interface AssetTypeClassRepository {
 
   getAssetTypeClassById(assetTypeClassId:string):Observable<AssetTypeClass>;
 
+  getAssetTypeClassByIds(assetTypeClassIds:string[]):Observable<AssetTypeClass[]>;
+
   saveAssetTypeClass(assetTypeClass:AssetTypeClass):Observable<AssetTypeClass>;
 
   deleteAssetTypeClass(assetTypeClassId:string):Observable<number>;

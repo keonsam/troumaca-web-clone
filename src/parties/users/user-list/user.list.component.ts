@@ -89,9 +89,13 @@ export class UserListComponent implements OnInit {
   }
 
   getUserAccessRole(partyId) {
-    return this.partyAccessRoles.find(x =>{
-      return x.partyId === partyId;
-    }).accessRole.name;
+    let values = [];
+    this.partyAccessRoles.forEach(value => {
+      if(value.partyId === partyId && value.accessRole.name) {
+        values.push(value.accessRole.name);
+      }
+    });
+    return values;
   }
 
   onOpenModal(partyId: string, username: string) {

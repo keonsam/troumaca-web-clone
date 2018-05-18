@@ -3,6 +3,7 @@ import {PersonClient} from "./person.client";
 import {Observable} from "rxjs/Observable";
 import {UserState} from "./user.state";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { map, reduce, somethingElse } from "underscore";
 import {UserStates} from "./user.states";
 import {CredentialState} from "./credential.state";
 import {OrganizationState} from "./organization.state";
@@ -45,7 +46,7 @@ export class PersonClientHttp implements PersonClient {
       });
   }
 
-  public getPartyAccessRoleById(partyId: string): Observable<PartyAccessRoleState> {
+  public getPartyAccessRoleById(partyId: string): Observable<PartyAccessRoleState[]> {
     let url = `${this.hostPort}/party-access-roles/${partyId}`;
 
     const httpOptions = {
@@ -56,7 +57,7 @@ export class PersonClientHttp implements PersonClient {
     };
 
     return this.httpClient
-      .get<PartyAccessRoleState>(url, httpOptions)
+      .get<PartyAccessRoleState[]>(url, httpOptions)
       .map(data => {
         return data;
       });
@@ -189,13 +190,16 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public addUserState(userState: UserState, partyAccessRoleState: PartyAccessRoleState): Observable<UserState> {
+  public addUserState(userState: UserState, partyAccessRoleStates: PartyAccessRoleState[]): Observable<UserState> {
     let url = `${this.hostPort}/users`;
     let user = userState.toJson();
-    let partyAccessRole = partyAccessRoleState.toJson();
+    let partyAccessRoles = map(partyAccessRoleStates, value => {
+      return value.toJson();
+    });
+    console.log(partyAccessRoles);
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .post<UserState>(url, {user, partyAccessRole}, {headers: headers})
+    .post<UserState>(url, {user, partyAccessRoles}, {headers: headers})
     .map(data => {
       return data;
     });
@@ -259,13 +263,15 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public updateUser(userState: UserState, partyAccessRoleState: PartyAccessRoleState): Observable<number> {
+  public updateUser(userState: UserState, partyAccessRoleStates: PartyAccessRoleState[]): Observable<number> {
     let url = `${this.hostPort}/users/${userState.partyId}`;
     let user = userState.toJson();
-    let partyAccessRole = partyAccessRoleState.toJson();
+    let partyAccessRoles = map(partyAccessRoleStates, value => {
+      return value.toJson();
+    });
     let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
     return this.httpClient
-    .put<number>(url, {user, partyAccessRole}, {headers:headers})
+    .put<number>(url, {user, partyAccessRoles}, {headers:headers})
     .map(data => {
       return data;
     });
