@@ -23,4 +23,6 @@ export function postJsonOptions(uri: any, headers: any, json: any) {
   if (headers) {
     headerMap.set("json", json);
   }
+
+  return headerMap;
 }

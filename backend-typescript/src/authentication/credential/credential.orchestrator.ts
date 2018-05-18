@@ -2,7 +2,6 @@ import  Rx from "rxjs";
 import validator from 'validator';
 import {CredentialStatus} from './credential.status';
 import {ValidateResponse} from "./validate.response";
-
 import {Credential} from "./credential";
 import {createCredentialRepositoryFactory} from "./credential.repository.factory";
 import {CredentialRepository} from "./credential.repository";
@@ -15,6 +14,7 @@ import {ConfirmationRepository} from "./confirmation/confirmation.repository";
 import {CredentialConfirmation} from "./confirmation/credential.confirmation";
 import {AuthenticateResponse} from "./authenticate.response";
 import {Result} from "../../result.success";
+import {RepositoryKind} from "../../repository.kind";
 
 export class CredentialOrchestrator {
 
@@ -24,7 +24,7 @@ export class CredentialOrchestrator {
 
   constructor() {
     this.sessionRepository = createSessionRepositoryFactory();
-    this.credentialRepository = createCredentialRepositoryFactory();
+    this.credentialRepository = createCredentialRepositoryFactory(RepositoryKind.Rest);
     this.confirmationRepository = createCredentialConfirmationRepositoryFactory();
   }
 
@@ -58,18 +58,19 @@ export class CredentialOrchestrator {
 
 
   addCredential(credential:Credential):Observable<CredentialConfirmation> {
-    return this.credentialRepository
-      .addCredential(credential)
-      .switchMap(credential => {
-
-        let credentialConfirmation:CredentialConfirmation = new CredentialConfirmation();
-
-        credentialConfirmation.credentialId = credential.credentialId;
-
-        return this.confirmationRepository
-          .addCredentialConfirmation(credentialConfirmation);
-
-      });
+    return this.credentialRepository.addCredential(credential);
+      // .switchMap(credential => {
+      //
+      //   let credentialConfirmation:CredentialConfirmation = new CredentialConfirmation();
+      //
+      //   credentialConfirmation.credentialId = credential.credentialId;
+      //   credentialConfirmation.createdOn = new Date();
+      //   credentialConfirmation.modifiedOn = new Date();
+      //
+      //   return this.confirmationRepository
+      //     .addCredentialConfirmation(credentialConfirmation);
+      //
+      // });
   };
 
   authenticate(credential:Credential):Observable<AuthenticateResponse> {

@@ -7,7 +7,7 @@ import {Credential} from "./credential";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {CredentialStatus} from "./credential.status"
-import {credentials, users} from "../../db";
+import {credentials, users, credentialConfirmations} from "../../db";
 import {RepositoryKind} from "../../repository.kind";
 import {CredentialRepository} from "./credential.repository";
 import {Result} from "../../result.success";
@@ -16,6 +16,8 @@ import {classToPlain, plainToClass} from "class-transformer";
 import {strMapToJson} from "../../map.helpers";
 import {jsonRequestHeaderMap, postJsonOptions} from "../../request.helpers";
 import {properties} from "../../properties.helpers";
+import {CredentialConfirmation} from "./confirmation/credential.confirmation";
+import phoneToken from "generate-sms-verification-code";
 
 class CredentialDBRepository implements CredentialRepository {
 
@@ -212,7 +214,7 @@ class CredentialDBRepository implements CredentialRepository {
     });
   };
 
-  addCredential(credential:Credential):Observable<Credential> {
+  addCredentialLocal(credential:Credential):Observable<Credential> {
     credential.credentialId = generateUUID();
     if(!credential.credentialStatus){
       credential.credentialStatus = CredentialStatus.NEW;
@@ -221,6 +223,37 @@ class CredentialDBRepository implements CredentialRepository {
       credentials.insert(credential, function (err:any, doc:any) {
         if (!err) {
           observer.next(credential);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  };
+
+  addCredential(credential:Credential):Observable<CredentialConfirmation> {
+    return this.addCredentialLocal(credential)
+      .switchMap(credential => {
+      let credentialConfirmation:CredentialConfirmation = new CredentialConfirmation();
+
+      credentialConfirmation.credentialId = credential.credentialId;
+      credentialConfirmation.createdOn = new Date();
+      credentialConfirmation.modifiedOn = new Date();
+
+      return this.addCredentialConfirmationLocal(credentialConfirmation);
+    });
+  };
+
+  addCredentialConfirmationLocal(credentialConfirmation:CredentialConfirmation):Observable<CredentialConfirmation> {
+    credentialConfirmation.credentialConfirmationId = generateUUID();
+    credentialConfirmation.confirmationCode = phoneToken(6, {type: 'string'});
+    credentialConfirmation.credentialStatus = CredentialStatus.NEW;
+
+    return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
+      credentialConfirmations.insert(classToPlain(credentialConfirmation), function (err:any, doc:any) {
+        if (!err) {
+          //delete doc._id;
+          observer.next(doc);
         } else {
           observer.error(err);
         }
@@ -368,24 +401,31 @@ class CredentialRestRepository implements CredentialRepository {
   constructor() {
   }
 
-  addCredential(credential:Credential, options?:any): Observable<Credential> {
-    let uri:string = properties.get("credential.hos.port") as string;
+  addCredential(credential:Credential, options?:any): Observable<CredentialConfirmation> {
+    let uri:string = properties.get("credential.host.port") as string;
 
     let headerMap = jsonRequestHeaderMap(options ? options : {});
     let headers:any = strMapToJson(headerMap);
-
     let credentialJson = classToPlain(credential);
+
+    uri = uri + '/credentials';
 
     let requestOptions:any = postJsonOptions(uri, headers, credentialJson);
 
-    return Rx.Observable.create(function (observer:Observer<number>) {
+    console.log(requestOptions);
+
+    return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
       request(requestOptions, function (error:any, response:any, body:any) {
+        console.log("check works 2");
         if (error) {
+          console.log("failed" + error);
           observer.error(error);
         } else {
+          console.log("good");
+          console.log(body);
           // let credentialObj = plainToClass(Credential, body);
-          let credentialObject = plainToClass(Credential, body as Object);
-          observer.error(credentialObject);
+          let credentialObject = plainToClass(CredentialConfirmation, body as Object);
+          observer.next(credentialObject);
         }
         observer.complete();
       });

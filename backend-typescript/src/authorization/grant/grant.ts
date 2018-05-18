@@ -40,7 +40,7 @@ export class Grant {
   set accessRoleId(value: string) {
     this._accessRoleId = value;
   }
-  
+
   get resourceId(): string {
     return this._resourceId;
   }
