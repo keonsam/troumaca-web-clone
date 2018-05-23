@@ -249,8 +249,10 @@ class CredentialDBRepository implements CredentialRepository {
     credentialConfirmation.confirmationCode = phoneToken(6, {type: 'string'});
     credentialConfirmation.credentialStatus = CredentialStatus.NEW;
 
+    let newCredentialConfirmation = credentialConfirmation.toJson();
+    console.log(newCredentialConfirmation);
     return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
-      credentialConfirmations.insert(classToPlain(credentialConfirmation), function (err:any, doc:any) {
+      credentialConfirmations.insert(newCredentialConfirmation, function (err:any, doc:any) {
         if (!err) {
           //delete doc._id;
           observer.next(doc);
@@ -412,20 +414,16 @@ class CredentialRestRepository implements CredentialRepository {
 
     let requestOptions:any = postJsonOptions(uri, headerMap, credentialJson);
 
-    console.log(requestOptions);
-
     return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
 
       request(requestOptions, function (error:any, response:any, body:any) {
-        console.log("check works 2");
         if (response && response.statusCode != 200) {
-          console.log("failed" + error);
           observer.error(body);
         } else {
-          console.log("good");
-          console.log(body);
+
           // let credentialObj = plainToClass(Credential, body);
-          let credentialObject = plainToClass(CredentialConfirmation, body as Object);
+          let credentialObject = plainToClass(CredentialConfirmation, body["confirmation"] as Object);
+          console.log(credentialObject);
           observer.next(credentialObject);
         }
         observer.complete();

@@ -26,13 +26,27 @@ export class AppComponent implements OnInit{
 
   // Todo: this need improving. It is not maintainable.
   private withPatternRoutes:string[] = [
-    "sign-in",
-    "login",
-    "register"
+    "/home",
+    "/sign-in",
+    "/login",
+    "/register",
+    "/forget-password"
   ];
+
+  private isAuthRoutes:string[] = [
+    "/home",
+    "/authentication/login",
+    "/authentication/forget-password",
+    "/authentication/phone-verification",
+    "/authentication/email-verification",
+    "/authentication/register"
+  ];
+
+  private isAuth:boolean;
 
   private logInSub: any;
   private initLogSub: any;
+
 
 
   constructor(private router:Router,
@@ -41,6 +55,7 @@ export class AppComponent implements OnInit{
               private sessionService: SessionService,
               private clientEvent: ClientEvent) {
     this.isLoggedIn = false;
+    this.isAuth = false;
 
     this.eventService.subscribeToLoginEvent( (data) => {
       this.logInSub = this.router.events.subscribe( (event:any) => {
@@ -82,6 +97,24 @@ export class AppComponent implements OnInit{
               this.isLoggedIn = true;
             }
             this.initLogSub.unsubscribe();
+          });
+      }
+    });
+
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        this.sessionService.activeSessionExists()
+          .subscribe(value => {
+            let url = event.url;
+            let matchRegex = /\/[a-z-]*\/[a-z-]*\//gi; // not good with regex if you can fix this, that will be great
+            if(url.indexOf('phone-verification') !== -1 || url.indexOf('email-verification') !== -1 ) {
+              url = url.match(matchRegex)[0].slice(0, -1);
+            }
+            if(this.isAuthRoutes.indexOf(url) !== -1) {
+              this.isAuth = true;
+            }else {
+              this.isAuth = false;
+            }
           });
       }
     });

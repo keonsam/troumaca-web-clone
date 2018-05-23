@@ -23,7 +23,8 @@ export class CredentialOrchestrator {
 
   constructor() {
     this.sessionRepository = createSessionRepositoryFactory();
-    this.credentialRepository = createCredentialRepositoryFactory(RepositoryKind.Rest);
+    //this.credentialRepository = createCredentialRepositoryFactory(RepositoryKind.Rest);
+    this.credentialRepository = createCredentialRepositoryFactory();
     this.confirmationRepository = createCredentialConfirmationRepositoryFactory();
   }
 

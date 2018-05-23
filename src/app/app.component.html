@@ -1,7 +1,7 @@
+<div [class]="(isAuth) ? 'auth-wrapper':''">
+<div [class]="(isLoggedIn) ? 'all-wrapper menu-side':'all-wrapper menu-side with-pattern'">
 
-<div class="all-wrapper menu-side no-padding-content container-main">
-
-  <div class="layout-w">
+  <div [class]="(isLoggedIn) ?'layout-w':''">
       <!--------------------
       START - Mobile Menu
       -------------------->
@@ -11,7 +11,7 @@
       -------------------->
 
     <!--Might be able to move order down to the component-->
-    <div class="container-app">
+    <div [class]="(isLoggedIn) ? 'container-app':''">
 
       <!--------------------
       START - Menu side compact
@@ -22,7 +22,7 @@
       -------------------->
 
       <!--Might be able to move order down to the component-->
-      <div [ngClass]="(isLoggedIn)? 'container-content2':'container-content'">
+      <div [class]="(isLoggedIn)? 'container-content2':''">
         <!--------------------
         START - Content W
         -------------------->
@@ -30,11 +30,12 @@
         <!--------------------
         End - Content W
         -------------------->
-      </div>
+      <!--</div>-->
 
-    </div>
+    <!--</div>-->
 
   </div>
-
-  <div class="display-type"></div>
+  <!-- No idea what this is for-->
+  <!--<div class="display-type"></div>-->
+</div>
 </div>

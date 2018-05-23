@@ -49,6 +49,7 @@ export class UserCreationComponent implements OnInit {
   public accessRoleData: Array<Select2OptionData>;
   public options: Select2Options;
   private accessRoles: string[];
+  private isAuth: false;
 
   constructor(private partyEventService: PartyEventService,
               private partyService: PartyService,

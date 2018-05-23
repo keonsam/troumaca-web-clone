@@ -258,7 +258,7 @@ export class CreateAccountComponent implements OnInit {
         .subscribe(value => {
           if (value) {
             this.userImageComplete = true;
-            if (this.croppedImage2) {
+            if (this.croppedImage2 && this.accountType.value === "organization") {
               this.addOrganizationPhoto();
             } else {
               this.loginUserIn();
