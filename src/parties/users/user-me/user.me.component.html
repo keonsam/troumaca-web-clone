@@ -2,16 +2,23 @@
   <div class="content-box">
     <div class="row">
       <div class="col-sm-5">
+
         <div class="user-profile compact">
-          <div class="up-head-w" [style.background-image]="getBackgroundImage()">
+          <div class="up-head-w" [style.background-image]="organizationImage">
             <div class="up-social">
-              <a data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon os-icon-pencil-2 primary"></i></a>
+              <a data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon-user-male-circle2 primary"></i></a>
             </div>
             <div class="up-main-info">
+              <div class="user-avatar-w">
+                <div class="user-avatar">
+                  <img alt="" [src]="userImage">
+                </div>
+              </div>
               <h2 class="up-header">
                 {{user.name}}
               </h2>
               <h6 class="up-sub-header">
+                <!-- what would you put here if the user is personal alone -->
               </h6>
             </div>
             <svg class="decor" width="842px" height="219px" viewBox="0 0 842 219" preserveAspectRatio="xMaxYMax meet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="translate(-381.000000, -362.000000)" fill="#FFFFFF"><path class="decor-path" d="M1223,362 L1223,581 L381,581 C868.912802,575.666667 1149.57947,502.666667 1223,362 Z"></path></g></svg>

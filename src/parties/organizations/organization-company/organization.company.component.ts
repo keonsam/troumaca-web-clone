@@ -62,13 +62,13 @@ export class OrganizationCompanyComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.backgroundImage = "http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825)";
+    this.backgroundImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
 
     this.partyService.getPartyId()
        .subscribe((partyId: string) => {
          this.partyId = partyId;
          this.partyService.getOrganization(this.partyId)
-           .subscribe(organization =>{
+           .subscribe(organization => {
              this.purpose.setValue(organization.purpose);
              this.name.setValue(organization.name);
              this.description.setValue(organization.description);
@@ -76,16 +76,7 @@ export class OrganizationCompanyComponent implements OnInit {
            }, error => {
              console.log(error);
            });
-
-         this.partyService.getPhoto(this.partyId, "organization")
-           .subscribe(imageStr => {
-             if(imageStr) {
-               this.updateImage = true;
-               this.backgroundImage = imageStr;
-             }
-           },error => {
-             console.log(error);
-           });
+         this.getOrganizationPhoto();
        });
   }
 
@@ -138,46 +129,52 @@ export class OrganizationCompanyComponent implements OnInit {
     this.croppedImage = image;
   }
 
-  getBackgroundImage() {
-    if(this.croppedImage && this.croppedImage !== this.backgroundImage) {
-      return `url(${this.croppedImage})`;
-    }
-    return `url(${this.backgroundImage})`;
-  }
-
   pictureModalClose() {
     this.croppedImage = this.backgroundImage;
   }
 
+  getOrganizationPhoto() {
+      this.partyService.getPhoto(this.partyId, "organization")
+        .subscribe(imageStr => {
+          if(imageStr) {
+            this.updateImage = true;
+            this.backgroundImage = `url(${imageStr})`;
+          }
+        },error => {
+          console.log(error);
+        });
+  }
+
+
   uploadPhoto() {
     // New and better algorithm
-    if(this.updateImage && this.croppedImage !== this.backgroundImage) {
+    if(!this.croppedImage) {
+      console.log("No image");
+    } else if(this.updateImage && this.updateImage !== this.croppedImage) {
       this.partyService
         .updatePhoto(this.partyId, this.croppedImage, "organization")
         .subscribe(value => {
           if(value){
-            this.backgroundImage = this.croppedImage;
+            this.getOrganizationPhoto();
           }else {
             console.log("error");
           }
         }, error => {
           console.log(error);
         });
-    }else if(this.croppedImage) {
+    }else if(!this.updateImage) {
       this.partyService
         .addPhoto(this.partyId, this.croppedImage, "organization")
         .subscribe(value => {
-          if(value){
-            this.backgroundImage = this.croppedImage;
-          }else {
+          if (value) {
+            this.getOrganizationPhoto();
+          } else {
             // TODO: make errors fail to upload picture or something like that.
             console.log("error");
           }
         }, error => {
           console.log(error);
         });
-    }else {
-      console.log("image not uploaded");
     }
   }
 

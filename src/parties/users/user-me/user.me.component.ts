@@ -38,11 +38,13 @@ export class UserMeComponent implements OnInit {
 
   private imageChangedEvent: any = '';
   private croppedImage: any = '';
-  private backgroundImage: any = '';
+  private userImage: any = '';
   private updateImage: boolean = false;
 
   private _doNotDisplayFailureMessage: boolean;
   private requiredState: boolean = false;
+
+  private organizationImage: string;
 
   constructor(private partyEventService:PartyEventService,
               private partyService: PartyService,
@@ -86,7 +88,8 @@ export class UserMeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.backgroundImage = "http://i0.wp.com/www.xcelerationfit.com/wp-content/plugins/elementor/assets/images/placeholder.png?w=825";
+    this.userImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwqeFAYIE3hTj9Gs1j3v7o-oBadM5uDkuPBuXMPtXS85LufL7UVA';
+    this.organizationImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
 
     this.userMeForm.get("password").valueChanges
     .subscribe(value => {
@@ -121,11 +124,12 @@ export class UserMeComponent implements OnInit {
                console.log(error);
              });
 
-           this.partyService.getPhoto(this.partyId, "user")
+           this.getPersonalPhoto();
+
+           this.partyService.getPhoto(this.partyId, "organization")
              .subscribe(imageStr => {
                if(imageStr) {
-                 this.updateImage = true;
-                 this.backgroundImage = imageStr;
+                 this.organizationImage = `url(${imageStr})`;
                }
              },error => {
                console.log(error);
@@ -303,25 +307,31 @@ export class UserMeComponent implements OnInit {
     this.croppedImage = image;
   }
 
-  getBackgroundImage() {
-    if(this.croppedImage && this.croppedImage !== this.backgroundImage) {
-      return `url(${this.croppedImage})`;
-    }
-    return `url(${this.backgroundImage})`;
+  pictureModalClose() {
+    this.croppedImage = this.userImage;
   }
 
-  pictureModalClose() {
-    this.croppedImage = this.backgroundImage;
+  getPersonalPhoto() {
+    this.partyService.getPhoto(this.partyId, "user")
+      .subscribe(imageStr => {
+        if(imageStr) {
+          this.updateImage = true;
+          this.userImage = imageStr;
+        }
+      },error => {
+        console.log(error);
+      });
   }
 
   uploadPhoto() {
-    // New and better algorithm
-    if(this.updateImage && this.croppedImage !== this.backgroundImage) {
+    if(!this.croppedImage) {
+      console.log("No image");
+    }else if(this.updateImage && this.updateImage !== this.croppedImage) {
       this.partyService
         .updatePhoto(this.partyId, this.croppedImage, "user")
         .subscribe(value => {
           if(value){
-            this.backgroundImage = this.croppedImage;
+            this.getPersonalPhoto();
             this.eventService.sendPhotoChangeEvent(this.createEventModel());
           }else {
             console.log("error");
@@ -329,22 +339,20 @@ export class UserMeComponent implements OnInit {
         }, error => {
           console.log(error);
         });
-    }else if(this.croppedImage) {
+    }else if(!this.updateImage) {
       this.partyService
         .addPhoto(this.partyId, this.croppedImage, "user")
         .subscribe(value => {
-          if(value){
-            this.backgroundImage = this.croppedImage;
+          if (value) {
+            this.getPersonalPhoto();
             this.eventService.sendPhotoChangeEvent(this.createEventModel());
-          }else {
+          } else {
             // TODO: make errors fail to upload picture or something like that.
             console.log("error");
           }
         }, error => {
           console.log(error);
         });
-    }else {
-      console.log("image not uploaded");
     }
   }
 
