@@ -56,9 +56,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   validateExcludedUrls(url) {
     //this may not be maintainable
     let matchRegex = /\/[a-z-]*\/[a-z-]*\//gi; // not good with regex if you can fix this, that will be great
-    if(url.indexOf('phone-verification') !== -1 || url.indexOf('email-verification') !== -1 ) {
+    if(url.indexOf('confirmations') !== -1) {
       url = url.match(matchRegex)[0].slice(0, -1);
     }
+    console.log(url);
     if (excludedRoutes.indexOf(url) !== -1) {
       return true;
     }else {

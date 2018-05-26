@@ -63,8 +63,9 @@ import {RegisterComponent} from "../authentication/register/register.component";
 import {HomeComponent} from "../home/home.component";
 import {FrontHomeComponent} from "../home/front-home/front.home.component";
 import {LobbyHomeComponent} from "../home/lobby-home/lobby.home.component";
-import {PhoneVerificationComponent} from "../authentication/phone-verification/phone.verification.component";
-import {EmailVerificationComponent} from "../authentication/email-verification/email.verification.component";
+// import {PhoneVerificationComponent} from "../authentication/phone-verification/phone.verification.component";
+// import {EmailVerificationComponent} from "../authentication/email-verification/email.verification.component";
+import {ConfirmationComponent} from "../authentication/confirmation/confirmation.component";
 import {AuthGuard} from "../auth-guard/auth.guard";
 //access Roles
 import {AccessRoleComponent} from "../access-roles/access.role.component";
@@ -95,8 +96,9 @@ const appRoutes: Routes = [
     { path: 'login',  component: LoginComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'phone-verification/:credentialConfirmationId', component: PhoneVerificationComponent },
-    { path: 'email-verification/:credentialConfirmationId', component: EmailVerificationComponent }
+      {path: 'confirmations/:credentialConfirmationId', component: ConfirmationComponent}
+    // { path: 'phone-verification/:credentialConfirmationId', component: PhoneVerificationComponent },
+    // { path: 'email-verification/:credentialConfirmationId', component: EmailVerificationComponent }
   ]},
   { path: 'assets', component: AssetComponent, canActivate: [AuthGuard], children: [
     { path: '',redirectTo: 'listing', pathMatch: 'full' },

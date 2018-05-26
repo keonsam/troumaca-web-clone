@@ -58,11 +58,11 @@ export class OrganizationCompanyComponent implements OnInit {
      });
 
      this.doNotDisplayFailureMessage = true;
+
+    this.backgroundImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
   }
 
   ngOnInit(): void {
-
-    this.backgroundImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
 
     this.partyService.getPartyId()
        .subscribe((partyId: string) => {

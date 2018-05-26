@@ -116,7 +116,7 @@ export class LoginComponent implements OnInit {
     credential.username = this.username.value;
     credential.password = this.password.value;
     credential.rememberMe = this.rememberMe.value;
-    let regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    //let regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
     this.authenticationService
       .authenticate(credential)
@@ -131,11 +131,7 @@ export class LoginComponent implements OnInit {
               this.router.navigate(['/create-profile']);
             }
           }else {
-            if (regex.test(this.username.value)) { // switched to response to avoid errors
-              this.router.navigate([`/authentication/email-verification/${authenticateResponse.credentialConfirmationId}`]);
-            } else {
-              this.router.navigate([`/authentication/phone-verification/${authenticateResponse.credentialConfirmationId}`]);
-            }
+            this.router.navigate([`/authentication/confirmations/${authenticateResponse.credentialConfirmationId}`]);
           }
         }else {
           this.accountFailed = true;

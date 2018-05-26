@@ -160,7 +160,7 @@ app.post("/credentials", credentialController.addCredential);
 app.put("/credentials/:partyId", credentialController.updateCredential);
 app.post("/verify-credentials-confirmations", confirmationController.verifyCredentialConfirmation);
 app.get("/send-confirmation-codes/phone/:confirmationId", confirmationController.sendPhoneVerificationCode);
-app.get("/send-confirmation-codes/email/:confirmationId", confirmationController.sendEmailVerificationCode);
+//app.get("/send-confirmation-codes/email/:confirmationId", confirmationController.sendEmailVerificationCode);
 app.get("/sessions/current-user-session", sessionController.getSimpleSession);
 app.get("/sessions/is-valid-session", sessionController.isValidSession);
 app.get("/partyId", sessionController.getPartyId);

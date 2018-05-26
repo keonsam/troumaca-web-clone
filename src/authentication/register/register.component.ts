@@ -180,17 +180,13 @@ export class RegisterComponent implements OnInit {
     credential.username = this.username.value;
     credential.password = this.password.value;
     credential.changedPassword = this.confirmPassword.value;
-    let regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    //let regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     this.authenticationService
     .addCredential(credential)
     .subscribe(credentialConfirmation => {
       let credentialConfirmationId = credentialConfirmation.credentialConfirmationId;
       if (credentialConfirmationId) {
-        if(regex.test(this.username.value)) {
-          this.router.navigate([`/authentication/email-verification/${credentialConfirmationId}`]);
-        } else {
-          this.router.navigate([`/authentication/phone-verification/${credentialConfirmationId}`]);
-        }
+        this.router.navigate([`/authentication/confirmations/${credentialConfirmationId}`]);
       } else {
         // display errors
       }

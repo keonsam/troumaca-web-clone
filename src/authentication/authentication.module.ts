@@ -9,8 +9,10 @@ import {AuthenticationService} from "./authentication.service";
 import {AuthenticationRepository} from "./authentication.repository";
 import {RegisterComponent} from "./register/register.component";
 import {ForgotPasswordComponent} from "./forgot-password/forgot.password.component";
-import {PhoneVerificationComponent} from "./phone-verification/phone.verification.component";
-import {EmailVerificationComponent} from "./email-verification/email.verification.component";
+// import {PhoneVerificationComponent} from "./phone-verification/phone.verification.component";
+// import {EmailVerificationComponent} from "./email-verification/email.verification.component";
+import {ConfirmationComponent} from "./confirmation/confirmation.component";
+
 
 @NgModule({
   imports: [
@@ -25,8 +27,9 @@ import {EmailVerificationComponent} from "./email-verification/email.verificatio
     AuthenticationComponent,
     RegisterComponent,
     ForgotPasswordComponent,
-    PhoneVerificationComponent,
-    EmailVerificationComponent
+    ConfirmationComponent,
+    // PhoneVerificationComponent,
+    // EmailVerificationComponent
   ],
   providers: [{
     provide: AuthenticationService,
@@ -44,8 +47,9 @@ import {EmailVerificationComponent} from "./email-verification/email.verificatio
     AuthenticationComponent,
     RegisterComponent,
     ForgotPasswordComponent,
-    PhoneVerificationComponent,
-    EmailVerificationComponent
+    ConfirmationComponent
+    // PhoneVerificationComponent,
+    // EmailVerificationComponent
   ]
 })
 export class AuthenticationModule {}
