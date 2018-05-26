@@ -17,6 +17,7 @@ export class SiteEmailListComponent implements OnInit {
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
   private _routerLinkCreateEmail:string = "/sites/emails/create";
+  private emailName:string;
 
   constructor(private siteService:SiteService) {
     let newEmails = new Emails();
@@ -49,7 +50,6 @@ export class SiteEmailListComponent implements OnInit {
   getEmails() {
     this.siteService.getEmails(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.emails = next;
     }, error => {
       console.log(error);
@@ -58,8 +58,9 @@ export class SiteEmailListComponent implements OnInit {
     });
   }
 
-  onOpenModal(emailId: string) {
-    this.emailId = emailId
+  onOpenModal(emailId: string, emailName:string) {
+    this.emailId = emailId;
+    this.emailName = emailName;
   }
 
   onDelete() {

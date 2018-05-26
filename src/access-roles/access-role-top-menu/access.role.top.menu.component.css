@@ -3,13 +3,13 @@
   left: 0px;
   right: 0px;
   list-style: none;
-  /*display: none;*/
+  display: flex;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  top: 100%;
+  /*top: 100%;*/
   padding: 15px 20px;
   background-color: #0061da;
   -webkit-box-shadow: 0 2px 40px 0 rgba(26, 138, 255, 0.5);
@@ -79,4 +79,24 @@ ul {
   margin-top: 0;
   height: 40px;
   margin-bottom: 0;
+}
+
+@media only screen and (max-width: 968px) {
+  ul {
+    height: 65px;
+  }
+}
+
+@media only screen and (max-width: 473px) {
+  ul {
+    height: auto;
+  }
+}
+
+.sub-menu li.active a:before{
+  -webkit-transform: translate(0px, -50%);
+  transform: translate(0px, -50%);
+  -webkit-transition-property: none;
+  transition-property: none;
+  opacity: 1;
 }

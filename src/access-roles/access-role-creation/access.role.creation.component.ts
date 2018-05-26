@@ -30,10 +30,8 @@ export class AccessRoleCreationComponent implements OnInit {
 
   private accessRole: AccessRole;
   private _resources: Resources;
-  private _assignedResources: Resources;
   private _resourcePermissions : ResourcePermission[];
   private _grants: Grant[];
-  private _assignedArray: string[];
 
   private defaultPage:number = 1;
   private defaultPageSize:number = 10;
@@ -76,35 +74,28 @@ export class AccessRoleCreationComponent implements OnInit {
       });
 
     this.accessRole = new AccessRole();
-    this.accessRole.accessRoleType = new AccessRoleType();
 
     let newResources = new Resources();
     newResources.resources = [];
     newResources.page = new Page();
     newResources.sort = new Sort();
     this.resources = newResources;
-    this.assignedResources = newResources;
 
     this.resourcePermissions = [];
-    this.assignedArray = [];
     this.grants = [];
     this.doNotDisplayFailureMessage = true;
   }
 
   ngOnInit(): void {
-    this.getResources("resources");
+    this.getResources();
     this.getResourcePermissions();
     this.populateAccessRoleTypeDropDown();
   }
 
-  private getResources(type) {
-    this.accessRoleService.getResourcesByArray(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray, type)
+  private getResources() {
+    this.accessRoleService.getResources(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
       .subscribe(values => {
-        if(type === "resources") {
-          this.resources = values;
-        }else{
-          this.assignedResources = values;
-        }
+       this.resources = values;
       }, onError => {
         console.log(onError);
       });
@@ -120,31 +111,32 @@ export class AccessRoleCreationComponent implements OnInit {
   }
 
   populateAccessRoleTypeDropDown() {
-    this.accessRoleTypeDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
+    this.findAccessRoleTypeId("");
     this.accessRoleForm.get("accessRoleTypeId").valueChanges
-      .debounceTime(1000) // debounce
+      //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.accessRoleService
-          .findAccessRoleTypeId(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.map(v2 => {
-              return {
-                accessRoleTypeId: v2.accessRoleTypeId,
-                name: v2.name,
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findAccessRoleType next - " + next);
-            this.accessRoleTypeDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findAccessRoleType error - " + error);
-          });
+        this.findAccessRoleTypeId(value);
+      });
+  }
+
+  findAccessRoleTypeId(value) {
+    this.accessRoleService
+      .findAccessRoleTypeId(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => {
+          return {
+            accessRoleTypeId: v2.accessRoleTypeId,
+            name: v2.name,
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.accessRoleTypeDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("findAccessRoleType error - " + error);
       });
   }
 
@@ -199,14 +191,6 @@ export class AccessRoleCreationComponent implements OnInit {
     this._accessRoleTypeId = value;
   }
 
-  get assignedArray(): string[] {
-    return this._assignedArray;
-  }
-
-  set assignedArray(value: string[]) {
-    this._assignedArray = value;
-  }
-
   get accessRoleTypeDataService(): CompleterData {
     return this._accessRoleTypeDataService;
   }
@@ -221,14 +205,6 @@ export class AccessRoleCreationComponent implements OnInit {
 
   set resources(value: Resources) {
     this._resources = value;
-  }
-
-  get assignedResources(): Resources {
-    return this._assignedResources;
-  }
-
-  set assignedResources(value: Resources) {
-    this._assignedResources = value;
   }
 
   get resourcePermissions(): ResourcePermission[] {
@@ -280,34 +256,16 @@ export class AccessRoleCreationComponent implements OnInit {
     }
   }
 
-  onResourceDoubleClick(resourceId: string) {
-    this.assignedArray.push(resourceId);
-    this.getResources("resources");
-    this.getResources("assigned-resources");
-  }
-
-  onAssignedResourceDoubleClick(resourceId: string) {
-    this.assignedArray = this.assignedArray.filter(value => {
-      return value !== resourceId;
-    });
-    this.grants = this.grants.filter(value => {
-      value.resourceId !== resourceId;
-    });
-    this.getResources("resources");
-    this.getResources("assigned-resources");
-  }
-
-  onRequestPage(pageNumber: number, type: string) {
+  onRequestPage(pageNumber: number) {
     this.defaultPage = pageNumber;
-    this.getResources(type);
+    this.getResources();
   }
 
   onAccessRoleTypeSelect(selected: CompleterItem) {
     if (selected) {
-      this.accessRole.accessRoleType = selected.originalObject;
+      this.accessRole.accessRoleTypeId = selected.originalObject.accessRoleTypeId;
     }
   }
-
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;

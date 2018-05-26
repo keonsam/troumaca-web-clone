@@ -28,7 +28,6 @@ export class ResourceCreationComponent implements OnInit {
   private _resourceTypeIdDataService: CompleterData;
   private _resourceForm: FormGroup;
 
-
   private defaultPage:number = 1;
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
@@ -69,7 +68,6 @@ export class ResourceCreationComponent implements OnInit {
 
     this.assignedArray = [];
     this.resource = new Resource();
-    this.resource.resourceType = new ResourceType();
     this.doNotDisplayFailureMessage = true;
   }
 
@@ -93,31 +91,32 @@ export class ResourceCreationComponent implements OnInit {
   };
 
   private populateResourceTypeIdDropDown() {
-    this.resourceTypeIdDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
+    this.findResourceTypeId("");
     this.resourceForm.get("resourceTypeId").valueChanges
-      .debounceTime(1000) // debounce
+      //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.accessRoleService
-          .findResourceTypeId(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.map(v2 => {
-              return {
-                resourceTypeId: v2.resourceTypeId,
-                name: v2.name,
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findResourceTypeId next - " + next);
-            this.resourceTypeIdDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findResourceTypeId error - " + error);
-          });
+        this.findResourceTypeId(value);
+      });
+  }
+
+  findResourceTypeId(value) {
+    this.accessRoleService
+      .findResourceTypeId(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => {
+          return {
+            resourceTypeId: v2.resourceTypeId,
+            name: v2.name,
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.resourceTypeIdDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("findResourceTypeId error - " + error);
       });
   }
 
@@ -203,13 +202,13 @@ export class ResourceCreationComponent implements OnInit {
 
   onResourceTypeIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.resource.resourceType = selected.originalObject;
+      this.resource.resourceTypeId = selected.originalObject.resourceTypeId;
     }
   }
 
-  onPermissionDoubleClick(permissionId: string) {
+  onPermissionDoubleClick(name,permissionId: string) {
     this.assignedArray.push(permissionId);
-    this.resourcePermissionIds.push(new ResourcePermission(permissionId));
+    this.resourcePermissionIds.push(new ResourcePermission(name,permissionId));
     this.getPermissions("permissions");
     this.getPermissions("resource-permissions");
   }
@@ -219,7 +218,7 @@ export class ResourceCreationComponent implements OnInit {
       return val !== permissionId;
     });
     this.resourcePermissionIds = this.resourcePermissionIds.filter( val =>{
-      return val.permissionId !== permissionId;
+      return val.permission.permissionId !== permissionId;
     });
     this.getPermissions("permissions");
     this.getPermissions("resource-permissions");
@@ -236,7 +235,7 @@ export class ResourceCreationComponent implements OnInit {
     this.accessRoleService.addResource(this.resource, this.resourcePermissionIds)
       .subscribe( resource => {
         if (resource.resourceId) {
-          this.router.navigate(['/access-roles/resources/listing']);
+          this.router.navigate(['/access-roles/resources']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -246,7 +245,7 @@ export class ResourceCreationComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/access-roles/resources/listing']);
+    this.router.navigate(['/access-roles/resources']);
   }
 
 }

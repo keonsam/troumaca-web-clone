@@ -17,6 +17,7 @@ export class SiteWebListComponent implements OnInit {
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
   private _routerLinkCreateWebSite:string = "/sites/web-sites/create";
+  private webSiteName:string;
 
   constructor(private siteService:SiteService) {
     let newWebSites = new WebSites();
@@ -49,7 +50,6 @@ export class SiteWebListComponent implements OnInit {
   getWebSites() {
     this.siteService.getWebSites(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.webSites = next;
     }, error => {
       console.log(error);
@@ -58,8 +58,9 @@ export class SiteWebListComponent implements OnInit {
     });
   }
 
-  onOpenModal(webSiteId: string) {
-    this.webSiteId = webSiteId
+  onOpenModal(webSiteId: string, webSiteName:string) {
+    this.webSiteId = webSiteId;
+    this.webSiteName = webSiteName;
   }
 
   onDelete() {

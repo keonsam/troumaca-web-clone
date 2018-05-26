@@ -12,17 +12,21 @@ export class AssetState {
   @JsonProperty("assetId", String)
   private _assetId:string;
   private _tenantId: string;
+  private _assetKindId: string;
   private _assetKind: AssetKindState;
   private _serialNumber:string;
   private _description:string;
   private _quantity:number;
-
+  private _unitOfMeasureId: string;
   private _unitOfMeasure: UnitOfMeasureState;
   //private _lotNumber:string;
+  private _siteId: string;
   private _site: SiteState;
+  private _personId: string;
   private _person: AssetPersonState;
 
   //private _assetTypeClass: AssetTypeClassState;
+  private _assetTypeId: string;
   private _assetType: AssetTypeState;
 
   private _createdOn: string;
@@ -42,6 +46,14 @@ export class AssetState {
 
   set tenantId(value: string) {
     this._tenantId = value;
+  }
+
+  get assetKindId(): string {
+    return this._assetKindId;
+  }
+
+  set assetKindId(value: string) {
+    this._assetKindId = value;
   }
 
   get assetKind(): AssetKindState {
@@ -76,6 +88,14 @@ export class AssetState {
     this._quantity = value;
   }
 
+  get unitOfMeasureId(): string {
+    return this._unitOfMeasureId;
+  }
+
+  set unitOfMeasureId(value: string) {
+    this._unitOfMeasureId = value;
+  }
+
   get unitOfMeasure(): UnitOfMeasureState {
     return this._unitOfMeasure;
   }
@@ -100,6 +120,14 @@ export class AssetState {
     this._assetTypeClass = value;
   } */
 
+  get assetTypeId(): string {
+    return this._assetTypeId;
+  }
+
+  set assetTypeId(value: string) {
+    this._assetTypeId = value;
+  }
+
   get assetType(): AssetTypeState {
     return this._assetType;
   }
@@ -107,6 +135,23 @@ export class AssetState {
   set assetType(value: AssetTypeState) {
     this._assetType = value;
   }
+
+  get siteId(): string {
+    return this._siteId;
+  }
+
+  set siteId(value: string) {
+    this._siteId = value;
+  }
+
+  get personId(): string {
+    return this._personId;
+  }
+
+  set personId(value: string) {
+    this._personId = value;
+  }
+
   get person(): AssetPersonState {
     return this._person;
   }
@@ -143,15 +188,15 @@ export class AssetState {
     return {
       assetId: this.assetId,
       tenantId: this.tenantId,
-      assetKind: this.assetKind.toJson(),
-      assetType: this.assetType,
+      assetKindId: this.assetKindId,
+      assetTypeId: this.assetTypeId,
       serialNumber: this.serialNumber,
       description: this.description,
       quantity: this.quantity,
-      unitOfMeasure: this.unitOfMeasure,
-      person: this.person,
+      unitOfMeasureId: this.unitOfMeasureId,
+      personId: this.personId,
       //lotNumber: this.lotNumber,
-      site: this.site,
+      siteId: this.siteId,
       createdOn: this.createdOn,
       modifiedOn: this.modifiedOn
      //assetTypeClass: (this.assetTypeClass ? this.assetTypeClass : "")

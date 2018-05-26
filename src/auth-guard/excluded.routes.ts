@@ -3,6 +3,7 @@ export const excludedRoutes: string[] = [
   '/authentication',
   '/authentication/login',
   '/authentication/register',
+  '/authentication/forgot-password',
   '/authentication/phone-verification',
   '/authentication/email-verification'
 ];

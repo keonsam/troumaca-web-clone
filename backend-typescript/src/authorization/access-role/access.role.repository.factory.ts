@@ -15,14 +15,25 @@ class AccessRoleDBRepository implements AccessRoleRepository {
   findAccessRoles(searchStr: string, pageSize: number): Observable<AccessRole[]> {
     let searchStrLocal = new RegExp(searchStr);
     return Rx.Observable.create(function(observer:Observer<AccessRole[]>) {
-      accessRoles.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
+      if(!searchStr) {
+        accessRoles.find({}).limit(100).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      } else {
+        accessRoles.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      }
     });
   };
 
@@ -100,6 +111,22 @@ class AccessRoleDBRepository implements AccessRoleRepository {
     });
   }
 
+  getAccessRoleByIds(accessRoleIds: string[]): Observable<AccessRole[]> {
+    return Rx.Observable.create(function (observer:Observer<AccessRole[]>) {
+      // let query = {
+      //   "accessRoleId":accessRoleId
+      // };
+      accessRoles.find({accessRoleId:{$in: accessRoleIds}}, function (err:any, docs:any) {
+        if (!err) {
+          observer.next(docs);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
   updateAccessRole(accessRoleId: string, accessRole: AccessRole): Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
@@ -142,6 +169,10 @@ class AccessRoleRestRepository implements AccessRoleRepository {
   }
 
   getAccessRoleById(accessRoleId: string): Observable<AccessRole> {
+    return undefined;
+  }
+
+  getAccessRoleByIds(accessRoleIds: string[]): Observable<AccessRole[]> {
     return undefined;
   }
 

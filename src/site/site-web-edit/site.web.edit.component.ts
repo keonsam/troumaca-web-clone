@@ -46,7 +46,6 @@ export class SiteWebEditComponent implements OnInit {
      .valueChanges
      .subscribe(value => {
        this.setWebSiteValue(value);
-       console.log(value);
      }, error2 => {
        console.log(error2);
      });
@@ -70,7 +69,6 @@ export class SiteWebEditComponent implements OnInit {
         .valueChanges
         .subscribe(value => {
           this.setWebSiteValue(value);
-          console.log(value);
         }, error2 => {
           console.log(error2);
         });
@@ -129,7 +127,6 @@ export class SiteWebEditComponent implements OnInit {
     this.siteService
     .updateWebSite(this.siteId,this.webSite)
     .subscribe(value => {
-      console.log(value);
       if (value) {
         this.router.navigate(['/sites/web-sites']);
       } else {

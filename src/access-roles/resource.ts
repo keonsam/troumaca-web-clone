@@ -3,6 +3,7 @@ import {ResourceType} from "./resource.type";
 export class Resource {
 
   private _resourceId:string;
+  private _resourceTypeId: string;
   private _resourceType: ResourceType;
   private _name:string;
   private _description:string;
@@ -10,6 +11,9 @@ export class Resource {
   private _createdOn:Date;
   private _modifiedOn:Date;
 
+  constructor() {
+    this._resourceType = new ResourceType();
+  }
   get resourceId(): string {
     return this._resourceId;
   }
@@ -17,7 +21,15 @@ export class Resource {
   set resourceId(value: string) {
     this._resourceId = value;
   }
-  
+
+  get resourceTypeId(): string {
+    return this._resourceTypeId;
+  }
+
+  set resourceTypeId(value: string) {
+    this._resourceTypeId = value;
+  }
+
   get resourceType(): ResourceType {
     return this._resourceType;
   }

@@ -83,7 +83,6 @@
   width: 60px;
   height: 60px;
   border-radius: 40px;
-  border: 3px solid #fff;
   overflow: hidden;
   -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
           box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
@@ -683,9 +682,96 @@ legend:before {
   background-color: rgba(0, 0, 0, 0.1);
   z-index: 1;
 }
+
+/* IMPORTED FROM MAIN BY KEON */
+
+/* #9.  Tablets (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .content-box {
+    padding: 1.5rem;
+  }
+
+}
+
+@media (max-width: 767px) {
+  .content-w {
+    display: block;
+  }
+}
+
+/* #7.  Screen size <= 1250px */
+@media (max-width: 1250px) {
+  .element-box {
+    padding: 1rem 1.5rem;
+  }
+
+  .content-w {
+    border-radius: 0px !important;
+    overflow: hidden;
+  }
+}
+
+/* #8.  Tablets and phones  (< 1024px) */
+@media (max-width: 1024px) {
+  .content-w {
+    border-radius: 0px !important;
+  }
+}
+
+
+/* #11. Phones (< 767px) */
+@media (max-width: 767px) {
+  .user-profile .up-head-w .up-social {
+    top: 5px;
+    right: 10px;
+  }
+  .user-profile .up-head-w .up-social a {
+    font-size: 24px;
+  }
+  .user-profile .up-main-info {
+    padding-bottom: 10%;
+  }
+  .user-profile .up-header {
+    font-size: 1.75rem;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+  }
+  .user-profile .up-sub-header {
+    font-size: 1rem;
+  }
+
+  .content-w{
+    display: block;
+  }
+  .content-i {
+    display: block;
+  }
+  .content-i .content-box {
+    display: block;
+    padding: 15px;
+  }
+
+  .element-wrapper {
+    padding-bottom: 1.5rem;
+  }
+  .element-box {
+    padding: 1rem;
+  }
+}
+
 /*
   Troumaca overrides etc.
 */
+
+.user-profile .up-main-info .user-avatar-w .user-avatar {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 50% !important;
+}
+
+.user-profile .up-main-info .user-avatar-w .user-avatar img {
+  height: 100% !important;
+}
 
 li {
   float: left;
@@ -742,9 +828,6 @@ li {
   border-left: 5px solid #42A948; /* green */
 }
 
-:host(){
-
-}
 .ng-invalid:not(form)  {
   border-left: 5px solid #a94442; /* red */
 }
@@ -752,3 +835,16 @@ li {
 .primary {
   color: #008080;
 }
+
+.create-profile {
+  max-width: 700px;
+  margin: 0px auto;
+}
+
+.content-w {
+  /*background-image: url("../../images/bg-pattern2.png");*/
+  background-size: contain;
+  background-repeat: repeat;
+  background-position: 0 0;
+}
+

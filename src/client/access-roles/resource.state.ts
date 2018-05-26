@@ -3,6 +3,7 @@ import {ResourceTypeState} from "./resource.type.state";
 export class ResourceState {
 
   private _resourceId:string;
+  private _resourceTypeId: string;
   private _resourceType: ResourceTypeState;
   private _name:string;
   private _description:string;
@@ -16,6 +17,14 @@ export class ResourceState {
 
   set resourceId(value: string) {
     this._resourceId = value;
+  }
+
+  get resourceTypeId(): string {
+    return this._resourceTypeId;
+  }
+
+  set resourceTypeId(value: string) {
+    this._resourceTypeId = value;
   }
 
   get resourceType(): ResourceTypeState {
@@ -69,7 +78,7 @@ export class ResourceState {
   toJson() {
     return {
       resourceId: this.resourceId,
-      resourceType: this.resourceType,
+      resourceTypeId: this.resourceTypeId,
       name: this.name,
       description: this.description,
       ownerPartyId: this.ownerPartyId,

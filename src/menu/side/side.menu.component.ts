@@ -26,6 +26,11 @@ export class SideMenuComponent implements OnInit {
     this.isLoggedIn = true;
     this.menuModel = new MenuModel();
     this.menuModel.menuItemModels = [];
+
+    this.eventService.subscribeToPhotoChangeEvent((data) => {
+      this.getPhoto();
+    });
+
   }
 
   get title(): string {
@@ -75,7 +80,7 @@ export class SideMenuComponent implements OnInit {
   }
 
   getPhoto() {
-    this.partyService.getPhoto(this.partyId)
+    this.partyService.getPhoto(this.partyId,"user")
       .subscribe(imgStr => {
         if(imgStr) {
           this.imageStr = imgStr;

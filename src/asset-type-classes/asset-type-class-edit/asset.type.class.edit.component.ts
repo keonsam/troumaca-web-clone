@@ -65,6 +65,7 @@ export class AssetTypeClassEditComponent implements OnInit {
   private _newOrEdit: string;
   private modalReference: NgbModalRef;
   private pageSize: number = 15;
+  private attributeNameTwo:string;
 
   constructor(private assetTypeClassService:AssetTypeClassService,
               private completerService: CompleterService,
@@ -107,10 +108,9 @@ export class AssetTypeClassEditComponent implements OnInit {
      .subscribe(value => {
        this.attribute.name = value.attributeName;
        this.attribute.format = value.format;
-       this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
+       this.attribute.dataTypeId = value.dataType;
        this.attribute.maximumValue = value.maximumValue;
        this.attribute.minimumValue = value.minimumValue;
-       console.log(value);
      }, error2 => {
        console.log(error2);
      });
@@ -136,36 +136,6 @@ export class AssetTypeClassEditComponent implements OnInit {
 
      this.doNotDisplayFailureMessage2 = true;
 
-    this.populateUnitOfMeasureIdDropDown();
-  }
-
-  private populateUnitOfMeasureIdDropDown() {
-    this.unitOfMeasureIdDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
-    this.attributeForm.get("unitOfMeasureId").valueChanges
-      .debounceTime(1000) // debounce
-      .filter(value => { // filter out empty values
-        return !!(value);
-      })
-      .subscribe(value => {
-        console.log("value: " + value);
-        that.assetTypeClassService
-          .findUnitOfMeasureId(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.map(v2 => { //update to the new way of doing this
-              return {
-                unitOfMeasureId: v2.unitOfMeasureId,
-                name: v2.name,
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findUnitOfMeasureId next - " + next);
-            this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findUnitOfMeasureId error - " + error);
-          });
-      });
   }
 
   ngOnInit() {
@@ -183,7 +153,6 @@ export class AssetTypeClassEditComponent implements OnInit {
        this.assetTypeClassId = params['assetTypeClassId'];
        this.assetTypeClassService.getAssetTypeClass(this.assetTypeClassId)
        .subscribe(data =>{
-         console.log(data);
         this.name.setValue(data.assetTypeClass.name);
         this.description.setValue(data.assetTypeClass.description);
         this.assetTypeClass = data.assetTypeClass;
@@ -198,13 +167,43 @@ export class AssetTypeClassEditComponent implements OnInit {
         .subscribe(value => {
           this.assetTypeClass.name = value.name;
           this.assetTypeClass.description = value.description;
-          console.log(value);
         }, error2 => {
           console.log(error2);
         });
       })
     });
 
+    this.populateUnitOfMeasureIdDropDown();
+  }
+
+  private populateUnitOfMeasureIdDropDown() {
+    this.findUnitOfMeasureId("");
+    this.attributeForm.get("unitOfMeasureId").valueChanges
+    //.debounceTime(1000) // debounce
+      .filter(value => { // filter out empty values
+        return !!(value);
+      })
+      .subscribe(value => {
+        this.findUnitOfMeasureId(value);
+      });
+  }
+
+  findUnitOfMeasureId(value) {
+    this.assetTypeClassService
+      .findUnitOfMeasureId(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => {
+          return {
+            unitOfMeasureId: v2.unitOfMeasureId,
+            name: v2.name
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("finUnitOfMeasureId error - " + error);
+      });
   }
 
    get name(): FormControl {
@@ -358,9 +357,17 @@ export class AssetTypeClassEditComponent implements OnInit {
      this._newOrEdit = value;
    }
 
+  getDataType(dataTypeId: string) {
+    let index = this.dataTypes.findIndex( x => x.dataTypeId === dataTypeId);
+    if(index === -1 ) {
+      return "";
+    }
+    return this.dataTypes[index].name;
+  }
+
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.attribute.unitOfMeasure = selected.originalObject;
+      this.attribute.unitOfMeasureId = selected.originalObject.unitOfMeasureId;
     }
   }
 
@@ -378,7 +385,6 @@ export class AssetTypeClassEditComponent implements OnInit {
      this.assetTypeClassService
      .getAvailableAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
      .subscribe(next => {
-       console.log(next);
        this.availableAttributes = next;
      }, error => {
        console.log(error);
@@ -391,7 +397,6 @@ export class AssetTypeClassEditComponent implements OnInit {
      this.assetTypeClassService
      .getAssignAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
      .subscribe(next => {
-       console.log(next);
        this.assignAttributes = next;
      }, error => {
        console.log(error);
@@ -405,12 +410,11 @@ export class AssetTypeClassEditComponent implements OnInit {
      this.getAvailableAttributes();
    }
 
-   onAvailableDoubleClick(attributeId: string, dataType: string) {
-     let required = dataType !== "Boolean" ? true: false; // true and false must not  required in asset Type
+   onAvailableDoubleClick(attributeId: string,) {
      this.assignedArray.push(attributeId);
      this.updateTable();
      // update and push to make sure no error
-     this.assignedAttributes.push(new AssignedAttribute(attributeId, required));
+     this.assignedAttributes.push(new AssignedAttribute(attributeId));
 
    }
 
@@ -420,8 +424,9 @@ export class AssetTypeClassEditComponent implements OnInit {
     this.assignedAttributes = this.assignedAttributes.filter(val => val.attributeId != attributeId);
    }
 
-   onOpenDeleteModal(attributeId: string){
+   onOpenDeleteModal(attributeId: string, attributeName:string){
      this.attributeId = attributeId;
+     this.attributeNameTwo = attributeName;
    }
 
    onOpenFormModal(attributeId: string){
@@ -431,7 +436,7 @@ export class AssetTypeClassEditComponent implements OnInit {
      .subscribe(attribute =>{
        this.attributeName.setValue(attribute.name);
        this.format.setValue(attribute.format);
-       this.dataType.setValue(attribute.dataType.dataTypeId);
+       this.dataType.setValue(attribute.dataTypeId);
        this.unitOfMeasureId.setValue(attribute.unitOfMeasure.name);
        this.maximumValue.setValue(attribute.maximumValue);
        this.minimumValue.setValue(attribute.minimumValue);

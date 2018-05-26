@@ -1,19 +1,20 @@
 <div class="sub-menu-i asset-top-menu">
   <ul class="sub-menu">
-    <li>
-      <a [routerLink]="['/access-roles']">Access Roles</a>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/access-roles/listing']" >Access Roles</a>
     </li>
-    <li>
-      <a [routerLink]="['/access-roles/access-role-types/listing']">Access Role Types</a>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/access-roles/access-role-types']">Access Role Types</a>
     </li>
-    <li>
-      <a [routerLink]="['/access-roles/resource-types/listing']">Resource Types</a>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/access-roles/resource-types']">Resource Types</a>
     </li>
-    <li>
-      <a [routerLink]="['/access-roles/resources/listing']">Resources</a>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/access-roles/resources']">Resources</a>
     </li>
-    <li>
-      <a [routerLink]="['/access-roles/permissions/listing']">Permissions</a>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/access-roles/permissions']">Permissions</a>
     </li>
   </ul>
 </div>
+

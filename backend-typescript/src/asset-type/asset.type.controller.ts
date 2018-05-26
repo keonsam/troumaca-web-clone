@@ -25,8 +25,8 @@ export let getAssetTypes = (req: Request, res: Response) => {
 
 export let saveAssetType = (req: Request, res: Response) => {
   assetTypeOrchestrator.saveAssetType(req.body)
-    .subscribe(asset => {
-      res.send(JSON.stringify(asset));
+    .subscribe(assetType => {
+      res.send(JSON.stringify(assetType));
     }, error => {
       res.status(400);
       res.send(error);
@@ -34,21 +34,21 @@ export let saveAssetType = (req: Request, res: Response) => {
     });
 };
 
-export let getAssetTypeCount = (req: Request, res: Response) => {
-  assetTypeOrchestrator.getAssetTypeCount()
-    .subscribe(assetCount => {
-      res.send(JSON.stringify(assetCount));
-    }, error => {
-      res.status(400);
-      res.send(error);
-      console.log(error);
-    });
-};
+// export let getAssetTypeCount = (req: Request, res: Response) => {
+//   assetTypeOrchestrator.getAssetTypeCount()
+//     .subscribe(assetTypeCount => {
+//       res.send(JSON.stringify(assetTypeCount));
+//     }, error => {
+//       res.status(400);
+//       res.send(error);
+//       console.log(error);
+//     });
+// };
 
 export let getAssetTypeById = (req: Request, res: Response) => {
   assetTypeOrchestrator.getAssetTypeById(req.params.assetTypeId)
-    .subscribe(assets => {
-      res.send(JSON.stringify(assets));
+    .subscribe(assetTypes => {
+      res.send(JSON.stringify(assetTypes));
     }, error => {
       res.status(400);
       res.send(error);

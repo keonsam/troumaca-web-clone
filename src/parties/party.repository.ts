@@ -20,19 +20,19 @@ export abstract class PartyRepository {
 
   abstract getUser(partyId: string): Observable<User>;
 
-  abstract getPartyAccessRoleById(partyId:string): Observable<PartyAccessRole>;
+  abstract getPartyAccessRoleById(partyId:string): Observable<PartyAccessRole[]>;
 
   abstract getPartyAccessRoles() :Observable<PartyAccessRole[]>;
 
   abstract getOrganization(partyId: string): Observable<Organization>;
 
-  abstract getPhoto(partyId: string): Observable<string>;
+  abstract getPhoto(partyId: string, type:string): Observable<string>;
 
-  abstract addUser(user: User, partyAccessRole: PartyAccessRole): Observable<User>;
+  abstract addUser(user: User, partyAccessRoles: PartyAccessRole[]): Observable<User>;
 
   abstract addOrganization(organization: Organization): Observable<Organization>;
 
-  abstract addPhoto(partyId: string, croppedImage: string): Observable<any>;
+  abstract addPhoto(partyId: string, croppedImage: string, type: string): Observable<boolean>;
 
   abstract addAccount(accountType: string, user: User, organization: Organization): Observable<AccountResponse>;
 
@@ -40,13 +40,15 @@ export abstract class PartyRepository {
 
   abstract deleteOrganization(partyId: string): Observable<number>;
 
-  abstract updateUser(user: User, partyAccessRole: PartyAccessRole): Observable<number>;
+  abstract updateUser(user: User, partyAccessRoles: PartyAccessRole[]): Observable<number>;
+
+  abstract updateUserMe(user: User, credential: Credential): Observable<number>;
 
   abstract updateOrganization(organization: Organization): Observable<number>;
 
   abstract updateCredential(credential: Credential): Observable<number>;
 
-  abstract updatePhoto(partyId: string, croppedImage: string): Observable<number>;
+  abstract updatePhoto(partyId: string, croppedImage: string, type: string): Observable<number>;
 
   // authentication part
   abstract isValidUsername(username: string):Observable<boolean>;

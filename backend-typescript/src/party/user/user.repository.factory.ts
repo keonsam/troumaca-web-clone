@@ -7,6 +7,7 @@ import {User} from "./user";
 import {users} from "../../db";
 import {calcSkip} from "../../db.util";
 import {generateUUID} from "../../uuid.generator";
+import {Person} from "../person/person";
 
 class UserDBRepository implements UserRepository {
 
@@ -14,15 +15,26 @@ class UserDBRepository implements UserRepository {
 
   findUser(searchStr:string, pageSize:number):Observable<User[]> {
     let searchStrLocal = new RegExp(searchStr);
-    return Rx.Observable.create(function (observer:Observer<User[]>) {
-      users.find({firstName: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err:any, doc:any) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
+    return Rx.Observable.create(function (observer: Observer<User[]>) {
+      if (!searchStr) {
+        users.find({}).limit(100).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      } else {
+        users.find({firstName: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      };
     });
   }
 
@@ -63,6 +75,38 @@ class UserDBRepository implements UserRepository {
       users.findOne(query, function (err:any, doc:any) {
         if (!err) {
           observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
+  getPerson(partyId:string):Observable<Person> {
+    return Rx.Observable.create(function (observer:Observer<Person>) {
+      let query = {
+        "partyId": partyId
+      };
+      users.findOne(query, function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
+  getPersonByIds(partyIds:string[]):Observable<Person[]> {
+    return Rx.Observable.create(function (observer:Observer<Person[]>) {
+      // let query = {
+      //   "partyId": partyId
+      // };
+      users.find({partyId:{$in:partyIds}}, function (err:any, docs:any) {
+        if (!err) {
+          observer.next(docs);
         } else {
           observer.error(err);
         }
@@ -131,6 +175,14 @@ class UserRestRepository implements UserRepository {
 
   getUser(partyId: string): Observable<User> {
     return undefined;
+  }
+
+  getPerson(partyId:string):Observable<Person> {
+    return undefined
+  }
+
+  getPersonByIds(partyIds:string[]):Observable<Person[]> {
+    return undefined
   }
 
   getUserCount(): Observable<number> {

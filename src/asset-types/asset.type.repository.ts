@@ -3,14 +3,15 @@ import {AssetType} from "./asset.type";
 import {AssetTypes} from "./asset.types";
 import {Value} from "./value";
 import {Values} from "./values";
-import {Attributes} from "../attributes/attributes";
+//import {Attributes} from "../attributes/attributes";
 import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
 import {AssetTypeClasses} from "../asset-type-classes/asset.type.classes";
 import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
+import {AssignedAttribute} from "../asset-type-classes/assigned.attribute";
 
 export abstract class AssetTypeRepository {
   abstract getAssetTypes(pageNumber:number, pageSize:number, sortOrder:string):Observable<AssetTypes>;
-  abstract getAssignedAttributes(assetTypeClassId: string): Observable<any>;
+  abstract getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]>;
   abstract getValues(assetTypeId: string): Observable<Values>;
 
   abstract getAssetType(assetTypeId: string): Observable<AssetType>;

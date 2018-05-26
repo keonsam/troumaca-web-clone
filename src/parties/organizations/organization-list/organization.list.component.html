@@ -21,22 +21,25 @@
           <table class="table table-striped table-lightfont table-full-width">
             <thead>
             <tr>
-              <th>Purpose</th>
               <th>Name</th>
-              <th>Actions</th>
+              <th>Purpose</th>
+              <th>Description</th>
+              <th class="text-center">Actions</th>
             </tr>
             </thead>
             <tfoot>
             <tr>
-              <th>Purpose</th>
               <th>Name</th>
-              <th>Actions</th>
+              <th>Purpose</th>
+              <th>Description</th>
+              <th class="text-center">Actions</th>
             </tr>
             </tfoot>
             <tbody>
             <tr role="row" *ngFor="let organization of organizations.organizations; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-              <td>{{organization.purpose}}</td>
               <td>{{organization.name}}</td>
+              <td>{{organization.purpose}}</td>
+              <td>{{organization.description}}</td>
               <td class="row-actions">
                 <a [routerLink]="['/parties/organizations', organization.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(organization.partyId, organization.name)"><i class="os-icon os-icon-ui-15"></i></a>
               </td>
@@ -51,12 +54,12 @@
             <div class="modal-content">
              <div class="modal-header">
               <h5 class="modal-title" id="DeleteModalLabel">
-               Delete {{name}}
+               Delete {{organizationName}}
               </h5>
               <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
              </div>
              <div class="modal-body">
-             <p>Are you sure you want to delete {{name}}?</p>
+             <p>Are you sure you want to delete {{organizationName}}?</p>
              </div>
                 <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>

@@ -19,7 +19,7 @@ export let isValidUsername = (req: Request, res: Response) => {
 
 export let isValidEditUsername = (req: Request, res: Response) => {
   let partyId = req.body.partyId;
-  let username = req.body.username
+  let username = req.body.username;
   credentialOrchestrator.isValidEditUsername(partyId, username)
     .subscribe((next:ValidateResponse) => {
       res.send(next.valid);
@@ -78,7 +78,8 @@ export let authenticate = (req: Request, res: Response) => {
 // router.post("/", function (req, res, next) {
 export let addCredential = (req: Request, res: Response) => {
   let credential = req.body;
-  credentialOrchestrator.addCredential(credential)
+  let opt = {correlationId:req.headers["correlationid"]};
+  credentialOrchestrator.addCredential(credential, opt)
     .subscribe(credentialConfirmation => {
       res.setHeader('Content-Type', 'application/json');
       res.send(credentialConfirmation);

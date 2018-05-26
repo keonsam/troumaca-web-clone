@@ -1,7 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
-import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/filter";
 
@@ -11,7 +10,7 @@ import {Value} from "../value";
 import {Values} from "../values";
 import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
-import {Attribute} from "../../attributes/attribute";
+//import {Attribute} from "../../attributes/attribute";
 import {ActivatedRoute} from '@angular/router';
 import {Router} from "@angular/router";
 import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
@@ -40,7 +39,6 @@ export class AssetTypeEditComponent implements OnInit {
 
   private assetType: AssetType;
   private _assignedAttributes: AssignedAttribute[];
-  private _attributes: Attribute[];
 
   private _values: Values;
   private _saveValue: Value[];
@@ -48,10 +46,6 @@ export class AssetTypeEditComponent implements OnInit {
   private pageSize:number = 15;
   private _doNotDisplayFailureMessage:boolean;
   private _doNotDisplayFailureMessage2:boolean;
-  private _doNotDisplayFailureMessage3:boolean;
-  private errorCount: number = 0;
-  private deleteError: boolean = true;
-  private error: boolean = false;
 
   constructor(private assetTypeService:AssetTypeService,
               private completerService: CompleterService,
@@ -81,7 +75,6 @@ export class AssetTypeEditComponent implements OnInit {
       .valueChanges
       .subscribe(value => {
        this.setAssetTypeValue(value);
-        console.log(value);
       }, error2 => {
         console.log(error2);
       });
@@ -98,7 +91,6 @@ export class AssetTypeEditComponent implements OnInit {
 
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
-    this.doNotDisplayFailureMessage3 = true;
 
   }
 
@@ -107,6 +99,8 @@ export class AssetTypeEditComponent implements OnInit {
        this.assetTypeId = params['assetTypeId'];
        this.assetTypeService.getAssetType(this.assetTypeId)
        .subscribe(assetType =>{
+         console.log("here");
+         console.log(assetType);
         this.assetTypeClassId.setValue(assetType.assetTypeClass.name);
         this.name.setValue(assetType.name);
         this.description.setValue(assetType.description);
@@ -122,7 +116,6 @@ export class AssetTypeEditComponent implements OnInit {
         .valueChanges
         .subscribe(value => {
           this.setAssetTypeValue(value);
-          console.log(value);
         }, error2 => {
           console.log(error2);
         });
@@ -134,60 +127,62 @@ export class AssetTypeEditComponent implements OnInit {
   }
 
   private populateAssetTypeClassIdDropDown() {
-    this.assetTypeClassIdDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
+    this.findAssetTypeClassId("");
     this.assetTypeEditForm.get("assetTypeClassId").valueChanges
-      .debounceTime(1000) // debounce
+    //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.assetTypeService
-          .findAssetTypeClassId(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.assetTypeClasses.map(v2 => {
-              return {
-                assetTypeClassId: v2.assetTypeClassId,
-                name: v2.name
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findAssetTypeClassId next - " + next);
-            this.assetTypeClassIdDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findAssetTypeClassId error - " + error);
-          });
+        this.findAssetTypeClassId(value);
+      });
+  }
+
+  findAssetTypeClassId(value) {
+    this.assetTypeService
+      .findAssetTypeClassId(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.assetTypeClasses.map(v2 => {
+          return {
+            assetTypeClassId: v2.assetTypeClassId,
+            name: v2.name,
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.assetTypeClassIdDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("findAssetTypeClassId error - " + error);
       });
   }
 
   private populateUnitOfMeasureIdDropDown() {
-    this.unitOfMeasureIdDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
+    this.findUnitOfMeasureId("");
     this.assetTypeEditForm.get("unitOfMeasureId").valueChanges
-      .debounceTime(1000) // debounce
+    //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.assetTypeService
-          .findUnitOfMeasureId(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.map(v2 => {
-              return {
-                unitOfMeasureId: v2.unitOfMeasureId,
-                name: v2.name
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findUnitOfMeasureId next - " + next);
-            this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("finUnitOfMeasureId error - " + error);
-          });
+        this.findUnitOfMeasureId(value);
+      });
+  }
+
+  findUnitOfMeasureId(value) {
+    this.assetTypeService
+      .findUnitOfMeasureId(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => {
+          return {
+            unitOfMeasureId: v2.unitOfMeasureId,
+            name: v2.name
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("finUnitOfMeasureId error - " + error);
       });
   }
 
@@ -292,13 +287,6 @@ export class AssetTypeEditComponent implements OnInit {
     this._assignedAttributes = value;
   }
 
-  get attributes(): Attribute[] {
-    return this._attributes;
-  }
-
-  set attributes(value: Attribute[]) {
-    this._attributes = value;
-  }
 
   get values(): Values {
     return this._values;
@@ -332,28 +320,16 @@ export class AssetTypeEditComponent implements OnInit {
     this._doNotDisplayFailureMessage2 = value;
   }
 
-  get doNotDisplayFailureMessage3(): boolean {
-    return this._doNotDisplayFailureMessage3;
-  }
-
-  set doNotDisplayFailureMessage3(value: boolean) {
-    this._doNotDisplayFailureMessage3 = value;
-  }
-
-  getRequired(attributeId: string) {
-    return this.assignedAttributes.find(x => x.attributeId == attributeId).required;
-  }
-
   onAssetTypeClassIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.assetType.assetTypeClass = selected.originalObject;
+      this.assetType.assetTypeClassId = selected.originalObject.assetTypeClassId;
       this.getAttributes();
     }
   }
 
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.assetType.unitOfMeasure = selected.originalObject;
+      this.assetType.unitOfMeasureId = selected.originalObject.unitOfMeasureId;
     }
   }
 
@@ -374,23 +350,20 @@ export class AssetTypeEditComponent implements OnInit {
   }
 
   getAttributes() {
-
     this.assetTypeService
-    .getAssignedAttributes(this.assetType.assetTypeClass.assetTypeClassId)
+    .getAssignedAttributes(this.assetType.assetTypeClassId)
     .subscribe(next => {
-      this.assignedAttributes = next.assignedAttribute;
-      this.attributes = next.attributes;
+      this.assignedAttributes = next;
         let group: any = {};
-        this.attributes.forEach(value => {
+        this.assignedAttributes.forEach(value => {
           let editValue = this.values.values.find(x => x.attributeId == value.attributeId);
-          let required = this.assignedAttributes.find(x => x.attributeId == value.attributeId).required;
           if(!editValue) {
           this.values.values.push(new Value(value.attributeId, ""));
           editValue = this.values.values.find(x => x.attributeId == value.attributeId);
         }
 
-        group[value.attributeId] = required ? new FormControl(editValue.text, [Validators.required])
-                                            : new FormControl(editValue.text);
+        group[value.attributeId] = value.required ? new FormControl(editValue.text, [Validators.required])
+                                                  : new FormControl(editValue.text);
         });
 
         this.attributeEditForm = new FormGroup(group);
@@ -412,7 +385,7 @@ export class AssetTypeEditComponent implements OnInit {
   removeValues() {
     // using update to remove all the previous values
     this.saveValue = this.values.values.filter((value) => {
-      if(this.attributes.find(x => x.attributeId == value.attributeId)){
+      if(this.assignedAttributes.find(x => x.attributeId == value.attributeId)){
         if(!value.assetTypeId) {
           value.assetTypeId = this.assetTypeId;
         }
@@ -429,14 +402,19 @@ export class AssetTypeEditComponent implements OnInit {
       if(value) {
         this.router.navigate(['/asset-types']);
       } else {
-        this.doNotDisplayFailureMessage;
+        this.doNotDisplayFailureMessage2 = false;
       }
+    }, error => {
+      console.log(error);
+      this.doNotDisplayFailureMessage2 = false;
     });
   }
 
   onCreate() {
     // updated to one error message
     this.doNotDisplayFailureMessage = true;
+    this.doNotDisplayFailureMessage2 = true;
+
     this.removeValues();
     this.assetTypeService
       .updateAssetType(this.assetTypeId, this.assetType)
@@ -444,8 +422,12 @@ export class AssetTypeEditComponent implements OnInit {
         if (value) {
           this.updateValues();
         } else {
-          this.doNotDisplayFailureMessage = true;
+          this.doNotDisplayFailureMessage = false;
         }
+      }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage = false;
+
       });
   }
 

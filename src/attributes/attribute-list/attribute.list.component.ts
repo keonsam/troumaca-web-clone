@@ -3,7 +3,6 @@ import { AttributeService } from "../attribute.service";
 import {Attributes} from "../attributes";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'attribute-list',
@@ -18,9 +17,9 @@ export class AttributeListComponent implements OnInit {
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
   private _routerLinkCreateAttribute:string = "/attributes/create";
+  private attributeName:string;
 
-  constructor(private attributeService: AttributeService,
-              private router: Router) {
+  constructor(private attributeService: AttributeService) {
 
      let newAttributes = new Attributes();
      newAttributes.page = new Page(0, 0, 0);
@@ -61,8 +60,9 @@ export class AttributeListComponent implements OnInit {
     this._routerLinkCreateAttribute = value;
   }
 
-  onOpenModal(attributeId: string) {
-    this.attributeId = attributeId
+  onOpenModal(attributeId: string, attributeName:string ) {
+    this.attributeId = attributeId;
+    this.attributeName = attributeName;
   }
 
   onDelete() {

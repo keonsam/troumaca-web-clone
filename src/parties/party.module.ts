@@ -31,6 +31,7 @@ import {CreateAccountComponent} from "./create-profile/create.profile.component"
 import {PartyEventService} from "./party.event.service";
 import { ImageCropperModule } from 'ngx-image-cropper';
 import {Ng2CompleterModule} from "ng2-completer";
+import { Select2Module } from 'ng2-select2';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import {Ng2CompleterModule} from "ng2-completer";
     PagingModule,
     MenuModule,
     Ng2CompleterModule,
-    ImageCropperModule
+    ImageCropperModule,
+    Select2Module
   ],
   declarations: [
     PartyComponent,

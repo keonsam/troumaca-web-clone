@@ -1,8 +1,10 @@
+import {PermissionState} from "./permission.state";
+
 export class ResourcePermissionState {
 
   private _resourcePermissionId:string;
   private _resourceId:string;
-  private _permissionId:string;
+  private _permission:PermissionState;
   //private _ownerPartyId:string;
   private _createdOn:Date;
   private _modifiedOn:Date;
@@ -23,15 +25,15 @@ export class ResourcePermissionState {
     this._resourceId = value;
   }
 
-  get permissionId(): string {
-    return this._permissionId;
+  get permission(): PermissionState {
+    return this._permission;
   }
 
-  set permissionId(value: string) {
-    this._permissionId = value;
+  set permission(value: PermissionState) {
+    this._permission = value;
   }
 
-  // get ownerPartyId(): string {
+// get ownerPartyId(): string {
   //   return this._ownerPartyId;
   // }
   //
@@ -59,7 +61,7 @@ export class ResourcePermissionState {
     return {
       resourcePermissionId: this.resourcePermissionId,
       resourceId: this.resourceId,
-      permissionId: this.permissionId,
+      permission: {name: this.permission.name, permissionId: this.permission.permissionId},
       createdOn: this.createdOn,
       modifiedOn: this.modifiedOn
     }

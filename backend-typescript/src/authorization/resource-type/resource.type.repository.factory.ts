@@ -14,17 +14,29 @@ class ResourceTypeDBRepository implements ResourceTypeRepository {
 
   findResourceTypes(searchStr: string, pageSize: number): Observable<ResourceType[]> {
     let searchStrLocal = new RegExp(searchStr);
-    return Rx.Observable.create(function(observer:Observer<ResourceType[]>) {
-      resourceTypes.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
-        if (!err) {
-          observer.next(doc);
-        } else {
-          observer.error(err);
-        }
-        observer.complete();
-      });
+    return Rx.Observable.create(function (observer: Observer<ResourceType[]>) {
+      if (!searchStr) {
+        resourceTypes.find({}).limit(100).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      } else {
+        resourceTypes.find({name: {$regex: searchStrLocal}}).limit(pageSize).exec(function (err: any, doc: any) {
+          if (!err) {
+            observer.next(doc);
+          } else {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      }
+      ;
     });
-  };
+  }
 
   getResourceTypes(pageNumber:number, pageSize:number, order:string):Observable<ResourceType[]> {
     let localDefaultPageSize = this.defaultPageSize;
@@ -100,6 +112,22 @@ class ResourceTypeDBRepository implements ResourceTypeRepository {
     });
   }
 
+  getResourceTypeByIds(resourceTypeIds: string[]): Observable<ResourceType[]> {
+    return Rx.Observable.create(function (observer:Observer<ResourceType[]>) {
+      // let query = {
+      //   "resourceTypeId":resourceTypeId
+      // };
+      resourceTypes.find({resourceTypeId:{$in:resourceTypeIds}}, function (err:any, docs:any) {
+        if (!err) {
+          observer.next(docs);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
   updateResourceType(resourceTypeId: string, resourceType: ResourceType): Observable<number> {
     return Rx.Observable.create(function (observer:Observer<number>) {
       let query = {
@@ -141,6 +169,10 @@ class ResourceTypeRestRepository implements ResourceTypeRepository {
   }
 
   getResourceTypeById(resourceTypeId: string): Observable<ResourceType> {
+    return undefined;
+  }
+
+  getResourceTypeByIds(resourceTypeIds: string[]): Observable<ResourceType[]> {
     return undefined;
   }
 

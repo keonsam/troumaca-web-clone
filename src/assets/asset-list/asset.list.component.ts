@@ -18,6 +18,7 @@ export class AssetListComponent implements OnInit {
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
   private _routerLinkCreateAsset:string = "/assets/create";
+  private assetName: string;
 
   constructor(private assetService:AssetService) {
     let newAssets = new Assets();
@@ -59,8 +60,9 @@ export class AssetListComponent implements OnInit {
     this._routerLinkCreateAsset = value;
   }
 
-  onOpenModal(assetId: string) {
-    this.assetId = assetId
+  onOpenModal(assetId: string, assetName: string) {
+    this.assetId = assetId;
+    this.assetName = assetName;
   }
 
   onDelete() {

@@ -141,7 +141,7 @@ const appRoutes: Routes = [
     { path: 'phones/create', component: SitePhoneCreationComponent}
   ]},
   { path: 'parties', component: PartyComponent, canActivate: [AuthGuard], children:[
-    { path: '', redirectTo: 'organizations/company', pathMatch: 'full' },
+    { path: '', redirectTo: 'organizations/listing', pathMatch: 'full' },
     { path: 'organizations/company', component: OrganizationCompanyComponent, data:{menuName:'organizations-menu'} },
     { path: 'organizations/listing', component: OrganizationListComponent, data:{menuName: 'organizations-menu'} },
     { path: 'organizations/create', component: OrganizationCreationComponent, data:{menuName: 'organizations-menu'} },
@@ -149,25 +149,25 @@ const appRoutes: Routes = [
     { path: 'users', component: UserListComponent, data:{menuName:'users-menu'} },
     { path: 'users/create', component: UserCreationComponent, data:{menuName:'users-menu'} },
     { path: 'users/:partyId/edit', component: UserEditComponent, data:{menuName:'users-menu'} },
-    { path: 'users/me', component: UserMeComponent, data:{menuName:'users-menu'}}
+    { path: 'user-me', component: UserMeComponent, data:{menuName:'users-menu'}}
   ]},
   { path: 'access-roles', component: AccessRoleComponent, canActivate: [AuthGuard], children:[
       { path: '', redirectTo: 'listing', pathMatch: 'full' },
       { path: 'listing', component: AccessRoleListComponent, data:{menuName:'access-role-menu'} },
       { path: 'create', component: AccessRoleCreationComponent, data:{menuName: 'access-role-menu'} },
       { path: ':accessRoleId/edit', component: AccessRoleEditComponent, data:{menuName: 'access-role-menu'} },
-      { path: 'permissions/listing', component: PermissionListComponent, data:{menuName: 'access-role-menu'} },
+      { path: 'permissions', component: PermissionListComponent, data:{menuName: 'access-role-menu'} },
       { path: 'permissions/create', component: PermissionCreationComponent, data:{menuName:'access-role-menu'} },
       { path: 'permissions/:permissionId/edit', component: PermissionEditComponent, data:{menuName:'access-role-menu'} },
-      { path: 'resources/listing', component: ResourceListComponent, data:{menuName: 'access-role-menu'} },
+      { path: 'resources', component: ResourceListComponent, data:{menuName: 'access-role-menu'} },
       { path: 'resources/create', component: ResourceCreationComponent, data:{menuName:'access-role-menu'} },
       { path: 'resources/:resourceId/edit', component: ResourceEditComponent, data:{menuName:'access-role-menu'} },
-      { path: 'resource-types/listing', component: ResourceTypeListComponent, data:{menuName: 'access-role-menu'} },
+      { path: 'resource-types', component: ResourceTypeListComponent, data:{menuName: 'access-role-menu'} },
       { path: 'resource-types/create', component: ResourceTypeCreationComponent, data:{menuName:'access-role-menu'} },
       { path: 'resource-types/:resourceTypeId/edit', component: ResourceTypeEditComponent, data:{menuName:'access-role-menu'} },
       { path: 'access-role-types/create', component: AccessRoleTypeCreationComponent, data:{menuName:'access-role-menu'} },
       { path: 'access-role-types/:accessRoleTypeId/edit', component: AccessRoleTypeEditComponent, data:{menuName:'access-role-menu'} },
-      { path: 'access-role-types/listing', component: AccessRoleTypeListComponent, data:{menuName:'access-role-menu'} }
+      { path: 'access-role-types', component: AccessRoleTypeListComponent, data:{menuName:'access-role-menu'} }
     ]},
   { path: 'contracts', component: ContractComponent, canActivate: [AuthGuard], children:[
     { path: '', redirectTo: 'orders', pathMatch: 'full' },

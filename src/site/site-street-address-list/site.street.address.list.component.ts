@@ -18,7 +18,8 @@ export class SiteStreetAddressListComponent implements OnInit {
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
   private _routerLinkCreateStreetAddress:string = "/sites/street-addresses/create";
-
+  private streetAddressName:string;
+  
   constructor(private siteService:SiteService) {
     let newStreetAddresses = new StreetAddresses();
     newStreetAddresses.page = new Page(0, 0, 0);
@@ -50,7 +51,6 @@ export class SiteStreetAddressListComponent implements OnInit {
   this.siteService
     .getStreetAddresses(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.streetAddresses = next;
     }, error => {
       console.log(error);
@@ -59,8 +59,9 @@ export class SiteStreetAddressListComponent implements OnInit {
     });
   }
 
-  onOpenModal(streetAddressId: string) {
-    this.streetAddressId = streetAddressId
+  onOpenModal(streetAddressId: string, streetAddressName: string) {
+    this.streetAddressId = streetAddressId;
+    this.streetAddressName = streetAddressName;
   }
 
   onDelete() {

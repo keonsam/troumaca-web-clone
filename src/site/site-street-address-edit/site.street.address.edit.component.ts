@@ -70,7 +70,6 @@ export class SiteStreetAddressEditComponent implements OnInit {
      .valueChanges
      .subscribe(value => {
        this.setStreetAddressValue(value);
-       console.log(value);
      }, error2 => {
        console.log(error2);
      });
@@ -102,7 +101,6 @@ export class SiteStreetAddressEditComponent implements OnInit {
         .valueChanges
         .subscribe(value => {
           this.setStreetAddressValue(value);
-          console.log(value);
         }, error2 => {
           console.log(error2);
         });

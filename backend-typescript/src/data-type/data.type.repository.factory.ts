@@ -19,10 +19,28 @@ class DataTypeDBRepository implements DataTypeRepository {
       });
     });
   };
+
+  getDataTypeByIds(dataTypeIds: string[]): Observable<DataType[]> {
+    return Rx.Observable.create(function (observer:Observer<DataType[]>) {
+      dataTypes.find({dataTypeId: { $in: dataTypeIds}}, function (err:any, docs:any) {
+        if (!err) {
+          observer.next(docs);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
 }
 
 class DataTypeRestRepository implements DataTypeRepository {
   getDataTypes(): Observable<DataType> {
+    return undefined;
+  }
+
+  getDataTypeByIds(dataTypeIds: string[]): Observable<DataType[]> {
     return undefined;
   }
 }

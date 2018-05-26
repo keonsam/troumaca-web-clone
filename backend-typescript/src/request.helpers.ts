@@ -1,10 +1,20 @@
+import {CoreOptions} from "request";
+
 export function jsonRequestHeaderMap(options: any) {
-  let headerMap = new Map();
-  headerMap.set("Content-Type", "application/json");
-  if (options && options.correlationId) {
-    headerMap.set("correlationId", options.correlationId);
-  }
-  return headerMap;
+  // let headerMap = new Map();
+  // headerMap.set("Content-Type", "application/json");
+  // if (!options) {
+  //   return headerMap;
+  // }
+  // if (options.correlationId) {
+  //   headerMap.set("correlationId", options.correlationId);
+  // } else if (options.correlationid) {
+  //   headerMap.set("correlationId", options.correlationid);
+  // }
+  return {
+    "Content-Type": "application/json",
+    "correlationId": options.correlationId
+  };
 }
 
 export function postJsonOptions(uri: any, headers: any, json: any) {
@@ -23,4 +33,23 @@ export function postJsonOptions(uri: any, headers: any, json: any) {
   if (headers) {
     headerMap.set("json", json);
   }
+
+  return {
+    uri:uri,
+    method: "POST",
+    headers: headers,
+    json: json
+  };
+
+  // if (headers) {
+    //headerMap.set("headers", headers);
+    // options.headers = headers;
+  // }
+
+  // if (headers) {
+    //headerMap.set("json", json);
+    // options.json = json;
+  // }
+
+  // return options;
 }

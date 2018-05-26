@@ -1,15 +1,27 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
 import {MenuService} from "../menu.service";
 import {PartyService} from "../../parties/party.service";
-import {MenuItemModel} from "../menu.item.model";
+//import {MenuItemModel} from "../menu.item.model";
 import {EventService} from "../../event/event.service";
 import {MenuModel} from "../menu.model";
-import * as $ from 'jquery';
+import {trigger, state, style, transition, animate} from "@angular/animations";
 
 @Component({
   selector: 'mobile-menu',
   templateUrl: './mobile.menu.component.html',
-  styleUrls: ['./mobile.menu.component.css']
+  styleUrls: ['./mobile.menu.component.css'],
+  animations: [
+    trigger('mobileMenuAnimation', [
+      state('inactive', style({
+        'display': 'none', 'height': '0', opacity: 0
+      })),
+      state('active', style({
+        'display': 'block', 'height': '*', opacity: 1
+      })),
+      transition('inactive => active', animate('200ms ease-in-out')),
+      transition('active => inactive', animate('200ms ease-in-out')),
+    ]),
+  ]
 })
 export class MobileMenuComponent implements OnInit {
 
@@ -20,13 +32,12 @@ export class MobileMenuComponent implements OnInit {
   private _name:string;
   private _menuModel:MenuModel;
   private _isLoggedIn:boolean;
+  private state: string;
+  private popUpState: string;
 
   constructor(private eventService:EventService, private menuService:MenuService, private partyService: PartyService, private cd: ChangeDetectorRef) {
-    // this.title = "mobile-menu";
-    // this.name = "mobile-menu";
-    // this.isLoggedIn = true;
-    // this.menuModel = new MenuModel();
-    // this.menuModel.menuItemModels = [];
+    this.state = 'inactive';
+    this.popUpState = 'hide';
   }
 
   get title(): string {
@@ -73,28 +84,19 @@ export class MobileMenuComponent implements OnInit {
           this.getUserInformation();
         }
       });
+  }
 
+  mobileMenuTrigger() {
+    this.popUpState = 'hide';
+    this.state = this.state === 'inactive' ? 'active': 'inactive';
+  }
 
-    $('.mobile-menu-trigger').on('click', function () {
-      $('.menu-mobile .menu-and-user').slideToggle(200, 'swing');
-      return false;
-    });
-
-    $('.menu-activated-on-click li.has-sub-menu > a').on('click', function (event) {
-      var $elem = $(this).closest('li');
-      if ($elem.hasClass('active')) {
-        $elem.removeClass('active');
-      } else {
-        $elem.closest('ul').find('li.active').removeClass('active');
-        $elem.addClass('active');
-      }
-      return false;
-    });
-
+  popUpTrigger() {
+    this.popUpState = this.popUpState === 'hide' ? 'show': 'hide';
   }
 
   getPhoto() {
-    this.partyService.getPhoto(this.partyId)
+    this.partyService.getPhoto(this.partyId, "user")
       .subscribe(imgStr => {
         if(imgStr) {
           this.imageStr = imgStr;
@@ -119,29 +121,6 @@ export class MobileMenuComponent implements OnInit {
       //that.getMenu(this.isLoggedIn);
     });
   }
-
-  // getMenu(isLoggedIn:boolean) {
-  //   if (!isLoggedIn) { return; }
-  //
-  //   let that = this;
-  //   this.menuService.getMenuByName(this.name).subscribe(function (menu) {
-  //     that.menuModel.menuItemModels = [];
-  //     menu.menuItemModels.forEach(value => {
-  //       that.menuModel.menuItemModels.push(value);
-  //     });
-  //
-  //     that.cd.markForCheck();
-  //   });
-  // }
-  //
-  // onSelected(menuItemModel:MenuItemModel) {
-  //   this._menuModel.menuItemModels.forEach(mi => {
-  //     if (mi.active) {
-  //       mi.active = false
-  //     }
-  //   });
-  //   menuItemModel.active = true;
-  // }
 
   logOutEvent() {
     this.partyService.logOutUser()

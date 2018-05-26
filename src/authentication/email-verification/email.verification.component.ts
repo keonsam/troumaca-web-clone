@@ -53,8 +53,7 @@ export class EmailVerificationComponent implements OnInit {
            this.authenticationService
            .verifyCredentialConfirmation(this.credentialConfirmation)
            .subscribe(next => {
-             console.log(next);
-             if(!next.fail) {
+             if(!next.fail || next.message === "Already Confirmed.") {
                this.message = next.message;
                this.verifiedPass = true;
                setTimeout(() => {
@@ -95,13 +94,10 @@ export class EmailVerificationComponent implements OnInit {
           if ( next.data.credentialConfirmationId != this.credentialConfirmation.credentialConfirmationId) {
             this.emailMessageFailure = true;
             setTimeout(()=> {
-              this.router.navigate([`/authentication/phone-verification/${next.data.credentialConfirmationId}`]);
+              this.router.navigate([`/authentication/email-verification/${next.data.credentialConfirmationId}`]);
             }, 1000 *5);
           }else {
             this.emailMessageSuccess = true;
-            setTimeout(()=> {
-              this.emailMessageSuccess = false;
-            }, 5000);
           }
         }else {
           if (next.data.credentialStatus == 'CONFIRMED') {

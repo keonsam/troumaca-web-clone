@@ -43,7 +43,6 @@ export class SiteWebCreationComponent implements OnInit {
        this.webSite.name = value.name;
        this.webSite.description = value.description;
        this.webSite.uniformResourceIdentifer = value.uniformResourceIdentifer;
-       console.log(value);
      }, error2 => {
        console.log(error2);
      });
@@ -99,7 +98,6 @@ export class SiteWebCreationComponent implements OnInit {
     this.siteService
     .addWebSite(this.webSite)
     .subscribe(value => {
-      console.log(value);
       if (value && value.siteId) {
         this.router.navigate(['/sites/web-sites']);
       } else {

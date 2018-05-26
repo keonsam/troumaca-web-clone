@@ -17,7 +17,7 @@
                 <th>name</th>
                 <th>resource type</th>
                 <th>description</th>
-                <th>Actions</th>
+                <th class="text-center">Actions</th>
               </tr>
             </thead>
             <tfoot>
@@ -25,7 +25,7 @@
                 <th>name</th>
                 <th>resource type</th>
                 <th>description</th>
-                <th>Actions</th>
+                <th class="text-center">Actions</th>
               </tr>
             </tfoot>
             <tbody>
@@ -34,7 +34,7 @@
                 <td>{{resource.resourceType.name}}</td>
                 <td>{{resource.description}}</td>
                 <td class="row-actions">
-                 <a [routerLink]="['/access-roles/resources', resource.resourceId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(resource.resourceId, resource.name)" ><i class="os-icon os-icon-ui-15"></i></a>
+                 <a [routerLink]="['/access-roles/resources', resource.resourceId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(resource.resourceId, resource.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
                 </td>
               </tr>
               <tr *ngIf="resources.resources.length <= 0" class="odd">

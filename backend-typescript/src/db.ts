@@ -32,8 +32,8 @@ let theCredentialDb = path.resolve(__dirname, '..') + '/nedb/authentication/cred
 let theCredentialConfirmationsDb = path.resolve(__dirname, '..') + '/nedb/authentication/credential_confirmations.db';
 
 // file
-let thePhotosDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/photos.db';
-
+let theUserPhotosDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/user-photos.db';
+let theOrganizationPhotosDb = path.resolve(__dirname, '..') + '/nedb/file_meta_data/organization-photos.db';
 
 let sessionDb = path.resolve(__dirname, '..',) + '/nedb/session/sessions.db';
 
@@ -51,9 +51,13 @@ let partyAccessRolesDb = path.resolve(__dirname, '..',) + '/nedb/authorization/p
 
 // Todo: Fix remove
 
-export let photos = new Datastore(thePhotosDb);
-photos.loadDatabase(handleError);
-photos.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
+export let userPhotos = new Datastore(theUserPhotosDb);
+userPhotos.loadDatabase(handleError);
+userPhotos.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
+
+export let organizationPhotos = new Datastore(theOrganizationPhotosDb);
+organizationPhotos.loadDatabase(handleError);
+organizationPhotos.ensureIndex({ fieldName: 'partyId', unique: true }, handleError);
 
 export let persons = new Datastore(thePersonsDb);
 persons.loadDatabase(handleError);

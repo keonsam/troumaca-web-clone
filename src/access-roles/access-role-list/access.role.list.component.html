@@ -14,36 +14,36 @@
           <table class="table table-striped table-lightfont table-full-width">
             <thead>
             <tr>
-              <th>prohibition indicator</th>
               <th>name</th>
               <th>Access Role Type</th>
+              <th>prohibition indicator</th>
               <th>effective date</th>
               <th>until date</th>
               <th>description</th>
-              <th>Actions</th>
+              <th class="text-center">Actions</th>
             </tr>
             </thead>
             <tfoot>
             <tr>
-              <th>prohibition indicator</th>
               <th>name</th>
               <th>Access Role Type</th>
+              <th>prohibition indicator</th>
               <th>effective date</th>
               <th>until date</th>
               <th>description</th>
-              <th>Actions</th>
+              <th class="text-center">Actions</th>
             </tr>
             </tfoot>
             <tbody>
             <tr role="row" *ngFor="let accessRole of accessRoles.accessRoles; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-              <td>{{accessRole.prohibitionIndicator}}</td>
               <td>{{accessRole.name}}</td>
               <td>{{accessRole.accessRoleType.name}}</td>
+              <td>{{accessRole.prohibitionIndicator}}</td>
               <td>{{accessRole.effectiveDate}}</td>
               <td>{{accessRole.untilDate}}</td>
               <td>{{accessRole.description}}</td>
               <td class="row-actions">
-                <a [routerLink]="['/access-roles', accessRole.accessRoleId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(accessRole.accessRoleId, accessRole.name)" ><i class="os-icon os-icon-ui-15"></i></a>
+                <a [routerLink]="['/access-roles', accessRole.accessRoleId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(accessRole.accessRoleId, accessRole.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
               </td>
             </tr>
             <tr *ngIf="accessRoles.accessRoles.length <= 0" class="odd">

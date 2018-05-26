@@ -66,25 +66,9 @@ export class AttributeClientHttp extends AttributeClient {
   }
 
   public findUnitOfMeasureIdState(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/find-unit-of-measures");
+    let url = `${this.hostPort}/find-unit-of-measures?q=${searchStr}&pageSize=${pageSize}`;
 
-    let queryStr = [];
-    if (searchStr) {
-      queryStr.push("q=" + searchStr);
-    }
-
-    if (pageSize) {
-      queryStr.push("pageSize=" + pageSize);
-    }
-
-    if (queryStr.length > 0) {
-      array.push("?");
-      array.push(queryStr.join("&"));
-    }
-
-    return this.httpClient.get<UnitOfMeasureState[]>(array.join(""), {
+    return this.httpClient.get<UnitOfMeasureState[]>(url, {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
       return data;

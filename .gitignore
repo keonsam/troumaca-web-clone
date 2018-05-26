@@ -101,7 +101,7 @@ fabric.properties
 /backend/node_modules
 /backend-typescript/node_modules
 /backend-es6/node_modules
-
+/backend-tests/node_modules
 # IDEs and editors
 /.idea
 .project

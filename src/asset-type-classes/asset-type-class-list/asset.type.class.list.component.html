@@ -18,14 +18,14 @@
               <tr>
                 <th>name</th>
                 <th>description</th>
-                <th>Actions</th>
+                <th class="text-center">Actions</th>
               </tr>
             </thead>
             <tfoot>
               <tr>
                 <th>name</th>
                 <th>description</th>
-                <th>Actions</th>
+                <th class="text-center">Actions</th>
               </tr>
             </tfoot>
             <tbody>
@@ -33,7 +33,7 @@
                 <td>{{assetTypeClass.name}}</td>
                 <td>{{assetTypeClass.description}}</td>
                 <td class="row-actions">
-                 <a [routerLink]="['/asset-type-classes', assetTypeClass.assetTypeClassId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(assetTypeClass.assetTypeClassId)" ><i class="os-icon os-icon-ui-15"></i></a>
+                 <a [routerLink]="['/asset-type-classes', assetTypeClass.assetTypeClassId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(assetTypeClass.assetTypeClassId, assetTypeClass.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
                 </td>
               </tr>
               <tr *ngIf="assetTypeClasses.assetTypeClasses.length <= 0" class="odd">
@@ -46,12 +46,12 @@
             <div class="modal-content">
              <div class="modal-header">
               <h5 class="modal-title" id="DeleteModalLabel">
-               Delete Asset Type Class
+               Delete {{assetTypeClassName}}
               </h5>
               <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
              </div>
              <div class="modal-body">
-             <p>Are you sure you want to delete this?</p>
+             <p>Are you sure you want to delete {{assetTypeClassName}}?</p>
              </div>
                 <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>

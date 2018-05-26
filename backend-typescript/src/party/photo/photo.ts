@@ -3,7 +3,7 @@ import {Party} from "../party";
 export class Photo extends Party {
   private _imageStr: string;
 
-  constructor(partyId: string, imageStr: string) {
+  constructor(partyId?: string, imageStr?: string) {
     super();
     this.partyId = partyId;
     this._imageStr = imageStr;

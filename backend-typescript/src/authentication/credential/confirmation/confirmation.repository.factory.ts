@@ -8,6 +8,7 @@ import {Observable} from "rxjs/Observable";
 import {CredentialConfirmation} from "./credential.confirmation";
 import {Observer} from "rxjs/Observer";
 import {RepositoryKind} from "../../../repository.kind";
+import {classToPlain, plainToClass} from "class-transformer";
 
 class ConfirmationDBRepository implements ConfirmationRepository {
 
@@ -15,9 +16,10 @@ class ConfirmationDBRepository implements ConfirmationRepository {
     credentialConfirmation.credentialConfirmationId = generateUUID();
     credentialConfirmation.confirmationCode = phoneToken(6, {type: 'string'});
     credentialConfirmation.credentialStatus = CredentialStatus.NEW;
-
+    credentialConfirmation.createdOn = new Date();
+    credentialConfirmation.modifiedOn = new Date();
     return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
-      credentialConfirmations.insert(credentialConfirmation.toJson(), function (err:any, doc:any) {
+      credentialConfirmations.insert(classToPlain(credentialConfirmation), function (err:any, doc:any) {
         if (!err) {
           delete doc._id;
           observer.next(doc);

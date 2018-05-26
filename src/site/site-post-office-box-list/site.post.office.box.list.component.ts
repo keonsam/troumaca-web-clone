@@ -17,7 +17,8 @@ export class SitePostOfficeBoxListComponent implements OnInit {
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
   private _routerLinkCreatePostOfficeBox:string = "/sites/post-office-boxes/create";
-
+  private postOfficeBoxName:string;
+  
   constructor(private siteService:SiteService) {
     let newPostOfficeBoxes = new PostOfficeBoxes();
     newPostOfficeBoxes.page = new Page(0, 0, 0);
@@ -48,7 +49,6 @@ export class SitePostOfficeBoxListComponent implements OnInit {
   this.siteService
     .getPostOfficeBoxes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.postOfficeBoxes = next;
     }, error => {
       console.log(error);
@@ -57,8 +57,9 @@ export class SitePostOfficeBoxListComponent implements OnInit {
     });
   }
 
-  onOpenModal(postOfficeBoxId: string) {
-    this.postOfficeBoxId = postOfficeBoxId
+  onOpenModal(postOfficeBoxId: string, postOfficeBoxName:string) {
+    this.postOfficeBoxId = postOfficeBoxId;
+    this.postOfficeBoxName = postOfficeBoxName;
   }
 
   onDelete() {

@@ -51,8 +51,8 @@ const app = express();
 
 app.use(logger("dev"));
 app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb',extended: false}));
 app.use(express.static(path.join(__dirname, "dist")));
 var corsOptions = {
   origin: "http://localhost:4200",
@@ -139,16 +139,17 @@ app.get("/users", userController.getUsers);
 app.get("/users/:partyId", userController.getUser);
 app.post("/users", userController.saveUser);
 app.put("/users/:partyId", userController.updateUser);
+app.put("/users-me/:partyId", userController.updateUserMe);
 app.delete("/users/:partyId", userController.deleteUser);
 app.get("/organizations", organizationController.getOrganizations);
 app.get("/organizations/:partyId", organizationController.getOrganization);
 app.post("/organizations", organizationController.saveOrganization);
 app.put("/organizations/:partyId", organizationController.updateOrganization);
 app.delete("/organizations/:partyId", organizationController.deleteOrganization);
-app.get("/photos/:partyId", photoController.getPhotoById);
-app.post("/photos/:partyId", photoController.savePhoto);
-app.put("/photos/:partyId", photoController.updatePhoto);
-app.delete("/photos/:partyId", photoController.deletePhoto);
+app.get("/photos/:type/:partyId", photoController.getPhotoById);
+app.post("/photos/:type/:partyId", photoController.savePhoto);
+app.put("/photos/:type/:partyId", photoController.updatePhoto);
+//app.delete("/photos/:type/:partyId", photoController.deletePhoto);
 app.post("/accounts", accountController.saveAccount);
 app.post("/validate-password", credentialController.isValidPassword);
 app.post("/validate-username", credentialController.isValidUsername);

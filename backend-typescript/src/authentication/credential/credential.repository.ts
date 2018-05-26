@@ -1,6 +1,7 @@
 import {Observable} from "rxjs/Observable";
 import {Credential} from './credential';
 import {Result} from "../../result.success";
+import {CredentialConfirmation} from "./confirmation/credential.confirmation";
 
 export interface CredentialRepository {
 
@@ -20,7 +21,7 @@ export interface CredentialRepository {
 
   checkUsernameValid(partyId:string, username:string):Observable<Credential>;
 
-  addCredential(credential:Credential):Observable<Credential>;
+  addCredential(credential:Credential, options?:any):Observable<CredentialConfirmation>;
 
   addUserCredential(credential:Credential):Observable<Credential>;
 

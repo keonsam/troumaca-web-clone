@@ -1,4 +1,4 @@
-<div class="content-w">
+<div class="content-i">
   <div class="content-box">
     <div class="row">
       <div class="col-sm-5">
@@ -23,17 +23,17 @@
                 <div class="col-sm-6 b-r b-b">
                   <div class="el-tablo centered padded-v">
                     <div class="value">
-                      25
+                      4
                     </div>
                     <div class="label">
-                      Assets
+                      Organizations
                     </div>
                   </div>
                 </div>
                 <div class="col-sm-6 b-b">
                   <div class="el-tablo centered padded-v">
                     <div class="value">
-                      315
+                      3
                     </div>
                     <div class="label">
                       Pending Requests
@@ -94,7 +94,13 @@
               </div>
 
               <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to update your Company Information.</div>
-            <!--  <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">Failed to update your Company Credential.</div> -->
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Organization Name">Organization Name</label><input class="form-control" formControlName="name" placeholder="Enter Organization Name" required="required" type="text">
+                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Please organization name.</div>
+                </div>
+              </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
@@ -105,31 +111,10 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Organization Name">Organization Name</label><input class="form-control" formControlName="name" placeholder="Enter Organization Name" required="required" type="text">
-                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Please organization name.</div>
+                  <label for="description">Description</label><textarea class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
+                  <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
                 </div>
               </fieldset>
-
-              <!--<fieldset class="form-group">
-                <div class="form-group">
-                  <label for="Current Password">Current Password</label><input class="form-control" formControlName="currentPassword" placeholder="Enter Your Current password" required="required" type="password">
-                  <div [hidden]="currentPassword.valid || currentPassword.pristine" class="alert alert-danger">Hmm, that’s not the right password. Please try again or <a href="#">reset your password</a>.</div>
-                </div>
-              </fieldset>
-
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="New Password">New Password</label><input class="form-control" formControlName="newPassword" placeholder="Enter New password" [required]="requiredState" type="password">
-                  <div [hidden]="newPassword.valid || newPassword.pristine" class="alert alert-danger">Invalid new password.</div>
-                </div>
-              </fieldset>
-
-              <fieldset class="form-group" *ngIf="newPassword.value">
-                <div class="form-group">
-                  <label for="Retype Password">Retype Your New Password</label><input class="form-control" formControlName="confirmPassword" placeholder="Enter password again" [required]="requiredState" type="password">
-                  <div [hidden]="confirmPassword.valid || confirmPassword.pristine" class="alert alert-danger">Make sure this matches your new password.</div>
-                </div>
-              </fieldset> -->
 
               <div class="form-buttons-w">
                 <button class="btn btn-primary" [disabled]="!companyEditForm.valid" type="submit"> Save</button>
@@ -149,20 +134,16 @@
               <h5 class="modal-title" id="exampleModalLabel">
                 Company Photo
               </h5>
-              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> &times;</span></button>
+              <button aria-label="Close" class="close" data-dismiss="modal" (click)="pictureModalClose()" type="button"><span aria-hidden="true"> &times;</span></button>
             </div>
             <div class="modal-body">
               <input #fileid type='file' (change)="fileChangeEvent($event)" hidden/>
               <image-cropper
-              [imageChangedEvent]="imageChangedEvent"
-              [maintainAspectRatio]="true"
-              [aspectRatio]="4 / 3"
-              [resizeToWidth]="128"
-              format="png"
-              (imageCropped)="imageCropped($event)"
-              (loadImageFailed)="loadImageFailed()"
-               >
-               </image-cropper>
+                [imageChangedEvent]="imageChangedEvent"
+                imageQuality="100"
+                (imageCropped)="imageCropped($event)"
+              >
+              </image-cropper>
             </div>
             <div class="modal-footer">
               <button class="btn btn-white button1" type="button" (click)="fileid.click()"> Change Photo</button>
@@ -171,27 +152,6 @@
           </div>
         </div>
       </div>
-
-
-      <!--<div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-lg" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Profile Photo
-              </h5>
-              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> &times;</span></button>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-              <input #fileid type='file' hidden/>
-              <button class="btn btn-white" type="button"(click)="fileid.click()"> Change Photo</button>
-              <button class="btn btn-primary" type="button"> Save changes</button>
-            </div>
-          </div>
-        </div>
-      </div> -->
 
       <!-- END OF UPLOAD MODAL -->
     </div>

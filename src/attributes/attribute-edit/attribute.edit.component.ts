@@ -91,7 +91,7 @@ export class AttributeEditComponent implements OnInit {
        .subscribe(attribute =>{
         this.name.setValue(attribute.name);
         this.format.setValue(attribute.format);
-        this.dataType.setValue(attribute.dataType.dataTypeId);
+        this.dataType.setValue(attribute.dataTypeId);
         this.unitOfMeasureId.setValue(  attribute.unitOfMeasure.name); // backend needs to set the value
         this.maximumValue.setValue(attribute.maximumValue);
         this.minimumValue.setValue(attribute.minimumValue);
@@ -104,10 +104,9 @@ export class AttributeEditComponent implements OnInit {
         .subscribe(value => {
           this.attribute.name = value.name;
           this.attribute.format = value.format;
-          this.attribute.dataType = this.dataTypes.find(x => x.dataTypeId == value.dataType);
+          this.attribute.dataTypeId = value.dataType;
           this.attribute.maximumValue = value.maximumValue;
           this.attribute.minimumValue = value.minimumValue;
-          console.log(value);
         }, error2 => {
           console.log(error2);
         });
@@ -118,31 +117,34 @@ export class AttributeEditComponent implements OnInit {
   }
 
   private populateUnitOfMeasureIdDropDown() {
-    this.unitOfMeasureIdDataService = this.completerService.local([], 'name', 'name');
-    let that = this;
+    if (!this.attribute.unitOfMeasure.unitOfMeasureId) {
+      this.findUnitOfMeasureId("");
+    }
+
     this.attributeEditForm.get("unitOfMeasureId").valueChanges
-      .debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
-        that.attributeService
-          .findUnitOfMeasureId(value, that.pageSize) // send search request to the backend
-          .map(value2 => { // convert results to dropdown data
-            return value2.map(v2 => { //update to the new way of doing this
-              return {
-                unitOfMeasureId: v2.unitOfMeasureId,
-                name: v2.name,
-              };
-            })
-          })
-          .subscribe(next => { // update the data
-            console.log("findUnitOfMeasureId next - " + next);
-            this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
-          }, error => {
-            console.log("findUnitOfMeasureId error - " + error);
-          });
+        this.findUnitOfMeasureId(value);
+      });
+  }
+
+  findUnitOfMeasureId(value) {
+    this.attributeService
+      .findUnitOfMeasureId(value, this.pageSize) // send search request to the backend
+      .map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => { //update to the new way of doing this
+          return {
+            unitOfMeasureId: v2.unitOfMeasureId,
+            name: v2.name,
+          };
+        })
+      })
+      .subscribe(next => { // update the data
+        this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
+      }, error => {
+        console.log("findUnitOfMeasureId error - " + error);
       });
   }
 
@@ -228,7 +230,7 @@ export class AttributeEditComponent implements OnInit {
 
   onUnitOfMeasureIdSelect(selected: CompleterItem) {
     if (selected) {
-      this.attribute.unitOfMeasure = selected.originalObject;
+      this.attribute.unitOfMeasureId = selected.originalObject.unitOfMeasureId;
     }
   }
 

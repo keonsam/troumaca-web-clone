@@ -1,5 +1,7 @@
 <div class="content-i asset-container">
 
+  <access-role-top-menu></access-role-top-menu>
+
   <div class="content-box">
     <div class="row">
       <div class="col-sm-12">
@@ -7,7 +9,7 @@
           <div class="element-box">
             <form [formGroup]="permissionForm" (ngSubmit)="onCreate()" id="formValidate">
               <h5 class="form-header">
-                New Permission
+                New Permission Form
               </h5>
 
               <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to create permission.</div>

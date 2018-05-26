@@ -20,13 +20,54 @@ class AssetKindDBRepository implements AssetKindRepository {
       });
     });
   }
+
+  getAssetKindById(assetKindId:string): Observable<AssetKind> {
+    let query = {
+      "assetKindId": assetKindId
+    };
+    return Rx.Observable.create(function (observer:Observer<AssetKind[]>) {
+      assetKinds.findOne(query, function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
+  getAssetKindByIds(assetKindIds:string[]): Observable<AssetKind[]> {
+    // let query = {
+    //     //   "assetKindId": assetKindId
+    //     // }
+    return Rx.Observable.create(function (observer:Observer<AssetKind[]>) {
+      assetKinds.find({assetKindId: {$in : assetKindIds}}, function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
 }
 
 class AssetKindRestRepository implements AssetKindRepository {
   getAssetKinds():Observable<AssetKind[]> {
     return undefined;
   }
+
+  getAssetKindById(assetKindId:string): Observable<AssetKind>{
+    return undefined;
+  }
+
+  getAssetKindByIds(assetKindIds:string[]): Observable<AssetKind[]>{
+    return undefined;
+  }
 }
+
 
 export function createAssetKindRepository(kind?:RepositoryKind):AssetKindRepository {
   switch (kind) {

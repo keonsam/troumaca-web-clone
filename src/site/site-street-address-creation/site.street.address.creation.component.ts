@@ -75,7 +75,6 @@ export class SiteStreetAddressCreationComponent implements OnInit {
        this.streetAddress.stateOrProvince = value.stateOrProvince;
        this.streetAddress.postalCode = value.postalCode;
        this.streetAddress.country = value.country;
-       console.log(value);
      }, error2 => {
        console.log(error2);
      });
