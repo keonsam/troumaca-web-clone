@@ -81,14 +81,15 @@ export class CreateAccountComponent implements OnInit {
        console.log(error2);
      });
 
-     this.doNotDisplayFailureMessage = true;
+    this.userImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwqeFAYIE3hTj9Gs1j3v7o-oBadM5uDkuPBuXMPtXS85LufL7UVA';
+    this.organizationImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
+
+    this.doNotDisplayFailureMessage = true;
      this.doNotDisplayFailureMessage2 = true;
      this.doNotDisplayFailureMessage3 = true;
   }
 
   ngOnInit(): void {
-    this.userImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwqeFAYIE3hTj9Gs1j3v7o-oBadM5uDkuPBuXMPtXS85LufL7UVA';
-    this.organizationImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
 
     this.createProfileForm.get("accountType")
     .valueChanges

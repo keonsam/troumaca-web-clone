@@ -30,14 +30,14 @@ export let sendPhoneVerificationCode = (req: Request, res: Response) => {
 };
 
 // router.get("/send-confirmation-codes/email/:confirmationId", function (req, res, next) {
-export let sendEmailVerificationCode = (req: Request, res: Response) => {
-  let confirmationId = req.params.confirmationId;
-  confirmationOrchestrator.sendEmailVerificationCode(confirmationId)
-    .subscribe(credentialConfirmation => {
-      res.send(JSON.stringify(credentialConfirmation));
-    }, error => {
-      res.status(400);
-      res.send(error);
-      console.log(error);
-    });
-};
+// export let sendEmailVerificationCode = (req: Request, res: Response) => {
+//   let confirmationId = req.params.confirmationId;
+//   confirmationOrchestrator.sendEmailVerificationCode(confirmationId)
+//     .subscribe(credentialConfirmation => {
+//       res.send(JSON.stringify(credentialConfirmation));
+//     }, error => {
+//       res.status(400);
+//       res.send(error);
+//       console.log(error);
+//     });
+// };

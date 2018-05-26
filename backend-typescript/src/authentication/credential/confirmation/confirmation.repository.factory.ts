@@ -8,7 +8,6 @@ import {Observable} from "rxjs/Observable";
 import {CredentialConfirmation} from "./credential.confirmation";
 import {Observer} from "rxjs/Observer";
 import {RepositoryKind} from "../../../repository.kind";
-import {classToPlain, plainToClass} from "class-transformer";
 
 class ConfirmationDBRepository implements ConfirmationRepository {
 
@@ -19,7 +18,7 @@ class ConfirmationDBRepository implements ConfirmationRepository {
     credentialConfirmation.createdOn = new Date();
     credentialConfirmation.modifiedOn = new Date();
     return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
-      credentialConfirmations.insert(classToPlain(credentialConfirmation), function (err:any, doc:any) {
+      credentialConfirmations.insert(credentialConfirmation.toJson(), function (err:any, doc:any) {
         if (!err) {
           delete doc._id;
           observer.next(doc);
@@ -107,6 +106,27 @@ class ConfirmationDBRepository implements ConfirmationRepository {
     });
   };
 
+  getConfirmedConfirmation(credentialId:string):Observable<CredentialConfirmation> {
+    return Rx.Observable.create(function (observer:Observer<CredentialConfirmation>) {
+      let query1 = {
+        "credentialId":credentialId
+      };
+      let query2 = {
+        "credentialStatus": CredentialStatus.CONFIRMED
+      };
+
+      credentialConfirmations.findOne({$and : [query1,query2]}, function (err:any, doc:any) {
+        if (!err) {
+          observer.next(doc);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
+    });
+  }
+
+
 }
 
 class ConfirmationRestRepository implements ConfirmationRepository {
@@ -127,6 +147,10 @@ class ConfirmationRestRepository implements ConfirmationRepository {
   }
 
   updateCredentialConfirmation(credentialConfirmation:CredentialConfirmation): Observable<number> {
+    return undefined;
+  }
+
+  getConfirmedConfirmation(credentialId:string):Observable<CredentialConfirmation> {
     return undefined;
   }
 }

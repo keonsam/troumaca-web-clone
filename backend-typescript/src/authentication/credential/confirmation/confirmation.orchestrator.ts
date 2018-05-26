@@ -29,6 +29,8 @@ export class ConfirmationOrchestrator {
 
         if (!credentialConfirmation) {
           // return an error if the credential confirmation is not found.
+          // TODO Change this so the front end can display errors.
+          //return Rx.Observable.of(new Result<CredentialConfirmation>(true, "wrong code.", credentialConfirmation));
           return Rx.Observable.throw(this.createNotFoundError("CredentialConfirmation"));
         }
 
@@ -37,28 +39,12 @@ export class ConfirmationOrchestrator {
 
         // if the credential is confirmed
         if (credentialConfirmationStatus === CredentialStatus.CONFIRMED) {
-          return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Already Confirmed.", credentialConfirmation));
+          return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Already Confirmed.", credentialConfirmation));
         }
 
         // if the credential confirmation is expired then return the credential confirmation
-        if (credentialConfirmationStatus === CredentialStatus.EXPIRED) {
-          return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Expired", credentialConfirmation));
-        }
-
-        // if the confirmation time has expired
         if (this.confirmationCodeTimeHasExpired(credentialConfirmation)) {
-          credentialConfirmation.credentialStatus = CredentialStatus.EXPIRED;
-
-          // update the credential confirmation status to expired
-          return this.confirmationRepository
-            .updateCredentialConfirmation(credentialConfirmation)
-            .map(numReplaced => {
-              if (numReplaced > 0) {
-                return new Result<CredentialConfirmation>(true, "Expired", credentialConfirmation);
-              } else {
-                return Rx.Observable.throw(this.createNotFoundError("CredentialConfirmation"));
-              }
-            });
+          return this.sessionExpired(credentialConfirmation);
         }
 
         return this.credentialRepository
@@ -79,7 +65,6 @@ export class ConfirmationOrchestrator {
               return Observable.of(new Result<CredentialConfirmation>(true, "Credential update failed.", credentialConfirmation));
             }
           });
-
       });
   };
 
@@ -104,11 +89,54 @@ export class ConfirmationOrchestrator {
         if (credentialConfirmation && credentialConfirmation.credentialStatus === CredentialStatus.CONFIRMED) {
           return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Confirmed previously", credentialConfirmation)); //failed because the verification code would not have been sent
         } else if (this.confirmationCodeTimeHasExpired(credentialConfirmation)) {
-          credentialConfirmation.credentialStatus = CredentialStatus.EXPIRED;
-          return this.confirmationRepository
-            .updateCredentialConfirmation(credentialConfirmation)
-            .switchMap(numReplaced => {
-              if(numReplaced > 0) {
+          //return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Confirmed previously", credentialConfirmation)); //failed because the verification code would not have been sent
+          return this.sessionExpired(credentialConfirmation);
+        } else {
+          return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Code Sent", credentialConfirmation));
+        }
+      });
+  }
+
+  // sendEmailVerificationCode(credentialConfirmationId:string):Observable<Result<CredentialConfirmation>> {
+  //   return this.confirmationRepository
+  //     .getCredentialConfirmationById(credentialConfirmationId)
+  //     .switchMap((credentialConfirmation:CredentialConfirmation) => {
+  //       if (!credentialConfirmation) {
+  //         return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Unknown confirmation", credentialConfirmation));
+  //       }
+  //       if (credentialConfirmation.credentialStatus === CredentialStatus.CONFIRMED) {
+  //         return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Confirmed previously", credentialConfirmation));
+  //       } else if (this.confirmationCodeTimeHasExpired(credentialConfirmation)) {
+  //         credentialConfirmation.credentialStatus = CredentialStatus.EXPIRED;
+  //         return this.confirmationRepository
+  //           .updateCredentialConfirmation(credentialConfirmation)
+  //           .switchMap((numReplaced: number) => { //this is so to make the old links still work.
+  //             if (numReplaced > 0) {
+  //               let newCredentialConfirmation:CredentialConfirmation = new CredentialConfirmation();
+  //               newCredentialConfirmation.credentialId = credentialConfirmation.credentialId;
+  //               return this.confirmationRepository
+  //                 .addCredentialConfirmation(newCredentialConfirmation)
+  //                 .map((credentialConfirmation: CredentialConfirmation) => {
+  //                   return new Result<CredentialConfirmation>(false, "Updated", credentialConfirmation);
+  //                 });
+  //             } else {
+  //               return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Invalid Status", credentialConfirmation));
+  //             }
+  //           });
+  //       } else {
+  //         return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Link emailed", credentialConfirmation));
+  //       }
+  //     });
+  // };
+
+  sessionExpired(credentialConfirmation:CredentialConfirmation): Observable<Result<CredentialConfirmation>> {
+    credentialConfirmation.credentialStatus = CredentialStatus.EXPIRED;
+    return this.confirmationRepository.updateCredentialConfirmation(credentialConfirmation)
+      .switchMap(numReplaced => {
+        if(numReplaced) {
+          return this.confirmationRepository.getConfirmedConfirmation(credentialConfirmation.credentialId)
+            .switchMap(confirmedConfirmation => {
+              if(!confirmedConfirmation) {
                 let newCredentialConfirmation:CredentialConfirmation = new CredentialConfirmation();
                 newCredentialConfirmation.credentialId = credentialConfirmation.credentialId;
                 return this.confirmationRepository
@@ -116,48 +144,15 @@ export class ConfirmationOrchestrator {
                   .map((credentialConfirmation:CredentialConfirmation) => {
                     return new Result<CredentialConfirmation>(false, "Updated", credentialConfirmation);
                   });
-              } else {
-                return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Invalid Status", credentialConfirmation));
+              }else {
+                return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Already Confirmed.", confirmedConfirmation));
               }
             });
-        } else {
-          //no here is where you choose to either generate a new link or use the same old one with/without a new verification code
-          return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Code Sent", credentialConfirmation));
+        }else {
+          return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Invalid Status", credentialConfirmation));
         }
       });
   }
-
-  sendEmailVerificationCode(credentialConfirmationId:string):Observable<Result<CredentialConfirmation>> {
-    return this.confirmationRepository
-      .getCredentialConfirmationById(credentialConfirmationId)
-      .switchMap((credentialConfirmation:CredentialConfirmation) => {
-        if (!credentialConfirmation) {
-          return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Unknown confirmation", credentialConfirmation));
-        }
-        if (credentialConfirmation.credentialStatus === CredentialStatus.CONFIRMED) {
-          return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Confirmed previously", credentialConfirmation));
-        } else if (this.confirmationCodeTimeHasExpired(credentialConfirmation)) {
-          credentialConfirmation.credentialStatus = CredentialStatus.EXPIRED;
-          return this.confirmationRepository
-            .updateCredentialConfirmation(credentialConfirmation)
-            .switchMap((numReplaced: number) => { //this is so to make the old links still work.
-              if (numReplaced > 0) {
-                let newCredentialConfirmation:CredentialConfirmation = new CredentialConfirmation();
-                newCredentialConfirmation.credentialId = credentialConfirmation.credentialId;
-                return this.confirmationRepository
-                  .addCredentialConfirmation(newCredentialConfirmation)
-                  .map((credentialConfirmation: CredentialConfirmation) => {
-                    return new Result<CredentialConfirmation>(false, "Updated", credentialConfirmation);
-                  });
-              } else {
-                return Rx.Observable.of(new Result<CredentialConfirmation>(true, "Invalid Status", credentialConfirmation));
-              }
-            });
-        } else {
-          return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Link emailed", credentialConfirmation));
-        }
-      });
-  };
 
   createNotFoundError(name:string):Error {
     return new Error(JSON.stringify({
