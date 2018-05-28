@@ -290,7 +290,6 @@ export class CreateAccountComponent implements OnInit {
       });
   }
 
-
   onCreate() {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
