@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing source NPM dependencies...
+      - npm install -g @angular/cli
+      - npm install
+      - cd backend-typescript
+      - npm install
+      - cd ..
+  build:
+    commands:
+      - ng build
+      - cd backend-typescript
+      - npm run build-ts
+      - cd ..
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+    files:
+        - '**/*'
+    base-directory: 'dist*'
+    discard-paths: yes

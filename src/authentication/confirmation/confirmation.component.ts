@@ -25,6 +25,8 @@ export class ConfirmationComponent implements OnInit {
   private textMessageSuccess: boolean;
   private noEntry: boolean;
   private _message: string = "";
+  private sub:any;
+  private username: string;
 
   constructor(//private eventService: EventService,
     private route: ActivatedRoute,
@@ -58,8 +60,15 @@ export class ConfirmationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.credentialConfirmation.credentialConfirmationId = params["credentialConfirmationId"];
+    this.sub = this.route.params.subscribe(params => {
+      let credentialConfirmationId = params["credentialConfirmationId"];
+      this.credentialConfirmation.credentialConfirmationId = credentialConfirmationId;
+      this.authenticationService.getConfirmationsUsername(credentialConfirmationId)
+        .subscribe(username => {
+          this.username = username
+        }, error => {
+          console.log(error);
+        });
     });
   }
 
@@ -100,7 +109,7 @@ export class ConfirmationComponent implements OnInit {
     //TODO: remove phone from the service call
 
     this.authenticationService
-      .sendConfirmationCode(this.credentialConfirmation.credentialConfirmationId, "phone")
+      .sendConfirmationCode(this.credentialConfirmation.credentialConfirmationId)
       .subscribe(next => {
         if(next.data.credentialStatus === 'CONFIRMED') {
           this.confirmationSuccessful = true;

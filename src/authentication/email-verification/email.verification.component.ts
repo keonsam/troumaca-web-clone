@@ -87,7 +87,7 @@ export class EmailVerificationComponent implements OnInit {
     this.emailMessageFailure = false;
 
     this.authenticationService
-    .sendConfirmationCode(this.credentialConfirmation.credentialConfirmationId, "email")
+    .sendConfirmationCode(this.credentialConfirmation.credentialConfirmationId)
     .subscribe(next => {
         if(!next.fail) {
           this.message = next.message;

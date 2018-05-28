@@ -18,6 +18,8 @@ export abstract class AuthenticationClient {
 
   abstract verifyCredentialConfirmationState(credentialConformationState: CredentialConfirmationState): Observable<Result<CredentialConfirmationState>>;
 
-  abstract sendConfirmationCode(credentialConfirmationId: string, type: string): Observable<Result<CredentialConfirmationState>>;
+  abstract sendConfirmationCode(credentialConfirmationId: string): Observable<Result<CredentialConfirmationState>>;
+
+  abstract getConfirmationsUsername(credentialConfirmationId: string): Observable<string>;
 
 }

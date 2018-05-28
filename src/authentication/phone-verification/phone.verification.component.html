@@ -16,11 +16,11 @@
         </p>
 
         <div class="form-group">
-          <label for="">Enter Verification Code</label><input class="form-control" formControlName="confirmationCode" placeholder="Enter the 6-digit code" required type="text">
+          <label for="verification code">Enter Verification Code</label><input class="form-control" formControlName="confirmationCode" placeholder="Enter the 6-digit code" required type="text">
         </div>
-        <h6 id="heading-message">
-          {{message}}
-        </h6>
+        <!--<h6 id="heading-message">-->
+          <!--{{message}}-->
+        <!--</h6>-->
         <div *ngIf="errorExists" class="alert alert-danger">
           <strong>Error!</strong> Make sure you enter the text message code sent to your phone number.
           <a href="#" (click)="sendConfirmationCode();false">Click here </a> for an another text message.

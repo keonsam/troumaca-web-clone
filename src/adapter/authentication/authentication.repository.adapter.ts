@@ -49,11 +49,15 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     });
   }
 
-  sendConfirmationCode(credentialConfirmationId: string, type: string): Observable<Result<CredentialConfirmation>> {
-    return this.authenticationClient.sendConfirmationCode(credentialConfirmationId, type)
+  sendConfirmationCode(credentialConfirmationId: string): Observable<Result<CredentialConfirmation>> {
+    return this.authenticationClient.sendConfirmationCode(credentialConfirmationId)
     .map(result => {
       return mapObjectProps(result, new Result<CredentialConfirmation>());
     });
+  }
+
+  getConfirmationsUsername(credentialConfirmationId: string): Observable<string> {
+    return this.authenticationClient.getConfirmationsUsername(credentialConfirmationId);
   }
 
 }

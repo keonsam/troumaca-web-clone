@@ -24,7 +24,7 @@ export class AuthenticationService {
   }
 
   public authenticate(credential:Credential):Observable<AuthenticateResponse> {
-    let that = this;
+    //let that = this;
     return this
     .authenticationRepository
     .authenticate(credential)
@@ -52,8 +52,12 @@ export class AuthenticationService {
     return this.authenticationRepository.verifyCredentialConfirmation(credentialConfirmation);
   }
 
-  public sendConfirmationCode(credentialConfirmationId: string, type: string): Observable<Result<CredentialConfirmation>> {
-    return this.authenticationRepository.sendConfirmationCode(credentialConfirmationId, type);
+  public sendConfirmationCode(credentialConfirmationId: string): Observable<Result<CredentialConfirmation>> {
+    return this.authenticationRepository.sendConfirmationCode(credentialConfirmationId);
+  }
+
+  public getConfirmationsUsername(credentialConfirmationId: string): Observable<string> {
+    return this.authenticationRepository.getConfirmationsUsername(credentialConfirmationId);
   }
 
 }

@@ -132,8 +132,8 @@ export class AuthenticationClientHttp extends AuthenticationClient {
       });
   }
 
-  sendConfirmationCode(credentialConfirmationId: string, type: string): Observable<Result<CredentialConfirmationState>> {
-    let url = `${this.hostPort}/send-confirmation-codes/${type}/${credentialConfirmationId}`;
+  sendConfirmationCode(credentialConfirmationId: string): Observable<Result<CredentialConfirmationState>> {
+    let url = `${this.hostPort}/send-confirmation-codes/${credentialConfirmationId}`;
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -144,6 +144,23 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
     return this.httpClient
       .get<Result<CredentialConfirmationState>>(url, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
+  getConfirmationsUsername(credentialConfirmationId: string): Observable<string> {
+    let url = `${this.hostPort}/get-confirmations-username/${credentialConfirmationId}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'correlationId': this.uuidGenerator.generateUUID()
+      })
+    };
+
+    return this.httpClient
+      .get<string>(url, httpOptions)
       .map(data => {
         return data;
       });
