@@ -29,6 +29,18 @@ export let sendPhoneVerificationCode = (req: Request, res: Response) => {
     });
 };
 
+export let getConfirmationsUsername = (req: Request, res: Response) => {
+  let credentialConfirmationId = req.params.credentialConfirmationId;
+  confirmationOrchestrator.getConfirmationsUsername(credentialConfirmationId)
+    .subscribe(username => {
+      res.send(JSON.stringify(username));
+    }, error => {
+      res.status(400);
+      res.send(error);
+      console.log(error);
+    });
+};
+
 // router.get("/send-confirmation-codes/email/:confirmationId", function (req, res, next) {
 // export let sendEmailVerificationCode = (req: Request, res: Response) => {
 //   let confirmationId = req.params.confirmationId;

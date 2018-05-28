@@ -14,8 +14,8 @@ let checkAccess = (req: Request, res: Response, next: NextFunction) => {
   // TODO: move this to its own file
   let openPaths:Array<string> = [
     '/sessions/is-valid-session',
-    '/send-confirmation-codes/email',
-    '/send-confirmation-codes/phone',
+    '/send-confirmation-codes',
+    '/get-confirmations-username',
     '/verify-credentials-confirmations',
     '/forgot-password',
     '/authenticate',
@@ -40,9 +40,10 @@ let checkAccess = (req: Request, res: Response, next: NextFunction) => {
     //   return true;
     // }
     // this limit the url if you can think of a better regex let me know
-    let testRegex = /\/[a-z-]*\/[a-z-]*\/[a-z-]*/gi; // test the string not a pro
-    let matchRegex = /\/[a-z-]*\/[a-z-]*\//gi; // not good with regex if you can fix this that will be great
-    if(testRegex.test(originalPath)) {
+    // let testRegex = /\/[a-z-]*\/[a-z-]*\/[a-z-]*/gi; // test the string not a pro
+    // let matchRegex = /\/[a-z-]*\/[a-z-]*\//gi; // not good with regex if you can fix this that will be great
+    let matchRegex = /\/[a-z-]*\//gi;
+    if(originalPath.indexOf("send-confirmation-codes") !== -1 || originalPath.indexOf("get-confirmations-username") !== -1 ) {
       originalPath = originalPath.match(matchRegex)[0].slice(0, -1);
     }
 

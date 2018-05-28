@@ -101,7 +101,7 @@ export class PhoneVerificationComponent implements OnInit {
     this.noEntry = false;
 
     this.authenticationService
-    .sendConfirmationCode(this.credentialConfirmation.credentialConfirmationId, "phone")
+    .sendConfirmationCode(this.credentialConfirmation.credentialConfirmationId)
     .subscribe(next => {
       if(!next.fail) {
         this.message = next.message;

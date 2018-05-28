@@ -7,6 +7,7 @@ import {CredentialRepository} from "../credential.repository";
 import {CredentialConfirmation} from "./credential.confirmation";
 import {CredentialStatus} from "../credential.status";
 import {Result} from "../../../result.success";
+import {Credential} from "../credential";
 
 export class ConfirmationOrchestrator {
 
@@ -93,6 +94,24 @@ export class ConfirmationOrchestrator {
           return this.sessionExpired(credentialConfirmation);
         } else {
           return Rx.Observable.of(new Result<CredentialConfirmation>(false, "Code Sent", credentialConfirmation));
+        }
+      });
+  }
+
+  getConfirmationsUsername(credentialConfirmationId:string):Observable<string> {
+    return this.confirmationRepository.getCredentialConfirmationById(credentialConfirmationId)
+      .switchMap((credentialConfirmation:CredentialConfirmation) => {
+        if(!credentialConfirmation) {
+          return Rx.Observable.throw(this.createNotFoundError("CredentialConfirmation"));
+        }else {
+         return this.credentialRepository.getCredentialByCredentialId(credentialConfirmation.credentialId)
+           .map((credential:Credential) => {
+             if(!credential) {
+               return this.createNotFoundError("CredentialConfirmation");
+             }else {
+               return credential.username;
+             }
+           });
         }
       });
   }
