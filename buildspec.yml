@@ -11,6 +11,7 @@ phases:
       - cd ..
   build:
     commands:
+      - echo Build started on `date`
       - ng build
       - cd backend-typescript
       - npm run build-ts

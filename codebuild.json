@@ -1,0 +1,45 @@
+{
+  "name": "Troumaca-Web-Development-4200",
+  "description": "To test the nedb database backend on the server",
+  "source": {
+    "type": "GITHUB",
+    "location": "https://github.com/michaaelw/troumaca-web.git",
+    "gitCloneDepth": 1,
+    "buildspec": "",
+    "auth": {
+      "type": "OAUTH",
+      "resource": ""
+    },
+    "insecureSsl": false
+  },
+  "artifacts": {
+    "type": "S3",
+    "location": "troumaca-web",
+    "path": "dev",
+    "namespaceType": "NONE",
+    "name": "Server1",
+    "packaging": "ZIP"
+  },
+  "cache": {
+    "type": "S3",
+    "location": "build-cache"
+  },
+  "environment": {
+    "type": "LINUX_CONTAINER",
+    "image": "aws/codebuild/nodejs:8.11.0",
+    "computeType": "BUILD_GENERAL1_SMALL",
+    "privilegedMode": true
+  },
+  "serviceRole": "codebuild-shapestone-platform-build-service-role",
+  "timeoutInMinutes": 60,
+  "vpcConfig": {
+    "vpcId": "vpc-104cd96b",
+    "subnets": [
+      "subnet-c51927ea | us-east-1e"
+    ],
+    "securityGroupIds": [
+      "sg-36104b40 | default"
+    ]
+  },
+  "badgeEnabled": true
+}
