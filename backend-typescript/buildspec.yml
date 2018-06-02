@@ -4,17 +4,17 @@ phases:
   install:
     commands:
       - echo Installing source NPM dependencies...
-      - npm install -g @angular/cli
+      - cd backend-typescript
       - npm install
   build:
     commands:
       - echo Build started on `date`
-      - ng build
+      - npm run build-ts
   post_build:
     commands:
       - echo Build completed on `date`
 artifacts:
     files:
         - '**/*'
-    base-directory: 'dist*'
-    discard-paths: yes
+    base-directory: 'backend-typescript/dist*'
+    discard-paths: no
