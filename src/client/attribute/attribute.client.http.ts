@@ -17,49 +17,32 @@ export class AttributeClientHttp extends AttributeClient {
 
   public getDataTypes(): Observable<DataTypeStates>{
     let url = `${this.hostPort}/data-types`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .get<DataTypeStates>(url, {headers:headers})
+    .get<DataTypeStates>(url, httpOptions)
     .map(data => {
       return data;
     });
   }
   public getAttributesStates(pageNumber:number, pageSize:number, sortOrder:string):Observable<AttributeStates> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/attributes");
-
-    let queryStr = [];
-
-    if (pageNumber) {
-      queryStr.push("pageNumber=" + pageNumber);
-    }
-
-    if (pageSize) {
-      queryStr.push("pageSize=" + pageSize);
-    }
-
-    if (sortOrder) {
-      queryStr.push("sortOrder=" + sortOrder);
-    }
-
-    if (queryStr.length > 0) {
-      array.push("?");
-      array.push(queryStr.join("&"));
-    }
-
-    return this.httpClient.get<AttributeStates>(array.join(""), {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
+    let url = `${this.hostPort}/attributes?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.get<AttributeStates>(url, httpOptions).map(data => {
       return data;
     });
   }
 
   public getAttributeState(attributeId: string): Observable<AttributeState>{
     let url = `${this.hostPort}/attributes/${attributeId}`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .get<AttributeState>(url, {headers:headers})
+    .get<AttributeState>(url, httpOptions)
     .map(data => {
       return data;
     });
@@ -67,7 +50,9 @@ export class AttributeClientHttp extends AttributeClient {
 
   public findUnitOfMeasureIdState(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
     let url = `${this.hostPort}/find-unit-of-measures?q=${searchStr}&pageSize=${pageSize}`;
-
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient.get<UnitOfMeasureState[]>(url, {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
     }).map(data => {
@@ -77,9 +62,11 @@ export class AttributeClientHttp extends AttributeClient {
 
   public addAttribute(attributeState: AttributeState): Observable<AttributeState> {
     let url = `${this.hostPort}/attributes`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .post<AttributeState>(url, attributeState.toJson(), {headers: headers})
+    .post<AttributeState>(url, attributeState.toJson(), httpOptions)
     .map(data => {
       return data;
     });
@@ -87,9 +74,11 @@ export class AttributeClientHttp extends AttributeClient {
 
  public updateAttribute(attributeId: string, attributeState: AttributeState): Observable<number> {
    let url = `${this.hostPort}/attributes/${attributeId}`;
-   let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+   const httpOptions = {
+     headers: this.jsonHttpHeaders()
+   };
    return this.httpClient
-   .put<number>(url, attributeState.toJson(), {headers:headers})
+   .put<number>(url, attributeState.toJson(), httpOptions)
    .map(data => {
      return data;
    });
@@ -97,11 +86,22 @@ export class AttributeClientHttp extends AttributeClient {
 
  public deleteAttribute(attributeId: string): Observable<number> {
    let url = `${this.hostPort}/attributes/${attributeId}`;
-   let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+   const httpOptions = {
+     headers: this.jsonHttpHeaders()
+   };
    return this.httpClient
-   .delete<number>(url, {headers:headers})
+   .delete<number>(url, httpOptions)
    .map(data => {
      return data;
    });
  }
+
+
+  public jsonHttpHeaders(): HttpHeaders {
+    let httpHeaders: HttpHeaders = new HttpHeaders({
+      'Content-Type':  'application/json',
+      'correlationId': this.uuidGenerator.generateUUID()
+    });
+    return httpHeaders;
+  }
 }

@@ -22,9 +22,10 @@ export class PersonClientHttp implements PersonClient {
   public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRoleState[]> {
     let url = `${this.hostPort}/find-access-roles?q=${searchStr}&pageSize=${pageSize}`;
 
-    return this.httpClient.get<AccessRoleState[]>(url, {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.get<AccessRoleState[]>(url, httpOptions).map(data => {
       return data;
     });
   }
@@ -33,10 +34,7 @@ export class PersonClientHttp implements PersonClient {
     let url = `${this.hostPort}/sessions/log-out-user`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
@@ -50,10 +48,7 @@ export class PersonClientHttp implements PersonClient {
     let url = `${this.hostPort}/party-access-roles/${partyId}`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
@@ -67,10 +62,7 @@ export class PersonClientHttp implements PersonClient {
     let url = `${this.hostPort}/party-access-roles`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
@@ -84,10 +76,7 @@ export class PersonClientHttp implements PersonClient {
     let url = `${this.hostPort}/partyId`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
@@ -98,72 +87,32 @@ export class PersonClientHttp implements PersonClient {
   }
 
   public getUsers(pageNumber:number, pageSize:number, sortOrder:string): Observable<UserStates> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/users");
-
-    let queryStr = [];
-
-    if (pageNumber) {
-      queryStr.push("pageNumber=" + pageNumber);
-    }
-
-    if (pageSize) {
-      queryStr.push("pageSize=" + pageSize);
-    }
-
-    if (sortOrder) {
-      queryStr.push("sortOrder=" + sortOrder);
-    }
-
-    if (queryStr.length > 0) {
-      array.push("?");
-      array.push(queryStr.join("&"));
-    }
-
-    return this.httpClient.get<UserStates>(array.join(""), {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
+    let url = `${this.hostPort}/users?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.get<UserStates>(url, httpOptions).map(data => {
       return data;
     });
   }
 
   public getOrganizations(pageNumber:number, pageSize:number, sortOrder:string): Observable<OrganizationStates> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/organizations");
-
-    let queryStr = [];
-
-    if (pageNumber) {
-      queryStr.push("pageNumber=" + pageNumber);
-    }
-
-    if (pageSize) {
-      queryStr.push("pageSize=" + pageSize);
-    }
-
-    if (sortOrder) {
-      queryStr.push("sortOrder=" + sortOrder);
-    }
-
-    if (queryStr.length > 0) {
-      array.push("?");
-      array.push(queryStr.join("&"));
-    }
-
-    return this.httpClient.get<OrganizationStates>(array.join(""), {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
+    let url = `${this.hostPort}/organizations?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.get<OrganizationStates>(url, httpOptions).map(data => {
       return data;
     });
   }
 
   public getUserState(partyId: string): Observable<UserState>{
     let url = `${this.hostPort}/users/${partyId}`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .get<UserState>(url, {headers:headers})
+    .get<UserState>(url, httpOptions)
     .map(data => {
       return data;
     });
@@ -171,9 +120,11 @@ export class PersonClientHttp implements PersonClient {
 
   public getOrganizationState(partyId: string): Observable<OrganizationState>{
     let url = `${this.hostPort}/organizations/${partyId}`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .get<OrganizationState>(url, {headers:headers})
+    .get<OrganizationState>(url, httpOptions)
     .map(data => {
       return data;
     });
@@ -182,9 +133,11 @@ export class PersonClientHttp implements PersonClient {
 
   public getPhoto(partyId: string, type: string): Observable<string>{
     let url = `${this.hostPort}/photos/${type}/${partyId}`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .get<string>(url, {headers:headers})
+    .get<string>(url, httpOptions)
     .map(data => {
       return data;
     });
@@ -196,10 +149,11 @@ export class PersonClientHttp implements PersonClient {
     let partyAccessRoles = map(partyAccessRoleStates, value => {
       return value.toJson();
     });
-    console.log(partyAccessRoles);
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .post<UserState>(url, {user, partyAccessRoles}, {headers: headers})
+    .post<UserState>(url, {user, partyAccessRoles}, httpOptions)
     .map(data => {
       return data;
     });
@@ -207,9 +161,11 @@ export class PersonClientHttp implements PersonClient {
 
   public addOrganizationState(organizationState: OrganizationState): Observable<OrganizationState> {
     let url = `${this.hostPort}/organizations`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .post<OrganizationState>(url, organizationState.toJson(), {headers: headers})
+    .post<OrganizationState>(url, organizationState.toJson(), httpOptions)
     .map(data => {
       return data;
     });
@@ -218,12 +174,8 @@ export class PersonClientHttp implements PersonClient {
   public addPhoto(partyId: string, croppedImage: string, type: string): Observable<boolean> {
     let url = `${this.hostPort}/photos/${type}/${partyId}`;
     const httpOptions = {
-    headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
-
     return this.httpClient
     .post<boolean>(url, {imageStr:croppedImage}, httpOptions)
     .map(data => {
@@ -235,9 +187,11 @@ export class PersonClientHttp implements PersonClient {
     let url = `${this.hostPort}/accounts`;
     let user = userState.toJson();
     let organization = organizationState.toJson();
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .post<AccountResponse>(url, {accountType, user, organization}, {withCredentials: true,headers: headers})
+    .post<AccountResponse>(url, {accountType, user, organization}, httpOptions)
     .map(data => {
       return data;
     });
@@ -245,9 +199,11 @@ export class PersonClientHttp implements PersonClient {
 
   public deleteUser(partyId: string): Observable<number> {
     let url = `${this.hostPort}/users/${partyId}`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .delete<number>(url, {headers:headers})
+    .delete<number>(url, httpOptions)
     .map(data => {
       return data;
     });
@@ -255,9 +211,11 @@ export class PersonClientHttp implements PersonClient {
 
   public deleteOrganization(partyId: string): Observable<number> {
     let url = `${this.hostPort}/organizations/${partyId}`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .delete<number>(url, {headers:headers})
+    .delete<number>(url, httpOptions)
     .map(data => {
       return data;
     });
@@ -269,9 +227,11 @@ export class PersonClientHttp implements PersonClient {
     let partyAccessRoles = map(partyAccessRoleStates, value => {
       return value.toJson();
     });
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .put<number>(url, {user, partyAccessRoles}, {headers:headers})
+    .put<number>(url, {user, partyAccessRoles}, httpOptions)
     .map(data => {
       return data;
     });
@@ -281,9 +241,11 @@ export class PersonClientHttp implements PersonClient {
     let url = `${this.hostPort}/users-me/${userState.partyId}`;
     let user = userState.toJson();
     let credential = credentialState.toJson();
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-      .put<number>(url, {user, credential}, {headers:headers})
+      .put<number>(url, {user, credential}, httpOptions)
       .map(data => {
         return data;
       });
@@ -291,9 +253,11 @@ export class PersonClientHttp implements PersonClient {
 
   public updateOrganization(organizationState: OrganizationState): Observable<number> {
     let url = `${this.hostPort}/organizations/${organizationState.partyId}`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .put<number>(url, organizationState.toJson(), {headers:headers})
+    .put<number>(url, organizationState.toJson(), httpOptions)
     .map(data => {
       return data;
     });
@@ -301,9 +265,11 @@ export class PersonClientHttp implements PersonClient {
 
   public updateCredential(credentialState: CredentialState): Observable<number> {
     let url = `${this.hostPort}/credentials/${credentialState.partyId}`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.httpClient
-    .put<number>(url, credentialState.toJson(), {headers:headers})
+    .put<number>(url, credentialState.toJson(), httpOptions)
     .map(data => {
       return data;
     });
@@ -314,10 +280,7 @@ export class PersonClientHttp implements PersonClient {
   public updatePhoto(partyId: string, croppedImage: string, type: string): Observable<number> {
     let url = `${this.hostPort}/photos/${type}/${partyId}`;
     const httpOptions = {
-    headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
     return this.httpClient
     .put<number>(url, {imageStr:croppedImage}, httpOptions)
@@ -332,10 +295,7 @@ export class PersonClientHttp implements PersonClient {
     let url = `${this.hostPort}/validate-password`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     let query = {password:password};
@@ -351,10 +311,7 @@ export class PersonClientHttp implements PersonClient {
     let url = `${this.hostPort}/validate-username`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     let query = {username:username};
@@ -370,10 +327,7 @@ export class PersonClientHttp implements PersonClient {
     let url = `${this.hostPort}/validate-edit-username`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     let query = {
@@ -386,4 +340,13 @@ export class PersonClientHttp implements PersonClient {
       return data;
     });
   }
+
+  public jsonHttpHeaders(): HttpHeaders {
+  let httpHeaders: HttpHeaders = new HttpHeaders({
+    'Content-Type':  'application/json',
+    'correlationId': this.uuidGenerator.generateUUID()
+  });
+  return httpHeaders;
+  }
+
 }
