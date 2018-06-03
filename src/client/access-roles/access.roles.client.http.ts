@@ -288,17 +288,32 @@ export class AccessRolesClientHttp extends AccessRolesClient {
 
   public updateAccessRoleType(accessRoleTypeState: AccessRoleTypeState): Observable<number> {
     let url = `${this.hostPort}/access-role-types/${accessRoleTypeState.accessRoleTypeId}`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
-    return this.httpClient.put<number>(url, accessRoleTypeState.toJson(), {headers}).map(data => {
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.put<number>(url, accessRoleTypeState.toJson(), httpOptions).map(data => {
       return data;
     });
   }
 
   public deleteAccessRoleType(accessRoleTypeId: string): Observable<number> {
     let url = `${this.hostPort}/access-role-types/${accessRoleTypeId}`;
-    let headers: HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
-    return this.httpClient.delete<number>(url, {headers}).map(data => {
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+
+    return this.httpClient.delete<number>(url, httpOptions).map(data => {
       return data;
     });
   }
+
+  public   jsonHttpHeaders(): HttpHeaders {
+    let httpHeaders: HttpHeaders = new HttpHeaders({
+      'Content-Type':  'application/json',
+      'correlationId': this.uuidGenerator.generateUUID()
+    });
+
+    return httpHeaders;
+  }
+
 }
