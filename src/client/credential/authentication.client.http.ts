@@ -6,7 +6,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CredentialState} from "./credential.state";
 import {CredentialConfirmationState} from "./credential.confirmation.state";
 import {Result} from "../../result/result.success";
-import {AuthenticateResponseState} from "./authenticate.response.state";
+//import {AuthenticateResponseState} from "./authenticate.response.state";
 import {AuthenticateResponse} from "../../authentication/authenticate.response";
 
 export class AuthenticationClientHttp extends AuthenticationClient {
@@ -24,10 +24,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
     const httpOptions = {
       //withCredentials: true,
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     let query = {
@@ -47,10 +44,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     let url = `${this.hostPort}/forgot-password`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
@@ -64,10 +58,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     let url = `${this.hostPort}/validate-password`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     let query = {password:password};
@@ -83,10 +74,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     let url = `${this.hostPort}/validate-username`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     let query = {username:username};
@@ -102,10 +90,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     let url = `${this.hostPort}/credentials`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
@@ -119,10 +104,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     let url = `${this.hostPort}/verify-credentials-confirmations`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
@@ -136,10 +118,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     let url = `${this.hostPort}/send-confirmation-codes/${credentialConfirmationId}`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
@@ -153,10 +132,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     let url = `${this.hostPort}/get-confirmations-username/${credentialConfirmationId}`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
@@ -164,6 +140,16 @@ export class AuthenticationClientHttp extends AuthenticationClient {
       .map(data => {
         return data;
       });
+  }
+
+
+  jsonHttpHeaders(): HttpHeaders {
+    let httpHeaders: HttpHeaders = new HttpHeaders({
+      'Content-Type':  'application/json',
+      'correlationId': this.uuidGenerator.generateUUID()
+    });
+
+    return httpHeaders;
   }
 
 }
