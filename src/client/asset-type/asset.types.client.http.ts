@@ -81,7 +81,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
   }
 
   public findAssetTypeClassId(searchStr: string, pageSize:number): Observable<AssetTypeClassStates> {
-    let url = `${this.hostPort}/find-asset-type-classes?q=${searchStr}&pageSize=${pageSize}`;
+    let url = `${this.hostPort}/asset-type-classes/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -91,7 +91,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
   }
 
   public findUnitOfMeasureIdState(searchStr: string, pageSize:number): Observable<UnitOfMeasureState[]> {
-    let url = `${this.hostPort}/find-unit-of-measures?q=${searchStr}&pageSize=${pageSize}`;
+    let url = `${this.hostPort}/unit-of-measures/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };

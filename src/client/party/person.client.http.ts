@@ -20,7 +20,7 @@ export class PersonClientHttp implements PersonClient {
   }
 
   public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRoleState[]> {
-    let url = `${this.hostPort}/find-access-roles?q=${searchStr}&pageSize=${pageSize}`;
+    let url = `${this.hostPort}/access-roles/find?q=${searchStr}&pageSize=${pageSize}`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()

@@ -133,7 +133,7 @@ export class SiteClientHttp extends SiteClient {
   }
 
   public findUnionOfPhysicalSiteStates(searchStr:string, pageSize:number):Observable<UnionOfPhysicalSiteStates> {
-    let url = `${this.hostPort}/find-union-of-physical-sites?q=${searchStr}&pageSize=${pageSize}`;
+    let url = `${this.hostPort}/union-of-physical-sites/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };

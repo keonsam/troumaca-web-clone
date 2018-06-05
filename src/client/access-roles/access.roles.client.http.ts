@@ -29,7 +29,8 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<PermissionStates>(url, httpOptions).map(data => {
+    return this.httpClient.get<PermissionStates>(url, httpOptions)
+      .map(data => {
       return data;
     });
   }
@@ -39,7 +40,8 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<PermissionState>(url, httpOptions).map(data => {
+    return this.httpClient.get<PermissionState>(url, httpOptions)
+      .map(data => {
       return data;
     });
   }
@@ -49,7 +51,8 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.post<PermissionState>(url, permissionState.toJson(), httpOptions).map(data => {
+    return this.httpClient.post<PermissionState>(url, permissionState.toJson(), httpOptions)
+      .map(data => {
       return data;
     });
   }
@@ -59,7 +62,8 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.put<number>(url, permissionState.toJson(), httpOptions).map(data => {
+    return this.httpClient.put<number>(url, permissionState.toJson(), httpOptions)
+      .map(data => {
       return data;
     });
   }
@@ -69,38 +73,42 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.delete<number>(url, httpOptions).map(data => {
+    return this.httpClient.delete<number>(url, httpOptions)
+      .map(data => {
       return data;
     });
   }
 
   //resources
   public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<PermissionStates> {
-    let url = `${this.hostPort}/permissions/${type}?pageNumber=${defaultPage}&pageSize=${defaultPageSize}&sortOrder=${defaultSortOrder}`;
+    let url = `${this.hostPort}/permissions/${type}?pageNumber=${defaultPage}&pageSize=${defaultPageSize}&sortOrder=${defaultSortOrder}&assignedArray=${assignedArray}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.post<PermissionStates>(url, {assignedArray},httpOptions).map(data => {
+    return this.httpClient.get<PermissionStates>(url,httpOptions)
+      .map(data => {
       return data;
     });
   }
 
   public  getResourcePermissionsByResourceId(permissionId: string): Observable<ResourcePermissionState[]> {
-    let url = `${this.hostPort}/resource-permissions-by-id/${permissionId}`;
+    let url = `${this.hostPort}/resource-permissions/${permissionId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<ResourcePermissionState[]>(url, httpOptions).map(data => {
+    return this.httpClient.get<ResourcePermissionState[]>(url, httpOptions)
+      .map(data => {
       return data;
     });
   }
 
   public findResourceTypeId(searchStr: string, pageSize: number): Observable<ResourceTypeState[]> {
-    let url = `${this.hostPort}/find-resource-types?q=${searchStr}&pageSize=${pageSize}`;
+    let url = `${this.hostPort}/resource-types/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<ResourceTypeState[]>(url, httpOptions).map(data => {
+    return this.httpClient.get<ResourceTypeState[]>(url, httpOptions)
+      .map(data => {
       return data;
     });
   }
@@ -110,7 +118,8 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<ResourceStates>(url, httpOptions).map(data => {
+    return this.httpClient.get<ResourceStates>(url, httpOptions)
+      .map(data => {
       return data;
     });
   }
@@ -120,7 +129,8 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<ResourceState>(url, httpOptions).map(data => {
+    return this.httpClient.get<ResourceState>(url, httpOptions)
+      .map(data => {
       return data;
     });
   }
@@ -135,7 +145,8 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.post<ResourceState>(url, {resource, resourcePermission}, httpOptions).map(data => {
+    return this.httpClient.post<ResourceState>(url, {resource, resourcePermission}, httpOptions)
+      .map(data => {
       return data;
     });
   }
@@ -149,7 +160,8 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.put<number>(url, {resource, resourcePermission}, httpOptions).map(data => {
+    return this.httpClient.put<number>(url, {resource, resourcePermission}, httpOptions)
+      .map(data => {
       return data;
     });
   }
@@ -159,7 +171,8 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.delete<number>(url, httpOptions).map(data => {
+    return this.httpClient.delete<number>(url, httpOptions)
+      .map(data => {
       return data;
     });
   }
@@ -170,7 +183,8 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<ResourceTypeStates>(url, httpOptions).map(data => {
+    return this.httpClient.get<ResourceTypeStates>(url, httpOptions)
+      .map(data => {
       return data;
     });
   }
@@ -180,7 +194,8 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<ResourceTypeState>(url, httpOptions).map(data => {
+    return this.httpClient.get<ResourceTypeState>(url, httpOptions)
+      .map(data => {
       return data;
     });
   }
@@ -217,27 +232,29 @@ export class AccessRolesClientHttp extends AccessRolesClient {
 
   //access-roles
   public getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<ResourceStates> {
-    let url = `${this.hostPort}/get-resources/${type}?pageNumber=${defaultPage}&pageSize=${defaultPageSize}&sortOrder=${defaultSortOrder}`;
+    let url = `${this.hostPort}/resources/${type}?pageNumber=${defaultPage}&pageSize=${defaultPageSize}&sortOrder=${defaultSortOrder}&assignedArray=${assignedArray}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.post<ResourceStates>(url, {assignedArray},httpOptions).map(data => {
+    return this.httpClient.get<ResourceStates>(url,httpOptions)
+      .map(data => {
       return data;
     });
   }
 
   public getAllResourcePermissions(): Observable<ResourcePermissionState[]> {
-    let url = `${this.hostPort}/get-all-resource-permissions/`;
+    let url = `${this.hostPort}/resource-permissions/`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<ResourcePermissionState[]>(url, httpOptions).map(data => {
+    return this.httpClient.get<ResourcePermissionState[]>(url, httpOptions)
+      .map(data => {
       return data;
     });
   }
 
   public findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleTypeState[]> {
-    let url = `${this.hostPort}/find-access-role-types?q=${searchStr}&pageSize=${pageSize}`;
+    let url = `${this.hostPort}/access-role-types/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };

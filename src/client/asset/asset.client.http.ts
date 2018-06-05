@@ -33,17 +33,7 @@ export class AssetClientHttp extends AssetClient {
       headers: this.jsonHttpHeaders()
     };
     return this.http.get<AssetStates>(url, httpOptions).map(data => {
-      // let assetStates:AssetStates;
-      // assetStates = this.jsonConvert.deserializeObject(data, AssetStates);
-      // assetStates = mapObjectProps(data, new AssetStates());
-      //let assetStates:AssetStates = new AssetStates();
-      // assetStates.page = value.page;
-      // assetStates.sort = value.sort;
-      // assetStates.assets = value.assets;
-      // console.log(value);
-      // console.log(assetStates);
       return data;
-      // return deserialize(AssetStates, value);
     });
   }
 
@@ -70,7 +60,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetTypeStates> {
-    let url = `${this.hostPort}/find-asset-types?q=${searchStr}&pageSize=${pageSize}`;
+    let url = `${this.hostPort}/asset-types/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -80,7 +70,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteStates> {
-    let url = `${this.hostPort}/find-sites?q=${searchStr}&pageSize=${pageSize}`;
+    let url = `${this.hostPort}/sites/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -91,7 +81,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
-    let url = `${this.hostPort}/find-unit-of-measures?q=${searchStr}&pageSize=${pageSize}`;
+    let url = `${this.hostPort}/unit-of-measures/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -101,7 +91,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public findPersons(searchStr: string, pageSize: number): Observable<PersonStates> {
-    let url = `${this.hostPort}/find-persons?q=${searchStr}&pageSize=${pageSize}`;
+    let url = `${this.hostPort}/users/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };

@@ -42,7 +42,7 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
   }
 
   public findUnitOfMeasureIdState(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
-    let url = `${this.hostPort}find-unit-of-measures?q=${searchStr}&pageSize=${pageSize}`;
+    let url = `${this.hostPort}/unit-of-measures/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
