@@ -114,7 +114,7 @@ export class AssetTypeCreationComponent implements OnInit {
     this.assetTypeService
       .findAssetTypeClassId(value, this.pageSize) // send search request to the backend
       .map(value2 => { // convert results to dropdown data
-        return value2.assetTypeClasses.map(v2 => {
+        return value2.map(v2 => {
           return {
             assetTypeClassId: v2.assetTypeClassId,
             name: v2.name,

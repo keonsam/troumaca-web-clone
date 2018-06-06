@@ -1,6 +1,5 @@
 import {AssetType} from "./asset.type";
 import {Value} from "./value";
-import {AssignedAttribute} from "../asset-type-classes/assigned.attribute";
 
 export class AssetTypeResponse {
 

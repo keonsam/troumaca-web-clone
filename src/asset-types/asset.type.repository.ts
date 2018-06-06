@@ -4,7 +4,6 @@ import {AssetTypes} from "./asset.types";
 import {Value} from "./value";
 import {Values} from "./values";
 import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
-import {AssetTypeClasses} from "../asset-type-classes/asset.type.classes";
 import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
 import {AssignedAttribute} from "../asset-type-classes/assigned.attribute";
 import {AssetTypeResponse} from "./asset.type.response";
@@ -17,7 +16,7 @@ export abstract class AssetTypeRepository {
   abstract getAssetType(assetTypeId: string): Observable<AssetTypeResponse>;
   abstract getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass>;
 
-  abstract findAssetTypeClassId(searchStr: string, pageSize:number):Observable<AssetTypeClasses>;
+  abstract findAssetTypeClassId(searchStr: string, pageSize:number):Observable<AssetTypeClass[]>;
   abstract findUnitOfMeasureId(searchStr: string, pageSize:number):Observable<UnitOfMeasure[]>;
 
   abstract addAssetType(assetType: AssetType,values: Value[]): Observable<AssetType>;

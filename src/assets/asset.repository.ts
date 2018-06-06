@@ -6,6 +6,7 @@ import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
 import {AssetUnionOfPhysicalSites} from "./asset.union.of.physical.sites";
 import {AssetPersons} from "./asset.persons";
 import {Asset} from "./asset";
+import {AssetType} from "../asset-types/asset.type";
 
 export abstract class AssetRepository {
 

@@ -75,15 +75,13 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     });
   }
 
-  public findAssetTypeClassId(searchStr: string, pageSize:number): Observable<AssetTypeClasses> {
+  public findAssetTypeClassId(searchStr: string, pageSize:number): Observable<AssetTypeClass[]> {
     return this.assetTypesClient
     .findAssetTypeClassId(searchStr, pageSize)
     .map(values => {
-      let assetTypeClasses:AssetTypeClasses = new AssetTypeClasses();
-      assetTypeClasses.assetTypeClasses = map(values.assetTypeClasses, value => {
+      return map(values, value => {
         return mapObjectProps(value, new AssetTypeClass());
       });
-      return assetTypeClasses;
     });
   }
 
@@ -129,7 +127,7 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
 
   public updateAssetType(assetTypeId: string, assetType: AssetType, values: Value[]): Observable<number> {
     return this.assetTypesClient.updateAssetType(assetTypeId,  mapObjectProps(assetType, new AssetTypeState()), map(values, value => {
-      return mapObjectProps(value, new Value());
+      return mapObjectProps(value, new ValueState());
     }));
   }
 

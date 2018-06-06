@@ -2,7 +2,7 @@ import {AssetRepository} from "./asset.repository";
 import {Observable} from "rxjs/Observable";
 import {Assets} from "./assets";
 import {AssetKinds} from "./asset.kinds";
-import {AssetTypes} from "../asset-types/asset.types";
+import {AssetType} from "../asset-types/asset.type";
 import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
 import {AssetPersons} from "./asset.persons";
 import {AssetUnionOfPhysicalSites} from "./asset.union.of.physical.sites";
