@@ -11,6 +11,7 @@ import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { map, reduce, somethingElse } from "underscore";
 import {AssignedAttributeState} from "../asset-type-class/assigned.attribute.state";
+import {AssetTypeResponse} from "../../asset-types/asset.type.response";
 
 export class AssetTypesClientHttp extends AssetTypesClient {
 
@@ -56,7 +57,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
       });
   }
 
-  public getAssetTypeState(assetTypeId: string): Observable<AssetTypeState> {
+  public getAssetTypeState(assetTypeId: string): Observable<AssetTypeResponse> {
     let url = `${this.hostPort}/asset-types/${assetTypeId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -100,32 +101,38 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     });
   }
 
-  public addAssetTypeState(assetTypeState: AssetTypeState): Observable<AssetTypeState> {
+  public addAssetTypeState(assetTypeState: AssetTypeState, values: Value[]): Observable<AssetTypeState> {
     let url = `${this.hostPort}/asset-types`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
+    let postData = {
+      "assetType": assetTypeState.toJson(),
+      "values": map(values, next => {
+            return next.toJson();
+          })
+    };
     return this.httpClient
-    .post<AssetTypeState>(url, assetTypeState.toJson(), httpOptions)
+    .post<AssetTypeState>(url, postData, httpOptions)
     .map(data => {
       return data;
     });
   }
 
-  public addValueState(valueState: ValueState[]): Observable<ValueState[]> {
-    let url = `${this.hostPort}/values`;
-    let values = map(valueState, next => {
-      return next.toJson();
-    });
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient
-    .post<ValueState[]>(url, values, httpOptions)
-    .map(data => {
-      return data;
-    });
-  }
+  // public addValueState(valueState: ValueState[]): Observable<ValueState[]> {
+  //   let url = `${this.hostPort}/values`;
+  //   let values = map(valueState, next => {
+  //     return next.toJson();
+  //   });
+  //   const httpOptions = {
+  //     headers: this.jsonHttpHeaders()
+  //   };
+  //   return this.httpClient
+  //   .post<ValueState[]>(url, values, httpOptions)
+  //   .map(data => {
+  //     return data;
+  //   });
+  // }
 
   public deleteAssetType(assetTypeId: string): Observable<number> {
     let url = `${this.hostPort}/asset-types/${assetTypeId}`;
@@ -151,32 +158,38 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     });
   }
 
-  public updateAssetType(assetTypeId: string, assetTypeState: AssetTypeState): Observable<number> {
+  public updateAssetType(assetTypeId: string, assetTypeState: AssetTypeState, values: Value[]): Observable<number> {
     let url = `${this.hostPort}/asset-types/${assetTypeId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
+    let updateData = {
+      "assetType": assetTypeState.toJson(),
+      "values": map(values, value => {
+        return value.toJson();
+      })
+    }
     return this.httpClient
-    .put<number>(url, assetTypeState.toJson(), httpOptions)
+    .put<number>(url, updateData, httpOptions)
     .map(data => {
       return data;
     });
   }
 
-  public updateValue(assetTypeId, valueState: ValueState[]): Observable<number> {
-    let url = `${this.hostPort}/values/${assetTypeId}`;
-    let values = map(valueState, next => {
-      return next.toJson();
-    });
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient
-    .put<number>(url, values, httpOptions)
-    .map(data => {
-      return data;
-    });
-  }
+  // public updateValue(assetTypeId, valueState: ValueState[]): Observable<number> {
+  //   let url = `${this.hostPort}/values/${assetTypeId}`;
+  //   let values = map(valueState, next => {
+  //     return next.toJson();
+  //   });
+  //   const httpOptions = {
+  //     headers: this.jsonHttpHeaders()
+  //   };
+  //   return this.httpClient
+  //   .put<number>(url, values, httpOptions)
+  //   .map(data => {
+  //     return data;
+  //   });
+  // }
 
   public jsonHttpHeaders(): HttpHeaders {
     let httpHeaders: HttpHeaders = new HttpHeaders({

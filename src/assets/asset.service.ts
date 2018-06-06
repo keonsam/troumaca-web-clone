@@ -31,7 +31,7 @@ export class AssetService {
     return this.assetRepository.getAssetKinds();
   }
 
-  public findAssetTypes(searchStr: string, pageSize:number):Observable<AssetTypes> {
+  public findAssetTypes(searchStr: string, pageSize:number):Observable<AssetType[]> {
     return this.assetRepository.findAssetTypes(searchStr, pageSize);
   }
 

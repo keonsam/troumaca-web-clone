@@ -38,7 +38,7 @@ export class AssetTypeCreationComponent implements OnInit {
   private _assignedAttributes: AssignedAttribute[];
 
   private _value: Value[] = [];
-  private _saveValue: Value[];
+  private _saveValues: Value[];
 
   private pageSize:number = 15;
   private _doNotDisplayFailureMessage:boolean;
@@ -86,7 +86,7 @@ export class AssetTypeCreationComponent implements OnInit {
       console.log(error2);
     });
 
-    this.saveValue = [];
+    this.saveValues = [];
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
 
@@ -254,12 +254,12 @@ export class AssetTypeCreationComponent implements OnInit {
     this._value = value;
   }
 
-  get saveValue(): Value[] {
-    return this._saveValue;
+  get saveValues(): Value[] {
+    return this._saveValues;
   }
 
-  set saveValue(value: Value[]) {
-    this._saveValue = value;
+  set saveValues(value: Value[]) {
+    this._saveValues = value;
   }
 
   get doNotDisplayFailureMessage(): boolean {
@@ -333,26 +333,26 @@ export class AssetTypeCreationComponent implements OnInit {
     });
   }
 
-  saveValues() {
-
-    this.saveValue.forEach(value => {
-      value.assetTypeId = this.assetType.assetTypeId
-    });
-    this.assetTypeService
-      .addValue(this.saveValue)
-      .subscribe( value => {
-        if(value){
-          this.router.navigate(['/asset-types']);
-        }else {
-          this.doNotDisplayFailureMessage2 = false;
-        }
-      }, error => {
-        this.doNotDisplayFailureMessage2 = false;
-      });
-  }
+  // saveValues() {
+  //
+  //   this.saveValue.forEach(value => {
+  //     value.assetTypeId = this.assetType.assetTypeId
+  //   });
+  //   this.assetTypeService
+  //     .addValue(this.saveValue)
+  //     .subscribe( value => {
+  //       if(value){
+  //         this.router.navigate(['/asset-types']);
+  //       }else {
+  //         this.doNotDisplayFailureMessage2 = false;
+  //       }
+  //     }, error => {
+  //       this.doNotDisplayFailureMessage2 = false;
+  //     });
+  // }
 
   removeValues() {
-      this.saveValue = this.value.filter((value) => {
+      this.saveValues = this.value.filter((value) => {
       if(this.assignedAttributes.find(x => x.attributeId == value.attributeId)){
           return value;
         }
@@ -363,24 +363,18 @@ export class AssetTypeCreationComponent implements OnInit {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
     this.removeValues();
-
-    if(this.assetType.assetTypeId){
-      this.saveValues();
-    }else {
-      this.assetTypeService
-      .addAssetType(this.assetType)
-      .subscribe(value => {
-        if (value && value.assetTypeId) {
-          this.assetType.assetTypeId = value.assetTypeId;
-          this.saveValues();
-        } else {
-          this.doNotDisplayFailureMessage = false;
-        }
-      }, error => {
-        console.log(error);
+    this.assetTypeService
+    .addAssetType(this.assetType, this.saveValues)
+    .subscribe(value => {
+      if (value && value.assetTypeId) {
+        this.router.navigate(['/asset-types']);
+      } else {
         this.doNotDisplayFailureMessage = false;
-      });
-    }
+      }
+    }, error => {
+      console.log(error);
+      this.doNotDisplayFailureMessage = false;
+    });
   }
 
   cancel() {

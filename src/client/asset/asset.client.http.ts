@@ -6,7 +6,7 @@ import {AssetStates} from "./asset.states";
 import {JsonConvert, OperationMode, ValueCheckingMode} from "json2typescript";
 import {AssetKindStates} from "./asset.kind.states";
 import {AssetState} from "./asset.state";
-import {AssetTypeStates} from "../asset-type/asset.type.states";
+import {AssetTypeState} from "../asset-type/asset.type.state";
 import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
 import {UnionOfPhysicalSiteStates} from "../site/union.of.physical.site.states";
 import {PersonStates} from "../party/person.states";
@@ -59,12 +59,12 @@ export class AssetClientHttp extends AssetClient {
     });
   }
 
-  public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetTypeStates> {
+  public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetTypeState[]> {
     let url = `${this.hostPort}/asset-types/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.get<AssetTypeStates>(url, httpOptions).map(data => {
+    return this.http.get<AssetTypeState[]>(url, httpOptions).map(data => {
       return data;
     });
   }
