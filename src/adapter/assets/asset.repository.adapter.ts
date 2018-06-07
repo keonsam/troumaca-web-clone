@@ -12,11 +12,10 @@ import {AssetKinds} from "../../assets/asset.kinds";
 import {AssetKind} from "../../assets/asset.kind";
 import {AssetType} from "../../asset-types/asset.type";
 import {AssetPerson} from "../../assets/asset.person";
-import {AssetPersons} from "../../assets/asset.persons";
 import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {Site} from "../../assets/asset.site";
 import {UnionOfPhysicalSite} from "../../assets/asset.union.of.physical.site";
-import {AssetUnionOfPhysicalSites} from "../../assets/asset.union.of.physical.sites";
+import {UnionOfPhysicalSite} from "../../assets/asset.union.of.physical.site";
 
 
 import {AssetState} from "../../client/asset/asset.state";
@@ -91,27 +90,23 @@ export class AssetRepositoryAdapter extends AssetRepository {
     });
   }
 
-  public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<AssetUnionOfPhysicalSites> {
+  public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSite[]> {
     return this.assetClient
     .findUnionOfPhysicalSites(searchStr, pageSize)
     .map(values => {
-      let unionOfPhysicalSites: AssetUnionOfPhysicalSites = new AssetUnionOfPhysicalSites();
-      unionOfPhysicalSites.unionOfPhysicalSites = map(values.unionOfPhysicalSites, value => {
+      return map(values, value => {
         return mapObjectProps(value, new UnionOfPhysicalSite());
-      })
-      return unionOfPhysicalSites;
+      });
     });
   }
 
-  public findPersons(searchStr: string, pageSize: number): Observable<AssetPersons> {
+  public findPersons(searchStr: string, pageSize: number): Observable<AssetPerson[]> {
     return this.assetClient
     .findPersons(searchStr, pageSize)
     .map(values => {
-      let persons: AssetPersons = new AssetPersons();
-      persons.persons = map(values.persons, value => {
+      return map(values, value => {
         return mapObjectProps(value, new AssetPerson());
-      });
-      return persons;
+      })
     });
   }
 

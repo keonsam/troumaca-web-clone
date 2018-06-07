@@ -191,7 +191,7 @@ export class AssetCreationComponent implements OnInit {
     this.assetService
       .findUnionOfPhysicalSites(value, this.pageSize) // send search request to the backend
       .map(value2 => { // convert results to dropdown data
-        return value2.unionOfPhysicalSites.map(v2 => {
+        return value2.map(v2 => {
           /*let name = "";
           if (v2.postOfficeBoxNumber) {
             name = v2.postOfficeBoxNumber;
@@ -227,7 +227,7 @@ export class AssetCreationComponent implements OnInit {
     this.assetService
       .findPersons(value, this.pageSize) // send search request to the backend
       .map(value2 => { // convert results to dropdown data
-        return value2.persons.map(v2 => {
+        return value2.map(v2 => {
           return {
             partyId: v2.partyId,
             name: v2.firstName

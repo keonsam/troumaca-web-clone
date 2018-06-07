@@ -8,8 +8,9 @@ import {AssetKindStates} from "./asset.kind.states";
 import {AssetState} from "./asset.state";
 import {AssetTypeState} from "../asset-type/asset.type.state";
 import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
-import {UnionOfPhysicalSiteStates} from "../site/union.of.physical.site.states";
+import {UnionOfPhysicalSiteState} from "../site/union.of.physical.site.state";
 import {PersonStates} from "../party/person.states";
+import {AssetPersonState} from "./asset.person.state";
 
 export class AssetClientHttp extends AssetClient {
 
@@ -69,13 +70,12 @@ export class AssetClientHttp extends AssetClient {
     });
   }
 
-  public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteStates> {
+  public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteState[]> {
     let url = `${this.hostPort}/sites/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.get<UnionOfPhysicalSiteStates>(url, httpOptions).map(data => {
-
+    return this.http.get<UnionOfPhysicalSiteState[]>(url, httpOptions).map(data => {
       return data;
     });
   }
@@ -90,12 +90,12 @@ export class AssetClientHttp extends AssetClient {
     });
   }
 
-  public findPersons(searchStr: string, pageSize: number): Observable<PersonStates> {
+  public findPersons(searchStr: string, pageSize: number): Observable<AssetPersonState[]> {
     let url = `${this.hostPort}/users/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.get<PersonStates>(url, httpOptions).map(data => {
+    return this.http.get<AssetPersonState[]>(url, httpOptions).map(data => {
       return data;
     });
   }
