@@ -20,6 +20,7 @@ import {AccessRole} from "../../access-roles/access.role";
 import {PartyAccessRoleState} from "../../client/party/party.access.role.state";
 import {Photo} from "../../parties/photo";
 import {PhotoState} from "../../client/party/photo.state";
+import {UserResponse} from "../../parties/user.response";
 
 export class PartyRepositoryAdapter extends PartyRepository {
 
@@ -75,12 +76,8 @@ export class PartyRepositoryAdapter extends PartyRepository {
       });
   }
 
-  public getUser(partyId: string): Observable<User> {
-    return this.personClient
-    .getUserState(partyId)
-    .map(value => {
-       return mapObjectProps(value, new User());
-    });
+  public getUser(partyId: string): Observable<UserResponse> {
+    return this.personClient.getUserState(partyId);
   }
 
   public getPartyAccessRoleById(partyId: string) :Observable<PartyAccessRole[]> {

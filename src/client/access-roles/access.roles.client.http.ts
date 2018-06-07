@@ -15,6 +15,7 @@ import {AccessRoleTypeStates} from "./access.role.type.states";
 import {Observable} from "rxjs/Observable";
 import {UUIDGenerator} from "../../uuid.generator";
 import {GrantState} from "./grant.state";
+import {AccessRoleResponse} from "../../access-roles/access.role.response";
 
 export class AccessRolesClientHttp extends AccessRolesClient {
 
@@ -273,12 +274,12 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     });
   }
 
-  public getAccessRoleById(accessRoleId: string): Observable<AccessRoleState>{
+  public getAccessRoleById(accessRoleId: string): Observable<AccessRoleResponse>{
     let url = `${this.hostPort}/access-roles/${accessRoleId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<AccessRoleState>(url, httpOptions).map(data => {
+    return this.httpClient.get<AccessRoleResponse>(url, httpOptions).map(data => {
       return data;
     });
   }

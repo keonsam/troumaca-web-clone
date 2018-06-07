@@ -12,6 +12,7 @@ import {AccountResponse} from "../../parties/account.response";
 import {AccessRoleState} from "../access-roles/access.role.state";
 import {PartyAccessRoleState} from "./party.access.role.state";
 import {PhotoState} from "./photo.state";
+import {UserResponse} from "../../parties/user.response";
 
 export class PersonClientHttp implements PersonClient {
 
@@ -107,13 +108,13 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public getUserState(partyId: string): Observable<UserState>{
+  public getUserState(partyId: string): Observable<UserResponse>{
     let url = `${this.hostPort}/users/${partyId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-    .get<UserState>(url, httpOptions)
+    .get<UserResponse>(url, httpOptions)
     .map(data => {
       return data;
     });

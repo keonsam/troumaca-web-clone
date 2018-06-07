@@ -8,6 +8,7 @@ import {AccountResponse} from "./account.response";
 import {PartyAccessRole} from "./party.access.role";
 import {AccessRole} from "../access-roles/access.role";
 import {Photo} from "./photo";
+import {UserResponse} from "./user.response";
 
 export abstract class PartyRepository {
 
@@ -19,7 +20,7 @@ export abstract class PartyRepository {
 
   abstract getOrganizations(pageNumber:number, pageSize:number, sortOrder:string):Observable<Organizations>;
 
-  abstract getUser(partyId: string): Observable<User>;
+  abstract getUser(partyId: string): Observable<UserResponse>;
 
   abstract getPartyAccessRoleById(partyId:string): Observable<PartyAccessRole[]>;
 

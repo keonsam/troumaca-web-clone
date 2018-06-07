@@ -9,6 +9,7 @@ import {AccountResponse} from "./account.response";
 import {PartyAccessRole} from "./party.access.role";
 import {AccessRole} from "../access-roles/access.role";
 import {Photo} from "./photo";
+import {UserResponse} from "./user.response";
 
 export class PartyService {
 
@@ -35,7 +36,7 @@ export class PartyService {
     return this.partyRepository.getOrganizations(pageNumber, pageSize, sortOrder);
   }
 
-  public getUser(partyId: string):Observable<User> {
+  public getUser(partyId: string):Observable<UserResponse> {
     return this.partyRepository.getUser(partyId);
   }
 

@@ -4,7 +4,6 @@ import {PartyEventService} from "../../party.event.service";
 import {PartyService} from "../../party.service";
 import {Page} from "../../../page/page";
 import {Sort} from "../../../sort/sort";
-import {PartyAccessRole} from "../../party.access.role";
 
 @Component({
   selector: 'user-list',
@@ -16,7 +15,6 @@ export class UserListComponent implements OnInit {
   private partyId: string;
   private username: string;
   private _users:Users;
-  private _partyAccessRoles: PartyAccessRole[];
   private defaultPage:number = 1;
   private defaultPageSize:number = 10;
   private defaultSortOrder = "asc";
@@ -36,7 +34,6 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.partyEventService.menuChangeEvent.emit(this.menuName);
-    this.getPartyAccessRoles();
     this.getUsers();
   }
 
@@ -48,32 +45,12 @@ export class UserListComponent implements OnInit {
     this._users = value;
   }
 
-  get partyAccessRoles(): PartyAccessRole[] {
-    return this._partyAccessRoles;
-  }
-
-  set partyAccessRoles(value: PartyAccessRole[]) {
-    this._partyAccessRoles = value;
-  }
-
   get routerLinkCreateUser(): string {
     return this._routerLinkCreateUser;
   }
 
   set routerLinkCreateUser(value: string) {
     this._routerLinkCreateUser = value;
-  }
-
-  getPartyAccessRoles() {
-    this.partyService
-      .getPartyAccessRoles()
-      .subscribe(next => {
-        this.partyAccessRoles = next;
-      }, error => {
-        console.log(error);
-      }, () => {
-        console.log("complete");
-      });
   }
 
   getUsers() {
@@ -88,16 +65,6 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  getUserAccessRole(partyId) {
-    let values = [];
-    this.partyAccessRoles.forEach(value => {
-      if(value.partyId === partyId && value.accessRole.name) {
-        values.push(value.accessRole.name);
-      }
-    });
-    return values;
-  }
-
   onOpenModal(partyId: string, username: string) {
     this.partyId = partyId;
     this.username = username;
@@ -107,7 +74,7 @@ export class UserListComponent implements OnInit {
     this.partyService
     .deleteUser(this.partyId)
     .subscribe(value => {
-    this.getUsers();
+      if(value) this.getUsers();
     }, error => {
     console.log(error);
     }, () => {

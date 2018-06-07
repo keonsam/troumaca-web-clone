@@ -11,6 +11,7 @@ import {AccessRoleStates} from "./access.role.states";
 import {AccessRoleTypeState} from "./access.role.type.state";
 import {AccessRoleTypeStates} from "./access.role.type.states";
 import {GrantState} from "./grant.state";
+import {AccessRoleResponse} from "../../access-roles/access.role.response";
 
 export abstract class AccessRolesClient {
 
@@ -62,7 +63,7 @@ export abstract class AccessRolesClient {
 
   abstract getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleStates>;
 
-  abstract getAccessRoleById(accessRoleId: string): Observable<AccessRoleState>;
+  abstract getAccessRoleById(accessRoleId: string): Observable<AccessRoleResponse>;
 
   abstract addAccessRole(accessRoleState: AccessRoleState, grants: GrantState[]): Observable<AccessRoleState>;
 

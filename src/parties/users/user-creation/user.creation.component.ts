@@ -283,13 +283,6 @@ export class UserCreationComponent implements OnInit {
     this._doNotDisplayFailureMessage2 = value;
   }
 
-  // onAccessRoleSelect(selected: CompleterItem) {
-  //   if (selected) {
-  //     this.partyAccessRole.accessRole = selected.originalObject;
-  //   }
-  // }
-
-
   onCreate() {
 
     this.accessRoles.forEach( value => {

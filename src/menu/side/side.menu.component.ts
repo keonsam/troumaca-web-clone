@@ -90,9 +90,9 @@ export class SideMenuComponent implements OnInit {
 
   getUserInformation() {
     this.partyService.getUser(this.partyId)
-      .subscribe( user => {
-        if(user.partyId) {
-          this.userName = user.name;
+      .subscribe( userResponse => {
+        if(userResponse.user.partyId) {
+          this.userName = userResponse.user.name;
         }
       });
   }

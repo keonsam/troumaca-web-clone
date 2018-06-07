@@ -115,15 +115,15 @@ export class UserMeComponent implements OnInit {
          .subscribe((partyId: string) => {
            this.partyId = partyId;
            this.partyService.getUser(this.partyId)
-             .subscribe(user =>{
-               this.firstName.setValue(user.firstName);
-               this.middleName.setValue(user.middleName);
-               this.lastName.setValue(user.lastName);
-               this.username.setValue(user.username);
-               this.user = user;
-               this.partyId = user.partyId;
-               this.credential.partyId = user.partyId;
-               this.credential.username = user.username;
+             .subscribe(userResponse =>{
+               this.firstName.setValue(userResponse.user.firstName);
+               this.middleName.setValue(userResponse.user.middleName);
+               this.lastName.setValue(userResponse.user.lastName);
+               this.username.setValue(userResponse.user.username);
+               this.user = userResponse.user;
+               this.partyId = userResponse.user.partyId;
+               this.credential.partyId = userResponse.user.partyId;
+               this.credential.username = userResponse.user.username;
              }, error => {
                console.log(error);
              });

@@ -8,6 +8,7 @@ import {AccountResponse} from "../../parties/account.response";
 import {AccessRoleState} from "../access-roles/access.role.state";
 import {PartyAccessRoleState} from "./party.access.role.state";
 import {PhotoState} from "./photo.state";
+import {UserResponse} from "../../parties/user.response";
 
 export abstract class PersonClient {
 
@@ -21,7 +22,7 @@ export abstract class PersonClient {
   public abstract getPartyAccessRoles() :Observable<PartyAccessRoleState[]>;
 
 
-  public abstract getUserState(partyId: string): Observable<UserState>;
+  public abstract getUserState(partyId: string): Observable<UserResponse>;
   public abstract getOrganizationState(partyId: string): Observable<OrganizationState>;
 
   public abstract getPhoto(partyId: string, type:string): Observable<PhotoState>;
