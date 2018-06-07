@@ -15,8 +15,6 @@ import {AssetPerson} from "../../assets/asset.person";
 import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
 import {Site} from "../../assets/asset.site";
 import {UnionOfPhysicalSite} from "../../assets/asset.union.of.physical.site";
-import {UnionOfPhysicalSite} from "../../assets/asset.union.of.physical.site";
-
 
 import {AssetState} from "../../client/asset/asset.state";
 

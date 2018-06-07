@@ -2,10 +2,10 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 
-
 import {PartyEventService} from "../../party.event.service";
 import {PartyService} from "../../party.service";
 import {Organization} from "../../organization";
+import {Photo} from "../../photo";
 
 @Component({
   selector: 'organization-company',
@@ -22,6 +22,7 @@ export class OrganizationCompanyComponent implements OnInit {
   private _companyEditForm: FormGroup;
 
   private organization: Organization;
+  private photo: Photo;
 
   private imageChangedEvent: any = '';
   private croppedImage: any = '';
@@ -36,6 +37,7 @@ export class OrganizationCompanyComponent implements OnInit {
               private router: Router) {
 
     this.organization = new Organization();
+    this.photo = new Photo();
 
     this.purpose = new FormControl("", [Validators.required]);
     this.name = new FormControl("", [Validators.required]);
@@ -135,10 +137,11 @@ export class OrganizationCompanyComponent implements OnInit {
 
   getOrganizationPhoto() {
       this.partyService.getPhoto(this.partyId, "organization")
-        .subscribe(imageStr => {
-          if(imageStr) {
-            this.updateImage = true;
-            this.backgroundImage = `url(${imageStr})`;
+        .subscribe(photo => {
+          console.log(photo);
+          if(photo) {
+            this.backgroundImage = `url(${photo.imageStr})`;
+            this.photo = photo
           }
         },error => {
           console.log(error);
@@ -147,12 +150,10 @@ export class OrganizationCompanyComponent implements OnInit {
 
 
   uploadPhoto() {
-    // New and better algorithm
-    if(!this.croppedImage) {
-      console.log("No image");
-    } else if(this.updateImage && this.updateImage !== this.croppedImage) {
+    if(this.photo.imageStr) {
+      this.photo.imageStr = this.croppedImage;
       this.partyService
-        .updatePhoto(this.partyId, this.croppedImage, "organization")
+        .updatePhoto(this.partyId, this.photo, "organization")
         .subscribe(value => {
           if(value){
             this.getOrganizationPhoto();
@@ -162,14 +163,15 @@ export class OrganizationCompanyComponent implements OnInit {
         }, error => {
           console.log(error);
         });
-    }else if(!this.updateImage) {
+    }else if(this.croppedImage) {
+      this.photo.partyId = this.partyId;
+      this.photo.imageStr = this.croppedImage;
       this.partyService
-        .addPhoto(this.partyId, this.croppedImage, "organization")
+        .addPhoto(this.partyId, this.photo, "organization")
         .subscribe(value => {
           if (value) {
             this.getOrganizationPhoto();
           } else {
-            // TODO: make errors fail to upload picture or something like that.
             console.log("error");
           }
         }, error => {

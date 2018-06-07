@@ -81,9 +81,9 @@ export class SideMenuComponent implements OnInit {
 
   getPhoto() {
     this.partyService.getPhoto(this.partyId,"user")
-      .subscribe(imgStr => {
-        if(imgStr) {
-          this.imageStr = imgStr;
+      .subscribe(photo => {
+        if(photo) {
+          this.imageStr = photo.imageStr;
         }
       });
   }

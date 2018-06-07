@@ -8,6 +8,7 @@ import {Organizations} from "./organizations";
 import {AccountResponse} from "./account.response";
 import {PartyAccessRole} from "./party.access.role";
 import {AccessRole} from "../access-roles/access.role";
+import {Photo} from "./photo";
 
 export class PartyService {
 
@@ -50,7 +51,7 @@ export class PartyService {
     return this.partyRepository.getOrganization(partyId);
   }
 
-  public getPhoto(partyId: string, type: string): Observable<string> {
+  public getPhoto(partyId: string, type: string): Observable<Photo> {
     return this.partyRepository.getPhoto(partyId, type);
   }
 
@@ -62,8 +63,8 @@ export class PartyService {
     return this.partyRepository.addOrganization(organization);
   }
 
-  public addPhoto(partyId: string, croppedImage: string, type: string): Observable<boolean> {
-    return this.partyRepository.addPhoto(partyId, croppedImage, type);
+  public addPhoto(partyId: string, photo: Photo, type: string): Observable<Photo> {
+    return this.partyRepository.addPhoto(partyId, photo, type);
   }
 
   public addAccount(accountType:string, user:User, organization: Organization ): Observable<AccountResponse> {
@@ -94,8 +95,8 @@ export class PartyService {
     return this.partyRepository.updateCredential(credential);
   }
 
-  public updatePhoto(partyId: string, croppedImage: string, type: string): Observable<number> {
-    return this.partyRepository.updatePhoto(partyId, croppedImage, type);
+  public updatePhoto(partyId: string, photo: Photo, type: string): Observable<number> {
+    return this.partyRepository.updatePhoto(partyId, photo, type);
   }
 
   // authentication part

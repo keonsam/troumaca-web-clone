@@ -11,6 +11,7 @@ import {OrganizationStates} from "./organization.states";
 import {AccountResponse} from "../../parties/account.response";
 import {AccessRoleState} from "../access-roles/access.role.state";
 import {PartyAccessRoleState} from "./party.access.role.state";
+import {PhotoState} from "./photo.state";
 
 export class PersonClientHttp implements PersonClient {
 
@@ -131,13 +132,13 @@ export class PersonClientHttp implements PersonClient {
   }
 
 
-  public getPhoto(partyId: string, type: string): Observable<string>{
+  public getPhoto(partyId: string, type: string): Observable<PhotoState>{
     let url = `${this.hostPort}/photos/${type}/${partyId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-    .get<string>(url, httpOptions)
+    .get<PhotoState>(url, httpOptions)
     .map(data => {
       return data;
     });
@@ -171,13 +172,13 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public addPhoto(partyId: string, croppedImage: string, type: string): Observable<boolean> {
+  public addPhoto(partyId: string, photoState: PhotoState, type: string): Observable<PhotoState> {
     let url = `${this.hostPort}/photos/${type}/${partyId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-    .post<boolean>(url, {imageStr:croppedImage}, httpOptions)
+    .post<PhotoState>(url, photoState.toJson(), httpOptions)
     .map(data => {
       return data;
     });
@@ -277,13 +278,13 @@ export class PersonClientHttp implements PersonClient {
 
 
 
-  public updatePhoto(partyId: string, croppedImage: string, type: string): Observable<number> {
+  public updatePhoto(partyId: string, photoState: PhotoState, type: string): Observable<number> {
     let url = `${this.hostPort}/photos/${type}/${partyId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-    .put<number>(url, {imageStr:croppedImage}, httpOptions)
+    .put<number>(url, photoState.toJson(), httpOptions)
     .map(data => {
       return data;
     });

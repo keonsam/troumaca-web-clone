@@ -1,5 +1,4 @@
 import {Component, OnInit} from "@angular/core";
-//import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 import {Router} from "@angular/router";

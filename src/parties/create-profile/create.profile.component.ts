@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {PartyService} from "../party.service";
 import {User} from "../user";
 import {Organization} from "../organization";
+import {Photo} from "../photo";
 import {EventService} from "../../event/event.service";
 import {Event} from "../../authentication/event";
 
@@ -27,7 +28,8 @@ export class CreateAccountComponent implements OnInit {
 
   private user: User;
   private organization: Organization;
-
+  private photo: Photo;
+  private photo2: Photo;
   private partyId: string;
   private imageChangedEvent: any = '';
   private croppedImage: any = '';
@@ -67,6 +69,8 @@ export class CreateAccountComponent implements OnInit {
 
     this.user = new User();
     this.organization = new Organization();
+    this.photo = new Photo();
+    this.photo2 = new Photo();
 
     this.createProfileForm
      .valueChanges
@@ -177,6 +181,8 @@ export class CreateAccountComponent implements OnInit {
     this._description = value;
   }
 
+
+
   get createProfileForm(): FormGroup {
     return this._createProfileForm;
   }
@@ -215,7 +221,6 @@ export class CreateAccountComponent implements OnInit {
 
   imageCropped(image: string) {
     this.croppedImage = image;
-    this.userImage = this.croppedImage;
   }
 
   fileChangeEvent2(event: any): void {
@@ -224,7 +229,6 @@ export class CreateAccountComponent implements OnInit {
 
   imageCropped2(image: string) {
     this.croppedImage2 = image;
-    this.organizationImage = `url(${this.croppedImage2})`;
   }
 
   loginUserIn() {
@@ -232,10 +236,21 @@ export class CreateAccountComponent implements OnInit {
     this.router.navigate(['/home/lobby']);
   }
 
+  addImage() {
+    this.userImage = this.croppedImage;
+    this.photo.imageStr = this.croppedImage;
+  }
+
+  addImage2() {
+    this.organizationImage = `url(${this.croppedImage2})`;
+    this.photo2.imageStr = this.croppedImage2;
+  }
+
   addOrganizationPhoto() {
-   this.partyService.addPhoto(this.partyId, this.croppedImage2, 'organization')
+    this.photo2.partyId = this.partyId;
+   this.partyService.addPhoto(this.partyId, this.photo2, 'organization')
      .subscribe(value => {
-       if(value) {
+       if(value.partyId) {
          this.loginUserIn();
        }else {
          this.doNotDisplayFailureMessage3 = false;
@@ -247,12 +262,13 @@ export class CreateAccountComponent implements OnInit {
   }
 
   savePhoto() {
-    if (this.croppedImage && !this.userImageComplete) {
-      this.partyService.addPhoto(this.partyId, this.croppedImage, 'user')
+    if (this.photo.imageStr && !this.userImageComplete) {
+      this.photo.partyId = this.partyId;
+      this.partyService.addPhoto(this.partyId, this.photo, 'user')
         .subscribe(value => {
-          if (value) {
+          if (value.partyId) {
             this.userImageComplete = true;
-            if (this.croppedImage2) {
+            if (this.photo2.imageStr) {
               this.addOrganizationPhoto();
             } else {
               this.loginUserIn();
@@ -275,7 +291,7 @@ export class CreateAccountComponent implements OnInit {
       .subscribe(value => {
         if(value.created){
           this.partyId = value.user.partyId;
-          if(this.croppedImage || this.croppedImage2){
+          if(this.photo.imageStr || this.photo2.imageStr){
             this.savePhoto();
           }else {
             this.eventService.sendLoginEvent(this.createEventModel());
