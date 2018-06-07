@@ -76,11 +76,9 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-
     let query = {username:username};
-
     return this.httpClient
-    .post<boolean>(url, query, httpOptions)
+    .post<boolean>(url,query,httpOptions)
     .map(data => {
       return data;
     });

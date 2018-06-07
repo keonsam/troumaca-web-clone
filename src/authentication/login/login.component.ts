@@ -123,7 +123,6 @@ export class LoginComponent implements OnInit {
       .subscribe(authenticateResponse => {
         if(authenticateResponse.authenticated) {
           if(authenticateResponse.usernameConfirmed) {
-            // TODO: I think this should return a value
             if (authenticateResponse.accountExists) {
               this.eventService.sendLoginEvent(this.createEventModel());
               this.router.navigate(['/home/lobby']);
