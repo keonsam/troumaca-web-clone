@@ -13,12 +13,18 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      - ls
       - cp appspec.yml dist
+      - ls
       - cp -r node_modules dist
+      - ls
       - cp -r scripts dist
+      - ls
       - cd dist
+      - ls
       - zip -r troumaca-web.zip *
       - mv troumaca-web.zip ../
+      -ls
 artifacts:
     files:
       - troumaca-web.zip
