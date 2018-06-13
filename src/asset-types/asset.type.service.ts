@@ -5,9 +5,9 @@ import {AssetTypes} from "./asset.types";
 import {Value} from "./value";
 import {Values} from "./values";
 import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
-import {AssetTypeClasses} from "../asset-type-classes/asset.type.classes";
 import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
 import {AssignedAttribute} from "../asset-type-classes/assigned.attribute";
+import {AssetTypeResponse} from "./asset.type.response";
 
 export class AssetTypeService {
   constructor(private assetTypeRepository: AssetTypeRepository) {
@@ -25,7 +25,7 @@ export class AssetTypeService {
     return this.assetTypeRepository.getValues(assetTypeId);
   }
 
-  public getAssetType(assetTypeId: string):Observable<AssetType> {
+  public getAssetType(assetTypeId: string):Observable<AssetTypeResponse> {
     return this.assetTypeRepository.getAssetType(assetTypeId);
   }
 
@@ -33,7 +33,7 @@ export class AssetTypeService {
     return this.assetTypeRepository.getAssetTypeClass(assetTypeClassId);
   }
 
-  public findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClasses> {
+  public findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClass[]> {
     return this.assetTypeRepository.findAssetTypeClassId(searchStr, pageSize);
   }
 
@@ -41,13 +41,13 @@ export class AssetTypeService {
     return this.assetTypeRepository.findUnitOfMeasureId(searchStr, pageSize);
   }
 
-  public addAssetType(assetType: AssetType): Observable<AssetType> {
-    return this.assetTypeRepository.addAssetType(assetType);
+  public addAssetType(assetType: AssetType, values: Value[]): Observable<AssetType> {
+    return this.assetTypeRepository.addAssetType(assetType, values);
   }
 
-  public addValue(value: Value[]): Observable<Value[]> {
-    return this.assetTypeRepository.addValue(value);
-  }
+  // public addValue(value: Value[]): Observable<Value[]> {
+  //   return this.assetTypeRepository.addValue(value);
+  // }
 
   public deleteAssetType(assetTypeId: string): Observable<number> {
     return this.assetTypeRepository.deleteAssetType(assetTypeId);
@@ -57,12 +57,12 @@ export class AssetTypeService {
     return this.assetTypeRepository.deleteValue(valueId);
   }
 
-  public updateAssetType(assetTypeId: string, assetType: AssetType): Observable<number> {
-    return this.assetTypeRepository.updateAssetType(assetTypeId, assetType);
+  public updateAssetType(assetTypeId: string, assetType: AssetType, values: Value[]): Observable<number> {
+    return this.assetTypeRepository.updateAssetType(assetTypeId, assetType, values);
   }
 
-  public updateValue(assetTypeId, value: Value[]): Observable<number> {
-    return this.assetTypeRepository.updateValue(assetTypeId,value);
-  }
+  // public updateValue(assetTypeId, value: Value[]): Observable<number> {
+  //   return this.assetTypeRepository.updateValue(assetTypeId,value);
+  // }
 
 }

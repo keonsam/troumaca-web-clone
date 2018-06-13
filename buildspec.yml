@@ -9,12 +9,16 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - ng build --base-href ./
+      - npm build --base-href ./
   post_build:
     commands:
       - echo Build completed on `date`
+      - cp appspec.yml dist
+      - cp -r node_modules dist
+      - cp -r scripts dist
+      - cd dist
+      - zip -r troumaca-web.zip *
+      - mv troumaca-web.zip ../
 artifacts:
     files:
-        - '**/*'
-    base-directory: 'dist*'
-    discard-paths: no
+      - troumaca-web.zip

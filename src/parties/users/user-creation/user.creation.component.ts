@@ -1,5 +1,4 @@
 import {Component, OnInit} from "@angular/core";
-//import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 import {Router} from "@angular/router";
@@ -283,13 +282,6 @@ export class UserCreationComponent implements OnInit {
   set doNotDisplayFailureMessage2(value: boolean) {
     this._doNotDisplayFailureMessage2 = value;
   }
-
-  // onAccessRoleSelect(selected: CompleterItem) {
-  //   if (selected) {
-  //     this.partyAccessRole.accessRole = selected.originalObject;
-  //   }
-  // }
-
 
   onCreate() {
 

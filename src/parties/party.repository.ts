@@ -7,6 +7,8 @@ import {Organizations} from "./organizations";
 import {AccountResponse} from "./account.response";
 import {PartyAccessRole} from "./party.access.role";
 import {AccessRole} from "../access-roles/access.role";
+import {Photo} from "./photo";
+import {UserResponse} from "./user.response";
 
 export abstract class PartyRepository {
 
@@ -18,7 +20,7 @@ export abstract class PartyRepository {
 
   abstract getOrganizations(pageNumber:number, pageSize:number, sortOrder:string):Observable<Organizations>;
 
-  abstract getUser(partyId: string): Observable<User>;
+  abstract getUser(partyId: string): Observable<UserResponse>;
 
   abstract getPartyAccessRoleById(partyId:string): Observable<PartyAccessRole[]>;
 
@@ -26,13 +28,13 @@ export abstract class PartyRepository {
 
   abstract getOrganization(partyId: string): Observable<Organization>;
 
-  abstract getPhoto(partyId: string, type:string): Observable<string>;
+  abstract getPhoto(partyId: string, type:string): Observable<Photo>;
 
   abstract addUser(user: User, partyAccessRoles: PartyAccessRole[]): Observable<User>;
 
   abstract addOrganization(organization: Organization): Observable<Organization>;
 
-  abstract addPhoto(partyId: string, croppedImage: string, type: string): Observable<boolean>;
+  abstract addPhoto(partyId: string, photo: Photo, type: string): Observable<Photo>;
 
   abstract addAccount(accountType: string, user: User, organization: Organization): Observable<AccountResponse>;
 
@@ -48,7 +50,7 @@ export abstract class PartyRepository {
 
   abstract updateCredential(credential: Credential): Observable<number>;
 
-  abstract updatePhoto(partyId: string, croppedImage: string, type: string): Observable<number>;
+  abstract updatePhoto(partyId: string, photo: Photo, type: string): Observable<number>;
 
   // authentication part
   abstract isValidUsername(username: string):Observable<boolean>;

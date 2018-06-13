@@ -7,6 +7,8 @@ import {OrganizationStates} from "./organization.states";
 import {AccountResponse} from "../../parties/account.response";
 import {AccessRoleState} from "../access-roles/access.role.state";
 import {PartyAccessRoleState} from "./party.access.role.state";
+import {PhotoState} from "./photo.state";
+import {UserResponse} from "../../parties/user.response";
 
 export abstract class PersonClient {
 
@@ -20,14 +22,14 @@ export abstract class PersonClient {
   public abstract getPartyAccessRoles() :Observable<PartyAccessRoleState[]>;
 
 
-  public abstract getUserState(partyId: string): Observable<UserState>;
+  public abstract getUserState(partyId: string): Observable<UserResponse>;
   public abstract getOrganizationState(partyId: string): Observable<OrganizationState>;
 
-  public abstract getPhoto(partyId: string, type:string): Observable<string>;
+  public abstract getPhoto(partyId: string, type:string): Observable<PhotoState>;
 
   public abstract addUserState(userState: UserState, partyAccessRoleStates:PartyAccessRoleState[]): Observable<UserState>;
   public abstract addOrganizationState(organizationState: OrganizationState): Observable<OrganizationState>;
-  public abstract addPhoto(partyId: string, croppedImage:string, type:string): Observable<boolean>;
+  public abstract addPhoto(partyId: string, photoState:PhotoState, type:string): Observable<PhotoState>;
   public abstract addAccountState(accountType:string, userState: UserState, organizationState: OrganizationState): Observable<AccountResponse>;
 
   public abstract deleteUser(partyId: string): Observable<number>;
@@ -38,7 +40,7 @@ export abstract class PersonClient {
   public abstract updateOrganization(organizationState: OrganizationState): Observable<number>;
   public abstract updateCredential(credentialState: CredentialState): Observable<number>;
 
-  public abstract updatePhoto(partyId: string, croppedImage:string, type: string): Observable<number>;
+  public abstract updatePhoto(partyId: string, photoState:PhotoState, type: string): Observable<number>;
 
   // authentication part
   abstract isValidPassword(password: string): Observable<boolean>;

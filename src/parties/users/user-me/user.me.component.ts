@@ -15,6 +15,7 @@ import {User} from "../../user";
 import {Credential} from "../../credential";
 import {EventService} from "../../../event/event.service";
 import {Event} from "../../../authentication/event";
+import {Photo} from "../../photo";
 
 @Component({
   selector: 'user-me',
@@ -35,11 +36,12 @@ export class UserMeComponent implements OnInit {
 
   private user: User;
   private credential: Credential;
+  private photo: Photo;
+  private photo2: Photo;
 
   private imageChangedEvent: any = '';
   private croppedImage: any = '';
   private userImage: any = '';
-  private updateImage: boolean = false;
 
   private _doNotDisplayFailureMessage: boolean;
   private requiredState: boolean = false;
@@ -54,6 +56,8 @@ export class UserMeComponent implements OnInit {
 
     this.user = new User();
     this.credential = new Credential();
+    this.photo = new Photo();
+    this.photo2 = new Photo();
 
     this.firstName = new FormControl("", [Validators.required]);
     this.middleName = new FormControl("", [Validators.required]);
@@ -111,15 +115,15 @@ export class UserMeComponent implements OnInit {
          .subscribe((partyId: string) => {
            this.partyId = partyId;
            this.partyService.getUser(this.partyId)
-             .subscribe(user =>{
-               this.firstName.setValue(user.firstName);
-               this.middleName.setValue(user.middleName);
-               this.lastName.setValue(user.lastName);
-               this.username.setValue(user.username);
-               this.user = user;
-               this.partyId = user.partyId;
-               this.credential.partyId = user.partyId;
-               this.credential.username = user.username;
+             .subscribe(userResponse =>{
+               this.firstName.setValue(userResponse.user.firstName);
+               this.middleName.setValue(userResponse.user.middleName);
+               this.lastName.setValue(userResponse.user.lastName);
+               this.username.setValue(userResponse.user.username);
+               this.user = userResponse.user;
+               this.partyId = userResponse.user.partyId;
+               this.credential.partyId = userResponse.user.partyId;
+               this.credential.username = userResponse.user.username;
              }, error => {
                console.log(error);
              });
@@ -127,9 +131,10 @@ export class UserMeComponent implements OnInit {
            this.getPersonalPhoto();
 
            this.partyService.getPhoto(this.partyId, "organization")
-             .subscribe(imageStr => {
-               if(imageStr) {
-                 this.organizationImage = `url(${imageStr})`;
+             .subscribe(photo => {
+               if(photo.imageStr) {
+                 this.photo2 = photo
+                 this.organizationImage = `url(${photo.imageStr})`;
                }
              },error => {
                console.log(error);
@@ -313,10 +318,10 @@ export class UserMeComponent implements OnInit {
 
   getPersonalPhoto() {
     this.partyService.getPhoto(this.partyId, "user")
-      .subscribe(imageStr => {
-        if(imageStr) {
-          this.updateImage = true;
-          this.userImage = imageStr;
+      .subscribe(photo => {
+        if(photo.imageStr) {
+          this.photo = photo;
+          this.userImage = photo.imageStr;
         }
       },error => {
         console.log(error);
@@ -324,35 +329,35 @@ export class UserMeComponent implements OnInit {
   }
 
   uploadPhoto() {
-    if(!this.croppedImage) {
-      console.log("No image");
-    }else if(this.updateImage && this.updateImage !== this.croppedImage) {
+    if(this.photo.imageStr) {
+      this.photo.imageStr = this.croppedImage;
       this.partyService
-        .updatePhoto(this.partyId, this.croppedImage, "user")
+        .updatePhoto(this.partyId, this.photo, "user")
         .subscribe(value => {
-          if(value){
+          if(value) {
             this.getPersonalPhoto();
             this.eventService.sendPhotoChangeEvent(this.createEventModel());
           }else {
             console.log("error");
           }
-        }, error => {
-          console.log(error);
-        });
-    }else if(!this.updateImage) {
+          }, error => {
+            console.log(error);
+          });
+    }else if(this.croppedImage) {
+      this.photo.partyId = this.partyId;
+      this.photo.imageStr = this.croppedImage;
       this.partyService
-        .addPhoto(this.partyId, this.croppedImage, "user")
-        .subscribe(value => {
-          if (value) {
-            this.getPersonalPhoto();
-            this.eventService.sendPhotoChangeEvent(this.createEventModel());
-          } else {
-            // TODO: make errors fail to upload picture or something like that.
-            console.log("error");
-          }
-        }, error => {
-          console.log(error);
-        });
+          .addPhoto(this.partyId, this.photo, "user")
+          .subscribe(value => {
+            if (value.imageStr) {
+              this.getPersonalPhoto();
+              this.eventService.sendPhotoChangeEvent(this.createEventModel());
+            } else {
+              console.log("error");
+            }
+          }, error => {
+            console.log(error);
+          });
     }
   }
 

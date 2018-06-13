@@ -94,15 +94,16 @@ export class AccessRoleEditComponent implements OnInit {
     this.sub = this.route.params.subscribe( params => {
       this.accessRoleId = params['accessRoleId'];
       this.accessRoleService.getAccessRoleById(this.accessRoleId)
-        .subscribe( accessRole => {
-          this.prohibitionIndicator.setValue(accessRole.prohibitionIndicator);
-          this.name.setValue(accessRole.name);
-          this.accessRoleTypeId.setValue(accessRole.accessRoleType.name);
-          this.effectiveDate.setValue(accessRole.effectiveDate);
-          this.untilDate.setValue(accessRole.untilDate);
-          this.description.setValue(accessRole.description);
-          this.accessRole = accessRole;
-          this.getGrants();
+        .subscribe( accessRoleResponse => {
+          this.prohibitionIndicator.setValue(accessRoleResponse.accessRole.prohibitionIndicator);
+          this.name.setValue(accessRoleResponse.accessRole.name);
+          this.accessRoleTypeId.setValue(accessRoleResponse.accessRole.accessRoleType.name);
+          this.effectiveDate.setValue(accessRoleResponse.accessRole.effectiveDate);
+          this.untilDate.setValue(accessRoleResponse.accessRole.untilDate);
+          this.description.setValue(accessRoleResponse.accessRole.description);
+          this.accessRole = accessRoleResponse.accessRole;
+          this.grants = accessRoleResponse.grants;
+          this.getResources();
         }, error => {
           console.log(error);
         }, () => {
@@ -262,14 +263,6 @@ export class AccessRoleEditComponent implements OnInit {
   set doNotDisplayFailureMessage(value: boolean) {
     this._doNotDisplayFailureMessage = value;
   }
-
-  getGrants() {
-    this.accessRoleService.getGrantsByAccessRoleId(this.accessRoleId)
-      .subscribe( values => {
-        this.grants = values;
-        this.getResources();
-      });
-    }
 
   getPermission(resourceId: string) {
     let newArray = this.resourcePermissions.filter(value => {

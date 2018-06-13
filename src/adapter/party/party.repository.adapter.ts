@@ -18,6 +18,9 @@ import {AccountResponse} from "../../parties/account.response";
 import {PartyAccessRole} from "../../parties/party.access.role";
 import {AccessRole} from "../../access-roles/access.role";
 import {PartyAccessRoleState} from "../../client/party/party.access.role.state";
+import {Photo} from "../../parties/photo";
+import {PhotoState} from "../../client/party/photo.state";
+import {UserResponse} from "../../parties/user.response";
 
 export class PartyRepositoryAdapter extends PartyRepository {
 
@@ -73,12 +76,8 @@ export class PartyRepositoryAdapter extends PartyRepository {
       });
   }
 
-  public getUser(partyId: string): Observable<User> {
-    return this.personClient
-    .getUserState(partyId)
-    .map(value => {
-       return mapObjectProps(value, new User());
-    });
+  public getUser(partyId: string): Observable<UserResponse> {
+    return this.personClient.getUserState(partyId);
   }
 
   public getPartyAccessRoleById(partyId: string) :Observable<PartyAccessRole[]> {
@@ -108,8 +107,11 @@ export class PartyRepositoryAdapter extends PartyRepository {
     });
   }
 
-  public getPhoto(partyId: string, type:string): Observable<string> {
-    return this.personClient.getPhoto(partyId, type);
+  public getPhoto(partyId: string, type:string): Observable<Photo> {
+    return this.personClient.getPhoto(partyId, type)
+      .map(value => {
+        return mapObjectProps(value, new Photo());
+      });
   }
 
   public addUser(user: User, partyAccessRoles: PartyAccessRole[]): Observable<User> {
@@ -130,15 +132,17 @@ export class PartyRepositoryAdapter extends PartyRepository {
     });
   }
 
-  public addPhoto(partyId: string, croppedImage: string, type: string,): Observable<boolean> {
-    return this.personClient.addPhoto(partyId, croppedImage, type);
+  public addPhoto(partyId: string, photo: Photo, type: string,): Observable<Photo> {
+    return this.personClient.addPhoto(partyId, mapObjectProps(photo, new PhotoState()), type)
+      .map(value => {
+        return mapObjectProps(value, new Photo());
+      });
   }
 
   public addAccount(accountType: string, user: User, organization: Organization): Observable<AccountResponse> {
     return this.personClient
     .addAccountState(accountType,mapObjectProps(user, new UserState()), mapObjectProps(organization, new OrganizationState()))
     .map(value => {
-      console.log(value);
       return mapObjectProps(value, new AccountResponse());
     });
   }
@@ -169,8 +173,8 @@ export class PartyRepositoryAdapter extends PartyRepository {
     return this.personClient.updateCredential(mapObjectProps(credential, new CredentialState()));
   }
 
-  public updatePhoto(partyId: string, croppedImage: string, type: string): Observable<number> {
-    return this.personClient.updatePhoto(partyId, croppedImage, type);
+  public updatePhoto(partyId: string, photo: Photo, type: string): Observable<number> {
+    return this.personClient.updatePhoto(partyId, mapObjectProps(photo, new PhotoState()), type);
   }
 
   // authentication part

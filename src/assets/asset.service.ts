@@ -2,17 +2,11 @@ import {AssetRepository} from "./asset.repository";
 import {Observable} from "rxjs/Observable";
 import {Assets} from "./assets";
 import {AssetKinds} from "./asset.kinds";
-import {AssetTypes} from "../asset-types/asset.types";
+import {AssetType} from "../asset-types/asset.type";
 import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
-import {AssetPersons} from "./asset.persons";
-import {AssetUnionOfPhysicalSites} from "./asset.union.of.physical.sites";
+import {AssetPerson} from "./asset.person";
+import {UnionOfPhysicalSite} from "./asset.union.of.physical.site";
 import {Asset} from "./asset";
-//import {AssetTypeRepository} from "../asset-types/asset.type.repository";
-//import {AssetUnitOfMeasureRepository} from "./assset.unit.of.measure.repository";
-//import {AssetSiteRepository} from "./asset.site.repository";
-//import {AssetPersonRepository} from "./asset.person.repository";
-
-
 
 export class AssetService {
 
@@ -31,7 +25,7 @@ export class AssetService {
     return this.assetRepository.getAssetKinds();
   }
 
-  public findAssetTypes(searchStr: string, pageSize:number):Observable<AssetTypes> {
+  public findAssetTypes(searchStr: string, pageSize:number):Observable<AssetType[]> {
     return this.assetRepository.findAssetTypes(searchStr, pageSize);
   }
 
@@ -39,11 +33,11 @@ export class AssetService {
     return this.assetRepository.findUnitOfMeasures(searchStr, pageSize);
   }
 
-  public findUnionOfPhysicalSites(searchStr: string, pageSize: number):Observable<AssetUnionOfPhysicalSites> {
+  public findUnionOfPhysicalSites(searchStr: string, pageSize: number):Observable<UnionOfPhysicalSite[]> {
     return this.assetRepository.findUnionOfPhysicalSites(searchStr, pageSize);
   }
 
-  public findPersons(searchStr: string, pageSize: number):Observable<AssetPersons> {
+  public findPersons(searchStr: string, pageSize: number):Observable<AssetPerson[]> {
     return this.assetRepository.findPersons(searchStr, pageSize);
   }
 

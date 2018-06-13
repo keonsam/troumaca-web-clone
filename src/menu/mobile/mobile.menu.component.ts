@@ -1,7 +1,6 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
 import {MenuService} from "../menu.service";
 import {PartyService} from "../../parties/party.service";
-//import {MenuItemModel} from "../menu.item.model";
 import {EventService} from "../../event/event.service";
 import {MenuModel} from "../menu.model";
 import {trigger, state, style, transition, animate} from "@angular/animations";
@@ -74,7 +73,6 @@ export class MobileMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.getMenu(this.isLoggedIn);
     this.handleMenuRefreshEvent();
     this.partyService.getPartyId()
       .subscribe( partyId => {
@@ -97,18 +95,18 @@ export class MobileMenuComponent implements OnInit {
 
   getPhoto() {
     this.partyService.getPhoto(this.partyId, "user")
-      .subscribe(imgStr => {
-        if(imgStr) {
-          this.imageStr = imgStr;
+      .subscribe(photo => {
+        if(photo) {
+          this.imageStr = photo.imageStr;
         }
       });
   }
 
   getUserInformation() {
     this.partyService.getUser(this.partyId)
-      .subscribe( user => {
-        if(user.partyId) {
-          this.userName = user.name;
+      .subscribe( userResponse => {
+        if(userResponse.user.partyId) {
+          this.userName = userResponse.user.name;
         }
       });
   }

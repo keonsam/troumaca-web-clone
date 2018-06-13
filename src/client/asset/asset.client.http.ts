@@ -6,10 +6,11 @@ import {AssetStates} from "./asset.states";
 import {JsonConvert, OperationMode, ValueCheckingMode} from "json2typescript";
 import {AssetKindStates} from "./asset.kind.states";
 import {AssetState} from "./asset.state";
-import {AssetTypeStates} from "../asset-type/asset.type.states";
+import {AssetTypeState} from "../asset-type/asset.type.state";
 import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
-import {UnionOfPhysicalSiteStates} from "../site/union.of.physical.site.states";
+import {UnionOfPhysicalSiteState} from "../site/union.of.physical.site.state";
 import {PersonStates} from "../party/person.states";
+import {AssetPersonState} from "./asset.person.state";
 
 export class AssetClientHttp extends AssetClient {
 
@@ -28,128 +29,94 @@ export class AssetClientHttp extends AssetClient {
 
 
   public getAssets(pageNumber:number, pageSize:number, sortOrder:string): Observable<AssetStates> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/assets");
-
-    let queryStr = [];
-
-    if (pageNumber) {
-      queryStr.push("pageNumber=" + pageNumber);
-    }
-
-    if (pageSize) {
-      queryStr.push("pageSize=" + pageSize);
-    }
-
-    if (sortOrder) {
-      queryStr.push("sortOrder=" + sortOrder);
-    }
-
-    if (queryStr.length > 0) {
-      array.push("?");
-      array.push(queryStr.join("&"));
-    }
-
-    return this.http.get<AssetStates>(array.join(""), {
-    // return this.http.get(array.join(""), {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
-      // let assetStates:AssetStates;
-      // assetStates = this.jsonConvert.deserializeObject(data, AssetStates);
-      // assetStates = mapObjectProps(data, new AssetStates());
-      //let assetStates:AssetStates = new AssetStates();
-      // assetStates.page = value.page;
-      // assetStates.sort = value.sort;
-      // assetStates.assets = value.assets;
-      // console.log(value);
-      // console.log(assetStates);
+    let url = `${this.hostPort}/assets?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.get<AssetStates>(url, httpOptions).map(data => {
       return data;
-      // return deserialize(AssetStates, value);
     });
   }
 
   public getAssetState(assetId: string): Observable<AssetState>{
     let url = `${this.hostPort}/assets/${assetId}`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.http
-    .get<AssetState>(url, {headers:headers})
+    .get<AssetState>(url, httpOptions)
     .map(data => {
       return data;
     });
   }
 
   public getAssetKinds(): Observable<AssetKindStates> {
-    let array = [];
-    array.push(this.hostPort);
-    array.push("/asset-kinds");
-
-    return this.http.get<AssetKindStates>(array.join(""), {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
+    let url = `${this.hostPort}/asset-kinds`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.get<AssetKindStates>(url, httpOptions).map(data => {
       return data;
     });
   }
 
-  public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetTypeStates> {
-    let url = `${this.hostPort}/find-asset-types?q=${searchStr}&pageSize=${pageSize}`;
-
-    return this.http.get<AssetTypeStates>(url, {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
+  public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetTypeState[]> {
+    let url = `${this.hostPort}/asset-types/find?q=${searchStr}&pageSize=${pageSize}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.get<AssetTypeState[]>(url, httpOptions).map(data => {
       return data;
     });
   }
 
-  public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteStates> {
-    let url = `${this.hostPort}/find-sites?q=${searchStr}&pageSize=${pageSize}`;
-
-    return this.http.get<UnionOfPhysicalSiteStates>(url, {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
-
+  public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteState[]> {
+    let url = `${this.hostPort}/sites/find?q=${searchStr}&pageSize=${pageSize}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.get<UnionOfPhysicalSiteState[]>(url, httpOptions).map(data => {
       return data;
     });
   }
 
   public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
-    let url = `${this.hostPort}/find-unit-of-measures?q=${searchStr}&pageSize=${pageSize}`;
-
-    return this.http.get<UnitOfMeasureState[]>(url, {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
+    let url = `${this.hostPort}/unit-of-measures/find?q=${searchStr}&pageSize=${pageSize}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.get<UnitOfMeasureState[]>(url, httpOptions).map(data => {
       return data;
     });
   }
 
-  public findPersons(searchStr: string, pageSize: number): Observable<PersonStates> {
-    let url = `${this.hostPort}/find-persons?q=${searchStr}&pageSize=${pageSize}`;
-
-    return this.http.get<PersonStates>(url, {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
+  public findPersons(searchStr: string, pageSize: number): Observable<AssetPersonState[]> {
+    let url = `${this.hostPort}/users/find?q=${searchStr}&pageSize=${pageSize}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.get<AssetPersonState[]>(url, httpOptions).map(data => {
       return data;
     });
   }
 
   public addAsset(assetState: AssetState): Observable<AssetState> {
-    let array = [];
-
-    array.push(this.hostPort);
-    array.push("/assets");
-
-    return this.http.post<AssetState>(array.join(""), assetState.toJson(), {
-      headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
+    let url = `${this.hostPort}/assets`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.post<AssetState>(url, assetState.toJson(), httpOptions).map(data => {
       return data;
     });
   }
 
   public updateAsset(assetId: string, assetState: AssetState): Observable<number> {
     let url = `${this.hostPort}/assets/${assetId}`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.http
-    .put<number>(url, assetState.toJson(), {headers:headers})
+    .put<number>(url, assetState.toJson(), httpOptions)
     .map(data => {
       return data;
     });
@@ -157,12 +124,22 @@ export class AssetClientHttp extends AssetClient {
 
   public deleteAsset(assetId: string): Observable<number> {
     let url = `${this.hostPort}/assets/${assetId}`;
-    let headers:HttpHeaders = new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID());
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
     return this.http
-    .delete<number>(url, {headers:headers})
+    .delete<number>(url, httpOptions)
     .map(data => {
       return data;
     });
+  }
+
+  public jsonHttpHeaders(): HttpHeaders {
+    let httpHeaders: HttpHeaders = new HttpHeaders({
+      'Content-Type':  'application/json',
+      'correlationId': this.uuidGenerator.generateUUID()
+    });
+    return httpHeaders;
   }
 
 }

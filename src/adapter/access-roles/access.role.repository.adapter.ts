@@ -25,6 +25,7 @@ import {ResourcePermission} from "../../access-roles/resource.permission";
 import {ResourcePermissionState} from "../../client/access-roles/resource.permission.state";
 import {Grant} from "../../access-roles/grant";
 import {GrantState} from "../../client/access-roles/grant.state";
+import {AccessRoleResponse} from "../../access-roles/access.role.response";
 
 export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
 
@@ -220,11 +221,8 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
       });
   }
 
-  public getAccessRoleById(accessRoleId: string): Observable<AccessRole> {
-    return this.accessRolesClient.getAccessRoleById(accessRoleId)
-      .map(value => {
-       return mapObjectProps(value, new AccessRole());
-      });
+  public getAccessRoleById(accessRoleId: string): Observable<AccessRoleResponse> {
+    return this.accessRolesClient.getAccessRoleById(accessRoleId);
   }
 
   public addAccessRole(accessRole: AccessRole, grants: Grant[]): Observable<AccessRole> {

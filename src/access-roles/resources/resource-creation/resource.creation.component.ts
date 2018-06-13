@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 
 import {Resource} from "../../resource";
-import {ResourceType} from "../../resource.type";
+//import {ResourceType} from "../../resource.type";
 import {AccessRoleService} from "../../access.role.service";
 import {Router} from "@angular/router";
 import {ResourcePermission} from "../../resource.permission";

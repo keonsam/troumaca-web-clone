@@ -13,6 +13,7 @@ import {AccessRoles} from "./access.roles";
 import {AccessRoleType} from "./access.role.type";
 import {AccessRoleTypes} from "./access.role.types";
 import {Grant} from "./grant";
+import {AccessRoleResponse} from "./access.role.response";
 
 export class AccessRoleService {
 
@@ -111,7 +112,7 @@ export class AccessRoleService {
     return this.accessRoleRepository.getAccessRoles(defaultPage, defaultPageSize, defaultSortOrder);
   }
 
-  public getAccessRoleById(accessRoleId: string): Observable<AccessRole> {
+  public getAccessRoleById(accessRoleId: string): Observable<AccessRoleResponse> {
     return this.accessRoleRepository.getAccessRoleById(accessRoleId);
   }
 
