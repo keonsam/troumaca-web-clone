@@ -24,7 +24,7 @@ phases:
       - ls
       - zip -r troumaca-web.zip *
       - mv troumaca-web.zip ../
-      -ls
+      - ls
 artifacts:
     files:
       - troumaca-web.zip
