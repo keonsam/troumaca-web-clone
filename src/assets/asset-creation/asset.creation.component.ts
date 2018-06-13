@@ -391,7 +391,7 @@ export class AssetCreationComponent implements OnInit {
 
       this.assetService.addAsset(this.asset)
       .subscribe(value => {
-        if (value && value.assetId) {
+        if (value.assetId) {
           this.router.navigate(['/assets']);
         } else {
           this.doNotDisplayFailureMessage = false;
