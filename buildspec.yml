@@ -9,8 +9,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - npm build
-      - npm build --base-href ./
+      - ng build --base-href ./
   post_build:
     commands:
       - echo Build completed on `date`
