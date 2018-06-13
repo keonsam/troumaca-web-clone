@@ -15,7 +15,6 @@ phases:
       - echo Build completed on `date`
       - ls
       - cp appspec.yml dist
-      - cp -r node_modules dist
       - cp -r scripts dist
       - cd dist
       - zip -r troumaca-web.zip *
