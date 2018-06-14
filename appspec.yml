@@ -4,6 +4,3 @@ files:
   - source: /
     destination: /home/ec2-user/Troumaca-web
 hooks:
-  AfterInstall:
-    - location: scripts/stop.sh
-      runas: ec2-user
