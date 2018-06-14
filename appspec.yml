@@ -4,4 +4,6 @@ files:
   - source: /
     destination: /home/ec2-user/Troumaca-web
 hooks:
-
+  ApplicationStart:
+    - location: scripts/run.sh
+      runas: ec2-user

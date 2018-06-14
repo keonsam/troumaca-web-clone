@@ -35,9 +35,9 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     return this.httpClient
       .post<AuthenticateResponse>(url, query, httpOptions)
       .map(data => {
+        console.log(data);
         return data;
       });
-
   }
 
   forgotPassword(username: string): Observable<boolean> {
