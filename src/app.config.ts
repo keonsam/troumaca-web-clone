@@ -10,7 +10,7 @@ export class AppConfig {
   private local: string = "http://localhost:3000";
   constructor() {
     // this._apiEndpoint = "api.heroes.com";
-    this._apiEndpoint = this.server;
+    this._apiEndpoint = this.local;
     this._title = "Troumaca";
     this._remoteEndPoints = false;
   }
