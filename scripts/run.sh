@@ -4,5 +4,4 @@ set -e
 
 source /home/ec2-user/.bash_profile
 cd /home/ec2-user/Troumaca-web
-/usr/bin/screen ws --spa index.html -p 4200
-/usr/bin/screen -d
+~/.nvm/versions/node/v10.4.0/bin/forever start server.js
