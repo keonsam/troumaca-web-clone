@@ -12,13 +12,12 @@ phases:
       - ng build
   post_build:
     commands:
-      - echo Build completed on `date`
-      - ls
       - cp appspec.yml dist
       - cp -r scripts dist
-      - cd dist
-      - zip -r troumaca-web.zip *
-      - mv troumaca-web.zip ../
+      - cp -r node_modules
+      - echo Build completed on `date`
 artifacts:
     files:
-      - troumaca-web.zip
+        - '**/*'
+    base-directory: 'dist*'
+    discard-paths: no
