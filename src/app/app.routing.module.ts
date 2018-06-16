@@ -67,6 +67,7 @@ import {LobbyHomeComponent} from "../home/lobby-home/lobby.home.component";
 // import {EmailVerificationComponent} from "../authentication/email-verification/email.verification.component";
 import {ConfirmationComponent} from "../authentication/confirmation/confirmation.component";
 import {AuthGuard} from "../auth-guard/auth.guard";
+import {UnAuthGuard} from '../auth-guard/unAuth.guard';
 //access Roles
 import {AccessRoleComponent} from "../access-roles/access.role.component";
 import {AccessRoleCreationComponent} from "../access-roles/access-role-creation/access.role.creation.component";
@@ -88,10 +89,10 @@ import {AccessRoleTypeListComponent} from "../access-roles/access-role-types/acc
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent, children: [
-    { path: '', canActivate: [AuthGuard], component: FrontHomeComponent },
+    { path: '', canActivate: [UnAuthGuard], component: FrontHomeComponent },
     { path: 'lobby', canActivate: [AuthGuard], component: LobbyHomeComponent },
   ]},
-  { path: 'authentication', component: AuthenticationComponent, canActivate: [AuthGuard], children:[
+  { path: 'authentication', canActivate: [UnAuthGuard], component: AuthenticationComponent, children:[
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login',  component: LoginComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -100,31 +101,31 @@ const appRoutes: Routes = [
     // { path: 'phone-verification/:credentialConfirmationId', component: PhoneVerificationComponent },
     // { path: 'email-verification/:credentialConfirmationId', component: EmailVerificationComponent }
   ]},
-  { path: 'assets', component: AssetComponent, canActivate: [AuthGuard], children: [
+  { path: 'assets', component: AssetComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
     { path: '',redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: AssetListComponent },
     { path: 'create', component: AssetCreationComponent },
     { path: ':assetId/edit', component: AssetEditComponent }
   ]},
-  { path: 'asset-types', component: AssetTypeComponent, canActivate: [AuthGuard], children: [
+  { path: 'asset-types', component: AssetTypeComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
     { path: '',redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: AssetTypeListComponent },
     { path: 'create', component: AssetTypeCreationComponent },
     { path: ':assetTypeId/edit', component: AssetTypeEditComponent },
   ]},
-  { path: 'asset-type-classes', component: AssetTypeClassComponent, canActivate: [AuthGuard], children:[
+  { path: 'asset-type-classes', component: AssetTypeClassComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children:[
     { path: '', redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: AssetTypeClassListComponent },
     { path: 'create', component: AssetTypeClassCreationComponent },
     { path: ':assetTypeClassId/edit', component: AssetTypeClassEditComponent }
   ]},
-  { path: 'attributes', component: AttributeComponent, canActivate: [AuthGuard], children:[
+  { path: 'attributes', component: AttributeComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children:[
     { path: '', redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: AttributeListComponent },
     { path: 'create', component: AttributeCreationComponent },
     { path: ':attributeId/edit', component: AttributeEditComponent }
   ]},
-  { path: 'sites', component: SiteComponent, canActivate: [AuthGuard],  children:[
+  { path: 'sites', component: SiteComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard],  children:[
     { path: '', redirectTo: 'street-addresses', pathMatch: 'full' },
     { path: 'street-addresses', component: SiteStreetAddressListComponent },
     { path: 'street-addresses/:siteId/edit', component: SiteStreetAddressEditComponent },
@@ -142,7 +143,7 @@ const appRoutes: Routes = [
     { path: 'phones/:siteId/edit', component: SitePhoneEditComponent},
     { path: 'phones/create', component: SitePhoneCreationComponent}
   ]},
-  { path: 'parties', component: PartyComponent, canActivate: [AuthGuard], children:[
+  { path: 'parties', component: PartyComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children:[
     { path: '', redirectTo: 'organizations/listing', pathMatch: 'full' },
     { path: 'organizations/company', component: OrganizationCompanyComponent, data:{menuName:'organizations-menu'} },
     { path: 'organizations/listing', component: OrganizationListComponent, data:{menuName: 'organizations-menu'} },
@@ -153,7 +154,7 @@ const appRoutes: Routes = [
     { path: 'users/:partyId/edit', component: UserEditComponent, data:{menuName:'users-menu'} },
     { path: 'user-me', component: UserMeComponent, data:{menuName:'users-menu'}}
   ]},
-  { path: 'access-roles', component: AccessRoleComponent, canActivate: [AuthGuard], children:[
+  { path: 'access-roles', component: AccessRoleComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children:[
       { path: '', redirectTo: 'listing', pathMatch: 'full' },
       { path: 'listing', component: AccessRoleListComponent, data:{menuName:'access-role-menu'} },
       { path: 'create', component: AccessRoleCreationComponent, data:{menuName: 'access-role-menu'} },
@@ -171,7 +172,7 @@ const appRoutes: Routes = [
       { path: 'access-role-types/:accessRoleTypeId/edit', component: AccessRoleTypeEditComponent, data:{menuName:'access-role-menu'} },
       { path: 'access-role-types', component: AccessRoleTypeListComponent, data:{menuName:'access-role-menu'} }
     ]},
-  { path: 'contracts', component: ContractComponent, canActivate: [AuthGuard], children:[
+  { path: 'contracts', component: ContractComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children:[
     { path: '', redirectTo: 'orders', pathMatch: 'full' },
     { path: 'listing', component: ContractListComponent, data:{menuName:'orders-menu'}},
     { path: 'orders', component: OrderListComponent, data:{menuName:'orders-menu'}},
@@ -180,11 +181,11 @@ const appRoutes: Routes = [
     { path: 'fulfillments', component: OrderFulfillmentListComponent, data:{menuName:'orders-menu'}},
     { path: 'invoices', component: OrderInvoiceListComponent, data:{menuName:'orders-menu'}}
   ]},
-  { path: 'quotes', canActivate: [AuthGuard], component: QuoteComponent, children:[
+  { path: 'quotes', canActivate: [AuthGuard], canActivateChild: [AuthGuard], component: QuoteComponent, children:[
     { path: '', redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: QuoteListComponent, data:{menuName:'quotes-menu'}},
   ]},
-  { path: 'shipments', component:ShipmentComponent, canActivate: [AuthGuard], children:[
+  { path: 'shipments', component:ShipmentComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children:[
     { path: '', redirectTo: 'listing', pathMatch: 'full' },
     { path: 'listing', component: ShipmentListComponent, data:{menuName:'shipments-menu'}},
     { path: 'create', component: ShipmentCreationComponent, data:{menuName:'shipments-menu'} },
