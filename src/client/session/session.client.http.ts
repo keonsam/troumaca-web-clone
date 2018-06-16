@@ -79,10 +79,7 @@ export class SessionClientHttp extends SessionClient {
     let url = `${this.hostPort}/sessions/is-valid-session`;
 
     const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'correlationId': this.uuidGenerator.generateUUID()
-      })
+      headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
@@ -92,9 +89,34 @@ export class SessionClientHttp extends SessionClient {
       });
   }
 
+  public jsonHttpHeaders(): HttpHeaders {
+    const httpHeaders: HttpHeaders = new HttpHeaders({
+      'Content-Type':  'application/json',
+      'correlationId': this.uuidGenerator.generateUUID()
+    });
+    return httpHeaders;
+  }
+
   get isLoggedIn(): Observable<boolean> {
-    //this to increase performance
     return this.activeSessionExists();
+  }
+
+  get partyIdExist():Observable<boolean> {
+    const url = `${this.hostPort}/partyId`;
+
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+
+    return this.httpClient
+      .get<boolean>(url, httpOptions)
+      .map(data => {
+        if (data) {
+          return true;
+        } else {
+          return false;
+        }
+      });
   }
 
 }
