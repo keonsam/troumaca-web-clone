@@ -26,8 +26,11 @@ import {ActivityModule} from "../activity/activity.module";
 import {AssetTypesModule} from "../asset-types/asset.type.module";
 import {RequestModule} from "../request/request.module";
 import {WorkOrderModule} from "../work-order/work.order.module";
+// auth-guards
 import {authGuardProvider} from "../auth-guard/auth.guard.provider";
-import {unUnAuthGuardProvider} from '../auth-guard/unAuth.guard.provider';
+import {unAuthGuardProvider} from '../auth-guard/unAuth.guard.provider';
+import {profileAuthGuardProvider} from '../auth-guard/profile-auth.guard.provider';
+
 import {sessionInterceptorProvider} from "../client/session.interceptor.provider";
 import {GoodsModule} from "../goods/goods.module";
 import {AssetModule} from "../assets/asset.module";
@@ -92,7 +95,8 @@ import {AccessRoleModule} from "../access-roles/access.role.module";
     {provide: AppConfig, useClass: AppConfig},
     {provide: UUIDGenerator, useClass: UUIDGenerator},
     authGuardProvider,
-    unUnAuthGuardProvider,
+    unAuthGuardProvider,
+    profileAuthGuardProvider,
     sessionInterceptorProvider
   ],
   bootstrap: [AppComponent]

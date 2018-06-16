@@ -10,7 +10,7 @@ export function unAuthGuardProviderFactory (authGuardService: AuthGuardService, 
   return unAuthGuard;
 }
 
-export let unUnAuthGuardProvider = {
+export let unAuthGuardProvider = {
   provide: UnAuthGuard,
   useFactory: unAuthGuardProviderFactory,
   deps: [AuthGuardService, Router]

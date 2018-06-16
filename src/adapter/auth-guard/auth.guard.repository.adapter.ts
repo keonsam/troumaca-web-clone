@@ -15,6 +15,10 @@ export class AuthGuardRepositoryAdapter extends AuthGuardService {
     return this.sessionClient.isLoggedIn;
   }
 
+  get partyIdExist(): Observable<boolean> {
+    return this.sessionClient.partyIdExist;
+  }
+
   get redirectUrl(): string {
     return this._redirectUrl;
   }

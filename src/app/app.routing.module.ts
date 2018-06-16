@@ -66,8 +66,10 @@ import {LobbyHomeComponent} from "../home/lobby-home/lobby.home.component";
 // import {PhoneVerificationComponent} from "../authentication/phone-verification/phone.verification.component";
 // import {EmailVerificationComponent} from "../authentication/email-verification/email.verification.component";
 import {ConfirmationComponent} from "../authentication/confirmation/confirmation.component";
+// auth-guards
 import {AuthGuard} from "../auth-guard/auth.guard";
 import {UnAuthGuard} from '../auth-guard/unAuth.guard';
+import {ProfileAuthGuard} from '../auth-guard/profile-auth.guard';
 //access Roles
 import {AccessRoleComponent} from "../access-roles/access.role.component";
 import {AccessRoleCreationComponent} from "../access-roles/access-role-creation/access.role.creation.component";
@@ -191,7 +193,7 @@ const appRoutes: Routes = [
     { path: 'create', component: ShipmentCreationComponent, data:{menuName:'shipments-menu'} },
     { path: ':shipmentId/edit', component: ShipmentEditComponent, data:{menuName:'shipments-menu'} }
   ]},
-  { path: 'create-profile', canActivate: [AuthGuard], component: CreateAccountComponent },
+  { path: 'create-profile', canActivate: [ProfileAuthGuard], component: CreateAccountComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 
