@@ -1,14 +1,12 @@
-<div [class]="(isAuth) ? 'auth-wrapper':''">
 <div [class]="(isLoggedIn) ? 'all-wrapper menu-side':'all-wrapper menu-side with-pattern'">
-
-  <div [class]="(isLoggedIn) ?'layout-w':''">
-      <!--------------------
-      START - Mobile Menu
-      -------------------->
-      <mobile-menu *ngIf="isLoggedIn"></mobile-menu>
-      <!--------------------
-      END - Mobile Menu
-      -------------------->
+  <div [class]="(isLoggedIn) ? 'layout-w':''">
+    <!--------------------
+    START - Mobile Menu
+    -------------------->
+    <mobile-menu *ngIf="isLoggedIn"></mobile-menu>
+    <!--------------------
+    END - Mobile Menu
+    -------------------->
 
     <!--Might be able to move order down to the component-->
     <div [class]="(isLoggedIn) ? 'container-app':''">
@@ -27,15 +25,14 @@
         START - Content W
         -------------------->
         <router-outlet></router-outlet>
+      </div>
         <!--------------------
         End - Content W
         -------------------->
-      <!--</div>-->
+    </div>
 
-    <!--</div>-->
 
   </div>
-  <!-- No idea what this is for-->
+  <!--No idea what this is for-->
   <!--<div class="display-type"></div>-->
-</div>
 </div>
