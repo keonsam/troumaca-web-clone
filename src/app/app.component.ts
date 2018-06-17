@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Renderer2} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from "@angular/router";
 import "rxjs/add/operator/filter";
 import {AppDynamicStyle} from "./app.dynamic.style";
@@ -10,12 +10,8 @@ import {ClientEvent} from "../client/client.event";
   selector: 'app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  host: {
-    "[class.auth-wrapper]":"someClass"
-  }
 })
-export class AppComponent implements OnInit{
-
+export class AppComponent implements OnInit {
   private _title:string = 'app';
   private _isLoggedIn:boolean;
   someClass:boolean = false;
@@ -37,8 +33,7 @@ export class AppComponent implements OnInit{
     "/home",
     "/authentication/login",
     "/authentication/forget-password",
-    "/authentication/phone-verification",
-    "/authentication/email-verification",
+    "/authentication/confirmations",
     "/authentication/register"
   ];
 
@@ -49,9 +44,10 @@ export class AppComponent implements OnInit{
 
 
 
-  constructor(private router:Router,
-              private route:ActivatedRoute,
-              private eventService:EventService,
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private renderer: Renderer2,
+              private eventService: EventService,
               private sessionService: SessionService,
               private clientEvent: ClientEvent) {
     this.isLoggedIn = false;
@@ -92,8 +88,8 @@ export class AppComponent implements OnInit{
       if (event instanceof NavigationEnd) {
         this.sessionService.activeSessionExists()
           .subscribe(value => {
-            let url = event.url;
-            if (value && url !== "/create-profile") {
+            const url = event.url;
+            if (value && url !== '/create-profile') {
               this.isLoggedIn = true;
             }
             this.initLogSub.unsubscribe();
@@ -102,20 +98,17 @@ export class AppComponent implements OnInit{
     });
 
     this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationEnd) {
-        this.sessionService.activeSessionExists()
-          .subscribe(value => {
-            let url = event.url;
-            let matchRegex = /\/[a-z-]*\/[a-z-]*\//gi; // not good with regex if you can fix this, that will be great
-            if(url.indexOf('phone-verification') !== -1 || url.indexOf('email-verification') !== -1 ) {
-              url = url.match(matchRegex)[0].slice(0, -1);
-            }
-            if(this.isAuthRoutes.indexOf(url) !== -1) {
-              this.isAuth = true;
-            }else {
-              this.isAuth = false;
-            }
-          });
+      if (event instanceof NavigationStart) {
+        let authUrl = event.url;
+        const matchRegex = /\/[a-z-]*\/[a-z-]*\//gi; // not good with regex if you can fix this, that will be great
+        if (authUrl.indexOf('confirmations') !== -1) {
+          authUrl = authUrl.match(matchRegex)[0].slice(0, -1);
+        }
+        if (this.isAuthRoutes.indexOf(authUrl) !== -1) {
+          this.renderer.addClass(document.body, 'auth-wrapper');
+        } else {
+          this.renderer.removeClass(document.body, 'auth-wrapper');
+        }
       }
     });
   }
