@@ -37,6 +37,9 @@ export class MobileMenuComponent implements OnInit {
   constructor(private eventService:EventService, private menuService:MenuService, private partyService: PartyService, private cd: ChangeDetectorRef) {
     this.state = 'inactive';
     this.popUpState = 'hide';
+    this.eventService.subscribeToPhotoChangeEvent((data) => {
+      this.getPhoto();
+    });
   }
 
   get title(): string {
