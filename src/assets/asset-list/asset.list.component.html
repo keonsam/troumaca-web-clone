@@ -44,9 +44,9 @@
               <tr role="row" *ngFor="let asset of assets.assets; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
                 <td>{{asset.assetKind.name}}</td>
                 <td>{{asset.assetType.name}}</td>
-                <td>{{asset.serialNumber}}</td>
-                <td>{{asset.quantity}}</td>
-                <td>{{asset.unitOfMeasure.name}}</td>
+                <td>{{asset.assetKind.name === 'Discrete Item' ? asset.serialNumber : ''}}</td>
+                <td>{{asset.assetKind.name === 'Inventory' ? asset.quantity : ''}}</td>
+                <td>{{asset.assetKind.name === 'Inventory' ? asset.unitOfMeasure.name : ''}}</td>
                 <td>{{asset.person.firstName}}</td>
                 <td>{{asset.site.name}}</td>
                 <td>{{asset.description}}</td>

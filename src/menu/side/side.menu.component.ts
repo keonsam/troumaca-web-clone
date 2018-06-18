@@ -132,7 +132,7 @@ export class SideMenuComponent implements OnInit {
   logOutEvent() {
     this.partyService.logOutUser()
       .subscribe(next => {
-        if(next) {
+        if (next) {
           this.eventService.sendSessionLogoutEvent({"logOutEvent":true});
         }
       });
