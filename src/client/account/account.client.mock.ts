@@ -1,4 +1,4 @@
-import {AccountClient} from "./account.client";
+import {AccountClient} from './account.client';
 
 export class AccountClientMock extends AccountClient {
 }

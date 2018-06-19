@@ -1,14 +1,13 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter';
 
-import {AttributeService} from "../attribute.service";
-import {Attribute} from "../attribute";
-import {DataType} from "../data.type";
-import {Router} from "@angular/router";
-import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
+import {AttributeService} from '../attribute.service';
+import {Attribute} from '../attribute';
+import {DataType} from '../data.type';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'attribute-creation',
@@ -31,36 +30,36 @@ export class AttributeCreationComponent implements OnInit {
   private attribute: Attribute;
   private _dataTypes: DataType[];
 
-  private _doNotDisplayFailureMessage:boolean;
-  private pageSize: number = 15;
+  private _doNotDisplayFailureMessage: boolean;
+  private pageSize = 15;
 
   constructor(private attributeService: AttributeService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
-    this.name = new FormControl("", [Validators.required]);
+    this.name = new FormControl('', [Validators.required]);
 
-    this.format = new FormControl("");
+    this.format = new FormControl('');
 
-    this.dataType = new FormControl("",[Validators.required]);
+    this.dataType = new FormControl('', [Validators.required]);
 
-    this.unitOfMeasureId = new FormControl("");
+    this.unitOfMeasureId = new FormControl('');
 
-    this.maximumValue = new FormControl("");
+    this.maximumValue = new FormControl('');
 
-    this.minimumValue = new FormControl("");
+    this.minimumValue = new FormControl('');
 
     this.attributeForm = formBuilder.group({
-      "name": this.name,
-      "format": this.format,
-      "dataType": this.dataType,
-      "unitOfMeasureId": this.unitOfMeasureId,
-      "maximumValue": this.maximumValue,
-      "minimumValue": this.minimumValue
+      'name': this.name,
+      'format': this.format,
+      'dataType': this.dataType,
+      'unitOfMeasureId': this.unitOfMeasureId,
+      'maximumValue': this.maximumValue,
+      'minimumValue': this.minimumValue
     });
 
-    let attribute = new Attribute();
+    const attribute = new Attribute();
     this.attribute = attribute;
 
     this.attributeForm
@@ -81,7 +80,7 @@ export class AttributeCreationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let that = this;
+    const that = this;
     this.attributeService
     .getDataTypes()
     .subscribe(dataTypes => {
@@ -96,13 +95,13 @@ export class AttributeCreationComponent implements OnInit {
   }
 
   private populateUnitOfMeasureIdDropDown() {
-    this.findUnitOfMeasureId("");
-    this.attributeForm.get("unitOfMeasureId").valueChanges
+    this.findUnitOfMeasureId('');
+    this.attributeForm.get('unitOfMeasureId').valueChanges
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
+        console.log('value: ' + value);
         this.findUnitOfMeasureId(value);
       });
   }
@@ -119,10 +118,10 @@ export class AttributeCreationComponent implements OnInit {
         })
       })
       .subscribe(next => { // update the data
-        console.log("findUnitOfMeasureId next - " + next);
+        console.log('findUnitOfMeasureId next - ' + next);
         this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
-        console.log("findUnitOfMeasureId error - " + error);
+        console.log('findUnitOfMeasureId error - ' + error);
       });
   }
 

@@ -1,12 +1,12 @@
 export class SessionState {
 
-  private _sessionId:string;
-  private _partyId:string;
+  private _sessionId: string;
+  private _partyId: string;
   private _credentialConfirmationId: string;
   private _accountStatus: string;
-  private _created:Date;
-  private _modified:Date;
-  private _data:Map<string, Object>;
+  private _created: Date;
+  private _modified: Date;
+  private _data: Map<string, Object>;
 
   constructor() {
   }

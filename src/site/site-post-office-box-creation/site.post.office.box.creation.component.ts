@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {PostOfficeBox} from "../post.office.box";
-import {SiteService} from "../site.service";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {PostOfficeBox} from '../post.office.box';
+import {SiteService} from '../site.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'site-post-office-box-creation',
@@ -23,28 +23,28 @@ export class SitePostOfficeBoxCreationComponent implements OnInit {
 
   private postOfficeBox: PostOfficeBox;
 
-  private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage: boolean;
 
-  constructor(private siteService:SiteService,
+  constructor(private siteService: SiteService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
-     this.name = new FormControl("", [Validators.required]);
-     this.description = new FormControl("");
-     this.postOfficeBoxNumber = new FormControl("", [Validators.required]);
-     this.city = new FormControl("", [Validators.required]);
-     this.stateOrProvince = new FormControl("", [Validators.required]);
-     this.postalCode = new FormControl("", [Validators.required]);
-     this.country = new FormControl("", [Validators.required]);
+     this.name = new FormControl('', [Validators.required]);
+     this.description = new FormControl('');
+     this.postOfficeBoxNumber = new FormControl('', [Validators.required]);
+     this.city = new FormControl('', [Validators.required]);
+     this.stateOrProvince = new FormControl('', [Validators.required]);
+     this.postalCode = new FormControl('', [Validators.required]);
+     this.country = new FormControl('', [Validators.required]);
 
      this.sitePostOfficeBoxForm = formBuilder.group({
-       "name": this.name,
-       "description": this.description,
-       "postOfficeBoxNumber": this.postOfficeBoxNumber,
-       "city": this.city,
-       "stateOrProvince": this.stateOrProvince,
-       "postalCode": this.postalCode,
-       "country": this.country
+       'name': this.name,
+       'description': this.description,
+       'postOfficeBoxNumber': this.postOfficeBoxNumber,
+       'city': this.city,
+       'stateOrProvince': this.stateOrProvince,
+       'postalCode': this.postalCode,
+       'country': this.country
      });
 
      this.postOfficeBox = new PostOfficeBox();
@@ -101,7 +101,7 @@ export class SitePostOfficeBoxCreationComponent implements OnInit {
     this._city = value;
   }
 
-  get stateOrProvince() : FormControl {
+  get stateOrProvince(): FormControl {
     return this._stateOrProvince;
   }
 

@@ -1,17 +1,17 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit} from '@angular/core';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AccessRoleService} from "../access.role.service";
-import {AccessRole} from "../access.role";
-import {AccessRoleType} from "../access.role.type";
-import {Resources} from "../resources";
-import {ResourcePermission} from "../resource.permission";
-import {Grant} from "../grant";
-import {Sort} from "../../sort/sort";
-import {Page} from "../../page/page";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AccessRoleService} from '../access.role.service';
+import {AccessRole} from '../access.role';
+import {AccessRoleType} from '../access.role.type';
+import {Resources} from '../resources';
+import {ResourcePermission} from '../resource.permission';
+import {Grant} from '../grant';
+import {Sort} from '../../sort/sort';
+import {Page} from '../../page/page';
 
 @Component({
   selector: 'access-role-edit',
@@ -30,20 +30,20 @@ export class AccessRoleEditComponent implements OnInit {
 
   private accessRole: AccessRole;
   private _resources: Resources;
-  private _resourcePermissions : ResourcePermission[];
+  private _resourcePermissions: ResourcePermission[];
   private _grants: Grant[];
 
   private accessRoleId: string;
   private sub: any;
 
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
 
   private _accessRoleForm: FormGroup;
 
-  private pageSize:number = 15;
-  private _doNotDisplayFailureMessage:boolean;
+  private pageSize = 15;
+  private _doNotDisplayFailureMessage: boolean;
 
   constructor(private accessRoleService: AccessRoleService,
               private completerService: CompleterService,
@@ -51,19 +51,19 @@ export class AccessRoleEditComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router) {
     this.prohibitionIndicator = new FormControl(false);
-    this.name = new FormControl("", [Validators.required]);
-    this.accessRoleTypeId = new FormControl("", [Validators.required]);
+    this.name = new FormControl('', [Validators.required]);
+    this.accessRoleTypeId = new FormControl('', [Validators.required]);
     this.effectiveDate = new FormControl(this.getDateString(new Date()), [Validators.required]);
     this.untilDate = new FormControl(this.getDateString(new Date( new Date().getTime() + (2678400000 * 6))));
-    this.description = new FormControl("");
+    this.description = new FormControl('');
 
     this.accessRoleForm = formBuilder.group({
-      "prohibitionIndicator": this.prohibitionIndicator,
-      "name": this.name,
-      "accessRoleTypeId": this.accessRoleTypeId,
-      "effectiveDate": this.effectiveDate,
-      "untilDate": this.untilDate,
-      "description": this.description
+      'prohibitionIndicator': this.prohibitionIndicator,
+      'name': this.name,
+      'accessRoleTypeId': this.accessRoleTypeId,
+      'effectiveDate': this.effectiveDate,
+      'untilDate': this.untilDate,
+      'description': this.description
     });
 
     this.accessRoleForm
@@ -79,7 +79,7 @@ export class AccessRoleEditComponent implements OnInit {
     this.accessRole = new AccessRole();
     this.accessRole.accessRoleType = new AccessRoleType();
 
-    let newResources = new Resources();
+    const newResources = new Resources();
     newResources.resources = [];
     newResources.page = new Page();
     newResources.sort = new Sort();
@@ -107,7 +107,7 @@ export class AccessRoleEditComponent implements OnInit {
         }, error => {
           console.log(error);
         }, () => {
-          console.log("complete");
+          console.log('complete');
         });
     });
     this.getResourcePermissions();
@@ -133,10 +133,10 @@ export class AccessRoleEditComponent implements OnInit {
   }
 
   populateAccessRoleTypeDropDown() {
-    if(!this.accessRole.accessRoleType.accessRoleTypeId) {
-      this.findAccessRoleTypeId("");
+    if (!this.accessRole.accessRoleType.accessRoleTypeId) {
+      this.findAccessRoleTypeId('');
     }
-    this.accessRoleForm.get("accessRoleTypeId").valueChanges
+    this.accessRoleForm.get('accessRoleTypeId').valueChanges
       //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -160,12 +160,12 @@ export class AccessRoleEditComponent implements OnInit {
       .subscribe(next => { // update the data
         this.accessRoleTypeDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
-        console.log("findAccessRoleType error - " + error);
+        console.log('findAccessRoleType error - ' + error);
       });
   }
 
   getDateString(date: Date) {
-    return date.toISOString().substring(0,10);
+    return date.toISOString().substring(0, 10);
   }
 
   get prohibitionIndicator(): FormControl {
@@ -265,7 +265,7 @@ export class AccessRoleEditComponent implements OnInit {
   }
 
   getPermission(resourceId: string) {
-    let newArray = this.resourcePermissions.filter(value => {
+    const newArray = this.resourcePermissions.filter(value => {
       return value.resourceId === resourceId;
     });
     return newArray;
@@ -293,8 +293,8 @@ export class AccessRoleEditComponent implements OnInit {
   }
 
   isChecked(resourcePermissionId) {
-    let index = this.grants.find(x => { return x.resourcePermissionId === resourcePermissionId});
-    if(index) {
+    const index = this.grants.find(x => x.resourcePermissionId === resourcePermissionId);
+    if (index) {
        return true;
     }else {
       return false;

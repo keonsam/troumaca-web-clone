@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {Page} from "../page/page";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Page} from '../page/page';
 
 @Component({
   selector: 'paging',
@@ -8,14 +8,14 @@ import {Page} from "../page/page";
 })
 export class PagingComponent implements OnInit {
 
-  private _page:Page;
-  private _pages:number[];
-  private _minPageNumber:number;
-  private _maxPageNumber:number;
-  private _hasPreviousPage:boolean;
-  private _hasNextPage:boolean;
-  private _requestPage:EventEmitter<number> = new EventEmitter<number>();
-  private _pagingDisplayOn:boolean;
+  private _page: Page;
+  private _pages: number[];
+  private _minPageNumber: number;
+  private _maxPageNumber: number;
+  private _hasPreviousPage: boolean;
+  private _hasNextPage: boolean;
+  private _requestPage: EventEmitter<number> = new EventEmitter<number>();
+  private _pagingDisplayOn: boolean;
 
   constructor() {
     this.maxPageNumber = 0;
@@ -48,14 +48,14 @@ export class PagingComponent implements OnInit {
         this.minPageNumber = 1;
         this.maxPageNumber = 1;
       } else {
-        let pages = Math.ceil(value.totalItems/value.size);
+        const pages = Math.ceil(value.totalItems / value.size);
         this.pages = this.createRange(pages);
         if (pages == 1) {
           this.minPageNumber = 1;
           this.maxPageNumber = 1;
         } else {
           this.minPageNumber = this.pages[0];
-          this.maxPageNumber = this.pages[this.pages.length -1];
+          this.maxPageNumber = this.pages[this.pages.length - 1];
           this.hasPreviousPage = !(value.number == this.minPageNumber);
           this.hasNextPage = !(value.number == this.maxPageNumber);
         }
@@ -110,7 +110,7 @@ export class PagingComponent implements OnInit {
     this._hasNextPage = value;
   }
 
-  public isCurrent(n:number):boolean {
+  public isCurrent(n: number): boolean {
     return n == this.page.number
   }
 
@@ -122,24 +122,24 @@ export class PagingComponent implements OnInit {
     this._pagingDisplayOn = value;
   }
 
-  get recordsStart():number {
+  get recordsStart(): number {
     if (this.page && this.page.number && this.page.number > 0 && this.page.size && this.page.size > 0) {
-      return ((this.page.number -1) * this.page.size) + 1;
+      return ((this.page.number - 1) * this.page.size) + 1;
     } else {
       return 0;
     }
   }
 
-  get recordsEnd():number {
+  get recordsEnd(): number {
     if (this.page && this.page.number && this.page.number > 0 && this.page.size && this.page.size > 0) {
-      return ((this.page.number -1) * this.page.size) + this.page.items;
+      return ((this.page.number - 1) * this.page.size) + this.page.items;
     } else {
       return 0;
     }
   }
 
-  private createRange(size:number):number[] {
-    let array = new Array(size);
+  private createRange(size: number): number[] {
+    const array = new Array(size);
     for (let i = 0; i < array.length; i++) {
       array[i] = i + 1;
     }
@@ -147,17 +147,17 @@ export class PagingComponent implements OnInit {
   }
 
   onPreviousPage() {
-    let previousPage = this.page.number - 1;
+    const previousPage = this.page.number - 1;
     this.requestPage.emit(previousPage);
 
   }
 
-  onRequestPage(pageNumber:number) {
+  onRequestPage(pageNumber: number) {
     this.requestPage.emit(pageNumber);
   }
 
   onNextPage() {
-    let previousPage = this.page.number + 1;
+    const previousPage = this.page.number + 1;
     this.requestPage.emit(previousPage);
   }
 

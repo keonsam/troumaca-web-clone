@@ -1,9 +1,9 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
-import {MenuModel} from "../menu.model";
-import {MenuService} from "../menu.service";
-import {EventService} from "../../event/event.service";
-import {MenuItemModel} from "../menu.item.model";
-import {PartyService} from "../../parties/party.service";
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {MenuModel} from '../menu.model';
+import {MenuService} from '../menu.service';
+import {EventService} from '../../event/event.service';
+import {MenuItemModel} from '../menu.item.model';
+import {PartyService} from '../../parties/party.service';
 
 @Component({
   selector: 'side-menu',
@@ -13,16 +13,16 @@ import {PartyService} from "../../parties/party.service";
 export class SideMenuComponent implements OnInit {
 
   private partyId: string;
-  private imageStr: string;
-  private userName: string;
-  private _title:string;
-  private _name:string;
-  private _menuModel:MenuModel;
-  private _isLoggedIn:boolean;
+  private _imageStr: string;
+  private _userName: string;
+  private _title: string;
+  private _name: string;
+  private _menuModel: MenuModel;
+  private _isLoggedIn: boolean;
 
-  constructor(private eventService:EventService, private menuService:MenuService, private partyService: PartyService, private cd: ChangeDetectorRef) {
-    this.title = "side-menu";
-    this.name = "side-menu";
+  constructor(private eventService: EventService, private _menuService: MenuService, private partyService: PartyService, private cd: ChangeDetectorRef) {
+    this.title = 'side-menu';
+    this.name = 'side-menu';
     this.isLoggedIn = true;
     this.menuModel = new MenuModel();
     this.menuModel.menuItemModels = [];
@@ -71,7 +71,7 @@ export class SideMenuComponent implements OnInit {
     this.handleMenuRefreshEvent();
     this.partyService.getPartyId()
       .subscribe( partyId => {
-        if(partyId){
+        if (partyId){
           this.partyId = partyId;
           this.getPhoto();
           this.getUserInformation();
@@ -79,10 +79,34 @@ export class SideMenuComponent implements OnInit {
       });
   }
 
+  get imageStr(): string {
+    return this._imageStr;
+  }
+
+  set imageStr(value: string) {
+    this._imageStr = value;
+  }
+
+  get userName(): string {
+    return this._userName;
+  }
+
+  set userName(value: string) {
+    this._userName = value;
+  }
+
+  get menuService(): MenuService {
+    return this._menuService;
+  }
+
+  set menuService(value: MenuService) {
+    this._menuService = value;
+  }
+
   getPhoto() {
-    this.partyService.getPhoto(this.partyId,"user")
+    this.partyService.getPhoto(this.partyId, 'user')
       .subscribe(photo => {
-        if(photo) {
+        if (photo) {
           this.imageStr = photo.imageStr;
         }
       });
@@ -91,7 +115,7 @@ export class SideMenuComponent implements OnInit {
   getUserInformation() {
     this.partyService.getUser(this.partyId)
       .subscribe( userResponse => {
-        if(userResponse.user.partyId) {
+        if (userResponse.user.partyId) {
           this.userName = userResponse.user.name;
         }
       });
@@ -99,18 +123,18 @@ export class SideMenuComponent implements OnInit {
 
 
   handleMenuRefreshEvent() {
-    let that = this;
+    const that = this;
     this.eventService.subscribeToLoginEvent((data) => {
       that.isLoggedIn = true;
       that.getMenu(this.isLoggedIn);
     });
   }
 
-  getMenu(isLoggedIn:boolean) {
+  getMenu(isLoggedIn: boolean) {
     if (!isLoggedIn) { return; }
 
-    let that = this;
-    this.menuService.getMenuByName(this.name).subscribe(function (menu) {
+    const that = this;
+    this._menuService.getMenuByName(this.name).subscribe(function (menu) {
       that.menuModel.menuItemModels = [];
       menu.menuItemModels.forEach(value => {
         that.menuModel.menuItemModels.push(value);
@@ -120,7 +144,7 @@ export class SideMenuComponent implements OnInit {
     });
   }
 
-  onSelected(menuItemModel:MenuItemModel) {
+  onSelected(menuItemModel: MenuItemModel) {
     this._menuModel.menuItemModels.forEach(mi => {
       if (mi.active) {
         mi.active = false
@@ -133,7 +157,7 @@ export class SideMenuComponent implements OnInit {
     this.partyService.logOutUser()
       .subscribe(next => {
         if (next) {
-          this.eventService.sendSessionLogoutEvent({"logOutEvent":true});
+          this.eventService.sendSessionLogoutEvent({'logOutEvent': true});
         }
       });
   }

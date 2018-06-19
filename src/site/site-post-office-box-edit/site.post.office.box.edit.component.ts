@@ -1,9 +1,9 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {PostOfficeBox} from "../post.office.box";
-import {SiteService} from "../site.service";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {PostOfficeBox} from '../post.office.box';
+import {SiteService} from '../site.service';
 import {ActivatedRoute} from '@angular/router';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'site-post-office-box-edit',
@@ -27,30 +27,30 @@ export class SitePostOfficeBoxEditComponent implements OnInit {
 
   private postOfficeBox: PostOfficeBox;
 
-  private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage: boolean;
 
-  constructor(private siteService:SiteService,
+  constructor(private siteService: SiteService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
 
-     this.name = new FormControl("", [Validators.required]);
-     this.description = new FormControl("");
-     this.postOfficeBoxNumber = new FormControl("", [Validators.required]);
-     this.city = new FormControl("", [Validators.required]);
-     this.stateOrProvince = new FormControl("", [Validators.required]);
-     this.postalCode = new FormControl("", [Validators.required]);
-     this.country = new FormControl("", [Validators.required]);
+     this.name = new FormControl('', [Validators.required]);
+     this.description = new FormControl('');
+     this.postOfficeBoxNumber = new FormControl('', [Validators.required]);
+     this.city = new FormControl('', [Validators.required]);
+     this.stateOrProvince = new FormControl('', [Validators.required]);
+     this.postalCode = new FormControl('', [Validators.required]);
+     this.country = new FormControl('', [Validators.required]);
 
 
      this.sitePostOfficeBoxEditForm = formBuilder.group({
-       "name": this.name,
-       "description": this.description,
-       "postOfficeBoxNumber": this.postOfficeBoxNumber,
-       "city": this.city,
-       "stateOrProvince": this.stateOrProvince,
-       "postalCode": this.postalCode,
-       "country": this.country
+       'name': this.name,
+       'description': this.description,
+       'postOfficeBoxNumber': this.postOfficeBoxNumber,
+       'city': this.city,
+       'stateOrProvince': this.stateOrProvince,
+       'postalCode': this.postalCode,
+       'country': this.country
      });
 
      this.postOfficeBox = new PostOfficeBox();
@@ -70,7 +70,7 @@ export class SitePostOfficeBoxEditComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
        this.siteId = params['siteId'];
        this.siteService.getPostOfficeBox(this.siteId)
-       .subscribe(postOfficeBox =>{
+       .subscribe(postOfficeBox => {
         this.name.setValue(postOfficeBox.name);
         this.description.setValue(postOfficeBox.description);
         this.postOfficeBoxNumber.setValue(postOfficeBox.postOfficeBoxNumber);
@@ -125,7 +125,7 @@ export class SitePostOfficeBoxEditComponent implements OnInit {
     this._city = value;
   }
 
-  get stateOrProvince() : FormControl {
+  get stateOrProvince(): FormControl {
     return this._stateOrProvince;
   }
 

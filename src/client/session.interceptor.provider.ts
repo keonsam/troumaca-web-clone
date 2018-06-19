@@ -1,8 +1,8 @@
-import {ClientEvent} from "./client.event";
-import {SessionInterceptor} from "./session.interceptor";
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {ClientEvent} from './client.event';
+import {SessionInterceptor} from './session.interceptor';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
-export function sessionInterceptorFactory (clientEvent:ClientEvent):SessionInterceptor {
+export function sessionInterceptorFactory (clientEvent: ClientEvent): SessionInterceptor {
   return new SessionInterceptor(clientEvent);
 }
 

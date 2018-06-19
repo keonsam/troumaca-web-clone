@@ -1,12 +1,12 @@
-import {AssetTypeClass} from "./asset.type.class";
-import {Page} from "../page/page";
-import {Sort} from "../sort/sort";
+import {AssetTypeClass} from './asset.type.class';
+import {Page} from '../page/page';
+import {Sort} from '../sort/sort';
 
 export class AssetTypeClasses {
 
-  private _assetTypeClasses:AssetTypeClass[] = [];
-  private _page:Page;
-  private _sort:Sort;
+  private _assetTypeClasses: AssetTypeClass[] = [];
+  private _page: Page;
+  private _sort: Sort;
 
   get assetTypeClasses(): AssetTypeClass[] {
     return this._assetTypeClasses;

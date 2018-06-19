@@ -1,12 +1,12 @@
-import {Asset} from "./asset";
-import {Page} from "../page/page";
-import {Sort} from "../sort/sort";
+import {Asset} from './asset';
+import {Page} from '../page/page';
+import {Sort} from '../sort/sort';
 
 export class Assets {
 
-  private _assets:Asset[] = [];
-  private _page:Page;
-  private _sort:Sort;
+  private _assets: Asset[] = [];
+  private _page: Page;
+  private _sort: Sort;
 
   get assets(): Asset[] {
     return this._assets;

@@ -1,6 +1,6 @@
-import {AccessRole} from "./access.role";
-import {Page} from "../page/page";
-import {Sort} from "../sort/sort";
+import {AccessRole} from './access.role';
+import {Page} from '../page/page';
+import {Sort} from '../sort/sort';
 
 export class  AccessRoles {
   private _accessRoles: AccessRole[] = [];

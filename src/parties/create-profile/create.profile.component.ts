@@ -1,17 +1,17 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
 
-import {PartyService} from "../party.service";
-import {User} from "../user";
-import {Organization} from "../organization";
-import {Photo} from "../photo";
-import {EventService} from "../../event/event.service";
-import {Event} from "../../authentication/event";
+import {PartyService} from '../party.service';
+import {User} from '../user';
+import {Organization} from '../organization';
+import {Photo} from '../photo';
+import {EventService} from '../../event/event.service';
+import {Event} from '../../authentication/event';
 
 @Component({
   selector: 'create-profile',
-  templateUrl:'./create.profile.component.html',
+  templateUrl: './create.profile.component.html',
   styleUrls: ['./create.profile.component.css']
 })
 export class CreateAccountComponent implements OnInit {
@@ -26,45 +26,45 @@ export class CreateAccountComponent implements OnInit {
 
   private _createProfileForm: FormGroup;
 
-  private user: User;
+  private _user: User;
   private organization: Organization;
   private photo: Photo;
   private photo2: Photo;
   private partyId: string;
-  private imageChangedEvent: any = '';
+  private _imageChangedEvent: any = '';
   private croppedImage: any = '';
-  private userImage: any = '';
-  private imageChangedEvent2: any = '';
+  private _userImage: any = '';
+  private _imageChangedEvent2: any = '';
   private croppedImage2: any = '';
-  private organizationImage: any = '';
+  private _organizationImage: any = '';
 
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
   private _doNotDisplayFailureMessage3: boolean;
-  private userImageComplete: boolean = false;
-  private requiredState: boolean = false;
+  private userImageComplete = false;
+  private requiredState = false;
 
   constructor(private partyService: PartyService,
               private eventService: EventService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
-    this.accountType = new FormControl("", [Validators.required]);
-    this.firstName = new FormControl("", [Validators.required]);
-    this.middleName = new FormControl("", [Validators.required]);
-    this.lastName = new FormControl("", [Validators.required]);
-    this.purpose = new FormControl("", [Validators.required]);
-    this.organizationName = new FormControl("", [Validators.required]);
-    this.description = new FormControl("");
+    this.accountType = new FormControl('', [Validators.required]);
+    this.firstName = new FormControl('', [Validators.required]);
+    this.middleName = new FormControl('', [Validators.required]);
+    this.lastName = new FormControl('', [Validators.required]);
+    this.purpose = new FormControl('', [Validators.required]);
+    this.organizationName = new FormControl('', [Validators.required]);
+    this.description = new FormControl('');
 
     this.createProfileForm = formBuilder.group({
-      "accountType": this.accountType,
-      "firstName": this.firstName,
-      "middleName": this.middleName,
-      "lastName": this.lastName,
-      "purpose": this.purpose,
-      "organizationName": this.organizationName,
-      "description": this.description
+      'accountType': this.accountType,
+      'firstName': this.firstName,
+      'middleName': this.middleName,
+      'lastName': this.lastName,
+      'purpose': this.purpose,
+      'organizationName': this.organizationName,
+      'description': this.description
     });
 
     this.user = new User();
@@ -95,34 +95,74 @@ export class CreateAccountComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.createProfileForm.get("accountType")
+    this.createProfileForm.get('accountType')
     .valueChanges
     .subscribe(type => {
-      if(type === "personal" || ""){
+      if (type === 'personal' || ''){
         this.requiredState = false;
-        this.createProfileForm.get("organizationName").setValidators(null);
-        this.createProfileForm.get("purpose").setValidators(null);
-        this.createProfileForm.get("organizationName").updateValueAndValidity();
-        this.createProfileForm.get("purpose").updateValueAndValidity();
+        this.createProfileForm.get('organizationName').setValidators(null);
+        this.createProfileForm.get('purpose').setValidators(null);
+        this.createProfileForm.get('organizationName').updateValueAndValidity();
+        this.createProfileForm.get('purpose').updateValueAndValidity();
       }else {
         this.requiredState = true;
-        this.createProfileForm.get("organizationName").setValidators([Validators.required]);
-        this.createProfileForm.get("purpose").setValidators([Validators.required]);
-        this.createProfileForm.get("organizationName").updateValueAndValidity();
-        this.createProfileForm.get("purpose").updateValueAndValidity();
+        this.createProfileForm.get('organizationName').setValidators([Validators.required]);
+        this.createProfileForm.get('purpose').setValidators([Validators.required]);
+        this.createProfileForm.get('organizationName').updateValueAndValidity();
+        this.createProfileForm.get('purpose').updateValueAndValidity();
       }
       this.createProfileForm.updateValueAndValidity();
     });
   }
 
   createEventModel() {
-    let event:Event = new Event();
-    event.partyId = "123";
+    const event: Event = new Event();
+    event.partyId = '123';
     event.timestamp = new Date().getTime();
-    event.source = "create.profile.component";
-    event.name = "login";
+    event.source = 'create.profile.component';
+    event.name = 'login';
 
     return event;
+  }
+
+  get user(): User {
+    return this._user;
+  }
+
+  set user(value: User) {
+    this._user = value;
+  }
+
+  get imageChangedEvent(): any {
+    return this._imageChangedEvent;
+  }
+
+  set imageChangedEvent(value: any) {
+    this._imageChangedEvent = value;
+  }
+
+  get userImage(): any {
+    return this._userImage;
+  }
+
+  set userImage(value: any) {
+    this._userImage = value;
+  }
+
+  get imageChangedEvent2(): any {
+    return this._imageChangedEvent2;
+  }
+
+  set imageChangedEvent2(value: any) {
+    this._imageChangedEvent2 = value;
+  }
+
+  get organizationImage(): any {
+    return this._organizationImage;
+  }
+
+  set organizationImage(value: any) {
+    this._organizationImage = value;
   }
 
   get accountType(): FormControl {
@@ -250,7 +290,7 @@ export class CreateAccountComponent implements OnInit {
     this.photo2.partyId = this.partyId;
    this.partyService.addPhoto(this.partyId, this.photo2, 'organization')
      .subscribe(value => {
-       if(value.partyId) {
+       if (value.partyId) {
          this.loginUserIn();
        }else {
          this.doNotDisplayFailureMessage3 = false;
@@ -287,11 +327,11 @@ export class CreateAccountComponent implements OnInit {
 
   addAccount() {
     this.partyService
-      .addAccount(this.accountType.value, this.user ,this.organization)
+      .addAccount(this.accountType.value, this.user , this.organization)
       .subscribe(value => {
-        if(value.created){
+        if (value.created){
           this.partyId = value.user.partyId;
-          if(this.photo.imageStr || this.photo2.imageStr){
+          if (this.photo.imageStr || this.photo2.imageStr){
             this.savePhoto();
           }else {
             this.eventService.sendLoginEvent(this.createEventModel());
@@ -309,7 +349,7 @@ export class CreateAccountComponent implements OnInit {
   onCreate() {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
-    if(this.partyId) {
+    if (this.partyId) {
       this.savePhoto();
     }else {
       this.addAccount();

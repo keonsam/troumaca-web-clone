@@ -1,16 +1,16 @@
-import {MenuRepository} from "../../menu/menu.repository";
-import {Observable} from "rxjs/Observable";
-import {MenuModel} from "../../menu/menu.model";
-import {MenuClient} from "../../client/menus/menu.client";
-import {mapObjectProps} from "../../mapper/object.property.mapper";
-import {MenuItemModel} from "../../menu/menu.item.model";
-import {LeftMenuRepository} from "../../left-menu/left.menu.repository";
-import {LeftMenuModel} from "../../left-menu/left.menu.model";
+import {MenuRepository} from '../../menu/menu.repository';
+import {Observable} from 'rxjs/Observable';
+import {MenuModel} from '../../menu/menu.model';
+import {MenuClient} from '../../client/menus/menu.client';
+import {mapObjectProps} from '../../mapper/object.property.mapper';
+import {MenuItemModel} from '../../menu/menu.item.model';
+import {LeftMenuRepository} from '../../left-menu/left.menu.repository';
+import {LeftMenuModel} from '../../left-menu/left.menu.model';
 
-import "rxjs/add/operator/map";
-import {MenuState} from "../../client/menus/menu.state";
-import {LeftMenuItemModel} from "../../left-menu/left.menu.item.model";
-import {MenuItemState} from "../../client/menus/menu.item.state";
+import 'rxjs/add/operator/map';
+import {MenuState} from '../../client/menus/menu.state';
+import {LeftMenuItemModel} from '../../left-menu/left.menu.item.model';
+import {MenuItemState} from '../../client/menus/menu.item.state';
 
 
 
@@ -18,15 +18,15 @@ export class MenuRepositoryAdapter implements MenuRepository, LeftMenuRepository
 
   constructor(private menuClient: MenuClient) {
   }
-  
-  getMenuModel(isLoggedIn:boolean): Observable<MenuModel> {
+
+  getMenuModel(isLoggedIn: boolean): Observable<MenuModel> {
     return this.menuClient
       .getTopMenuState(isLoggedIn)
       .map(menuData => {
-        let menuItemModels:MenuItemModel[] = menuData.menuItemStates.map(menuItemData => {
+        const menuItemModels: MenuItemModel[] = menuData.menuItemStates.map(menuItemData => {
           return mapObjectProps(menuItemData, new MenuItemModel());
         });
-        let menuModel:MenuModel = mapObjectProps(menuData, new MenuModel());
+        const menuModel: MenuModel = mapObjectProps(menuData, new MenuModel());
         menuModel.menuItemModels = menuItemModels;
         return menuModel;
       });
@@ -44,8 +44,8 @@ export class MenuRepositoryAdapter implements MenuRepository, LeftMenuRepository
       });
   }
 
-  private toMenuModel(menuState: MenuState):MenuModel {
-    let menuModel:MenuModel = mapObjectProps(menuState, new MenuModel());
+  private toMenuModel(menuState: MenuState): MenuModel {
+    const menuModel: MenuModel = mapObjectProps(menuState, new MenuModel());
     //let menuItemStates = menuState.menuItemStates;
     if (menuState.menuItemStates && menuState.menuItemStates != null && menuState.menuItemStates.length > 0) {
       menuModel.menuItemModels = this.toMenuItemModel(menuState.menuItemStates);
@@ -53,10 +53,10 @@ export class MenuRepositoryAdapter implements MenuRepository, LeftMenuRepository
     return menuModel;
   }
 
-  private toMenuItemModel(menuItemStates: MenuItemState[]):MenuItemModel[] {
+  private toMenuItemModel(menuItemStates: MenuItemState[]): MenuItemModel[] {
     return menuItemStates.map(menuItemState => {
-      let menuItemModel:MenuItemModel = mapObjectProps(menuItemState, new MenuItemModel());
-      let menuStates = menuItemState.menuStates;
+      const menuItemModel: MenuItemModel = mapObjectProps(menuItemState, new MenuItemModel());
+      const menuStates = menuItemState.menuStates;
       if (menuStates != null && menuStates.length > 0) {
         menuItemModel.menuModels = menuStates.map(menuState => {
           return this.toMenuModel(menuState);
@@ -66,7 +66,7 @@ export class MenuRepositoryAdapter implements MenuRepository, LeftMenuRepository
     });
   }
 
-  getLeftMenuModelByName(menuName:string): Observable<LeftMenuModel> {
+  getLeftMenuModelByName(menuName: string): Observable<LeftMenuModel> {
     return this.menuClient
       .getLeftMenuStateByName(menuName)
       .map(menuState => {
@@ -77,7 +77,7 @@ export class MenuRepositoryAdapter implements MenuRepository, LeftMenuRepository
       });
   }
 
-  getLeftMenuModelById(menuName:string): Observable<LeftMenuModel> {
+  getLeftMenuModelById(menuName: string): Observable<LeftMenuModel> {
     return this.menuClient
       .getLeftMenuStateById(menuName)
       .map(menuStates => {
@@ -88,8 +88,8 @@ export class MenuRepositoryAdapter implements MenuRepository, LeftMenuRepository
       });
   }
 
-  private toLeftMenuModel(menuState: MenuState):LeftMenuModel {
-    let leftMenuModel:LeftMenuModel = mapObjectProps(menuState, new LeftMenuModel());
+  private toLeftMenuModel(menuState: MenuState): LeftMenuModel {
+    const leftMenuModel: LeftMenuModel = mapObjectProps(menuState, new LeftMenuModel());
     //let menuItemStates = menuState.menuItemStates;
     if (menuState.menuItemStates && menuState.menuItemStates != null && menuState.menuItemStates.length > 0) {
       leftMenuModel.leftMenuItemModels = this.toLeftMenuItemModel(menuState.menuItemStates);
@@ -97,10 +97,10 @@ export class MenuRepositoryAdapter implements MenuRepository, LeftMenuRepository
     return leftMenuModel;
   }
 
-  private toLeftMenuItemModel(menuItemStates:MenuItemState[]):LeftMenuItemModel[] {
+  private toLeftMenuItemModel(menuItemStates: MenuItemState[]): LeftMenuItemModel[] {
     return menuItemStates.map(menuItemState => {
-      let leftMenuItemModel:LeftMenuItemModel = mapObjectProps(menuItemState, new LeftMenuItemModel());
-      let menuStates = menuItemState.menuStates;
+      const leftMenuItemModel: LeftMenuItemModel = mapObjectProps(menuItemState, new LeftMenuItemModel());
+      const menuStates = menuItemState.menuStates;
       if (menuStates != null && menuStates.length > 0) {
         leftMenuItemModel.leftMenuModels = menuStates.map(menuState => {
           return this.toLeftMenuModel(menuState);

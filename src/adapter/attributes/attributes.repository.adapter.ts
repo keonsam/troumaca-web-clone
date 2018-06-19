@@ -1,18 +1,18 @@
-import "rxjs/add/operator/map";
-import { map, reduce, somethingElse } from "underscore";
-import {Observable} from "rxjs/Observable";
-import {mapObjectProps} from "../../mapper/object.property.mapper";
+import 'rxjs/add/operator/map';
+import { map, reduce, somethingElse } from 'underscore';
+import {Observable} from 'rxjs/Observable';
+import {mapObjectProps} from '../../mapper/object.property.mapper';
 
-import {AttributeRepository} from "../../attributes/attribute.repository";
-import {AttributeClient} from "../../client/attribute/attribute.client";
-import {Attribute} from "../../attributes/attribute";
-import {Attributes} from "../../attributes/attributes";
-import {AttributeState} from "../../client/attribute/attribute.state";
-import {DataType} from "../../attributes/data.type";
-import {DataTypes} from "../../attributes/data.types";
-import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
+import {AttributeRepository} from '../../attributes/attribute.repository';
+import {AttributeClient} from '../../client/attribute/attribute.client';
+import {Attribute} from '../../attributes/attribute';
+import {Attributes} from '../../attributes/attributes';
+import {AttributeState} from '../../client/attribute/attribute.state';
+import {DataType} from '../../attributes/data.type';
+import {DataTypes} from '../../attributes/data.types';
+import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
 
 export class AttributeRepositoryAdapter extends AttributeRepository {
 
@@ -24,7 +24,7 @@ export class AttributeRepositoryAdapter extends AttributeRepository {
     return this.attributeClient
     .getDataTypes()
     .map(values => {
-      let dataTypes:DataTypes = new DataTypes();
+      const dataTypes: DataTypes = new DataTypes();
       dataTypes.dataTypes = map(values, value => {
         return mapObjectProps(value, new DataType());
       });
@@ -32,13 +32,13 @@ export class AttributeRepositoryAdapter extends AttributeRepository {
     });
   }
 
-  public getAttributes(pageNumber:number, pageSize:number, sortOrder:string):Observable<Attributes> {
+  public getAttributes(pageNumber: number, pageSize: number, sortOrder: string): Observable<Attributes> {
     return this.attributeClient
       .getAttributesStates(pageNumber, pageSize, sortOrder)
       .map(values => {
-        let attributes:Attributes = new Attributes();
+        const attributes: Attributes = new Attributes();
         attributes.attributes = map(values.attributes, value => {
-          let attribute = mapObjectProps(value, new Attribute());
+          const attribute = mapObjectProps(value, new Attribute());
           return attribute;
         });
 
@@ -65,7 +65,7 @@ export class AttributeRepositoryAdapter extends AttributeRepository {
       });
   }
 
-  public addAttribute(attribute:Attribute):Observable<Attribute> {
+  public addAttribute(attribute: Attribute): Observable<Attribute> {
     return this.attributeClient
     .addAttribute(mapObjectProps(attribute, new AttributeState()))
     .map(attributeState => {

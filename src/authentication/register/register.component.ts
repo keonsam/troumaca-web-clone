@@ -1,15 +1,15 @@
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
-import "rxjs/add/operator/distinctUntilChanged";
-import "rxjs/add/operator/first";
-import "rxjs/add/operator/single";
-import "rxjs/add/operator/take";
-import "rxjs/add/operator/switchMap";
-import {Component, OnInit} from "@angular/core";
-import {AuthenticationService} from "../authentication.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Credential} from "../credential";
-import {Router} from "@angular/router";
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/single';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/switchMap';
+import {Component, OnInit} from '@angular/core';
+import {AuthenticationService} from '../authentication.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Credential} from '../credential';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'register',
@@ -24,30 +24,30 @@ export class RegisterComponent implements OnInit {
   private _confirmPassword: FormControl;
   private redirectLink: string;
 
-  constructor(private authenticationService:AuthenticationService,
+  constructor(private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
-    this.username = new FormControl("", [
+    this.username = new FormControl('', [
       Validators.required,
       this.usernameValidator(authenticationService)
     ]);
 
-    this.password = new FormControl("", [
+    this.password = new FormControl('', [
       Validators.required,
       this.passwordValidator(this.authenticationService)
     ]);
 
-    this.confirmPassword = new FormControl("", [
+    this.confirmPassword = new FormControl('', [
       Validators.required,
       this.confirmEmailOrPhoneValidator(this.password)
     ]);
 
 
     this.registrationForm = formBuilder.group({
-      "username": this.username,
-      "password": this.password,
-      "confirmPassword": this.confirmPassword
+      'username': this.username,
+      'password': this.password,
+      'confirmPassword': this.confirmPassword
     });
 
   }
@@ -55,12 +55,12 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  usernameValidator(authenticationService:AuthenticationService) {
+  usernameValidator(authenticationService: AuthenticationService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
 
-    let subscriberToChangeEvents = function () {
+    const subscriberToChangeEvents = function () {
       valueChanges
       .debounceTime(500)
       .distinctUntilChanged()
@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit {
       });
     };
 
-    return (control:FormControl) => {
+    return (control: FormControl) => {
        if (!usernameControl) {
          usernameControl = control;
        }
@@ -94,12 +94,12 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  passwordValidator(authenticationService:AuthenticationService) {
+  passwordValidator(authenticationService: AuthenticationService) {
     let passwordControl = null;
     let isValidPassword = false;
     let valueChanges = null;
 
-    let subscriberToChangeEvents = function () {
+    const subscriberToChangeEvents = function () {
       valueChanges
       .debounceTime(500)
       .distinctUntilChanged()
@@ -115,7 +115,7 @@ export class RegisterComponent implements OnInit {
       });
     };
 
-    return (control:FormControl) => {
+    return (control: FormControl) => {
       if (!passwordControl) {
         passwordControl = control;
       }
@@ -133,8 +133,8 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  confirmEmailOrPhoneValidator(password:FormControl) {
-    return (c:FormControl) => {
+  confirmEmailOrPhoneValidator(password: FormControl) {
+    return (c: FormControl) => {
       return password.value == c.value ? null : {
         validateEmail: {
           valid: false
@@ -176,7 +176,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    let credential:Credential = new Credential();
+    const credential: Credential = new Credential();
     credential.username = this.username.value;
     credential.password = this.password.value;
     credential.changedPassword = this.confirmPassword.value;
@@ -184,7 +184,7 @@ export class RegisterComponent implements OnInit {
     this.authenticationService
     .addCredential(credential)
     .subscribe(credentialConfirmation => {
-      let credentialConfirmationId = credentialConfirmation.credentialConfirmationId;
+      const credentialConfirmationId = credentialConfirmation.credentialConfirmationId;
       if (credentialConfirmationId) {
         this.router.navigate([`/authentication/confirmations/${credentialConfirmationId}`]);
       } else {

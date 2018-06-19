@@ -1,8 +1,8 @@
-import {Organization} from "./organization";
+import {Organization} from './organization';
 
 export class Company extends Organization {
 
-  private _dateOfIncorporation:string;
+  private _dateOfIncorporation: string;
 
   get dateOfIncorporation(): string {
     return this._dateOfIncorporation;

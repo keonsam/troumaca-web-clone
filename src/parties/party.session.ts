@@ -1,9 +1,9 @@
 export class PartySession {
 
-  private _sessionId:string;
-  private _partyId:string;
-  private _tennantId:string;
-  private _map:Map<string, string> = new Map<string, string>();
+  private _sessionId: string;
+  private _partyId: string;
+  private _tennantId: string;
+  private _map: Map<string, string> = new Map<string, string>();
 
   get sessionId(): string {
     return this._sessionId;

@@ -1,4 +1,4 @@
-import {RequestRepository} from "./request.repository";
+import {RequestRepository} from './request.repository';
 
 export class RequestService {
   constructor(private requestRepository: RequestRepository) {

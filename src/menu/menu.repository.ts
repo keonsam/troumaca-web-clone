@@ -1,7 +1,7 @@
-import {Observable} from "rxjs/Rx";
-import {MenuModel} from "./menu.model";
+import {Observable} from 'rxjs/Rx';
+import {MenuModel} from './menu.model';
 
 export abstract class MenuRepository {
-  abstract getMenuModel(isLoggedIn:boolean): Observable<MenuModel>;
-  abstract getMenuModelByName(menuName:string): Observable<MenuModel>;
+  abstract getMenuModel(isLoggedIn: boolean): Observable<MenuModel>;
+  abstract getMenuModelByName(menuName: string): Observable<MenuModel>;
 }

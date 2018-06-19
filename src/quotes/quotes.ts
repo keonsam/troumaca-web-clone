@@ -1,6 +1,6 @@
-import {Sort} from "../sort/sort";
-import {Page} from "../page/page";
-import {Quote} from "./quote";
+import {Sort} from '../sort/sort';
+import {Page} from '../page/page';
+import {Quote} from './quote';
 
 export class Quotes {
 

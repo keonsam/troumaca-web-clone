@@ -1,22 +1,22 @@
-import {PartyRepository} from "./party.repository";
-import {Observable} from "rxjs/Observable";
-import {User} from "./user";
-import {Users} from "./users";
-import {Credential} from "./credential";
-import {Organization} from "./organization";
-import {Organizations} from "./organizations";
-import {AccountResponse} from "./account.response";
-import {PartyAccessRole} from "./party.access.role";
-import {AccessRole} from "../access-roles/access.role";
-import {Photo} from "./photo";
-import {UserResponse} from "./user.response";
+import {PartyRepository} from './party.repository';
+import {Observable} from 'rxjs/Observable';
+import {User} from './user';
+import {Users} from './users';
+import {Credential} from './credential';
+import {Organization} from './organization';
+import {Organizations} from './organizations';
+import {AccountResponse} from './account.response';
+import {PartyAccessRole} from './party.access.role';
+import {AccessRole} from '../access-roles/access.role';
+import {Photo} from './photo';
+import {UserResponse} from './user.response';
 
 export class PartyService {
 
   constructor(private partyRepository: PartyRepository) {
   }
 
-  public findAccessRole(searchStr: string, pageSize: number) :Observable<AccessRole[]> {
+  public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
     return this.partyRepository.findAccessRole(searchStr, pageSize);
   }
 
@@ -28,27 +28,27 @@ export class PartyService {
     return this.partyRepository.getPartyId();
   }
 
-  public getUsers(pageNumber:number, pageSize:number, sortOrder:string):Observable<Users> {
+  public getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<Users> {
     return this.partyRepository.getUsers(pageNumber, pageSize, sortOrder);
   }
 
-  public getOrganizations(pageNumber:number, pageSize:number, sortOrder:string):Observable<Organizations> {
+  public getOrganizations(pageNumber: number, pageSize: number, sortOrder: string): Observable<Organizations> {
     return this.partyRepository.getOrganizations(pageNumber, pageSize, sortOrder);
   }
 
-  public getUser(partyId: string):Observable<UserResponse> {
+  public getUser(partyId: string): Observable<UserResponse> {
     return this.partyRepository.getUser(partyId);
   }
 
-  public getPartyAccessRoleById(partyId:string) :Observable<PartyAccessRole[]> {
+  public getPartyAccessRoleById(partyId: string): Observable<PartyAccessRole[]> {
     return this.partyRepository.getPartyAccessRoleById(partyId);
   }
 
-  public getPartyAccessRoles() :Observable<PartyAccessRole[]> {
+  public getPartyAccessRoles(): Observable<PartyAccessRole[]> {
     return this.partyRepository.getPartyAccessRoles();
   }
 
-  public getOrganization(partyId: string):Observable<Organization> {
+  public getOrganization(partyId: string): Observable<Organization> {
     return this.partyRepository.getOrganization(partyId);
   }
 
@@ -68,7 +68,7 @@ export class PartyService {
     return this.partyRepository.addPhoto(partyId, photo, type);
   }
 
-  public addAccount(accountType:string, user:User, organization: Organization ): Observable<AccountResponse> {
+  public addAccount(accountType: string, user: User, organization: Organization ): Observable<AccountResponse> {
     return this.partyRepository.addAccount(accountType, user, organization);
   }
 
@@ -102,15 +102,15 @@ export class PartyService {
 
   // authentication part
 
-  public isValidUsername(username:string):Observable<boolean> {
+  public isValidUsername(username: string): Observable<boolean> {
     return this.partyRepository.isValidUsername(username);
   }
 
-  public isValidPassword(password:string):Observable<boolean> {
+  public isValidPassword(password: string): Observable<boolean> {
     return this.partyRepository.isValidPassword(password);
   }
 
-  public isValidEditUsername(partyId: string, username:string):Observable<boolean> {
+  public isValidEditUsername(partyId: string, username: string): Observable<boolean> {
     return this.partyRepository.isValidEditUsername(partyId, username);
   }
 

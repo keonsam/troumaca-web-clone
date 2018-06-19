@@ -1,8 +1,8 @@
-import {Component, NgZone, OnInit} from "@angular/core";
-import {AssetTypeClassService} from "../asset.type.class.service";
-import {AssetTypeClasses} from "../asset.type.classes";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
+import {Component, NgZone, OnInit} from '@angular/core';
+import {AssetTypeClassService} from '../asset.type.class.service';
+import {AssetTypeClasses} from '../asset.type.classes';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
 
 @Component({
   selector: 'asset-type-class-list',
@@ -14,16 +14,16 @@ export class AssetTypeClassListComponent implements OnInit {
 
   private assetTypeClassId: string;
   private _assetTypeClasses: AssetTypeClasses;
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
-  private _routerLinkCreateAssetTypeClass:string = "/asset-type-classes/create";
-  private assetTypeClassName:string;
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
+  private _routerLinkCreateAssetTypeClass = '/asset-type-classes/create';
+  private _assetTypeClassName: string;
 
  constructor(private assetTypeClassService: AssetTypeClassService,
-             private zone:NgZone) {
+             private zone: NgZone) {
 
-    let newAssetTypeClasses = new AssetTypeClasses();
+    const newAssetTypeClasses = new AssetTypeClasses();
     newAssetTypeClasses.page = new Page(0, 0, 0);
     newAssetTypeClasses.sort = new Sort();
     this.assetTypeClasses = newAssetTypeClasses;
@@ -43,8 +43,16 @@ export class AssetTypeClassListComponent implements OnInit {
     }, error => {
       console.log(error);
     }, () => {
-      console.log("complete");
+      console.log('complete');
     });
+  }
+
+  get assetTypeClassName(): string {
+    return this._assetTypeClassName;
+  }
+
+  set assetTypeClassName(value: string) {
+    this._assetTypeClassName = value;
   }
 
   get assetTypeClasses(): AssetTypeClasses {
@@ -64,15 +72,15 @@ export class AssetTypeClassListComponent implements OnInit {
   }
 
   onResize(event) {
-    console.log("W:" + event.target.innerWidth + " H:" + event.target.innerHeight);
+    console.log('W:' + event.target.innerWidth + ' H:' + event.target.innerHeight);
   }
 
-  onOpenModal(assetTypeClassId: string, assetTypeClassName:string){
+  onOpenModal(assetTypeClassId: string, assetTypeClassName: string){
     this.assetTypeClassId = assetTypeClassId;
     this.assetTypeClassName = assetTypeClassName;
   }
 
-  onRequestPage(pageNumber:number) {
+  onRequestPage(pageNumber: number) {
   this.defaultPage = pageNumber;
   this.getAssetTypeClasses();
   }
@@ -85,7 +93,7 @@ export class AssetTypeClassListComponent implements OnInit {
     }, error => {
     console.log(error);
     }, () => {
-    console.log("complete");
+    console.log('complete');
     });
 }
 

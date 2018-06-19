@@ -1,6 +1,6 @@
 import {Routes, RouterModule} from '@angular/router';
-import {ModuleWithProviders} from "@angular/core";
-import {OrganizationComponent} from "./organization.component";
+import {ModuleWithProviders} from '@angular/core';
+import {OrganizationComponent} from './organization.component';
 
 
 const organizationRoutes: Routes = [

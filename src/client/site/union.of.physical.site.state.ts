@@ -1,12 +1,12 @@
 export class UnionOfPhysicalSiteState {
-  private _siteId:string;
-  private _streetNumber:string;
-  private _street:string;
-  private _postOfficeBoxNumber:string;
-  private _city:string;
-  private _stateOrProvince:string;
-  private _postalCode:string;
-  private _country:string;
+  private _siteId: string;
+  private _streetNumber: string;
+  private _street: string;
+  private _postOfficeBoxNumber: string;
+  private _city: string;
+  private _stateOrProvince: string;
+  private _postalCode: string;
+  private _country: string;
 
   get siteId(): string {
     return this._siteId;

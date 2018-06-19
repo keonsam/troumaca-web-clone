@@ -1,8 +1,8 @@
-import {Attribute} from "../attributes/attribute";
+import {Attribute} from '../attributes/attribute';
 
 export class AssignedAttribute {
 
-  private _assignedAttributeId:string;
+  private _assignedAttributeId: string;
   private _assetTypeClassId: string;
   private _attributeId: string;
   private _attribute: Attribute;

@@ -1,10 +1,10 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {AccessRoleType} from "../../access.role.type";
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
-import {Router} from "@angular/router";
-import {AccessRoleService} from "../../access.role.service";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AccessRoleType} from '../../access.role.type';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter';
+import {Router} from '@angular/router';
+import {AccessRoleService} from '../../access.role.service';
 
 @Component({
   selector: 'access-role-type-creation',
@@ -20,18 +20,18 @@ export class AccessRoleTypeCreationComponent implements OnInit {
 
   private _accessRoleTypeForm: FormGroup;
 
-  private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage: boolean;
 
   constructor(private accessRoleService: AccessRoleService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
-    this.name = new FormControl("", [Validators.required]);
-    this.description = new FormControl("");
+    this.name = new FormControl('', [Validators.required]);
+    this.description = new FormControl('');
 
     this.accessRoleTypeForm = formBuilder.group({
-      "name": this.name,
-      "description": this.description
+      'name': this.name,
+      'description': this.description
     });
 
     this.accessRoleTypeForm

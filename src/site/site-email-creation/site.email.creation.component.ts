@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Email} from "../email";
-import {SiteService} from "../site.service";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Email} from '../email';
+import {SiteService} from '../site.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'site-email-creation',
@@ -20,22 +20,22 @@ export class SiteEmailCreationComponent implements OnInit {
 
   private email: Email;
 
-  private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage: boolean;
 
-  constructor(private siteService:SiteService,
+  constructor(private siteService: SiteService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
-     this.name = new FormControl("", [Validators.required]);
-     this.description = new FormControl("");
-     this.domainName = new FormControl("", [Validators.required]);
-     this.emailAddress = new FormControl("", [Validators.required]);
+     this.name = new FormControl('', [Validators.required]);
+     this.description = new FormControl('');
+     this.domainName = new FormControl('', [Validators.required]);
+     this.emailAddress = new FormControl('', [Validators.required]);
 
      this.siteEmailForm = formBuilder.group({
-       "name": this.name,
-       "description": this.description,
-       "domainName": this.domainName,
-       "emailAddress": this.emailAddress
+       'name': this.name,
+       'description': this.description,
+       'domainName': this.domainName,
+       'emailAddress': this.emailAddress
      });
 
      this.email = new Email();

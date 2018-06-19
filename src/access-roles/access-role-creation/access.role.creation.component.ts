@@ -1,17 +1,16 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit} from '@angular/core';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {AccessRole} from "../access.role";
-import {AccessRoleType} from "../access.role.type";
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
-import {Router} from "@angular/router";
-import {AccessRoleService} from "../access.role.service";
-import {Resources} from "../resources";
-import {ResourcePermission} from "../resource.permission";
-import {Grant} from "../grant";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AccessRole} from '../access.role';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter';
+import {Router} from '@angular/router';
+import {AccessRoleService} from '../access.role.service';
+import {Resources} from '../resources';
+import {ResourcePermission} from '../resource.permission';
+import {Grant} from '../grant';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
 
 @Component({
   selector: 'access-role-creation',
@@ -30,17 +29,17 @@ export class AccessRoleCreationComponent implements OnInit {
 
   private accessRole: AccessRole;
   private _resources: Resources;
-  private _resourcePermissions : ResourcePermission[];
+  private _resourcePermissions: ResourcePermission[];
   private _grants: Grant[];
 
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
 
   private _accessRoleForm: FormGroup;
 
-  private pageSize:number = 15;
-  private _doNotDisplayFailureMessage:boolean;
+  private pageSize = 15;
+  private _doNotDisplayFailureMessage: boolean;
 
   constructor(private accessRoleService: AccessRoleService,
               private completerService: CompleterService,
@@ -48,19 +47,19 @@ export class AccessRoleCreationComponent implements OnInit {
               private router: Router) {
 
     this.prohibitionIndicator = new FormControl(false);
-    this.name = new FormControl("", [Validators.required]);
-    this.accessRoleTypeId = new FormControl("", [Validators.required]);
+    this.name = new FormControl('', [Validators.required]);
+    this.accessRoleTypeId = new FormControl('', [Validators.required]);
     this.effectiveDate = new FormControl( this.getDateString(new Date()), [Validators.required]);
     this.untilDate = new FormControl(this.getDateString(new Date( new Date().getTime() + (2678400000 * 6))), [Validators.required]);
-    this.description = new FormControl("");
+    this.description = new FormControl('');
 
     this.accessRoleForm = formBuilder.group({
-      "prohibitionIndicator": this.prohibitionIndicator,
-      "name": this.name,
-      "accessRoleTypeId": this.accessRoleTypeId,
-      "effectiveDate": this.effectiveDate,
-      "untilDate": this.untilDate,
-      "description": this.description
+      'prohibitionIndicator': this.prohibitionIndicator,
+      'name': this.name,
+      'accessRoleTypeId': this.accessRoleTypeId,
+      'effectiveDate': this.effectiveDate,
+      'untilDate': this.untilDate,
+      'description': this.description
     });
 
     this.accessRoleForm
@@ -75,7 +74,7 @@ export class AccessRoleCreationComponent implements OnInit {
 
     this.accessRole = new AccessRole();
 
-    let newResources = new Resources();
+    const newResources = new Resources();
     newResources.resources = [];
     newResources.page = new Page();
     newResources.sort = new Sort();
@@ -111,8 +110,8 @@ export class AccessRoleCreationComponent implements OnInit {
   }
 
   populateAccessRoleTypeDropDown() {
-    this.findAccessRoleTypeId("");
-    this.accessRoleForm.get("accessRoleTypeId").valueChanges
+    this.findAccessRoleTypeId('');
+    this.accessRoleForm.get('accessRoleTypeId').valueChanges
       //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -136,12 +135,12 @@ export class AccessRoleCreationComponent implements OnInit {
       .subscribe(next => { // update the data
         this.accessRoleTypeDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
-        console.log("findAccessRoleType error - " + error);
+        console.log('findAccessRoleType error - ' + error);
       });
   }
 
   getDateString(date: Date) {
-    return date.toISOString().substring(0,10);
+    return date.toISOString().substring(0, 10);
   }
   get prohibitionIndicator(): FormControl {
     return this._prohibitionIndicator;
@@ -240,7 +239,7 @@ export class AccessRoleCreationComponent implements OnInit {
   }
 
   getPermission(resourceId: string) {
-    let newArray = this.resourcePermissions.filter(value => {
+    const newArray = this.resourcePermissions.filter(value => {
       return value.resourceId === resourceId;
     });
     return newArray;

@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {Emails} from "../emails";
-import {SiteService} from "../site.service";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
+import {Component, OnInit} from '@angular/core';
+import {Emails} from '../emails';
+import {SiteService} from '../site.service';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
 
 @Component({
   selector: 'site-email-list',
@@ -12,15 +12,15 @@ import {Sort} from "../../sort/sort";
 export class SiteEmailListComponent implements OnInit {
 
   private emailId: string;
-  private _emails:Emails;
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
-  private _routerLinkCreateEmail:string = "/sites/emails/create";
-  private emailName:string;
+  private _emails: Emails;
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
+  private _routerLinkCreateEmail = '/sites/emails/create';
+  private _emailName: string;
 
-  constructor(private siteService:SiteService) {
-    let newEmails = new Emails();
+  constructor(private siteService: SiteService) {
+    const newEmails = new Emails();
     newEmails.page = new Page(0, 0, 0);
     newEmails.sort = new Sort();
     this.emails = newEmails;
@@ -29,6 +29,14 @@ export class SiteEmailListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmails();
+  }
+
+  get emailName(): string {
+    return this._emailName;
+  }
+
+  set emailName(value: string) {
+    this._emailName = value;
   }
 
   get emails(): Emails {
@@ -54,11 +62,11 @@ export class SiteEmailListComponent implements OnInit {
     }, error => {
       console.log(error);
     }, () => {
-      console.log("complete");
+      console.log('complete');
     });
   }
 
-  onOpenModal(emailId: string, emailName:string) {
+  onOpenModal(emailId: string, emailName: string) {
     this.emailId = emailId;
     this.emailName = emailName;
   }
@@ -71,7 +79,7 @@ export class SiteEmailListComponent implements OnInit {
     }, error => {
     console.log(error);
     }, () => {
-    console.log("complete");
+    console.log('complete');
     });
   }
 

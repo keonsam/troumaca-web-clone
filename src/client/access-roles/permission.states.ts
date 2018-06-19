@@ -1,6 +1,6 @@
-import {PermissionState} from "./permission.state";
-import {PageState} from "../page/page.state";
-import {SortState} from "../sort/sort.state";
+import {PermissionState} from './permission.state';
+import {PageState} from '../page/page.state';
+import {SortState} from '../sort/sort.state';
 
 export class PermissionStates {
   private _permissions: PermissionState[];

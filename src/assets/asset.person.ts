@@ -1,11 +1,11 @@
 export class AssetPerson {
 
-  private _partyId:string;
+  private _partyId: string;
   private _name: string;
-  private _firstName:string;
-  private _middleName:string;
+  private _firstName: string;
+  private _middleName: string;
   private _lastName: string;
-  private _birthDate:Date;
+  private _birthDate: Date;
 
   /*constructor(partyId?:string, firstName?:string, middleName?:string, lastName?: string, birthDate?: Date){
     this._partyId = partyId;

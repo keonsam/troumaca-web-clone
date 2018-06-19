@@ -1,9 +1,9 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
-import {ResourceType} from "../../resource.type";
-import {AccessRoleService} from "../../access.role.service";
-import {Router, ActivatedRoute} from "@angular/router";
+import {ResourceType} from '../../resource.type';
+import {AccessRoleService} from '../../access.role.service';
+import {Router, ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'resource-type-edit',
@@ -19,18 +19,18 @@ export class ResourceTypeEditComponent implements OnInit {
   private sub: any;
   private _resourceTypeForm: FormGroup;
 
-  private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage: boolean;
 
   constructor(private accessRoleService: AccessRoleService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
-    this.name = new FormControl("", [Validators.required]);
-    this.description = new FormControl("");
+    this.name = new FormControl('', [Validators.required]);
+    this.description = new FormControl('');
 
     this.resourceTypeForm = formBuilder.group({
-      "name": this.name,
-      "description": this.description
+      'name': this.name,
+      'description': this.description
     });
 
     this.resourceType = new ResourceType();
@@ -59,7 +59,7 @@ export class ResourceTypeEditComponent implements OnInit {
         }, error => {
           console.log(error);
         }, () => {
-          console.log("complete");
+          console.log('complete');
         });
     });
   }

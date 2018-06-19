@@ -1,15 +1,14 @@
-import {Observable} from "rxjs/Observable";
-import {Session} from "../../authentication/session";
-import "rxjs/add/operator/map";
-import {mapObjectProps} from "../../mapper/object.property.mapper";
-import {AuthenticationClient} from "../../client/credential/authentication.client";
-import {AuthenticationRepository} from "../../authentication/authentication.repository";
-import {Credential} from "../../authentication/credential";
-import {CredentialState} from "../../client/credential/credential.state";
-import {CredentialConfirmation} from "../../authentication/credential.confirmation";
-import {CredentialConfirmationState} from "../../client/credential/credential.confirmation.state";
-import {Result} from "../../result/result.success";
-import {AuthenticateResponse} from "../../authentication/authenticate.response";
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import {mapObjectProps} from '../../mapper/object.property.mapper';
+import {AuthenticationClient} from '../../client/credential/authentication.client';
+import {AuthenticationRepository} from '../../authentication/authentication.repository';
+import {Credential} from '../../authentication/credential';
+import {CredentialState} from '../../client/credential/credential.state';
+import {CredentialConfirmation} from '../../authentication/credential.confirmation';
+import {CredentialConfirmationState} from '../../client/credential/credential.confirmation.state';
+import {Result} from '../../result/result.success';
+import {AuthenticateResponse} from '../../authentication/authenticate.response';
 
 export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
 
@@ -33,7 +32,7 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     return this.authenticationClient.isValidUsername(username);
   }
 
-  addCredential(credential:Credential):Observable<CredentialConfirmation> {
+  addCredential(credential: Credential): Observable<CredentialConfirmation> {
     return this.authenticationClient
     .addCredential(mapObjectProps(credential, new CredentialState()))
     .map(credentialState => {

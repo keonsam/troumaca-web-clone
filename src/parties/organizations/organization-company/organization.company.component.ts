@@ -1,15 +1,15 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
 
-import {PartyEventService} from "../../party.event.service";
-import {PartyService} from "../../party.service";
-import {Organization} from "../../organization";
-import {Photo} from "../../photo";
+import {PartyEventService} from '../../party.event.service';
+import {PartyService} from '../../party.service';
+import {Organization} from '../../organization';
+import {Photo} from '../../photo';
 
 @Component({
   selector: 'organization-company',
-  templateUrl:'./organization.company.component.html',
+  templateUrl: './organization.company.component.html',
   styleUrls: ['./organization.company.component.css']
 })
 export class OrganizationCompanyComponent implements OnInit {
@@ -21,17 +21,17 @@ export class OrganizationCompanyComponent implements OnInit {
 
   private _companyEditForm: FormGroup;
 
-  private organization: Organization;
+  private _organization: Organization;
   private photo: Photo;
 
-  private imageChangedEvent: any = '';
+  private _imageChangedEvent: any = '';
   private croppedImage: any = '';
-  private backgroundImage: any = '';
-  private updateImage: boolean = false;
+  private _backgroundImage: any = '';
+  private updateImage = false;
 
   private _doNotDisplayFailureMessage: boolean;
 
-  constructor(private partyEventService:PartyEventService,
+  constructor(private partyEventService: PartyEventService,
               private partyService: PartyService,
               private formBuilder: FormBuilder,
               private router: Router) {
@@ -39,14 +39,14 @@ export class OrganizationCompanyComponent implements OnInit {
     this.organization = new Organization();
     this.photo = new Photo();
 
-    this.purpose = new FormControl("", [Validators.required]);
-    this.name = new FormControl("", [Validators.required]);
-    this.description = new FormControl("");
+    this.purpose = new FormControl('', [Validators.required]);
+    this.name = new FormControl('', [Validators.required]);
+    this.description = new FormControl('');
 
     this.companyEditForm = formBuilder.group({
-      "purpose": this.purpose,
-      "name": this.name,
-      "description": this.description
+      'purpose': this.purpose,
+      'name': this.name,
+      'description': this.description
     });
 
     this.companyEditForm
@@ -61,7 +61,7 @@ export class OrganizationCompanyComponent implements OnInit {
 
      this.doNotDisplayFailureMessage = true;
 
-    this.backgroundImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
+    this._backgroundImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
   }
 
   ngOnInit(): void {
@@ -107,6 +107,30 @@ export class OrganizationCompanyComponent implements OnInit {
     this._description = value;
   }
 
+  get organization(): Organization {
+    return this._organization;
+  }
+
+  set organization(value: Organization) {
+    this._organization = value;
+  }
+
+  get imageChangedEvent(): any {
+    return this._imageChangedEvent;
+  }
+
+  set imageChangedEvent(value: any) {
+    this._imageChangedEvent = value;
+  }
+
+  get backgroundImage(): any {
+    return this._backgroundImage;
+  }
+
+  set backgroundImage(value: any) {
+    this._backgroundImage = value;
+  }
+
   get companyEditForm(): FormGroup {
     return this._companyEditForm;
   }
@@ -136,43 +160,43 @@ export class OrganizationCompanyComponent implements OnInit {
   }
 
   getOrganizationPhoto() {
-      this.partyService.getPhoto(this.partyId, "organization")
+      this.partyService.getPhoto(this.partyId, 'organization')
         .subscribe(photo => {
           console.log(photo);
-          if(photo) {
+          if (photo) {
             this.backgroundImage = `url(${photo.imageStr})`;
             this.photo = photo
           }
-        },error => {
+        }, error => {
           console.log(error);
         });
   }
 
 
   uploadPhoto() {
-    if(this.photo.imageStr) {
+    if (this.photo.imageStr) {
       this.photo.imageStr = this.croppedImage;
       this.partyService
-        .updatePhoto(this.partyId, this.photo, "organization")
+        .updatePhoto(this.partyId, this.photo, 'organization')
         .subscribe(value => {
-          if(value){
+          if (value){
             this.getOrganizationPhoto();
           }else {
-            console.log("error");
+            console.log('error');
           }
         }, error => {
           console.log(error);
         });
-    }else if(this.croppedImage) {
+    }else if (this.croppedImage) {
       this.photo.partyId = this.partyId;
       this.photo.imageStr = this.croppedImage;
       this.partyService
-        .addPhoto(this.partyId, this.photo, "organization")
+        .addPhoto(this.partyId, this.photo, 'organization')
         .subscribe(value => {
           if (value) {
             this.getOrganizationPhoto();
           } else {
-            console.log("error");
+            console.log('error');
           }
         }, error => {
           console.log(error);

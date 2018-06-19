@@ -1,6 +1,6 @@
-import {Component, OnInit} from "@angular/core";
-import {PartyService} from "../../party.service";
-import {Person} from "../../person";
+import {Component, OnInit} from '@angular/core';
+import {PartyService} from '../../party.service';
+import {Person} from '../../person';
 
 @Component({
   selector: 'me',
@@ -9,13 +9,13 @@ import {Person} from "../../person";
 })
 export class MeComponent implements OnInit {
 
-  private _me:Person;
+  private _me: Person;
 
-  constructor(private partyService:PartyService) {
+  constructor(private partyService: PartyService) {
   }
 
   ngOnInit(): void {
-    var that = this;
+    let that = this;
     /*this
       .partyService
       .getCurrentPerson()

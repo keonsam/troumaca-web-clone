@@ -6,8 +6,8 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./front.home.component.css']
 })
 export class FrontHomeComponent {
-  private _title:string = 'app';
-  private _isLoggedIn:boolean;
+  private _title = 'app';
+  private _isLoggedIn: boolean;
 
   constructor() {
   }

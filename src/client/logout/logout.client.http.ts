@@ -1,5 +1,5 @@
-import {LogoutClient} from "./logout.client";
-import {UUIDGenerator} from "../../uuid.generator";
+import {LogoutClient} from './logout.client';
+import {UUIDGenerator} from '../../uuid.generator';
 
 export class LogoutClientHttp extends LogoutClient {
 

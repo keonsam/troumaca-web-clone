@@ -1,6 +1,6 @@
 import {Routes, RouterModule} from '@angular/router';
-import {ModuleWithProviders} from "@angular/core";
-import {InviteComponent} from "./invite.component";
+import {ModuleWithProviders} from '@angular/core';
+import {InviteComponent} from './invite.component';
 
 
 const inviteRoutes: Routes = [

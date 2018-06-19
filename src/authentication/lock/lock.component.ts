@@ -1,15 +1,15 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/filter';
-import {Event} from "../event";
-import {Observable} from "rxjs/Observable";
-import "rxjs/add/observable/of";
-import {Router} from "@angular/router";
-import {EventService} from "../../event/event.service";
-import {AuthenticationService} from "../authentication.service";
-import {Credential} from "../credential";
+import {Event} from '../event';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import {Router} from '@angular/router';
+import {EventService} from '../../event/event.service';
+import {AuthenticationService} from '../authentication.service';
+import {Credential} from '../credential';
 
 
 @Component({
@@ -24,25 +24,25 @@ export class LockComponent implements OnInit {
   private _password: FormControl;
   private _rememberMe: FormControl;
 
-  private _message:string = "";
+  private _message = '';
 
-  private _errorExists:boolean;
+  private _errorExists: boolean;
 
-  constructor(private eventService:EventService,
+  constructor(private eventService: EventService,
               private formBuilder: FormBuilder,
-              private authenticationService:AuthenticationService,
+              private authenticationService: AuthenticationService,
               private router: Router) {
 
-    this.username = new FormControl("");
+    this.username = new FormControl('');
 
-    this.password = new FormControl("");
+    this.password = new FormControl('');
 
-    this.rememberMe = new FormControl("");
+    this.rememberMe = new FormControl('');
 
     this.lockForm = formBuilder.group({
-      "username": this.username,
-      "password": this.password,
-      "rememberMe": this.rememberMe
+      'username': this.username,
+      'password': this.password,
+      'rememberMe': this.rememberMe
     });
 
   }
@@ -52,7 +52,7 @@ export class LockComponent implements OnInit {
 
   onSubmit() {
 
-    let values = this.lockForm.value;
+    const values = this.lockForm.value;
     Observable
       .of(values)
       .filter((value) => this.lockForm.valid)
@@ -78,7 +78,7 @@ export class LockComponent implements OnInit {
   }
 
   createCredential(value) {
-    let credential:Credential = new Credential();
+    const credential: Credential = new Credential();
     credential.username = value.username;
     credential.password = value.password;
     credential.rememberMe = value.rememberMe;
@@ -86,11 +86,11 @@ export class LockComponent implements OnInit {
   }
 
   createEventModel() {
-    let event:Event = new Event();
-    event.partyId = "123";
+    const event: Event = new Event();
+    event.partyId = '123';
     event.timestamp = new Date().getTime();
-    event.source = "lock.component";
-    event.name = "lock";
+    event.source = 'lock.component';
+    event.name = 'lock';
 
     return event;
   }

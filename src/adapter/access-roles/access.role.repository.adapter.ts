@@ -1,31 +1,31 @@
-import {AccessRoleRepository} from "../../access-roles/access.role.repository";
-import {Permission} from "../../access-roles/permission";
-import {Permissions} from "../../access-roles/permissions";
-import {PermissionState} from "../../client/access-roles/permission.state";
-import {Resource} from "../../access-roles/resource";
-import {Resources} from "../../access-roles/resources";
-import {ResourceState} from "../../client/access-roles/resource.state";
-import {ResourceType} from "../../access-roles/resource.type";
-import {ResourceTypes} from "../../access-roles/resource.types";
-import {ResourceTypeState} from "../../client/access-roles/resource.type.state";
-import {AccessRole} from "../../access-roles/access.role";
-import {AccessRoles} from "../../access-roles/access.roles";
-import {AccessRoleState} from "../../client/access-roles/access.role.state";
-import {AccessRoleType} from "../../access-roles/access.role.type";
-import {AccessRoleTypes} from "../../access-roles/access.role.types";
-import {AccessRoleTypeState} from "../../client/access-roles/access.role.type.state";
-import {Observable} from "rxjs/Observable";
-import {AccessRolesClient} from "../../client/access-roles/access.roles.client";
-import {mapObjectProps} from "../../mapper/object.property.mapper";
-import { _ } from "underscore";
-import { map, reduce, somethingElse } from "underscore";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
-import {ResourcePermission} from "../../access-roles/resource.permission";
-import {ResourcePermissionState} from "../../client/access-roles/resource.permission.state";
-import {Grant} from "../../access-roles/grant";
-import {GrantState} from "../../client/access-roles/grant.state";
-import {AccessRoleResponse} from "../../access-roles/access.role.response";
+import {AccessRoleRepository} from '../../access-roles/access.role.repository';
+import {Permission} from '../../access-roles/permission';
+import {Permissions} from '../../access-roles/permissions';
+import {PermissionState} from '../../client/access-roles/permission.state';
+import {Resource} from '../../access-roles/resource';
+import {Resources} from '../../access-roles/resources';
+import {ResourceState} from '../../client/access-roles/resource.state';
+import {ResourceType} from '../../access-roles/resource.type';
+import {ResourceTypes} from '../../access-roles/resource.types';
+import {ResourceTypeState} from '../../client/access-roles/resource.type.state';
+import {AccessRole} from '../../access-roles/access.role';
+import {AccessRoles} from '../../access-roles/access.roles';
+import {AccessRoleState} from '../../client/access-roles/access.role.state';
+import {AccessRoleType} from '../../access-roles/access.role.type';
+import {AccessRoleTypes} from '../../access-roles/access.role.types';
+import {AccessRoleTypeState} from '../../client/access-roles/access.role.type.state';
+import {Observable} from 'rxjs/Observable';
+import {AccessRolesClient} from '../../client/access-roles/access.roles.client';
+import {mapObjectProps} from '../../mapper/object.property.mapper';
+import { _ } from 'underscore';
+import { map, reduce, somethingElse } from 'underscore';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
+import {ResourcePermission} from '../../access-roles/resource.permission';
+import {ResourcePermissionState} from '../../client/access-roles/resource.permission.state';
+import {Grant} from '../../access-roles/grant';
+import {GrantState} from '../../client/access-roles/grant.state';
+import {AccessRoleResponse} from '../../access-roles/access.role.response';
 
 export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
 
@@ -36,7 +36,7 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   public getPermissions(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<Permissions> {
     return this.accessRolesClient.getPermissions(defaultPage, defaultPageSize, defaultSortOrder)
       .map( permissionStates => {
-        let permissionModels: Permissions = new Permissions();
+        const permissionModels: Permissions = new Permissions();
         permissionModels.permissions = map(permissionStates.permissions, value => {
           return mapObjectProps(value, new Permission());
         });
@@ -70,10 +70,10 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
 
   //resources
 
-  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<Permissions> {
+  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<Permissions> {
     return this.accessRolesClient.getPermissionsByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray, type)
       .map( permissionStates => {
-        let permissionModels: Permissions = new Permissions();
+        const permissionModels: Permissions = new Permissions();
         permissionModels.permissions = map(permissionStates.permissions, value => {
           return mapObjectProps(value, new Permission());
         });
@@ -104,7 +104,7 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   public getResources(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<Resources> {
     return this.accessRolesClient.getResources(defaultPage, defaultPageSize, defaultSortOrder)
       .map( resourceStates => {
-        let resourceModels: Resources = new Resources();
+        const resourceModels: Resources = new Resources();
         resourceModels.resources = map(resourceStates.resources, value => {
           return mapObjectProps(value, new Resource());
         });
@@ -122,7 +122,7 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   }
 
   public addResource(resource: Resource, resourcePermissions: ResourcePermission[]): Observable<Resource> {
-    return this.accessRolesClient.addResource(mapObjectProps(resource, new ResourceState()), map(resourcePermissions, value =>{
+    return this.accessRolesClient.addResource(mapObjectProps(resource, new ResourceState()), map(resourcePermissions, value => {
       return mapObjectProps(value, new ResourcePermissionState());
     }))
       .map(value => {
@@ -131,7 +131,7 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   }
 
   public updateResource(resource: Resource, resourcePermissions: ResourcePermission[]): Observable<number> {
-    return this.accessRolesClient.updateResource(mapObjectProps(resource, new ResourceState()),map(resourcePermissions, value =>{
+    return this.accessRolesClient.updateResource(mapObjectProps(resource, new ResourceState()), map(resourcePermissions, value => {
       return mapObjectProps(value, new ResourcePermissionState());
     }));
   }
@@ -144,7 +144,7 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   public getResourceTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<ResourceTypes> {
     return this.accessRolesClient.getResourceTypes(defaultPage, defaultPageSize, defaultSortOrder)
       .map( resourceTypeStates => {
-        let resourceTypeModels: ResourceTypes = new ResourceTypes();
+        const resourceTypeModels: ResourceTypes = new ResourceTypes();
         resourceTypeModels.resourceTypes = map(resourceTypeStates.resourceTypes, value => {
           return mapObjectProps(value, new ResourceType());
         });
@@ -177,10 +177,10 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   }
 
   //access-roles
-  public getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<Resources> {
+  public getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<Resources> {
     return this.accessRolesClient.getResourcesByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray, type)
       .map(resourceStates => {
-        let resourceModels: Resources = new Resources();
+        const resourceModels: Resources = new Resources();
         resourceModels.resources = map(resourceStates.resources, value => {
           return mapObjectProps(value, new Resource());
         });
@@ -192,7 +192,7 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
 
   public getAllResourcePermissions(): Observable<ResourcePermission[]> {
     return this.accessRolesClient.getAllResourcePermissions()
-      .map(data =>{
+      .map(data => {
         return map(data, value => {
           return mapObjectProps(value, new ResourcePermission());
         });
@@ -211,7 +211,7 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   public getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoles> {
     return this.accessRolesClient.getAccessRoles(defaultPage, defaultPageSize, defaultSortOrder)
       .map( accessRoleStates => {
-        let accessRoleModels: AccessRoles = new AccessRoles();
+        const accessRoleModels: AccessRoles = new AccessRoles();
         accessRoleModels.accessRoles = map(accessRoleStates.accessRoles, value => {
           return mapObjectProps(value, new AccessRole());
         });
@@ -245,7 +245,7 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   }
 
   //grants
-  public getGrantsByAccessRoleId(accessRoleId:string): Observable<Grant[]> {
+  public getGrantsByAccessRoleId(accessRoleId: string): Observable<Grant[]> {
     return this.accessRolesClient.getGrantsByAccessRoleId(accessRoleId)
       .map(data => {
         return map(data, value => {
@@ -258,7 +258,7 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   public getAccessRoleTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleTypes> {
     return this.accessRolesClient.getAccessRoleTypes(defaultPage, defaultPageSize, defaultSortOrder)
       .map( accessRoleTypeStates => {
-        let accessRoleTypeModels: AccessRoleTypes = new AccessRoleTypes();
+        const accessRoleTypeModels: AccessRoleTypes = new AccessRoleTypes();
         accessRoleTypeModels.accessRoleTypes = map(accessRoleTypeStates.accessRoleTypes, value => {
           return mapObjectProps(value, new AccessRoleType());
         });

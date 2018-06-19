@@ -1,12 +1,12 @@
-import {PhysicalSiteState} from "./physical.site.state";
+import {PhysicalSiteState} from './physical.site.state';
 
 export class StreetAddressState extends PhysicalSiteState {
 
   private _suiteOrApartment: string;
   private _floor: string;
   private _suiteOrApartmentNumber: string;
-  private _streetNumber:string;
-  private _street:string;
+  private _streetNumber: string;
+  private _street: string;
 
   get suiteOrApartment(): string {
     return this._suiteOrApartment;

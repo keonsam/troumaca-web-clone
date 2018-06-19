@@ -1,7 +1,7 @@
 export class DataType {
 
-  private _dataTypeId:string;
-  private _name:string;
+  private _dataTypeId: string;
+  private _name: string;
 
   get dataTypeId(): string {
     return this._dataTypeId;

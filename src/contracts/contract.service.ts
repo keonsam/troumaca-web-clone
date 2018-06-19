@@ -1,6 +1,6 @@
-import {ContractRepository} from "./contract.repository";
+import {ContractRepository} from './contract.repository';
 
 export class ContractService {
-  constructor(private contractRepository:ContractRepository) {
+  constructor(private contractRepository: ContractRepository) {
   }
 }

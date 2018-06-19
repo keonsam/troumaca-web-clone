@@ -1,8 +1,8 @@
 import {Routes, RouterModule} from '@angular/router';
-import {ModuleWithProviders} from "@angular/core";
-import {AuthenticationComponent} from "./authentication.component";
-import {ForgotPasswordComponent} from "./forgot-password/forgot.password.component";
-import {LoginComponent} from "./login/login.component";
+import {ModuleWithProviders} from '@angular/core';
+import {AuthenticationComponent} from './authentication.component';
+import {ForgotPasswordComponent} from './forgot-password/forgot.password.component';
+import {LoginComponent} from './login/login.component';
 
 
 const authenticationRoutes: Routes = [

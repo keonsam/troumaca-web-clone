@@ -1,4 +1,4 @@
-import {MenuModel} from "./menu.model";
+import {MenuModel} from './menu.model';
 export class MenuItemModel {
 
   get iconClasses(): string {
@@ -83,16 +83,16 @@ export class MenuItemModel {
     this._id = value;
   }
 
-  private _id:string;
-  private _rank:number;
+  private _id: string;
+  private _rank: number;
   private _name: string;
   private _routeName: string;
   private _color: string;
   private _backgroundColor: string;
-  private _active:boolean;
+  private _active: boolean;
   private _selected: boolean;
-  private _secured:boolean;
-  private _menuModel:MenuModel[];
-  private _iconClasses:string;
+  private _secured: boolean;
+  private _menuModel: MenuModel[];
+  private _iconClasses: string;
 
 }

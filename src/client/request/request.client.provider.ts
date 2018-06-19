@@ -1,11 +1,11 @@
-import {AppConfig} from "../../app.config";
-import {UUIDGenerator} from "../../uuid.generator";
-import {RequestClient} from "./request.client";
-import {RequestClientHttp} from "./request.client.http";
-import {RequestClientMock} from "./request.client.mock";
+import {AppConfig} from '../../app.config';
+import {UUIDGenerator} from '../../uuid.generator';
+import {RequestClient} from './request.client';
+import {RequestClientHttp} from './request.client.http';
+import {RequestClientMock} from './request.client.mock';
 
-export function requestClientFactory (appConfig: AppConfig, uuidGenerator: UUIDGenerator):RequestClient {
-  var requestClient: RequestClient;
+export function requestClientFactory (appConfig: AppConfig, uuidGenerator: UUIDGenerator): RequestClient {
+  let requestClient: RequestClient;
   if (appConfig.remoteEndPoints) {
     requestClient = new RequestClientHttp(uuidGenerator);
   } else {

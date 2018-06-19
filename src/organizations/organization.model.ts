@@ -1,8 +1,8 @@
 export class OrganizationModel {
 
-  private _partyId:string;
-  private _name:string;
-  private _purpose:string;
+  private _partyId: string;
+  private _name: string;
+  private _purpose: string;
 
   get partyId(): string {
     return this._partyId;

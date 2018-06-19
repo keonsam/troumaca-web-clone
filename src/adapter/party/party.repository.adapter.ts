@@ -1,26 +1,26 @@
-import {PartyRepository} from "../../parties/party.repository";
-import {PersonClient} from "../../client/party/person.client";
-import {Observable} from "rxjs/Observable";
-import {User} from "../../parties/user";
-import {Users} from "../../parties/users";
-import {Credential} from "../../parties/credential";
-import {Organization} from "../../parties/organization";
-import {Organizations} from "../../parties/organizations";
-import "rxjs/add/operator/map";
-import { map, reduce, somethingElse } from "underscore";
-import {mapObjectProps} from "../../mapper/object.property.mapper";
-import {UserState} from "../../client/party/user.state";
-import {OrganizationState} from "../../client/party/organization.state";
-import {CredentialState} from "../../client/party/credential.state";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
-import {AccountResponse} from "../../parties/account.response";
-import {PartyAccessRole} from "../../parties/party.access.role";
-import {AccessRole} from "../../access-roles/access.role";
-import {PartyAccessRoleState} from "../../client/party/party.access.role.state";
-import {Photo} from "../../parties/photo";
-import {PhotoState} from "../../client/party/photo.state";
-import {UserResponse} from "../../parties/user.response";
+import {PartyRepository} from '../../parties/party.repository';
+import {PersonClient} from '../../client/party/person.client';
+import {Observable} from 'rxjs/Observable';
+import {User} from '../../parties/user';
+import {Users} from '../../parties/users';
+import {Credential} from '../../parties/credential';
+import {Organization} from '../../parties/organization';
+import {Organizations} from '../../parties/organizations';
+import 'rxjs/add/operator/map';
+import { map, reduce, somethingElse } from 'underscore';
+import {mapObjectProps} from '../../mapper/object.property.mapper';
+import {UserState} from '../../client/party/user.state';
+import {OrganizationState} from '../../client/party/organization.state';
+import {CredentialState} from '../../client/party/credential.state';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
+import {AccountResponse} from '../../parties/account.response';
+import {PartyAccessRole} from '../../parties/party.access.role';
+import {AccessRole} from '../../access-roles/access.role';
+import {PartyAccessRoleState} from '../../client/party/party.access.role.state';
+import {Photo} from '../../parties/photo';
+import {PhotoState} from '../../client/party/photo.state';
+import {UserResponse} from '../../parties/user.response';
 
 export class PartyRepositoryAdapter extends PartyRepository {
 
@@ -28,7 +28,7 @@ export class PartyRepositoryAdapter extends PartyRepository {
     super();
   }
 
-  public findAccessRole(searchStr: string, pageSize: number) :Observable<AccessRole[]> {
+  public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
     return this.personClient.findAccessRole(searchStr, pageSize)
       .map(accessRoles => {
         return map(accessRoles, value => {
@@ -45,11 +45,11 @@ export class PartyRepositoryAdapter extends PartyRepository {
     return this.personClient.getPartyId();
   }
 
-  public getUsers(pageNumber:number, pageSize:number, sortOrder:string): Observable<Users> {
+  public getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<Users> {
     return this.personClient
       .getUsers(pageNumber, pageSize, sortOrder)
       .map(values => {
-        let userModels:Users = new Users();
+        const userModels: Users = new Users();
         userModels.users = map(values.users, value => {
           return mapObjectProps(value, new User());
         });
@@ -62,11 +62,11 @@ export class PartyRepositoryAdapter extends PartyRepository {
       });
   }
 
-  public getOrganizations(pageNumber:number, pageSize:number, sortOrder:string): Observable<Organizations> {
+  public getOrganizations(pageNumber: number, pageSize: number, sortOrder: string): Observable<Organizations> {
     return this.personClient
       .getOrganizations(pageNumber, pageSize, sortOrder)
       .map(values => {
-        let organizationModels:Organizations = new Organizations();
+        const organizationModels: Organizations = new Organizations();
         organizationModels.organizations = map(values.organizations, value => {
           return mapObjectProps(value, new Organization());
         });
@@ -80,7 +80,7 @@ export class PartyRepositoryAdapter extends PartyRepository {
     return this.personClient.getUserState(partyId);
   }
 
-  public getPartyAccessRoleById(partyId: string) :Observable<PartyAccessRole[]> {
+  public getPartyAccessRoleById(partyId: string): Observable<PartyAccessRole[]> {
     return this.personClient
       .getPartyAccessRoleById(partyId)
       .map(values => {
@@ -90,10 +90,10 @@ export class PartyRepositoryAdapter extends PartyRepository {
       });
   }
 
-  public getPartyAccessRoles() :Observable<PartyAccessRole[]> {
+  public getPartyAccessRoles(): Observable<PartyAccessRole[]> {
     return this.personClient.getPartyAccessRoles()
       .map(value => {
-        return map(value, next =>{
+        return map(value, next => {
           return mapObjectProps(next , new PartyAccessRole());
         });
       });
@@ -107,7 +107,7 @@ export class PartyRepositoryAdapter extends PartyRepository {
     });
   }
 
-  public getPhoto(partyId: string, type:string): Observable<Photo> {
+  public getPhoto(partyId: string, type: string): Observable<Photo> {
     return this.personClient.getPhoto(partyId, type)
       .map(value => {
         return mapObjectProps(value, new Photo());
@@ -132,7 +132,7 @@ export class PartyRepositoryAdapter extends PartyRepository {
     });
   }
 
-  public addPhoto(partyId: string, photo: Photo, type: string,): Observable<Photo> {
+  public addPhoto(partyId: string, photo: Photo, type: string, ): Observable<Photo> {
     return this.personClient.addPhoto(partyId, mapObjectProps(photo, new PhotoState()), type)
       .map(value => {
         return mapObjectProps(value, new Photo());
@@ -141,7 +141,7 @@ export class PartyRepositoryAdapter extends PartyRepository {
 
   public addAccount(accountType: string, user: User, organization: Organization): Observable<AccountResponse> {
     return this.personClient
-    .addAccountState(accountType,mapObjectProps(user, new UserState()), mapObjectProps(organization, new OrganizationState()))
+    .addAccountState(accountType, mapObjectProps(user, new UserState()), mapObjectProps(organization, new OrganizationState()))
     .map(value => {
       return mapObjectProps(value, new AccountResponse());
     });

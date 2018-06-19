@@ -1,9 +1,9 @@
 export class AssetTypeStructureState {
 
-  private _assetTypeStructureId:string;
-  private _quantityPer:number;
-  private _effectiveDate:Date;
-  private _untilDate:Date;
+  private _assetTypeStructureId: string;
+  private _quantityPer: number;
+  private _effectiveDate: Date;
+  private _untilDate: Date;
 
   get assetTypeStructureId(): string {
     return this._assetTypeStructureId;

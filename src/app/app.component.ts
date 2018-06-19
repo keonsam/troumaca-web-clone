@@ -1,10 +1,10 @@
 import {Component, OnInit, Renderer2} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from "@angular/router";
-import "rxjs/add/operator/filter";
-import {AppDynamicStyle} from "./app.dynamic.style";
-import {EventService} from "../event/event.service";
-import {SessionService} from "../session/session.service";
-import {ClientEvent} from "../client/client.event";
+import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
+import 'rxjs/add/operator/filter';
+import {AppDynamicStyle} from './app.dynamic.style';
+import {EventService} from '../event/event.service';
+import {SessionService} from '../session/session.service';
+import {ClientEvent} from '../client/client.event';
 
 @Component({
   selector: 'app',
@@ -12,32 +12,32 @@ import {ClientEvent} from "../client/client.event";
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  private _title:string = 'app';
-  private _isLoggedIn:boolean;
-  someClass:boolean = false;
+  private _title = 'app';
+  private _isLoggedIn: boolean;
+  someClass = false;
 
-  private _appDynamicStyle:AppDynamicStyle;
+  private _appDynamicStyle: AppDynamicStyle;
 
-  private _styleMap:Map<string, AppDynamicStyle> = new Map<string, AppDynamicStyle>();
+  private _styleMap: Map<string, AppDynamicStyle> = new Map<string, AppDynamicStyle>();
 
   // Todo: this need improving. It is not maintainable.
-  private withPatternRoutes:string[] = [
-    "/home",
-    "/sign-in",
-    "/login",
-    "/register",
-    "/forget-password"
+  private withPatternRoutes: string[] = [
+    '/home',
+    '/sign-in',
+    '/login',
+    '/register',
+    '/forget-password'
   ];
 
-  private isAuthRoutes:string[] = [
-    "/home",
-    "/authentication/login",
-    "/authentication/forget-password",
-    "/authentication/confirmations",
-    "/authentication/register"
+  private isAuthRoutes: string[] = [
+    '/home',
+    '/authentication/login',
+    '/authentication/forget-password',
+    '/authentication/confirmations',
+    '/authentication/register'
   ];
 
-  private isAuth:boolean;
+  private isAuth: boolean;
 
   private logInSub: any;
   private initLogSub: any;
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
     this.isAuth = false;
 
     this.eventService.subscribeToLoginEvent( (data) => {
-      this.logInSub = this.router.events.subscribe( (event:any) => {
+      this.logInSub = this.router.events.subscribe( (event: any) => {
         if (event instanceof NavigationEnd) {
           this.isLoggedIn = true;
           this.logInSub.unsubscribe();

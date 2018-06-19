@@ -1,9 +1,9 @@
-import {PartyClient} from "./party.client";
-import {Observable} from "rxjs/Observable";
-import {PersonState} from "./person.state";
-import {PersonStates} from "./person.states";
-import {OrganizationState} from "./organization.state";
-import {OrganizationStates} from "./organization.states";
+import {PartyClient} from './party.client';
+import {Observable} from 'rxjs/Observable';
+import {PersonState} from './person.state';
+import {PersonStates} from './person.states';
+import {OrganizationState} from './organization.state';
+import {OrganizationStates} from './organization.states';
 
 export class PartyClientHttp implements PartyClient {
 
