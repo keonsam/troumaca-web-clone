@@ -26,6 +26,7 @@ import {SitePhoneCreationComponent} from './site-phone-creation/site.phone.creat
 import {PagingModule} from '../paging/paging.module';
 import {SiteStreetAddressEditComponent} from './site-street-address-edit/site.street.address.edit.component';
 import {SitePhoneEditComponent} from './site-phone-edit/site.phone.edit.component';
+import {siteServiceProvider} from './site.service.provider';
 
 @NgModule({
   imports: [
@@ -58,17 +59,7 @@ import {SitePhoneEditComponent} from './site-phone-edit/site.phone.edit.componen
     SiteWebEditComponent,
     SiteWebListComponent
   ],
-  providers: [{
-    provide: SiteService,
-    useFactory(siteRepository: SiteRepository) {
-      let siteService: SiteService;
-      if (!siteService) {
-        siteService = new SiteService(siteRepository);
-      }
-      return siteService;
-    },
-    deps: [SiteRepository]
-  }],
+  providers: [siteServiceProvider],
   exports: [
     SiteComponent,
     SiteTopMenuComponent,

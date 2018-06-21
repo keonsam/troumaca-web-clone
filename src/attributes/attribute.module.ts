@@ -14,6 +14,7 @@ import {AttributeTopMenuComponent} from './attribute-top-menu/attribute.top.menu
 import {SearchModule} from '../search/search.module';
 import {PagingModule} from '../paging/paging.module';
 import {Ng2CompleterModule} from 'ng2-completer';
+import {attributeServiceProvider} from './attribute.service.provider';
 
 @NgModule({
   imports: [
@@ -34,17 +35,7 @@ import {Ng2CompleterModule} from 'ng2-completer';
     AttributeListComponent,
     AttributeTopMenuComponent
   ],
-  providers: [{
-    provide: AttributeService,
-    useFactory(attributeRepository: AttributeRepository) {
-      let attributeService: AttributeService;
-      if (!attributeService) {
-        attributeService = new AttributeService(attributeRepository);
-      }
-      return attributeService;
-    },
-    deps: [AttributeRepository]
-  }],
+  providers: [attributeServiceProvider],
   exports: [
     AttributeComponent,
     AttributeCreationComponent,

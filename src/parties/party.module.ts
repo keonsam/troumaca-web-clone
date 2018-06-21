@@ -46,6 +46,8 @@ import {UserComponent} from './users/user/user.component';
 import {VendorComponent} from './vndors/vendor/vendor.component';
 import {VendorCreationComponent} from './vndors/vendor-creation/vendor.creation.component';
 import {VendorEditComponent} from './vndors/vendor-edit/vendor.edit.component';
+// providers
+import {partyServiceProvider} from './party.service.provider';
 
 @NgModule({
   imports: [
@@ -93,18 +95,7 @@ import {VendorEditComponent} from './vndors/vendor-edit/vendor.edit.component';
     VendorCreationComponent,
     VendorEditComponent
   ],
-  providers: [{
-    provide: PartyService,
-      useFactory(partyRepository: PartyRepository) {
-        let partyService: PartyService;
-        if (!partyService) {
-          partyService = new PartyService(partyRepository);
-        }
-        return partyService;
-      },
-      deps: [PartyRepository]
-    }, PartyEventService
-  ],
+  providers: [partyServiceProvider, PartyEventService],
   exports: [
     PartyComponent,
     PersonComponent,

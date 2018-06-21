@@ -4,8 +4,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2CompleterModule} from 'ng2-completer';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AccessRoleComponent} from './access.role.component';
-import {AccessRoleService} from './access.role.service';
-import {AccessRoleRepository} from './access.role.repository';
 import {accessRoleRouting} from './access.role.routing';
 import {RouterModule} from '@angular/router';
 import {MenuModule} from '../menu/menu.module';
@@ -27,6 +25,7 @@ import {ResourceTypeListComponent} from './resource-types/resource.type.list/res
 import {AccessRoleTypeCreationComponent} from './access-role-types/access-role-type-creation/access.role.type.creation.component';
 import {AccessRoleTypeEditComponent} from './access-role-types/access-role-type-edit/access.role.type.edit.component';
 import {AccessRoleTypeListComponent} from './access-role-types/access-role-type-list/access.role.type.list.component';
+import {accessRoleServiceProvider} from './access.role.service.provider';
 
 @NgModule({
   imports: [
@@ -60,17 +59,7 @@ import {AccessRoleTypeListComponent} from './access-role-types/access-role-type-
     AccessRoleTypeEditComponent,
     AccessRoleTypeListComponent,
   ],
-  providers: [{
-    provide: AccessRoleService,
-    useFactory(accessRoleRepository: AccessRoleRepository) {
-      let accessRoleService: AccessRoleService;
-      if (!accessRoleService) {
-        accessRoleService = new AccessRoleService(accessRoleRepository);
-      }
-      return accessRoleService;
-    },
-    deps: [AccessRoleRepository]
-  }],
+  providers: [accessRoleServiceProvider],
   exports: [
     AccessRoleComponent,
     AccessRoleCreationComponent,

@@ -11,6 +11,7 @@ import {AssetTypeClassListComponent} from './asset-type-class-list/asset.type.cl
 import {AssetTypeClassCreationComponent} from './asset-type-class-creation/asset.type.class.creation.component';
 import {AssetTypeClassTopMenuComponent} from './asset-type-class-top-menu/asset-type-class-top-menu.component';
 import {AssetTypeClassEditComponent} from './asset-type-class-edit/asset.type.class.edit.component';
+import {assetTypeClassServiceProvider} from './asset.type.class.service.provider';
 import {PagingModule} from '../paging/paging.module';
 import {SearchModule} from '../search/search.module';
 import {Ng2CompleterModule} from 'ng2-completer';
@@ -34,17 +35,7 @@ import {Ng2CompleterModule} from 'ng2-completer';
     AssetTypeClassTopMenuComponent,
     AssetTypeClassEditComponent
   ],
-  providers: [{
-    provide: AssetTypeClassService,
-    useFactory(assetTypeClassRepository: AssetTypeClassRepository) {
-      let assetTypeClassService: AssetTypeClassService;
-      if (!assetTypeClassService) {
-        assetTypeClassService = new AssetTypeClassService(assetTypeClassRepository);
-      }
-      return assetTypeClassService;
-    },
-    deps: [AssetTypeClassRepository]
-  }],
+  providers: [assetTypeClassServiceProvider],
   exports: [
     AssetTypeClassComponent,
     AssetTypeClassListComponent,

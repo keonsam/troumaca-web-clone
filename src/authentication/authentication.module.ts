@@ -11,6 +11,7 @@ import {RegisterComponent} from './register/register.component';
 import {ForgotPasswordComponent} from './forgot-password/forgot.password.component';
 import {ConfirmationComponent} from './confirmation/confirmation.component';
 import {LockComponent} from './lock/lock.component';
+import {authenticationServiceProvider} from './authenticate.service.provider';
 
 @NgModule({
   imports: [
@@ -28,17 +29,7 @@ import {LockComponent} from './lock/lock.component';
     ConfirmationComponent,
     LockComponent
   ],
-  providers: [{
-    provide: AuthenticationService,
-    useFactory(authenticationRepository: AuthenticationRepository) {
-      let authenticationService: AuthenticationService;
-      if (!authenticationService) {
-        authenticationService = new AuthenticationService(authenticationRepository);
-      }
-      return authenticationService;
-    },
-    deps: [AuthenticationRepository]
-  }],
+  providers: [authenticationServiceProvider],
   exports: [
     LoginComponent,
     AuthenticationComponent,

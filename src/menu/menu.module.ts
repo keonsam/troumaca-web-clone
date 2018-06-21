@@ -15,7 +15,7 @@ import {SearchModule} from '../search/search.module';
 import {AvatarMenuComponent} from './avatar/avatar.menu.component';
 import {MessageModule} from '../message/message.module';
 import {SettingModule} from '../setting/setting.module';
-
+import {menuServiceProvider} from './menu.service.provider';
 
 @NgModule({
   imports: [
@@ -36,17 +36,7 @@ import {SettingModule} from '../setting/setting.module';
     AvatarMenuComponent,
     MenuComponent
   ],
-  providers: [{
-    provide: MenuService,
-    useFactory(menuRepository: MenuRepository) {
-      let menuService: MenuService;
-      if (!menuService) {
-        menuService = new MenuService(menuRepository);
-      }
-      return menuService;
-    },
-    deps: [MenuRepository]
-  }],
+  providers: [menuServiceProvider],
   exports: [
     MobileMenuComponent,
     TopMenuComponent,

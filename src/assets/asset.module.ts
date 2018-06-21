@@ -14,6 +14,7 @@ import {AssetListComponent} from './asset-list/asset.list.component';
 import {AssetTopMenuComponent} from './asset-top-menu/asset.top.menu.component';
 import {AssetCreationComponent} from './asset-creation/asset.creation.component';
 import {Ng2CompleterModule} from 'ng2-completer';
+import {assetServiceProvider} from './asset.service.provider';
 
 @NgModule({
   imports: [
@@ -35,18 +36,7 @@ import {Ng2CompleterModule} from 'ng2-completer';
     AssetTopMenuComponent,
     AssetCreationComponent
   ],
-  providers: [{
-    provide: AssetService,
-    useFactory(assetRepository: AssetRepository) {
-      let assetService: AssetService;
-      if (!assetService) {
-        assetService = new AssetService(
-          assetRepository);
-      }
-      return assetService;
-    },
-    deps: [AssetRepository]
-  }],
+  providers: [assetServiceProvider],
   exports: [
     AssetComponent,
     AssetEditComponent,

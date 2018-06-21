@@ -14,6 +14,7 @@ import {Ng2CompleterModule} from 'ng2-completer';
 import {AssetTypeTopMenuComponent} from './asset-type-top-menu/asset.type.top.menu.component';
 import {SearchModule} from '../search/search.module';
 import {PagingModule} from '../paging/paging.module';
+import {assetTypeServiceProvider} from './asset.type.service.provider';
 
 @NgModule({
   imports: [
@@ -34,17 +35,7 @@ import {PagingModule} from '../paging/paging.module';
     AssetTypeEditComponent,
     AssetTypeTopMenuComponent
   ],
-  providers: [{
-    provide: AssetTypeService,
-    useFactory(assetTypeRepository: AssetTypeRepository) {
-      let assetTypeService: AssetTypeService;
-      if (!assetTypeService) {
-        assetTypeService = new AssetTypeService(assetTypeRepository);
-      }
-      return assetTypeService;
-    },
-    deps: [AssetTypeRepository]
-  }],
+  providers: [assetTypeServiceProvider],
   exports: [
     AssetTypeComponent,
     AssetTypeListComponent,
