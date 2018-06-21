@@ -1,6 +1,6 @@
-import {ResourceState} from "./resource.state";
-import {PageState} from "../page/page.state";
-import {SortState} from "../sort/sort.state";
+import {ResourceState} from './resource.state';
+import {PageState} from '../page/page.state';
+import {SortState} from '../sort/sort.state';
 
 export class ResourceStates {
   private _resources: ResourceState[];

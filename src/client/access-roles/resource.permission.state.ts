@@ -1,13 +1,13 @@
-import {PermissionState} from "./permission.state";
+import {PermissionState} from './permission.state';
 
 export class ResourcePermissionState {
 
-  private _resourcePermissionId:string;
-  private _resourceId:string;
-  private _permission:PermissionState;
+  private _resourcePermissionId: string;
+  private _resourceId: string;
+  private _permission: PermissionState;
   //private _ownerPartyId:string;
-  private _createdOn:Date;
-  private _modifiedOn:Date;
+  private _createdOn: Date;
+  private _modifiedOn: Date;
 
   get resourcePermissionId(): string {
     return this._resourcePermissionId;

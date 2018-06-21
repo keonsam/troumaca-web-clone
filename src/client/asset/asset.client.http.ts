@@ -1,16 +1,15 @@
-import {AssetClient} from "./asset.client";
-import {UUIDGenerator} from "../../uuid.generator";
-import {Observable} from "rxjs/Observable";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {AssetStates} from "./asset.states";
-import {JsonConvert, OperationMode, ValueCheckingMode} from "json2typescript";
-import {AssetKindStates} from "./asset.kind.states";
-import {AssetState} from "./asset.state";
-import {AssetTypeState} from "../asset-type/asset.type.state";
-import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
-import {UnionOfPhysicalSiteState} from "../site/union.of.physical.site.state";
-import {PersonStates} from "../party/person.states";
-import {AssetPersonState} from "./asset.person.state";
+import {AssetClient} from './asset.client';
+import {UUIDGenerator} from '../../uuid.generator';
+import {Observable} from 'rxjs/Observable';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {AssetStates} from './asset.states';
+import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
+import {AssetKindStates} from './asset.kind.states';
+import {AssetState} from './asset.state';
+import {AssetTypeState} from '../asset-type/asset.type.state';
+import {UnitOfMeasureState} from '../unit-of-measure/unit.of.measure.state';
+import {UnionOfPhysicalSiteState} from '../site/union.of.physical.site.state';
+import {AssetPersonState} from './asset.person.state';
 
 export class AssetClientHttp extends AssetClient {
 
@@ -18,7 +17,7 @@ export class AssetClientHttp extends AssetClient {
 
   constructor(private uuidGenerator: UUIDGenerator,
               private http: HttpClient,
-              private hostPort:string) {
+              private hostPort: string) {
     super();
 
     this.jsonConvert = new JsonConvert();
@@ -28,8 +27,8 @@ export class AssetClientHttp extends AssetClient {
   }
 
 
-  public getAssets(pageNumber:number, pageSize:number, sortOrder:string): Observable<AssetStates> {
-    let url = `${this.hostPort}/assets?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+  public getAssets(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetStates> {
+    const url = `${this.hostPort}/assets?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -39,7 +38,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public getAssetState(assetId: string): Observable<AssetState>{
-    let url = `${this.hostPort}/assets/${assetId}`;
+    const url = `${this.hostPort}/assets/${assetId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -51,7 +50,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public getAssetKinds(): Observable<AssetKindStates> {
-    let url = `${this.hostPort}/asset-kinds`;
+    const url = `${this.hostPort}/asset-kinds`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -61,7 +60,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetTypeState[]> {
-    let url = `${this.hostPort}/asset-types/find?q=${searchStr}&pageSize=${pageSize}`;
+    const url = `${this.hostPort}/asset-types/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -71,7 +70,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteState[]> {
-    let url = `${this.hostPort}/sites/find?q=${searchStr}&pageSize=${pageSize}`;
+    const url = `${this.hostPort}/sites/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -81,7 +80,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
-    let url = `${this.hostPort}/unit-of-measures/find?q=${searchStr}&pageSize=${pageSize}`;
+    const url = `${this.hostPort}/unit-of-measures/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -91,7 +90,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public findPersons(searchStr: string, pageSize: number): Observable<AssetPersonState[]> {
-    let url = `${this.hostPort}/users/find?q=${searchStr}&pageSize=${pageSize}`;
+    const url = `${this.hostPort}/users/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -101,7 +100,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public addAsset(assetState: AssetState): Observable<AssetState> {
-    let url = `${this.hostPort}/assets`;
+    const url = `${this.hostPort}/assets`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -111,7 +110,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public updateAsset(assetId: string, assetState: AssetState): Observable<number> {
-    let url = `${this.hostPort}/assets/${assetId}`;
+    const url = `${this.hostPort}/assets/${assetId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -123,7 +122,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public deleteAsset(assetId: string): Observable<number> {
-    let url = `${this.hostPort}/assets/${assetId}`;
+    const url = `${this.hostPort}/assets/${assetId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -135,7 +134,7 @@ export class AssetClientHttp extends AssetClient {
   }
 
   public jsonHttpHeaders(): HttpHeaders {
-    let httpHeaders: HttpHeaders = new HttpHeaders({
+    const httpHeaders: HttpHeaders = new HttpHeaders({
       'Content-Type':  'application/json',
       'correlationId': this.uuidGenerator.generateUUID()
     });

@@ -1,9 +1,9 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {StreetAddress} from "../street.address";
-import {SiteService} from "../site.service";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {StreetAddress} from '../street.address';
+import {SiteService} from '../site.service';
 import {ActivatedRoute} from '@angular/router';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'site-street-address-edit ',
@@ -30,38 +30,38 @@ export class SiteStreetAddressEditComponent implements OnInit {
 
   private streetAddress: StreetAddress;
 
-  private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage: boolean;
 
-  constructor(private siteService:SiteService,
+  constructor(private siteService: SiteService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
 
-     this.name = new FormControl("", [Validators.required]);
-     this.suiteOrApartment = new FormControl("", [Validators.required]);
-     this.floor = new FormControl("", [Validators.required]);
-     this.suiteOrApartmentNumber = new FormControl("", [Validators.required]);
-     this.description = new FormControl("");
-     this.streetNumber = new FormControl("");
-     this.street = new FormControl("", [Validators.required]);
-     this.city = new FormControl("", [Validators.required]);
-     this.stateOrProvince = new FormControl("", [Validators.required]);
-     this.postalCode = new FormControl("", [Validators.required]);
-     this.country = new FormControl("", [Validators.required]);
+     this.name = new FormControl('', [Validators.required]);
+     this.suiteOrApartment = new FormControl('', [Validators.required]);
+     this.floor = new FormControl('', [Validators.required]);
+     this.suiteOrApartmentNumber = new FormControl('', [Validators.required]);
+     this.description = new FormControl('');
+     this.streetNumber = new FormControl('');
+     this.street = new FormControl('', [Validators.required]);
+     this.city = new FormControl('', [Validators.required]);
+     this.stateOrProvince = new FormControl('', [Validators.required]);
+     this.postalCode = new FormControl('', [Validators.required]);
+     this.country = new FormControl('', [Validators.required]);
 
 
      this.siteStreetAddressEditForm = formBuilder.group({
-       "name": this.name,
-       "suiteOrApartment": this.suiteOrApartment,
-       "floor": this.floor,
-       "suiteOrApartmentNumber": this.suiteOrApartmentNumber,
-       "description": this.description,
-       "streetNumber": this.streetNumber,
-       "street": this.street,
-       "city": this.city,
-       "stateOrProvince": this.stateOrProvince,
-       "postalCode": this.postalCode,
-       "country": this.country
+       'name': this.name,
+       'suiteOrApartment': this.suiteOrApartment,
+       'floor': this.floor,
+       'suiteOrApartmentNumber': this.suiteOrApartmentNumber,
+       'description': this.description,
+       'streetNumber': this.streetNumber,
+       'street': this.street,
+       'city': this.city,
+       'stateOrProvince': this.stateOrProvince,
+       'postalCode': this.postalCode,
+       'country': this.country
      });
 
      this.streetAddress = new StreetAddress();
@@ -81,7 +81,7 @@ export class SiteStreetAddressEditComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
        this.siteId = params['siteId'];
        this.siteService.getStreetAddress(this.siteId)
-       .subscribe(streetAddress =>{
+       .subscribe(streetAddress => {
         this.name.setValue(streetAddress.name);
         this.suiteOrApartment.setValue(streetAddress.suiteOrApartment);
         this.floor.setValue(streetAddress.floor);
@@ -172,7 +172,7 @@ export class SiteStreetAddressEditComponent implements OnInit {
     this._city = value;
   }
 
-  get stateOrProvince() : FormControl {
+  get stateOrProvince(): FormControl {
     return this._stateOrProvince;
   }
 

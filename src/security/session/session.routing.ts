@@ -1,6 +1,6 @@
 import {Routes, RouterModule} from '@angular/router';
-import {ModuleWithProviders} from "@angular/core";
-import {SessionComponent} from "./session.component";
+import {ModuleWithProviders} from '@angular/core';
+import {SessionComponent} from './session.component';
 
 export const sessionRoutes: Routes = [
   {path: '', redirectTo: 'sessions', pathMatch: 'full'},

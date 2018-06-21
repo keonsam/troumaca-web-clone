@@ -1,5 +1,5 @@
-import {ReportClient} from "./report.client";
-import {UUIDGenerator} from "../../uuid.generator";
+import {ReportClient} from './report.client';
+import {UUIDGenerator} from '../../uuid.generator';
 
 export class ReportClientHttp extends ReportClient {
 

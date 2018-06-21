@@ -1,18 +1,18 @@
-import {AssetTypeClassState} from "../asset-type-class/asset.type.class.state";
+import {AssetTypeClassState} from '../asset-type-class/asset.type.class.state';
 // import {AttributeState} from "./attribute.state";
-import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
+import {UnitOfMeasureState} from '../unit-of-measure/unit.of.measure.state';
 
 export class AssetTypeState {
 
-  private _assetTypeId:string;
+  private _assetTypeId: string;
   private _assetTypeClassId: string;
   private _unitOfMeasureId: string;
-  private _modelNumber:string;
-  private _description:string;
-  private _name:string;
-  private _materialCode:string;
-  private _unitOfMeasure:UnitOfMeasureState;
-  private _assetTypeClass:AssetTypeClassState;
+  private _modelNumber: string;
+  private _description: string;
+  private _name: string;
+  private _materialCode: string;
+  private _unitOfMeasure: UnitOfMeasureState;
+  private _assetTypeClass: AssetTypeClassState;
 
   get assetTypeId(): string {
     return this._assetTypeId;

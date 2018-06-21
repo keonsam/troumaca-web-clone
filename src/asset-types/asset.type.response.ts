@@ -1,5 +1,5 @@
-import {AssetType} from "./asset.type";
-import {Value} from "./value";
+import {AssetType} from './asset.type';
+import {Value} from './value';
 
 export class AssetTypeResponse {
 

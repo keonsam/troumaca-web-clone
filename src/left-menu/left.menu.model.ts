@@ -1,5 +1,5 @@
-import {LeftMenuItemModel} from "./left.menu.item.model";
-import {MenuModel} from "../menu/menu.model";
+import {LeftMenuItemModel} from './left.menu.item.model';
+import {MenuModel} from '../menu/menu.model';
 
 export class LeftMenuModel {
 
@@ -27,8 +27,8 @@ export class LeftMenuModel {
     this._leftMenuItemModel = value;
   }
 
-  private _id:string;
-  private _title:string;
-  private _leftMenuItemModel:LeftMenuItemModel[];
+  private _id: string;
+  private _title: string;
+  private _leftMenuItemModel: LeftMenuItemModel[];
 
 }

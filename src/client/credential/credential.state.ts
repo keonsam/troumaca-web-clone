@@ -1,13 +1,13 @@
 export class CredentialState {
 
-  private _credentialId:string;
-  private _username:string;
-  private _password:string;
-  private _changedPassword:string;
-  private _rememberMe:boolean;
+  private _credentialId: string;
+  private _username: string;
+  private _password: string;
+  private _changedPassword: string;
+  private _rememberMe: boolean;
   private _credentialStatus: string;
 
-  constructor(credentialId?:string, username?: string, password?: string, changedPassword?: string, rememberMe?: boolean) {
+  constructor(credentialId?: string, username?: string, password?: string, changedPassword?: string, rememberMe?: boolean) {
     this._credentialId = credentialId;
     this._username = username;
     this._password = password;

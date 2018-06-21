@@ -1,11 +1,11 @@
 
 export class Event {
 
-  private _partyId:string;
-  private _timestamp:number;
-  private _source:string;
-  private _name:string;
-  private _data:Object;
+  private _partyId: string;
+  private _timestamp: number;
+  private _source: string;
+  private _name: string;
+  private _data: Object;
 
   constructor(partyId?: string, timestamp?: number, source?: string, name?: string) {
     this._partyId = partyId;

@@ -1,18 +1,18 @@
-import {StreetAddressState} from "./street.address.state";
-import {PageState} from "../page/page.state";
-import {SortState} from "../sort/sort.state";
+import {StreetAddressState} from './street.address.state';
+import {PageState} from '../page/page.state';
+import {SortState} from '../sort/sort.state';
 
 export class StreetAddressStates {
 
-  private _streetAddresses:StreetAddressState[] = [];
-  private _page:PageState;
-  private _sort:SortState;
+  private _streetAddresses: StreetAddressState[] = [];
+  private _page: PageState;
+  private _sort: SortState;
 
   constructor() {
     this.page = new PageState();
     this.sort = new SortState();
   }
-  
+
   get streetAddresses(): StreetAddressState[] {
     return this._streetAddresses;
   }

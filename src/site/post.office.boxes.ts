@@ -1,12 +1,12 @@
-import {PostOfficeBox} from "./post.office.box";
-import {Page} from "../page/page";
-import {Sort} from "../sort/sort";
+import {PostOfficeBox} from './post.office.box';
+import {Page} from '../page/page';
+import {Sort} from '../sort/sort';
 
 export class PostOfficeBoxes {
 
-  private _postOfficeBoxes:PostOfficeBox[] = [];
-  private _page:Page;
-  private _sort:Sort;
+  private _postOfficeBoxes: PostOfficeBox[] = [];
+  private _page: Page;
+  private _sort: Sort;
 
   get postOfficeBoxes(): PostOfficeBox[] {
     return this._postOfficeBoxes;

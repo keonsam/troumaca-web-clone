@@ -1,6 +1,6 @@
 import {Routes, RouterModule} from '@angular/router';
-import {ModuleWithProviders} from "@angular/core";
-import {PartyComponent} from "./party.component";
+import {ModuleWithProviders} from '@angular/core';
+import {PartyComponent} from './party.component';
 // import {MeComponent} from "./me/me.component";
 // import {PersonComponent} from "./creation/person.component";
 // {path: 'persons/create-new', component:PersonComponent},

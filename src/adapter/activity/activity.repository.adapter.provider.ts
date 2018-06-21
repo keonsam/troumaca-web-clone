@@ -1,8 +1,8 @@
-import {ActivityRepositoryAdapter} from "./activity.repository.adapter";
-import {ActivityClient} from "../../client/activity/activity.client";
-import {ActivityRepository} from "../../activity/activity.repository";
+import {ActivityRepositoryAdapter} from './activity.repository.adapter';
+import {ActivityClient} from '../../client/activity/activity.client';
+import {ActivityRepository} from '../../activity/activity.repository';
 
-export function activityRepositoryProviderFactory (activityClient:ActivityClient):ActivityRepository {
+export function activityRepositoryProviderFactory (activityClient: ActivityClient): ActivityRepository {
   let activityRepositoryAdapter: ActivityRepositoryAdapter;
   if (!activityRepositoryAdapter) {
     activityRepositoryAdapter = new ActivityRepositoryAdapter(activityClient);

@@ -1,9 +1,9 @@
 
-import {AssetTypesClient} from "../../client/asset-type/asset.types.client";
-import {AssetTypeRepository} from "../../asset-types/asset.type.repository";
-import {AssetTypeRepositoryAdapter} from "./asset.repository.adapter";
+import {AssetTypesClient} from '../../client/asset-type/asset.types.client';
+import {AssetTypeRepository} from '../../asset-types/asset.type.repository';
+import {AssetTypeRepositoryAdapter} from './asset.repository.adapter';
 
-export function assetTypeRepositoryProviderFactory (assetTypesClient:AssetTypesClient):AssetTypeRepository {
+export function assetTypeRepositoryProviderFactory (assetTypesClient: AssetTypesClient): AssetTypeRepository {
   let assetTypeRepositoryAdapter: AssetTypeRepositoryAdapter;
   if (!assetTypeRepositoryAdapter) {
     assetTypeRepositoryAdapter = new AssetTypeRepositoryAdapter(assetTypesClient);

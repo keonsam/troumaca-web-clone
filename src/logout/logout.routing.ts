@@ -1,6 +1,6 @@
 import {Routes, RouterModule} from '@angular/router';
-import {ModuleWithProviders} from "@angular/core";
-import {LogoutComponent} from "./logout.component";
+import {ModuleWithProviders} from '@angular/core';
+import {LogoutComponent} from './logout.component';
 
 
 const logoutRoutes: Routes = [

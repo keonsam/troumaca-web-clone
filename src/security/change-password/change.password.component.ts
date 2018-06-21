@@ -1,5 +1,5 @@
-import {Component, OnInit} from "@angular/core";
-import {ChangePasswordService} from "./change.password.service";
+import {Component, OnInit} from '@angular/core';
+import {ChangePasswordService} from './change.password.service';
 
 @Component({
   selector: 'change-password',

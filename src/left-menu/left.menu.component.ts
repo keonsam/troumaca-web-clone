@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {LeftMenuService} from "./left.menu.service";
-import {LeftMenuModel} from "./left.menu.model";
-import {LeftMenuItemModel} from "./left.menu.item.model";
+import {LeftMenuService} from './left.menu.service';
+import {LeftMenuModel} from './left.menu.model';
+import {LeftMenuItemModel} from './left.menu.item.model';
 
 @Component({
   selector: 'left-menu',
@@ -10,13 +10,13 @@ import {LeftMenuItemModel} from "./left.menu.item.model";
 })
 export class LeftMenuComponent implements OnInit {
 
-  private _title:string;
-  private _leftMenuModels:LeftMenuModel[];
-  private _leftMenuModel:LeftMenuModel;
-  private _name:string;
+  private _title: string;
+  private _leftMenuModels: LeftMenuModel[];
+  private _leftMenuModel: LeftMenuModel;
+  private _name: string;
 
-  constructor(private leftMenuService:LeftMenuService) {
-    this._title = "Troumaca";
+  constructor(private leftMenuService: LeftMenuService) {
+    this._title = 'Troumaca';
   }
 
   get title(): string {
@@ -53,7 +53,7 @@ export class LeftMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let that = this;
+    const that = this;
     this.leftMenuService.getLeftMenuByName(this.name).subscribe((leftMenu) => {
       that.leftMenuModel = leftMenu;
     });

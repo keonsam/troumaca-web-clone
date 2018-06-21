@@ -1,5 +1,5 @@
-import {NgModule} from "@angular/core";
-import {eventServiceProvider} from "./event.service.provider";
+import {NgModule} from '@angular/core';
+import {eventServiceProvider} from './event.service.provider';
 
 @NgModule({
   imports:      [],

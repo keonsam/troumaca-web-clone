@@ -1,11 +1,11 @@
-import {SiteState} from "./site.state";
+import {SiteState} from './site.state';
 
 export class PhysicalSiteState extends SiteState {
 
-  private _city:string;
-  private _stateOrProvince:string;
-  private _postalCode:string;
-  private _country:string;
+  private _city: string;
+  private _stateOrProvince: string;
+  private _postalCode: string;
+  private _country: string;
   private _createdOn: Date;
   private _modifiedOn: Date;
 

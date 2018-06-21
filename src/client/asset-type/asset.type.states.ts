@@ -1,13 +1,13 @@
-import {AssetTypeState} from "./asset.type.state";
-import {PageState} from "../page/page.state";
-import {SortState} from "../sort/sort.state";
+import {AssetTypeState} from './asset.type.state';
+import {PageState} from '../page/page.state';
+import {SortState} from '../sort/sort.state';
 
 export class AssetTypeStates {
 
-  private _assetTypes:AssetTypeState[];
-  private _page:PageState;
-  private _sort:SortState;
-  
+  private _assetTypes: AssetTypeState[];
+  private _page: PageState;
+  private _sort: SortState;
+
   get assetTypes(): AssetTypeState[] {
     return this._assetTypes;
   }

@@ -1,9 +1,9 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
-import {MenuService} from "../menu.service";
-import {PartyService} from "../../parties/party.service";
-import {EventService} from "../../event/event.service";
-import {MenuModel} from "../menu.model";
-import {trigger, state, style, transition, animate} from "@angular/animations";
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {MenuService} from '../menu.service';
+import {PartyService} from '../../parties/party.service';
+import {EventService} from '../../event/event.service';
+import {MenuModel} from '../menu.model';
+import {trigger, state, style, transition, animate} from '@angular/animations';
 
 @Component({
   selector: 'mobile-menu',
@@ -25,18 +25,18 @@ import {trigger, state, style, transition, animate} from "@angular/animations";
 export class MobileMenuComponent implements OnInit {
 
   private partyId: string;
-  private imageStr: string;
-  private userName: string;
-  private _title:string;
-  private _name:string;
-  private _menuModel:MenuModel;
-  private _isLoggedIn:boolean;
-  private state: string;
-  private popUpState: string;
+  private _imageStr: string;
+  private _userName: string;
+  private _title: string;
+  private _name: string;
+  private _menuModel: MenuModel;
+  private _isLoggedIn: boolean;
+  private _state: string;
+  private _popUpState: string;
 
-  constructor(private eventService:EventService, private menuService:MenuService, private partyService: PartyService, private cd: ChangeDetectorRef) {
-    this.state = 'inactive';
-    this.popUpState = 'hide';
+  constructor(private eventService: EventService, private menuService: MenuService, private partyService: PartyService, private cd: ChangeDetectorRef) {
+    this._state = 'inactive';
+    this._popUpState = 'hide';
     this.eventService.subscribeToPhotoChangeEvent((data) => {
       this.getPhoto();
     });
@@ -79,7 +79,7 @@ export class MobileMenuComponent implements OnInit {
     this.handleMenuRefreshEvent();
     this.partyService.getPartyId()
       .subscribe( partyId => {
-        if(partyId){
+        if (partyId){
           this.partyId = partyId;
           this.getPhoto();
           this.getUserInformation();
@@ -87,19 +87,51 @@ export class MobileMenuComponent implements OnInit {
       });
   }
 
+  get imageStr(): string {
+    return this._imageStr;
+  }
+
+  set imageStr(value: string) {
+    this._imageStr = value;
+  }
+
+  get userName(): string {
+    return this._userName;
+  }
+
+  set userName(value: string) {
+    this._userName = value;
+  }
+
+  get state(): string {
+    return this._state;
+  }
+
+  set state(value: string) {
+    this._state = value;
+  }
+
+  get popUpState(): string {
+    return this._popUpState;
+  }
+
+  set popUpState(value: string) {
+    this._popUpState = value;
+  }
+
   mobileMenuTrigger() {
     this.popUpState = 'hide';
-    this.state = this.state === 'inactive' ? 'active': 'inactive';
+    this.state = this.state === 'inactive' ? 'active' : 'inactive';
   }
 
   popUpTrigger() {
-    this.popUpState = this.popUpState === 'hide' ? 'show': 'hide';
+    this.popUpState = this.popUpState === 'hide' ? 'show' : 'hide';
   }
 
   getPhoto() {
-    this.partyService.getPhoto(this.partyId, "user")
+    this.partyService.getPhoto(this.partyId, 'user')
       .subscribe(photo => {
-        if(photo) {
+        if (photo) {
           this.imageStr = photo.imageStr;
         }
       });
@@ -108,7 +140,7 @@ export class MobileMenuComponent implements OnInit {
   getUserInformation() {
     this.partyService.getUser(this.partyId)
       .subscribe( userResponse => {
-        if(userResponse.user.partyId) {
+        if (userResponse.user.partyId) {
           this.userName = userResponse.user.name;
         }
       });
@@ -116,7 +148,7 @@ export class MobileMenuComponent implements OnInit {
 
 
   handleMenuRefreshEvent() {
-    let that = this;
+    const that = this;
     this.eventService.subscribeToLoginEvent((data) => {
       that.isLoggedIn = true;
       //that.getMenu(this.isLoggedIn);
@@ -126,8 +158,8 @@ export class MobileMenuComponent implements OnInit {
   logOutEvent() {
     this.partyService.logOutUser()
       .subscribe(next => {
-        if(next) {
-          this.eventService.sendSessionLogoutEvent({"logOutEvent":true});
+        if (next) {
+          this.eventService.sendSessionLogoutEvent({'logOutEvent': true});
         }
       });
   }

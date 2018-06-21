@@ -1,5 +1,5 @@
-import {AccountClient} from "./account.client";
-import {UUIDGenerator} from "../../uuid.generator";
+import {AccountClient} from './account.client';
+import {UUIDGenerator} from '../../uuid.generator';
 
 export class AccountClientHttp extends AccountClient {
 

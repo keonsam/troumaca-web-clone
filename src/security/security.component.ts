@@ -1,5 +1,5 @@
-import {Component, OnInit} from "@angular/core";
-import {SecurityService} from "./security.service";
+import {Component, OnInit} from '@angular/core';
+import {SecurityService} from './security.service';
 
 @Component({
   selector: 'security',

@@ -1,31 +1,31 @@
-import "rxjs/add/operator/map";
-import {SiteClient} from "../../client/site/site.client";
-import {SiteRepository} from "../../site/site.repository";
-import {AssetSiteRepository} from "../../assets/asset.site.repository";
+import 'rxjs/add/operator/map';
+import {SiteClient} from '../../client/site/site.client';
+import {SiteRepository} from '../../site/site.repository';
+import {AssetSiteRepository} from '../../assets/asset.site.repository';
 
-import {Observable} from "rxjs/Observable";
-import "rxjs/add/operator/map";
-import { map, reduce, somethingElse } from "underscore";
-import {mapObjectProps} from "../../mapper/object.property.mapper";
-import {AssetUnionOfPhysicalSites} from "../../assets/asset.union.of.physical.sites";
-import {UnionOfPhysicalSite} from "../../assets/asset.union.of.physical.site";
-import {Email} from "../../site/email";
-import {EmailState} from "../../client/site/email.state";
-import {Emails} from "../../site/emails";
-import {StreetAddresses} from "../../site/street.addresses";
-import {PostOfficeBox} from "../../site/post.office.box";
-import {PostOfficeBoxState} from "../../client/site/post.office.box.state";
-import {PostOfficeBoxes} from "../../site/post.office.boxes";
-import {Phones} from "../../site/phones";
-import {WebSites} from "../../site/web.sites";
-import {Phone} from "../../site/phone";
-import {PhoneState} from "../../client/site/phone.state";
-import {WebSite} from "../../site/web.site";
-import {WebSiteState} from "../../client/site/web.site.state";
-import {StreetAddress} from "../../site/street.address";
-import {StreetAddressState} from "../../client/site/street.address.state";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import { map, reduce, somethingElse } from 'underscore';
+import {mapObjectProps} from '../../mapper/object.property.mapper';
+import {AssetUnionOfPhysicalSites} from '../../assets/asset.union.of.physical.sites';
+import {UnionOfPhysicalSite} from '../../assets/asset.union.of.physical.site';
+import {Email} from '../../site/email';
+import {EmailState} from '../../client/site/email.state';
+import {Emails} from '../../site/emails';
+import {StreetAddresses} from '../../site/street.addresses';
+import {PostOfficeBox} from '../../site/post.office.box';
+import {PostOfficeBoxState} from '../../client/site/post.office.box.state';
+import {PostOfficeBoxes} from '../../site/post.office.boxes';
+import {Phones} from '../../site/phones';
+import {WebSites} from '../../site/web.sites';
+import {Phone} from '../../site/phone';
+import {PhoneState} from '../../client/site/phone.state';
+import {WebSite} from '../../site/web.site';
+import {WebSiteState} from '../../client/site/web.site.state';
+import {StreetAddress} from '../../site/street.address';
+import {StreetAddressState} from '../../client/site/street.address.state';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
 
 export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRepository {
 
@@ -33,11 +33,11 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     super();
   }
 
-  public getStreetAddresses(pageNumber: number, pageSize:number, sortOrder:string): Observable<StreetAddresses> {
+  public getStreetAddresses(pageNumber: number, pageSize: number, sortOrder: string): Observable<StreetAddresses> {
     return this.siteClient
     .getStreetAddressStates(pageNumber, pageSize, sortOrder)
     .map(values => {
-      let streetAddresses:StreetAddresses = new StreetAddresses();
+      const streetAddresses: StreetAddresses = new StreetAddresses();
       streetAddresses.streetAddresses = map(values.streetAddresses, value => {
         return mapObjectProps(value, new StreetAddress());
       });
@@ -49,11 +49,11 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
 
   }
 
-  public getPostOfficeBoxes(pageNumber:number, pageSize:number, sortOrder:string):Observable<PostOfficeBoxes> {
+  public getPostOfficeBoxes(pageNumber: number, pageSize: number, sortOrder: string): Observable<PostOfficeBoxes> {
     return this.siteClient
     .getPostOfficeBoxStates(pageNumber, pageSize, sortOrder)
     .map(values => {
-      let postOfficeBoxes:PostOfficeBoxes = new PostOfficeBoxes();
+      const postOfficeBoxes: PostOfficeBoxes = new PostOfficeBoxes();
       postOfficeBoxes.postOfficeBoxes = map(values.postOfficeBoxes, value => {
         return mapObjectProps(value, new PostOfficeBox());
       });
@@ -64,11 +64,11 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     });
   }
 
-  public getEmails(pageNumber:number, pageSize:number, sortOrder:string):Observable<Emails> {
+  public getEmails(pageNumber: number, pageSize: number, sortOrder: string): Observable<Emails> {
     return this.siteClient
     .getEmailStates(pageNumber, pageSize, sortOrder)
     .map(values => {
-      let emails:Emails = new Emails();
+      const emails: Emails = new Emails();
       emails.emails = map(values.emails, value => {
         return mapObjectProps(value, new Email());
       });
@@ -78,11 +78,11 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     });
   }
 
-  public getWebSites(pageNumber:number, pageSize:number, sortOrder:string):Observable<WebSites> {
+  public getWebSites(pageNumber: number, pageSize: number, sortOrder: string): Observable<WebSites> {
     return this.siteClient
     .getWebSiteStates(pageNumber, pageSize, sortOrder)
     .map(values => {
-      let webSites:WebSites = new WebSites();
+      const webSites: WebSites = new WebSites();
       webSites.webSites = map(values.webSites, value => {
         return mapObjectProps(value, new WebSite());
       });
@@ -92,7 +92,7 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     });
   }
 
-  public getStreetAddress(siteId:string): Observable<StreetAddress> {
+  public getStreetAddress(siteId: string): Observable<StreetAddress> {
     return this.siteClient
     .getStreetAddressState(siteId)
     .map(value => {
@@ -100,7 +100,7 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     });
   }
 
-  public getPostOfficeBox(siteId:string): Observable<PostOfficeBox> {
+  public getPostOfficeBox(siteId: string): Observable<PostOfficeBox> {
     return this.siteClient
     .getPostOfficeBoxState(siteId)
     .map(value => {
@@ -108,7 +108,7 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     });
   }
 
-  public getEmail(siteId:string): Observable<Email> {
+  public getEmail(siteId: string): Observable<Email> {
     return this.siteClient
     .getEmailState(siteId)
     .map(value => {
@@ -116,7 +116,7 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     });
   }
 
-  public getWebSite(siteId:string): Observable<WebSite> {
+  public getWebSite(siteId: string): Observable<WebSite> {
     return this.siteClient
     .getWebSiteState(siteId)
     .map(value => {
@@ -124,7 +124,7 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     });
   }
 
-  public getPhone(siteId:string):Observable<Phone> {
+  public getPhone(siteId: string): Observable<Phone> {
     return this.siteClient
     .getPhoneState(siteId)
     .map(value => {
@@ -132,13 +132,13 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     });
   }
 
-  public getPhones(pageNumber:number, pageSize:number, sortOrder:string):Observable<Phones> {
+  public getPhones(pageNumber: number, pageSize: number, sortOrder: string): Observable<Phones> {
     return this.siteClient
     .getPhoneStates(pageNumber, pageSize, sortOrder)
     .map(values => {
-      let phones:Phones = new Phones();
+      const phones: Phones = new Phones();
       phones.phones = map(values.phones, value => {
-        let phone = mapObjectProps(value, new Phone());
+        const phone = mapObjectProps(value, new Phone());
         return phone;
       });
 
@@ -152,7 +152,7 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     return this.siteClient
       .findUnionOfPhysicalSiteStates(searchStr, pageSize)
       .map(values => {
-        let unionOfPhysicalSites:AssetUnionOfPhysicalSites = new AssetUnionOfPhysicalSites();
+        const unionOfPhysicalSites: AssetUnionOfPhysicalSites = new AssetUnionOfPhysicalSites();
         unionOfPhysicalSites.unionOfPhysicalSites = map(values.unionOfPhysicalSites, value => {
           return mapObjectProps(value, new UnionOfPhysicalSite());
         });
@@ -160,7 +160,7 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
       });
   }
 
-  public addPhone(phone:Phone):Observable<Phone> {
+  public addPhone(phone: Phone): Observable<Phone> {
     return this.siteClient
     .addPhone(mapObjectProps(phone, new PhoneState()))
     .map(phoneState => {
@@ -200,43 +200,43 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
     });
   }
 
-  public updateStreetAddress(siteId:string, streetAddress: StreetAddress): Observable<number> {
+  public updateStreetAddress(siteId: string, streetAddress: StreetAddress): Observable<number> {
     return this.siteClient.updateStreetAddress(siteId, mapObjectProps(streetAddress, new StreetAddressState()));
   }
 
-  public updatePostOfficeBox(siteId:string, postOfficeBox: PostOfficeBox): Observable<number> {
+  public updatePostOfficeBox(siteId: string, postOfficeBox: PostOfficeBox): Observable<number> {
     return this.siteClient.updatePostOfficeBox(siteId, mapObjectProps(postOfficeBox, new PostOfficeBoxState()))
   }
 
-  public updateEmail(siteId:string, email: Email): Observable<number> {
+  public updateEmail(siteId: string, email: Email): Observable<number> {
     return this.siteClient.updateEmail(siteId, mapObjectProps(email, new EmailState()))
   }
 
-  public updateWebSite(siteId:string, webSite: WebSite): Observable<number> {
+  public updateWebSite(siteId: string, webSite: WebSite): Observable<number> {
     return this.siteClient.updateWebSite(siteId, mapObjectProps(webSite, new WebSiteState()))
   }
 
-  public updatePhone(siteId:string, phone: Phone): Observable<number> {
+  public updatePhone(siteId: string, phone: Phone): Observable<number> {
     return this.siteClient.updatePhone(siteId, mapObjectProps(phone, new PhoneState()));
   }
 
-  public deleteStreetAddress(siteId:string): Observable<number> {
+  public deleteStreetAddress(siteId: string): Observable<number> {
     return this.siteClient.deleteStreetAddress(siteId);
   }
 
-  public deletePostOfficeBox(siteId:string): Observable<number> {
+  public deletePostOfficeBox(siteId: string): Observable<number> {
     return this.siteClient.deletePostOfficeBox(siteId);
   }
 
-  public deleteEmail(siteId:string): Observable<number> {
+  public deleteEmail(siteId: string): Observable<number> {
     return this.siteClient.deleteEmail(siteId);
   }
 
-  public deleteWebSite(siteId:string): Observable<number> {
+  public deleteWebSite(siteId: string): Observable<number> {
     return this.siteClient.deleteWebSite(siteId);
   }
 
-  public deletePhone(siteId:string): Observable<number> {
+  public deletePhone(siteId: string): Observable<number> {
     return this.siteClient.deletePhone(siteId);
   }
 

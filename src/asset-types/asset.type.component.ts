@@ -1,6 +1,6 @@
-import {Component, OnInit} from "@angular/core";
-import {AssetTypeService} from "./asset.type.service";
-import {AssetType} from "../assets/asset.type";
+import {Component, OnInit} from '@angular/core';
+import {AssetTypeService} from './asset.type.service';
+import {AssetType} from '../assets/asset.type';
 
 @Component({
   selector: 'asset-types',
@@ -9,9 +9,9 @@ import {AssetType} from "../assets/asset.type";
 })
 export class AssetTypeComponent implements OnInit {
 
-  private _assetTypes:AssetType[];
+  private _assetTypes: AssetType[];
 
-  constructor(private assetTypeService:AssetTypeService) {
+  constructor(private assetTypeService: AssetTypeService) {
   }
 
   ngOnInit(): void {

@@ -1,10 +1,10 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {WebSite} from "../web.site";
-import {SiteService} from "../site.service";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {WebSite} from '../web.site';
+import {SiteService} from '../site.service';
 import {ActivatedRoute} from '@angular/router';
 
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'site-web--edit',
@@ -23,21 +23,21 @@ export class SiteWebEditComponent implements OnInit {
 
   private webSite: WebSite;
 
-  private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage: boolean;
 
-  constructor(private siteService:SiteService,
+  constructor(private siteService: SiteService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
 
-     this.name = new FormControl("", [Validators.required]);
-     this.description = new FormControl("");
-     this.uniformResourceIdentifer = new FormControl("", [Validators.required]);
+     this.name = new FormControl('', [Validators.required]);
+     this.description = new FormControl('');
+     this.uniformResourceIdentifer = new FormControl('', [Validators.required]);
 
      this.siteWebSiteEditForm = formBuilder.group({
-       "name": this.name,
-       "description": this.description,
-       "uniformResourceIdentifer": this.uniformResourceIdentifer
+       'name': this.name,
+       'description': this.description,
+       'uniformResourceIdentifer': this.uniformResourceIdentifer
      });
 
      this.webSite = new WebSite();
@@ -57,7 +57,7 @@ export class SiteWebEditComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
        this.siteId = params['siteId'];
        this.siteService.getWebSite(this.siteId)
-       .subscribe(webSite =>{
+       .subscribe(webSite => {
         this.name.setValue(webSite.name);
         this.description.setValue(webSite.description);
         this.uniformResourceIdentifer.setValue(webSite.uniformResourceIdentifer);
@@ -125,7 +125,7 @@ export class SiteWebEditComponent implements OnInit {
   onCreate() {
     this.doNotDisplayFailureMessage = true;
     this.siteService
-    .updateWebSite(this.siteId,this.webSite)
+    .updateWebSite(this.siteId, this.webSite)
     .subscribe(value => {
       if (value) {
         this.router.navigate(['/sites/web-sites']);

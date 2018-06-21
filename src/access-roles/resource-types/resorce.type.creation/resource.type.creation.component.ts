@@ -1,9 +1,9 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
-import {ResourceType} from "../../resource.type";
-import {AccessRoleService} from "../../access.role.service";
-import {Router} from "@angular/router";
+import {ResourceType} from '../../resource.type';
+import {AccessRoleService} from '../../access.role.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'resource-type-creation',
@@ -17,17 +17,17 @@ export class ResourceTypeCreationComponent implements OnInit {
 
   private _resourceTypeForm: FormGroup;
 
-  private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage: boolean;
 
   constructor(private accessRoleService: AccessRoleService,
               private formBuilder: FormBuilder,
               private router: Router) {
-    this.name = new FormControl("", [Validators.required]);
-    this.description = new FormControl("");
+    this.name = new FormControl('', [Validators.required]);
+    this.description = new FormControl('');
 
     this.resourceTypeForm = formBuilder.group({
-      "name": this.name,
-      "description": this.description
+      'name': this.name,
+      'description': this.description
     });
 
     this.resourceTypeForm

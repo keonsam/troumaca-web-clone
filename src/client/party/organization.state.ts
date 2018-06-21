@@ -1,8 +1,8 @@
-import {PartyState} from "./party.state";
+import {PartyState} from './party.state';
 
 export class OrganizationState extends PartyState {
 
-  private _purpose:string;
+  private _purpose: string;
   private _description: string;
 
   get purpose(): string {

@@ -1,8 +1,8 @@
-import {QuoteRepositoryAdapter} from "./quote.repository.adapter";
-import {QuoteRepository} from "../../quotes/quote.repository";
-import {QuoteClient} from "../../client/quote/quote.client";
+import {QuoteRepositoryAdapter} from './quote.repository.adapter';
+import {QuoteRepository} from '../../quotes/quote.repository';
+import {QuoteClient} from '../../client/quote/quote.client';
 
-export function quoteRepositoryProviderFactory (quoteClient:QuoteClient):QuoteRepository {
+export function quoteRepositoryProviderFactory (quoteClient: QuoteClient): QuoteRepository {
   let quoteRepositoryAdapter: QuoteRepositoryAdapter;
   if (!quoteRepositoryAdapter) {
     quoteRepositoryAdapter = new QuoteRepositoryAdapter(quoteClient);

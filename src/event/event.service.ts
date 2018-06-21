@@ -1,12 +1,12 @@
-import {Subject} from "rxjs/Subject";
-import {Observable} from "rxjs/Observable";
-import {Injectable} from "@angular/core";
-import {EventName} from "./event.name";
+import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {EventName} from './event.name';
 
 @Injectable()
 export class EventService {
 
-  private _eventName:EventName;
+  private _eventName: EventName;
 
   private subject = new Subject<any>();
 
@@ -17,57 +17,57 @@ export class EventService {
     return this._eventName;
   }
 
-  sendEvent(name:EventName, data: any) {
-    this.subject.next({ "name":name, "data":data });
+  sendEvent(name: EventName, data: any) {
+    this.subject.next({ 'name': name, 'data': data });
   }
 
   getEvent(): Observable<any> {
     return this.subject.asObservable();
   }
 
-  sendLoginEvent(data:any) {
-    this.subject.next({ "name":EventName.LOGIN, "data":data });
+  sendLoginEvent(data: any) {
+    this.subject.next({ 'name': EventName.LOGIN, 'data': data });
   }
 
   subscribeToLoginEvent(func) {
     this.subject.subscribe( next => {
-      if(next.name === EventName.LOGIN) {
+      if (next.name === EventName.LOGIN) {
         func(next.data);
       }
     })
   }
 
-  sendPhotoChangeEvent(data:any) {
-    this.subject.next({ "name":EventName.USER_PHOTO_CHANGE, "data":data });
+  sendPhotoChangeEvent(data: any) {
+    this.subject.next({ 'name': EventName.USER_PHOTO_CHANGE, 'data': data });
   }
 
   subscribeToPhotoChangeEvent(func) {
     this.subject.subscribe( next => {
-      if(next.name === EventName.USER_PHOTO_CHANGE) {
+      if (next.name === EventName.USER_PHOTO_CHANGE) {
         func(next.data);
       }
     })
   }
 
-  sendSessionExpiredEvent(data:any) {
-    this.subject.next({ "name":EventName.SESSION_EXPIRED, "data":data });
+  sendSessionExpiredEvent(data: any) {
+    this.subject.next({ 'name': EventName.SESSION_EXPIRED, 'data': data });
   }
 
   subscribeToSessionExpiredEvent(func) {
     this.subject.subscribe( next => {
-      if(next.name === EventName.SESSION_EXPIRED) {
+      if (next.name === EventName.SESSION_EXPIRED) {
         func(next.data);
       }
     })
   }
 
-  sendSessionLogoutEvent(data:any) {
-    this.subject.next({ "name":EventName.LOGOUT, "data":data });
+  sendSessionLogoutEvent(data: any) {
+    this.subject.next({ 'name': EventName.LOGOUT, 'data': data });
   }
 
   subscribeToLogoutEvent(func) {
     this.subject.subscribe( next => {
-      if(next.name === EventName.LOGOUT) {
+      if (next.name === EventName.LOGOUT) {
         func(next.data);
       }
     })

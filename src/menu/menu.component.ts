@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {MenuService} from "./menu.service";
-import {MenuModel} from "./menu.model";
-import {MenuItemModel} from "./menu.item.model";
-import {EventService} from "../event/event.service";
+import {MenuService} from './menu.service';
+import {MenuModel} from './menu.model';
+import {MenuItemModel} from './menu.item.model';
+import {EventService} from '../event/event.service';
 
 @Component({
   selector: 'menu',
@@ -12,20 +12,20 @@ import {EventService} from "../event/event.service";
 })
 export class MenuComponent implements OnInit {
 
-  private _title:string;
-  private _menuModel:MenuModel;
-  private _isLoggedIn:boolean;
+  private _title: string;
+  private _menuModel: MenuModel;
+  private _isLoggedIn: boolean;
 
-  constructor(private eventService:EventService, private menuService:MenuService, private cd: ChangeDetectorRef) {
-    this.title = "Troumaca";
+  constructor(private eventService: EventService, private menuService: MenuService, private cd: ChangeDetectorRef) {
+    this.title = 'Troumaca';
     this.isLoggedIn = false;
     this.menuModel = new MenuModel();
     this.menuModel.menuItemModels = [];
-    console.log("Ok.");
+    console.log('Ok.');
   }
 
   handleMenuRefreshEvent() {
-    let that = this;
+    const that = this;
     this.eventService.subscribeToLoginEvent((event) => {
       that.isLoggedIn = true;
       that.getMenu(this.isLoggedIn);
@@ -36,7 +36,7 @@ export class MenuComponent implements OnInit {
     return this._title;
   }
 
-  set title(title:string) {
+  set title(title: string) {
     this._title = title;
   }
 
@@ -64,8 +64,8 @@ export class MenuComponent implements OnInit {
     this.handleMenuRefreshEvent();
   }
 
-  getMenu(isLoggedIn:boolean) {
-    let that = this;
+  getMenu(isLoggedIn: boolean) {
+    const that = this;
     this.menuService.getMenu(isLoggedIn).subscribe(function (menu) {
       that.menuModel.menuItemModels = [];
       menu.menuItemModels.forEach(value => {
@@ -76,7 +76,7 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  onSelected(menuItemModel:MenuItemModel) {
+  onSelected(menuItemModel: MenuItemModel) {
     this._menuModel.menuItemModels.forEach(mi => {
       if (mi.active) {
         mi.active = false

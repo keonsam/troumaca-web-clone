@@ -1,26 +1,26 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
-import {Router} from "@angular/router";
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
-import "rxjs/add/operator/distinctUntilChanged";
-import "rxjs/add/operator/first";
-import "rxjs/add/operator/single";
-import "rxjs/add/operator/take";
-import "rxjs/add/operator/switchMap";
+import {Router} from '@angular/router';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/single';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/switchMap';
 
-import {PartyEventService} from "../../party.event.service";
-import {PartyService} from "../../party.service";
-import {User} from "../../user";
-import {Credential} from "../../credential";
-import {PartyAccessRole} from "../../party.access.role";
+import {PartyEventService} from '../../party.event.service';
+import {PartyService} from '../../party.service';
+import {User} from '../../user';
+import {Credential} from '../../credential';
+import {PartyAccessRole} from '../../party.access.role';
 
 import { Select2OptionData } from 'ng2-select2';
 
 @Component({
   selector: 'user-creation',
-  templateUrl:'./user.creation.component.html',
+  templateUrl: './user.creation.component.html',
   styleUrls: ['./user.creation.component.css']
 })
 export class UserCreationComponent implements OnInit {
@@ -41,7 +41,7 @@ export class UserCreationComponent implements OnInit {
   private partyAccessRoles: PartyAccessRole[];
   private credential: Credential;
 
-  private pageSize:number = 15;
+  private pageSize = 15;
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
 
@@ -60,19 +60,19 @@ export class UserCreationComponent implements OnInit {
     this.credential = new Credential();
     this.partyAccessRoles = [];
 
-    this.firstName = new FormControl("", [Validators.required]);
-    this.middleName = new FormControl("", [Validators.required]);
-    this.lastName = new FormControl("", [Validators.required]);
-    this.username = new FormControl("", [Validators.required, this.usernameValidator(partyService)]);
-    this.accessRole = new FormControl("", [Validators.required]);
+    this.firstName = new FormControl('', [Validators.required]);
+    this.middleName = new FormControl('', [Validators.required]);
+    this.lastName = new FormControl('', [Validators.required]);
+    this.username = new FormControl('', [Validators.required, this.usernameValidator(partyService)]);
+    this.accessRole = new FormControl('', [Validators.required]);
 
 
     this.userForm = formBuilder.group({
-      "firstName": this.firstName,
-      "middleName": this.middleName,
-      "lastName": this.lastName,
-      "username": this.username,
-      "accessRole": this.accessRole
+      'firstName': this.firstName,
+      'middleName': this.middleName,
+      'lastName': this.lastName,
+      'username': this.username,
+      'accessRole': this.accessRole
     });
 
     this.userForm
@@ -93,26 +93,26 @@ export class UserCreationComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.findAccessRole("");
+    this.findAccessRole('');
 
     this.options = {
-      width: "100%",
-      placeholder: "Select Access Roles",
+      width: '100%',
+      placeholder: 'Select Access Roles',
       multiple: true,
       closeOnSelect: false,
       containerCss: {
-        "display": "block"
+        'display': 'block'
       },
       dropdownCss: {
-        "max-height": "200px !important",
-        "overflow-y": "scroll",
-        "overflow-x": "hidden"
+        'max-height': '200px !important',
+        'overflow-y': 'scroll',
+        'overflow-x': 'hidden'
       }
     }
   }
 
   changed(data: {value: string[]}) {
-    this.accessRole.setValue(data.value.join(","));
+    this.accessRole.setValue(data.value.join(','));
     this.accessRoles = data.value;
   }
 
@@ -130,7 +130,7 @@ export class UserCreationComponent implements OnInit {
       .subscribe(next => { // update the data
         this.accessRoleData = next;
       }, error => {
-        console.log("findAccessRole error - " + error);
+        console.log('findAccessRole error - ' + error);
       });
   }
 
@@ -164,12 +164,12 @@ export class UserCreationComponent implements OnInit {
   //     });
   // }
 
-  usernameValidator(partyService:PartyService) {
+  usernameValidator(partyService: PartyService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
 
-    let subscriberToChangeEvents = function () {
+    const subscriberToChangeEvents = function () {
       valueChanges
       .debounceTime(500)
       .distinctUntilChanged()
@@ -185,7 +185,7 @@ export class UserCreationComponent implements OnInit {
       });
     };
 
-    return (control:FormControl) => {
+    return (control: FormControl) => {
        if (!usernameControl) {
          usernameControl = control;
        }

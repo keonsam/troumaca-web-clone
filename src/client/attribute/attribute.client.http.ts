@@ -1,22 +1,22 @@
-import {AttributeClient} from "./attribute.client";
-import {UUIDGenerator} from "../../uuid.generator";
-import {Observable} from "rxjs/Observable";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {AttributeState} from "./attribute.state";
-import {AttributeStates} from "./attribute.states";
-import {DataTypeStates} from "./data.type.states"
-import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
+import {AttributeClient} from './attribute.client';
+import {UUIDGenerator} from '../../uuid.generator';
+import {Observable} from 'rxjs/Observable';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {AttributeState} from './attribute.state';
+import {AttributeStates} from './attribute.states';
+import {DataTypeStates} from './data.type.states'
+import {UnitOfMeasureState} from '../unit-of-measure/unit.of.measure.state';
 
 export class AttributeClientHttp extends AttributeClient {
 
   constructor(private uuidGenerator: UUIDGenerator,
               private httpClient: HttpClient,
-              private hostPort:string) {
+              private hostPort: string) {
     super();
   }
 
   public getDataTypes(): Observable<DataTypeStates>{
-    let url = `${this.hostPort}/data-types`;
+    const url = `${this.hostPort}/data-types`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -26,8 +26,8 @@ export class AttributeClientHttp extends AttributeClient {
       return data;
     });
   }
-  public getAttributesStates(pageNumber:number, pageSize:number, sortOrder:string):Observable<AttributeStates> {
-    let url = `${this.hostPort}/attributes?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+  public getAttributesStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<AttributeStates> {
+    const url = `${this.hostPort}/attributes?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -37,7 +37,7 @@ export class AttributeClientHttp extends AttributeClient {
   }
 
   public getAttributeState(attributeId: string): Observable<AttributeState>{
-    let url = `${this.hostPort}/attributes/${attributeId}`;
+    const url = `${this.hostPort}/attributes/${attributeId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -49,7 +49,7 @@ export class AttributeClientHttp extends AttributeClient {
   }
 
   public findUnitOfMeasureIdState(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
-    let url = `${this.hostPort}/unit-of-measures/find?q=${searchStr}&pageSize=${pageSize}`;
+    const url = `${this.hostPort}/unit-of-measures/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -61,7 +61,7 @@ export class AttributeClientHttp extends AttributeClient {
   }
 
   public addAttribute(attributeState: AttributeState): Observable<AttributeState> {
-    let url = `${this.hostPort}/attributes`;
+    const url = `${this.hostPort}/attributes`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -73,7 +73,7 @@ export class AttributeClientHttp extends AttributeClient {
   }
 
  public updateAttribute(attributeId: string, attributeState: AttributeState): Observable<number> {
-   let url = `${this.hostPort}/attributes/${attributeId}`;
+   const url = `${this.hostPort}/attributes/${attributeId}`;
    const httpOptions = {
      headers: this.jsonHttpHeaders()
    };
@@ -85,7 +85,7 @@ export class AttributeClientHttp extends AttributeClient {
  }
 
  public deleteAttribute(attributeId: string): Observable<number> {
-   let url = `${this.hostPort}/attributes/${attributeId}`;
+   const url = `${this.hostPort}/attributes/${attributeId}`;
    const httpOptions = {
      headers: this.jsonHttpHeaders()
    };
@@ -98,7 +98,7 @@ export class AttributeClientHttp extends AttributeClient {
 
 
   public jsonHttpHeaders(): HttpHeaders {
-    let httpHeaders: HttpHeaders = new HttpHeaders({
+    const httpHeaders: HttpHeaders = new HttpHeaders({
       'Content-Type':  'application/json',
       'correlationId': this.uuidGenerator.generateUUID()
     });

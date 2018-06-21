@@ -1,5 +1,5 @@
-import {User} from "./user";
-import {PartyAccessRole} from "./party.access.role";
+import {User} from './user';
+import {PartyAccessRole} from './party.access.role';
 
 export class UserResponse {
   private _user: User;

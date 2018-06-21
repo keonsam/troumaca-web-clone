@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {AssetService} from "../asset.service";
-import {Assets} from "../assets";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
+import {Component, OnInit} from '@angular/core';
+import {AssetService} from '../asset.service';
+import {Assets} from '../assets';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
 
 @Component({
   selector: 'asset-list',
@@ -14,14 +14,14 @@ export class AssetListComponent implements OnInit {
 
   private assetId: string;
   private _assets: Assets;
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
-  private _routerLinkCreateAsset:string = "/assets/create";
-  private assetName: string;
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
+  private _routerLinkCreateAsset = '/assets/create';
+  private _assetName: string;
 
-  constructor(private assetService:AssetService) {
-    let newAssets = new Assets();
+  constructor(private assetService: AssetService) {
+    const newAssets = new Assets();
     newAssets.page = new Page(0, 0, 0);
     newAssets.sort = new Sort();
     this.assets = newAssets;
@@ -39,10 +39,17 @@ export class AssetListComponent implements OnInit {
     }, error => {
       console.log(error);
     }, () => {
-      console.log("complete");
+      console.log('complete');
     });
   }
 
+  get assetName(): string {
+    return this._assetName;
+  }
+
+  set assetName(value: string) {
+    this._assetName = value;
+  }
 
   get assets(): Assets {
     return this._assets;
@@ -73,12 +80,12 @@ export class AssetListComponent implements OnInit {
     }, error => {
     console.log(error);
     }, () => {
-    console.log("complete");
+    console.log('complete');
   });
   }
 
 
-  onRequestPage(pageNumber:number) {
+  onRequestPage(pageNumber: number) {
    this.defaultPage = pageNumber;
    this.getAssets();
   }

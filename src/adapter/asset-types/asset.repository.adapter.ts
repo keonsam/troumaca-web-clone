@@ -1,22 +1,21 @@
-import "rxjs/add/operator/map";
-import {AssetTypeRepository} from "../../asset-types/asset.type.repository";
-import {AssetTypesClient} from "../../client/asset-type/asset.types.client";
-import {Observable} from "rxjs/Observable";
-import {mapObjectProps} from "../../mapper/object.property.mapper";
-import { map, reduce, somethingElse, _ } from "underscore";
-import {AssetType} from "../../asset-types/asset.type";
-import {AssetTypes} from "../../asset-types/asset.types";
-import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
-import {AssetTypeClasses} from "../../asset-type-classes/asset.type.classes";
-import {AssetTypeState} from "../../client/asset-type/asset.type.state";
-import {ValueState} from "../../client/asset-type/value.state";
-import {Value} from "../../asset-types/value";
-import {Values} from "../../asset-types/values";
-import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
-import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
-import {AssetTypeResponse} from "../../asset-types/asset.type.response";
+import 'rxjs/add/operator/map';
+import {AssetTypeRepository} from '../../asset-types/asset.type.repository';
+import {AssetTypesClient} from '../../client/asset-type/asset.types.client';
+import {Observable} from 'rxjs/Observable';
+import {mapObjectProps} from '../../mapper/object.property.mapper';
+import { map, reduce, somethingElse, _ } from 'underscore';
+import {AssetType} from '../../asset-types/asset.type';
+import {AssetTypes} from '../../asset-types/asset.types';
+import {AssetTypeClass} from '../../asset-type-classes/asset.type.class';
+import {AssetTypeState} from '../../client/asset-type/asset.type.state';
+import {ValueState} from '../../client/asset-type/value.state';
+import {Value} from '../../asset-types/value';
+import {Values} from '../../asset-types/values';
+import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
+import {AssignedAttribute} from '../../asset-type-classes/assigned.attribute';
+import {AssetTypeResponse} from '../../asset-types/asset.type.response';
 
 export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
 
@@ -24,13 +23,13 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     super();
   }
 
-  public getAssetTypes(pageNumber:number, pageSize:number, sortOrder:string): Observable<AssetTypes> {
+  public getAssetTypes(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetTypes> {
     return this.assetTypesClient
       .getAssetTypes(pageNumber, pageSize, sortOrder)
       .map(values => {
-        let assetTypeModels:AssetTypes = new AssetTypes();
+        const assetTypeModels: AssetTypes = new AssetTypes();
         assetTypeModels.assetTypes = map(values.assetTypes, value => {
-          let assetTypeModel:AssetType = mapObjectProps(value, new AssetType());
+          const assetTypeModel: AssetType = mapObjectProps(value, new AssetType());
           //assetTypeModel.assetTypeClass = mapObjectPropAs(value.assetType, new AssetTypeClass());
           assetTypeModel.assetTypeClass = mapObjectProps(value.assetTypeClass, new AssetTypeClass());
           return assetTypeModel;
@@ -55,7 +54,7 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     return this.assetTypesClient
       .getValues(assetTypeId)
       .map(values => {
-        let valueModels:Values = new Values();
+        const valueModels: Values = new Values();
         valueModels.values = map(values.values, value => {
           return mapObjectProps(value, new Value());
         });
@@ -75,7 +74,7 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     });
   }
 
-  public findAssetTypeClassId(searchStr: string, pageSize:number): Observable<AssetTypeClass[]> {
+  public findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClass[]> {
     return this.assetTypesClient
     .findAssetTypeClassId(searchStr, pageSize)
     .map(values => {
@@ -85,7 +84,7 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     });
   }
 
-  public findUnitOfMeasureId(searchStr: string, pageSize:number): Observable<UnitOfMeasure[]> {
+  public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
     return this.assetTypesClient
       .findUnitOfMeasureIdState(searchStr, pageSize)
       .map(data => {

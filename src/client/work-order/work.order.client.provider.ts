@@ -1,11 +1,11 @@
-import {AppConfig} from "../../app.config";
-import {UUIDGenerator} from "../../uuid.generator";
-import {WorkOrderClient} from "./work.order.client";
-import {WorkOrderClientHttp} from "./work.order.client.http";
-import {WorkOrderClientMock} from "./work.order.client.mock";
+import {AppConfig} from '../../app.config';
+import {UUIDGenerator} from '../../uuid.generator';
+import {WorkOrderClient} from './work.order.client';
+import {WorkOrderClientHttp} from './work.order.client.http';
+import {WorkOrderClientMock} from './work.order.client.mock';
 
-export function workOrderClientFactory (appConfig: AppConfig, uuidGenerator: UUIDGenerator):WorkOrderClient {
-  var workOrderClient: WorkOrderClient;
+export function workOrderClientFactory (appConfig: AppConfig, uuidGenerator: UUIDGenerator): WorkOrderClient {
+  let workOrderClient: WorkOrderClient;
   if (appConfig.remoteEndPoints) {
     workOrderClient = new WorkOrderClientHttp(uuidGenerator);
   } else {

@@ -1,6 +1,6 @@
-import {Component, OnInit} from "@angular/core";
-import {OrganizationService} from "./organization.service";
-import {OrganizationModel} from "./organization.model";
+import {Component, OnInit} from '@angular/core';
+import {OrganizationService} from './organization.service';
+import {OrganizationModel} from './organization.model';
 
 @Component({
   selector: 'organizations',
@@ -9,14 +9,14 @@ import {OrganizationModel} from "./organization.model";
 })
 export class OrganizationsComponent implements OnInit {
 
-  private _organizations:OrganizationModel[];
+  private _organizations: OrganizationModel[];
 
 
   constructor(private organizationService: OrganizationService) {
   }
 
   ngOnInit(): void {
-    var that = this;
+    let that = this;
     this.organizationService
       .getOrganizations()
       .subscribe(organizations => {

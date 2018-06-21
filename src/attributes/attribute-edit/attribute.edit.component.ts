@@ -1,15 +1,15 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter';
 
-import {AttributeService} from "../attribute.service";
-import {Attribute} from "../attribute";
-import {DataType} from "../data.type";
+import {AttributeService} from '../attribute.service';
+import {Attribute} from '../attribute';
+import {DataType} from '../data.type';
 import {ActivatedRoute} from '@angular/router';
-import {Router} from "@angular/router";
-import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
+import {Router} from '@angular/router';
+import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
 
 @Component({
   selector: 'attribute-edit',
@@ -35,8 +35,8 @@ export class AttributeEditComponent implements OnInit {
   private attribute: Attribute;
   private _dataTypes: DataType[];
 
-  private _doNotDisplayFailureMessage:boolean;
-  private pageSize: number = 15;
+  private _doNotDisplayFailureMessage: boolean;
+  private pageSize = 15;
 
   constructor(private attributeService: AttributeService,
               private completerService: CompleterService,
@@ -44,28 +44,28 @@ export class AttributeEditComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router) {
 
-    this.name = new FormControl("", [Validators.required]);
+    this.name = new FormControl('', [Validators.required]);
 
-    this.format = new FormControl("");
+    this.format = new FormControl('');
 
-    this.dataType = new FormControl("", [Validators.required]);
+    this.dataType = new FormControl('', [Validators.required]);
 
-    this.unitOfMeasureId = new FormControl("");
+    this.unitOfMeasureId = new FormControl('');
 
-    this.maximumValue = new FormControl("");
+    this.maximumValue = new FormControl('');
 
-    this.minimumValue = new FormControl("");
+    this.minimumValue = new FormControl('');
 
     this.attributeEditForm = formBuilder.group({
-      "name": this.name,
-      "format": this.format,
-      "dataType": this.dataType,
-      "unitOfMeasureId": this.unitOfMeasureId,
-      "maximumValue": this.maximumValue,
-      "minimumValue": this.minimumValue
+      'name': this.name,
+      'format': this.format,
+      'dataType': this.dataType,
+      'unitOfMeasureId': this.unitOfMeasureId,
+      'maximumValue': this.maximumValue,
+      'minimumValue': this.minimumValue
     });
 
-    let attribute = new Attribute();
+    const attribute = new Attribute();
     attribute.unitOfMeasure = new UnitOfMeasure();
     this.attribute = attribute;
 
@@ -74,7 +74,7 @@ export class AttributeEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let that = this;
+    const that = this;
     this.attributeService
     .getDataTypes()
     .subscribe(dataTypes => {
@@ -88,7 +88,7 @@ export class AttributeEditComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
        this.attributeId = params['attributeId'];
        this.attributeService.getAttributeById(this.attributeId)
-       .subscribe(attribute =>{
+       .subscribe(attribute => {
         this.name.setValue(attribute.name);
         this.format.setValue(attribute.format);
         this.dataType.setValue(attribute.dataTypeId);
@@ -118,10 +118,10 @@ export class AttributeEditComponent implements OnInit {
 
   private populateUnitOfMeasureIdDropDown() {
     if (!this.attribute.unitOfMeasure.unitOfMeasureId) {
-      this.findUnitOfMeasureId("");
+      this.findUnitOfMeasureId('');
     }
 
-    this.attributeEditForm.get("unitOfMeasureId").valueChanges
+    this.attributeEditForm.get('unitOfMeasureId').valueChanges
       .filter(value => { // filter out empty values
         return !!(value);
       })
@@ -144,7 +144,7 @@ export class AttributeEditComponent implements OnInit {
       .subscribe(next => { // update the data
         this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
-        console.log("findUnitOfMeasureId error - " + error);
+        console.log('findUnitOfMeasureId error - ' + error);
       });
   }
 

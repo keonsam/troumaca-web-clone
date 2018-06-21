@@ -1,9 +1,9 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
-import {Permission} from "../../permission";
-import {AccessRoleService} from "../../access.role.service";
-import {Router, ActivatedRoute} from "@angular/router";
+import {Permission} from '../../permission';
+import {AccessRoleService} from '../../access.role.service';
+import {Router, ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'permission-edit',
@@ -19,18 +19,18 @@ export class PermissionEditComponent implements OnInit {
   private sub: any;
   private _permissionForm: FormGroup;
 
-  private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage: boolean;
 
   constructor(private accessRoleService: AccessRoleService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
-    this.name = new FormControl("", [Validators.required]);
-    this.description = new FormControl("");
+    this.name = new FormControl('', [Validators.required]);
+    this.description = new FormControl('');
 
     this.permissionForm = formBuilder.group({
-      "name": this.name,
-      "description": this.description
+      'name': this.name,
+      'description': this.description
     });
 
     this.permission = new Permission();
@@ -59,7 +59,7 @@ export class PermissionEditComponent implements OnInit {
         }, error => {
           console.log(error);
         }, () => {
-          console.log("complete");
+          console.log('complete');
         });
     });
   }

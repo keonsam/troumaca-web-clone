@@ -1,10 +1,10 @@
-import {OrganizationState} from "./organization.state";
-import {PageState} from "../page/page.state";
-import {SortState} from "../sort/sort.state";
+import {OrganizationState} from './organization.state';
+import {PageState} from '../page/page.state';
+import {SortState} from '../sort/sort.state';
 
 export class OrganizationStates {
 
-  private _organizations:OrganizationState[];
+  private _organizations: OrganizationState[];
   private _page: PageState;
   private _sort: SortState;
 

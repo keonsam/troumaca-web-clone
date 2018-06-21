@@ -1,13 +1,13 @@
-import {Email} from "./email";
-import {Page} from "../page/page";
-import {Sort} from "../sort/sort";
+import {Email} from './email';
+import {Page} from '../page/page';
+import {Sort} from '../sort/sort';
 
 export class Emails {
 
-  private _emails:Email[] = [];
-  private _page:Page;
-  private _sort:Sort;
-  
+  private _emails: Email[] = [];
+  private _page: Page;
+  private _sort: Sort;
+
   get emails(): Email[] {
     return this._emails;
   }

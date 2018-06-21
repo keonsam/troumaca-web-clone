@@ -1,8 +1,8 @@
-import {AuthenticationClient} from "../../client/credential/authentication.client";
-import {ChangePasswordRepository} from "../../security/change-password/change.password.repository";
-import {ChangePasswordRepositoryAdapter} from "./change.password.repository.adapter";
+import {AuthenticationClient} from '../../client/credential/authentication.client';
+import {ChangePasswordRepository} from '../../security/change-password/change.password.repository';
+import {ChangePasswordRepositoryAdapter} from './change.password.repository.adapter';
 
-export function changePasswordRepositoryProviderFactory (authenticationClient:AuthenticationClient):ChangePasswordRepository {
+export function changePasswordRepositoryProviderFactory (authenticationClient: AuthenticationClient): ChangePasswordRepository {
   let changePasswordRepositoryAdapter: ChangePasswordRepositoryAdapter;
   if (!changePasswordRepositoryAdapter) {
     changePasswordRepositoryAdapter = new ChangePasswordRepositoryAdapter(authenticationClient);

@@ -1,6 +1,6 @@
-import {OrganizationModel} from "./organization.model";
-import {Observable} from "rxjs/Observable";
+import {OrganizationModel} from './organization.model';
+import {Observable} from 'rxjs/Observable';
 
 export abstract class OrganizationRepository {
-  abstract getOrganizations():Observable<OrganizationModel[]>;
+  abstract getOrganizations(): Observable<OrganizationModel[]>;
 }

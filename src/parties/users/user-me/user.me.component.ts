@@ -1,25 +1,25 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
-import "rxjs/add/operator/distinctUntilChanged";
-import "rxjs/add/operator/first";
-import "rxjs/add/operator/single";
-import "rxjs/add/operator/take";
-import "rxjs/add/operator/switchMap";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/single';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/switchMap';
 
-import {PartyEventService} from "../../party.event.service";
-import {PartyService} from "../../party.service";
-import {User} from "../../user";
-import {Credential} from "../../credential";
-import {EventService} from "../../../event/event.service";
-import {Event} from "../../../authentication/event";
-import {Photo} from "../../photo";
+import {PartyEventService} from '../../party.event.service';
+import {PartyService} from '../../party.service';
+import {User} from '../../user';
+import {Credential} from '../../credential';
+import {EventService} from '../../../event/event.service';
+import {Event} from '../../../authentication/event';
+import {Photo} from '../../photo';
 
 @Component({
   selector: 'user-me',
-  templateUrl:'./user.me.component.html',
+  templateUrl: './user.me.component.html',
   styleUrls: ['./user.me.component.css']
 })
 export class UserMeComponent implements OnInit {
@@ -34,21 +34,21 @@ export class UserMeComponent implements OnInit {
 
   private _userMeForm: FormGroup;
 
-  private user: User;
+  private _user: User;
   private credential: Credential;
   private photo: Photo;
   private photo2: Photo;
 
-  private imageChangedEvent: any = '';
+  private _imageChangedEvent: any = '';
   private croppedImage: any = '';
-  private userImage: any = '';
+  private _userImage: any = '';
 
   private _doNotDisplayFailureMessage: boolean;
-  private requiredState: boolean = false;
+  private _requiredState = false;
 
-  private organizationImage: string;
+  private _organizationImage: string;
 
-  constructor(private partyEventService:PartyEventService,
+  constructor(private partyEventService: PartyEventService,
               private partyService: PartyService,
               private eventService: EventService,
               private formBuilder: FormBuilder,
@@ -59,20 +59,20 @@ export class UserMeComponent implements OnInit {
     this.photo = new Photo();
     this.photo2 = new Photo();
 
-    this.firstName = new FormControl("", [Validators.required]);
-    this.middleName = new FormControl("", [Validators.required]);
-    this.lastName = new FormControl("", [Validators.required]);
-    this.username = new FormControl("", [Validators.required, this.usernameEditValidator(this.partyService)]);
-    this.password = new FormControl("");
-    this.confirmPassword = new FormControl("");
+    this.firstName = new FormControl('', [Validators.required]);
+    this.middleName = new FormControl('', [Validators.required]);
+    this.lastName = new FormControl('', [Validators.required]);
+    this.username = new FormControl('', [Validators.required, this.usernameEditValidator(this.partyService)]);
+    this.password = new FormControl('');
+    this.confirmPassword = new FormControl('');
 
     this.userMeForm = formBuilder.group({
-      "firstName": this.firstName,
-      "middleName": this.middleName,
-      "lastName": this.lastName,
-      "username": this.username,
-      "password": this.password,
-      "confirmPassword": this.confirmPassword
+      'firstName': this.firstName,
+      'middleName': this.middleName,
+      'lastName': this.lastName,
+      'username': this.username,
+      'password': this.password,
+      'confirmPassword': this.confirmPassword
     });
 
     this.userMeForm
@@ -95,18 +95,18 @@ export class UserMeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userMeForm.get("password").valueChanges
+    this.userMeForm.get('password').valueChanges
     .subscribe(value => {
-      if(value.length === 1 && !this.requiredState){
+      if (value.length === 1 && !this.requiredState){
       this.requiredState = true;
-      this.userMeForm.get("password").setValidators([Validators.required, this.passwordValidator(this.partyService)]);
-      this.userMeForm.get("confirmPassword").setValidators([Validators.required, this.confirmPasswordValidator(this.password)]);
-      this.userMeForm.get("confirmPassword").updateValueAndValidity();
+      this.userMeForm.get('password').setValidators([Validators.required, this.passwordValidator(this.partyService)]);
+      this.userMeForm.get('confirmPassword').setValidators([Validators.required, this.confirmPasswordValidator(this.password)]);
+      this.userMeForm.get('confirmPassword').updateValueAndValidity();
       }else if (!value) {
       this.requiredState = false;
-      this.userMeForm.get("password").setValidators(null);
-      this.userMeForm.get("confirmPassword").setValidators(null);
-      this.userMeForm.get("confirmPassword").updateValueAndValidity();
+      this.userMeForm.get('password').setValidators(null);
+      this.userMeForm.get('confirmPassword').setValidators(null);
+      this.userMeForm.get('confirmPassword').updateValueAndValidity();
     }
     this.userMeForm.updateValueAndValidity();
     });
@@ -115,7 +115,7 @@ export class UserMeComponent implements OnInit {
          .subscribe((partyId: string) => {
            this.partyId = partyId;
            this.partyService.getUser(this.partyId)
-             .subscribe(userResponse =>{
+             .subscribe(userResponse => {
                this.firstName.setValue(userResponse.user.firstName);
                this.middleName.setValue(userResponse.user.middleName);
                this.lastName.setValue(userResponse.user.lastName);
@@ -130,31 +130,31 @@ export class UserMeComponent implements OnInit {
 
            this.getPersonalPhoto();
 
-           this.partyService.getPhoto(this.partyId, "organization")
+           this.partyService.getPhoto(this.partyId, 'organization')
              .subscribe(photo => {
-               if(photo.imageStr) {
+               if (photo.imageStr) {
                  this.photo2 = photo
                  this.organizationImage = `url(${photo.imageStr})`;
                }
-             },error => {
+             }, error => {
                console.log(error);
              });
          });
   }
 
-  usernameEditValidator(partyService:PartyService) {
+  usernameEditValidator(partyService: PartyService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
-    let that = this;
-    let subscriberToChangeEvents = function () {
+    const that = this;
+    const subscriberToChangeEvents = function () {
       valueChanges
       .debounceTime(500)
       .distinctUntilChanged()
       .filter(value => { // filter out empty values
         return !!(value);
       }).map(value => {
-        return partyService.isValidEditUsername(that.partyId,value);
+        return partyService.isValidEditUsername(that.partyId, value);
       }).subscribe(value => {
         value.subscribe( otherValue => {
           isValidUsername = otherValue;
@@ -163,7 +163,7 @@ export class UserMeComponent implements OnInit {
       });
     };
 
-    return (control:FormControl) => {
+    return (control: FormControl) => {
        if (!usernameControl) {
          usernameControl = control;
        }
@@ -181,12 +181,12 @@ export class UserMeComponent implements OnInit {
     }
   }
 
-  passwordValidator(partyService:PartyService) {
+  passwordValidator(partyService: PartyService) {
     let passwordControl = null;
     let isValidPassword = false;
     let valueChanges = null;
 
-    let subscriberToChangeEvents = function () {
+    const subscriberToChangeEvents = function () {
       valueChanges
       .debounceTime(500)
       .distinctUntilChanged()
@@ -202,7 +202,7 @@ export class UserMeComponent implements OnInit {
       });
     };
 
-    return (control:FormControl) => {
+    return (control: FormControl) => {
       if (!passwordControl) {
         passwordControl = control;
       }
@@ -220,8 +220,8 @@ export class UserMeComponent implements OnInit {
     }
   }
 
-  confirmPasswordValidator(password:FormControl) {
-    return (c:FormControl) => {
+  confirmPasswordValidator(password: FormControl) {
+    return (c: FormControl) => {
       return password.value == c.value ? null : {
         validateEmail: {
           valid: false
@@ -231,13 +231,53 @@ export class UserMeComponent implements OnInit {
   }
 
   createEventModel() {
-    let event:Event = new Event();
+    const event: Event = new Event();
     event.partyId = this.partyId
     event.timestamp = new Date().getTime();
-    event.source = "user.me.component";
-    event.name = "image change";
+    event.source = 'user.me.component';
+    event.name = 'image change';
 
     return event;
+  }
+
+  get user(): User {
+    return this._user;
+  }
+
+  set user(value: User) {
+    this._user = value;
+  }
+
+  get imageChangedEvent(): any {
+    return this._imageChangedEvent;
+  }
+
+  set imageChangedEvent(value: any) {
+    this._imageChangedEvent = value;
+  }
+
+  get userImage(): any {
+    return this._userImage;
+  }
+
+  set userImage(value: any) {
+    this._userImage = value;
+  }
+
+  get requiredState(): boolean {
+    return this._requiredState;
+  }
+
+  set requiredState(value: boolean) {
+    this._requiredState = value;
+  }
+
+  get organizationImage(): string {
+    return this._organizationImage;
+  }
+
+  set organizationImage(value: string) {
+    this._organizationImage = value;
   }
 
   get firstName(): FormControl {
@@ -317,43 +357,43 @@ export class UserMeComponent implements OnInit {
   }
 
   getPersonalPhoto() {
-    this.partyService.getPhoto(this.partyId, "user")
+    this.partyService.getPhoto(this.partyId, 'user')
       .subscribe(photo => {
-        if(photo.imageStr) {
+        if (photo.imageStr) {
           this.photo = photo;
           this.userImage = photo.imageStr;
         }
-      },error => {
+      }, error => {
         console.log(error);
       });
   }
 
   uploadPhoto() {
-    if(this.photo.imageStr) {
+    if (this.photo.imageStr) {
       this.photo.imageStr = this.croppedImage;
       this.partyService
-        .updatePhoto(this.partyId, this.photo, "user")
+        .updatePhoto(this.partyId, this.photo, 'user')
         .subscribe(value => {
-          if(value) {
+          if (value) {
             this.getPersonalPhoto();
             this.eventService.sendPhotoChangeEvent(this.createEventModel());
           }else {
-            console.log("error");
+            console.log('error');
           }
           }, error => {
             console.log(error);
           });
-    }else if(this.croppedImage) {
+    }else if (this.croppedImage) {
       this.photo.partyId = this.partyId;
       this.photo.imageStr = this.croppedImage;
       this.partyService
-          .addPhoto(this.partyId, this.photo, "user")
+          .addPhoto(this.partyId, this.photo, 'user')
           .subscribe(value => {
             if (value.imageStr) {
               this.getPersonalPhoto();
               this.eventService.sendPhotoChangeEvent(this.createEventModel());
             } else {
-              console.log("error");
+              console.log('error');
             }
           }, error => {
             console.log(error);

@@ -1,6 +1,6 @@
-import {AccessRoleState} from "./access.role.state";
-import {PageState} from "../page/page.state";
-import {SortState} from "../sort/sort.state";
+import {AccessRoleState} from './access.role.state';
+import {PageState} from '../page/page.state';
+import {SortState} from '../sort/sort.state';
 
 export class  AccessRoleStates {
   private _accessRoles: AccessRoleState[];

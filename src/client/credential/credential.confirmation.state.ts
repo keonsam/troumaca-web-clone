@@ -1,13 +1,13 @@
 export class CredentialConfirmationState {
 
-  private _credentialConfirmationId:string;
-  private _credentialId:string;
-  private _confirmationCode:string;
+  private _credentialConfirmationId: string;
+  private _credentialId: string;
+  private _confirmationCode: string;
   private _credentialStatus: string;
-  private _createdOn:Date;
-  private _modifiedOn:Date;
+  private _createdOn: Date;
+  private _modifiedOn: Date;
 
-  constructor(credentialConfirmationId?:string, credentialId?:string, credentialCode?:string, createdOn?:Date, modifiedOn?:Date) {
+  constructor(credentialConfirmationId?: string, credentialId?: string, credentialCode?: string, createdOn?: Date, modifiedOn?: Date) {
     this._credentialConfirmationId = credentialConfirmationId;
     this._credentialId = credentialId;
     this._confirmationCode = credentialCode;

@@ -1,5 +1,5 @@
 export class SiteState {
-  private _siteId:string;
+  private _siteId: string;
   private _name: string;
 
   get siteId(): string {

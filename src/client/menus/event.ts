@@ -36,9 +36,9 @@ export class Event {
     this._name = name;
   }
 
-  private _partyId:string;
-  private _timestamp:number;
-  private _source:string;
-  private _name:string;
+  private _partyId: string;
+  private _timestamp: number;
+  private _source: string;
+  private _name: string;
 
 }

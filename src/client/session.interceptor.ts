@@ -5,16 +5,16 @@ import {
   HttpInterceptor,
   HttpRequest,
   HttpResponse
-} from "@angular/common/http";
+} from '@angular/common/http';
 import 'rxjs/add/operator/do';
-import {Observable} from "rxjs/Observable";
-import {Injectable} from "@angular/core";
-import {ClientEvent} from "./client.event";
+import {Observable} from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {ClientEvent} from './client.event';
 
 @Injectable()
 export class SessionInterceptor implements HttpInterceptor {
 
-  constructor(private clientEvent:ClientEvent) {
+  constructor(private clientEvent: ClientEvent) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -44,13 +44,13 @@ export class SessionInterceptor implements HttpInterceptor {
     }
   }
 
-  handleError(err:any): Observable<any>{
+  handleError(err: any): Observable<any>{
     if (err instanceof HttpErrorResponse) {
       if (err.status === 401) {
         // redirect to the login route or show a modal
-        this.clientEvent.sendUnauthorizedEvent({"unauthorized":true});
+        this.clientEvent.sendUnauthorizedEvent({'unauthorized': true});
       } else if (err.status === 440) {
-        this.clientEvent.sendLoginTimeOutEvent({"loginTimeOut":true});
+        this.clientEvent.sendLoginTimeOutEvent({'loginTimeOut': true});
       }
       return Observable.of(err.message);
     }

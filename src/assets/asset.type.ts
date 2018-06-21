@@ -1,18 +1,18 @@
-import {AssetTypeClasses} from "./asset.type.classes";
+import {AssetTypeClasses} from './asset.type.classes';
 
 export class AssetType {
 
-  private _assetTypeId:string;
-  private _modelNumber:string;
-  private _description:string;
-  private _name:string;
-  private _materialCode:string;
-  private _unitOfMeasureId:string;
-  private _assetTypeClass:AssetTypeClasses;
+  private _assetTypeId: string;
+  private _modelNumber: string;
+  private _description: string;
+  private _name: string;
+  private _materialCode: string;
+  private _unitOfMeasureId: string;
+  private _assetTypeClass: AssetTypeClasses;
 
   constructor() {
     this._assetTypeClass = new AssetTypeClasses();
-    
+
   }
   get assetTypeId(): string {
     return this._assetTypeId;

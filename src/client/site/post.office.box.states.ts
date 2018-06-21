@@ -1,12 +1,12 @@
-import {PostOfficeBoxState} from "./post.office.box.state";
-import {PageState} from "../page/page.state";
-import {SortState} from "../sort/sort.state";
+import {PostOfficeBoxState} from './post.office.box.state';
+import {PageState} from '../page/page.state';
+import {SortState} from '../sort/sort.state';
 
 export class PostOfficeBoxStates {
 
-  private _postOfficeBoxes:PostOfficeBoxState[] = [];
-  private _page:PageState;
-  private _sort:SortState;
+  private _postOfficeBoxes: PostOfficeBoxState[] = [];
+  private _page: PageState;
+  private _sort: SortState;
 
   constructor() {
     this.page = new PageState();

@@ -1,12 +1,12 @@
-import {Phone} from "./phone";
-import {Page} from "../page/page";
-import {Sort} from "../sort/sort";
+import {Phone} from './phone';
+import {Page} from '../page/page';
+import {Sort} from '../sort/sort';
 
 export class Phones  {
 
-  private _phones:Phone[] = [];
-  private _page:Page;
-  private _sort:Sort;
+  private _phones: Phone[] = [];
+  private _page: Page;
+  private _sort: Sort;
 
   get phones(): Phone[] {
     return this._phones;

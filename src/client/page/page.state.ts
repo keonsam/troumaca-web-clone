@@ -1,10 +1,10 @@
 
 export class PageState {
 
-  private _number:number;
-  private _size:number;
-  private _items:number;
-  private _totalItems:number;
+  private _number: number;
+  private _size: number;
+  private _items: number;
+  private _totalItems: number;
 
   get number(): number {
     return this._number;

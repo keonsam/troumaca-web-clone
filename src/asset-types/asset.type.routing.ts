@@ -1,6 +1,6 @@
 import {Routes, RouterModule} from '@angular/router';
-import {ModuleWithProviders} from "@angular/core";
-import {AssetTypeComponent} from "./asset.type.component";
+import {ModuleWithProviders} from '@angular/core';
+import {AssetTypeComponent} from './asset.type.component';
 
 
 export const assetTypesRoutes: Routes = [
