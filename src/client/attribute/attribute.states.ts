@@ -1,12 +1,12 @@
-import {AttributeState} from "./attribute.state";
-import {PageState} from "../page/page.state";
-import {SortState} from "../sort/sort.state";
+import {AttributeState} from './attribute.state';
+import {PageState} from '../page/page.state';
+import {SortState} from '../sort/sort.state';
 
 export class AttributeStates {
 
-  private _attributes:AttributeState[] = [];
-  private _page:PageState;
-  private _sort:SortState;
+  private _attributes: AttributeState[] = [];
+  private _page: PageState;
+  private _sort: SortState;
 
   constructor() {
     this.page = new PageState();

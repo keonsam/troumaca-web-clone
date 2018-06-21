@@ -1,4 +1,4 @@
-import {PartyState} from "./party.state";
+import {PartyState} from './party.state';
 
 export class CredentialState extends PartyState {
 
@@ -41,5 +41,5 @@ export class CredentialState extends PartyState {
       modifiedOn: this.modifiedOn
     }
   }
-  
+
 }

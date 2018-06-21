@@ -1,12 +1,12 @@
-import {Attribute} from "./attribute";
-import {Page} from "../page/page";
-import {Sort} from "../sort/sort";
+import {Attribute} from './attribute';
+import {Page} from '../page/page';
+import {Sort} from '../sort/sort';
 
 export class Attributes {
 
-  private _attributes:Attribute[] = [];
-  private _page:Page;
-  private _sort:Sort;
+  private _attributes: Attribute[] = [];
+  private _page: Page;
+  private _sort: Sort;
 
   get attributes(): Attribute[] {
     return this._attributes;

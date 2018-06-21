@@ -1,12 +1,12 @@
-import {PhoneState} from "./phone.state";
-import {PageState} from "../page/page.state";
-import {SortState} from "../sort/sort.state";
+import {PhoneState} from './phone.state';
+import {PageState} from '../page/page.state';
+import {SortState} from '../sort/sort.state';
 
 export class PhoneStates {
 
-  private _phones:PhoneState[] = [];
-  private _page:PageState;
-  private _sort:SortState;
+  private _phones: PhoneState[] = [];
+  private _page: PageState;
+  private _sort: SortState;
 
   constructor() {
     this.page = new PageState();

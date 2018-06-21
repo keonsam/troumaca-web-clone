@@ -1,14 +1,14 @@
 export class UnitOfMeasureState {
 
-  private _unitOfMeasureId:string;
-  private _type:string;
-  private _name:string;
-  private _title:string;
-  private _description:string;
-  private _symbol:string;
-  private _abbreviation:string;
+  private _unitOfMeasureId: string;
+  private _type: string;
+  private _name: string;
+  private _title: string;
+  private _description: string;
+  private _symbol: string;
+  private _abbreviation: string;
 
-  constructor(unitOfMeasureId?: string, name?: string, type?: string, title?:string, description?:string, symbol?:string, abbreviation?:string) {
+  constructor(unitOfMeasureId?: string, name?: string, type?: string, title?: string, description?: string, symbol?: string, abbreviation?: string) {
     this._unitOfMeasureId = unitOfMeasureId;
     this._name = name;
     this._type = type;

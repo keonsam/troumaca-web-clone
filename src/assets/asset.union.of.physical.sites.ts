@@ -1,8 +1,8 @@
-import {UnionOfPhysicalSite} from "./asset.union.of.physical.site";
+import {UnionOfPhysicalSite} from './asset.union.of.physical.site';
 
 export class AssetUnionOfPhysicalSites {
 
-  private _unionOfPhysicalSites:UnionOfPhysicalSite[];
+  private _unionOfPhysicalSites: UnionOfPhysicalSite[];
 
   get unionOfPhysicalSites(): UnionOfPhysicalSite[] {
     return this._unionOfPhysicalSites;

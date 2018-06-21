@@ -7,13 +7,13 @@ import {Component, Input} from '@angular/core';
 })
 export class LobbyHomeComponent {
 
-  private _title:string = 'app';
-  private _isLoggedIn:boolean;
-  private _dynamicMenuName:string;
-  private _routerLinkAssetList: string = "/assets/listing";
+  private _title = 'app';
+  private _isLoggedIn: boolean;
+  private _dynamicMenuName: string;
+  private _routerLinkAssetList = '/assets/listing';
 
   constructor() {
-    this.dynamicMenuName = "home-menu";
+    this.dynamicMenuName = 'home-menu';
   }
 
   get routerLinkAssetList(): string {

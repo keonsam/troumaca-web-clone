@@ -1,22 +1,22 @@
-import "rxjs/add/operator/map";
-import {Observable} from "rxjs/Observable";
-import {AssetRepository} from "../../assets/asset.repository";
-import {AssetClient} from "../../client/asset/asset.client";
-import {Asset} from "../../assets/asset";
-import { map, reduce, somethingElse } from "underscore";
-import {mapObjectProps} from "../../mapper/object.property.mapper";
-import {Assets} from "../../assets/assets";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
-import {AssetKinds} from "../../assets/asset.kinds";
-import {AssetKind} from "../../assets/asset.kind";
-import {AssetType} from "../../asset-types/asset.type";
-import {AssetPerson} from "../../assets/asset.person";
-import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
-import {Site} from "../../assets/asset.site";
-import {UnionOfPhysicalSite} from "../../assets/asset.union.of.physical.site";
+import 'rxjs/add/operator/map';
+import {Observable} from 'rxjs/Observable';
+import {AssetRepository} from '../../assets/asset.repository';
+import {AssetClient} from '../../client/asset/asset.client';
+import {Asset} from '../../assets/asset';
+import { map, reduce, somethingElse } from 'underscore';
+import {mapObjectProps} from '../../mapper/object.property.mapper';
+import {Assets} from '../../assets/assets';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
+import {AssetKinds} from '../../assets/asset.kinds';
+import {AssetKind} from '../../assets/asset.kind';
+import {AssetType} from '../../asset-types/asset.type';
+import {AssetPerson} from '../../assets/asset.person';
+import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
+import {Site} from '../../assets/asset.site';
+import {UnionOfPhysicalSite} from '../../assets/asset.union.of.physical.site';
 
-import {AssetState} from "../../client/asset/asset.state";
+import {AssetState} from '../../client/asset/asset.state';
 
 export class AssetRepositoryAdapter extends AssetRepository {
 
@@ -28,13 +28,13 @@ export class AssetRepositoryAdapter extends AssetRepository {
     return null;
   }
 
-  public getAssets(pageNumber:number, pageSize:number, sortOrder:string): Observable<Assets> {
+  public getAssets(pageNumber: number, pageSize: number, sortOrder: string): Observable<Assets> {
     return this.assetClient
     .getAssets(pageNumber, pageSize, sortOrder)
     .map(values => {
-      let assetModels:Assets = new Assets();
+      const assetModels: Assets = new Assets();
       assetModels.assets = map(values.assets, value => {
-        let assetModel:Asset = mapObjectProps(value, new Asset());
+        const assetModel: Asset = mapObjectProps(value, new Asset());
         //assetModel.assetTypeClass = mapObjectPropAs(value.assetType, new AssetTypeClass());
         assetModel.assetType = mapObjectProps(value.assetType, new AssetType());
         assetModel.unitOfMeasure = mapObjectProps(value.unitOfMeasure, new UnitOfMeasure());
@@ -60,7 +60,7 @@ export class AssetRepositoryAdapter extends AssetRepository {
     return this.assetClient
     .getAssetKinds()
     .map(values => {
-      let assetKinds:AssetKinds = new AssetKinds();
+      const assetKinds: AssetKinds = new AssetKinds();
       assetKinds.assetKinds = map(values.assetKinds, value => {
         return mapObjectProps(value, new AssetKind());
       });

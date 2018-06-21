@@ -1,5 +1,5 @@
-import {WorkOrderClient} from "./work.order.client";
-import {UUIDGenerator} from "../../uuid.generator";
+import {WorkOrderClient} from './work.order.client';
+import {UUIDGenerator} from '../../uuid.generator';
 
 export class WorkOrderClientHttp extends WorkOrderClient {
 

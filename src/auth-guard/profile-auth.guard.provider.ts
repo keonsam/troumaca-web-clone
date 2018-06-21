@@ -1,5 +1,5 @@
 import {AuthGuardService} from './auth.guard.service';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 import {ProfileAuthGuard} from './profile-auth.guard';
 
 export function profileAuthGuardProviderFactory (authGuardService: AuthGuardService,  router: Router): ProfileAuthGuard {

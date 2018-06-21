@@ -1,12 +1,12 @@
 export class Grant {
 
-  private _grantId:string;
+  private _grantId: string;
   private _resourceId: string;
-  private _resourcePermissionId:string;
+  private _resourcePermissionId: string;
   private _accessRoleId: string;
-  private _ownerPartyId:string;
-  private _createdOn:Date;
-  private _modifiedOn:Date;
+  private _ownerPartyId: string;
+  private _createdOn: Date;
+  private _modifiedOn: Date;
 
   constructor(resourceId?: string, resourcePermissionId?: string) {
     this._resourceId = resourceId;

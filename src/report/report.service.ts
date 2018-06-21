@@ -1,4 +1,4 @@
-import {ReportRepository} from "./report.repository";
+import {ReportRepository} from './report.repository';
 
 export class ReportService {
 

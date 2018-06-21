@@ -1,9 +1,9 @@
-import {VirtualSiteState} from "./virtual.site.state";
+import {VirtualSiteState} from './virtual.site.state';
 
 export class EmailState extends VirtualSiteState {
 
-  private _domainName:string;
-  private _emailAddress:string;
+  private _domainName: string;
+  private _emailAddress: string;
 
   get domainName(): string {
     return this._domainName;

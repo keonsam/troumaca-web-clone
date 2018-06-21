@@ -1,10 +1,10 @@
-import {Component, OnInit} from "@angular/core";
-import {SignUpService} from "./sign.up.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {Observable} from "rxjs/Observable";
-import {Cookie} from "ng2-cookies/ng2-cookies";
-import {SignUpModel} from "./sign.up.model";
+import {Component, OnInit} from '@angular/core';
+import {SignUpService} from './sign.up.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
+import {Cookie} from 'ng2-cookies/ng2-cookies';
+import {SignUpModel} from './sign.up.model';
 
 @Component({
   selector: 'sign-up',
@@ -13,46 +13,46 @@ import {SignUpModel} from "./sign.up.model";
 })
 export class SignUpComponent implements OnInit {
 
-  private _errorExists:boolean;
-  private _signUpForm:FormGroup;
-  private _username:FormControl;
-  private _password:FormControl;
-  private _rememberMe:FormControl;
-  private _confirmPassword:FormControl;
+  private _errorExists: boolean;
+  private _signUpForm: FormGroup;
+  private _username: FormControl;
+  private _password: FormControl;
+  private _rememberMe: FormControl;
+  private _confirmPassword: FormControl;
   private _registered: boolean;
 
-  constructor(private signUpService:SignUpService,
+  constructor(private signUpService: SignUpService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
-  this.username = new FormControl("", [
+  this.username = new FormControl('', [
     Validators.required,
     this.emailOrPhoneValidator(signUpService)
   ]);
 
 
-  this.password = new FormControl("", [
+  this.password = new FormControl('', [
     Validators.required
   ]);
 
-  this.confirmPassword = new FormControl("", [
+  this.confirmPassword = new FormControl('', [
       Validators.required,
       this.confirmEmailOrPhoneValidator(this.password)
   ]);
 
-  this.rememberMe = new FormControl("");
+  this.rememberMe = new FormControl('');
 
   this.signUpForm = formBuilder.group({
-    "username": this.username,
-    "password": this.password,
-    "confirmPassword" : this.confirmPassword,
-    "rememberMe": this.rememberMe
+    'username': this.username,
+    'password': this.password,
+    'confirmPassword' : this.confirmPassword,
+    'rememberMe': this.rememberMe
   });
 
   }
 
-  emailOrPhoneValidator(signUpService:SignUpService) {
-    return (c:FormControl) => {
+  emailOrPhoneValidator(signUpService: SignUpService) {
+    return (c: FormControl) => {
       return signUpService.isEmailOrPassword(c.value) ? null : {
         validateEmail: {
           valid: false
@@ -61,8 +61,8 @@ export class SignUpComponent implements OnInit {
     };
   }
 
-  confirmEmailOrPhoneValidator(password:FormControl) {
-    return (c:FormControl) => {
+  confirmEmailOrPhoneValidator(password: FormControl) {
+    return (c: FormControl) => {
       return password.value == c.value ? null : {
         validateEmail: {
           valid: false
@@ -134,8 +134,8 @@ export class SignUpComponent implements OnInit {
     this.errorExists = false;
     this.registered = false;
 
-    console.log("onSubmit");
-    let values = this.signUpForm.value;
+    console.log('onSubmit');
+    const values = this.signUpForm.value;
     Observable
       .of(values)
       .filter((value) => this.signUpForm.valid)
@@ -144,7 +144,7 @@ export class SignUpComponent implements OnInit {
       })
       .subscribe(succeed => {
         if (succeed && this.rememberMe.value) {
-          Cookie.set("troumaca-remember-me", this.rememberMe.value);
+          Cookie.set('troumaca-remember-me', this.rememberMe.value);
         }
 
         if (succeed) {
@@ -173,12 +173,12 @@ export class SignUpComponent implements OnInit {
       })
       .filter((value) => this.signUpForm.valid)
       .subscribe((value) => {
-        console.log("Model Driven Form valid value: vm = ", JSON.stringify(value));
+        console.log('Model Driven Form valid value: vm = ', JSON.stringify(value));
       });
   }
 
-  private createSignInModel(value: any):SignUpModel {
-    var signUpModel:SignUpModel = new SignUpModel();
+  private createSignInModel(value: any): SignUpModel {
+    const signUpModel: SignUpModel = new SignUpModel();
     signUpModel.password = value.password;
     signUpModel.username = value.username;
     return signUpModel;

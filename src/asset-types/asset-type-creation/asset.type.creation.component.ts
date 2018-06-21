@@ -1,17 +1,14 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit} from '@angular/core';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
-import {AssetTypeService} from "../asset.type.service";
-import {AssetType} from "../asset.type";
-import {Value} from "../value";
-// import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
-// import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
-//import {Attribute} from "../../attributes/attribute";
-import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
-import {Router} from "@angular/router";
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter';
+import {AssetTypeService} from '../asset.type.service';
+import {AssetType} from '../asset.type';
+import {Value} from '../value';
+import {AssignedAttribute} from '../../asset-type-classes/assigned.attribute';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'asset-type-creation',
@@ -30,7 +27,7 @@ export class AssetTypeCreationComponent implements OnInit {
   private _assetTypeClassIdDataService: CompleterData;
   private _unitOfMeasureIdDataService: CompleterData;
 
-  private _assetTypeForm:FormGroup;
+  private _assetTypeForm: FormGroup;
   private _attributeForm: FormGroup;
 
   private assetType: AssetType;
@@ -40,36 +37,36 @@ export class AssetTypeCreationComponent implements OnInit {
   private _value: Value[] = [];
   private _saveValues: Value[];
 
-  private pageSize:number = 15;
-  private _doNotDisplayFailureMessage:boolean;
-  private _doNotDisplayFailureMessage2:boolean;
+  private pageSize = 15;
+  private _doNotDisplayFailureMessage: boolean;
+  private _doNotDisplayFailureMessage2: boolean;
 
-  constructor(private assetTypeService:AssetTypeService,
+  constructor(private assetTypeService: AssetTypeService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
-      this.assetTypeClassId = new FormControl("", Validators.required);
-      this.name = new FormControl("", Validators.required);
-      this.description = new FormControl("");
-      this.modelNumber = new FormControl("");
-      this.materialCode = new FormControl("");
-      this.unitOfMeasureId = new FormControl("");
+      this.assetTypeClassId = new FormControl('', Validators.required);
+      this.name = new FormControl('', Validators.required);
+      this.description = new FormControl('');
+      this.modelNumber = new FormControl('');
+      this.materialCode = new FormControl('');
+      this.unitOfMeasureId = new FormControl('');
 
       this.attributeForm = new FormGroup({
 
       });
 
       this.assetTypeForm = formBuilder.group({
-        "assetTypeClassId": this.assetTypeClassId,
-        "name": this.name,
-        "description": this.description,
-        "modelNumber": this.modelNumber,
-        "materialCode": this.materialCode,
-        "unitOfMeasureId": this.unitOfMeasureId
+        'assetTypeClassId': this.assetTypeClassId,
+        'name': this.name,
+        'description': this.description,
+        'modelNumber': this.modelNumber,
+        'materialCode': this.materialCode,
+        'unitOfMeasureId': this.unitOfMeasureId
       });
 
-    let assetType = new AssetType();
+    const assetType = new AssetType();
     //assetType.assetTypeClass = new AssetTypeClass();
     this.assetType = assetType;
 
@@ -99,8 +96,8 @@ export class AssetTypeCreationComponent implements OnInit {
   }
 
   private populateAssetTypeClassIdDropDown() {
-    this.findAssetTypeClassId("");
-    this.assetTypeForm.get("assetTypeClassId").valueChanges
+    this.findAssetTypeClassId('');
+    this.assetTypeForm.get('assetTypeClassId').valueChanges
       //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -124,13 +121,13 @@ export class AssetTypeCreationComponent implements OnInit {
       .subscribe(next => { // update the data
         this.assetTypeClassIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
-        console.log("findAssetTypeClassId error - " + error);
+        console.log('findAssetTypeClassId error - ' + error);
       });
   }
 
   private populateUnitOfMeasureIdDropDown() {
-    this.findUnitOfMeasureId("");
-    this.assetTypeForm.get("unitOfMeasureId").valueChanges
+    this.findUnitOfMeasureId('');
+    this.assetTypeForm.get('unitOfMeasureId').valueChanges
       //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -154,7 +151,7 @@ export class AssetTypeCreationComponent implements OnInit {
       .subscribe(next => { // update the data
         this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
-        console.log("finUnitOfMeasureId error - " + error);
+        console.log('finUnitOfMeasureId error - ' + error);
       });
   }
 
@@ -292,10 +289,10 @@ export class AssetTypeCreationComponent implements OnInit {
   }
 
   onType(dataTypeName: string) {
-   if(dataTypeName == "Decimal" || "Integer") {
-      return "number";
+   if (dataTypeName == 'Decimal' || 'Integer') {
+      return 'number';
     }else {
-      return "text";
+      return 'text';
     }
   }
 
@@ -304,11 +301,11 @@ export class AssetTypeCreationComponent implements OnInit {
     .getAssignedAttributes(this.assetType.assetTypeClassId)
     .subscribe(next => {
       this.assignedAttributes = next;
-      let group: any = {};
+      const group: any = {};
       this.assignedAttributes.forEach(value => {
       let editValue = this.value.find(x => x.attributeId == value.attributeId);
-      if(!editValue) {
-        this.value.push(new Value(value.attributeId,""));
+      if (!editValue) {
+        this.value.push(new Value(value.attributeId, ''));
         editValue = this.value.find(x => x.attributeId == value.attributeId);
       }
         group[value.attributeId] = value.required ? new FormControl(editValue.text, [Validators.required])
@@ -316,8 +313,8 @@ export class AssetTypeCreationComponent implements OnInit {
       });
 
       this.attributeForm = new FormGroup(group);
-      for(let key in this.attributeForm.value){
-        let index = this.value.findIndex(x => x.attributeId == key);
+      for (const key in this.attributeForm.value){
+        const index = this.value.findIndex(x => x.attributeId == key);
         this.attributeForm.get(key).valueChanges
         .subscribe(value2 => {
           this.value[index].text = value2;
@@ -329,7 +326,7 @@ export class AssetTypeCreationComponent implements OnInit {
     }, error => {
       console.log(error);
     }, () => {
-      console.log("complete");
+      console.log('complete');
     });
   }
 
@@ -353,7 +350,7 @@ export class AssetTypeCreationComponent implements OnInit {
 
   removeValues() {
       this.saveValues = this.value.filter((value) => {
-      if(this.assignedAttributes.find(x => x.attributeId == value.attributeId)){
+      if (this.assignedAttributes.find(x => x.attributeId == value.attributeId)){
           return value;
         }
       });

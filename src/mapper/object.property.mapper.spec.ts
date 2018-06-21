@@ -1,5 +1,5 @@
 
-import {mapObjectProps2} from "./object.property.mapper2";
+import {mapObjectProps2} from './object.property.mapper2';
 
 describe('main test', () => {
   it('always pass', () => {
@@ -9,11 +9,11 @@ describe('main test', () => {
 
 export class FromAttrOne {
 
-  private _str:string;
-  private _int:number;
-  private _bol:boolean;
+  private _str: string;
+  private _int: number;
+  private _bol: boolean;
 
-  private _arr:string[];
+  private _arr: string[];
 
   constructor() {
   }
@@ -54,11 +54,11 @@ export class FromAttrOne {
 
 export class ToAttrOne {
 
-  private _str:string;
-  private _int:number;
-  private _bol:boolean;
+  private _str: string;
+  private _int: number;
+  private _bol: boolean;
 
-  private _arr:string[];
+  private _arr: string[];
 
   constructor() {
   }
@@ -98,14 +98,14 @@ export class ToAttrOne {
 }
 
 describe('simple copy test', () => {
-  let fromAttrOne:FromAttrOne = new FromAttrOne();
-  fromAttrOne.str = "string value";
+  const fromAttrOne: FromAttrOne = new FromAttrOne();
+  fromAttrOne.str = 'string value';
   fromAttrOne.int = 21;
   fromAttrOne.bol = true;
 
-  fromAttrOne.arr = ["as", "ga", "nm"];
+  fromAttrOne.arr = ['as', 'ga', 'nm'];
 
-  let mapObjectProps = mapObjectProps2(fromAttrOne, new ToAttrOne());
+  const mapObjectProps = mapObjectProps2(fromAttrOne, new ToAttrOne());
 
   it('string value is equal', () => {
     expect(fromAttrOne.str).toBe(mapObjectProps.str);
@@ -124,12 +124,12 @@ describe('simple copy test', () => {
 });
 
 describe('simple copy array', () => {
-  let fromAttrOne:FromAttrOne = new FromAttrOne();
-  fromAttrOne.str = "string value";
+  const fromAttrOne: FromAttrOne = new FromAttrOne();
+  fromAttrOne.str = 'string value';
   fromAttrOne.int = 21;
   fromAttrOne.bol = true;
 
-  let mapObjectProps = mapObjectProps2(fromAttrOne, new ToAttrOne());
+  const mapObjectProps = mapObjectProps2(fromAttrOne, new ToAttrOne());
 
   it('string value is equal', () => {
     expect(fromAttrOne.str).toBe(mapObjectProps.str);

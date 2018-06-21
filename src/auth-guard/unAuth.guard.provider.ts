@@ -1,6 +1,6 @@
-import {UnAuthGuard} from "./unAuth.guard";
+import {UnAuthGuard} from './unAuth.guard';
 import {AuthGuardService} from './auth.guard.service';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 export function unAuthGuardProviderFactory (authGuardService: AuthGuardService,  router: Router): UnAuthGuard {
   let unAuthGuard: UnAuthGuard;

@@ -1,5 +1,5 @@
-import {Component, OnInit} from "@angular/core";
-import {SiteService} from "./site.service";
+import {Component, OnInit} from '@angular/core';
+import {SiteService} from './site.service';
 
 @Component({
   selector: 'site',
@@ -8,7 +8,7 @@ import {SiteService} from "./site.service";
 })
 export class SiteComponent implements OnInit {
 
-  constructor(private siteService:SiteService) {
+  constructor(private siteService: SiteService) {
   }
 
   ngOnInit(): void {

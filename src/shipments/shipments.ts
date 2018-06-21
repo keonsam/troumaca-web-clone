@@ -1,6 +1,6 @@
-import {Sort} from "../sort/sort";
-import {Page} from "../page/page";
-import {Shipment} from "./shipment";
+import {Sort} from '../sort/sort';
+import {Page} from '../page/page';
+import {Shipment} from './shipment';
 
 export class Shipments {
 

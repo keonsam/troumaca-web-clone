@@ -1,4 +1,4 @@
-import {ReportClient} from "./report.client";
+import {ReportClient} from './report.client';
 
 export class ReportClientMock extends ReportClient {
 }

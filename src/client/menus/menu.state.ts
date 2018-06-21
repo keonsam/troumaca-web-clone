@@ -1,4 +1,4 @@
-import {MenuItemState} from "./menu.item.state";
+import {MenuItemState} from './menu.item.state';
 
 export class MenuState {
 
@@ -42,10 +42,10 @@ export class MenuState {
     this._menuItemStates = value;
   }
 
-  private _id:string;
-  private _title:string;
-  private _name:string;
-  private _rank:number;
-  private _menuItemStates:MenuItemState[];
+  private _id: string;
+  private _title: string;
+  private _name: string;
+  private _rank: number;
+  private _menuItemStates: MenuItemState[];
 
 }

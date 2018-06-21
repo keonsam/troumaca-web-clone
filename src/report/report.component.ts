@@ -1,5 +1,5 @@
-import {Component, OnInit} from "@angular/core";
-import {ReportService} from "./report.service";
+import {Component, OnInit} from '@angular/core';
+import {ReportService} from './report.service';
 
 @Component({
   selector: 'report',
@@ -8,7 +8,7 @@ import {ReportService} from "./report.service";
 })
 export class ReportComponent implements OnInit {
 
-  constructor(private reportService:ReportService) {
+  constructor(private reportService: ReportService) {
   }
 
   ngOnInit(): void {

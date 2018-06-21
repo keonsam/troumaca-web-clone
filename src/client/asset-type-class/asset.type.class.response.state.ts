@@ -1,9 +1,9 @@
-import {AssetTypeClassState} from "./asset.type.class.state";
-import {AssignedAttributeState} from "./assigned.attribute.state";
+import {AssetTypeClassState} from './asset.type.class.state';
+import {AssignedAttributeState} from './assigned.attribute.state';
 
 export class AssetTypeClassResponseState {
 
-  private _created:boolean;
+  private _created: boolean;
   private _assetTypeClass: AssetTypeClassState;
   private _assignedAttributes: AssignedAttributeState;
 

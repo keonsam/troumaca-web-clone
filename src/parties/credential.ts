@@ -1,10 +1,10 @@
-import {Party} from "./party";
+import {Party} from './party';
 
 export class Credential extends Party {
 
   private _credentialId: string;
-  private _username:string;
-  private _password:string;
+  private _username: string;
+  private _password: string;
   private _confirmPassword: string;
 
   get credentialId(): string {

@@ -1,8 +1,8 @@
-import {AssetKind} from "./asset.kind";
+import {AssetKind} from './asset.kind';
 
 export class AssetKinds {
 
-  private _assetKinds:AssetKind[];
+  private _assetKinds: AssetKind[];
 
   get assetKinds(): AssetKind[] {
     return this._assetKinds;

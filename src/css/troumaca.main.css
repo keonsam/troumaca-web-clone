@@ -9473,6 +9473,29 @@ body {
   content: "\e906";
 }
 
+/*TEMPLATE MEDIA QUERIES */
+
+/* #1.  Screen size <= 1650px */
+@media (max-width: 1650px) {
+  body{
+    padding: 40px;
+  }
+}
+
+/* #2.  Screen size <= 1550px */
+@media (max-width: 1550px) {
+  body {
+    padding: 20px;
+  }
+}
+
+/* #7.  Screen size <= 1250px */
+@media (max-width: 1250px) {
+  body {
+    padding: 0px;
+  }
+}
+
 /*troumaca overrides, etc. START*/
 
 html {
@@ -9502,14 +9525,6 @@ body {
   height: auto;
 }
 
-/*Media query*/
-@media only screen and (max-width: 750px) {
-  body {
-    padding: 0;
-  }
-}
-
-
 .completer-input {
   font-family: "Proxima Nova W01", "Rubik", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-weight: 400;
@@ -9528,33 +9543,4 @@ body {
   transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
-}
-
-/*imported by keon from main */
-@media (max-width: 1650px) {
-  body {
-    padding: 40px;
-  }
-  .content-panel {
-    padding: 2rem;
-    width: 350px;
-  }
-  .content-box {
-    padding: 2rem;
-  }
-  .all-wrapper {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 1550px) {
-  body {
-    padding: 20px;
-  }
-}
-
-@media (max-width: 1250px) {
-  body {
-    padding: 0px;
-  }
 }

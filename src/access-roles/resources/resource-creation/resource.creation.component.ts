@@ -1,15 +1,13 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
-
-import {Resource} from "../../resource";
-//import {ResourceType} from "../../resource.type";
-import {AccessRoleService} from "../../access.role.service";
-import {Router} from "@angular/router";
-import {ResourcePermission} from "../../resource.permission";
-import {Permissions} from "../../permissions";
-import {Page} from "../../../page/page";
-import {Sort} from "../../../sort/sort";
+import {Resource} from '../../resource';
+import {AccessRoleService} from '../../access.role.service';
+import {Router} from '@angular/router';
+import {ResourcePermission} from '../../resource.permission';
+import {Permissions} from '../../permissions';
+import {Page} from '../../../page/page';
+import {Sort} from '../../../sort/sort';
 
 @Component({
   selector: 'resource-creation',
@@ -28,25 +26,25 @@ export class ResourceCreationComponent implements OnInit {
   private _resourceTypeIdDataService: CompleterData;
   private _resourceForm: FormGroup;
 
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
 
-  private pageSize:number = 15;
-  private _doNotDisplayFailureMessage:boolean;
+  private pageSize = 15;
+  private _doNotDisplayFailureMessage: boolean;
 
   constructor(private accessRoleService: AccessRoleService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private router: Router) {
-    this.name = new FormControl("", [Validators.required]);
-    this.resourceTypeId = new FormControl("", [Validators.required]);
-    this.description = new FormControl("");
+    this.name = new FormControl('', [Validators.required]);
+    this.resourceTypeId = new FormControl('', [Validators.required]);
+    this.description = new FormControl('');
 
     this.resourceForm = formBuilder.group({
-      "name": this.name,
-      "resourceTypeId": this.resourceTypeId,
-      "description": this.description
+      'name': this.name,
+      'resourceTypeId': this.resourceTypeId,
+      'description': this.description
     });
 
     this.resourceForm
@@ -59,7 +57,7 @@ export class ResourceCreationComponent implements OnInit {
       });
 
     this.resourcePermissionIds = [];
-    let newPermissions = new Permissions();
+    const newPermissions = new Permissions();
     newPermissions.permissions = [];
     newPermissions.page = new Page();
     newPermissions.sort = new Sort();
@@ -73,14 +71,14 @@ export class ResourceCreationComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getPermissions("permissions");
+    this.getPermissions('permissions');
     this.populateResourceTypeIdDropDown();
   }
 
   private getPermissions(type) {
     this.accessRoleService.getPermissionsByArray(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray, type)
         .subscribe(values => {
-          if(type === "permissions") {
+          if (type === 'permissions') {
             this.permissions = values;
           }else{
             this.resourcePermissions = values;
@@ -91,8 +89,8 @@ export class ResourceCreationComponent implements OnInit {
   };
 
   private populateResourceTypeIdDropDown() {
-    this.findResourceTypeId("");
-    this.resourceForm.get("resourceTypeId").valueChanges
+    this.findResourceTypeId('');
+    this.resourceForm.get('resourceTypeId').valueChanges
       //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -116,7 +114,7 @@ export class ResourceCreationComponent implements OnInit {
       .subscribe(next => { // update the data
         this.resourceTypeIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
-        console.log("findResourceTypeId error - " + error);
+        console.log('findResourceTypeId error - ' + error);
       });
   }
 
@@ -206,22 +204,22 @@ export class ResourceCreationComponent implements OnInit {
     }
   }
 
-  onPermissionDoubleClick(name,permissionId: string) {
+  onPermissionDoubleClick(name, permissionId: string) {
     this.assignedArray.push(permissionId);
-    this.resourcePermissionIds.push(new ResourcePermission(name,permissionId));
-    this.getPermissions("permissions");
-    this.getPermissions("resource-permissions");
+    this.resourcePermissionIds.push(new ResourcePermission(name, permissionId));
+    this.getPermissions('permissions');
+    this.getPermissions('resource-permissions');
   }
 
   onResourceDoubleClick(permissionId: string) {
     this.assignedArray = this.assignedArray.filter(val => {
       return val !== permissionId;
     });
-    this.resourcePermissionIds = this.resourcePermissionIds.filter( val =>{
+    this.resourcePermissionIds = this.resourcePermissionIds.filter( val => {
       return val.permission.permissionId !== permissionId;
     });
-    this.getPermissions("permissions");
-    this.getPermissions("resource-permissions");
+    this.getPermissions('permissions');
+    this.getPermissions('resource-permissions');
   }
 
   onRequestPage(pageNumber: number, type: string) {

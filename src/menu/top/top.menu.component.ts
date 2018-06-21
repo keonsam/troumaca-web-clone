@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {MenuModel} from "../menu.model";
-import {MenuService} from "../menu.service";
-import {EventService} from "../../event/event.service";
-import {MenuItemModel} from "../menu.item.model";
+import {Component, Input, OnInit} from '@angular/core';
+import {MenuModel} from '../menu.model';
+import {MenuService} from '../menu.service';
+import {EventService} from '../../event/event.service';
+import {MenuItemModel} from '../menu.item.model';
 
 @Component({
   selector: 'top-menu',
@@ -11,18 +11,18 @@ import {MenuItemModel} from "../menu.item.model";
 })
 export class TopMenuComponent implements OnInit {
 
-  private _title:string;
-  private _menuModel:MenuModel;
-  private _isLoggedIn:boolean;
-  private _menuName:string;
-  private _displaySearchBox:boolean;
+  private _title: string;
+  private _menuModel: MenuModel;
+  private _isLoggedIn: boolean;
+  private _menuName: string;
+  private _displaySearchBox: boolean;
 
-  constructor(private eventService:EventService, private menuService:MenuService) {
-    this.title = "Troumaca";
+  constructor(private eventService: EventService, private menuService: MenuService) {
+    this.title = 'Troumaca';
     this.isLoggedIn = false;
     this.menuModel = new MenuModel();
     this.menuModel.menuItemModels = [];
-    this.menuName = "side-menu";
+    this.menuName = 'side-menu';
     this.displaySearchBox = false;
     // if (true) {
     //   console.log("Ok.");
@@ -39,7 +39,7 @@ export class TopMenuComponent implements OnInit {
     return this._title;
   }
 
-  set title(title:string) {
+  set title(title: string) {
     this._title = title;
   }
 
@@ -82,16 +82,16 @@ export class TopMenuComponent implements OnInit {
   }
 
   handleMenuRefreshEvent() {
-    let that = this;
+    const that = this;
     this.eventService.subscribeToLoginEvent((data) => {
       that.isLoggedIn = true;
       that.getMenu(that.menuName);
     });
   }
 
-  getMenu(menuName:string) {
-    console.log("getMenu(" + menuName + ")");
-    let that = this;
+  getMenu(menuName: string) {
+    console.log('getMenu(' + menuName + ')');
+    const that = this;
     this.menuService.getMenuByName(menuName).subscribe(function (menu) {
       that.menuModel.menuItemModels = [];
       if (menu.menuItemModels) {
@@ -102,7 +102,7 @@ export class TopMenuComponent implements OnInit {
     });
   }
 
-  onSelected(menuItemModel:MenuItemModel) {
+  onSelected(menuItemModel: MenuItemModel) {
     this._menuModel.menuItemModels.forEach(mi => {
       if (mi.active) {
         mi.active = false

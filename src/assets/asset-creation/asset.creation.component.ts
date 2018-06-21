@@ -1,18 +1,13 @@
-import {Component, OnInit} from "@angular/core";
-import {AssetService} from "../asset.service";
+import {Component, OnInit} from '@angular/core';
+import {AssetService} from '../asset.service';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
-import {Asset} from "../asset";
-import {AssetKind} from "../asset.kind";
-import {AssetType} from "../../asset-types/asset.type";
-//import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
-import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
-import {AssetPerson} from "../asset.person";
-import {Site} from "../asset.site";
-import {Router} from "@angular/router";
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter';
+import {Asset} from '../asset';
+import {AssetKind} from '../asset.kind';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'asset-creation',
@@ -32,7 +27,7 @@ export class AssetCreationComponent implements OnInit {
   private _description: FormControl;
 
 
-  private _assetForm:FormGroup;
+  private _assetForm: FormGroup;
 
   private _assetKinds: AssetKind[];
   private _assetTypeDataService: CompleterData;
@@ -40,34 +35,34 @@ export class AssetCreationComponent implements OnInit {
   private _siteDataService: CompleterData;
   private _personDataService: CompleterData;
 
-  private pageSize:number;
-  private asset:Asset;
+  private pageSize: number;
+  private asset: Asset;
 
-  private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage: boolean;
 
-  constructor(private assetService:AssetService,
+  constructor(private assetService: AssetService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
-    this.assetKindId = new FormControl("", [Validators.required]);
-    this.assetType = new FormControl("", [Validators.required]);
-    this.serialNumber = new FormControl("");
-    this.quantity = new FormControl("");
-    this.unitOfMeasure = new FormControl("");
-    this.site = new FormControl("");
-    this.person = new FormControl("");
-    this.description = new FormControl("");
+    this.assetKindId = new FormControl('', [Validators.required]);
+    this.assetType = new FormControl('', [Validators.required]);
+    this.serialNumber = new FormControl('');
+    this.quantity = new FormControl('');
+    this.unitOfMeasure = new FormControl('');
+    this.site = new FormControl('');
+    this.person = new FormControl('');
+    this.description = new FormControl('');
 
     this.assetForm = formBuilder.group({
-      "assetKindId": this.assetKindId,
-      "assetType": this.assetType,
-      "serialNumber": this.serialNumber,
-      "quantity": this.quantity,
-      "unitOfMeasure": this.unitOfMeasure,
-      "person": this.person,
-      "site": this.site,
-      "description": this.description
+      'assetKindId': this.assetKindId,
+      'assetType': this.assetType,
+      'serialNumber': this.serialNumber,
+      'quantity': this.quantity,
+      'unitOfMeasure': this.unitOfMeasure,
+      'person': this.person,
+      'site': this.site,
+      'description': this.description
     });
 
 
@@ -92,7 +87,7 @@ export class AssetCreationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let that = this;
+    const that = this;
     this.assetService
     .getAssetKinds()
     .subscribe(assetKinds => {
@@ -114,9 +109,8 @@ export class AssetCreationComponent implements OnInit {
   }
 
   private populateAssetTypeDropDown() {
-    this.findAssetTypes("");
-    this.assetForm.get("assetType").valueChanges
-      //.debounceTime(1000) // debounce
+    this.findAssetTypes('');
+    this.assetForm.get('assetType').valueChanges
       .filter(value => { // filter out empty values
         return !!(value);
       })
@@ -139,14 +133,13 @@ export class AssetCreationComponent implements OnInit {
       .subscribe(next => { // update the data
         this.assetTypeDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
-        console.log("findAssetTypes error - " + error);
+        console.log('findAssetTypes error - ' + error);
       });
   }
 
   private populateUnitOfMeasureDropDown() {
-    this.findUnitOfMeasures("");
-    this.assetForm.get("unitOfMeasure").valueChanges
-      //.debounceTime(1000) // debounce
+    this.findUnitOfMeasures('');
+    this.assetForm.get('unitOfMeasure').valueChanges
       .filter(value => { // filter out empty values
         return !!(value);
       })
@@ -159,7 +152,7 @@ export class AssetCreationComponent implements OnInit {
     this.assetService
       .findUnitOfMeasures(value, this.pageSize) // send search request to the backend
       .map(value2 => { // convert results to dropdown data
-        return value2.map(v2 => { //updated to new method
+        return value2.map(v2 => { // updated to new method
           return {
             unitOfMeasureId: v2.unitOfMeasureId,
             name: v2.name
@@ -170,19 +163,18 @@ export class AssetCreationComponent implements OnInit {
         this.unitOfMeasureDataService = this.completerService
           .local(next, 'name', 'name');
       }, error => {
-        console.log("findAssetTypes error - " + error);
+        console.log('findAssetTypes error - ' + error);
       });
   }
 
   private populateSiteDropDown() {
-    this.findUnionOfPhysicalSites("");
-    this.assetForm.get("site").valueChanges
-      //.debounceTime(1000) // debounce
+    this.findUnionOfPhysicalSites('');
+    this.assetForm.get('site').valueChanges
       .filter(value => { // filter out empty values
         return !!(value);
       })
       .subscribe(value => {
-        console.log("value: " + value);
+        console.log('value: ' + value);
         this.findUnionOfPhysicalSites(value);
       });
   }
@@ -207,14 +199,13 @@ export class AssetCreationComponent implements OnInit {
       .subscribe(next => { // update the data
         this.siteDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
-        console.log("findUnionOfPhysicalSites error - " + error);
+        console.log('findUnionOfPhysicalSites error - ' + error);
       });
   }
 
   private populatePersonDropDown() {
-    this.findPersons("");
-    this.assetForm.get("person").valueChanges
-      //.debounceTime(1000) // debounce
+    this.findPersons('');
+    this.assetForm.get('person').valueChanges
       .filter(value => { // filter out empty values
         return !!(value);
       })
@@ -237,7 +228,7 @@ export class AssetCreationComponent implements OnInit {
       .subscribe(next => { // update the data
         this.personDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
-        console.log("findPersons error - " + error);
+        console.log('findPersons error - ' + error);
       });
   }
 
@@ -378,11 +369,11 @@ export class AssetCreationComponent implements OnInit {
   }
 
   isDiscreteItem() {
-    return this.assetKindId.value == "4cf11077-c5e3-41f3-b40b-6e89dce6e9c8";
+    return this.assetKindId.value === '4cf11077-c5e3-41f3-b40b-6e89dce6e9c8';
   }
 
   isInventory() {
-    return this.assetKindId.value == "65694257-0aa8-4fb6-abb7-e6c7b83cf4f2";
+    return this.assetKindId.value === '65694257-0aa8-4fb6-abb7-e6c7b83cf4f2';
   }
 
   onCreate() {

@@ -1,13 +1,13 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {OrganizationsComponent} from "./organizations.component";
-import {OrganizationService} from "./organization.service";
-import {OrganizationRepository} from "./organization.repository";
-import {RouterModule} from "@angular/router";
-import {InviteModule} from "./invite/invite.module";
-import {OrganizationModule} from "./create-new/organization.module";
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {OrganizationsComponent} from './organizations.component';
+import {OrganizationService} from './organization.service';
+import {OrganizationRepository} from './organization.repository';
+import {RouterModule} from '@angular/router';
+import {InviteModule} from './invite/invite.module';
+import {OrganizationModule} from './create-new/organization.module';
 
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import {OrganizationModule} from "./create-new/organization.module";
   ],
   providers: [{
     provide: OrganizationService,
-    useFactory(organizationsRepository:OrganizationRepository) {
+    useFactory(organizationsRepository: OrganizationRepository) {
       let organizationsService: OrganizationService;
       if (!organizationsService) {
         organizationsService = new OrganizationService(organizationsRepository);

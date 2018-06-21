@@ -1,15 +1,15 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
-import {Organization} from "../../organization";
-import {PartyEventService} from "../../party.event.service";
-import {PartyService} from "../../party.service";
+import {Organization} from '../../organization';
+import {PartyEventService} from '../../party.event.service';
+import {PartyService} from '../../party.service';
 
 @Component({
   selector: 'organization-edit',
-  templateUrl:'./organization.edit.component.html',
+  templateUrl: './organization.edit.component.html',
   styleUrls: ['./organization.edit.component.css']
 })
 export class OrganizationEditComponent implements OnInit {
@@ -34,14 +34,14 @@ export class OrganizationEditComponent implements OnInit {
 
    this.organization = new Organization();
 
-   this.purpose = new FormControl("",[Validators.required]);
-   this.name = new FormControl("", [Validators.required/*, this.organizationNameValidator(authenticationService)*/]);
-   this.description = new FormControl("");
+   this.purpose = new FormControl('', [Validators.required]);
+   this.name = new FormControl('', [Validators.required/*, this.organizationNameValidator(authenticationService)*/]);
+   this.description = new FormControl('');
 
    this.organizationEditForm = formBuilder.group({
-     "purpose": this.purpose,
-     "name": this.name,
-     "description": this.description
+     'purpose': this.purpose,
+     'name': this.name,
+     'description': this.description
 
    });
 
@@ -62,7 +62,7 @@ export class OrganizationEditComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
        this.partyId = params['partyId'];
        this.partyService.getOrganization(this.partyId)
-       .subscribe(organization =>{
+       .subscribe(organization => {
         this.purpose.setValue(organization.purpose);
         this.name.setValue(organization.name);
          this.description.setValue(organization.description);

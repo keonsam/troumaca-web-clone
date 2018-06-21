@@ -1,10 +1,10 @@
-import {PersonState} from "./person.state";
-import {PageState} from "../page/page.state";
-import {SortState} from "../sort/sort.state";
+import {PersonState} from './person.state';
+import {PageState} from '../page/page.state';
+import {SortState} from '../sort/sort.state';
 
 export class PersonStates {
 
-  private _persons:PersonState[];
+  private _persons: PersonState[];
   private _page: PageState;
   private _sort: SortState;
 

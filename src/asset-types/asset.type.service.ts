@@ -1,19 +1,19 @@
-import {AssetTypeRepository} from "./asset.type.repository";
-import {Observable} from "rxjs/Observable";
-import {AssetType} from "./asset.type";
-import {AssetTypes} from "./asset.types";
-import {Value} from "./value";
-import {Values} from "./values";
-import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
-import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
-import {AssignedAttribute} from "../asset-type-classes/assigned.attribute";
-import {AssetTypeResponse} from "./asset.type.response";
+import {AssetTypeRepository} from './asset.type.repository';
+import {Observable} from 'rxjs/Observable';
+import {AssetType} from './asset.type';
+import {AssetTypes} from './asset.types';
+import {Value} from './value';
+import {Values} from './values';
+import {AssetTypeClass} from '../asset-type-classes/asset.type.class';
+import {UnitOfMeasure} from '../unit-of-measure/unit.of.measure';
+import {AssignedAttribute} from '../asset-type-classes/assigned.attribute';
+import {AssetTypeResponse} from './asset.type.response';
 
 export class AssetTypeService {
   constructor(private assetTypeRepository: AssetTypeRepository) {
   }
 
-  public getAssetTypes(pageNumber:number, pageSize:number, sortOrder:string):Observable<AssetTypes> {
+  public getAssetTypes(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetTypes> {
     return this.assetTypeRepository.getAssetTypes(pageNumber, pageSize, sortOrder);
   }
 
@@ -25,11 +25,11 @@ export class AssetTypeService {
     return this.assetTypeRepository.getValues(assetTypeId);
   }
 
-  public getAssetType(assetTypeId: string):Observable<AssetTypeResponse> {
+  public getAssetType(assetTypeId: string): Observable<AssetTypeResponse> {
     return this.assetTypeRepository.getAssetType(assetTypeId);
   }
 
-  public getAssetTypeClass(assetTypeClassId: string):Observable<AssetTypeClass> {
+  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass> {
     return this.assetTypeRepository.getAssetTypeClass(assetTypeClassId);
   }
 

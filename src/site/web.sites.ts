@@ -1,12 +1,12 @@
-import {WebSite} from "./web.site";
-import {Page} from "../page/page";
-import {Sort} from "../sort/sort";
+import {WebSite} from './web.site';
+import {Page} from '../page/page';
+import {Sort} from '../sort/sort';
 
 export class WebSites {
 
-  private _webSites:WebSite[] = [];
-  private _page:Page;
-  private _sort:Sort;
+  private _webSites: WebSite[] = [];
+  private _page: Page;
+  private _sort: Sort;
 
   get webSites(): WebSite[] {
     return this._webSites;

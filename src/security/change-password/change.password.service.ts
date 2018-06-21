@@ -1,4 +1,4 @@
-import {ChangePasswordRepository} from "./change.password.repository";
+import {ChangePasswordRepository} from './change.password.repository';
 
 export class ChangePasswordService {
 

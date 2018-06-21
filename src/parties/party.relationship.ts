@@ -1,8 +1,8 @@
-import {Employment} from "./employment";
+import {Employment} from './employment';
 
 export class PartyRelationship extends Employment {
 
-  private _partyRelationshipId:string;
+  private _partyRelationshipId: string;
 
   get partyRelationshipId(): string {
     return this._partyRelationshipId;

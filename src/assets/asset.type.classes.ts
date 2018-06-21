@@ -1,14 +1,14 @@
-import {AssetAttribute} from "./asset.attribute";
+import {AssetAttribute} from './asset.attribute';
 
 export class AssetTypeClasses {
 
-  private _assetTypeClassId:string;
-  private _name:string;
-  private _description:string;
-  private _attributeAssignmentId:string;
-  private _attributes:AssetAttribute;
+  private _assetTypeClassId: string;
+  private _name: string;
+  private _description: string;
+  private _attributeAssignmentId: string;
+  private _attributes: AssetAttribute;
 
-  constructor(assetTypeClassId?:string, name?: string, description?: string, attributeAssignmentId?: string, attributes?: AssetAttribute){
+  constructor(assetTypeClassId?: string, name?: string, description?: string, attributeAssignmentId?: string, attributes?: AssetAttribute){
     this._assetTypeClassId = assetTypeClassId;
     this._name = name;
     this._description = description;

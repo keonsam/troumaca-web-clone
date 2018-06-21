@@ -1,15 +1,15 @@
-import {AttributeState} from "../attribute/attribute.state";
+import {AttributeState} from '../attribute/attribute.state';
 
 export class AssignedAttributeState {
 
-  private _assignedAttributeId:string;
+  private _assignedAttributeId: string;
   private _assetTypeClassId: string;
   private _attributeId: string;
   private _attribute: AttributeState;
   private _required: boolean;
   private _createdOn: string;
   private _modifiedOn: string;
-  
+
   get assignedAttributeId(): string {
     return this._assignedAttributeId;
   }
@@ -33,7 +33,7 @@ export class AssignedAttributeState {
   set attributeId(value: string) {
     this._attributeId = value;
   }
-  
+
   get attribute(): AttributeState {
     return this._attribute;
   }

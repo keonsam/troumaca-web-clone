@@ -1,6 +1,6 @@
-import {Routes, RouterModule}   from '@angular/router';
-import {ModuleWithProviders} from "@angular/core";
-import {PageNotFoundComponent} from "./page-not-found/page.not.found.component";
+import {Routes, RouterModule} from '@angular/router';
+import {ModuleWithProviders} from '@angular/core';
+import {PageNotFoundComponent} from './page-not-found/page.not.found.component';
 
 // {path: '', component: AppComponent},
 const appRoutes: Routes = [

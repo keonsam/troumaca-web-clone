@@ -1,13 +1,13 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {RequestComponent} from "./request.component";
-import {requestRouting} from "./request.routing";
-import {RequestService} from "./request.service";
-import {RequestRepository} from "./request.repository";
-import {RouterModule} from "@angular/router";
-import {LeftMenuModule} from "../left-menu/left.menu.module";
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RequestComponent} from './request.component';
+import {requestRouting} from './request.routing';
+import {RequestService} from './request.service';
+import {RequestRepository} from './request.repository';
+import {RouterModule} from '@angular/router';
+import {LeftMenuModule} from '../left-menu/left.menu.module';
 
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import {LeftMenuModule} from "../left-menu/left.menu.module";
   ],
   providers: [{
     provide: RequestService,
-    useFactory(requestRepository:RequestRepository) {
+    useFactory(requestRepository: RequestRepository) {
       let requestService: RequestService;
       if (!requestService) {
         requestService = new RequestService(requestRepository);

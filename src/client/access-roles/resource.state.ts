@@ -1,15 +1,15 @@
-import {ResourceTypeState} from "./resource.type.state";
+import {ResourceTypeState} from './resource.type.state';
 
 export class ResourceState {
 
-  private _resourceId:string;
+  private _resourceId: string;
   private _resourceTypeId: string;
   private _resourceType: ResourceTypeState;
-  private _name:string;
-  private _description:string;
-  private _ownerPartyId:string;
-  private _createdOn:Date;
-  private _modifiedOn:Date;
+  private _name: string;
+  private _description: string;
+  private _ownerPartyId: string;
+  private _createdOn: Date;
+  private _modifiedOn: Date;
 
   get resourceId(): string {
     return this._resourceId;

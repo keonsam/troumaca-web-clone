@@ -1,12 +1,12 @@
 
 export class CredentialConfirmation {
 
-  private _credentialConfirmationId:string;
-  private _credentialId:string;
-  private _confirmationCode:string;
+  private _credentialConfirmationId: string;
+  private _credentialId: string;
+  private _confirmationCode: string;
   private _credentialStatus: string;
-  private _createdOn:Date;
-  private _modifiedOn:Date;
+  private _createdOn: Date;
+  private _modifiedOn: Date;
 
   get credentialConfirmationId(): string {
     return this._credentialConfirmationId;

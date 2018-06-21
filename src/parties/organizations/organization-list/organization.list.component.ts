@@ -1,30 +1,30 @@
-import {Component, OnInit} from "@angular/core";
-import {Organizations} from "../../organizations";
-import {PartyEventService} from "../../party.event.service";
-import {PartyService} from "../../party.service";
-import {Page} from "../../../page/page";
-import {Sort} from "../../../sort/sort";
+import {Component, OnInit} from '@angular/core';
+import {Organizations} from '../../organizations';
+import {PartyEventService} from '../../party.event.service';
+import {PartyService} from '../../party.service';
+import {Page} from '../../../page/page';
+import {Sort} from '../../../sort/sort';
 
 @Component({
   selector: 'organization-list',
-  templateUrl:'./organization.list.component.html',
+  templateUrl: './organization.list.component.html',
   styleUrls: ['./organization.list.component.css']
 })
 export class OrganizationListComponent implements OnInit {
 
   private partyId: string;
-  private organizationName: string;
-  private _organizations:Organizations;
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
-  private menuName:string = "organizations-menu";
-  private _routerLinkCreateUser:string = "/parties/organizations/create";
+  private _organizationName: string;
+  private _organizations: Organizations;
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
+  private menuName = 'organizations-menu';
+  private _routerLinkCreateUser = '/parties/organizations/create';
 
-  constructor(private partyEventService:PartyEventService,
+  constructor(private partyEventService: PartyEventService,
               private partyService: PartyService) {
 
-    let newOrganizations = new Organizations();
+    const newOrganizations = new Organizations();
     newOrganizations.page = new Page(0, 0, 0);
     newOrganizations.sort = new Sort();
     this.organizations = newOrganizations;
@@ -45,6 +45,14 @@ export class OrganizationListComponent implements OnInit {
     this._organizations = value;
   }
 
+  get organizationName(): string {
+    return this._organizationName;
+  }
+
+  set organizationName(value: string) {
+    this._organizationName = value;
+  }
+
   get routerLinkCreateUser(): string {
     return this._routerLinkCreateUser;
   }
@@ -62,7 +70,7 @@ export class OrganizationListComponent implements OnInit {
     }, error => {
       console.log(error);
     }, () => {
-      console.log("complete");
+      console.log('complete');
     });
   }
 
@@ -79,11 +87,11 @@ export class OrganizationListComponent implements OnInit {
     }, error => {
     console.log(error);
     }, () => {
-    console.log("complete");
+    console.log('complete');
     });
   }
 
-  onRequestPage(pageNumber:number) {
+  onRequestPage(pageNumber: number) {
    this.defaultPage = pageNumber;
    this.getOrganizations();
   }

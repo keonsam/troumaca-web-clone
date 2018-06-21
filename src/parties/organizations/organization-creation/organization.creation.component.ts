@@ -1,14 +1,14 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
 
-import {Organization} from "../../organization";
-import {PartyEventService} from "../../party.event.service";
-import {PartyService} from "../../party.service";
+import {Organization} from '../../organization';
+import {PartyEventService} from '../../party.event.service';
+import {PartyService} from '../../party.service';
 
 @Component({
   selector: 'organization-creation',
-  templateUrl:'./organization.creation.component.html',
+  templateUrl: './organization.creation.component.html',
   styleUrls: ['./organization.creation.component.css']
 })
 export class OrganizationCreationComponent implements OnInit {
@@ -30,14 +30,14 @@ export class OrganizationCreationComponent implements OnInit {
 
    this.organization = new Organization();
 
-   this.purpose = new FormControl("",[Validators.required]);
-   this.name = new FormControl("", [Validators.required/*, this.organizationNameValidator(authenticationService)*/]);
-    this.description = new FormControl("");
+   this.purpose = new FormControl('', [Validators.required]);
+   this.name = new FormControl('', [Validators.required/*, this.organizationNameValidator(authenticationService)*/]);
+    this.description = new FormControl('');
 
    this.organizationForm = formBuilder.group({
-     "purpose": this.purpose,
-     "name": this.name,
-     "description": this.description
+     'purpose': this.purpose,
+     'name': this.name,
+     'description': this.description
    });
 
    this.organizationForm.valueChanges

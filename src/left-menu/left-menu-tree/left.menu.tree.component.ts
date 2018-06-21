@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {LeftMenuItemModel} from "../left.menu.item.model";
+import {LeftMenuItemModel} from '../left.menu.item.model';
 
 @Component({
   selector: 'left-menu-tree',
@@ -8,7 +8,7 @@ import {LeftMenuItemModel} from "../left.menu.item.model";
 })
 export class LeftMenuTreeComponent implements OnInit {
 
-  private _leftMenuItemModels:LeftMenuItemModel[];
+  private _leftMenuItemModels: LeftMenuItemModel[];
 
   constructor() {
   }

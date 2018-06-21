@@ -1,10 +1,10 @@
-import {StreetAddress} from "./street.address";
-import {Page} from "../page/page";
-import {Sort} from "../sort/sort";
+import {StreetAddress} from './street.address';
+import {Page} from '../page/page';
+import {Sort} from '../sort/sort';
 
 export class StreetAddresses {
 
-  private _streetAddresses:StreetAddress[] = [];
+  private _streetAddresses: StreetAddress[] = [];
   private _page: Page;
   private _sort: Sort;
 

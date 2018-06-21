@@ -1,6 +1,6 @@
-import {Resource} from "./resource";
-import {Page} from "../page/page";
-import {Sort} from "../sort/sort";
+import {Resource} from './resource';
+import {Page} from '../page/page';
+import {Sort} from '../sort/sort';
 
 export class  Resources {
   private _resources: Resource[] = [];

@@ -1,17 +1,17 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter';
 
-import {AssetTypeService} from "../asset.type.service";
-import {AssetType} from "../asset.type";
-import {Value} from "../value";
-import {UnitOfMeasure} from "../../unit-of-measure/unit.of.measure";
-import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
+import {AssetTypeService} from '../asset.type.service';
+import {AssetType} from '../asset.type';
+import {Value} from '../value';
+import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
+import {AssetTypeClass} from '../../asset-type-classes/asset.type.class';
 import {ActivatedRoute} from '@angular/router';
-import {Router} from "@angular/router";
-import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
+import {Router} from '@angular/router';
+import {AssignedAttribute} from '../../asset-type-classes/assigned.attribute';
 
 @Component({
   selector: 'asset-type-edit',
@@ -29,7 +29,7 @@ export class AssetTypeEditComponent implements OnInit {
   private _materielCode: FormControl;
   private _unitOfMeasureId: FormControl;
 
-  private _assetTypeEditForm:FormGroup;
+  private _assetTypeEditForm: FormGroup;
   private _attributeEditForm: FormGroup;
 
   private _assetTypeClassIdDataService: CompleterData;
@@ -41,32 +41,32 @@ export class AssetTypeEditComponent implements OnInit {
   private _values: Value[];
   private _saveValues: Value[];
 
-  private pageSize:number = 15;
-  private _doNotDisplayFailureMessage:boolean;
-  private _doNotDisplayFailureMessage2:boolean;
+  private pageSize = 15;
+  private _doNotDisplayFailureMessage: boolean;
+  private _doNotDisplayFailureMessage2: boolean;
 
-  constructor(private assetTypeService:AssetTypeService,
+  constructor(private assetTypeService: AssetTypeService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
 
-      this.assetTypeClassId = new FormControl("", Validators.required);
-      this.name = new FormControl("", Validators.required);
-      this.description = new FormControl("");
-      this.modelNumber = new FormControl("");
-      this.materialCode = new FormControl("");
-      this.unitOfMeasureId = new FormControl("");
+      this.assetTypeClassId = new FormControl('', Validators.required);
+      this.name = new FormControl('', Validators.required);
+      this.description = new FormControl('');
+      this.modelNumber = new FormControl('');
+      this.materialCode = new FormControl('');
+      this.unitOfMeasureId = new FormControl('');
 
       this.attributeEditForm = new FormGroup({});
 
       this.assetTypeEditForm = formBuilder.group({
-        "assetTypeClassId": this.assetTypeClassId,
-        "name": this.name,
-        "description": this.description,
-        "modelNumber": this.modelNumber,
-        "materialCode": this.materialCode,
-        "unitOfMeasureId": this.unitOfMeasureId
+        'assetTypeClassId': this.assetTypeClassId,
+        'name': this.name,
+        'description': this.description,
+        'modelNumber': this.modelNumber,
+        'materialCode': this.materialCode,
+        'unitOfMeasureId': this.unitOfMeasureId
       });
 
       this.assetTypeEditForm
@@ -77,7 +77,7 @@ export class AssetTypeEditComponent implements OnInit {
         console.log(error2);
       });
 
-    let assetType = new AssetType();
+    const assetType = new AssetType();
     assetType.assetTypeClass = new AssetTypeClass();
     assetType.unitOfMeasure = new UnitOfMeasure();
     this.assetType = assetType;
@@ -96,7 +96,7 @@ export class AssetTypeEditComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
        this.assetTypeId = params['assetTypeId'];
        this.assetTypeService.getAssetType(this.assetTypeId)
-       .subscribe(assetTypeResponse =>{
+       .subscribe(assetTypeResponse => {
         this.assetTypeClassId.setValue(assetTypeResponse.assetType.assetTypeClass.name);
         this.name.setValue(assetTypeResponse.assetType.name);
         this.description.setValue(assetTypeResponse.assetType.description);
@@ -124,8 +124,8 @@ export class AssetTypeEditComponent implements OnInit {
   }
 
   private populateAssetTypeClassIdDropDown() {
-    this.findAssetTypeClassId("");
-    this.assetTypeEditForm.get("assetTypeClassId").valueChanges
+    this.findAssetTypeClassId('');
+    this.assetTypeEditForm.get('assetTypeClassId').valueChanges
     //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -149,13 +149,13 @@ export class AssetTypeEditComponent implements OnInit {
       .subscribe(next => { // update the data
         this.assetTypeClassIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
-        console.log("findAssetTypeClassId error - " + error);
+        console.log('findAssetTypeClassId error - ' + error);
       });
   }
 
   private populateUnitOfMeasureIdDropDown() {
-    this.findUnitOfMeasureId("");
-    this.assetTypeEditForm.get("unitOfMeasureId").valueChanges
+    this.findUnitOfMeasureId('');
+    this.assetTypeEditForm.get('unitOfMeasureId').valueChanges
     //.debounceTime(1000) // debounce
       .filter(value => { // filter out empty values
         return !!(value);
@@ -179,7 +179,7 @@ export class AssetTypeEditComponent implements OnInit {
       .subscribe(next => { // update the data
         this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
-        console.log("finUnitOfMeasureId error - " + error);
+        console.log('finUnitOfMeasureId error - ' + error);
       });
   }
 
@@ -326,10 +326,10 @@ export class AssetTypeEditComponent implements OnInit {
   }
 
   onType(dataTypeName: string) {
-   if(dataTypeName == "Decimal" || "Integer") {
-      return "number";
+   if (dataTypeName == 'Decimal' || 'Integer') {
+      return 'number';
     }else {
-      return "text";
+      return 'text';
     }
   }
 
@@ -338,11 +338,11 @@ export class AssetTypeEditComponent implements OnInit {
     .getAssignedAttributes(this.assetType.assetTypeClassId)
     .subscribe(next => {
       this.assignedAttributes = next;
-        let group: any = {};
+        const group: any = {};
         this.assignedAttributes.forEach(value => {
           let editValue = this.values.find(x => x.attributeId == value.attributeId);
-          if(!editValue) {
-          this.values.push(new Value(value.attributeId, ""));
+          if (!editValue) {
+          this.values.push(new Value(value.attributeId, ''));
           editValue = this.values.find(x => x.attributeId == value.attributeId);
         }
 
@@ -351,8 +351,8 @@ export class AssetTypeEditComponent implements OnInit {
         });
 
         this.attributeEditForm = new FormGroup(group);
-        for(let key in this.attributeEditForm.value){
-          let index = this.values.findIndex(x => x.attributeId == key);
+        for (const key in this.attributeEditForm.value){
+          const index = this.values.findIndex(x => x.attributeId == key);
           this.attributeEditForm.get(key).valueChanges
           .subscribe(value2 => {
             this.values[index].text = value2;
@@ -369,8 +369,8 @@ export class AssetTypeEditComponent implements OnInit {
   removeValues() {
     // using update to remove all the previous values
     this.saveValues = this.values.filter((value) => {
-      if(this.assignedAttributes.find(x => x.attributeId == value.attributeId)){
-        if(!value.assetTypeId) {
+      if (this.assignedAttributes.find(x => x.attributeId == value.attributeId)){
+        if (!value.assetTypeId) {
           value.assetTypeId = this.assetTypeId;
         }
         return value;

@@ -1,10 +1,10 @@
-import {UUIDGenerator} from "../../uuid.generator";
-import {AppConfig} from "../../app.config";
-import {SecurityClient} from "./security.client";
-import {SecurityClientHttp} from "./security.client.http";
-import {SecurityClientMock} from "./security.client.mock";
+import {UUIDGenerator} from '../../uuid.generator';
+import {AppConfig} from '../../app.config';
+import {SecurityClient} from './security.client';
+import {SecurityClientHttp} from './security.client.http';
+import {SecurityClientMock} from './security.client.mock';
 
-export function securityClientFactory (appConfig: AppConfig, uuidGenerator: UUIDGenerator):SecurityClient {
+export function securityClientFactory (appConfig: AppConfig, uuidGenerator: UUIDGenerator): SecurityClient {
   let securityClient: SecurityClient;
   if (appConfig.remoteEndPoints) {
     securityClient = new SecurityClientHttp(uuidGenerator);

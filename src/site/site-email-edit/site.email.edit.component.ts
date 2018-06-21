@@ -1,9 +1,9 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Email} from "../email";
-import {SiteService} from "../site.service";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Email} from '../email';
+import {SiteService} from '../site.service';
 import {ActivatedRoute} from '@angular/router';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'site-email-edit',
@@ -23,23 +23,23 @@ export class SiteEmailEditComponent implements OnInit {
 
   private email: Email;
 
-  private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage: boolean;
 
-  constructor(private siteService:SiteService,
+  constructor(private siteService: SiteService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
 
-     this.name = new FormControl("", [Validators.required]);
-     this.description = new FormControl("");
-     this.domainName = new FormControl("", [Validators.required]);
-     this.emailAddress = new FormControl("", [Validators.required]);
+     this.name = new FormControl('', [Validators.required]);
+     this.description = new FormControl('');
+     this.domainName = new FormControl('', [Validators.required]);
+     this.emailAddress = new FormControl('', [Validators.required]);
 
      this.siteEmailEditForm = formBuilder.group({
-       "name": this.name,
-       "description": this.description,
-       "domainName": this.domainName,
-       "emailAddress": this.emailAddress
+       'name': this.name,
+       'description': this.description,
+       'domainName': this.domainName,
+       'emailAddress': this.emailAddress
      });
 
      this.email = new Email();
@@ -59,7 +59,7 @@ export class SiteEmailEditComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
        this.siteId = params['siteId'];
        this.siteService.getEmail(this.siteId)
-       .subscribe(email =>{
+       .subscribe(email => {
         this.name.setValue(email.name);
         this.description.setValue(email.description);
         this.domainName.setValue(email.domainName);

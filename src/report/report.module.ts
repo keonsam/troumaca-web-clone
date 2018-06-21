@@ -1,13 +1,13 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {ReportComponent} from "./report.component";
-import {ReportService} from "./report.service";
-import {ReportRepository} from "./report.repository";
-import {reportRouting} from "./report.routing";
-import {RouterModule} from "@angular/router";
-import {LeftMenuModule} from "../left-menu/left.menu.module";
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ReportComponent} from './report.component';
+import {ReportService} from './report.service';
+import {ReportRepository} from './report.repository';
+import {reportRouting} from './report.routing';
+import {RouterModule} from '@angular/router';
+import {LeftMenuModule} from '../left-menu/left.menu.module';
 
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import {LeftMenuModule} from "../left-menu/left.menu.module";
   ],
   providers: [{
     provide: ReportService,
-    useFactory(reportRepository:ReportRepository) {
+    useFactory(reportRepository: ReportRepository) {
       let reportService: ReportService;
       if (!reportService) {
         reportService = new ReportService(reportRepository);

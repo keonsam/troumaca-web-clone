@@ -1,18 +1,18 @@
 export class QuoteState {
 
-  private _firstName:string;
-  private _lastName:string;
-  private _companyName:string;
-  private _phoneNumber:string;
-  private _email:string;
-  private _assetTypeId:string;
-  private _siteId:string;
-  private _dateNeeded:Date;
-  private _dateReturned:Date;
-  private _equipmentList:string[];
-  private _projectType:string;
-  private _uploadedProjectFileId:string;
-  private _previousCustomer:boolean;
+  private _firstName: string;
+  private _lastName: string;
+  private _companyName: string;
+  private _phoneNumber: string;
+  private _email: string;
+  private _assetTypeId: string;
+  private _siteId: string;
+  private _dateNeeded: Date;
+  private _dateReturned: Date;
+  private _equipmentList: string[];
+  private _projectType: string;
+  private _uploadedProjectFileId: string;
+  private _previousCustomer: boolean;
 
   get firstName(): string {
     return this._firstName;

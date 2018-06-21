@@ -1,28 +1,28 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit} from '@angular/core';
 //import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {Router} from "@angular/router";
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
-import "rxjs/add/operator/distinctUntilChanged";
-import "rxjs/add/operator/first";
-import "rxjs/add/operator/single";
-import "rxjs/add/operator/take";
-import "rxjs/add/operator/switchMap";
+import {Router} from '@angular/router';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/single';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/switchMap';
 
-import { map, reduce, somethingElse } from "underscore";
+import { map, reduce, somethingElse } from 'underscore';
 
-import {PartyEventService} from "../../party.event.service";
-import {PartyService} from "../../party.service";
-import {User} from "../../user";
-import {Credential} from "../../credential";
-import {PartyAccessRole} from "../../party.access.role";
-import {Select2OptionData} from "ng2-select2";
+import {PartyEventService} from '../../party.event.service';
+import {PartyService} from '../../party.service';
+import {User} from '../../user';
+import {Credential} from '../../credential';
+import {PartyAccessRole} from '../../party.access.role';
+import {Select2OptionData} from 'ng2-select2';
 
 @Component({
   selector: 'user-edit',
-  templateUrl:'./user.edit.component.html',
+  templateUrl: './user.edit.component.html',
   styleUrls: ['./user.edit.component.css']
 })
 export class UserEditComponent implements OnInit {
@@ -45,16 +45,16 @@ export class UserEditComponent implements OnInit {
   private credential: Credential;
   private partyAccessRoles: PartyAccessRole[];
 
-  private pageSize:number = 15;
+  private pageSize = 15;
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
 
   public accessRoleData: Array<Select2OptionData>;
   public options: Select2Options;
-  private value: string[];
+  private _value: string[];
   private accessRoles: string[];
 
-  constructor(private partyEventService:PartyEventService,
+  constructor(private partyEventService: PartyEventService,
               private partyService: PartyService,
               //private completerService: CompleterService,
               private formBuilder: FormBuilder,
@@ -65,18 +65,18 @@ export class UserEditComponent implements OnInit {
     this.credential = new Credential();
     this.partyAccessRoles = [];
 
-    this.firstName = new FormControl("", [Validators.required]);
-    this.middleName = new FormControl("", [Validators.required]);
-    this.lastName = new FormControl("", [Validators.required]);
-    this.username = new FormControl("", [Validators.required, this.usernameEditValidator(partyService)]);
-    this.accessRole = new FormControl("", [Validators.required]);
+    this.firstName = new FormControl('', [Validators.required]);
+    this.middleName = new FormControl('', [Validators.required]);
+    this.lastName = new FormControl('', [Validators.required]);
+    this.username = new FormControl('', [Validators.required, this.usernameEditValidator(partyService)]);
+    this.accessRole = new FormControl('', [Validators.required]);
 
     this.userEditForm = formBuilder.group({
-      "firstName": this.firstName,
-      "middleName": this.middleName,
-      "lastName": this.lastName,
-      "username": this.username,
-      "accessRole": this.accessRole
+      'firstName': this.firstName,
+      'middleName': this.middleName,
+      'lastName': this.lastName,
+      'username': this.username,
+      'accessRole': this.accessRole
     });
 
     this.userEditForm
@@ -97,27 +97,27 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.findAccessRole("");
+    this.findAccessRole('');
 
     this.options = {
-      width: "100%",
-      placeholder: "Select Access Roles",
+      width: '100%',
+      placeholder: 'Select Access Roles',
       multiple: true,
       closeOnSelect: false,
       containerCss: {
-        "display": "block"
+        'display': 'block'
       },
       dropdownCss: {
-        "max-height": "200px !important",
-        "overflow-y": "scroll",
-        "overflow-x": "hidden"
+        'max-height': '200px !important',
+        'overflow-y': 'scroll',
+        'overflow-x': 'hidden'
       }
     };
 
     this.sub = this.route.params.subscribe(params => {
        this.partyId = params['partyId'];
        this.partyService.getUser(this.partyId)
-       .subscribe(userResponse =>{
+       .subscribe(userResponse => {
          console.log(userResponse);
         this.firstName.setValue(userResponse.user.firstName);
         this.middleName.setValue(userResponse.user.middleName);
@@ -127,8 +127,8 @@ export class UserEditComponent implements OnInit {
         this.user = userResponse.user;
         this.credential.partyId = userResponse.user.partyId;
         this.credential.username = userResponse.user.username;
-        let values = map(userResponse.partyAccessRoles, value => value.accessRole.accessRoleId);
-        this.accessRole.setValue(values.join(","));
+        const values = map(userResponse.partyAccessRoles, value => value.accessRole.accessRoleId);
+        this.accessRole.setValue(values.join(','));
         this.value = values;
         this.partyAccessRoles = userResponse.partyAccessRoles;
       }, error => {
@@ -140,7 +140,7 @@ export class UserEditComponent implements OnInit {
   }
 
   changed(data: {value: string[]}) {
-    this.accessRole.setValue(data.value.join(","));
+    this.accessRole.setValue(data.value.join(','));
     this.accessRoles = data.value;
   }
 
@@ -158,23 +158,23 @@ export class UserEditComponent implements OnInit {
       .subscribe(next => { // update the data
         this.accessRoleData = next;
       }, error => {
-        console.log("findAccessRole error - " + error);
+        console.log('findAccessRole error - ' + error);
       });
   }
 
-  usernameEditValidator(partyService:PartyService) {
+  usernameEditValidator(partyService: PartyService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
-    let that = this;
-    let subscriberToChangeEvents = function () {
+    const that = this;
+    const subscriberToChangeEvents = function () {
       valueChanges
       .debounceTime(500)
       .distinctUntilChanged()
       .filter(value => { // filter out empty values
         return !!(value);
       }).map(value => {
-        return partyService.isValidEditUsername(that.partyId,value);
+        return partyService.isValidEditUsername(that.partyId, value);
       }).subscribe(value => {
         value.subscribe( otherValue => {
           isValidUsername = otherValue;
@@ -183,7 +183,7 @@ export class UserEditComponent implements OnInit {
       });
     };
 
-    return (control:FormControl) => {
+    return (control: FormControl) => {
        if (!usernameControl) {
          usernameControl = control;
        }
@@ -199,6 +199,14 @@ export class UserEditComponent implements OnInit {
         }
       };
     }
+  }
+
+  get value(): string[] {
+    return this._value;
+  }
+
+  set value(value: string[]) {
+    this._value = value;
   }
 
   get firstName(): FormControl {
@@ -290,8 +298,8 @@ export class UserEditComponent implements OnInit {
 
   removePartyAccessRoles() {
     this.partyAccessRoles = this.partyAccessRoles.filter(value => {
-      if(this.accessRoles.indexOf(value.accessRoleId) > -1) {
-        if(!value.partyId) {
+      if (this.accessRoles.indexOf(value.accessRoleId) > -1) {
+        if (!value.partyId) {
           value.partyId = this.partyId;
         }
         return value;
@@ -302,7 +310,7 @@ export class UserEditComponent implements OnInit {
   onCreate() {
     console.log(this.accessRoles);
     this.accessRoles.forEach( value => {
-      if(this.partyAccessRoles.findIndex(x => x.accessRoleId === value) < 0){
+      if (this.partyAccessRoles.findIndex(x => x.accessRoleId === value) < 0){
         this.partyAccessRoles.push(new PartyAccessRole(value));
       }
     });
@@ -313,7 +321,7 @@ export class UserEditComponent implements OnInit {
       .updateUser(this.user, this.partyAccessRoles)
       .subscribe(value => {
         if (value) {
-          if(this.username.value != this.firstUsername){
+          if (this.username.value != this.firstUsername){
            this.updateCredential();
           }else {
            this.router.navigate(['/parties/users']);

@@ -1,24 +1,24 @@
-import {AuthenticationClient} from "./authentication.client";
-import {UUIDGenerator} from "../../uuid.generator";
+import {AuthenticationClient} from './authentication.client';
+import {UUIDGenerator} from '../../uuid.generator';
 import 'rxjs/add/operator/catch';
-import {Observable} from "rxjs/Observable";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {CredentialState} from "./credential.state";
-import {CredentialConfirmationState} from "./credential.confirmation.state";
-import {Result} from "../../result/result.success";
+import {Observable} from 'rxjs/Observable';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {CredentialState} from './credential.state';
+import {CredentialConfirmationState} from './credential.confirmation.state';
+import {Result} from '../../result/result.success';
 //import {AuthenticateResponseState} from "./authenticate.response.state";
-import {AuthenticateResponse} from "../../authentication/authenticate.response";
+import {AuthenticateResponse} from '../../authentication/authenticate.response';
 
 export class AuthenticationClientHttp extends AuthenticationClient {
 
   constructor(private uuidGenerator: UUIDGenerator,
               private httpClient: HttpClient,
-              private hostPort:string) {
+              private hostPort: string) {
     super();
   }
 
-  authenticate(credentialState:CredentialState): Observable<AuthenticateResponse> {
-    let url = `${this.hostPort}/authenticate`;
+  authenticate(credentialState: CredentialState): Observable<AuthenticateResponse> {
+    const url = `${this.hostPort}/authenticate`;
 
     //withCredentials: true,
 
@@ -27,7 +27,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
       headers: this.jsonHttpHeaders()
     };
 
-    let query = {
+    const query = {
       username: credentialState.username,
       password: credentialState.password,
       rememberMe: credentialState.rememberMe
@@ -41,7 +41,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   forgotPassword(username: string): Observable<boolean> {
-    let url = `${this.hostPort}/forgot-password`;
+    const url = `${this.hostPort}/forgot-password`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -55,13 +55,13 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   isValidPassword(password: string): Observable<boolean> {
-    let url = `${this.hostPort}/validate-password`;
+    const url = `${this.hostPort}/validate-password`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
 
-    let query = {password:password};
+    const query = {password: password};
 
     return this.httpClient
       .post<boolean>(url, query, httpOptions)
@@ -71,21 +71,21 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   isValidUsername(username: string): Observable<boolean> {
-    let url = `${this.hostPort}/validate-username`;
+    const url = `${this.hostPort}/validate-username`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    let query = {username:username};
+    const query = {username: username};
     return this.httpClient
-    .post<boolean>(url,query,httpOptions)
+    .post<boolean>(url, query, httpOptions)
     .map(data => {
       return data;
     });
   }
 
-  addCredential(credentialState:CredentialState):Observable<CredentialConfirmationState> {
-    let url = `${this.hostPort}/credentials`;
+  addCredential(credentialState: CredentialState): Observable<CredentialConfirmationState> {
+    const url = `${this.hostPort}/credentials`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -99,7 +99,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   verifyCredentialConfirmationState(credentialConfirmationState: CredentialConfirmationState): Observable<Result<CredentialConfirmationState>> {
-    let url = `${this.hostPort}/verify-credentials-confirmations`;
+    const url = `${this.hostPort}/verify-credentials-confirmations`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -113,7 +113,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   sendConfirmationCode(credentialConfirmationId: string): Observable<Result<CredentialConfirmationState>> {
-    let url = `${this.hostPort}/send-confirmation-codes/${credentialConfirmationId}`;
+    const url = `${this.hostPort}/send-confirmation-codes/${credentialConfirmationId}`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -127,7 +127,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   getConfirmationsUsername(credentialConfirmationId: string): Observable<string> {
-    let url = `${this.hostPort}/get-confirmations-username/${credentialConfirmationId}`;
+    const url = `${this.hostPort}/get-confirmations-username/${credentialConfirmationId}`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -142,7 +142,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
 
   jsonHttpHeaders(): HttpHeaders {
-    let httpHeaders: HttpHeaders = new HttpHeaders({
+    const httpHeaders: HttpHeaders = new HttpHeaders({
       'Content-Type':  'application/json',
       'correlationId': this.uuidGenerator.generateUUID()
     });

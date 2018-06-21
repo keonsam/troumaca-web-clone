@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot, Router} from "@angular/router";
-import {Observable} from "rxjs/Observable";
-import {AuthGuardService} from "./auth.guard.service";
-import {EventService} from "../event/event.service";
-import {Event} from "../authentication/event";
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot, Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
+import {AuthGuardService} from './auth.guard.service';
+import {EventService} from '../event/event.service';
+import {Event} from '../authentication/event';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
@@ -34,11 +34,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 
   createEventModel() {
-    let event:Event = new Event();
-    event.partyId = "123";
+    const event: Event = new Event();
+    event.partyId = '123';
     event.timestamp = new Date().getTime();
-    event.source = "AuthGuard.component";
-    event.name = "AuthGuard";
+    event.source = 'AuthGuard.component';
+    event.name = 'AuthGuard';
 
     return event;
   }

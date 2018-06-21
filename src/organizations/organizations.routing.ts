@@ -1,8 +1,8 @@
 import {Routes, RouterModule} from '@angular/router';
-import {ModuleWithProviders} from "@angular/core";
-import {OrganizationsComponent} from "./organizations.component";
-import {OrganizationComponent} from "./create-new/organization.component";
-import {InviteComponent} from "./invite/invite.component";
+import {ModuleWithProviders} from '@angular/core';
+import {OrganizationsComponent} from './organizations.component';
+import {OrganizationComponent} from './create-new/organization.component';
+import {InviteComponent} from './invite/invite.component';
 
 export const organizationsRoutes: Routes = [
   {path: '', redirectTo: 'organizations', pathMatch: 'full'},

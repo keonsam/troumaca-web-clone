@@ -1,5 +1,5 @@
-import {Component, OnInit} from "@angular/core";
-import {AccountService} from "./account.service";
+import {Component, OnInit} from '@angular/core';
+import {AccountService} from './account.service';
 
 @Component({
   selector: 'account',
@@ -8,7 +8,7 @@ import {AccountService} from "./account.service";
 })
 export class AccountComponent implements OnInit {
 
-  constructor(private accountService:AccountService) {
+  constructor(private accountService: AccountService) {
   }
 
   ngOnInit(): void {

@@ -1,8 +1,8 @@
-import {Site} from "./asset.site";
+import {Site} from './asset.site';
 
 export class Sites {
 
-  private _sites:Site[];
+  private _sites: Site[];
 
   get sites(): Site[] {
     return this._sites;

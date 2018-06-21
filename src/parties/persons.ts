@@ -1,12 +1,12 @@
-import {Person} from "./person";
-import {Sort} from "../sort/sort";
-import {Page} from "../page/page";
+import {Person} from './person';
+import {Sort} from '../sort/sort';
+import {Page} from '../page/page';
 
 export class Persons {
 
-  private _persons:Person[] = [];
-  private _page:Page;
-  private _sort:Sort;
+  private _persons: Person[] = [];
+  private _page: Page;
+  private _sort: Sort;
 
   get persons(): Person[] {
     return this._persons;

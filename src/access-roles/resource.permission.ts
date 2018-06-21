@@ -1,13 +1,13 @@
-import {Permission} from "./permission";
+import {Permission} from './permission';
 
 export class ResourcePermission {
 
-  private _resourcePermissionId:string;
-  private _resourceId:string;
+  private _resourcePermissionId: string;
+  private _resourceId: string;
   private _permission: Permission = new Permission();
   //private _ownerPartyId:string;
-  private _createdOn:Date;
-  private _modifiedOn:Date;
+  private _createdOn: Date;
+  private _modifiedOn: Date;
 
   constructor(name?: string, permissionId?: string) {
     this.permission.name = name;

@@ -1,13 +1,13 @@
-import {AssetTypeClassRepository} from "./asset.type.class.repository";
-import {Observable} from "rxjs/Observable";
-import {AssetTypeClass} from "./asset.type.class";
-import {AssetTypeClasses} from "./asset.type.classes";
-import {Attributes} from "../attributes/attributes";
-import {Attribute} from "../attributes/attribute";
-import {DataTypes} from "../attributes/data.types";
-import {AssignedAttribute} from "./assigned.attribute";
-import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
-import {AssetTypeClassResponse} from "./asset.type.class.response";
+import {AssetTypeClassRepository} from './asset.type.class.repository';
+import {Observable} from 'rxjs/Observable';
+import {AssetTypeClass} from './asset.type.class';
+import {AssetTypeClasses} from './asset.type.classes';
+import {Attributes} from '../attributes/attributes';
+import {Attribute} from '../attributes/attribute';
+import {DataTypes} from '../attributes/data.types';
+import {AssignedAttribute} from './assigned.attribute';
+import {UnitOfMeasure} from '../unit-of-measure/unit.of.measure';
+import {AssetTypeClassResponse} from './asset.type.class.response';
 
 export class AssetTypeClassService {
 
@@ -19,7 +19,7 @@ export class AssetTypeClassService {
   }
 
   public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]>{
-    return this.assetTypeClassRepository.findUnitOfMeasureId(searchStr,pageSize);
+    return this.assetTypeClassRepository.findUnitOfMeasureId(searchStr, pageSize);
   }
 
   public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassResponse> {
@@ -30,15 +30,15 @@ export class AssetTypeClassService {
     return this.assetTypeClassRepository.getAttribute(attributeId);
   }
 
-  public getAssetTypeClasses(pageNumber: number, pageSize:number, sortOrder:string):Observable<AssetTypeClasses> {
+  public getAssetTypeClasses(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetTypeClasses> {
     return this.assetTypeClassRepository.getAssetTypeClasses(pageNumber, pageSize, sortOrder);
   }
 
-  public getAvailableAttributes(pageNumber: number, pageSize:number, sortOrder:string, assignedArray: string[]): Observable<Attributes> {
+  public getAvailableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes> {
     return this.assetTypeClassRepository.getAvailableAttributes(pageNumber, pageSize, sortOrder, assignedArray);
   }
 
-  public getAssignAttributes(pageNumber: number, pageSize:number, sortOrder:string, assignedArray: string[]): Observable<Attributes> {
+  public getAssignAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes> {
     return this.assetTypeClassRepository.getAssignAttributes(pageNumber, pageSize, sortOrder, assignedArray);
   }
 

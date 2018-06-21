@@ -1,8 +1,8 @@
 export class AppDynamicStyle {
 
-  private _isWithSidePanel:boolean = false;
-  private _isNoPaddingContent:boolean = false;
-  private _isWithPattern:boolean = false;
+  private _isWithSidePanel = false;
+  private _isNoPaddingContent = false;
+  private _isWithPattern = false;
 
 
   constructor(isWithSidePanel?: boolean, isNoPaddingContent?: boolean, isWithPattern?: boolean) {

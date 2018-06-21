@@ -1,8 +1,8 @@
- import {UnitOfMeasure} from "./asset.unit.of.measure";
+ import {UnitOfMeasure} from './asset.unit.of.measure';
 
 export class UnitOfMeasures {
 
-  private _unitOfMeasures:UnitOfMeasure[];
+  private _unitOfMeasures: UnitOfMeasure[];
 
   get unitOfMeasures(): UnitOfMeasure[] {
     return this._unitOfMeasures;

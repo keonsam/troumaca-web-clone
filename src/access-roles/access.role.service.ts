@@ -1,19 +1,19 @@
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
-import {AccessRoleRepository} from "./access.role.repository";
+import {AccessRoleRepository} from './access.role.repository';
 import {Permission} from './permission';
 import {Permissions} from './permissions';
-import {Resource} from "./resource";
-import {Resources} from "./resources";
-import {ResourceType} from "./resource.type";
-import {ResourceTypes} from "./resource.types";
-import {ResourcePermission} from "./resource.permission";
-import {AccessRole} from "./access.role";
-import {AccessRoles} from "./access.roles";
-import {AccessRoleType} from "./access.role.type";
-import {AccessRoleTypes} from "./access.role.types";
-import {Grant} from "./grant";
-import {AccessRoleResponse} from "./access.role.response";
+import {Resource} from './resource';
+import {Resources} from './resources';
+import {ResourceType} from './resource.type';
+import {ResourceTypes} from './resource.types';
+import {ResourcePermission} from './resource.permission';
+import {AccessRole} from './access.role';
+import {AccessRoles} from './access.roles';
+import {AccessRoleType} from './access.role.type';
+import {AccessRoleTypes} from './access.role.types';
+import {Grant} from './grant';
+import {AccessRoleResponse} from './access.role.response';
 
 export class AccessRoleService {
 
@@ -42,7 +42,7 @@ export class AccessRoleService {
   }
 
   // resources
-  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<Permissions> {
+  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<Permissions> {
    return this.accessRoleRepository.getPermissionsByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray, type);
   }
 
@@ -96,7 +96,7 @@ export class AccessRoleService {
   }
 
   //access-roles
-  public getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<Resources> {
+  public getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<Resources> {
     return this.accessRoleRepository.getResourcesByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray, type);
   }
 
@@ -129,7 +129,7 @@ export class AccessRoleService {
   }
 
   //grants
-  public getGrantsByAccessRoleId(accessRoleId:string): Observable<Grant[]> {
+  public getGrantsByAccessRoleId(accessRoleId: string): Observable<Grant[]> {
     return this.accessRoleRepository.getGrantsByAccessRoleId(accessRoleId);
   }
 

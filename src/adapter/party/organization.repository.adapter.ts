@@ -1,9 +1,9 @@
-import {OrganizationRepository} from "../../organizations/organization.repository";
-import {OrganizationClient} from "../../client/party/organization.client";
-import {Observable} from "rxjs/Observable";
-import {OrganizationModel} from "../../organizations/organization.model";
-import "rxjs/add/operator/map";
-import {mapObjectProps} from "../../mapper/object.property.mapper";
+import {OrganizationRepository} from '../../organizations/organization.repository';
+import {OrganizationClient} from '../../client/party/organization.client';
+import {Observable} from 'rxjs/Observable';
+import {OrganizationModel} from '../../organizations/organization.model';
+import 'rxjs/add/operator/map';
+import {mapObjectProps} from '../../mapper/object.property.mapper';
 
 export class OrganizationRepositoryAdapter extends OrganizationRepository {
 

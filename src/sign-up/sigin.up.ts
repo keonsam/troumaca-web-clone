@@ -1,27 +1,27 @@
-import {SignUpModel} from "./sign.up.model";
+import {SignUpModel} from './sign.up.model';
 import isEmail from 'validator/lib/isEmail';
 import isNumeric from 'validator/lib/isNumeric';
 import { parse, format, isValidNumber } from 'libphonenumber-js'
 
 export class SignUp {
 
-  constructor(private signUpModel:SignUpModel) {
+  constructor(private signUpModel: SignUpModel) {
   }
 
-  public isEmailOrPhone():boolean {
-    let username = this.signUpModel.username;
+  public isEmailOrPhone(): boolean {
+    const username = this.signUpModel.username;
 
     if (!username) {
       return false
     }
 
-    let validEmail:boolean = isEmail(username);
+    const validEmail: boolean = isEmail(username);
 
     if (validEmail) {
       return validEmail;
     }
 
-    let validNumber = isNumeric(username);
+    const validNumber = isNumeric(username);
 
     if (!validNumber) {
       return validNumber;

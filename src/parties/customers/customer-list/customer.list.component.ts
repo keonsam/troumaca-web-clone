@@ -1,21 +1,30 @@
-import {Component, OnInit} from "@angular/core";
-import {Party} from "../../party";
-import {Parties} from "../../parties";
+import {Component, OnInit} from '@angular/core';
+import {Parties} from '../../parties';
 
 @Component({
   selector: 'customer-list',
-  templateUrl:'./customer.list.component.html',
+  templateUrl: './customer.list.component.html',
   styleUrls: ['./customer.list.component.css']
 })
 export class CustomerListComponent implements OnInit {
 
-  private _parties:Parties;
+  private _routerLinkCreateCustomer: string;
+  private _parties: Parties;
 
   constructor() {
+    this.routerLinkCreateCustomer = '/parties/customers/create';
     this.parties = new Parties();
   }
 
   ngOnInit(): void {
+  }
+
+  get routerLinkCreateCustomer(): string {
+    return this._routerLinkCreateCustomer;
+  }
+
+  set routerLinkCreateCustomer(value: string) {
+    this._routerLinkCreateCustomer = value;
   }
 
   get parties(): Parties {
@@ -24,6 +33,10 @@ export class CustomerListComponent implements OnInit {
 
   set parties(value: Parties) {
     this._parties = value;
+  }
+
+  onRequestPage(event: any) {
+    console.log('not implemented');
   }
 
 }

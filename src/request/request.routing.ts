@@ -1,6 +1,6 @@
 import {Routes, RouterModule} from '@angular/router';
-import {ModuleWithProviders} from "@angular/core";
-import {RequestComponent} from "./request.component";
+import {ModuleWithProviders} from '@angular/core';
+import {RequestComponent} from './request.component';
 
 
 const requestRoutes: Routes = [

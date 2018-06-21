@@ -1,4 +1,4 @@
-import {AccessRole} from "../access-roles/access.role";
+import {AccessRole} from '../access-roles/access.role';
 
 export class PartyAccessRole {
   private _partyAccessRoleId: string;

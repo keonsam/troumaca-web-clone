@@ -1,22 +1,22 @@
-import {AssetKindState} from "./asset.kind.state";
-import {AssetTypeState} from "../asset-type/asset.type.state";
+import {AssetKindState} from './asset.kind.state';
+import {AssetTypeState} from '../asset-type/asset.type.state';
 //import {AssetTypeClassState} from "../asset-types/asset.type.class.state";
-import {UnitOfMeasureState} from "../assets/asset.unit.of.measure.state";
-import {AssetPersonState} from "../assets/asset.person.state";
-import {SiteState} from "../assets/asset.site.state";
-import {JsonObject, JsonProperty} from "json2typescript";
+import {UnitOfMeasureState} from '../assets/asset.unit.of.measure.state';
+import {AssetPersonState} from '../assets/asset.person.state';
+import {SiteState} from '../assets/asset.site.state';
+import {JsonObject, JsonProperty} from 'json2typescript';
 
 @JsonObject
 export class AssetState {
 
-  @JsonProperty("assetId", String)
-  private _assetId:string;
+  @JsonProperty('assetId', String)
+  private _assetId: string;
   private _tenantId: string;
   private _assetKindId: string;
   private _assetKind: AssetKindState;
-  private _serialNumber:string;
-  private _description:string;
-  private _quantity:number;
+  private _serialNumber: string;
+  private _description: string;
+  private _quantity: number;
   private _unitOfMeasureId: string;
   private _unitOfMeasure: UnitOfMeasureState;
   //private _lotNumber:string;

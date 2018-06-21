@@ -1,6 +1,6 @@
 export class UnitOfMeasureState {
 
-  private _unitOfMeasureId:string;
+  private _unitOfMeasureId: string;
   private _quantity: string;
   private _name: string;
   private _symbol: string;

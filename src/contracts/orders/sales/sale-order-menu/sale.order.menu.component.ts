@@ -1,9 +1,9 @@
-import {Component} from "@angular/core";
+import {Component} from '@angular/core';
 
 @Component({
-  selector: 'sale-order-top-menu',
-  templateUrl:'./sale.order.top.menu.component.html',
-  styleUrls: ['./sale.order.top.menu.component.css']
+  selector: 'sale-order-menu',
+  templateUrl: './sale.order.menu.component.html',
+  styleUrls: ['./sale.order.menu.component.css']
 })
-export class SaleOrderTopComponent {
+export class SaleOrderMenuComponent {
 }

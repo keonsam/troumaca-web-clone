@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {WebSite} from "../web.site";
-import {SiteService} from "../site.service";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {WebSite} from '../web.site';
+import {SiteService} from '../site.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'site-web--creation',
@@ -19,20 +19,20 @@ export class SiteWebCreationComponent implements OnInit {
 
   private webSite: WebSite;
 
-  private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage: boolean;
 
-  constructor(private siteService:SiteService,
+  constructor(private siteService: SiteService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
-     this.name = new FormControl("", [Validators.required]);
-     this.description = new FormControl("");
-     this.uniformResourceIdentifer = new FormControl("", [Validators.required]);
+     this.name = new FormControl('', [Validators.required]);
+     this.description = new FormControl('');
+     this.uniformResourceIdentifer = new FormControl('', [Validators.required]);
 
      this.siteWebSiteForm = formBuilder.group({
-       "name": this.name,
-       "description": this.description,
-       "uniformResourceIdentifer": this.uniformResourceIdentifer
+       'name': this.name,
+       'description': this.description,
+       'uniformResourceIdentifer': this.uniformResourceIdentifer
      });
 
      this.webSite = new WebSite();

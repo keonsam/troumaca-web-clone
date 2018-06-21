@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {SiteService} from "../site.service";
-import {Phone} from "../phone";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {SiteService} from '../site.service';
+import {Phone} from '../phone';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'site-phone-creation',
@@ -11,57 +11,57 @@ import {Router} from "@angular/router";
 })
 export class SitePhoneCreationComponent implements OnInit {
 
-  private _name:FormControl;
-  private _countryCode:FormControl;
-  private _areaCode:FormControl;
-  private _exchange:FormControl;
-  private _telephoneNumber:FormControl;
-  private _extension:FormControl;
-  private _description:FormControl;
-  private _removedOn:FormControl;
+  private _name: FormControl;
+  private _countryCode: FormControl;
+  private _areaCode: FormControl;
+  private _exchange: FormControl;
+  private _telephoneNumber: FormControl;
+  private _extension: FormControl;
+  private _description: FormControl;
+  private _removedOn: FormControl;
 
-  private _sitePhoneForm:FormGroup;
+  private _sitePhoneForm: FormGroup;
 
-  private phone:Phone;
+  private phone: Phone;
 
-  private _doNotDisplayFailureMessage:boolean;
+  private _doNotDisplayFailureMessage: boolean;
 
-  constructor(private siteService:SiteService,
+  constructor(private siteService: SiteService,
               private formBuilder: FormBuilder,
               private router: Router) {
-    this.name = new FormControl("");
+    this.name = new FormControl('');
 
-    this.countryCode = new FormControl("", [
+    this.countryCode = new FormControl('', [
       Validators.required
     ]);
 
-    this.areaCode = new FormControl("", [
+    this.areaCode = new FormControl('', [
       Validators.required,
       Validators.pattern(/\d{3}/)
     ]);
 
-    this.exchange = new FormControl("");
+    this.exchange = new FormControl('');
 
-    this.telephoneNumber = new FormControl("", [
+    this.telephoneNumber = new FormControl('', [
       Validators.required,
       Validators.pattern(/^([0-9]{3})[-. ]?([0-9]{4})$/)
     ]);
 
-    this.extension = new FormControl("");
+    this.extension = new FormControl('');
 
-    this.description = new FormControl("");
+    this.description = new FormControl('');
 
     this.removedOn = new FormControl();
 
     this.sitePhoneForm = formBuilder.group({
-      "name": this.name,
-      "countryCode": this.countryCode,
-      "areaCode": this.areaCode,
-      "exchange": this.exchange,
-      "telephoneNumber": this.telephoneNumber,
-      "extension": this.extension,
-      "description": this.description,
-      "removedOn": this.removedOn,
+      'name': this.name,
+      'countryCode': this.countryCode,
+      'areaCode': this.areaCode,
+      'exchange': this.exchange,
+      'telephoneNumber': this.telephoneNumber,
+      'extension': this.extension,
+      'description': this.description,
+      'removedOn': this.removedOn,
     });
 
     this.phone = new Phone();

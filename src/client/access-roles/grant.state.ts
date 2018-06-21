@@ -1,13 +1,13 @@
 export class GrantState {
 
-  private _grantId:string;
+  private _grantId: string;
   private _resourceId: string;
-  private _resourcePermissionId:string;
+  private _resourcePermissionId: string;
   private _accessRoleId: string;
-  private _ownerPartyId:string;
-  private _createdOn:Date;
-  private _modifiedOn:Date;
-  
+  private _ownerPartyId: string;
+  private _createdOn: Date;
+  private _modifiedOn: Date;
+
   get grantId(): string {
     return this._grantId;
   }
@@ -75,5 +75,5 @@ export class GrantState {
       modifiedOn: this.modifiedOn
     }
   }
-  
+
 }

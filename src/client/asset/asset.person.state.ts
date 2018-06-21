@@ -1,11 +1,11 @@
 export class AssetPersonState {
 
-  private _partyId:string;
+  private _partyId: string;
   private _name: string;
-  private _firstName:string;
-  private _middleName:string;
+  private _firstName: string;
+  private _middleName: string;
   private _lastName: string;
-  private _birthDate:Date;
+  private _birthDate: Date;
 
   get partyId(): string {
     return this._partyId;

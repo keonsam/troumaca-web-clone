@@ -1,9 +1,9 @@
-import {SiteRepositoryAdapter} from "./site.repository.adapter";
-import {SiteClient} from "../../client/site/site.client";
-import {SiteRepository} from "../../site/site.repository";
-import {AssetSiteRepository} from "../../assets/asset.site.repository";
+import {SiteRepositoryAdapter} from './site.repository.adapter';
+import {SiteClient} from '../../client/site/site.client';
+import {SiteRepository} from '../../site/site.repository';
+import {AssetSiteRepository} from '../../assets/asset.site.repository';
 
-export function siteRepositoryProviderFactory (siteClient:SiteClient):SiteRepository {
+export function siteRepositoryProviderFactory (siteClient: SiteClient): SiteRepository {
   let siteRepositoryAdapter: SiteRepositoryAdapter;
   if (!siteRepositoryAdapter) {
     siteRepositoryAdapter = new SiteRepositoryAdapter(siteClient);
@@ -11,7 +11,7 @@ export function siteRepositoryProviderFactory (siteClient:SiteClient):SiteReposi
   return siteRepositoryAdapter;
 }
 
-export function assetSiteRepositoryProviderFactory (siteClient:SiteClient):AssetSiteRepository {
+export function assetSiteRepositoryProviderFactory (siteClient: SiteClient): AssetSiteRepository {
   let assetSiteRepository: AssetSiteRepository;
   if (!assetSiteRepository) {
     assetSiteRepository = new SiteRepositoryAdapter(siteClient);

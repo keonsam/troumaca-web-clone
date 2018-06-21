@@ -1,11 +1,11 @@
-import {AppConfig} from "../../app.config";
-import {UUIDGenerator} from "../../uuid.generator";
-import {AssetTypeClassClient} from "./asset.type.class.client";
-import {AssetTypeClassClientHttp} from "./asset.type.class.client.http";
+import {AppConfig} from '../../app.config';
+import {UUIDGenerator} from '../../uuid.generator';
+import {AssetTypeClassClient} from './asset.type.class.client';
+import {AssetTypeClassClientHttp} from './asset.type.class.client.http';
 //import {AssetTypeClassClientMock} from "./asset.type.class.client.mock";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient} from '@angular/common/http';
 
-export function assetTypeClassClientFactory (appConfig: AppConfig, uuidGenerator: UUIDGenerator, httpClient:HttpClient):AssetTypeClassClient {
+export function assetTypeClassClientFactory (appConfig: AppConfig, uuidGenerator: UUIDGenerator, httpClient: HttpClient): AssetTypeClassClient {
   /*var assetTypeClassClient: AssetTypeClassClient;
   if (appConfig.remoteEndPoints) {
     assetTypeClassClient = new AssetTypeClassClientHttp(uuidGenerator);

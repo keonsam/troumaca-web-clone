@@ -7,9 +7,9 @@ export function mapObjectProps(fromObject, toObject) {
     return toObject;
   }
 
-  for(let toKey in toObject) {
-    for(let fromKey in fromObject) {
-      if(toKey == fromKey) {
+  for (const toKey in toObject) {
+    for (const fromKey in fromObject) {
+      if (toKey == fromKey) {
         //noinspection JSUnfilteredForInLoop
         toObject[toKey] = fromObject[fromKey];
       }

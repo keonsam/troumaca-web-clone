@@ -1,10 +1,10 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {RouterModule} from "@angular/router";
-import {UnitOfMeasureRepository} from "./unit.of.measure.repository";
-import {UnitOfMeasureService} from "./unit.of.measure.service";
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
+import {UnitOfMeasureRepository} from './unit.of.measure.repository';
+import {UnitOfMeasureService} from './unit.of.measure.service';
 
 @NgModule({
   imports: [
@@ -18,7 +18,7 @@ import {UnitOfMeasureService} from "./unit.of.measure.service";
   ],
   providers: [{
     provide: UnitOfMeasureService,
-    useFactory(unitOfMeasureRepository:UnitOfMeasureRepository) {
+    useFactory(unitOfMeasureRepository: UnitOfMeasureRepository) {
       let unitOfMeasureService: UnitOfMeasureService;
       if (!unitOfMeasureService) {
         unitOfMeasureService = new UnitOfMeasureService(unitOfMeasureRepository);

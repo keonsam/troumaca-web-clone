@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'employee-creation',
-  templateUrl:'./employee.creation.component.html',
+  templateUrl: './employee.creation.component.html',
   styleUrls: ['./employee.creation.component.css']
 })
 export class EmployeeCreationComponent implements OnInit {

@@ -1,6 +1,6 @@
-import {ResourceType} from "./resource.type";
-import {Page} from "../page/page";
-import {Sort} from "../sort/sort";
+import {ResourceType} from './resource.type';
+import {Page} from '../page/page';
+import {Sort} from '../sort/sort';
 
 export class  ResourceTypes {
   private _resourceTypes: ResourceType[] = [];

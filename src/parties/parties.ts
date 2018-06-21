@@ -1,12 +1,12 @@
-import {Party} from "./party";
-import {Sort} from "../sort/sort";
-import {Page} from "../page/page";
+import {Party} from './party';
+import {Sort} from '../sort/sort';
+import {Page} from '../page/page';
 
 export class Parties {
 
-  private _parties:Party[] = [];
-  private _page:Page;
-  private _sort:Sort;
+  private _parties: Party[] = [];
+  private _page: Page;
+  private _sort: Sort;
 
   get parties(): Party[] {
     return this._parties;

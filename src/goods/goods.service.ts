@@ -1,4 +1,4 @@
-import {GoodsRepository} from "./goods.repository";
+import {GoodsRepository} from './goods.repository';
 
 export class GoodsService {
 

@@ -1,29 +1,29 @@
-import {SiteClient} from "./site.client";
-import {UUIDGenerator} from "../../uuid.generator";
-import {Observable} from "rxjs/Observable";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {UnionOfPhysicalSiteStates} from "./union.of.physical.site.states";
-import {EmailState} from "./email.state";
-import {EmailStates} from "./email.states";
-import {StreetAddressStates} from "./street.address.states";
-import {PostOfficeBoxState} from "./post.office.box.state";
-import {PostOfficeBoxStates} from "./post.office.box.states";
-import {PhoneStates} from "./phone.states";
-import {WebSiteState} from "./web.site.state";
-import {WebSiteStates} from "./web.site.states";
-import {PhoneState} from "./phone.state";
-import {StreetAddressState} from "./street.address.state";
+import {SiteClient} from './site.client';
+import {UUIDGenerator} from '../../uuid.generator';
+import {Observable} from 'rxjs/Observable';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {UnionOfPhysicalSiteStates} from './union.of.physical.site.states';
+import {EmailState} from './email.state';
+import {EmailStates} from './email.states';
+import {StreetAddressStates} from './street.address.states';
+import {PostOfficeBoxState} from './post.office.box.state';
+import {PostOfficeBoxStates} from './post.office.box.states';
+import {PhoneStates} from './phone.states';
+import {WebSiteState} from './web.site.state';
+import {WebSiteStates} from './web.site.states';
+import {PhoneState} from './phone.state';
+import {StreetAddressState} from './street.address.state';
 
 export class SiteClientHttp extends SiteClient {
 
   constructor(private uuidGenerator: UUIDGenerator,
               private httpClient: HttpClient,
-              private hostPort:string) {
+              private hostPort: string) {
     super();
   }
 
-  public getStreetAddressStates(pageNumber: number, pageSize:number, sortOrder:string): Observable<StreetAddressStates> {
-    let url = `${this.hostPort}/street-addresses?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+  public getStreetAddressStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<StreetAddressStates> {
+    const url = `${this.hostPort}/street-addresses?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -32,8 +32,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public getPostOfficeBoxStates(pageNumber: number, pageSize:number, sortOrder:string): Observable<PostOfficeBoxStates> {
-    let url = `${this.hostPort}/post-office-boxes?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+  public getPostOfficeBoxStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<PostOfficeBoxStates> {
+    const url = `${this.hostPort}/post-office-boxes?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -42,8 +42,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public getEmailStates(pageNumber:number, pageSize:number, sortOrder:string):Observable<EmailStates> {
-    let url = `${this.hostPort}/emails?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+  public getEmailStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<EmailStates> {
+    const url = `${this.hostPort}/emails?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -52,8 +52,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public getWebSiteStates(pageNumber:number, pageSize:number, sortOrder:string):Observable<WebSiteStates> {
-    let url = `${this.hostPort}/web-sites?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+  public getWebSiteStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<WebSiteStates> {
+    const url = `${this.hostPort}/web-sites?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -62,8 +62,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public getPhoneStates(pageNumber:number, pageSize:number, sortOrder:string): Observable<PhoneStates> {
-    let url = `${this.hostPort}/phones?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+  public getPhoneStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<PhoneStates> {
+    const url = `${this.hostPort}/phones?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -72,8 +72,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public getStreetAddressState(siteId:string): Observable<StreetAddressState> {
-    let url = `${this.hostPort}/street-addresses/${siteId}`;
+  public getStreetAddressState(siteId: string): Observable<StreetAddressState> {
+    const url = `${this.hostPort}/street-addresses/${siteId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -84,8 +84,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public getPostOfficeBoxState(siteId:string): Observable<PostOfficeBoxState> {
-    let url = `${this.hostPort}/post-office-boxes/${siteId}`;
+  public getPostOfficeBoxState(siteId: string): Observable<PostOfficeBoxState> {
+    const url = `${this.hostPort}/post-office-boxes/${siteId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -96,8 +96,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public getEmailState(siteId:string): Observable<EmailState> {
-    let url = `${this.hostPort}/emails/${siteId}`;
+  public getEmailState(siteId: string): Observable<EmailState> {
+    const url = `${this.hostPort}/emails/${siteId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -108,8 +108,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public getWebSiteState(siteId:string): Observable<WebSiteState> {
-    let url = `${this.hostPort}/web-sites/${siteId}`;
+  public getWebSiteState(siteId: string): Observable<WebSiteState> {
+    const url = `${this.hostPort}/web-sites/${siteId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -120,8 +120,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public getPhoneState(siteId:string): Observable<PhoneState> {
-    let url = `${this.hostPort}/phones/${siteId}`;
+  public getPhoneState(siteId: string): Observable<PhoneState> {
+    const url = `${this.hostPort}/phones/${siteId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -132,8 +132,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public findUnionOfPhysicalSiteStates(searchStr:string, pageSize:number):Observable<UnionOfPhysicalSiteStates> {
-    let url = `${this.hostPort}/union-of-physical-sites/find?q=${searchStr}&pageSize=${pageSize}`;
+  public findUnionOfPhysicalSiteStates(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteStates> {
+    const url = `${this.hostPort}/union-of-physical-sites/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -143,7 +143,7 @@ export class SiteClientHttp extends SiteClient {
   }
 
   public addPhone(phoneState: PhoneState): Observable<PhoneState> {
-    let url = `${this.hostPort}/phones`;
+    const url = `${this.hostPort}/phones`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -155,7 +155,7 @@ export class SiteClientHttp extends SiteClient {
   }
 
   public addStreetAddress(streetAddressState: StreetAddressState): Observable<StreetAddressState> {
-    let url = `${this.hostPort}/street-addresses`;
+    const url = `${this.hostPort}/street-addresses`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -167,7 +167,7 @@ export class SiteClientHttp extends SiteClient {
   }
 
   public addPostOfficeBox(postOfficeBoxState: PostOfficeBoxState): Observable<PostOfficeBoxState> {
-    let url = `${this.hostPort}/post-office-boxes`;
+    const url = `${this.hostPort}/post-office-boxes`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -179,7 +179,7 @@ export class SiteClientHttp extends SiteClient {
   }
 
   public addEmail(emailState: EmailState): Observable<EmailState> {
-    let url = `${this.hostPort}/emails`;
+    const url = `${this.hostPort}/emails`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -191,7 +191,7 @@ export class SiteClientHttp extends SiteClient {
   }
 
   public addWebSite(webSiteState: WebSiteState): Observable<WebSiteState> {
-    let url = `${this.hostPort}/web-sites`;
+    const url = `${this.hostPort}/web-sites`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -202,8 +202,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public updateStreetAddress(siteId:string, streetAddressState: StreetAddressState): Observable<number> {
-    let url = `${this.hostPort}/street-addresses/${siteId}`;
+  public updateStreetAddress(siteId: string, streetAddressState: StreetAddressState): Observable<number> {
+    const url = `${this.hostPort}/street-addresses/${siteId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -214,8 +214,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public updatePostOfficeBox(siteId:string, postOfficeBoxState: PostOfficeBoxState): Observable<number> {
-    let url = `${this.hostPort}/post-office-boxes/${siteId}`;
+  public updatePostOfficeBox(siteId: string, postOfficeBoxState: PostOfficeBoxState): Observable<number> {
+    const url = `${this.hostPort}/post-office-boxes/${siteId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -226,8 +226,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public updateEmail(siteId:string, emailState: EmailState): Observable<number> {
-    let url = `${this.hostPort}/emails/${siteId}`;
+  public updateEmail(siteId: string, emailState: EmailState): Observable<number> {
+    const url = `${this.hostPort}/emails/${siteId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -238,8 +238,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public updateWebSite(siteId:string, webSiteState: WebSiteState): Observable<number> {
-    let url = `${this.hostPort}/web-sites/${siteId}`;
+  public updateWebSite(siteId: string, webSiteState: WebSiteState): Observable<number> {
+    const url = `${this.hostPort}/web-sites/${siteId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -250,8 +250,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public updatePhone(siteId:string, phoneState: PhoneState): Observable<number> {
-    let url = `${this.hostPort}/phones/${siteId}`;
+  public updatePhone(siteId: string, phoneState: PhoneState): Observable<number> {
+    const url = `${this.hostPort}/phones/${siteId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -262,8 +262,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public deleteStreetAddress(siteId:string): Observable<number> {
-    let url = `${this.hostPort}/street-addresses/${siteId}`;
+  public deleteStreetAddress(siteId: string): Observable<number> {
+    const url = `${this.hostPort}/street-addresses/${siteId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -274,8 +274,8 @@ export class SiteClientHttp extends SiteClient {
     });
   }
 
-  public deletePostOfficeBox(siteId:string): Observable<number> {
-    let url = `${this.hostPort}/post-office-boxes/${siteId}`;
+  public deletePostOfficeBox(siteId: string): Observable<number> {
+    const url = `${this.hostPort}/post-office-boxes/${siteId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -286,8 +286,8 @@ export class SiteClientHttp extends SiteClient {
     });
 }
 
-public deleteEmail(siteId:string): Observable<number> {
-  let url = `${this.hostPort}/emails/${siteId}`;
+public deleteEmail(siteId: string): Observable<number> {
+  const url = `${this.hostPort}/emails/${siteId}`;
   const httpOptions = {
     headers: this.jsonHttpHeaders()
   };
@@ -298,8 +298,8 @@ public deleteEmail(siteId:string): Observable<number> {
   });
 }
 
-public deleteWebSite(siteId:string): Observable<number> {
-  let url = `${this.hostPort}/web-sites/${siteId}`;
+public deleteWebSite(siteId: string): Observable<number> {
+  const url = `${this.hostPort}/web-sites/${siteId}`;
   const httpOptions = {
     headers: this.jsonHttpHeaders()
   };
@@ -310,8 +310,8 @@ public deleteWebSite(siteId:string): Observable<number> {
   });
 }
 
-  public deletePhone(siteId:string): Observable<number> {
-    let url = `${this.hostPort}/phones/${siteId}`;
+  public deletePhone(siteId: string): Observable<number> {
+    const url = `${this.hostPort}/phones/${siteId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -323,7 +323,7 @@ public deleteWebSite(siteId:string): Observable<number> {
   }
 
   public jsonHttpHeaders(): HttpHeaders {
-    let httpHeaders: HttpHeaders = new HttpHeaders({
+    const httpHeaders: HttpHeaders = new HttpHeaders({
       'Content-Type':  'application/json',
       'correlationId': this.uuidGenerator.generateUUID()
     });
