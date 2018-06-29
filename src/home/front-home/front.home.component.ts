@@ -10,6 +10,7 @@ export class FrontHomeComponent {
   private _isLoggedIn: boolean;
 
   constructor() {
+    console.log("testing");
   }
 
   get title(): string {

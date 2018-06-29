@@ -9544,3 +9544,24 @@ body {
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
 }
+
+/* IMPORTED BY KEON FROM MAIN */
+
+@media (max-width: 1650px) {
+  /*these should be body.auth-wrapper*/
+  body.auth-wrapper .all-wrapper {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 1550px) {
+  body.auth-wrapper .all-wrapper {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 1250px) {
+  body.auth-wrapper .all-wrapper {
+    padding: 0px;
+  }
+}
