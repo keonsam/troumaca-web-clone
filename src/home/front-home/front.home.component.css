@@ -36,7 +36,7 @@
 */
 .auth-box-w {
   max-width: 450px;
-  margin: 0px auto;
+  margin: 0 auto;
   background-color: #fff;
   border-radius: 4px;
   -webkit-box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.1);
@@ -130,15 +130,15 @@
   /*}*/
 /*}*/
 
-@media (max-width: 1650px) {
-  .auth-wrapper .all-wrapper {
-    padding: 100px 40px;
-  }
+/*@media (max-width: 1650px) {*/
+  /*.auth-wrapper .all-wrapper {*/
+    /*padding: 100px 40px;*/
+  /*}*/
 
-  .all-wrapper {
-    max-width: 100%;
-  }
-}
+  /*.all-wrapper {*/
+    /*max-width: 100%;*/
+  /*}*/
+/*}*/
 
 /*@media (max-width: 1550px) {*/
   /*.auth-wrapper .all-wrapper {*/
@@ -146,11 +146,11 @@
   /*}*/
 /*}*/
 
-@media (max-width: 1550px) {
-  .auth-wrapper .all-wrapper {
-    padding: 100px 20px;
-  }
-}
+/*@media (max-width: 1550px) {*/
+  /*.auth-wrapper .all-wrapper {*/
+    /*padding: 100px 20px;*/
+  /*}*/
+/*}*/
 
 
 /*@media (max-width: 1250px) {*/
@@ -164,15 +164,15 @@
 /*}*/
 
 /* #7.  Screen size <= 1250px */
-@media (max-width: 1250px) {
-  .auth-wrapper .all-wrapper {
-    padding: 100px 0px;
-  }
-  .all-wrapper {
-    border-radius: 0px !important;
-    overflow: hidden;
-  }
-}
+/*@media (max-width: 1250px) {*/
+  /*.auth-wrapper .all-wrapper {*/
+    /*padding: 100px 0px;*/
+  /*}*/
+  /*.all-wrapper {*/
+    /*border-radius: 0px !important;*/
+    /*overflow: hidden;*/
+  /*}*/
+/*}*/
 
 .logged-user-w {
   text-align: center;
@@ -194,5 +194,4 @@
     margin: 20px 20% 100px;
   }
 }
-
 

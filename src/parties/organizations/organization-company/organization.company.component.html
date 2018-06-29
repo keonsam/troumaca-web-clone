@@ -134,9 +134,10 @@
               <h5 class="modal-title" id="exampleModalLabel">
                 Company Photo
               </h5>
-              <button aria-label="Close" class="close" data-dismiss="modal" (click)="pictureModalClose()" type="button"><span aria-hidden="true"> &times;</span></button>
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button" #modalCloseButton><span aria-hidden="true"> &times;</span></button>
             </div>
             <div class="modal-body">
+              <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">Failed to upload your organization picture.</div>
               <input #fileid type='file' (change)="fileChangeEvent($event)" hidden/>
               <image-cropper
                 [imageChangedEvent]="imageChangedEvent"
@@ -147,7 +148,7 @@
             </div>
             <div class="modal-footer">
               <button class="btn btn-white button1" type="button" (click)="fileid.click()"> Change Photo</button>
-              <button class="btn btn-primary" type="button" (click)="uploadPhoto()" data-dismiss="modal"> Save changes</button>
+              <button class="btn btn-primary" type="button" (click)="uploadPhoto()"> Save changes</button>
             </div>
           </div>
         </div>

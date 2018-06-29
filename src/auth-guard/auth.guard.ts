@@ -15,11 +15,21 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.authGuardService.isLoggedIn
-      .map(value => {
+      .switchMap(value => {
         if (!value) {
           this.eventService.sendSessionExpiredEvent(this.createEventModel());
+          return Observable.of(false);
+        }else {
+          return this.authGuardService.partyIdExist
+            .map(value2 => {
+              if (value2) {
+                return true;
+              } else {
+                this.router.navigate(['/create-profile']);
+                return false;
+              }
+            });
         }
-        return value;
       });
   }
 

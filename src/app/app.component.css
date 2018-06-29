@@ -97,7 +97,7 @@
 
 @media (max-width: 1650px) {
   /*these should be body.auth-wrapper*/
-  .auth-wrapper .all-wrapper {
+  body.auth-wrapper .all-wrapper {
     padding: 40px;
   }
   .all-wrapper {
@@ -106,13 +106,13 @@
 }
 
 @media (max-width: 1550px) {
-  .auth-wrapper .all-wrapper {
+  body.auth-wrapper .all-wrapper {
     padding: 20px;
   }
 }
 
 @media (max-width: 1250px) {
-  .auth-wrapper .all-wrapper {
+  body.auth-wrapper .all-wrapper {
     padding: 0px;
   }
   .all-wrapper {

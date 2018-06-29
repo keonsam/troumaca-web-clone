@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import 'rxjs/add/operator/debounceTime';
@@ -24,6 +24,9 @@ import {Photo} from '../../photo';
 })
 export class UserMeComponent implements OnInit {
 
+  @ViewChild('modalCloseButton') private modalCloseButton: ElementRef;
+  @ViewChild('modalCloseButton2') private  modalCloseButton2: ElementRef;
+
   private partyId: string;
   private _firstName: FormControl;
   private _middleName: FormControl;
@@ -41,9 +44,13 @@ export class UserMeComponent implements OnInit {
 
   private _imageChangedEvent: any = '';
   private croppedImage: any = '';
+  private _imageChangedEvent2: any = '';
+  private croppedImage2: any = '';
   private _userImage: any = '';
 
   private _doNotDisplayFailureMessage: boolean;
+  private _doNotDisplayFailureMessage2: boolean;
+  private _doNotDisplayFailureMessage3: boolean;
   private _requiredState = false;
 
   private _organizationImage: string;
@@ -88,10 +95,10 @@ export class UserMeComponent implements OnInit {
        console.log(error2);
      });
 
-    this.userImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwqeFAYIE3hTj9Gs1j3v7o-oBadM5uDkuPBuXMPtXS85LufL7UVA';
-    this.organizationImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
-
     this.doNotDisplayFailureMessage = true;
+    this.doNotDisplayFailureMessage2 = true;
+    this.doNotDisplayFailureMessage3 = true;
+
   }
 
   ngOnInit(): void {
@@ -121,7 +128,6 @@ export class UserMeComponent implements OnInit {
                this.lastName.setValue(userResponse.user.lastName);
                this.username.setValue(userResponse.user.username);
                this.user = userResponse.user;
-               this.partyId = userResponse.user.partyId;
                this.credential.partyId = userResponse.user.partyId;
                this.credential.username = userResponse.user.username;
              }, error => {
@@ -129,16 +135,7 @@ export class UserMeComponent implements OnInit {
              });
 
            this.getPersonalPhoto();
-
-           this.partyService.getPhoto(this.partyId, 'organization')
-             .subscribe(photo => {
-               if (photo.imageStr) {
-                 this.photo2 = photo
-                 this.organizationImage = `url(${photo.imageStr})`;
-               }
-             }, error => {
-               console.log(error);
-             });
+           this.getOrganizationPhoto();
          });
   }
 
@@ -256,6 +253,14 @@ export class UserMeComponent implements OnInit {
     this._imageChangedEvent = value;
   }
 
+  get imageChangedEvent2(): any {
+    return this._imageChangedEvent2;
+  }
+
+  set imageChangedEvent2(value: any) {
+    this._imageChangedEvent2 = value;
+  }
+
   get userImage(): any {
     return this._userImage;
   }
@@ -344,16 +349,36 @@ export class UserMeComponent implements OnInit {
     this._doNotDisplayFailureMessage = value;
   }
 
+  get doNotDisplayFailureMessage2(): boolean {
+    return this._doNotDisplayFailureMessage2;
+  }
+
+  set doNotDisplayFailureMessage2(value: boolean) {
+    this._doNotDisplayFailureMessage2 = value;
+  }
+
+  get doNotDisplayFailureMessage3(): boolean {
+    return this._doNotDisplayFailureMessage3;
+  }
+
+  set doNotDisplayFailureMessage3(value: boolean) {
+    this._doNotDisplayFailureMessage3 = value;
+  }
+
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
+  }
+
+  fileChangeEvent2(event: any): void {
+    this.imageChangedEvent2 = event;
   }
 
   imageCropped(image: string) {
     this.croppedImage = image;
   }
 
-  pictureModalClose() {
-    this.croppedImage = this.userImage;
+  imageCropped2(image: string) {
+    this.croppedImage2 = image;
   }
 
   getPersonalPhoto() {
@@ -362,6 +387,22 @@ export class UserMeComponent implements OnInit {
         if (photo.imageStr) {
           this.photo = photo;
           this.userImage = photo.imageStr;
+        } else {
+          this.userImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwqeFAYIE3hTj9Gs1j3v7o-oBadM5uDkuPBuXMPtXS85LufL7UVA';
+        }
+      }, error => {
+        console.log(error);
+      });
+  }
+
+  getOrganizationPhoto() {
+    this.partyService.getPhoto(this.partyId, 'organization')
+      .subscribe(photo => {
+        if (photo.imageStr) {
+          this.photo2 = photo
+          this.organizationImage = `url(${photo.imageStr})`;
+        } else {
+          this.organizationImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
         }
       }, error => {
         console.log(error);
@@ -369,6 +410,7 @@ export class UserMeComponent implements OnInit {
   }
 
   uploadPhoto() {
+    this.doNotDisplayFailureMessage2 = true;
     if (this.photo.imageStr) {
       this.photo.imageStr = this.croppedImage;
       this.partyService
@@ -377,33 +419,76 @@ export class UserMeComponent implements OnInit {
           if (value) {
             this.getPersonalPhoto();
             this.eventService.sendPhotoChangeEvent(this.createEventModel());
+            this.modalCloseButton.nativeElement.click();
           }else {
+            this.doNotDisplayFailureMessage2 = false;
             console.log('error');
           }
-          }, error => {
-            console.log(error);
-          });
+        }, error => {
+          this.doNotDisplayFailureMessage2 = false;
+          console.log(error);
+        });
     }else if (this.croppedImage) {
       this.photo.partyId = this.partyId;
       this.photo.imageStr = this.croppedImage;
       this.partyService
-          .addPhoto(this.partyId, this.photo, 'user')
-          .subscribe(value => {
-            if (value.imageStr) {
-              this.getPersonalPhoto();
-              this.eventService.sendPhotoChangeEvent(this.createEventModel());
-            } else {
-              console.log('error');
-            }
-          }, error => {
-            console.log(error);
-          });
+        .addPhoto(this.partyId, this.photo, 'user')
+        .subscribe(value => {
+          if (value.imageStr) {
+            this.getPersonalPhoto();
+            this.eventService.sendPhotoChangeEvent(this.createEventModel());
+            this.modalCloseButton.nativeElement.click();
+          } else {
+            this.doNotDisplayFailureMessage2 = false;
+            console.log('error');
+          }
+        }, error => {
+          this.doNotDisplayFailureMessage2 = false;
+          console.log(error);
+        });
+    }
+  }
+
+  uploadPhoto2() {
+    this.doNotDisplayFailureMessage3 = true;
+    if (this.photo2.imageStr) {
+      this.photo2.imageStr = this.croppedImage2;
+      this.partyService
+        .updatePhoto(this.partyId, this.photo2, 'organization')
+        .subscribe(value => {
+          if (value) {
+            this.getOrganizationPhoto();
+            this.modalCloseButton2.nativeElement.click();
+          }else {
+            this.doNotDisplayFailureMessage3 = false;
+            console.log('error');
+          }
+        }, error => {
+          this.doNotDisplayFailureMessage3 = false;
+          console.log(error);
+        });
+    } else if (this.croppedImage2) {
+      this.photo2.partyId = this.partyId;
+      this.photo2.imageStr = this.croppedImage2;
+      this.partyService
+        .addPhoto(this.partyId, this.photo2, 'organization')
+        .subscribe(value => {
+          if (value.imageStr) {
+            this.getOrganizationPhoto();
+            this.modalCloseButton2.nativeElement.click();
+          } else {
+            this.doNotDisplayFailureMessage3 = false;
+            console.log('error');
+          }
+        }, error => {
+          this.doNotDisplayFailureMessage3 = false;
+          console.log(error);
+        });
     }
   }
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
-
       this.partyService
       .updateUserMe(this.user, this.credential)
       .subscribe(value => {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 
@@ -14,6 +14,8 @@ import {Photo} from '../../photo';
 })
 export class OrganizationCompanyComponent implements OnInit {
 
+  @ViewChild('modalCloseButton') private modalCloseButton: ElementRef;
+
   private partyId: string;
   private _purpose: FormControl;
   private _name: FormControl;
@@ -27,9 +29,10 @@ export class OrganizationCompanyComponent implements OnInit {
   private _imageChangedEvent: any = '';
   private croppedImage: any = '';
   private _backgroundImage: any = '';
-  private updateImage = false;
 
   private _doNotDisplayFailureMessage: boolean;
+  private _doNotDisplayFailureMessage2: boolean;
+
 
   constructor(private partyEventService: PartyEventService,
               private partyService: PartyService,
@@ -60,8 +63,8 @@ export class OrganizationCompanyComponent implements OnInit {
      });
 
      this.doNotDisplayFailureMessage = true;
+    this.doNotDisplayFailureMessage2 = true;
 
-    this._backgroundImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
   }
 
   ngOnInit(): void {
@@ -147,6 +150,14 @@ export class OrganizationCompanyComponent implements OnInit {
     this._doNotDisplayFailureMessage = value;
   }
 
+  get doNotDisplayFailureMessage2(): boolean {
+    return this._doNotDisplayFailureMessage2;
+  }
+
+  set doNotDisplayFailureMessage2(value: boolean) {
+    this._doNotDisplayFailureMessage2 = value;
+  }
+
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
   }
@@ -155,36 +166,38 @@ export class OrganizationCompanyComponent implements OnInit {
     this.croppedImage = image;
   }
 
-  pictureModalClose() {
-    this.croppedImage = this.backgroundImage;
-  }
-
   getOrganizationPhoto() {
       this.partyService.getPhoto(this.partyId, 'organization')
         .subscribe(photo => {
-          console.log(photo);
           if (photo) {
             this.backgroundImage = `url(${photo.imageStr})`;
             this.photo = photo
+          } else {
+            this.backgroundImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
           }
         }, error => {
+          this.backgroundImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
           console.log(error);
         });
   }
 
 
   uploadPhoto() {
+    this.doNotDisplayFailureMessage2 = true;
     if (this.photo.imageStr) {
       this.photo.imageStr = this.croppedImage;
       this.partyService
         .updatePhoto(this.partyId, this.photo, 'organization')
         .subscribe(value => {
-          if (value){
+          if (value) {
             this.getOrganizationPhoto();
+            this.modalCloseButton.nativeElement.click();
           }else {
+            this.doNotDisplayFailureMessage2 = false;
             console.log('error');
           }
         }, error => {
+          this.doNotDisplayFailureMessage2 = false;
           console.log(error);
         });
     }else if (this.croppedImage) {
@@ -195,10 +208,13 @@ export class OrganizationCompanyComponent implements OnInit {
         .subscribe(value => {
           if (value) {
             this.getOrganizationPhoto();
+            this.modalCloseButton.nativeElement.click();
           } else {
+            this.doNotDisplayFailureMessage2 = false;
             console.log('error');
           }
         }, error => {
+          this.doNotDisplayFailureMessage2 = false;
           console.log(error);
         });
     }

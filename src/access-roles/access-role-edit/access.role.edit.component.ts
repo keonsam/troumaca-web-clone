@@ -265,10 +265,9 @@ export class AccessRoleEditComponent implements OnInit {
   }
 
   getPermission(resourceId: string) {
-    const newArray = this.resourcePermissions.filter(value => {
+    return this.resourcePermissions.filter(value => {
       return value.resourceId === resourceId;
     });
-    return newArray;
   }
 
   onPermissionsChange(event, resourceId: string, resourcePermissionId: string) {
