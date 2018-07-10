@@ -1,0 +1,217 @@
+/* 20. Fancy Selector */
+.fancy-selector-w {
+  position: relative;
+}
+
+.fancy-selector-w .fancy-selector-current {
+  position: relative;
+  z-index: 9999;
+  height: 100%;
+}
+
+.fancy-selector-w .fancy-selector-current, .fancy-selector-w .fancy-selector-option {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #1e62eb;
+  color: #fff;
+  text-align: left;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.fancy-selector-w .fancy-selector-current .fs-img, .fancy-selector-w .fancy-selector-option .fs-img {
+  padding: 10px 15px;
+  vertical-align: middle;
+}
+
+.fancy-selector-w .fancy-selector-current .fs-img img, .fancy-selector-w .fancy-selector-option .fs-img img {
+  display: inline-block;
+  vertical-align: middle;
+  height: 30px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.fancy-selector-w .fancy-selector-current .fs-img.shadowless img, .fancy-selector-w .fancy-selector-option .fs-img.shadowless img {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  height: auto !important;
+  width: 40px;
+}
+
+.fancy-selector-w .fancy-selector-current .fs-main-info, .fancy-selector-w .fancy-selector-option .fs-main-info {
+  padding: 10px;
+  padding-right: 20px;
+}
+
+.fancy-selector-w .fancy-selector-current .fs-main-info .fs-name, .fancy-selector-w .fancy-selector-option .fs-main-info .fs-name {
+  font-size: 0.99rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+.fancy-selector-w .fancy-selector-current .fs-main-info .fs-sub, .fancy-selector-w .fancy-selector-option .fs-main-info .fs-sub {
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.5px;
+  font-size: 0.72rem;
+}
+
+.fancy-selector-w .fancy-selector-current .fs-main-info .fs-sub strong, .fancy-selector-w .fancy-selector-option .fs-main-info .fs-sub strong {
+  color: #F6DB77;
+  margin-left: 5px;
+}
+
+.fancy-selector-w .fancy-selector-current .fs-extra-info, .fancy-selector-w .fancy-selector-option .fs-extra-info {
+  padding: 10px 20px;
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.fancy-selector-w .fancy-selector-current .fs-extra-info strong, .fancy-selector-w .fancy-selector-option .fs-extra-info strong {
+  font-size: 0.99rem;
+  margin-bottom: 5px;
+  font-weight: 500;
+  display: block;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.fancy-selector-w .fancy-selector-current .fs-extra-info span, .fancy-selector-w .fancy-selector-option .fs-extra-info span {
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.54rem;
+  letter-spacing: 2px;
+  line-height: 1;
+  display: block;
+}
+
+.fancy-selector-w .fancy-selector-current .fs-selector-trigger, .fancy-selector-w .fancy-selector-option .fs-selector-trigger {
+  background-color: #114dc5;
+  padding: 10px 10px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  position: relative;
+  width: 60px;
+  cursor: pointer;
+}
+
+.fancy-selector-w .fancy-selector-current .fs-selector-trigger i, .fancy-selector-w .fancy-selector-option .fs-selector-trigger i {
+  vertical-align: middle;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.fancy-selector-w .fancy-selector-current .fs-selector-trigger:hover, .fancy-selector-w .fancy-selector-option .fs-selector-trigger:hover {
+  background-color: #0d3b96;
+  color: #fff;
+}
+
+.fancy-selector-w .fancy-selector-current .fs-selector-trigger:hover i, .fancy-selector-w .fancy-selector-option .fs-selector-trigger:hover i {
+  -webkit-transform: translate(-50%, -40%);
+  transform: translate(-50%, -40%);
+}
+
+.fancy-selector-w .fancy-selector-options {
+  background-color: #1456dc;
+  position: absolute;
+  left: 0px;
+  min-width: 100%;
+  padding: 15px 0px;
+  padding-top: 25px;
+  z-index: 9998;
+  border-radius: 0px 0px 6px 6px;
+  visibility: hidden;
+  -webkit-transform: translateY(-30px) scale(1);
+  transform: translateY(-30px) scale(1);
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.fancy-selector-w .fancy-selector-options .fancy-selector-actions {
+  padding: 15px 15px 0px 15px;
+}
+
+.fancy-selector-w .fancy-selector-options .fancy-selector-option {
+  padding: 8px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+  position: relative;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 0px;
+}
+
+.fancy-selector-w .fancy-selector-options .fancy-selector-option .fs-extra-info {
+  padding-right: 10px;
+}
+
+.fancy-selector-w .fancy-selector-options .fancy-selector-option .fs-img {
+  padding-left: 20px;
+}
+
+.fancy-selector-w .fancy-selector-options .fancy-selector-option .fs-img img {
+  height: 37px;
+}
+
+.fancy-selector-w .fancy-selector-options .fancy-selector-option .fs-main-info {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.fancy-selector-w .fancy-selector-options .fancy-selector-option.active {
+  color: white;
+}
+
+.fancy-selector-w .fancy-selector-options .fancy-selector-option.active:before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background-color: #ffb900;
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  border-radius: 6px;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.fancy-selector-w .fancy-selector-options .fancy-selector-option:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #fff;
+}
+
+.fancy-selector-w.opened .fancy-selector-options {
+  visibility: visible;
+  -webkit-transform: translateY(-5px) scale(1);
+  transform: translateY(-5px) scale(1);
+  opacity: 1;
+}
+
+.fancy-selector-w.opened .fs-selector-trigger i {
+  -webkit-transform: translate(-50%, -50%) rotate(180deg);
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.fancy-selector-w.opened .fs-selector-trigger:hover i {
+  -webkit-transform: translate(-50%, -60%) rotate(180deg);
+  transform: translate(-50%, -60%) rotate(180deg);
+}

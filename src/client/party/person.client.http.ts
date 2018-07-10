@@ -139,7 +139,7 @@ export class PersonClientHttp implements PersonClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-    .get<PhotoState>(url, httpOptions)
+    .get<any>(url, httpOptions)
     .map(data => {
       return data;
     });
@@ -285,7 +285,7 @@ export class PersonClientHttp implements PersonClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-    .put<number>(url, photoState.toJson(), httpOptions)
+    .post<number>(url, photoState.toJson(), httpOptions)
     .map(data => {
       return data;
     });

@@ -1,0 +1,110 @@
+/* 10. Helpful little styles */
+.relative {
+  position: relative;
+}
+
+.padded-v {
+  padding: 1rem 10px;
+}
+
+.padded-v-big {
+  padding: 2rem 10px;
+}
+
+.padded {
+  padding: 1rem 2rem;
+}
+
+.b-l {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.b-r {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.b-t {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.b-b {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.m-t {
+  margin-top: 1rem;
+}
+
+.m-b {
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 992px) {
+  .padded-lg {
+    padding: 1rem 2rem;
+  }
+  .b-l-lg {
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .b-r-lg {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .b-t-lg {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .b-b-lg {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+.example-column {
+  padding: 12px 15px;
+  background: #EEF5FF;
+  border: 1px solid #AEC8FF;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.example-column + .example-column {
+  border-left: none;
+}
+
+.example-content .progress + .progress {
+  margin-top: 1rem;
+}
+
+.with-avatar {
+  margin-right: 5px;
+}
+
+.with-avatar img {
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 50px;
+  width: 30px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.with-avatar span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+a.with-avatar span {
+  border-bottom: 1px solid #3b75e3;
+}
+
+.add-agent-btn i {
+  margin-right: 15px;
+  padding-left: 5px;
+  font-size: 20px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.add-agent-btn span {
+  display: inline-block;
+  vertical-align: middle;
+  border-bottom: 1px solid #047bf8;
+}
