@@ -1,0 +1,77 @@
+/* 14. App - Projects */
+.projects-list {
+  margin-bottom: 2rem;
+}
+
+.projects-list .project-head {
+  padding: 20px 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.projects-list .project-head .project-title {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.projects-list .project-head .project-title h5 {
+  margin-bottom: 0;
+}
+
+.projects-list .project-head .project-users {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 220px;
+  flex: 0 0 220px;
+  text-align: right;
+}
+
+.projects-list .project-head .project-users .avatar {
+  width: 35px;
+  border-radius: 35px;
+  -webkit-box-shadow: 0px 0px 0px 5px #fff;
+  box-shadow: 0px 0px 0px 5px #fff;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.projects-list .project-head .project-users .avatar img {
+  height: auto;
+  width: 35px;
+}
+
+.projects-list .project-head .project-users .more {
+  background-color: #047bf8;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  left: -10px;
+  padding: 2px 7px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.63rem;
+}
+
+.projects-list .project-info {
+  padding: 20px 40px;
+}
+
+.projects-list .project-info .os-progress-bar {
+  margin-bottom: 0px;
+}
+
+.projects-list .project-info .os-progress-bar + .os-progress-bar {
+  margin-top: 1rem;
+}
+
+.projects-list .project-box + .project-box {
+  margin-top: 2rem;
+}

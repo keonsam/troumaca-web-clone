@@ -76,34 +76,34 @@ li {
 
 ul {
   margin-top: 0;
-  height: 40px;
+  height: auto;
   margin-bottom: 0;
 }
 
-@media only screen and (max-width: 898px) {
-  ul {
-    height: 65px;
-  }
-}
+/*@media only screen and (max-width: 898px) {*/
+  /*ul {*/
+    /*height: 65px;*/
+  /*}*/
+/*}*/
 
-@media only screen and (max-width: 750px) {
-  ul {
-    height: 40px;
-  }
-}
+/*@media only screen and (max-width: 750px) {*/
+  /*ul {*/
+    /*height: 40px;*/
+  /*}*/
+/*}*/
 
-@media only screen and (max-width: 708px) {
-  ul {
-    height: 65px;
-  }
-}
+/*@media only screen and (max-width: 708px) {*/
+  /*ul {*/
+    /*height: 65px;*/
+  /*}*/
+/*}*/
 
 
-@media only screen and (max-width: 381px) {
-  ul {
-    height: auto;
-  }
-}
+/*@media only screen and (max-width: 381px) {*/
+  /*ul {*/
+    /*height: auto;*/
+  /*}*/
+/*}*/
 
 .sub-menu li.active a:before{
   -webkit-transform: translate(0px, -50%);
