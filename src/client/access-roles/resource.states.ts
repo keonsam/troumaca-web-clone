@@ -4,8 +4,8 @@ import {SortState} from '../sort/sort.state';
 
 export class ResourceStates {
   private _resources: ResourceState[];
-  private _pageState: PageState;
-  private _sortState: SortState;
+  private _page: PageState;
+  private _sort: SortState;
 
   get resources(): ResourceState[] {
     return this._resources;
@@ -15,19 +15,19 @@ export class ResourceStates {
     this._resources = value;
   }
 
-  get pageState(): PageState {
-    return this._pageState;
+  get page(): PageState {
+    return this._page;
   }
 
-  set pageState(value: PageState) {
-    this._pageState = value;
+  set page(value: PageState) {
+    this._page = value;
   }
 
-  get sortState(): SortState {
-    return this._sortState;
+  get sort(): SortState {
+    return this._sort;
   }
 
-  set sortState(value: SortState) {
-    this._sortState = value;
+  set sort(value: SortState) {
+    this._sort = value;
   }
 }

@@ -2,6 +2,10 @@
   Troumaca overrides etc.
 */
 
+/*.auth-box-w {*/
+  /*margin: 100px auto;*/
+/*}*/
+
 .login-register-container {
   padding-top: 1rem;
   margin: 20px 100px 100px;
