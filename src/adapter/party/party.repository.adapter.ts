@@ -7,7 +7,7 @@ import {Credential} from '../../parties/credential';
 import {Organization} from '../../parties/organization';
 import {Organizations} from '../../parties/organizations';
 import 'rxjs/add/operator/map';
-import { map, reduce, somethingElse } from 'underscore';
+import { map} from 'underscore';
 import {mapObjectProps} from '../../mapper/object.property.mapper';
 import {UserState} from '../../client/party/user.state';
 import {OrganizationState} from '../../client/party/organization.state';

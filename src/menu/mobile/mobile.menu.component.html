@@ -42,11 +42,11 @@
             <i class="os-icon os-icon-wallet-loaded"></i>
           </div>
           <ul>
-            <li>
-              <a href="#" routerLink="/parties/user-me" (click)="mobileMenuTrigger()"><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
+            <li (click)="mobileMenuTrigger()">
+              <a href="#" routerLink="/parties/user-me" ><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
             </li>
-            <li>
-              <a href="#" (click)="logOutEvent();false"><i class="os-icon os-icon-signs-11"></i><span>Logout</span></a>
+            <li (click)="logOutEvent();false">
+              <a href="#" ><i class="os-icon os-icon-signs-11"></i><span>Logout</span></a>
             </li>
           </ul>
         </div>

@@ -7,11 +7,11 @@ import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
 import {AssetTypeClassStates} from './asset.type.class.states';
 import {AttributeStates} from '../attribute/attribute.states';
 import {AttributeState} from '../attribute/attribute.state';
-import {DataTypeStates} from '../attribute/data.type.states';
+import { DataTypeState} from '../attribute/data.type.state';
 import {AssignedAttributeState} from './assigned.attribute.state';
 import {UnitOfMeasureState} from '../unit-of-measure/unit.of.measure.state';
 import {AssetTypeClassResponse} from '../../asset-type-classes/asset.type.class.response';
-import { map, reduce, somethingElse } from 'underscore';
+import { map } from 'underscore';
 
 export class AssetTypeClassClientHttp extends AssetTypeClassClient {
 
@@ -29,13 +29,13 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
     this.jsonConvert.valueCheckingMode = ValueCheckingMode.DISALLOW_NULL; // never allow null
   }
 
-  public getDataTypes(): Observable<DataTypeStates>{
+  public getDataTypes(): Observable<DataTypeState[]> {
     const url = `${this.hostPort}/data-types`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-    .get<DataTypeStates>(url, httpOptions)
+    .get<DataTypeState[]>(url, httpOptions)
     .map(data => {
       return data;
     });

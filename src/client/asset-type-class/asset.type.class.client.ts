@@ -3,14 +3,14 @@ import {AssetTypeClassState} from './asset.type.class.state';
 import {AssetTypeClassStates} from './asset.type.class.states';
 import {AttributeStates} from '../attribute/attribute.states';
 import {AttributeState} from '../attribute/attribute.state';
-import {DataTypeStates} from '../attribute/data.type.states';
+import {DataTypeState} from '../attribute/data.type.state';
 import {AssignedAttributeState} from './assigned.attribute.state';
 import {UnitOfMeasureState} from '../unit-of-measure/unit.of.measure.state';
 import {AssetTypeClassResponse} from '../../asset-type-classes/asset.type.class.response';
 
 export abstract class AssetTypeClassClient {
 
-  abstract getDataTypes(): Observable<DataTypeStates>;
+  abstract getDataTypes(): Observable<DataTypeState[]>;
 
   abstract findUnitOfMeasureIdState(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]>
 

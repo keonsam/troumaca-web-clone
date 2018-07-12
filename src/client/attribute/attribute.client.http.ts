@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {AttributeState} from './attribute.state';
 import {AttributeStates} from './attribute.states';
-import {DataTypeStates} from './data.type.states'
+import {DataTypeState} from './data.type.state'
 import {UnitOfMeasureState} from '../unit-of-measure/unit.of.measure.state';
 
 export class AttributeClientHttp extends AttributeClient {
@@ -15,13 +15,13 @@ export class AttributeClientHttp extends AttributeClient {
     super();
   }
 
-  public getDataTypes(): Observable<DataTypeStates>{
+  public getDataTypes(): Observable<DataTypeState[]>{
     const url = `${this.hostPort}/data-types`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-    .get<DataTypeStates>(url, httpOptions)
+    .get<DataTypeState[]>(url, httpOptions)
     .map(data => {
       return data;
     });

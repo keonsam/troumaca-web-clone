@@ -85,7 +85,7 @@ export class AttributeCreationComponent implements OnInit {
     .getDataTypes()
     .subscribe(dataTypes => {
       if (dataTypes) {
-        that.dataTypes = dataTypes.dataTypes;
+        that.dataTypes = dataTypes;
       }
     }, onError => {
       console.log(onError);

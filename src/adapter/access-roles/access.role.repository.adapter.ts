@@ -17,8 +17,7 @@ import {AccessRoleTypeState} from '../../client/access-roles/access.role.type.st
 import {Observable} from 'rxjs/Observable';
 import {AccessRolesClient} from '../../client/access-roles/access.roles.client';
 import {mapObjectProps} from '../../mapper/object.property.mapper';
-import { _ } from 'underscore';
-import { map, reduce, somethingElse } from 'underscore';
+import { map} from 'underscore';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
 import {ResourcePermission} from '../../access-roles/resource.permission';

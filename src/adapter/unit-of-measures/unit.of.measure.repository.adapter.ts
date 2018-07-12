@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { map, reduce, somethingElse } from 'underscore';
+import { map} from 'underscore';
 import {mapObjectProps} from '../../mapper/object.property.mapper';
 import {AssetUnitOfMeasureRepository} from '../../assets/assset.unit.of.measure.repository';
 import {UnitOfMeasures} from '../../assets/asset.unit.of.measures';

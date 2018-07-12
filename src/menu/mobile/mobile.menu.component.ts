@@ -133,6 +133,8 @@ export class MobileMenuComponent implements OnInit {
       .subscribe(photo => {
         if (photo) {
           this.imageStr = photo.imageStr;
+        } else {
+          this.imageStr = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwqeFAYIE3hTj9Gs1j3v7o-oBadM5uDkuPBuXMPtXS85LufL7UVA';
         }
       });
   }

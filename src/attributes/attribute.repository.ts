@@ -1,12 +1,12 @@
 import {Observable} from 'rxjs/Observable';
 import {Attribute} from './attribute';
 import {Attributes} from './attributes';
-import {DataTypes} from './data.types'
+import {DataType} from './data.type';
 import {UnitOfMeasure} from '../unit-of-measure/unit.of.measure';
 
 export abstract class AttributeRepository {
 
-  abstract getDataTypes(): Observable<DataTypes>;
+  abstract getDataTypes(): Observable<DataType[]>;
 
   abstract getAttributes(pageNumber: number, pageSize: number, sortOrder: string): Observable<Attributes>;
 

@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/map';
-import { map, reduce, somethingElse } from 'underscore';
+import { map} from 'underscore';
 import {Observable} from 'rxjs/Observable';
 import {mapObjectProps} from '../../mapper/object.property.mapper';
 
@@ -9,7 +9,6 @@ import {Attribute} from '../../attributes/attribute';
 import {Attributes} from '../../attributes/attributes';
 import {AttributeState} from '../../client/attribute/attribute.state';
 import {DataType} from '../../attributes/data.type';
-import {DataTypes} from '../../attributes/data.types';
 import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
@@ -20,15 +19,13 @@ export class AttributeRepositoryAdapter extends AttributeRepository {
     super();
   }
 
-  public getDataTypes(): Observable<DataTypes> {
+  public getDataTypes(): Observable<DataType[]> {
     return this.attributeClient
     .getDataTypes()
     .map(values => {
-      const dataTypes: DataTypes = new DataTypes();
-      dataTypes.dataTypes = map(values, value => {
+      return map(values, value => {
         return mapObjectProps(value, new DataType());
       });
-      return dataTypes;
     });
   }
 
