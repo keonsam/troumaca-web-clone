@@ -2,15 +2,39 @@
   Troumaca overrides etc.
 */
 
-.login-register-container {
-  padding-top: 1rem;
-  margin: 20px 100px 100px;
-}
+/*.auth-box-w {*/
+  /*margin: 100px auto;*/
+/*}*/
 
-/*for phones*/
-@media (max-width: 350px) {
-  .login-register-container {
-    margin: 20px 20% 100px;
+
+@media (max-width: 1650px) {
+  .auth-box-w {
+    margin-top: 60px;
   }
 }
+@media (max-width: 1550px) {
+  .auth-box-w {
+    margin-top: 80px;
+  }
+}
+
+@media (max-width: 1250px) {
+  .auth-box-w {
+    margin-top: 100px;
+  }
+}
+
+.login-register-container {
+  padding: 40px;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+}
+
+/*!*for phones*!*/
+/*@media (max-width: 350px) {*/
+  /*.login-register-container {*/
+    /*margin: 20px 20% 100px;*/
+  /*}*/
+/*}*/
 

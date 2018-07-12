@@ -5,14 +5,13 @@ import {Observable} from 'rxjs/Observable';
 import {mapObjectProps} from '../../mapper/object.property.mapper';
 import {AssetTypeClass} from '../../asset-type-classes/asset.type.class';
 import {AssetTypeClassState} from '../../client/asset-type-class/asset.type.class.state';
-import { map, reduce, somethingElse } from 'underscore';
+import { map } from 'underscore';
 import {AssetTypeClasses} from '../../asset-type-classes/asset.type.classes';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
 import {Attributes} from '../../attributes/attributes';
 import {Attribute} from '../../attributes/attribute';
 import {AttributeState} from '../../client/attribute/attribute.state';
-import {DataTypes} from '../../attributes/data.types';
 import {DataType} from '../../attributes/data.type';
 import {AssignedAttribute} from '../../asset-type-classes/assigned.attribute';
 import {AssignedAttributeState} from '../../client/asset-type-class/assigned.attribute.state';
@@ -25,15 +24,13 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
     super();
   }
 
-  public getDataTypes(): Observable<DataTypes> {
+  public getDataTypes(): Observable<DataType[]> {
     return this.assetTypeClassClient
     .getDataTypes()
     .map(values => {
-      const dataTypes: DataTypes = new DataTypes();
-      dataTypes.dataTypes = map(values, value => {
+      return  map(values, value => {
         return mapObjectProps(value, new DataType());
       });
-      return dataTypes;
     });
   }
 

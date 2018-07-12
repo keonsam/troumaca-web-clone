@@ -1,10 +1,10 @@
 import 'rxjs/add/operator/map';
-import { map, reduce, somethingElse } from 'underscore';
-import {Observable} from 'rxjs/Observable';
-import {mapObjectProps} from '../../mapper/object.property.mapper';
-
-import {Page} from '../../page/page';
-import {Sort} from '../../sort/sort';
+// import { map} from 'underscore';
+// import {Observable} from 'rxjs/Observable';
+// import {mapObjectProps} from '../../mapper/object.property.mapper';
+//
+// import {Page} from '../../page/page';
+// import {Sort} from '../../sort/sort';
 import {ContractRepository} from '../../contracts/contract.repository';
 import {ContractClient} from '../../client/contract/contract.client';
 

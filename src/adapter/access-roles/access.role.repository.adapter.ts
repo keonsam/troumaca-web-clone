@@ -17,8 +17,7 @@ import {AccessRoleTypeState} from '../../client/access-roles/access.role.type.st
 import {Observable} from 'rxjs/Observable';
 import {AccessRolesClient} from '../../client/access-roles/access.roles.client';
 import {mapObjectProps} from '../../mapper/object.property.mapper';
-import { _ } from 'underscore';
-import { map, reduce, somethingElse } from 'underscore';
+import { map} from 'underscore';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
 import {ResourcePermission} from '../../access-roles/resource.permission';
@@ -40,8 +39,8 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
         permissionModels.permissions = map(permissionStates.permissions, value => {
           return mapObjectProps(value, new Permission());
         });
-        permissionModels.page = mapObjectProps(permissionStates.pageState, new Page());
-        permissionModels.sort = mapObjectProps(permissionStates.sortState, new Sort());
+        permissionModels.page = mapObjectProps(permissionStates.page, new Page());
+        permissionModels.sort = mapObjectProps(permissionStates.sort, new Sort());
         return permissionModels;
       });
   }
@@ -77,8 +76,8 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
         permissionModels.permissions = map(permissionStates.permissions, value => {
           return mapObjectProps(value, new Permission());
         });
-        permissionModels.page = mapObjectProps(permissionStates.pageState, new Page());
-        permissionModels.sort = mapObjectProps(permissionStates.sortState, new Sort());
+        permissionModels.page = mapObjectProps(permissionStates.page, new Page());
+        permissionModels.sort = mapObjectProps(permissionStates.sort, new Sort());
         return permissionModels;
       });
   }
@@ -108,8 +107,8 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
         resourceModels.resources = map(resourceStates.resources, value => {
           return mapObjectProps(value, new Resource());
         });
-        resourceModels.page = mapObjectProps(resourceStates.pageState, new Page());
-        resourceModels.sort = mapObjectProps(resourceStates.sortState, new Sort());
+        resourceModels.page = mapObjectProps(resourceStates.page, new Page());
+        resourceModels.sort = mapObjectProps(resourceStates.sort, new Sort());
         return resourceModels;
       });
   }
@@ -148,8 +147,8 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
         resourceTypeModels.resourceTypes = map(resourceTypeStates.resourceTypes, value => {
           return mapObjectProps(value, new ResourceType());
         });
-        resourceTypeModels.page = mapObjectProps(resourceTypeStates.pageState, new Page());
-        resourceTypeModels.sort = mapObjectProps(resourceTypeStates.sortState, new Sort());
+        resourceTypeModels.page = mapObjectProps(resourceTypeStates.page, new Page());
+        resourceTypeModels.sort = mapObjectProps(resourceTypeStates.sort, new Sort());
         return resourceTypeModels;
       });
   }
@@ -184,8 +183,8 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
         resourceModels.resources = map(resourceStates.resources, value => {
           return mapObjectProps(value, new Resource());
         });
-        resourceModels.page = mapObjectProps(resourceStates.pageState, new Page());
-        resourceModels.sort = mapObjectProps(resourceStates.sortState, new Sort());
+        resourceModels.page = mapObjectProps(resourceStates.page, new Page());
+        resourceModels.sort = mapObjectProps(resourceStates.sort, new Sort());
         return resourceModels;
       });
   }
@@ -215,8 +214,8 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
         accessRoleModels.accessRoles = map(accessRoleStates.accessRoles, value => {
           return mapObjectProps(value, new AccessRole());
         });
-        accessRoleModels.page = mapObjectProps(accessRoleStates.pageState, new Page());
-        accessRoleModels.sort = mapObjectProps(accessRoleStates.sortState, new Sort());
+        accessRoleModels.page = mapObjectProps(accessRoleStates.page, new Page());
+        accessRoleModels.sort = mapObjectProps(accessRoleStates.sort, new Sort());
         return accessRoleModels;
       });
   }
@@ -262,8 +261,8 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
         accessRoleTypeModels.accessRoleTypes = map(accessRoleTypeStates.accessRoleTypes, value => {
           return mapObjectProps(value, new AccessRoleType());
         });
-        accessRoleTypeModels.page = mapObjectProps(accessRoleTypeStates.pageState, new Page());
-        accessRoleTypeModels.sort = mapObjectProps(accessRoleTypeStates.sortState, new Sort());
+        accessRoleTypeModels.page = mapObjectProps(accessRoleTypeStates.page, new Page());
+        accessRoleTypeModels.sort = mapObjectProps(accessRoleTypeStates.sort, new Sort());
         return accessRoleTypeModels;
       });
   }

@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {AssetRepository} from '../../assets/asset.repository';
 import {AssetClient} from '../../client/asset/asset.client';
 import {Asset} from '../../assets/asset';
-import { map, reduce, somethingElse } from 'underscore';
+import { map } from 'underscore';
 import {mapObjectProps} from '../../mapper/object.property.mapper';
 import {Assets} from '../../assets/assets';
 import {Page} from '../../page/page';

@@ -5,7 +5,7 @@ import {AssetSiteRepository} from '../../assets/asset.site.repository';
 
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { map, reduce, somethingElse } from 'underscore';
+import { map} from 'underscore';
 import {mapObjectProps} from '../../mapper/object.property.mapper';
 import {AssetUnionOfPhysicalSites} from '../../assets/asset.union.of.physical.sites';
 import {UnionOfPhysicalSite} from '../../assets/asset.union.of.physical.site';

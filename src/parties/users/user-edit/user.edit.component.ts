@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-//import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
+// import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
@@ -11,7 +11,7 @@ import 'rxjs/add/operator/single';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/switchMap';
 
-import { map, reduce, somethingElse } from 'underscore';
+import { map } from 'underscore';
 
 import {PartyEventService} from '../../party.event.service';
 import {PartyService} from '../../party.service';

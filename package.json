@@ -27,6 +27,7 @@
     "@angular/platform-server": "^5.2.5",
     "@angular/router": "^5.2.5",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0",
+    "@types/underscore": "^1.8.8",
     "ajv-keywords": "^3.2.0",
     "body-parser": "^1.18.2",
     "bootstrap": "^4.0.0-beta",

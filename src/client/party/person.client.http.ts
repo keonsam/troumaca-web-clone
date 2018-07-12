@@ -3,7 +3,7 @@ import {PersonClient} from './person.client';
 import {Observable} from 'rxjs/Observable';
 import {UserState} from './user.state';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { map, reduce, somethingElse } from 'underscore';
+import { map } from 'underscore';
 import {UserStates} from './user.states';
 import {CredentialState} from './credential.state';
 import {OrganizationState} from './organization.state';

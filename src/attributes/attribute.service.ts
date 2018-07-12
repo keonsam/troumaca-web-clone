@@ -2,7 +2,7 @@ import {Observable} from 'rxjs/Observable';
 import {AttributeRepository} from './attribute.repository';
 import {Attribute} from './attribute';
 import {Attributes} from './attributes';
-import {DataTypes} from './data.types';
+import {DataType} from './data.type';
 import {UnitOfMeasure} from '../unit-of-measure/unit.of.measure';
 
 export class AttributeService {
@@ -10,7 +10,7 @@ export class AttributeService {
   constructor(private attributeRepository: AttributeRepository) {
   }
 
-  public getDataTypes(): Observable<DataTypes> {
+  public getDataTypes(): Observable<DataType[]> {
     return this.attributeRepository.getDataTypes();
   }
 

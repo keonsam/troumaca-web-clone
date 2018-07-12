@@ -3,14 +3,14 @@ import {Observable} from 'rxjs/Observable';
 import {AssetTypeClasses} from './asset.type.classes';
 import {Attributes} from '../attributes/attributes';
 import {Attribute} from '../attributes/attribute';
-import {DataTypes} from '../attributes/data.types';
 import {AssignedAttribute} from './assigned.attribute';
 import {UnitOfMeasure} from '../unit-of-measure/unit.of.measure';
 import {AssetTypeClassResponse} from './asset.type.class.response';
+import { DataType} from '../attributes/data.type';
 
 export abstract class AssetTypeClassRepository {
 
-  abstract getDataTypes(): Observable<DataTypes>;
+  abstract getDataTypes(): Observable<DataType[]>;
 
   abstract findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]>;
 

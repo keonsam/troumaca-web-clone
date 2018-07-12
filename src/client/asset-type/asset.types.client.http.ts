@@ -8,7 +8,7 @@ import {ValueState} from './value.state';
 import {ValueStates} from './value.states';
 import {UnitOfMeasureState} from '../unit-of-measure/unit.of.measure.state';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { map, reduce, somethingElse } from 'underscore';
+import { map } from 'underscore';
 import {AssignedAttributeState} from '../asset-type-class/assigned.attribute.state';
 import {AssetTypeResponse} from '../../asset-types/asset.type.response';
 
