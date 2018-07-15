@@ -30,7 +30,6 @@ export class AppComponent implements OnInit {
   ];
 
   private isAuthRoutes: string[] = [
-    '/home',
     '/authentication/login',
     '/authentication/forget-password',
     '/authentication/confirmations',
@@ -41,8 +40,7 @@ export class AppComponent implements OnInit {
 
   private logInSub: any;
   private initLogSub: any;
-
-
+  public frontCss: boolean;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -50,6 +48,7 @@ export class AppComponent implements OnInit {
               private eventService: EventService,
               private sessionService: SessionService,
               private clientEvent: ClientEvent) {
+    this.frontCss = false;
     this.isLoggedIn = false;
     this.isAuth = false;
 
