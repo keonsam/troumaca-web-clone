@@ -10,7 +10,7 @@
 
   <form [formGroup]="phoneVerificationForm" (ngSubmit)="onSubmit()">
     <p class="lead">
-      Enter the confirmation code we sent to {{username}}.
+      Enter the confirmation code we sent to your username.
     </p>
 
     <div class="form-group">
@@ -44,7 +44,7 @@
 
     <div class="buttons-w">
       <div>
-        <button class="btn btn-white" id="button1" routerLink="/authentication/register">Change Number</button>
+        <button class="mr-2 mb-2 btn btn-outline-success" id="button1" routerLink="/authentication/register">Change Number</button>
         <button [disabled]="!phoneVerificationForm.valid" id="button2" class="btn btn-primary" type="submit">Verify</button>
       </div>
       <div class="sendPhoneCode">

@@ -10,6 +10,7 @@ import {AuthenticationService} from '../authentication.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Credential} from '../credential';
 import {Router} from '@angular/router';
+import { ValidResp} from "../resp.valid";
 
 @Component({
   selector: 'register',
@@ -23,10 +24,14 @@ export class RegisterComponent implements OnInit {
   private _password: FormControl;
   private _confirmPassword: FormControl;
   private redirectLink: string;
+  private credential: Credential;
+  private _doNotDisplayFailureMessage: boolean;
 
   constructor(private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
               private router: Router) {
+
+    this.credential = new Credential();
 
     this.username = new FormControl('', [
       Validators.required,
@@ -50,6 +55,16 @@ export class RegisterComponent implements OnInit {
       'confirmPassword': this.confirmPassword
     });
 
+    this.registrationForm
+      .valueChanges
+      .subscribe( value => {
+        this.credential.username = value.username;
+        this.credential.password = value.password;
+        this.credential.changedPassword = value.confirmPassword;
+      });
+
+    this.doNotDisplayFailureMessage = true;
+
   }
 
   ngOnInit(): void {
@@ -69,8 +84,8 @@ export class RegisterComponent implements OnInit {
       }).map(value => {
         return authenticationService.isValidUsername(value);
       }).subscribe(value => {
-        value.subscribe( otherValue => {
-          isValidUsername = otherValue;
+        value.subscribe( (otherValue: ValidResp) => {
+          isValidUsername = otherValue.valid;
           usernameControl.updateValueAndValidity();
         });
       });
@@ -108,8 +123,8 @@ export class RegisterComponent implements OnInit {
       }).map(value => {
         return authenticationService.isValidPassword(value);
       }).subscribe(value => {
-        value.subscribe( otherValue => {
-          isValidPassword = otherValue;
+        value.subscribe( (otherValue: ValidResp) => {
+          isValidPassword = otherValue.valid;
           passwordControl.updateValueAndValidity();
         });
       });
@@ -135,7 +150,7 @@ export class RegisterComponent implements OnInit {
 
   confirmEmailOrPhoneValidator(password: FormControl) {
     return (c: FormControl) => {
-      return password.value == c.value ? null : {
+      return password.value === c.value ? null : {
         validateEmail: {
           valid: false
         }
@@ -175,21 +190,31 @@ export class RegisterComponent implements OnInit {
     this._confirmPassword = value;
   }
 
+  get doNotDisplayFailureMessage(): boolean {
+    return this._doNotDisplayFailureMessage;
+  }
+
+  set doNotDisplayFailureMessage(value: boolean) {
+    this._doNotDisplayFailureMessage = value;
+  }
+
   onSubmit() {
-    const credential: Credential = new Credential();
-    credential.username = this.username.value;
-    credential.password = this.password.value;
-    credential.changedPassword = this.confirmPassword.value;
-    //let regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    this.doNotDisplayFailureMessage = true;
+
+    console.log(this.credential);
     this.authenticationService
-    .addCredential(credential)
-    .subscribe(credentialConfirmation => {
-      const credentialConfirmationId = credentialConfirmation.credentialConfirmationId;
-      if (credentialConfirmationId) {
-        this.router.navigate([`/authentication/confirmations/${credentialConfirmationId}`]);
+    .addCredential(this.credential)
+    .subscribe(confirmation => {
+      const confirmationId = confirmation.confirmationId;
+      const credentialId = confirmation.credentialId;
+      if (confirmationId && credentialId) {
+        this.router.navigate([`/authentication/confirmations/${credentialId}/${confirmationId}`]);
       } else {
-        // display errors
+        this.doNotDisplayFailureMessage = false;
       }
+    }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage = false;
     });
   }
 

@@ -13,7 +13,7 @@
             <div style="margin-left: 20px; margin-right: 20px;" class="element-content">
               <div class="row">
                 <div class="col-sm-4">
-                  <a routerLink="/assets" class="element-box el-tablo" href="#">
+                  <a (click)="module('Asset Management');false" class="element-box el-tablo" href="#">
                     <div class="label">
                       Asset Management
                     </div>
@@ -26,7 +26,7 @@
                   </a>
                 </div>
                 <div class="col-sm-4">
-                  <a routerLink="/parties/users" class="element-box el-tablo" href="#">
+                  <a (click)="module('User Management');false" class="element-box el-tablo" href="#">
                     <div class="label">
                       User Management
                     </div>
@@ -39,7 +39,7 @@
                   </a>
                 </div>
                 <div class="col-sm-4">
-                  <a routerLink="/parties" class="element-box el-tablo" href="#">
+                  <a (click)="module('Organization Management');false" class="element-box el-tablo" href="#">
                     <div class="label">
                       Organization Management
                     </div>
@@ -52,11 +52,142 @@
                   </a>
                 </div>
               </div>
+              <button data-target="#showcaseModal" data-toggle="modal" #showModal hidden>Showcase</button>
+
             </div>
           </div>
         </div>
       </div>
 
+      <!--APP SHOWCASE -->
+      <div aria-hidden="true" aria-labelledby="ShowcaseModal" id="showcaseModal" class="onboarding-modal modal fade animated show-on-load" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-centered" role="document">
+          <div class="modal-content text-center">
+            <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span class="close-label">Close</span><span class="os-icon os-icon-close"></span></button>
+            <div class="onboarding-slider-w">
+              <div class="onboarding-slide">
+                <div class="onboarding-media">
+                <img alt="" src="images/bigicon6.png" width="200px">
+                </div>
+                <div class="onboarding-content with-gradient">
+                  <h4 class="onboarding-title">
+                    {{ typeName }}
+                  </h4>
+                  <div class="onboarding-text">
+                    {{ typeDescription[typeName]}}
+                  </div>
+                  <div *ngIf="features[typeName].length < 5">
+                    <ul class="features-list center-ul">
+                      <li *ngFor="let feature of features[typeName]">{{feature}}</li><br/>
+                    </ul>
+                  </div>
+                  <div *ngIf="features[typeName].length > 4" class="row">
+                    <div class="col-sm-6">
+                      <ul class="features-list">
+                        <li *ngFor="let feature of features[typeName].slice(0,3)">{{feature}}</li>
+                      </ul>
+                    </div>
+                    <div class="col-sm-6">
+                      <ul class="features-list">
+                        <li *ngFor="let feature of features[typeName].slice(3)">{{feature}}</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <button [hidden]="billed" class="btn btn-primary next-button" data-toggle="modal" data-target="#ShowcaseModal1" data-dismiss="modal">To Billing</button>
+                  <button [hidden]="!billed" class="btn btn-primary next-button" data-toggle="modal" data-target="#ShowcaseModal2" data-dismiss="modal">To Subscription</button>
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--PAYMENT SHOWCASE-->
+      <div aria-hidden="true" aria-labelledby="ShowcaseModal1" id="ShowcaseModal1" class="onboarding-modal modal fade animated show-on-load" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-centered" role="document">
+          <div class="modal-content text-center">
+            <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span class="close-label">Cancel</span><span class="os-icon os-icon-close"></span></button>
+            <div class="onboarding-slider-w">
+              <div class="onboarding-slide">
+                <div class="onboarding-media">
+                  <img alt="" src="images/bigicon5.png" width="200px">
+                </div>
+                <div class="onboarding-content with-gradient">
+                  <h4 class="onboarding-title">
+                    Billing Information
+                  </h4>
+                  <div class="onboarding-text">
+                    Enter billing information below to subscribe to the app.
+                  </div>
+                  <div>
+                    <label for="payment method">Payment Method</label>
+                    <select class="form-control" [(ngModel)]="paymentMethod" name="paymentMethod" required>
+                      <option value="Credit Card" selected>Credit Card</option>
+                      <option value="PayPal">PayPal</option>
+                    </select>
+                  </div>
+                  <form *ngIf="paymentMethod === 'Credit Card'" [formGroup]="creditCardForm" (ngSubmit)="onCreditCardSubmit()">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="">Name on Card</label><input class="form-control" formControlName="cardName" placeholder="John More Doe" type="text" value="" required>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="">Credit Card Number</label><input class="form-control" formControlName="cardNumber" placeholder="1111-2222-3333-4444" type="text" value="" required>
+                        </div>
+                      </div>
+                    </div>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="">Expiry Date</label><input class="form-control" formControlName="cardExpDate" type="date" value="" required>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="">CVV</label><input class="form-control" formControlName="cardCVV" placeholder="352" type="number" value="" required>
+                          </div>
+                        </div>
+                    </div>
+                    <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to add billing information. Please check your details.</div>
+                    <div class="text-center">
+                    <button [disabled]="!creditCardForm.valid" class="btn btn-primary next-button" type="submit">To Subscription</button>
+                    </div>
+                  </form>
+                  <button #showModal1 data-target="#ShowcaseModal2" data-toggle="modal"  data-dismiss="modal"  hidden>Showcase2</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--SUBSCRIBE SHOWCASE-->
+      <div aria-hidden="true" aria-labelledby="ShowcaseModal2" id="ShowcaseModal2" class="onboarding-modal modal fade animated show-on-load" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-centered" role="document">
+          <div class="modal-content text-center">
+            <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span class="close-label">Cancel</span><span class="os-icon os-icon-close"></span></button>
+            <div class="onboarding-slider-w">
+              <div class="onboarding-slide">
+                <div class="onboarding-media">
+                  <img alt="" src="images/bigicon2.png" width="200px">
+                </div>
+                <div class="onboarding-content with-gradient">
+                  <h4 class="onboarding-title">
+                    {{isModuleFree() ? 'Free' : 'Only '+price[typeName]}}
+                  </h4>
+                  <div class="onboarding-text">
+                    Press the button below to subscribe to {{typeName}}. {{ isModuleFree() ? 'This app is Free.' : 'A monthly fee of '+price[typeName]+' will be charged to your account.'}}
+                  </div>
+                  <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to add subscription information.</div>
+                  <button class="btn btn-success next-button" (click)="onSubscribe()">Subscribe</button>
+                  <button #showModal2 data-dismiss="modal" hidden>Dismiss Subscribe</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>

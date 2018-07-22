@@ -107,7 +107,7 @@
 
               <div class="form-buttons-w">
                 <button class="btn btn-primary button1" [disabled]="!assetTypeClassForm.valid" type="submit" (click)="onCreate()"> Submit</button>
-                <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>
+                <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
               </div>
             </form>
           </div>
@@ -212,7 +212,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-primary" type="button" (click)="onCreate2()" [disabled]="!attributeForm.valid"> {{newOrEdit == "New" ? "Create": "Save"}}</button>
-            <button class="btn btn-secondary" data-dismiss="modal" type="button" (click)="c(); onResetForm()"> Close</button>
+            <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="c(); onResetForm()"> Close</button>
           </div>
         </ng-template>
         <!-- end of create attribute modal -->

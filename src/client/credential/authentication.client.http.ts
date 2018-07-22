@@ -8,6 +8,8 @@ import {CredentialConfirmationState} from './credential.confirmation.state';
 import {Result} from '../../result/result.success';
 //import {AuthenticateResponseState} from "./authenticate.response.state";
 import {AuthenticateResponse} from '../../authentication/authenticate.response';
+import {ValidResp} from "../../authentication/resp.valid";
+import {ConfirmationState} from "./confirmation.state";
 
 export class AuthenticationClientHttp extends AuthenticationClient {
 
@@ -54,7 +56,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
       });
   }
 
-  isValidPassword(password: string): Observable<boolean> {
+  isValidPassword(password: string): Observable<ValidResp> {
     const url = `${this.hostPort}/validate-password`;
 
     const httpOptions = {
@@ -64,13 +66,13 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     const query = {password: password};
 
     return this.httpClient
-      .post<boolean>(url, query, httpOptions)
+      .post<ValidResp>(url, query, httpOptions)
       .map(data => {
         return data;
       });
   }
 
-  isValidUsername(username: string): Observable<boolean> {
+  isValidUsername(username: string): Observable<ValidResp> {
     const url = `${this.hostPort}/validate-username`;
 
     const httpOptions = {
@@ -78,27 +80,28 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     };
     const query = {username: username};
     return this.httpClient
-    .post<boolean>(url, query, httpOptions)
+    .post<ValidResp>(url, query, httpOptions)
     .map(data => {
       return data;
     });
   }
 
-  addCredential(credentialState: CredentialState): Observable<CredentialConfirmationState> {
-    const url = `${this.hostPort}/credentials`;
+  addCredential(credentialState: CredentialState): Observable<ConfirmationState> {
+    const url = `${this.hostPort}/authentication/credentials`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
-      .post<CredentialConfirmationState>(url, credentialState.toJson(), httpOptions)
+      .post<ConfirmationState>(url, credentialState.toJson(), httpOptions)
       .map(data => {
+        console.log(data);
         return data;
       });
   }
 
-  verifyCredentialConfirmationState(credentialConfirmationState: CredentialConfirmationState): Observable<Result<CredentialConfirmationState>> {
+  verifyConfirmationState(confirmationState: ConfirmationState): Observable<Result<ConfirmationState>> {
     const url = `${this.hostPort}/verify-credentials-confirmations`;
 
     const httpOptions = {
@@ -106,28 +109,28 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     };
 
     return this.httpClient
-      .post<Result<CredentialConfirmationState>>(url, credentialConfirmationState.toJson(), httpOptions)
+      .post<Result<ConfirmationState>>(url, confirmationState.toJson(), httpOptions)
       .map(data => {
         return data;
       });
   }
 
-  sendConfirmationCode(credentialConfirmationId: string): Observable<Result<CredentialConfirmationState>> {
-    const url = `${this.hostPort}/send-confirmation-codes/${credentialConfirmationId}`;
+  resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Result<ConfirmationState>> {
+    const url = `${this.hostPort}/send-confirmation-codes/${credentialId}/${confirmationId}`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
-      .get<Result<CredentialConfirmationState>>(url, httpOptions)
+      .get<Result<ConfirmationState>>(url, httpOptions)
       .map(data => {
         return data;
       });
   }
 
-  getConfirmationsUsername(credentialConfirmationId: string): Observable<string> {
-    const url = `${this.hostPort}/get-confirmations-username/${credentialConfirmationId}`;
+  getConfirmationsUsername(confirmationId: string): Observable<string> {
+    const url = `${this.hostPort}confirmation-username/${confirmationId}`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()

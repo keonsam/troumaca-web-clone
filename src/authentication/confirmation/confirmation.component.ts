@@ -2,10 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
-
-//import {Event} from "../event";
-import {CredentialConfirmation} from '../credential.confirmation';
 import {AuthenticationService} from '../authentication.service';
+import { Confirmation } from "../confirmation";
 
 @Component({
   selector: 'confirmation',
@@ -17,7 +15,7 @@ export class ConfirmationComponent implements OnInit {
   private _phoneVerificationForm: FormGroup;
   private _confirmationCode: FormControl;
 
-  private credentialConfirmation: CredentialConfirmation;
+  private confirmation: Confirmation;
 
   private _confirmationSuccessful: boolean;
   private _sessionExpired: boolean;
@@ -28,11 +26,10 @@ export class ConfirmationComponent implements OnInit {
   private sub: any;
   private _username: string;
 
-  constructor(//private eventService: EventService,
-    private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService,
-    private router: Router) {
+  constructor(private route: ActivatedRoute,
+              private formBuilder: FormBuilder,
+              private authenticationService: AuthenticationService,
+              private router: Router) {
 
     this.confirmationCode = new FormControl('', [Validators.required,
       Validators.minLength(6),
@@ -45,12 +42,12 @@ export class ConfirmationComponent implements OnInit {
     this.phoneVerificationForm
       .valueChanges
       .subscribe(value => {
-        this.credentialConfirmation.confirmationCode = value.confirmationCode;
+        this.confirmation.code = value.confirmationCode;
       }, error2 => {
         console.log(error2);
       });
 
-    this.credentialConfirmation = new CredentialConfirmation();
+    this.confirmation = new Confirmation();
 
     this.confirmationSuccessful = false;
     this.sessionExpired = false;
@@ -61,14 +58,16 @@ export class ConfirmationComponent implements OnInit {
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
-      const credentialConfirmationId = params['credentialConfirmationId'];
-      this.credentialConfirmation.credentialConfirmationId = credentialConfirmationId;
-      this.authenticationService.getConfirmationsUsername(credentialConfirmationId)
-        .subscribe(username => {
-          this.username = username
-        }, error => {
-          console.log(error);
-        });
+      // const credentialId = params['credentialId'];
+      // const confirmationId = params['confirmationId'];
+      this.confirmation.credentialId = params['credentialId'];
+      this.confirmation.confirmationId = params['confirmationId'];
+      // this.authenticationService.getConfirmationsUsername(confirmationId)
+      //   .subscribe(username => {
+      //     this.username = username
+      //   }, error => {
+      //     console.log(error);
+      //   });
     });
   }
 
@@ -157,22 +156,22 @@ export class ConfirmationComponent implements OnInit {
     //TODO: remove phone from the service call
 
     this.authenticationService
-      .sendConfirmationCode(this.credentialConfirmation.credentialConfirmationId)
+      .resendConfirmationCode(this.confirmation.confirmationId, this.confirmation.credentialId)
       .subscribe(next => {
-        if (next.data.credentialStatus === 'CONFIRMED') {
+        if (next.data.status === 'CONFIRMED') {
           this.confirmationSuccessful = true;
           setTimeout(() => {
             this.router.navigate(['/authentication/login']);
           }, 2000);
-        }else if (!next.fail && next.data.credentialConfirmationId === this.credentialConfirmation.credentialConfirmationId) {
+        }else if (!next.fail && next.data.confirmationId === this.confirmation.confirmationId) {
           this.textMessageSuccess = true;
           setTimeout(() => {
             this.textMessageSuccess = false;
           }, 5000);
-        }else if (!next.fail && next.data.credentialConfirmationId !== this.credentialConfirmation.credentialConfirmationId) {
+        }else if (!next.fail && next.data.confirmationId !== this.confirmation.confirmationId) {
           this.sessionExpired = true;
           setTimeout(() => {
-            this.router.navigate([`/authentication/confirmations/${next.data.credentialConfirmationId}`]);
+            this.router.navigate([`/authentication/confirmations/${next.data.confirmationId}`]);
           }, 2000);
         }else {
           this.noEntry = true;
@@ -195,14 +194,14 @@ export class ConfirmationComponent implements OnInit {
     this.noEntry = false;
 
     this.authenticationService
-      .verifyCredentialConfirmation(this.credentialConfirmation)
+      .verifyConfirmation(this.confirmation)
       .subscribe(next => {
-        if (next.data.credentialStatus === 'NEW') {
+        if (next.data.status === 'NEW') {
           this.sessionExpired = true;
           setTimeout(() => {
-            this.router.navigate([`/authentication/confirmations/${next.data.credentialConfirmationId}`]);
+            this.router.navigate([`/authentication/confirmations/${next.data.confirmationId}`]);
           }, 2000);
-        }else if (!next.fail || next.data.credentialStatus === 'CONFIRMED') {
+        }else if (!next.fail || next.data.status === 'CONFIRMED') {
           this.confirmationSuccessful = true;
           setTimeout(() => {
             this.router.navigate(['/authentication/login']);

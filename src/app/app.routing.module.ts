@@ -118,7 +118,7 @@ const appRoutes: Routes = [
     { path: 'login',  component: LoginComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
     { path: 'register', component: RegisterComponent },
-      {path: 'confirmations/:credentialConfirmationId', component: ConfirmationComponent}
+      {path: 'confirmations/:credentialId/:confirmationId', component: ConfirmationComponent}
   ]},
   { path: 'assets', component: AssetComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
     { path: '', redirectTo: 'listing', pathMatch: 'full' },

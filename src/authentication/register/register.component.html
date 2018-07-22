@@ -12,7 +12,7 @@
         <label for=""> Username</label><input class="form-control" formControlName="username" autocomplete="username" placeholder="Enter Email or Phone" required type="text">
         <div class="pre-icon os-icon os-icon-email-2-at2"></div>
       </div>
-      <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid phone or email username.</div>
+      <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid phone number or email username. <br /> Phone number must contain area code, e.g 1 (5xx) 43xx - 2xx. <br /> Email address must follow "username@mail.com"</div>
       <div class="row">
 
         <div class="col-sm-6">
@@ -20,7 +20,7 @@
             <label for=""> Password</label><input class="form-control" formControlName="password" autocomplete="new-password" placeholder="Enter Password" required type="password">
             <div class="pre-icon os-icon os-icon-fingerprint"></div>
           </div>
-          <div [hidden]="password.valid || password.pristine" class="alert alert-danger">Invalid password.</div>
+          <div [hidden]="password.valid || password.pristine" class="alert alert-danger">Password must be at least eight characters long, 1 upper case, numeric, and special character.</div>
         </div>
 
         <div class="col-sm-6">
@@ -31,6 +31,8 @@
           <div [hidden]="confirmPassword.valid || confirmPassword.pristine" class="alert alert-danger">Please re-enter your password.</div>
         </div>
       </div>
+
+      <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to register account. Please try again or contact support.</div>
 
       <div class="buttons-w">
         <button class="btn btn-primary" [disabled]="!registrationForm.valid">Register Now</button> <object align="right"><a routerLink="/authentication/login">Login</a></object>
