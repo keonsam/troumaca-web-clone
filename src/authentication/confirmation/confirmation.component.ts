@@ -153,25 +153,14 @@ export class ConfirmationComponent implements OnInit {
     this.sessionExpired = false;
     this.errorExists = false;
 
-    //TODO: remove phone from the service call
-
     this.authenticationService
       .resendConfirmationCode(this.confirmation.confirmationId, this.confirmation.credentialId)
-      .subscribe(next => {
-        if (next.data.status === 'CONFIRMED') {
-          this.confirmationSuccessful = true;
-          setTimeout(() => {
-            this.router.navigate(['/authentication/login']);
-          }, 2000);
-        }else if (!next.fail && next.data.confirmationId === this.confirmation.confirmationId) {
+      .subscribe(confirmation => {
+        console.log(confirmation);
+        if (confirmation.confirmationId) {
           this.textMessageSuccess = true;
           setTimeout(() => {
-            this.textMessageSuccess = false;
-          }, 5000);
-        }else if (!next.fail && next.data.confirmationId !== this.confirmation.confirmationId) {
-          this.sessionExpired = true;
-          setTimeout(() => {
-            this.router.navigate([`/authentication/confirmations/${next.data.confirmationId}`]);
+            this.router.navigate([`/authentication/confirmations/${confirmation.credentialId}/${confirmation.confirmationId}`]);
           }, 2000);
         }else {
           this.noEntry = true;
@@ -195,18 +184,14 @@ export class ConfirmationComponent implements OnInit {
 
     this.authenticationService
       .verifyConfirmation(this.confirmation)
-      .subscribe(next => {
-        if (next.data.status === 'NEW') {
-          this.sessionExpired = true;
-          setTimeout(() => {
-            this.router.navigate([`/authentication/confirmations/${next.data.confirmationId}`]);
-          }, 2000);
-        }else if (!next.fail || next.data.status === 'CONFIRMED') {
+      .subscribe(confirmation => {
+        console.log(confirmation);
+        if (confirmation.confirmationId) {
           this.confirmationSuccessful = true;
           setTimeout(() => {
             this.router.navigate(['/authentication/login']);
           }, 2000);
-        }else {
+        } else {
           this.errorExists = true;
         }
       }, error => {

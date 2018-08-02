@@ -210,7 +210,7 @@ const appRoutes: Routes = [
     { path: 'create', component: ShipmentCreationComponent, data: {menuName: 'shipments-menu'} },
     { path: ':shipmentId/edit', component: ShipmentEditComponent, data: {menuName: 'shipments-menu'} }
   ]},
-  { path: 'create-profile', canActivate: [ProfileAuthGuard], component: CreateAccountComponent },
+  { path: 'create-profile', canActivate: [AuthGuard], component: CreateAccountComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

@@ -5,13 +5,11 @@ import {AuthenticationClient} from '../../client/credential/authentication.clien
 import {AuthenticationRepository} from '../../authentication/authentication.repository';
 import {Credential} from '../../authentication/credential';
 import {CredentialState} from '../../client/credential/credential.state';
-import {CredentialConfirmation} from '../../authentication/credential.confirmation';
-import {CredentialConfirmationState} from '../../client/credential/credential.confirmation.state';
-import {Result} from '../../result/result.success';
-import {AuthenticateResponse} from '../../authentication/authenticate.response';
 import {ValidResp} from "../../authentication/resp.valid";
 import { Confirmation } from "../../authentication/confirmation";
 import { ConfirmationState } from "../../client/credential/confirmation.state";
+import {AuthenticatedCredential} from "../../authentication/authenticated.credential";
+import {AuthenticatedCredentialState} from "../../client/credential/authenticated.credential.state";
 
 export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
 
@@ -19,8 +17,11 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     super();
   }
 
-  authenticate(credential: Credential): Observable<AuthenticateResponse> {
-    return this.authenticationClient.authenticate(mapObjectProps(credential, new CredentialState()));
+  authenticate(credential: Credential): Observable<AuthenticatedCredential> {
+    return this.authenticationClient.authenticate(mapObjectProps(credential, new CredentialState()))
+      .map(authenticatedCredential => {
+        return mapObjectProps(authenticatedCredential, new AuthenticatedCredentialState());
+      });
   }
 
   forgotPassword(username: string): Observable<boolean> {
@@ -43,18 +44,18 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     });
   }
 
-  verifyConfirmation(confirmation: Confirmation): Observable<Result<Confirmation>> {
+  verifyConfirmation(confirmation: Confirmation): Observable<Confirmation> {
     return this.authenticationClient
     .verifyConfirmationState(mapObjectProps(confirmation, new ConfirmationState()))
     .map(result => {
-     return mapObjectProps(result, new Result<Confirmation>());
+     return mapObjectProps(result, new Confirmation());
     });
   }
 
-  resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Result<Confirmation>> {
+  resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation> {
     return this.authenticationClient.resendConfirmationCode(confirmationId, credentialId)
     .map(result => {
-      return mapObjectProps(result, new Result<Confirmation>());
+      return mapObjectProps(result, new Confirmation());
     });
   }
 

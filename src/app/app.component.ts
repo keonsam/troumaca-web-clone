@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   private _title = 'app';
   private _isLoggedIn: boolean;
   someClass = false;
+  private _isAuthPath: boolean;
 
   private _appDynamicStyle: AppDynamicStyle;
 
@@ -30,13 +31,12 @@ export class AppComponent implements OnInit {
   ];
 
   private isAuthRoutes: string[] = [
+    '/home',
     '/authentication/login',
-    '/authentication/forget-password',
+    '/authentication/forgot-password',
     '/authentication/confirmations',
     '/authentication/register'
   ];
-
-  private isAuth: boolean;
 
   private logInSub: any;
   private initLogSub: any;
@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
               private clientEvent: ClientEvent) {
     this.frontCss = false;
     this.isLoggedIn = false;
-    this.isAuth = false;
+    this.isAuthPath = false;
 
     this.eventService.subscribeToLoginEvent( (data) => {
       this.logInSub = this.router.events.subscribe( (event: any) => {
@@ -105,8 +105,10 @@ export class AppComponent implements OnInit {
         }
         if (this.isAuthRoutes.indexOf(authUrl) !== -1) {
           this.renderer.addClass(document.body, 'auth-wrapper');
+          this.isAuthPath = true;
         } else {
           this.renderer.removeClass(document.body, 'auth-wrapper');
+          this.isAuthPath = false;
         }
       }
     });
@@ -126,6 +128,14 @@ export class AppComponent implements OnInit {
 
   set isLoggedIn(value: boolean) {
     this._isLoggedIn = value;
+  }
+
+  get isAuthPath(): boolean {
+    return this._isAuthPath;
+  }
+
+  set isAuthPath(value: boolean) {
+    this._isAuthPath = value;
   }
 
   get applyWithPattern(): boolean {

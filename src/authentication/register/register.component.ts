@@ -201,7 +201,6 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     this.doNotDisplayFailureMessage = true;
 
-    console.log(this.credential);
     this.authenticationService
     .addCredential(this.credential)
     .subscribe(confirmation => {

@@ -12,7 +12,7 @@
         <label for=""> Username</label><input class="form-control" formControlName="username" autocomplete="username" placeholder="Enter Email or Phone" required type="text">
         <div class="pre-icon os-icon os-icon-email-2-at2"></div>
       </div>
-      <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid phone number or email username. <br /> Phone number must contain area code, e.g 1 (5xx) 43xx - 2xx. <br /> Email address must follow "username@mail.com"</div>
+      <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid phone number or email username. <br /> Username must be a phone number containing area code e.g 1 (5xx) 43xx - 2xx, an email address and must not be taken.</div>
       <div class="row">
 
         <div class="col-sm-6">

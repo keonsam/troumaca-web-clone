@@ -1,11 +1,9 @@
 import {Observable} from 'rxjs/Observable';
 import {AuthenticationRepository} from './authentication.repository';
 import {Credential} from './credential';
-import {CredentialConfirmation} from './credential.confirmation';
-import {Result} from '../result/result.success';
-import {AuthenticateResponse} from './authenticate.response';
 import {ValidResp} from "./resp.valid";
 import { Confirmation } from "./confirmation";
+import {AuthenticatedCredential} from "./authenticated.credential";
 
 export class AuthenticationService {
 
@@ -23,21 +21,10 @@ export class AuthenticationService {
     return this.authenticationRepository.isValidPassword(password);
   }
 
-  public authenticate(credential: Credential): Observable<AuthenticateResponse> {
+  public authenticate(credential: Credential): Observable<AuthenticatedCredential> {
     //let that = this;
     return this
-    .authenticationRepository
-    .authenticate(credential)
-    .map(authenticateResponse => {
-      // TODO: I believe this needs changing
-      /*if(authenticateResponse.session) {
-        Cookie.set(that.sessionIdName, authenticateResponse.session.sessionId);
-        if (authenticateResponse.credential.rememberMe) {
-          Cookie.set(that.rememberMeName, String(authenticateResponse.credential.rememberMe));
-        }
-      }*/
-      return authenticateResponse;
-    });
+    .authenticationRepository.authenticate(credential);
   }
 
   public forgotPassword(username: string): Observable<boolean> {
@@ -48,11 +35,11 @@ export class AuthenticationService {
     return this.authenticationRepository.addCredential(credential);
   }
 
-  public verifyConfirmation(confirmation: Confirmation): Observable<Result<Confirmation>> {
+  public verifyConfirmation(confirmation: Confirmation): Observable<Confirmation> {
     return this.authenticationRepository.verifyConfirmation(confirmation);
   }
 
-  public resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Result<Confirmation>> {
+  public resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation> {
     return this.authenticationRepository.resendConfirmationCode(confirmationId, credentialId);
   }
 

@@ -85,8 +85,8 @@ export class CreateAccountComponent implements OnInit {
        console.log(error2);
      });
 
-    this.userImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwqeFAYIE3hTj9Gs1j3v7o-oBadM5uDkuPBuXMPtXS85LufL7UVA';
-    this.organizationImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
+    this.userImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
+    this.organizationImage = 'url(https://i.pinimg.com/736x/05/19/3c/05193c43ed8e4a9ba4dfaa10ff0115f1.jpg)';
 
     this.doNotDisplayFailureMessage = true;
      this.doNotDisplayFailureMessage2 = true;
@@ -94,7 +94,6 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.createProfileForm.get('accountType')
     .valueChanges
     .subscribe(type => {
