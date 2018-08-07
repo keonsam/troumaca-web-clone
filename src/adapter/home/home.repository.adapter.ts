@@ -42,4 +42,9 @@ export class HomeRepositoryAdapter extends HomeRepository {
       });
   }
 
+  public updateBilling(billing: Billing, method: any): Observable<number> {
+    const methodState = billing.type === 'Credit Card' ? mapObjectProps(method, new CreditCardState()) : '';
+    return this.homeClient.updateBillingState(mapObjectProps(billing, new BillingState()), methodState);
+  }
+
 }

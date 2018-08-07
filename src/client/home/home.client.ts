@@ -11,4 +11,7 @@ export abstract class HomeClient {
   public abstract addBillingState(billingState: BillingState, methodState: any): Observable<BillingState>;
   public abstract addSubscriptionState(subscriptionState: SubscriptionState): Observable<SubscriptionState>;
 
+  public abstract updateBillingState(billingState: BillingState, methodState: any): Observable<number>;
+
+
 }

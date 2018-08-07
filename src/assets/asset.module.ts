@@ -3,8 +3,6 @@ import {CommonModule} from '@angular/common';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AssetComponent} from './asset.component';
-import {AssetService} from './asset.service';
-import {AssetRepository} from './asset.repository';
 import {RouterModule} from '@angular/router';
 import {MenuModule} from '../menu/menu.module';
 import {PagingModule} from '../paging/paging.module';

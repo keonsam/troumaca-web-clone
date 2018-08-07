@@ -67,6 +67,24 @@ export class HomeClientHttp extends HomeClient {
       });
   }
 
+  public updateBillingState(billingState: BillingState, methodState: any): Observable<number> {
+    const url = `${this.hostPort}/billings/${billingState.billingId}`;
+
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+
+    const body = {
+      billing: billingState.toJson(),
+      method: methodState.toJson()
+    };
+
+    return this.httpClient.put<number>(url, body, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
   public jsonHttpHeaders(): HttpHeaders {
     const httpHeaders: HttpHeaders = new HttpHeaders({
       'Content-Type':  'application/json',

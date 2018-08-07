@@ -24,4 +24,8 @@ export class HomeService  {
     return this.homeRepository.addSubscription(subscription);
   }
 
+  public updateBilling(billing: Billing , method: any): Observable<number> {
+    return this.homeRepository.updateBilling(billing, method);
+  }
+
 }

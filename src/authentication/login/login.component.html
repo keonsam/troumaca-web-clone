@@ -8,9 +8,6 @@
         Login Form
       </h4>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div *ngIf="errorExists" class="alert alert-danger">
-          <strong>Error!</strong> Failed to login. Please check your information.
-        </div>
         <div class="form-group">
           <label for="">Username</label><input class="form-control" formControlName="username" autocomplete="username" placeholder="Enter Email or Phone" required type="text">
           <div class="pre-icon os-icon os-icon-user-male-circle"></div>
@@ -19,6 +16,11 @@
           <label for="">Password</label><input class="form-control" formControlName="password" autocomplete="current-password" placeholder="Enter your password" required type="password">
           <div class="pre-icon os-icon os-icon-fingerprint"></div>
         </div>
+
+        <div *ngIf="errorExists" class="alert alert-danger">
+          <strong>Error!</strong> Failed to login. Please check your credential.
+        </div>
+
         <div class="buttons-w">
           <button [disabled]="!loginForm.valid" class="btn btn-primary">Log me in</button>
           <div class="form-check-inline">

@@ -92,6 +92,11 @@ import {ResourceTypeListComponent} from '../access-roles/resource-types/resource
 import {AccessRoleTypeCreationComponent} from '../access-roles/access-role-types/access-role-type-creation/access.role.type.creation.component';
 import {AccessRoleTypeEditComponent} from '../access-roles/access-role-types/access-role-type-edit/access.role.type.edit.component';
 import {AccessRoleTypeListComponent} from '../access-roles/access-role-types/access-role-type-list/access.role.type.list.component';
+// depreciation
+import {ScheduleComponent} from "../depreciation/schedule/schedule.component";
+import {DepreciationCreationComponent} from "../depreciation/depreciation-creation/depreciation.creation.component";
+import {DepreciationComponent} from "../depreciation/depreciation.component";
+import {DepreciationEditComponent} from "../depreciation/depreciation-edit/depreciation.edit.component";
 // OTHERS
 import {ContractComponent} from '../contracts/contract.component';
 import {OrderListComponent} from '../contracts/orders/order.list.component';
@@ -191,6 +196,12 @@ const appRoutes: Routes = [
       { path: 'access-role-types/:accessRoleTypeId/edit', component: AccessRoleTypeEditComponent, data: {menuName: 'access-role-menu'} },
       { path: 'access-role-types', component: AccessRoleTypeListComponent, data: {menuName: 'access-role-menu'} }
     ]},
+  { path: 'depreciation', component: DepreciationComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
+      { path: '', redirectTo: 'schedule', pathMatch: 'full' },
+      { path: 'schedule', component: ScheduleComponent},
+      { path: 'create', component: DepreciationCreationComponent},
+      { path: ':depreciationId/edit', component: DepreciationEditComponent}
+    ]},
   { path: 'contracts', component: ContractComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
     { path: '', redirectTo: 'orders', pathMatch: 'full' },
     { path: 'listing', component: ContractListComponent, data: {menuName: 'orders-menu'}},
@@ -210,6 +221,7 @@ const appRoutes: Routes = [
     { path: 'create', component: ShipmentCreationComponent, data: {menuName: 'shipments-menu'} },
     { path: ':shipmentId/edit', component: ShipmentEditComponent, data: {menuName: 'shipments-menu'} }
   ]},
+
   { path: 'create-profile', canActivate: [AuthGuard], component: CreateAccountComponent },
   { path: '**', component: PageNotFoundComponent },
 ];

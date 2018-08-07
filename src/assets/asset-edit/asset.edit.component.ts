@@ -116,7 +116,6 @@ export class AssetEditComponent implements OnInit {
        this.assetId = params['assetId'];
        this.assetService.getAssetById(this.assetId)
        .subscribe(asset => {
-         console.log(asset);
         this.assetKindId.setValue(asset.assetKind.assetKindId);
         this.assetType.setValue(asset.assetType.name);
         this.serialNumber.setValue(asset.serialNumber);

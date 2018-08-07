@@ -41,6 +41,9 @@ import {AuthenticationModule} from '../authentication/authentication.module';
 import {SessionModule} from '../session/session.module';
 import {AccessRoleModule} from '../access-roles/access.role.module';
 
+// Depreciation
+import {DepreciationModule} from '../depreciation/depreciation.module';
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -77,7 +80,8 @@ import {AccessRoleModule} from '../access-roles/access.role.module';
     AppRoutingModule,
     ShipmentModule,
     SessionModule,
-    AccessRoleModule
+    AccessRoleModule,
+    DepreciationModule
   ],
   declarations: [
     AppComponent,

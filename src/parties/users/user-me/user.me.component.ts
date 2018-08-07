@@ -104,7 +104,7 @@ export class UserMeComponent implements OnInit {
   ngOnInit(): void {
     this.userMeForm.get('password').valueChanges
     .subscribe(value => {
-      if (value.length === 1 && !this.requiredState){
+      if (value.length === 1 && !this.requiredState) {
       this.requiredState = true;
       this.userMeForm.get('password').setValidators([Validators.required, this.passwordValidator(this.partyService)]);
       this.userMeForm.get('confirmPassword').setValidators([Validators.required, this.confirmPasswordValidator(this.password)]);

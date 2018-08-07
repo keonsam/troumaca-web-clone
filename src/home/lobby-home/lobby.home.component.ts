@@ -11,10 +11,10 @@ import { Subscription} from "./subscription";
   templateUrl: './lobby.home.component.html',
   styleUrls: ['./lobby.home.component.css']
 })
+
 export class LobbyHomeComponent implements OnInit {
 
   @ViewChild('showModal') showModal: ElementRef;
-  @ViewChild('showModal1') showModal1: ElementRef;
   @ViewChild('showModal2') showModal2: ElementRef;
 
 
@@ -40,8 +40,8 @@ export class LobbyHomeComponent implements OnInit {
 
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage1: boolean;
-
-
+  private _currentModel: string;
+  private _justBilled: boolean;
 
   // private _paymentMethods: PaymentMethod[];
 
@@ -87,6 +87,7 @@ export class LobbyHomeComponent implements OnInit {
     this.freeModules = ['Organization Management', 'User Management'];
 
     this.billed = false;
+    this.justBilled = false;
 
     const assetDes = 'Manage assets in the cloud to create effective databases breakdowns';
     const userDes = 'Allows users to access and management your assets';
@@ -240,16 +241,38 @@ export class LobbyHomeComponent implements OnInit {
     this._doNotDisplayFailureMessage1 = value;
   }
 
+  get currentModel(): string {
+    return this._currentModel;
+  }
+
+  set currentModel(value: string) {
+    this._currentModel = value;
+  }
+
+  get justBilled(): boolean {
+    return this._justBilled;
+  }
+
+  set justBilled(value: boolean) {
+    this._justBilled = value;
+  }
+
   isModuleFree() {
     return this.freeModules.indexOf(this.typeName) !== -1;
   }
 
+  showNextModel(type: string) {
+    this.currentModel = type;
+  }
+
   module(type: string) {
+    console.log(this.billed);
     this.homeService.getSubscription(type)
       .subscribe( subscription => {
         if (subscription.subscribed) {
           this.router.navigate(this.moduleRoutes[type]);
         }else {
+          this.currentModel = 'features';
           this.typeName = type;
           if (!this.isModuleFree()) {
             this.homeService.getBilling()
@@ -276,7 +299,26 @@ export class LobbyHomeComponent implements OnInit {
     this.homeService.addBilling(this.billing, this.creditCard)
       .subscribe( billing => {
         if (billing.billingId) {
-          this.showModal1.nativeElement.click();
+          this.billing = billing;
+          this.justBilled = true;
+          this.showNextModel('subscribe');
+        }else {
+          this.doNotDisplayFailureMessage = false;
+        }
+      }, error => {
+        this.doNotDisplayFailureMessage = false;
+        console.log(error);
+      });
+  }
+
+  onEditCreditCard() {
+    this.doNotDisplayFailureMessage = true;
+    this.billing.type = this.paymentMethod;
+    this.homeService.updateBilling(this.billing, this.creditCard)
+      .subscribe( numReplaced => {
+        if (numReplaced) {
+          this.justBilled = true;
+          this.showNextModel('subscribe');
         }else {
           this.doNotDisplayFailureMessage = false;
         }

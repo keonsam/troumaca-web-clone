@@ -10,4 +10,5 @@ export abstract class HomeRepository {
   public abstract addBilling(billing: Billing, method: any): Observable<Billing>;
   public abstract addSubscription(subscription: Subscription): Observable<Subscription>;
 
+  public abstract updateBilling(billing: Billing, method: any): Observable<number>;
 }

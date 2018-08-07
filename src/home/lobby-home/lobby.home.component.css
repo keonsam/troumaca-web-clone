@@ -51,4 +51,15 @@
   /*display: block;*/
 /*}*/
 
+.prev-button {
+  float: left;
+  margin-bottom: 30px;
+}
+
+.nex-button {
+  float: right;
+  margin-bottom: 30px;
+}
+
+
 
