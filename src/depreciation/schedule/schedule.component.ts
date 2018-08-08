@@ -63,6 +63,10 @@ export class ScheduleComponent implements OnInit {
     this._depreciationName = value;
   }
 
+  roundValue(value) {
+    return Math.round(value * 100) / 100;
+  }
+
   getDepreciationArr() {
     this.depreciationService.getDepreciationArr(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
       .subscribe(next => {
@@ -71,7 +75,7 @@ export class ScheduleComponent implements OnInit {
           value.currentDepreciation = currentDepreciation.toString();
           const cumulativeDep = this.getCumulativeDepreciation(value, currentDepreciation);
           value.cumulativeDepreciation = cumulativeDep.toString();
-          value.bookValue = (parseFloat(value.cost) - cumulativeDep).toString();
+          value.bookValue = (this.roundValue(parseFloat(value.cost) - cumulativeDep)).toString();
         });
         this.depreciationArr = next;
       }, error => {
@@ -86,8 +90,8 @@ export class ScheduleComponent implements OnInit {
     // const currentDate = new Date();
     // const incDate: Date = purchaseDate;
     const depRate = (1 / usefulLife) * 2;
-    const currentDep =  Math.round(bookValue * (depRate) * 100) / 100;
-    bookValue = Math.round((bookValue - currentDep) * 100) / 100;
+    const currentDep = this.roundValue(bookValue * depRate);
+    bookValue = this.roundValue(bookValue - currentDep);
     times--;
     if (times < 1) {
       return currentDep;
@@ -111,32 +115,23 @@ export class ScheduleComponent implements OnInit {
       let bookValue = cost;
       let cumulativeDep = 0;
       for (let i = 0; i < currentDepYear; i++) {
-        cumulativeDep = Math.round( (cumulativeDep + this.doubleDeclining(bookValue, usefulLife, 1)) * 100) / 100;
-        bookValue = Math.round((cost - cumulativeDep) * 100) / 100;
-        console.log(bookValue);
+        cumulativeDep = this.roundValue(cumulativeDep + this.doubleDeclining(bookValue, usefulLife, 1));
+        bookValue = this.roundValue(cost - cumulativeDep);
       }
       return cumulativeDep;
     }
   }
 
   unitOfProduction(cost, salvageVal, unitProduced, totalUnits) {
-    const baseDep = Math.round((cost - salvageVal) * 100) / 100;
-    const baseRate = Math.round((baseDep / totalUnits) * 100) / 100;
-    // if (cumulative) {
-    //   let cumulativeDep = 0;
-    //   for (let i = 1; i <= unitProduced.length; i++) {
-    //     cumulativeDep = Math.round((cumulativeDep + (baseRate * unitProduced[i])) * 100) / 100;
-    //     console.log(cumulativeDep);
-    //   }
-    //   return cumulativeDep;
-    // }
-    return  Math.round((baseRate * unitProduced) * 100) / 100;
+    const baseDep = this.roundValue(cost - salvageVal);
+    const baseRate = this.roundValue(baseDep / totalUnits);
+    return this.roundValue(baseRate * unitProduced);
   }
 
   getCumulativeUnitOfProd(cost, salvageVal, unitProduced, totalUnits) {
     let cumulative = 0;
     for (let i = 0; i < unitProduced.length; i++) {
-      cumulative = Math.round((cumulative + this.unitOfProduction(cost, salvageVal, unitProduced[i], totalUnits)) * 100) / 100;
+      cumulative = this.roundValue(cumulative + this.unitOfProduction(cost, salvageVal, unitProduced[i], totalUnits));
     }
     return cumulative;
   }
@@ -146,7 +141,7 @@ export class ScheduleComponent implements OnInit {
     incDate.setFullYear( incDate.getFullYear() + 1);
     const currentDate = new Date();
     let remainingLife = usefulLife;
-    while (currentDate > incDate && remainingLife < 1) {
+    while (currentDate > incDate && remainingLife > 1) {
       remainingLife--;
       incDate.setFullYear( incDate.getFullYear() + 1);
     }
@@ -154,19 +149,19 @@ export class ScheduleComponent implements OnInit {
   }
 
   sumOfYears(cost, salvageVal, usefulLife, purchaseDate, currentDepYear?: number) {
-    const baseDep = Math.round((cost - salvageVal) * 100) / 100;
+    const baseDep = this.roundValue(cost - salvageVal);
     const remainingYears = this.findRemainingYears(usefulLife, purchaseDate);
     const sumOfYears = (usefulLife * (usefulLife + 1)) / 2;
     if (currentDepYear) {
       let cumulativeDep = 0;
       for ( let i = 0; i < currentDepYear; i++) {
         const reYears = usefulLife - i;
-        const dep = Math.round(baseDep * (reYears / sumOfYears) * 100) / 100;
-        cumulativeDep = Math.round((cumulativeDep + dep) * 100) / 100;
+        const dep = this.roundValue(baseDep * (reYears / sumOfYears));
+        cumulativeDep = this.roundValue(cumulativeDep + dep);
       }
       return cumulativeDep;
     }
-    return Math.round(baseDep * (remainingYears / sumOfYears) * 100) / 100;
+    return this.roundValue(baseDep * (remainingYears / sumOfYears));
   }
 
   getCurrentDepreciation(depreciation) {
@@ -179,7 +174,7 @@ export class ScheduleComponent implements OnInit {
     let currentDep = 0;
     switch (depreciation.method) {
       case 'straight-line':
-      currentDep = Math.round((cost - salvageVal) / usefulLife * 100) / 100;
+      currentDep = this.roundValue((cost - salvageVal) / usefulLife);
       break;
       case 'double-declining-method':
       currentDep = this.getDoubleDeclining(cost, usefulLife, purchaseDate);
@@ -212,7 +207,7 @@ export class ScheduleComponent implements OnInit {
     let cumulativeDep = 0;
     switch (depreciation.method) {
       case 'straight-line':
-        cumulativeDep = Math.round(currentDep * currentDepYear * 100) / 100;
+        cumulativeDep = this.roundValue(currentDep * currentDepYear);
         break;
       case 'double-declining-method':
          cumulativeDep = this.getDoubleDeclining(cost, usefulLife, purchaseDate, currentDepYear);

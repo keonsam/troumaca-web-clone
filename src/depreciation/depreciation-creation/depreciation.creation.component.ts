@@ -69,7 +69,6 @@ export class DepreciationCreationComponent implements OnInit {
    this.depreciationForm
     .valueChanges
     .subscribe(value => {
-      this.depreciation.assetId = value.assetId;
       this.depreciation.method = value.method;
       this.depreciation.purchaseDate = value.purchaseDate;
       this.depreciation.cost = value.cost;
@@ -226,7 +225,6 @@ export class DepreciationCreationComponent implements OnInit {
   }
 
   onAssetSelect(selected: CompleterItem) {
-    console.log(selected);
     this.depreciation.assetId = selected.originalObject.assetId;
   }
 

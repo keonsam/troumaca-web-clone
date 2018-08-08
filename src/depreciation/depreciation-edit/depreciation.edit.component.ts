@@ -72,7 +72,6 @@ export class DepreciationEditComponent implements OnInit {
    this.depreciationForm
     .valueChanges
     .subscribe(value => {
-      this.depreciation.assetId = value.assetId;
       this.depreciation.method = value.method;
       this.depreciation.purchaseDate = value.purchaseDate;
       this.depreciation.cost = value.cost;
