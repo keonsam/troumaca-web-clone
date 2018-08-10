@@ -33,15 +33,7 @@ export class AssetRepositoryAdapter extends AssetRepository {
     .getAssets(pageNumber, pageSize, sortOrder)
     .map(values => {
       const assetModels: Assets = new Assets();
-      assetModels.assets = map(values.assets, value => {
-        const assetModel: Asset = mapObjectProps(value, new Asset());
-        //assetModel.assetTypeClass = mapObjectPropAs(value.assetType, new AssetTypeClass());
-        assetModel.assetType = mapObjectProps(value.assetType, new AssetType());
-        assetModel.unitOfMeasure = mapObjectProps(value.unitOfMeasure, new UnitOfMeasure());
-        assetModel.person = mapObjectProps(value.person, new AssetPerson());
-        assetModel.site = mapObjectProps(value.site, new Site());
-        return assetModel;
-      });
+      assetModels.assets = map(values.assets, value => mapObjectProps(value, new Asset()));
      assetModels.page = mapObjectProps(values.page, new Page());
      assetModels.sort = mapObjectProps(values.sort, new Sort());
       return assetModels;
@@ -123,17 +115,5 @@ export class AssetRepositoryAdapter extends AssetRepository {
   public deleteAsset(assetId: string): Observable<number> {
     return this.assetClient.deleteAsset(assetId);
   }
-
-// public findAssetTypes(searchStr:string): Observable<AssetTypes> {
-  //   return this.assetClient
-  //   .findAssetTypes(searchStr)
-  //   .map(values => {
-  //     let assetTypes:AssetTypes = new AssetTypes();
-  //     assetTypes.assetTypes = map(values.assetTypes, value => {
-  //       return mapObjectProps(value, new AssetType());
-  //     });
-  //     return assetTypes;
-  //   });
-  // }
 
 }

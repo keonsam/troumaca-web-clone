@@ -1,18 +1,15 @@
-import {Attribute} from '../attributes/attribute';
-
 export class AssignedAttribute {
 
   private _assignedAttributeId: string;
   private _assetTypeClassId: string;
   private _attributeId: string;
-  private _attribute: Attribute;
+  private _attributeName: string;
   private _required: boolean;
   private _createdOn: string;
   private _modifiedOn: string;
 
   constructor(attributeId?: string) {
     this._attributeId = attributeId;
-    this._attribute = new Attribute();
   }
 
   get assignedAttributeId(): string {
@@ -39,14 +36,6 @@ export class AssignedAttribute {
     this._attributeId = value;
   }
 
-  get attribute(): Attribute {
-    return this._attribute;
-  }
-
-  set attribute(value: Attribute) {
-    this._attribute = value;
-  }
-
   get required(): boolean {
     return this._required;
   }
@@ -69,5 +58,13 @@ export class AssignedAttribute {
 
   set modifiedOn(value: string) {
     this._modifiedOn = value;
+  }
+
+  get attributeName(): string {
+    return this._attributeName;
+  }
+
+  set attributeName(value: string) {
+    this._attributeName = value;
   }
 }

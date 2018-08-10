@@ -92,7 +92,7 @@ export class DepreciationEditComponent implements OnInit {
       this.depreciationId = params['depreciationId'];
       this.depreciationService.getDepreciation(this.depreciationId)
         .subscribe( depreciation => {
-          this.assetId.setValue(depreciation.assetId);
+          this.assetId.setValue(depreciation.assetName);
           this.method.setValue(depreciation.method);
           this.purchaseDate.setValue(depreciation.purchaseDate);
           this.cost.setValue(depreciation.cost);
@@ -146,7 +146,7 @@ export class DepreciationEditComponent implements OnInit {
         return value2.map(v2 => {
           return {
             assetId: v2.assetId,
-            name: v2.assetTypeId
+            name: v2.assetTypeName
           };
         })
       })

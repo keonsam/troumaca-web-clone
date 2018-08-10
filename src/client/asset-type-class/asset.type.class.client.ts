@@ -20,9 +20,9 @@ export abstract class AssetTypeClassClient {
 
   abstract getAssetTypeClasses(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetTypeClassStates>;
 
-  abstract getAvailableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<AttributeStates>;
+  // abstract getAvailableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<AttributeStates>;
 
-  abstract getAssignAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<AttributeStates>;
+  abstract getAssignableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[], type: string): Observable<AttributeStates>;
 
   abstract addAssetTypeClass(assetTypeClassState: AssetTypeClassState, assignedAttributes: AssignedAttributeState[]): Observable<AssetTypeClassState>;
 

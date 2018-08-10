@@ -77,14 +77,7 @@ export class AssetEditComponent implements OnInit {
 
     this.assetKinds = [];
 
-    const asset = new Asset();
-    asset.assetKind = new AssetKind
-    asset.assetType = new AssetType();
-    asset.unitOfMeasure = new UnitOfMeasure();
-    asset.person = new AssetPerson();
-    asset.site = new Site();
-    //asset.assetTypeClass = new AssetTypeClass();
-    this.asset = asset;
+    this.asset = new Asset();
 
    this.assetEditForm
     .valueChanges
@@ -116,13 +109,13 @@ export class AssetEditComponent implements OnInit {
        this.assetId = params['assetId'];
        this.assetService.getAssetById(this.assetId)
        .subscribe(asset => {
-        this.assetKindId.setValue(asset.assetKind.assetKindId);
-        this.assetType.setValue(asset.assetType.name);
+        this.assetKindId.setValue(asset.assetKindId);
+        this.assetType.setValue(asset.assetTypeName);
         this.serialNumber.setValue(asset.serialNumber);
         this.quantity.setValue(asset.quantity);
-        this.unitOfMeasure.setValue(asset.unitOfMeasure.name);
-        this.site.setValue(asset.site.name);
-        this.person.setValue(asset.person.firstName);
+        this.unitOfMeasure.setValue(asset.unitOfMeasureName);
+        this.site.setValue(asset.siteName);
+        this.person.setValue(asset.personName);
         this.description.setValue(asset.description);
         this.asset = asset;
       }, error => {
@@ -143,7 +136,7 @@ export class AssetEditComponent implements OnInit {
   }
 
   private populateAssetTypeDropDown() {
-    if (!this.asset.assetType.assetTypeId) {
+    if (!this.asset.assetTypeName) {
       this.findAssetTypes('');
     }
     this.assetEditForm.get('assetType').valueChanges
@@ -175,7 +168,7 @@ export class AssetEditComponent implements OnInit {
   }
 
   private populateUnitOfMeasureDropDown() {
-    if (!this.asset.unitOfMeasure.unitOfMeasureId){
+    if (!this.asset.unitOfMeasureName){
       this.findUnitOfMeasures('');
     }
     this.assetEditForm.get('unitOfMeasure').valueChanges
@@ -208,7 +201,7 @@ export class AssetEditComponent implements OnInit {
   }
 
   private populateSiteDropDown() {
-    if (!this.asset.site.siteId){
+    if (!this.asset.siteName) {
       this.findUnionOfPhysicalSites('');
     }
     this.assetEditForm.get('site').valueChanges
@@ -247,7 +240,7 @@ export class AssetEditComponent implements OnInit {
   }
 
   private populatePersonDropDown() {
-    if (!this.asset.person.partyId){
+    if (!this.asset.personName) {
       this.findPersons('');
     }
     this.assetEditForm.get('person').valueChanges
@@ -416,11 +409,11 @@ export class AssetEditComponent implements OnInit {
 
 
   isDiscreteItem() {
-    return this.assetKindId.value == '4cf11077-c5e3-41f3-b40b-6e89dce6e9c8';
+    return this.assetKindId.value === '4cf11077-c5e3-41f3-b40b-6e89dce6e9c8';
   }
 
   isInventory() {
-    return this.assetKindId.value == '65694257-0aa8-4fb6-abb7-e6c7b83cf4f2';
+    return this.assetKindId.value === '65694257-0aa8-4fb6-abb7-e6c7b83cf4f2';
   }
 
   onCreate() {

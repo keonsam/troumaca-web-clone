@@ -21,7 +21,7 @@ export class DepreciationClientHttp extends DepreciationClient {
   }
 
   public findAssets(searchStr: string, pageSize: number): Observable<AssetState[]> {
-    const url = `${this.hostPort}/assets/find?q=${searchStr}&pageSize=${pageSize}`;
+    const url = `${this.hostPort}/depreciation/assets/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };

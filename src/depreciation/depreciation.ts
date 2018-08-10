@@ -1,6 +1,7 @@
 export class Depreciation {
   private _depreciationId: string;
   private _assetId: string;
+  private _assetName: string;
   private _method: string;
   private _purchaseDate: string;
   private _cost: string;
@@ -106,5 +107,13 @@ export class Depreciation {
 
   set bookValue(value: string) {
     this._bookValue = value;
+  }
+
+  get assetName(): string {
+    return this._assetName;
+  }
+
+  set assetName(value: string) {
+    this._assetName = value;
   }
 }

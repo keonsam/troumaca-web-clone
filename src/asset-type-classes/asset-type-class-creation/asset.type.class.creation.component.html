@@ -87,19 +87,19 @@
                         </tr>
                       </tfoot>
                       <tbody>
-                        <tr class="clickable-tr" role="row" *ngFor="let attribute of assignAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedDoubleClick(attribute.attributeId)">
+                        <tr class="clickable-tr" role="row" *ngFor="let attribute of assignableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedDoubleClick(attribute.attributeId)">
                           <td class="text-center">
                             <input class="form-control" type="checkbox" (change)="onCheckBoxChange($event, attribute.attributeId)" [checked]="isChecked(attribute.attributeId)">
                           </td>
                           <td>{{attribute.name}}</td>
                           <td>{{getDataType(attribute.dataTypeId)}}</td>
                         </tr>
-                        <tr *ngIf="assignAttributes.attributes.length <= 0" class="odd">
+                        <tr *ngIf="assignableAttributes.attributes.length <= 0" class="odd">
                           <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No Assigned Attributes</td>
                         </tr>
                      </tbody>
                     </table>
-                    <paging [page]="assignAttributes.page" (requestPage)="onAssignedRequestPage($event)"></paging>
+                    <paging [page]="assignableAttributes.page" (requestPage)="onAssignedRequestPage($event)"></paging>
                   </div>
                 </div>
                 <!-- END OF ASSIGNED ATTRIBUTES -->

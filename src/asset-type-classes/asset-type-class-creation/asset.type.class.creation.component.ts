@@ -12,7 +12,6 @@ import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
 import {DataType} from '../../attributes/data.type';
 import {Attribute} from '../../attributes/attribute';
-import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
 import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -45,7 +44,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
   private assetTypeClass: AssetTypeClass;
   private _availableAttributes: Attributes;
-  private _assignAttributes: Attributes;
+  private _assignableAttributes: Attributes;
 
   private defaultPage = 1;
   private defaultPageSize = 10;
@@ -99,15 +98,13 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
     this.assetTypeClass = new AssetTypeClass();
 
-    const newAttribute = new Attribute();
-    newAttribute.unitOfMeasure = new UnitOfMeasure();
-    this.attribute = newAttribute;
+    this.attribute = new Attribute();
 
     const newAttributes = new Attributes();
     newAttributes.page = new Page(0, 0, 0);
     newAttributes.sort = new Sort();
     this.availableAttributes = newAttributes;
-    this.assignAttributes = newAttributes;
+    this.assignableAttributes = newAttributes;
 
     this.assetTypeClassForm
     .valueChanges
@@ -142,13 +139,14 @@ export class AssetTypeClassCreationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAvailableAttributes();
+
     const that = this;
     this.assetTypeClassService
     .getDataTypes()
     .subscribe(dataTypes => {
       if (dataTypes) {
         that.dataTypes = dataTypes;
+        this.getAssignableAttributes(this.assignedArray, 'available');
       }
     }, onError => {
       console.log(onError);
@@ -299,12 +297,12 @@ export class AssetTypeClassCreationComponent implements OnInit {
     this._availableAttributes = value;
   }
 
-  get assignAttributes(): Attributes {
-    return this._assignAttributes;
+  get assignableAttributes(): Attributes {
+    return this._assignableAttributes;
   }
 
-  set assignAttributes(value: Attributes) {
-    this._assignAttributes = value;
+  set assignableAttributes(value: Attributes) {
+    this._assignableAttributes = value;
   }
 
   get assignedArray(): string[] {
@@ -361,11 +359,15 @@ export class AssetTypeClassCreationComponent implements OnInit {
     }
   }
 
-  getAvailableAttributes() {
+  getAssignableAttributes(assignedArray, type) {
     this.assetTypeClassService
-    .getAvailableAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
+    .getAssignableAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, assignedArray, type)
     .subscribe(next => {
-      this.availableAttributes = next;
+      if (type === 'available') {
+        this.availableAttributes = next;
+      }else {
+        this.assignableAttributes = next
+      }
     }, error => {
       console.log(error);
     }, () => {
@@ -373,54 +375,41 @@ export class AssetTypeClassCreationComponent implements OnInit {
     });
   }
 
-  getAssignAttributes() {
-    this.assetTypeClassService
-    .getAssignAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
-    .subscribe(next => {
-      //TODO: UPDATE NAMES IN THE FUTURE
-      this.assignAttributes = next
-    }, error => {
-      console.log(error);
-    }, () => {
-      console.log('complete');
-    });
-  }
-
-  updateTable() {
-    this.getAssignAttributes();
-    this.getAvailableAttributes();
+  updateTable(assignedArray: string[]) {
+    this.getAssignableAttributes(assignedArray, 'available');
+    this.getAssignableAttributes(assignedArray, 'assignable');
   }
 
 
   onCheckBoxChange(event, attributeId) {
-    this.assignedAttributes.find(x => x.attributeId == attributeId).required = event.target.checked;
+    this.assignedAttributes.find(x => x.attributeId === attributeId).required = event.target.checked;
   }
 
   onAvailableDoubleClick(attributeId: string) {
    this.assignedArray.push(attributeId);
-   this.updateTable();
+   this.updateTable(this.assignedArray);
     // update and push to make sure no error
     this.assignedAttributes.push(new AssignedAttribute(attributeId));
   }
 
   onAssignedDoubleClick(attributeId: string) {
-  this.assignedArray = this.assignedArray.filter(val => val != attributeId);
-    this.updateTable();
-    this.assignedAttributes = this.assignedAttributes.filter(val => val.attributeId != attributeId);
+  this.assignedArray = this.assignedArray.filter(val => val !== attributeId);
+    this.updateTable(this.assignedArray);
+    this.assignedAttributes = this.assignedAttributes.filter(val => val.attributeId !== attributeId);
   }
 
   isChecked(attributeId) {
     // weird error where isChecked get called when you removed an item for assignAttribute
-    const isChecked = this.assignedAttributes.find(x => x.attributeId == attributeId);
+    const isChecked = this.assignedAttributes.find(x => x.attributeId === attributeId);
     return isChecked ? isChecked.required : false;
   }
 
-  onOpenDeleteModal(attributeId: string, attributeName){
+  onOpenDeleteModal(attributeId: string, attributeName) {
     this.attributeId = attributeId;
     this.attributeNameTwo = attributeName;
   }
 
-  onOpenFormModal(attributeId: string){
+  onOpenFormModal(attributeId: string) {
     this.attributeId = attributeId;
     this.assetTypeClassService
     .getAttribute(attributeId)
@@ -428,7 +417,7 @@ export class AssetTypeClassCreationComponent implements OnInit {
       this.attributeName.setValue(attribute.name);
       this.format.setValue(attribute.format);
       this.dataType.setValue(attribute.dataTypeId);
-      this.unitOfMeasureId.setValue(attribute.unitOfMeasure.name);
+      this.unitOfMeasureId.setValue(attribute.unitOfMeasureName);
       this.maximumValue.setValue(attribute.maximumValue);
       this.minimumValue.setValue(attribute.minimumValue);
       this.attribute = attribute;
@@ -437,7 +426,6 @@ export class AssetTypeClassCreationComponent implements OnInit {
    }, () => {
      console.log('complete');
    });
-
   }
 
   open(content) {
@@ -456,24 +444,58 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
   onAvailableRequestPage(pageNumber: number) {
     this.defaultPage = pageNumber;
-    this.getAvailableAttributes();
+    this.getAssignableAttributes(this.assignedArray, 'available');
 }
 
   onAssignedRequestPage(pageNumber: number) {
     this.defaultPage = pageNumber;
-    this.getAssignAttributes();
+    this.getAssignableAttributes(this.assignedArray, 'assignable');
   }
 
   onDelete() {
     this.assetTypeClassService
     .deleteAttribute(this.attributeId)
     .subscribe(value => {
-    this.getAvailableAttributes();
+    this.getAssignableAttributes(this.assignedArray, 'available');
     }, error => {
     console.log(error);
     }, () => {
     console.log('complete');
     });
+  }
+
+  addAttribute(attribute: Attribute) {
+    this.assetTypeClassService
+      .addAttribute(attribute)
+      .subscribe(value => {
+        if (value && value.attributeId) {
+          this.onResetForm();
+          this.getAssignableAttributes(this.assignedArray, 'available');
+          this.modalReference.close();
+        } else {
+          this.doNotDisplayFailureMessage2 = false;
+        }
+      }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage2 = false;
+      });
+  }
+
+  updateAttribute(attributeId: string, attribute: Attribute) {
+    this.assetTypeClassService
+      .updateAttribute(attributeId, attribute)
+      .subscribe(value => {
+        if (value) {
+          this.onResetForm();
+          this.getAssignableAttributes(this.assignedArray, 'available');
+          this.modalReference.close()
+        } else {
+          this.doNotDisplayFailureMessage2 = false;
+        }
+      }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage2 = false;
+      });
   }
 
   onCreate() {
@@ -494,37 +516,12 @@ export class AssetTypeClassCreationComponent implements OnInit {
 
   onCreate2() {
     this.doNotDisplayFailureMessage2 = true;
-    if (this.newOrEdit == 'New'){
-      this.assetTypeClassService
-      .addAttribute(this.attribute)
-      .subscribe(value => {
-        if (value && value.attributeId) {
-          this.onResetForm();
-          this.getAvailableAttributes();
-          this.modalReference.close();
-        } else {
-          this.doNotDisplayFailureMessage2 = false;
-        }
-      }, error => {
-        console.log(error);
-        this.doNotDisplayFailureMessage2 = false;
-      });
-    }else{
-      this.assetTypeClassService
-      .updateAttribute(this.attributeId, this.attribute)
-      .subscribe(value => {
-        if (value) {
-          this.onResetForm();
-          this.getAvailableAttributes();
-          this.modalReference.close()
-        } else {
-          this.doNotDisplayFailureMessage2 = false;
-        }
-      }, error => {
-        console.log(error);
-        this.doNotDisplayFailureMessage2 = false;
-      });
-  }
+    // TODO : remove newOrEdit and use attribute.attributeId
+    if (this.newOrEdit === 'New') {
+      this.addAttribute(this.attribute);
+    } else {
+      this.updateAttribute(this.attributeId, this.attribute);
+    }
   }
 
   onResetForm() {

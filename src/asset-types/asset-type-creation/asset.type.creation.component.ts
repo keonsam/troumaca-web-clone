@@ -66,9 +66,7 @@ export class AssetTypeCreationComponent implements OnInit {
         'unitOfMeasureId': this.unitOfMeasureId
       });
 
-    const assetType = new AssetType();
-    //assetType.assetTypeClass = new AssetTypeClass();
-    this.assetType = assetType;
+    this.assetType = new AssetType();
 
     this.assignedAttributes = [];
 
@@ -288,8 +286,8 @@ export class AssetTypeCreationComponent implements OnInit {
     }
   }
 
-  onType(dataTypeName: string) {
-   if (dataTypeName == 'Decimal' || 'Integer') {
+  onType(dataTypeId: string) {
+   if (dataTypeId === '972d0758-03c0-45e8-82e1-99815cbc77e5' || '1739b494-4404-4dcd-a386-a6221f5a2248') {
       return 'number';
     }else {
       return 'text';
@@ -303,24 +301,27 @@ export class AssetTypeCreationComponent implements OnInit {
       this.assignedAttributes = next;
       const group: any = {};
       this.assignedAttributes.forEach(value => {
-      let editValue = this.value.find(x => x.attributeId == value.attributeId);
+      let editValue = this.value.find(x => x.attributeId === value.attributeId);
       if (!editValue) {
         this.value.push(new Value(value.attributeId, ''));
-        editValue = this.value.find(x => x.attributeId == value.attributeId);
+        editValue = this.value.find(x => x.attributeId === value.attributeId);
       }
         group[value.attributeId] = value.required ? new FormControl(editValue.text, [Validators.required])
                                                   : new FormControl(editValue.text);
       });
 
       this.attributeForm = new FormGroup(group);
-      for (const key in this.attributeForm.value){
-        const index = this.value.findIndex(x => x.attributeId == key);
-        this.attributeForm.get(key).valueChanges
-        .subscribe(value2 => {
-          this.value[index].text = value2;
-        }, error2 => {
-          console.log(error2);
-        });
+      for (const key in this.attributeForm.value) {
+        if (this.attributeForm.value.hasOwnProperty(key)) {
+          console.log(key);
+          const index = this.value.findIndex(x => x.attributeId === key);
+          this.attributeForm.get(key).valueChanges
+            .subscribe(value2 => {
+              this.value[index].text = value2;
+            }, error2 => {
+              console.log(error2);
+            });
+        }
       };
 
     }, error => {
@@ -330,38 +331,16 @@ export class AssetTypeCreationComponent implements OnInit {
     });
   }
 
-  // saveValues() {
-  //
-  //   this.saveValue.forEach(value => {
-  //     value.assetTypeId = this.assetType.assetTypeId
-  //   });
-  //   this.assetTypeService
-  //     .addValue(this.saveValue)
-  //     .subscribe( value => {
-  //       if(value){
-  //         this.router.navigate(['/asset-types']);
-  //       }else {
-  //         this.doNotDisplayFailureMessage2 = false;
-  //       }
-  //     }, error => {
-  //       this.doNotDisplayFailureMessage2 = false;
-  //     });
-  // }
-
-  removeValues() {
-      this.saveValues = this.value.filter((value) => {
-      if (this.assignedAttributes.find(x => x.attributeId == value.attributeId)){
-          return value;
-        }
-      });
+  removeValues(value): Value[] {
+      return value.filter(val => this.assignedAttributes.findIndex(x => x.attributeId === val.attributeId) !== -1);
   }
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
-    this.removeValues();
+
     this.assetTypeService
-    .addAssetType(this.assetType, this.saveValues)
+    .addAssetType(this.assetType, this.removeValues(this.value))
     .subscribe(value => {
       if (value && value.assetTypeId) {
         this.router.navigate(['/asset-types']);

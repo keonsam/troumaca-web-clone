@@ -28,12 +28,7 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
       .getAssetTypes(pageNumber, pageSize, sortOrder)
       .map(values => {
         const assetTypeModels: AssetTypes = new AssetTypes();
-        assetTypeModels.assetTypes = map(values.assetTypes, value => {
-          const assetTypeModel: AssetType = mapObjectProps(value, new AssetType());
-          //assetTypeModel.assetTypeClass = mapObjectPropAs(value.assetType, new AssetTypeClass());
-          assetTypeModel.assetTypeClass = mapObjectProps(value.assetTypeClass, new AssetTypeClass());
-          return assetTypeModel;
-        });
+        assetTypeModels.assetTypes = map(values.assetTypes, value => mapObjectProps(value, new AssetType()));
        assetTypeModels.page = mapObjectProps(values.page, new Page());
        assetTypeModels.sort = mapObjectProps(values.sort, new Sort());
         return assetTypeModels;
@@ -104,18 +99,6 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     });
   }
 
-  // public addValue(value: Value[]): Observable<Value[]> {
-  //   return this.assetTypesClient
-  //   .addValueState( map(value, next =>{
-  //     return mapObjectProps(next, new ValueState());
-  //   })
-  // ).map(values => {
-  //       return map(values, next => {
-  //         return mapObjectProps(values, new Value());
-  //       });
-  //     });
-  // }
-
   public deleteAssetType(assetTypeId: string): Observable<number> {
     return this.assetTypesClient.deleteAssetType(assetTypeId);
   }
@@ -129,9 +112,5 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
       return mapObjectProps(value, new ValueState());
     }));
   }
-
-  // public updateValue(assetTypeId, value: Value[]): Observable<number> {
-  //   return this.assetTypesClient.updateValue(assetTypeId, map(value , next => { return mapObjectProps(next, new ValueState()) }));
-  // }
 
 }

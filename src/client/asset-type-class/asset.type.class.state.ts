@@ -1,6 +1,3 @@
-import {JsonObject, JsonProperty} from 'json2typescript';
-
-@JsonObject
 export class AssetTypeClassState {
 
   private _assetTypeClassId: string;
@@ -8,7 +5,7 @@ export class AssetTypeClassState {
   private _name: string;
   private _description: string;
   private _createdOn: Date;
-  private _modifiedOn: Date
+  private _modifiedOn: Date;
 
   get assetTypeClassId(): string {
     return this._assetTypeClassId;

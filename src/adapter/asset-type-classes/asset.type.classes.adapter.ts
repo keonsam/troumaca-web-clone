@@ -57,47 +57,23 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
 
   getAssetTypeClasses(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetTypeClasses> {
     return this.assetTypeClassClient
-    .getAssetTypeClasses(pageNumber, pageSize, sortOrder)
-    .map(values => {
-      const assetTypeClasses: AssetTypeClasses = new AssetTypeClasses();
-      assetTypeClasses.assetTypeClasses = map(values.assetTypeClasses, value => {
-        const assetTypeClass = mapObjectProps(value, new AssetTypeClass());
-        return assetTypeClass;
+      .getAssetTypeClasses(pageNumber, pageSize, sortOrder)
+      .map(values => {
+        const assetTypeClasses: AssetTypeClasses = new AssetTypeClasses();
+        assetTypeClasses.assetTypeClasses = map(values.assetTypeClasses, value => mapObjectProps(value, new AssetTypeClass()));
+        assetTypeClasses.page = mapObjectProps(values.page, new Page());
+        assetTypeClasses.sort = mapObjectProps(values.sort, new Sort());
+
+        return assetTypeClasses;
       });
-
-     assetTypeClasses.page = mapObjectProps(values.page, new Page());
-     assetTypeClasses.sort = mapObjectProps(values.sort, new Sort());
-
-          return assetTypeClasses;
-        });
-      }
-
-  getAvailableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes> {
-    return this.assetTypeClassClient
-    .getAvailableAttributes(pageNumber, pageSize, sortOrder, assignedArray)
-    .map(values => {
-      const attributes: Attributes = new Attributes();
-      attributes.attributes = map(values.attributes, value => {
-        const attribute = mapObjectProps(value, new Attribute());
-        return attribute;
-      });
-
-     attributes.page = mapObjectProps(values.page, new Page());
-     attributes.sort = mapObjectProps(values.sort, new Sort());
-          return attributes;
-        });
   }
 
-  getAssignAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes> {
+  getAssignableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[], type: string): Observable<Attributes> {
     return this.assetTypeClassClient
-    .getAssignAttributes(pageNumber, pageSize, sortOrder, assignedArray)
+    .getAssignableAttributes(pageNumber, pageSize, sortOrder, assignedArray, type)
     .map(values => {
       const attributes: Attributes = new Attributes();
-      attributes.attributes = map(values.attributes, value => {
-        const attribute = mapObjectProps(value, new Attribute());
-        return attribute;
-      });
-
+     attributes.attributes = map(values.attributes, value => mapObjectProps(value, new Attribute()));
      attributes.page = mapObjectProps(values.page, new Page());
      attributes.sort = mapObjectProps(values.sort, new Sort());
           return attributes;
@@ -105,9 +81,7 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
   }
 
   addAssetTypeClass(assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute[]): Observable<AssetTypeClass> {
-    const newAssignedAttributes = map(assignedAttributes, next => {
-      return  mapObjectProps(next, new AssignedAttributeState());
-    });
+    const newAssignedAttributes = map(assignedAttributes, next => mapObjectProps(next, new AssignedAttributeState()));
     return this.assetTypeClassClient
     .addAssetTypeClass(mapObjectProps(assetTypeClass, new AssetTypeClassState()), newAssignedAttributes)
     .map(value => {

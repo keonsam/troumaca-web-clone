@@ -44,7 +44,7 @@
             </tfoot>
             <tbody>
               <tr role="row" *ngFor="let depreciation of depreciationArr.depreciation; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-                <td>{{depreciation.assetId}}</td>
+                <td>{{depreciation.assetName}}</td>
                 <td>{{depreciation.method}}</td>
                 <td>{{depreciation.purchaseDate}}</td>
                 <td>{{depreciation.cost}}</td>

@@ -77,10 +77,7 @@ export class AssetTypeEditComponent implements OnInit {
         console.log(error2);
       });
 
-    const assetType = new AssetType();
-    assetType.assetTypeClass = new AssetTypeClass();
-    assetType.unitOfMeasure = new UnitOfMeasure();
-    this.assetType = assetType;
+    this.assetType = new AssetType();
 
     this.assignedAttributes = [];
     this.values = [];
@@ -97,12 +94,12 @@ export class AssetTypeEditComponent implements OnInit {
        this.assetTypeId = params['assetTypeId'];
        this.assetTypeService.getAssetType(this.assetTypeId)
        .subscribe(assetTypeResponse => {
-        this.assetTypeClassId.setValue(assetTypeResponse.assetType.assetTypeClass.name);
+        this.assetTypeClassId.setValue(assetTypeResponse.assetType.assetTypeClassName);
         this.name.setValue(assetTypeResponse.assetType.name);
         this.description.setValue(assetTypeResponse.assetType.description);
         this.modelNumber.setValue(assetTypeResponse.assetType.modelNumber);
         this.materialCode.setValue(assetTypeResponse.assetType.materialCode);
-        this.unitOfMeasureId.setValue(assetTypeResponse.assetType.unitOfMeasure.name);
+        this.unitOfMeasureId.setValue(assetTypeResponse.assetType.unitOfMeasureName);
         this.assetType = assetTypeResponse.assetType;
         this.values = assetTypeResponse.values;
         this.getAttributes();
@@ -325,8 +322,8 @@ export class AssetTypeEditComponent implements OnInit {
     this.assetType.materialCode = value.materialCode;
   }
 
-  onType(dataTypeName: string) {
-   if (dataTypeName == 'Decimal' || 'Integer') {
+  onType(dataTypeId: string) {
+   if (dataTypeId === '972d0758-03c0-45e8-82e1-99815cbc77e5' || '1739b494-4404-4dcd-a386-a6221f5a2248') {
       return 'number';
     }else {
       return 'text';
@@ -340,10 +337,10 @@ export class AssetTypeEditComponent implements OnInit {
       this.assignedAttributes = next;
         const group: any = {};
         this.assignedAttributes.forEach(value => {
-          let editValue = this.values.find(x => x.attributeId == value.attributeId);
+          let editValue = this.values.find(x => x.attributeId === value.attributeId);
           if (!editValue) {
           this.values.push(new Value(value.attributeId, ''));
-          editValue = this.values.find(x => x.attributeId == value.attributeId);
+          editValue = this.values.find(x => x.attributeId === value.attributeId);
         }
 
         group[value.attributeId] = value.required ? new FormControl(editValue.text, [Validators.required])
@@ -351,14 +348,16 @@ export class AssetTypeEditComponent implements OnInit {
         });
 
         this.attributeEditForm = new FormGroup(group);
-        for (const key in this.attributeEditForm.value){
-          const index = this.values.findIndex(x => x.attributeId == key);
-          this.attributeEditForm.get(key).valueChanges
-          .subscribe(value2 => {
-            this.values[index].text = value2;
-          }, error2 => {
-            console.log(error2);
-          });
+        for (const key in this.attributeEditForm.value) {
+          if (this.attributeEditForm.value.hasOwnProperty(key)) {
+            const index = this.values.findIndex(x => x.attributeId === key);
+            this.attributeEditForm.get(key).valueChanges
+              .subscribe(value2 => {
+                this.values[index].text = value2;
+              }, error2 => {
+                console.log(error2);
+              });
+          }
         }
 
     }, error => {
@@ -366,10 +365,9 @@ export class AssetTypeEditComponent implements OnInit {
     });
   }
 
-  removeValues() {
-    // using update to remove all the previous values
-    this.saveValues = this.values.filter((value) => {
-      if (this.assignedAttributes.find(x => x.attributeId == value.attributeId)){
+  removeValues(values: Value[]) {
+    return values.filter((value) => {
+      if (this.assignedAttributes.find(x => x.attributeId === value.attributeId)) {
         if (!value.assetTypeId) {
           value.assetTypeId = this.assetTypeId;
         }
@@ -378,30 +376,13 @@ export class AssetTypeEditComponent implements OnInit {
     });
   }
 
-  // updateValues() {
-  //   // read the backend method
-  // this.assetTypeService
-  //   .updateValue(this.assetTypeId, this.saveValue)
-  //   .subscribe(value => {
-  //     if(value) {
-  //       this.router.navigate(['/asset-types']);
-  //     } else {
-  //       this.doNotDisplayFailureMessage2 = false;
-  //     }
-  //   }, error => {
-  //     console.log(error);
-  //     this.doNotDisplayFailureMessage2 = false;
-  //   });
-  // }
-
   onCreate() {
     // updated to one error message
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
 
-    this.removeValues();
     this.assetTypeService
-      .updateAssetType(this.assetTypeId, this.assetType, this.saveValues)
+      .updateAssetType(this.assetTypeId, this.assetType, this.removeValues(this.values))
       .subscribe(value => {
         if (value) {
           this.router.navigate(['/asset-types']);
@@ -411,7 +392,6 @@ export class AssetTypeEditComponent implements OnInit {
       }, error => {
         console.log(error);
         this.doNotDisplayFailureMessage = false;
-
       });
   }
 
