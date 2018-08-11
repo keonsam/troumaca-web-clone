@@ -190,7 +190,7 @@ export class ConfirmationComponent implements OnInit {
           this.confirmationSuccessful = true;
           setTimeout(() => {
             this.router.navigate(['/authentication/login']);
-          }, 2000);
+          }, 1000);
         } else {
           this.errorExists = true;
         }

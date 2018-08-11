@@ -34,9 +34,9 @@ export abstract class PartyRepository {
 
   abstract addOrganization(organization: Organization): Observable<Organization>;
 
-  abstract addPhoto(partyId: string, photo: Photo, type: string): Observable<Photo>;
+  abstract addPhoto(photo: Photo, type: string): Observable<Photo>;
 
-  abstract addAccount(accountType: string, user: User, organization: Organization): Observable<AccountResponse>;
+  abstract addAccount(user: User, organization: Organization): Observable<AccountResponse>;
 
   abstract deleteUser(partyId: string): Observable<number>;
 

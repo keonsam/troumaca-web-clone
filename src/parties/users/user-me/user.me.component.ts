@@ -95,6 +95,9 @@ export class UserMeComponent implements OnInit {
        console.log(error2);
      });
 
+    this.userImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
+    this.organizationImage = 'url(https://i.pinimg.com/736x/05/19/3c/05193c43ed8e4a9ba4dfaa10ff0115f1.jpg)';
+
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
     this.doNotDisplayFailureMessage3 = true;
@@ -219,7 +222,7 @@ export class UserMeComponent implements OnInit {
 
   confirmPasswordValidator(password: FormControl) {
     return (c: FormControl) => {
-      return password.value == c.value ? null : {
+      return password.value === c.value ? null : {
         validateEmail: {
           valid: false
         }
@@ -432,7 +435,7 @@ export class UserMeComponent implements OnInit {
       this.photo.partyId = this.partyId;
       this.photo.imageStr = this.croppedImage;
       this.partyService
-        .addPhoto(this.partyId, this.photo, 'user')
+        .addPhoto(this.photo, 'user')
         .subscribe(value => {
           if (value.imageStr) {
             this.getPersonalPhoto();
@@ -471,7 +474,7 @@ export class UserMeComponent implements OnInit {
       this.photo2.partyId = this.partyId;
       this.photo2.imageStr = this.croppedImage2;
       this.partyService
-        .addPhoto(this.partyId, this.photo2, 'organization')
+        .addPhoto(this.photo2, 'organization')
         .subscribe(value => {
           if (value.imageStr) {
             this.getOrganizationPhoto();

@@ -31,7 +31,6 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     return this.httpClient
       .post<AuthenticatedCredentialState>(url, query, httpOptions)
       .map(data => {
-        console.log(data);
         return data;
       });
   }
@@ -76,7 +75,6 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     return this.httpClient
     .post<ValidResp>(url, query, httpOptions)
     .map(data => {
-      console.log(data);
       return data;
     });
   }
@@ -91,7 +89,6 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     return this.httpClient
       .post<ConfirmationState>(url, credentialState.toJson(), httpOptions)
       .map(data => {
-        console.log(data);
         return data;
       });
   }

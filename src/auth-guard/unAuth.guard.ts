@@ -12,19 +12,11 @@ export class UnAuthGuard implements CanActivate, CanActivateChild {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.authGuardService.isLoggedIn
-      .switchMap(value => {
+      .map(value => {
         if (value) {
-          return this.authGuardService.partyIdExist
-            .map(value2 => {
-              if (value2) {
-                this.router.navigate(['/home/lobby']);
-              }else {
-                this.router.navigate(['/create-profile']);
-              }
-              return false;
-            });
+          this.router.navigate(['/home/lobby']);
         }
-        return Observable.of(true);
+        return !value;
       });
   }
 

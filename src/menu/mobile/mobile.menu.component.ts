@@ -37,6 +37,7 @@ export class MobileMenuComponent implements OnInit {
   constructor(private eventService: EventService, private menuService: MenuService, private partyService: PartyService, private cd: ChangeDetectorRef) {
     this._state = 'inactive';
     this._popUpState = 'hide';
+    this.imageStr = 'https://designdroide.com/images/abstract-user-icon-4.svg';
     this.eventService.subscribeToPhotoChangeEvent((data) => {
       this.getPhoto();
     });
@@ -79,7 +80,7 @@ export class MobileMenuComponent implements OnInit {
     this.handleMenuRefreshEvent();
     this.partyService.getPartyId()
       .subscribe( partyId => {
-        if (partyId){
+        if (partyId) {
           this.partyId = partyId;
           this.getPhoto();
           this.getUserInformation();

@@ -173,8 +173,8 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public addPhoto(partyId: string, photoState: PhotoState, type: string): Observable<PhotoState> {
-    const url = `${this.hostPort}/photos/${type}/${partyId}`;
+  public addPhoto(photoState: PhotoState, type: string): Observable<PhotoState> {
+    const url = `${this.hostPort}/photos/${type}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -185,15 +185,17 @@ export class PersonClientHttp implements PersonClient {
     });
   }
 
-  public addAccountState(accountType: string, userState: UserState, organizationState: OrganizationState): Observable<AccountResponse> {
+  public addAccountState(userState: UserState, organizationState: OrganizationState): Observable<AccountResponse> {
     const url = `${this.hostPort}/accounts`;
-    const user = userState.toJson();
-    const organization = organizationState.toJson();
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
+    const body = {
+      'user': userState.toJson(),
+      'organization': organizationState.toJson()
+    };
     return this.httpClient
-    .post<AccountResponse>(url, {accountType, user, organization}, httpOptions)
+    .post<AccountResponse>(url, body, httpOptions)
     .map(data => {
       return data;
     });

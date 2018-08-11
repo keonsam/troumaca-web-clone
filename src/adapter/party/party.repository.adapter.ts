@@ -132,16 +132,16 @@ export class PartyRepositoryAdapter extends PartyRepository {
     });
   }
 
-  public addPhoto(partyId: string, photo: Photo, type: string, ): Observable<Photo> {
-    return this.personClient.addPhoto(partyId, mapObjectProps(photo, new PhotoState()), type)
+  public addPhoto(photo: Photo, type: string, ): Observable<Photo> {
+    return this.personClient.addPhoto(mapObjectProps(photo, new PhotoState()), type)
       .map(value => {
         return mapObjectProps(value, new Photo());
       });
   }
 
-  public addAccount(accountType: string, user: User, organization: Organization): Observable<AccountResponse> {
+  public addAccount(user: User, organization: Organization): Observable<AccountResponse> {
     return this.personClient
-    .addAccountState(accountType, mapObjectProps(user, new UserState()), mapObjectProps(organization, new OrganizationState()))
+    .addAccountState(mapObjectProps(user, new UserState()), mapObjectProps(organization, new OrganizationState()))
     .map(value => {
       return mapObjectProps(value, new AccountResponse());
     });
