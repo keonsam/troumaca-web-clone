@@ -36,12 +36,12 @@
                 </div>
               </fieldset>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="Username">Username</label><input class="form-control" formControlName="username" placeholder="Enter Email or Phone Number" required="required" type="text">
-                  <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Email or Phone Number.</div>
-                </div>
-              </fieldset>
+              <!--<fieldset class="form-group">-->
+                <!--<div class="form-group">-->
+                  <!--<label for="Username">Username</label><input class="form-control" formControlName="username" placeholder="Enter Email or Phone Number" required="required" type="text">-->
+                  <!--<div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Email or Phone Number.</div>-->
+                <!--</div>-->
+              <!--</fieldset>-->
 
               <fieldset class="form-group">
                 <div class="form-group" [class]="(accessRole.valid) ? 'select2-valid':'select2-invalid'">
@@ -55,31 +55,8 @@
                 </div>
               </fieldset>
 
-              <!--<fieldset class="form-group">-->
-                <!--<div class="form-group" [class]="(accessRole.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">-->
-                  <!--<label for="Enter Access Role">Access Role</label>-->
-                  <!--<ng2-completer [datasource]="accessRoleDataService"-->
-                                 <!--[inputClass]="'form-control form-control-inline'"-->
-                                 <!--[minSearchLength]="0"-->
-                                 <!--[maxChars]="4"-->
-                                 <!--[inputClass]="'form-control'"-->
-                                 <!--[placeholder]="'Select an Access Role'"-->
-                                 <!--[matchClass]="'match'"-->
-                                 <!--formControlName="accessRole"-->
-                                 <!--[autofocus]="true"-->
-                                 <!--[clearUnselected]="true"-->
-                                 <!--[openOnClick]="true"-->
-                                 <!--[fillHighlighted]="false"-->
-                                 <!--[textSearching]="false"-->
-                                 <!--(selected)="onAccessRoleSelect($event)"-->
-                                 <!--required>-->
-                  <!--</ng2-completer>-->
-                  <!--<div [hidden]="accessRole.valid || accessRole.pristine" class="alert alert-danger">Select an Access Role from the dropdown.</div>-->
-                <!--</div>-->
-              <!--</fieldset>-->
-
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [disabled]="!userEditForm.valid" type="submit"> Create</button>
+                <button class="btn btn-primary button1" [disabled]="!userEditForm.valid" type="submit"> Update</button>
                 <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
               </div>
 

@@ -8,7 +8,7 @@
             <div class="up-head-w" [style.background-image]="organizationImage">
               <div class="up-social">
                 <a data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon-user-male-circle2 profile-icon"></i></a>
-                <a data-target="#PhotoModal2" data-toggle="modal"><i class="os-icon os-icon-documents-07 profile-icon"></i></a>
+                <a [hidden]="userExist" data-target="#PhotoModal2" data-toggle="modal"><i class="os-icon os-icon-documents-07 profile-icon"></i></a>
               </div>
               <div class="up-main-info">
                 <div class="user-avatar-w">
@@ -17,10 +17,10 @@
                   </div>
                 </div>
                 <h2 class="up-header">
-                  {{user.name}}
+                  {{user.firstName + " " + user.lastName}}
                 </h2>
                 <h6 class="up-sub-header">
-                  {{ organization.purpose ? organization.purpose : ''}}
+                  {{ organization.purpose ? organization.purpose :  userExist ? 'Troumaka' : ''}}
                 </h6>
               </div>
               <svg class="decor" width="842px" height="219px" viewBox="0 0 842 219" preserveAspectRatio="xMaxYMax meet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="translate(-381.000000, -362.000000)" fill="#FFFFFF"><path class="decor-path" d="M1223,362 L1223,581 L381,581 C868.912802,575.666667 1149.57947,502.666667 1223,362 Z"></path></g></svg>
@@ -71,6 +71,7 @@
                 </div>
               </fieldset>
 
+              <div *ngIf="!userExist">
                 <legend><span>Organization Information</span></legend>
 
                 <fieldset class="form-group">
@@ -93,9 +94,11 @@
                     <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
                   </div>
                 </fieldset>
+              </div>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [disabled]="!createProfileForm.valid" type="submit"> Create</button>
+                <button [hidden]="!userExist" class="btn btn-primary" [disabled]="!createProfileForm.valid" type="submit"> Update</button>
+                <button [hidden]="userExist" class="btn btn-primary" [disabled]="!createProfileForm.valid" type="submit"> Create</button>
               </div>
 
             </form>

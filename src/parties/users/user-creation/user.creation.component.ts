@@ -52,7 +52,6 @@ export class UserCreationComponent implements OnInit {
 
   constructor(private partyEventService: PartyEventService,
               private partyService: PartyService,
-              //private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
@@ -134,36 +133,6 @@ export class UserCreationComponent implements OnInit {
       });
   }
 
-  // populateAccessRoleDropDown() {
-  //   this.findAccessRole("");
-  //   this.userForm.get("accessRole").valueChanges
-  //     //.debounceTime(1000) // debounce
-  //     .filter(value => { // filter out empty values
-  //       return !!(value);
-  //     })
-  //     .subscribe(value => {
-  //       this.findAccessRole(value);
-  //     });
-  // }
-  //
-  // findAccessRole(value) {
-  //   this.partyService
-  //     .findAccessRole(value, this.pageSize) // send search request to the backend
-  //     .map(value2 => { // convert results to dropdown data
-  //       return value2.map(v2 => {
-  //         return {
-  //           accessRoleId: v2.accessRoleId,
-  //           name: v2.name,
-  //         };
-  //       })
-  //     })
-  //     .subscribe(next => { // update the data
-  //       this.accessRoleDataService = this.completerService.local(next, 'name', 'name');
-  //     }, error => {
-  //       console.log("findAccessRole error - " + error);
-  //     });
-  // }
-
   usernameValidator(partyService: PartyService) {
     let usernameControl = null;
     let isValidUsername = false;
@@ -179,7 +148,7 @@ export class UserCreationComponent implements OnInit {
         return partyService.isValidUsername(value);
       }).subscribe(value => {
         value.subscribe( otherValue => {
-          isValidUsername = otherValue;
+          isValidUsername = otherValue.valid;
           usernameControl.updateValueAndValidity();
         });
       });
@@ -251,14 +220,6 @@ export class UserCreationComponent implements OnInit {
     this._accessRoleId = value;
   }
 
-  // get accessRoleDataService(): CompleterData {
-  //   return this._accessRoleDataService;
-  // }
-  //
-  // set accessRoleDataService(value: CompleterData) {
-  //   this._accessRoleDataService = value;
-  // }
-
   get userForm(): FormGroup {
     return this._userForm;
   }
@@ -284,7 +245,6 @@ export class UserCreationComponent implements OnInit {
   }
 
   onCreate() {
-
     this.accessRoles.forEach( value => {
       this.partyAccessRoles.push(new PartyAccessRole(value));
     });

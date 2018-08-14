@@ -122,7 +122,7 @@ export class SideMenuComponent implements OnInit {
     this.partyService.getUser(this.partyId)
       .subscribe( userResponse => {
         if (userResponse.user.partyId) {
-          this.userName = userResponse.user.name;
+          this.userName = userResponse.user.firstName + ' ' + userResponse.user.lastName;
         }
       });
   }

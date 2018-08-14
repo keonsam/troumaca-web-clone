@@ -178,16 +178,13 @@ export class PartyRepositoryAdapter extends PartyRepository {
   }
 
   // authentication part
+
+  isValidUsername(username: string, partyId?: string): Observable<boolean> {
+    return this.personClient.isValidUsername(username, partyId);
+  }
+
   isValidPassword(password: string): Observable<boolean> {
     return this.personClient.isValidPassword(password);
-  }
-
-  isValidUsername(username: string): Observable<boolean> {
-    return this.personClient.isValidUsername(username);
-  }
-
-  isValidEditUsername(partyId: string, username: string): Observable<boolean> {
-    return this.personClient.isValidEditUsername(partyId, username);
   }
 
 }

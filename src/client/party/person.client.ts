@@ -43,9 +43,7 @@ export abstract class PersonClient {
   public abstract updatePhoto(partyId: string, photoState: PhotoState, type: string): Observable<number>;
 
   // authentication part
+  abstract isValidUsername(username: string, partyId?: string): Observable<boolean>;
+
   abstract isValidPassword(password: string): Observable<boolean>;
-
-  abstract isValidUsername(username: string): Observable<boolean>;
-
-  abstract isValidEditUsername(partyId: string, username: string): Observable<boolean>;
 }

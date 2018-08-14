@@ -16,7 +16,7 @@ import { map } from 'underscore';
 import {PartyEventService} from '../../party.event.service';
 import {PartyService} from '../../party.service';
 import {User} from '../../user';
-import {Credential} from '../../credential';
+// import {Credential} from '../../credential';
 import {PartyAccessRole} from '../../party.access.role';
 import {Select2OptionData} from 'ng2-select2';
 
@@ -33,7 +33,7 @@ export class UserEditComponent implements OnInit {
   private _firstName: FormControl;
   private _middleName: FormControl;
   private _lastName: FormControl;
-  private _username: FormControl;
+  // private _username: FormControl;
   private _accessRole: FormControl;
   private _accessRoleId: string;
 
@@ -42,7 +42,7 @@ export class UserEditComponent implements OnInit {
   private _userEditForm: FormGroup;
 
   private user: User;
-  private credential: Credential;
+  // private credential: Credential;
   private partyAccessRoles: PartyAccessRole[];
 
   private pageSize = 15;
@@ -56,26 +56,25 @@ export class UserEditComponent implements OnInit {
 
   constructor(private partyEventService: PartyEventService,
               private partyService: PartyService,
-              //private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
 
     this.user = new User();
-    this.credential = new Credential();
+    // this.credential = new Credential();
     this.partyAccessRoles = [];
 
     this.firstName = new FormControl('', [Validators.required]);
     this.middleName = new FormControl('', [Validators.required]);
     this.lastName = new FormControl('', [Validators.required]);
-    this.username = new FormControl('', [Validators.required, this.usernameEditValidator(partyService)]);
+    // this.username = new FormControl('', [Validators.required, this.usernameValidator(partyService)]);
     this.accessRole = new FormControl('', [Validators.required]);
 
     this.userEditForm = formBuilder.group({
       'firstName': this.firstName,
       'middleName': this.middleName,
       'lastName': this.lastName,
-      'username': this.username,
+      // 'username': this.username,
       'accessRole': this.accessRole
     });
 
@@ -85,8 +84,8 @@ export class UserEditComponent implements OnInit {
        this.user.firstName = value.firstName;
        this.user.middleName = value.middleName;
        this.user.lastName = value.lastName;
-       this.user.username = value.username;
-       this.credential.username = value.username;
+       // this.user.username = value.username;
+       // this.credential.username = value.username;
      }, error2 => {
        console.log(error2);
      });
@@ -122,11 +121,11 @@ export class UserEditComponent implements OnInit {
         this.firstName.setValue(userResponse.user.firstName);
         this.middleName.setValue(userResponse.user.middleName);
         this.lastName.setValue(userResponse.user.lastName);
-        this.username.setValue(userResponse.user.username);
+        // this.username.setValue(userResponse.user.username);
         this.firstUsername = userResponse.user.username;
         this.user = userResponse.user;
-        this.credential.partyId = userResponse.user.partyId;
-        this.credential.username = userResponse.user.username;
+        // this.credential.partyId = userResponse.user.partyId;
+        // this.credential.username = userResponse.user.username;
         const values = map(userResponse.partyAccessRoles, value => value.accessRole.accessRoleId);
         this.accessRole.setValue(values.join(','));
         this.value = values;
@@ -145,6 +144,7 @@ export class UserEditComponent implements OnInit {
   }
 
   findAccessRole(value) {
+    console.log(value);
     this.partyService
       .findAccessRole(value, this.pageSize) // send search request to the backend
       .map(value2 => { // convert results to dropdown data
@@ -162,7 +162,7 @@ export class UserEditComponent implements OnInit {
       });
   }
 
-  usernameEditValidator(partyService: PartyService) {
+  usernameValidator(partyService: PartyService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
@@ -174,7 +174,7 @@ export class UserEditComponent implements OnInit {
       .filter(value => { // filter out empty values
         return !!(value);
       }).map(value => {
-        return partyService.isValidEditUsername(that.partyId, value);
+        return partyService.isValidUsername(value);
       }).subscribe(value => {
         value.subscribe( otherValue => {
           isValidUsername = otherValue;
@@ -233,13 +233,13 @@ export class UserEditComponent implements OnInit {
     this._lastName = value;
   }
 
-  get username(): FormControl {
-    return this._username;
-  }
-
-  set username(value: FormControl) {
-    this._username = value;
-  }
+  // get username(): FormControl {
+  //   return this._username;
+  // }
+  //
+  // set username(value: FormControl) {
+  //   this._username = value;
+  // }
 
   get accessRole(): FormControl {
     return this._accessRole;
@@ -281,23 +281,23 @@ export class UserEditComponent implements OnInit {
     this._doNotDisplayFailureMessage2 = value;
   }
 
-  updateCredential() {
-    this.partyService
-    .updateCredential(this.credential)
-    .subscribe(value => {
-      if (value) {
-        this.router.navigate(['/parties/users']);
-      } else {
-        this.doNotDisplayFailureMessage2 = false;
-      }
-    }, error => {
-      console.log(error);
-      this.doNotDisplayFailureMessage2 = false;
-    });
-  }
+  // updateCredential() {
+  //   this.partyService
+  //   .updateCredential(this.credential)
+  //   .subscribe(value => {
+  //     if (value) {
+  //       this.router.navigate(['/parties/users']);
+  //     } else {
+  //       this.doNotDisplayFailureMessage2 = false;
+  //     }
+  //   }, error => {
+  //     console.log(error);
+  //     this.doNotDisplayFailureMessage2 = false;
+  //   });
+  // }
 
-  removePartyAccessRoles() {
-    this.partyAccessRoles = this.partyAccessRoles.filter(value => {
+  removePartyAccessRoles(partyAccessRoles) {
+    return partyAccessRoles.filter(value => {
       if (this.accessRoles.indexOf(value.accessRoleId) > -1) {
         if (!value.partyId) {
           value.partyId = this.partyId;
@@ -308,24 +308,23 @@ export class UserEditComponent implements OnInit {
   }
 
   onCreate() {
-    console.log(this.accessRoles);
     this.accessRoles.forEach( value => {
-      if (this.partyAccessRoles.findIndex(x => x.accessRoleId === value) < 0){
+      if (this.partyAccessRoles.findIndex(x => x.accessRoleId === value) < 0) {
         this.partyAccessRoles.push(new PartyAccessRole(value));
       }
     });
-    this.removePartyAccessRoles();
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
       this.partyService
-      .updateUser(this.user, this.partyAccessRoles)
+      .updateUser(this.user, this.removePartyAccessRoles(this.partyAccessRoles))
       .subscribe(value => {
         if (value) {
-          if (this.username.value != this.firstUsername){
-           this.updateCredential();
-          }else {
-           this.router.navigate(['/parties/users']);
-          }
+          this.router.navigate(['/parties/users']);
+          // if (this.username.value !== this.firstUsername) {
+          //  this.updateCredential();
+          // }else {
+          //  this.router.navigate(['/parties/users']);
+          // }
         } else {
           this.doNotDisplayFailureMessage = false;
         }

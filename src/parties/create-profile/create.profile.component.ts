@@ -41,6 +41,7 @@ export class CreateAccountComponent implements OnInit {
   private _doNotDisplayFailureMessage2: boolean;
   private _doNotDisplayFailureMessage3: boolean;
   private userImageComplete = false;
+  public userExist: boolean = false;
 
   constructor(private partyService: PartyService,
               private eventService: EventService,
@@ -90,6 +91,21 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.partyService.getPartyId()
+      .subscribe( partyId => {
+        if(!partyId) {
+          // TODO: throw error here partyId should exist
+          this.router.navigate(['/home']);
+        } else {
+          this.partyService.getUser(partyId)
+            .subscribe(userRes => {
+              this.firstName.setValue(userRes.user.firstName);
+              this.middleName.setValue(userRes.user.middleName);
+              this.lastName.setValue(userRes.user.lastName);
+              this.userExist = true;
+            });
+        }
+      });
   }
 
   createEventModel() {
@@ -189,7 +205,7 @@ export class CreateAccountComponent implements OnInit {
   set description(value: FormControl) {
     this._description = value;
   }
-  
+
   get createProfileForm(): FormGroup {
     return this._createProfileForm;
   }

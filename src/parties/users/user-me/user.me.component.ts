@@ -69,7 +69,7 @@ export class UserMeComponent implements OnInit {
     this.firstName = new FormControl('', [Validators.required]);
     this.middleName = new FormControl('', [Validators.required]);
     this.lastName = new FormControl('', [Validators.required]);
-    this.username = new FormControl('', [Validators.required, this.usernameEditValidator(this.partyService)]);
+    this.username = new FormControl('', [Validators.required, this.usernameValidator(this.partyService)]);
     this.password = new FormControl('');
     this.confirmPassword = new FormControl('');
 
@@ -142,7 +142,7 @@ export class UserMeComponent implements OnInit {
          });
   }
 
-  usernameEditValidator(partyService: PartyService) {
+  usernameValidator(partyService: PartyService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
@@ -154,10 +154,10 @@ export class UserMeComponent implements OnInit {
       .filter(value => { // filter out empty values
         return !!(value);
       }).map(value => {
-        return partyService.isValidEditUsername(that.partyId, value);
+        return partyService.isValidUsername(value, that.partyId);
       }).subscribe(value => {
         value.subscribe( otherValue => {
-          isValidUsername = otherValue;
+          isValidUsername = otherValue.valid;
           usernameControl.updateValueAndValidity();
         });
       });

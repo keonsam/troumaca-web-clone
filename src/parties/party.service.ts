@@ -102,16 +102,12 @@ export class PartyService {
 
   // authentication part
 
-  public isValidUsername(username: string): Observable<boolean> {
-    return this.partyRepository.isValidUsername(username);
+  public isValidUsername(username: string, partyId?: string): Observable<boolean> {
+    return this.partyRepository.isValidUsername(username, partyId);
   }
 
   public isValidPassword(password: string): Observable<boolean> {
     return this.partyRepository.isValidPassword(password);
-  }
-
-  public isValidEditUsername(partyId: string, username: string): Observable<boolean> {
-    return this.partyRepository.isValidEditUsername(partyId, username);
   }
 
 }

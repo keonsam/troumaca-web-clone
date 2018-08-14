@@ -295,6 +295,25 @@ export class PersonClientHttp implements PersonClient {
 
   // authentication part
 
+  isValidUsername(username: string, partyId?: string): Observable<boolean> {
+    const url = `${this.hostPort}/validate-username`;
+
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+
+    const query = {
+      username: username,
+      partyId: partyId
+    };
+
+    return this.httpClient
+      .post<boolean>(url, query, httpOptions)
+      .map(data => {
+        return data;
+      });
+  }
+
   isValidPassword(password: string): Observable<boolean> {
     const url = `${this.hostPort}/validate-password`;
 
@@ -309,40 +328,6 @@ export class PersonClientHttp implements PersonClient {
       .map(data => {
         return data;
       });
-  }
-
-  isValidUsername(username: string): Observable<boolean> {
-    const url = `${this.hostPort}/validate-username`;
-
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-
-    const query = {username: username};
-
-    return this.httpClient
-    .post<boolean>(url, query, httpOptions)
-    .map(data => {
-      return data;
-    });
-  }
-
-  isValidEditUsername(partyId: string, username: string): Observable<boolean> {
-    const url = `${this.hostPort}/validate-edit-username`;
-
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-
-    const query = {
-      partyId,
-      username: username};
-
-    return this.httpClient
-    .post<boolean>(url, query, httpOptions)
-    .map(data => {
-      return data;
-    });
   }
 
   public jsonHttpHeaders(): HttpHeaders {

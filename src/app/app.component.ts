@@ -104,7 +104,6 @@ export class AppComponent implements OnInit {
         if (authUrl.indexOf('confirmations') !== -1) {
           authUrl = authUrl.match(matchRegex)[0].slice(0, -1);
         }
-        console.log(authUrl);
         if (this.isAuthRoutes.indexOf(authUrl) !== -1) {
           this.renderer.addClass(document.body, 'auth-wrapper');
           this.isAuthPath = true;
