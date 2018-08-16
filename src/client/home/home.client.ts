@@ -1,6 +1,7 @@
 import {Observable} from "rxjs/Observable";
 import {SubscriptionState} from "./subscription.state";
 import {BillingState} from "./billing.state";
+import {ValidResp} from "../../authentication/resp.valid";
 
 
 export abstract class HomeClient {
@@ -13,5 +14,13 @@ export abstract class HomeClient {
 
   public abstract updateBillingState(billingState: BillingState, methodState: any): Observable<number>;
 
+  public abstract isValidCardName(value: string): Observable<ValidResp>;
 
+  public abstract isValidCardNumber(value: string): Observable<ValidResp>;
+
+  public abstract isValidCardExpDate(value: Date): Observable<ValidResp>;
+
+  public abstract isValidCardCVV(value: string): Observable<ValidResp>;
+
+  public abstract getSubscriptionInformation(): Observable<any>;
 }

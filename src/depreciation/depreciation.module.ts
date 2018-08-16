@@ -4,12 +4,13 @@ import {RouterModule} from '@angular/router';
 import {MenuModule} from '../menu/menu.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import {DepreciationComponent} from "./depreciation.component";
-import {DepreciationCreationComponent} from "./depreciation-creation/depreciation.creation.component";
-import {ScheduleComponent} from "./schedule/schedule.component";
+// import {BookScheduleComponent} from "./book/book-schedule/book.schedule.component";
 import {depreciationServiceProvider} from "./depreciation.service.provider";
 import {Ng2CompleterModule} from "ng2-completer";
 import {PagingModule} from "../paging/paging.module";
-import {DepreciationEditComponent} from './depreciation-edit/depreciation.edit.component';
+// import {DepreciationEditComponent} from './book/book-edit/depreciation.edit.component';
+import { BookCreationComponent} from "./book/book-creation/book.creation.component";
+import { BookScheduleComponent } from "./book/book-schedule/book.schedule.component";
 
 @NgModule({
   imports: [
@@ -22,16 +23,16 @@ import {DepreciationEditComponent} from './depreciation-edit/depreciation.edit.c
   ],
   declarations: [
     DepreciationComponent,
-    DepreciationCreationComponent,
-    DepreciationEditComponent,
-    ScheduleComponent
+    BookCreationComponent,
+    // DepreciationEditComponent,
+    BookScheduleComponent
   ],
   providers: [depreciationServiceProvider],
   exports: [
     DepreciationComponent,
-    DepreciationCreationComponent,
-    DepreciationEditComponent,
-    ScheduleComponent
+    BookCreationComponent,
+    // DepreciationEditComponent,
+    BookScheduleComponent
   ]
 })
 

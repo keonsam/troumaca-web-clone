@@ -1,5 +1,9 @@
 /*Troumaca overrides etc. */
 
+.content-w {
+  background-size: cover;
+}
+
 .onboarding-content.with-gradient {
   padding-bottom: 30px;
 }
@@ -61,5 +65,44 @@
   margin-bottom: 30px;
 }
 
+.flex-modules {
+  display: flex;
+  align-items: center;
+}
+
+.icon-w {
+  font-size: 35px;
+  color: #0073ff;
+  margin-right: 30px;
+}
+
+@media (min-width: 856px) {
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(200px, 300px));
+    column-gap: 15px;
+  }
+}
+
+@media (max-width: 855px) {
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(200px, 300px));
+    column-gap: 15px;
+  }
+}
+
+@media (max-width: 525px) {
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(200px, 300px));
+    column-gap: 15px;
+  }
+}
+
+.subscribed {
+  background-color: rgba(255,255,255, 0.6);
+  border: dashed 1px #49afe2;
+}
 
 

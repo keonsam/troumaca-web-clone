@@ -7,6 +7,7 @@ import {mapObjectProps} from "../../mapper/object.property.mapper";
 import {BillingState} from "../../client/home/billing.state";
 import {CreditCardState} from "../../client/home/credit.card.state";
 import {SubscriptionState} from "../../client/home/subscription.state";
+import {ValidResp} from "../../authentication/resp.valid";
 
 export class HomeRepositoryAdapter extends HomeRepository {
   constructor(private homeClient: HomeClient) {
@@ -45,6 +46,26 @@ export class HomeRepositoryAdapter extends HomeRepository {
   public updateBilling(billing: Billing, method: any): Observable<number> {
     const methodState = billing.type === 'Credit Card' ? mapObjectProps(method, new CreditCardState()) : '';
     return this.homeClient.updateBillingState(mapObjectProps(billing, new BillingState()), methodState);
+  }
+
+  public isValidCardName(value: string): Observable<ValidResp> {
+    return this.homeClient.isValidCardName(value);
+  }
+
+  public isValidCardNumber(value: string): Observable<ValidResp> {
+    return this.homeClient.isValidCardNumber(value);
+  }
+
+  public isValidCardExpDate(value: Date): Observable<ValidResp> {
+    return this.homeClient.isValidCardExpDate(value);
+  }
+
+  public isValidCardCVV(value: string): Observable<ValidResp> {
+    return this.homeClient.isValidCardCVV(value);
+  }
+
+  public getSubscriptionInformation(): Observable<any> {
+    return this.homeClient.getSubscriptionInformation();
   }
 
 }

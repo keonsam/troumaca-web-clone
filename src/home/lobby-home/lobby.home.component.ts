@@ -1,10 +1,10 @@
 import {Component, Input, OnInit,ViewChild, ElementRef} from '@angular/core';
-import {HomeService} from "../home.service";
-import { Router} from "@angular/router";
+import {HomeService} from '../home.service';
+import { Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {CreditCard} from "./credit.card";
-import {Billing} from "./billing";
-import { Subscription} from "./subscription";
+import {CreditCard} from './credit.card';
+import {Billing} from './billing';
+import { Subscription} from './subscription';
 
 @Component({
   selector: 'lobby-home',
@@ -30,18 +30,14 @@ export class LobbyHomeComponent implements OnInit {
   private billing: Billing;
   private subscription: Subscription;
 
-  private _moduleRoutes: any;
-  private _freeModules: string[];
   private _billed: boolean;
   private _typeName: string;
-  private _typeDescription: any;
-  private _features: any;
-  private _price: any;
 
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage1: boolean;
   private _currentModel: string;
   private _justBilled: boolean;
+  private _information: any;
 
   // private _paymentMethods: PaymentMethod[];
 
@@ -55,10 +51,10 @@ export class LobbyHomeComponent implements OnInit {
     this.billing = new Billing();
     this.subscription = new Subscription();
 
-    this.cardName = new FormControl('', [Validators.required]);
-    this.cardNumber = new FormControl('', [Validators.required]);
-    this.cardExpDate = new FormControl('', [Validators.required]);
-    this.cardCVV = new FormControl('', [Validators.required]);
+    this.cardName = new FormControl('', [Validators.required, this.cardNameValidator(this.homeService)]);
+    this.cardNumber = new FormControl('', [Validators.required, this.cardNumberValidator(this.homeService)]);
+    this.cardExpDate = new FormControl('', [Validators.required, this.cardExpDateValidator(this.homeService)]);
+    this.cardCVV = new FormControl('', [Validators.required, this.cardCVVValidator(this.homeService)]);
 
     this.creditCardForm = formBuilder.group({
       'cardName': this.cardName,
@@ -78,40 +74,38 @@ export class LobbyHomeComponent implements OnInit {
         console.log(error);
       });
 
-    this.moduleRoutes = {
-      'Asset Management': ['/assets'],
-      'Organization Management': ['/parties'],
-      'User Management': ['/parties/users']
-    };
-
-    this.freeModules = ['Organization Management', 'User Management'];
-
     this.billed = false;
     this.justBilled = false;
 
-    const assetDes = 'Manage assets in the cloud to create effective databases breakdowns';
-    const userDes = 'Allows users to access and management your assets';
-    const organDes = 'Create organizations to manage their assets and users in the cloud';
-
-    this.typeDescription = {
-      'Asset Management': assetDes,
-      'Organization Management': userDes,
-      'User Management': organDes
-    };
-
-    this.typeName = 'Asset Management';
-    const assetFeatures = ['Assets', 'Asset Types', 'Asset Classes', 'Attributes', 'Site Management', 'Data Types'];
-    const userFeatures = ['Users', 'Authorization', 'Profile Page'];
-    const organFeatures = ['Organization', 'Organization Profile Page'];
-
-    this.features = {
-      'Asset Management': assetFeatures,
-      'Organization Management': userFeatures,
-      'User Management': organFeatures
-    };
-
-    this.price = {
-      'Asset Management': '$19.99',
+    this.information = {
+      'Asset Management': {
+        'description': '',
+        'features': [],
+        'route': ['/assets'],
+        'cost': '199.99',
+        'subscribed': false
+      },
+      'User Management': {
+        'description': '',
+        'features': [],
+        'route': ['/parties/users'],
+        'cost': 'Free',
+        'subscribed': false
+      },
+      'Organization Management': {
+        'description': '',
+        'features': [],
+        'route': ['/parties'],
+        'cost': 'Free',
+        'subscribed': false
+      },
+      'Depreciation Management': {
+        'description': '',
+        'features': [],
+        'route': ['/depreciation'],
+        'cost': '99.99',
+        'subscribed': false
+      }
     };
 
     this.doNotDisplayFailureMessage = true;
@@ -119,6 +113,168 @@ export class LobbyHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.homeService.getSubscriptionInformation()
+      .subscribe( information => {
+        if (information) {
+          this.information = information;
+        }
+      });
+  }
+
+  cardNameValidator(homeService: HomeService) {
+    let cardNameControl = null;
+    let isValidCardName = false;
+    let valueChanges = null;
+    const that = this;
+    const subscriberToChangeEvents = function () {
+      valueChanges
+        .debounceTime(500)
+        .distinctUntilChanged()
+        .filter(value => { // filter out empty values
+          return !!(value);
+        }).map(value => {
+        return homeService.isValidCardName(value);
+      }).subscribe(value => {
+        value.subscribe( otherValue => {
+          isValidCardName = otherValue.valid;
+          cardNameControl.updateValueAndValidity();
+        });
+      });
+    };
+
+    return (control: FormControl) => {
+      if (!cardNameControl) {
+        cardNameControl = control;
+      }
+
+      if (!valueChanges && control.valueChanges) {
+        valueChanges = control.valueChanges;
+        subscriberToChangeEvents();
+      }
+
+      return isValidCardName ? null : {
+        validateCardName: {
+          valid: false
+        }
+      };
+    }
+  }
+
+  cardNumberValidator(homeService: HomeService) {
+    let cardNumberControl = null;
+    let isValidCardNumber = false;
+    let valueChanges = null;
+    const that = this;
+    const subscriberToChangeEvents = function () {
+      valueChanges
+        .debounceTime(500)
+        .distinctUntilChanged()
+        .filter(value => { // filter out empty values
+          return !!(value);
+        }).map(value => {
+        return homeService.isValidCardNumber(value);
+      }).subscribe(value => {
+        value.subscribe( otherValue => {
+          isValidCardNumber = otherValue.valid;
+          cardNumberControl.updateValueAndValidity();
+        });
+      });
+    };
+
+    return (control: FormControl) => {
+      if (!cardNumberControl) {
+        cardNumberControl = control;
+      }
+
+      if (!valueChanges && control.valueChanges) {
+        valueChanges = control.valueChanges;
+        subscriberToChangeEvents();
+      }
+
+      return isValidCardNumber ? null : {
+        validateCardNumber: {
+          valid: false
+        }
+      };
+    }
+  }
+
+  cardExpDateValidator(homeService: HomeService) {
+    let cardExpDateControl = null;
+    let isValidCardExpDate = false;
+    let valueChanges = null;
+    const that = this;
+    const subscriberToChangeEvents = function () {
+      valueChanges
+        .debounceTime(500)
+        .distinctUntilChanged()
+        .filter(value => { // filter out empty values
+          return !!(value);
+        }).map(value => {
+        return homeService.isValidCardExpDate(value);
+      }).subscribe(value => {
+        value.subscribe( otherValue => {
+          isValidCardExpDate = otherValue.valid;
+          cardExpDateControl.updateValueAndValidity();
+        });
+      });
+    };
+
+    return (control: FormControl) => {
+      if (!cardExpDateControl) {
+        cardExpDateControl = control;
+      }
+
+      if (!valueChanges && control.valueChanges) {
+        valueChanges = control.valueChanges;
+        subscriberToChangeEvents();
+      }
+
+      return isValidCardExpDate ? null : {
+        validateCardExpDate: {
+          valid: false
+        }
+      };
+    }
+  }
+
+  cardCVVValidator(homeService: HomeService) {
+    let cardCVVControl = null;
+    let isValidCardCVV = false;
+    let valueChanges = null;
+    const that = this;
+    const subscriberToChangeEvents = function () {
+      valueChanges
+        .debounceTime(500)
+        .distinctUntilChanged()
+        .filter(value => { // filter out empty values
+          return !!(value);
+        }).map(value => {
+        return homeService.isValidCardCVV(value);
+      }).subscribe(value => {
+        value.subscribe( otherValue => {
+          isValidCardCVV = otherValue.valid;
+          cardCVVControl.updateValueAndValidity();
+        });
+      });
+    };
+
+    return (control: FormControl) => {
+      if (!cardCVVControl) {
+        cardCVVControl = control;
+      }
+
+      if (!valueChanges && control.valueChanges) {
+        valueChanges = control.valueChanges;
+        subscriberToChangeEvents();
+      }
+
+      return isValidCardCVV ? null : {
+        validateCardCVV: {
+          valid: false
+        }
+      };
+    }
   }
 
   get paymentMethod(): string {
@@ -169,22 +325,6 @@ export class LobbyHomeComponent implements OnInit {
     this._creditCardForm = value;
   }
 
-  get moduleRoutes(): any {
-    return this._moduleRoutes;
-  }
-
-  set moduleRoutes(value: any) {
-    this._moduleRoutes = value;
-  }
-
-  get freeModules(): string[] {
-    return this._freeModules;
-  }
-
-  set freeModules(value: string[]) {
-    this._freeModules = value;
-  }
-
   get billed(): boolean {
     return this._billed;
   }
@@ -199,30 +339,6 @@ export class LobbyHomeComponent implements OnInit {
 
   set typeName(value: string) {
     this._typeName = value;
-  }
-
-  get typeDescription(): any {
-    return this._typeDescription;
-  }
-
-  set typeDescription(value: any) {
-    this._typeDescription = value;
-  }
-
-  get features(): any {
-    return this._features;
-  }
-
-  set features(value: any) {
-    this._features = value;
-  }
-
-  get price(): any {
-    return this._price;
-  }
-
-  set price(value: any) {
-    this._price = value;
   }
 
   get doNotDisplayFailureMessage(): boolean {
@@ -257,8 +373,12 @@ export class LobbyHomeComponent implements OnInit {
     this._justBilled = value;
   }
 
-  isModuleFree() {
-    return this.freeModules.indexOf(this.typeName) !== -1;
+  get information(): any {
+    return this._information;
+  }
+
+  set information(value: any) {
+    this._information = value;
   }
 
   showNextModel(type: string) {
@@ -266,30 +386,28 @@ export class LobbyHomeComponent implements OnInit {
   }
 
   module(type: string) {
-    console.log(this.billed);
-    this.homeService.getSubscription(type)
-      .subscribe( subscription => {
-        if (subscription.subscribed) {
-          this.router.navigate(this.moduleRoutes[type]);
-        }else {
-          this.currentModel = 'features';
-          this.typeName = type;
-          if (!this.isModuleFree()) {
+    if (this.information[type].cost === 'Free') {
+      this.router.navigate(this.information[type].route);
+    }else {
+      this.homeService.getSubscription(type)
+        .subscribe(subscription => {
+          if (subscription.subscribed) {
+            this.router.navigate(this.information[type].route);
+          } else {
+            this.currentModel = 'features';
+            this.typeName = type;
             this.homeService.getBilling()
               .subscribe(billing => {
                 if (billing.confirmed) {
                   this.billed = true;
-                }else {
-                 this.billed = false;
+                } else {
+                  this.billed = false;
                 }
                 this.showModal.nativeElement.click();
               });
-          }else {
-            this.billed = true;
-            this.showModal.nativeElement.click();
           }
-        }
-      });
+        });
+    }
   }
 
   onCreditCardSubmit() {

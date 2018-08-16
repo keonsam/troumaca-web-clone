@@ -4,13 +4,8 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {DepreciationState} from "./depreciation.state";
 import {AssetState} from "../asset/asset.state";
-import {DepreciationArr} from "../../depreciation/depreciation.arr";
-import {map} from "underscore";
-import {mapObjectProps} from "../../mapper/object.property.mapper";
-import {Depreciation} from "../../depreciation/depreciation";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
 import {DepreciationStates} from "./depreciation.states";
+import {DepreciationMethod} from "../../depreciation/depreciation.method";
 
 export class DepreciationClientHttp extends DepreciationClient {
 
@@ -30,8 +25,8 @@ export class DepreciationClientHttp extends DepreciationClient {
     });
   }
 
-  public getDepreciationArr(pageNumber: number, pageSize: number, sortOrder: string): Observable<DepreciationStates> {
-    const url = `${this.hostPort}/depreciation?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+  public getBookDepreciationArr(pageNumber: number, pageSize: number, sortOrder: string): Observable<DepreciationStates> {
+    const url = `${this.hostPort}/book-depreciation?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -50,12 +45,15 @@ export class DepreciationClientHttp extends DepreciationClient {
     });
   }
 
-  public addDepreciation(depreciationState: DepreciationState): Observable<DepreciationState> {
+  public addDepreciation(depreciationState: DepreciationState, type: string): Observable<DepreciationState> {
     const url = `${this.hostPort}/depreciation`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.post<DepreciationState>(url, depreciationState.toJson(), httpOptions).map(data => {
+    const body = {
+      depreciation: depreciationState.toJson(),
+      type: type};
+    return this.http.post<DepreciationState>(url, body, httpOptions).map(data => {
       return data;
     });
   }
@@ -76,6 +74,16 @@ export class DepreciationClientHttp extends DepreciationClient {
       headers: this.jsonHttpHeaders()
     };
     return this.http.delete<number>(url, httpOptions).map(data => {
+      return data;
+    });
+  }
+
+  public getDepreciationMethod(): Observable<DepreciationMethod[]> {
+    const url = `${this.hostPort}/depreciation-methods`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.get<DepreciationMethod[]>(url, httpOptions).map(data => {
       return data;
     });
   }

@@ -4,19 +4,20 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/filter';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Depreciation} from '../depreciation';
-import {DepreciationService} from '../depreciation.service';
+import {Router} from '@angular/router';
+import {Depreciation} from "../../depreciation";
+import {DepreciationService} from "../../depreciation.service";
+import {DepreciationMethod} from "../../depreciation.method";
 
 @Component({
-  selector: 'depreciation-edit',
-  templateUrl: './depreciation.edit.component.html',
-  styleUrls: ['./depreciation.edit.component.css']
+  selector: 'book-creation',
+  templateUrl: './book.creation.component.html',
+  styleUrls: ['./book.creation.component.css']
 })
 
-export class DepreciationEditComponent implements OnInit {
+export class BookCreationComponent implements OnInit {
 
-
+  private _depreciationMethod: DepreciationMethod[];
   private _assetId: FormControl;
   private _method: FormControl;
   private _purchaseDate: FormControl;
@@ -35,15 +36,13 @@ export class DepreciationEditComponent implements OnInit {
 
   private _doNotDisplayFailureMessage: boolean;
   public requiredState: boolean;
-  private depreciationId: string;
-  private sub: any;
 
   constructor(private depreciationService: DepreciationService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder,
-              private route: ActivatedRoute,
               private router: Router) {
 
+    this.depreciationMethod = [];
     this.depreciation = new Depreciation();
     this.depreciation.unitProduced = [];
 
@@ -72,7 +71,7 @@ export class DepreciationEditComponent implements OnInit {
    this.depreciationForm
     .valueChanges
     .subscribe(value => {
-      this.depreciation.method = value.method;
+      this.depreciation.methodId = value.method;
       this.depreciation.purchaseDate = value.purchaseDate;
       this.depreciation.cost = value.cost;
       this.depreciation.salvageVal = value.salvageVal;
@@ -88,24 +87,12 @@ export class DepreciationEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sub = this.route.params.subscribe( params => {
-      this.depreciationId = params['depreciationId'];
-      this.depreciationService.getDepreciation(this.depreciationId)
-        .subscribe( depreciation => {
-          this.assetId.setValue(depreciation.assetName);
-          this.method.setValue(depreciation.method);
-          this.purchaseDate.setValue(depreciation.purchaseDate);
-          this.cost.setValue(depreciation.cost);
-          this.salvageVal.setValue(depreciation.salvageVal);
-          this.usefulLife.setValue(depreciation.usefulLife);
-          this.unitProduced.setValue(depreciation.unitProduced.join(','));
-          this.totalUnits.setValue(depreciation.totalUnits);
-          this.depreciation = depreciation;
-        }, error => {
-          console.log(error);
-        });
-    });
-
+    this.depreciationService.getDepreciationMethod()
+      .subscribe( methods => {
+        if (methods) {
+          this.depreciationMethod = methods;
+        }
+      });
     this.depreciationForm.get('method').valueChanges
       .subscribe( value => {
         if (value === 'unit-of-production') {
@@ -118,13 +105,13 @@ export class DepreciationEditComponent implements OnInit {
           this.depreciationForm.get('totalUnits').setValidators(null);
           this.depreciationForm.get('usefulLife').setValidators([Validators.required]);
           this.requiredState = false;
+
         }
         this.depreciationForm.get('unitProduced').updateValueAndValidity();
         this.depreciationForm.get('totalUnits').updateValueAndValidity();
         this.depreciationForm.get('usefulLife').updateValueAndValidity();
         this.depreciationForm.updateValueAndValidity();
       });
-
     this.populateAssetIdDropDown();
   }
 
@@ -155,6 +142,14 @@ export class DepreciationEditComponent implements OnInit {
       }, error => {
         console.log('findAssets error - ' + error);
       });
+  }
+
+  get depreciationMethod(): DepreciationMethod[] {
+    return this._depreciationMethod;
+  }
+
+  set depreciationMethod(value: DepreciationMethod[]) {
+    this._depreciationMethod = value;
   }
 
   get assetId(): FormControl {
@@ -251,9 +246,9 @@ export class DepreciationEditComponent implements OnInit {
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
-      this.depreciationService.updateDepreciation(this.depreciation)
+      this.depreciationService.addDepreciation(this.depreciation, 'book')
       .subscribe(value => {
-        if (value) {
+        if (value.depreciationId) {
           this.router.navigate(['/depreciation']);
         } else {
           this.doNotDisplayFailureMessage = false;

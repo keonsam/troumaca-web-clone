@@ -1,6 +1,7 @@
 import {Observable} from "rxjs/Observable";
 import {Subscription} from "./lobby-home/subscription";
 import {Billing} from "./lobby-home/billing";
+import {ValidResp} from "../authentication/resp.valid";
 
 export abstract class HomeRepository {
 
@@ -11,4 +12,14 @@ export abstract class HomeRepository {
   public abstract addSubscription(subscription: Subscription): Observable<Subscription>;
 
   public abstract updateBilling(billing: Billing, method: any): Observable<number>;
+
+  public abstract isValidCardName(value: string): Observable<ValidResp>;
+
+  public abstract isValidCardNumber(value: string): Observable<ValidResp>;
+
+  public abstract isValidCardExpDate(value: Date): Observable<ValidResp>;
+
+  public abstract isValidCardCVV(value: string): Observable<ValidResp>;
+
+  public abstract getSubscriptionInformation(): Observable<any>;
 }

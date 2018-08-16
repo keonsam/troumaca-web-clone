@@ -93,10 +93,10 @@ import {AccessRoleTypeCreationComponent} from '../access-roles/access-role-types
 import {AccessRoleTypeEditComponent} from '../access-roles/access-role-types/access-role-type-edit/access.role.type.edit.component';
 import {AccessRoleTypeListComponent} from '../access-roles/access-role-types/access-role-type-list/access.role.type.list.component';
 // depreciation
-import {ScheduleComponent} from "../depreciation/schedule/schedule.component";
-import {DepreciationCreationComponent} from "../depreciation/depreciation-creation/depreciation.creation.component";
+// import {BookScheduleComponent} from "../depreciation/book/book-schedule/schedule.component";
+import {BookCreationComponent} from "../depreciation/book/book-creation/book.creation.component";
 import {DepreciationComponent} from "../depreciation/depreciation.component";
-import {DepreciationEditComponent} from "../depreciation/depreciation-edit/depreciation.edit.component";
+// import {DepreciationEditComponent} from "../depreciation/book/book-edit/depreciation.edit.component";
 // OTHERS
 import {ContractComponent} from '../contracts/contract.component';
 import {OrderListComponent} from '../contracts/orders/order.list.component';
@@ -111,6 +111,7 @@ import {ShipmentListComponent} from '../shipments/shipment-list/shipment.list.co
 import {ShipmentCreationComponent} from '../shipments/shipment-creation/shipment.creation.component';
 import {ShipmentEditComponent} from '../shipments/shipment-edit/shipment.edit.component';
 import {ShipmentComponent} from '../shipments/shipment.component';
+import {BookScheduleComponent} from "../depreciation/book/book-schedule/book.schedule.component";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -197,10 +198,10 @@ const appRoutes: Routes = [
       { path: 'access-role-types', component: AccessRoleTypeListComponent, data: {menuName: 'access-role-menu'} }
     ]},
   { path: 'depreciation', component: DepreciationComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
-      { path: '', redirectTo: 'schedule', pathMatch: 'full' },
-      { path: 'schedule', component: ScheduleComponent},
-      { path: 'create', component: DepreciationCreationComponent},
-      { path: ':depreciationId/edit', component: DepreciationEditComponent}
+      { path: '', redirectTo: 'book/schedule', pathMatch: 'full' },
+      { path: 'book/schedule', component: BookScheduleComponent },
+      { path: 'book/create', component: BookCreationComponent},
+      // { path: ':depreciationId/edit', component: DepreciationEditComponent}
     ]},
   { path: 'contracts', component: ContractComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
     { path: '', redirectTo: 'orders', pathMatch: 'full' },

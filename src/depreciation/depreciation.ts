@@ -2,7 +2,7 @@ export class Depreciation {
   private _depreciationId: string;
   private _assetId: string;
   private _assetName: string;
-  private _method: string;
+  private _methodId: string;
   private _purchaseDate: string;
   private _cost: string;
   private _salvageVal: string;
@@ -12,6 +12,7 @@ export class Depreciation {
   private _currentDepreciation: string;
   private _cumulativeDepreciation: string;
   private _bookValue: string;
+  private _methodName: string;
 
   get depreciationId(): string {
     return this._depreciationId;
@@ -29,12 +30,12 @@ export class Depreciation {
     this._assetId = value;
   }
 
-  get method(): string {
-    return this._method;
+  get methodId(): string {
+    return this._methodId;
   }
 
-  set method(value: string) {
-    this._method = value;
+  set methodId(value: string) {
+    this._methodId = value;
   }
 
   get purchaseDate(): string {
@@ -115,5 +116,13 @@ export class Depreciation {
 
   set assetName(value: string) {
     this._assetName = value;
+  }
+
+  get methodName(): string {
+    return this._methodName;
+  }
+
+  set methodName(value: string) {
+    this._methodName = value;
   }
 }

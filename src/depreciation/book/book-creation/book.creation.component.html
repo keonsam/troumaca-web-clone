@@ -7,10 +7,10 @@
           <div class="element-box">
             <form [formGroup]="depreciationForm" (ngSubmit)="onCreate()" id="formValidate">
               <h5 class="form-header">
-                Add To Depreciation Schedule
+                Book Depreciation Form
               </h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to update depreciation. Please try again or contact support.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to add to book depreciation. Please try again or contact support.</div>
 
               <fieldset class="form-group">
                 <div class="form-group" [class]="(assetId.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
@@ -40,10 +40,7 @@
                   <label for="depreciation-method">Depreciation Method</label><br/>
                   <select id="depreciation-method" class="form-control" formControlName="method" name="method" required>
                     <option value="" disabled selected>Select a Depreciation Method</option>
-                    <option value="straight-line">Straight Line</option>
-                    <option value="double-declining-method">Double Declining Method</option>
-                    <option value="unit-of-production">Unit Of Production</option>
-                    <option value="sum-of-the-years-digits">Sum Of The Years' Digits</option>
+                    <option *ngFor="let depMethod of depreciationMethod" [value]="depMethod.methodId">{{depMethod.name}}</option>
                   </select>
                   <div [hidden]="method.valid || method.pristine" class="alert alert-danger">Please Select a Depreciation Method.</div>
                 </div>
@@ -94,7 +91,7 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [disabled]="!depreciationForm.valid" type="submit"> Update</button>
+                <button class="btn btn-primary button1" [disabled]="!depreciationForm.valid" type="submit"> Add</button>
                 <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
               </div>
 

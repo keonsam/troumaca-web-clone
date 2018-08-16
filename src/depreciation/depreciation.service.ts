@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import {Asset} from "../assets/asset";
 import {Depreciation} from "./depreciation";
 import {DepreciationArr} from "./depreciation.arr";
+import {DepreciationMethod} from "./depreciation.method";
 
 export class DepreciationService {
 
@@ -13,16 +14,16 @@ export class DepreciationService {
     return this.depreciationRepository.findAssets(searchStr, pageSize);
   }
 
-  public getDepreciationArr(pageNumber: number, pageSize: number, sortOrder: string): Observable<DepreciationArr> {
-    return this.depreciationRepository.getDepreciationArr(pageNumber, pageSize, sortOrder);
+  public getBookDepreciationArr(pageNumber: number, pageSize: number, sortOrder: string): Observable<DepreciationArr> {
+    return this.depreciationRepository.getBookDepreciationArr(pageNumber, pageSize, sortOrder);
   }
 
   public getDepreciation(depreciationId: string): Observable<Depreciation> {
     return this.depreciationRepository.getDepreciation(depreciationId);
   }
 
-  public addDepreciation(depreciation: Depreciation): Observable<Depreciation> {
-    return this.depreciationRepository.addDepreciation(depreciation);
+  public addDepreciation(depreciation: Depreciation, type: string): Observable<Depreciation> {
+    return this.depreciationRepository.addDepreciation(depreciation, type);
   }
 
   public updateDepreciation(depreciation: Depreciation): Observable<number> {
@@ -31,6 +32,10 @@ export class DepreciationService {
 
   public deleteDepreciation(depreciationId: string): Observable<number> {
     return this.depreciationRepository.deleteDepreciation(depreciationId);
+  }
+
+  public getDepreciationMethod(): Observable<DepreciationMethod[]> {
+    return this.depreciationRepository.getDepreciationMethod();
   }
 
 

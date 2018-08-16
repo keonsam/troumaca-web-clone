@@ -7,60 +7,48 @@
           <div class="element-wrapper">
             <div class="element-actions">
             </div>
-            <h4 class="element-header">
-              Troumaca Apps
-            </h4>
+            <h6 class="element-header">
+              Apps
+            </h6>
             <div style="margin-left: 20px; margin-right: 20px;" class="element-content">
-              <div class="row">
-                <div class="col-sm-4">
-                  <a (click)="module('Asset Management');false" class="element-box el-tablo" href="#">
+              <div class="module-grid">
+                <div class="">
+                  <a (click)="module('Asset Management');false" [ngClass]="{'element-box': true, 'el-tablo': true, 'flex-modules': true , 'subscribed': information['Asset Management'].subscribed}" href="#">
+                    <div class="icon-w">
+                      <i class="os-icon os-icon-delivery-box-2"></i>
+                    </div>
                     <div class="label">
                       Asset Management
                     </div>
-                    <div class="value">
-                      57
-                    </div>
-                    <div class="trending trending-up-basic">
-                      <span>12%</span><i class="os-icon os-icon-arrow-up2"></i>
-                    </div>
                   </a>
                 </div>
-                <div class="col-sm-4">
-                  <a (click)="module('User Management');false" class="element-box el-tablo" href="#">
+                <div class="">
+                  <a (click)="module('User Management');false" [ngClass]="{'element-box': true, 'el-tablo': true, 'flex-modules': true , 'subscribed': true}" href="#">
+                    <div class="icon-w">
+                      <i class="os-icon os-icon-user-male-circle"></i>
+                    </div>
                     <div class="label">
                       User Management
                     </div>
-                    <div class="value">
-                      25
-                    </div>
-                    <div class="trending trending-down-basic">
-                      <span>12%</span><i class="os-icon os-icon-arrow-down"></i>
-                    </div>
                   </a>
                 </div>
-                <div class="col-sm-4">
-                  <a (click)="module('Organization Management');false" class="element-box el-tablo" href="#">
+                <div class="">
+                  <a (click)="module('Organization Management');false" [ngClass]="{'element-box': true, 'el-tablo': true, 'flex-modules': true , 'subscribed': true}" href="#">
+                    <div class="icon-w">
+                      <i class="os-icon os-icon-hierarchy-structure-2"></i>
+                    </div>
                     <div class="label">
                       Organization Management
                     </div>
-                    <div class="value">
-                      12
-                    </div>
-                    <div class="trending trending-down-basic">
-                      <span>9%</span><i class="os-icon os-icon-arrow-down"></i>
-                    </div>
                   </a>
                 </div>
-                <div class="col-sm-4">
-                  <a class="element-box el-tablo" href="#">
+                <div class="">
+                  <a (click)="module('Depreciation Management');false" [ngClass]="{'element-box': true, 'el-tablo': true, 'flex-modules': true , 'subscribed': information['Depreciation Management'].subscribed}" href="#">
+                    <div class="icon-w">
+                      <i class="os-icon os-icon-graph-down"></i>
+                    </div>
                     <div class="label">
                       Depreciation Management
-                    </div>
-                    <div class="value">
-                      57
-                    </div>
-                    <div class="trending trending-down-basic">
-                      <span>5%</span><i class="os-icon os-icon-arrow-down"></i>
                     </div>
                   </a>
                 </div>
@@ -88,22 +76,22 @@
                     {{ typeName }}
                   </h4>
                   <div class="onboarding-text">
-                    {{ typeDescription[typeName]}}
+                    {{ information[typeName].description}}
                   </div>
-                  <div *ngIf="features[typeName].length < 5">
+                  <div *ngIf="information[typeName].features.length < 5">
                     <ul class="features-list center-ul">
-                      <li *ngFor="let feature of features[typeName]">{{feature}}</li><br/>
+                      <li *ngFor="let feature of information[typeName].features">{{feature}}</li><br/>
                     </ul>
                   </div>
-                  <div *ngIf="features[typeName].length > 4" class="row">
+                  <div *ngIf="information[typeName].features.length > 4" class="row">
                     <div class="col-sm-6">
                       <ul class="features-list">
-                        <li *ngFor="let feature of features[typeName].slice(0,3)">{{feature}}</li>
+                        <li *ngFor="let feature of information[typeName].features.slice(0,3)">{{feature}}</li>
                       </ul>
                     </div>
                     <div class="col-sm-6">
                       <ul class="features-list">
-                        <li *ngFor="let feature of features[typeName].slice(3)">{{feature}}</li>
+                        <li *ngFor="let feature of information[typeName].features.slice(3)">{{feature}}</li>
                       </ul>
                     </div>
                   </div>
@@ -124,8 +112,8 @@
                     Enter billing information below to subscribe to the app.
                   </div>
                   <div>
-                    <label for="payment method">Payment Method</label>
-                    <select class="form-control" [(ngModel)]="paymentMethod" name="paymentMethod" required>
+                    <label for="payment-method">Payment Method</label>
+                    <select id="payment-method" class="form-control" [(ngModel)]="paymentMethod" name="paymentMethod" required>
                       <option value="Credit Card" selected>Credit Card</option>
                       <option value="PayPal">PayPal</option>
                     </select>
@@ -134,24 +122,24 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="form-group">
-                          <label for="">Name on Card</label><input class="form-control" formControlName="cardName" placeholder="John More Doe" type="text" value="" required>
+                          <label for="card-name">Name on Card</label><input id="card-name" class="form-control" formControlName="cardName" placeholder="John More Doe" type="text" value="" required>
                         </div>
                       </div>
                       <div class="col-sm-6">
                         <div class="form-group">
-                          <label for="">Credit Card Number</label><input class="form-control" formControlName="cardNumber" placeholder="1111-2222-3333-4444" type="text" value="" required>
+                          <label for="card-number">Credit Card Number</label><input id="card-number" class="form-control" formControlName="cardNumber" placeholder="1111-2222-3333-4444" type="text" value="" required>
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="form-group">
-                          <label for="">Expiry Date</label><input class="form-control" formControlName="cardExpDate" type="date" value="" required>
+                          <label for="expire-date">Expiry Date</label><input id="expire-date" class="form-control" formControlName="cardExpDate" type="date" value="" required>
                         </div>
                       </div>
                       <div class="col-sm-6">
                         <div class="form-group">
-                          <label for="">CVV</label><input class="form-control" formControlName="cardCVV" placeholder="352" type="number" value="" required>
+                          <label for="card-cvv">CVV</label><input id="card-cvv" class="form-control" formControlName="cardCVV" placeholder="352" type="number" value="" required>
                         </div>
                       </div>
                     </div>
@@ -170,10 +158,10 @@
                 </div>
                 <div class="onboarding-content with-gradient">
                   <h4 class="onboarding-title">
-                    {{isModuleFree() ? 'Free' : 'Only '+price[typeName]}}
+                    {{ information[typeName].cost}}
                   </h4>
                   <div class="onboarding-text">
-                    Press the button below to subscribe to {{typeName}}. {{ isModuleFree() ? 'This app is Free.' : 'A monthly fee of '+price[typeName]+' will be charged to your account.'}}
+                    Press the button below to subscribe to {{typeName}}. {{'A monthly fee of ' + information[typeName].cost + ' will be charged to your account.'}}
                   </div>
                   <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to add subscription information.</div>
                   <button [hidden]="billed" class="btn btn-outline-info next-button prev-button" (click)="showNextModel('billing')"> Back to Billing</button>

@@ -17,11 +17,11 @@
             <thead>
               <tr>
                 <th>Asset</th>
-                <th>Method</th>
                 <th>Purchase Date</th>
                 <th>Cost</th>
-                <th>Salvage Value</th>
                 <th>Useful Life</th>
+                <th>Method</th>
+                <th>Salvage Value</th>
                 <th>Current Depreciation</th>
                 <th>Accumulative Depreciation</th>
                 <th>Net Book Value</th>
@@ -31,25 +31,24 @@
             <tfoot>
               <tr>
                 <th>Asset</th>
-                <th>Method</th>
                 <th>Purchase Date</th>
                 <th>Cost</th>
-                <th>Salvage Value</th>
                 <th>Useful Life</th>
+                <th>Method</th>
+                <th>Salvage Value</th>
                 <th>Current Depreciation</th>
                 <th>Accumulative Depreciation</th>
                 <th>Net Book Value</th>
-                <th class="text-center">Actions</th>
               </tr>
             </tfoot>
             <tbody>
               <tr role="row" *ngFor="let depreciation of depreciationArr.depreciation; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
                 <td>{{depreciation.assetName}}</td>
-                <td>{{depreciation.method}}</td>
                 <td>{{depreciation.purchaseDate}}</td>
                 <td>{{depreciation.cost}}</td>
-                <td>{{depreciation.salvageVal}}</td>
                 <td>{{depreciation.usefulLife}}</td>
+                <td>{{depreciation.methodName}}</td>
+                <td>{{depreciation.salvageVal}}</td>
                 <td>{{depreciation.currentDepreciation}}</td>
                 <td>{{depreciation.cumulativeDepreciation}}</td>
                 <td>{{depreciation.bookValue}}</td>

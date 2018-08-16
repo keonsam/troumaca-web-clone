@@ -9,6 +9,7 @@ import {DepreciationState} from "../../client/depreciation/depreciation.state";
 import {DepreciationArr} from "../../depreciation/depreciation.arr";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
+import {DepreciationMethod} from "../../depreciation/depreciation.method";
 
 export class DepreciationRepositoryAdapter extends DepreciationRepository {
 
@@ -26,8 +27,8 @@ export class DepreciationRepositoryAdapter extends DepreciationRepository {
   }
 
 
-  public getDepreciationArr(pageNumber: number, pageSize: number, sortOrder: string): Observable<DepreciationArr> {
-    return this.depreciationClient.getDepreciationArr(pageNumber, pageSize, sortOrder)
+  public getBookDepreciationArr(pageNumber: number, pageSize: number, sortOrder: string): Observable<DepreciationArr> {
+    return this.depreciationClient.getBookDepreciationArr(pageNumber, pageSize, sortOrder)
       .map(values => {
         const depreciationModels: DepreciationArr = new DepreciationArr();
         depreciationModels.depreciation = map(values.depreciation, value => {
@@ -46,8 +47,8 @@ export class DepreciationRepositoryAdapter extends DepreciationRepository {
       });
   }
 
-  public addDepreciation(depreciation: Depreciation): Observable<Depreciation> {
-    return this.depreciationClient.addDepreciation(mapObjectProps(depreciation, new DepreciationState()))
+  public addDepreciation(depreciation: Depreciation, type: string): Observable<Depreciation> {
+    return this.depreciationClient.addDepreciation(mapObjectProps(depreciation, new DepreciationState()), type)
     .map(value => {
       return mapObjectProps(value, new Depreciation());
     });
@@ -59,6 +60,10 @@ export class DepreciationRepositoryAdapter extends DepreciationRepository {
 
   public deleteDepreciation(depreciationId: string): Observable<number> {
     return this.depreciationClient.deleteDepreciation(depreciationId);
+  }
+
+  public getDepreciationMethod(): Observable<DepreciationMethod[]> {
+    return this.depreciationClient.getDepreciationMethod();
   }
 
 }

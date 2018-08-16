@@ -1,13 +1,17 @@
 export class DepreciationState {
   private _depreciationId: string;
   private _assetId: string;
-  private _method: string;
+  private _methodId: string;
   private _purchaseDate: string;
   private _cost: string;
   private _salvageVal: string;
   private _usefulLife: string;
   private _unitProduced: string[];
   private _totalUnits: string;
+  private _currentDepreciation: string;
+  private _cumulativeDepreciation: string;
+  private _bookValue: string;
+  private _methodName: string;
   private _assetName: string;
 
   get depreciationId(): string {
@@ -26,12 +30,12 @@ export class DepreciationState {
     this._assetId = value;
   }
 
-  get method(): string {
-    return this._method;
+  get methodId(): string {
+    return this._methodId;
   }
 
-  set method(value: string) {
-    this._method = value;
+  set methodId(value: string) {
+    this._methodId = value;
   }
 
   get purchaseDate(): string {
@@ -82,6 +86,38 @@ export class DepreciationState {
     this._totalUnits = value;
   }
 
+  get currentDepreciation(): string {
+    return this._currentDepreciation;
+  }
+
+  set currentDepreciation(value: string) {
+    this._currentDepreciation = value;
+  }
+
+  get cumulativeDepreciation(): string {
+    return this._cumulativeDepreciation;
+  }
+
+  set cumulativeDepreciation(value: string) {
+    this._cumulativeDepreciation = value;
+  }
+
+  get bookValue(): string {
+    return this._bookValue;
+  }
+
+  set bookValue(value: string) {
+    this._bookValue = value;
+  }
+
+  get methodName(): string {
+    return this._methodName;
+  }
+
+  set methodName(value: string) {
+    this._methodName = value;
+  }
+
   get assetName(): string {
     return this._assetName;
   }
@@ -94,7 +130,7 @@ export class DepreciationState {
     return {
       'depreciationId': this.depreciationId,
       'assetId': this.assetId,
-      'method': this.method,
+      'methodId': this.methodId,
       'purchaseDate': this.purchaseDate,
       'cost': this.cost,
       'salvageVal': this.salvageVal,
