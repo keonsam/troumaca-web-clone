@@ -1,8 +1,12 @@
 export class DepreciationState {
   private _depreciationId: string;
   private _assetId: string;
+  private _assetName: string;
+  private _systemId: string;
+  private _propertyClassId: string;
   private _methodId: string;
   private _purchaseDate: string;
+  private _serviceDate: string;
   private _cost: string;
   private _salvageVal: string;
   private _usefulLife: string;
@@ -12,7 +16,8 @@ export class DepreciationState {
   private _cumulativeDepreciation: string;
   private _bookValue: string;
   private _methodName: string;
-  private _assetName: string;
+  private _depreciationSystemName: string;
+  private _propertyClassName: string;
 
   get depreciationId(): string {
     return this._depreciationId;
@@ -126,12 +131,55 @@ export class DepreciationState {
     this._assetName = value;
   }
 
+  get systemId(): string {
+    return this._systemId;
+  }
+
+  set systemId(value: string) {
+    this._systemId = value;
+  }
+
+  get propertyClassId(): string {
+    return this._propertyClassId;
+  }
+
+  set propertyClassId(value: string) {
+    this._propertyClassId = value;
+  }
+
+  get serviceDate(): string {
+    return this._serviceDate;
+  }
+
+  set serviceDate(value: string) {
+    this._serviceDate = value;
+  }
+
+  get depreciationSystemName(): string {
+    return this._depreciationSystemName;
+  }
+
+  set depreciationSystemName(value: string) {
+    this._depreciationSystemName = value;
+  }
+
+  get propertyClassName(): string {
+    return this._propertyClassName;
+  }
+
+  set propertyClassName(value: string) {
+    this._propertyClassName = value;
+  }
+
   toJson() {
     return {
       'depreciationId': this.depreciationId,
       'assetId': this.assetId,
+      'systemId': this.systemId,
       'methodId': this.methodId,
+      'propertyClassId': this.propertyClassId,
       'purchaseDate': this.purchaseDate,
+      'serviceDate': this.serviceDate,
       'cost': this.cost,
       'salvageVal': this.salvageVal,
       'usefulLife': this.usefulLife,

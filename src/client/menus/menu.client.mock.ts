@@ -194,8 +194,8 @@ export class MenuClientMock extends MenuClient {
 
   private depreciationMenuItems() {
     return [
-      this.toMenuItem({id: '1051', rank: '21', name: 'BOOK', routeName: '/depreciation/book', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id: '1052', rank: '22', name: 'TAX', routeName: '/depreciation/tax', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
+      this.toMenuItem({id: '1051', rank: '21', name: 'BOOK', routeName: '/depreciation/book/schedule', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id: '1052', rank: '22', name: 'TAX', routeName: '/depreciation/tax/schedule', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
     ];
   }
 

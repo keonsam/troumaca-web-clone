@@ -10,6 +10,8 @@ import {DepreciationArr} from "../../depreciation/depreciation.arr";
 import {Page} from "../../page/page";
 import {Sort} from "../../sort/sort";
 import {DepreciationMethod} from "../../depreciation/depreciation.method";
+import {DepreciationSystem} from "../../depreciation/depreciation.system";
+import {PropertyClass} from "../../depreciation/property.class";
 
 export class DepreciationRepositoryAdapter extends DepreciationRepository {
 
@@ -27,8 +29,8 @@ export class DepreciationRepositoryAdapter extends DepreciationRepository {
   }
 
 
-  public getBookDepreciationArr(pageNumber: number, pageSize: number, sortOrder: string): Observable<DepreciationArr> {
-    return this.depreciationClient.getBookDepreciationArr(pageNumber, pageSize, sortOrder)
+  public getDepreciationArr(pageNumber: number, pageSize: number, sortOrder: string, type: string): Observable<DepreciationArr> {
+    return this.depreciationClient.getDepreciationArr(pageNumber, pageSize, sortOrder, type)
       .map(values => {
         const depreciationModels: DepreciationArr = new DepreciationArr();
         depreciationModels.depreciation = map(values.depreciation, value => {
@@ -40,8 +42,8 @@ export class DepreciationRepositoryAdapter extends DepreciationRepository {
       });
   }
 
-  public getDepreciation(depreciationId: string): Observable<Depreciation> {
-    return this.depreciationClient.getDepreciation(depreciationId)
+  public getDepreciation(depreciationId: string, type: string): Observable<Depreciation> {
+    return this.depreciationClient.getDepreciation(depreciationId, type)
       .map(value => {
         return mapObjectProps(value, new Depreciation());
       });
@@ -54,16 +56,24 @@ export class DepreciationRepositoryAdapter extends DepreciationRepository {
     });
   }
 
-  public updateDepreciation(depreciation: Depreciation): Observable<number> {
-    return this.depreciationClient.updateDepreciation(mapObjectProps(depreciation, new DepreciationState()));
+  public updateDepreciation(depreciation: Depreciation, type: string): Observable<number> {
+    return this.depreciationClient.updateDepreciation(mapObjectProps(depreciation, new DepreciationState()), type);
   }
 
-  public deleteDepreciation(depreciationId: string): Observable<number> {
-    return this.depreciationClient.deleteDepreciation(depreciationId);
+  public deleteDepreciation(depreciationId: string, type: string): Observable<number> {
+    return this.depreciationClient.deleteDepreciation(depreciationId, type);
   }
 
-  public getDepreciationMethod(): Observable<DepreciationMethod[]> {
-    return this.depreciationClient.getDepreciationMethod();
+  public getDepreciationMethod(type: string, system?: string): Observable<DepreciationMethod[]> {
+    return this.depreciationClient.getDepreciationMethod(type, system);
+  }
+
+  public getDepreciationSystem(): Observable<DepreciationSystem[]> {
+    return this.depreciationClient.getDepreciationSystem();
+  }
+
+  public getPropertyClasses(system?: string): Observable<PropertyClass[]> {
+    return this.depreciationClient.getPropertyClasses(system);
   }
 
 }

@@ -4,21 +4,20 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/filter';
-import {Router} from '@angular/router';
-import {Depreciation} from '../../depreciation';
+import {ActivatedRoute, Router} from '@angular/router';
+import { Depreciation } from '../../depreciation';
 import {DepreciationService} from '../../depreciation.service';
+import {DepreciationMethod} from '../../depreciation.method';
 import {DepreciationSystem} from '../../depreciation.system';
 import {PropertyClass} from '../../property.class';
-import {DepreciationMethod} from '../../depreciation.method';
 
 @Component({
-  selector: 'tax-creation',
-  templateUrl: './tax.creation.component.html',
-  styleUrls: ['./tax.creation.component.css']
+  selector: 'tax-edit',
+  templateUrl: './tax.edit.component.html',
+  styleUrls: ['./tax.edit.component.css']
 })
 
-export class TaxCreationComponent implements OnInit {
-
+export class TaxEditComponent implements OnInit {
 
   private _depreciationSystem: DepreciationSystem[];
   private _propertyClasses: PropertyClass[];
@@ -39,10 +38,13 @@ export class TaxCreationComponent implements OnInit {
   private depreciation: Depreciation;
 
   private _doNotDisplayFailureMessage: boolean;
+  private depreciationId: string;
+  private sub: any;
 
   constructor(private depreciationService: DepreciationService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder,
+              private route: ActivatedRoute,
               private router: Router) {
 
     this.depreciation = new Depreciation();
@@ -50,33 +52,33 @@ export class TaxCreationComponent implements OnInit {
 
     this.assetId = new FormControl('', [Validators.required]);
     this.systemId = new FormControl('', [Validators.required]);
-    this.propertyClassId = new FormControl('', [Validators.required]);
     this.methodId = new FormControl('', [Validators.required]);
+    this.propertyClassId = new FormControl('', [Validators.required]);
     this.serviceDate = new FormControl('', [Validators.required]);
     this.cost = new FormControl('', [Validators.required]);
 
     this.depreciationForm = formBuilder.group({
       'assetId': this.assetId,
+      'methodId': this.methodId,
       'systemId': this.systemId,
       'propertyClassId': this.propertyClassId,
-      'methodId': this.methodId,
       'serviceDate': this.serviceDate,
-      'cost': this.cost
+      'cost': this.cost,
     });
 
     this.pageSize = 15;
 
-    this.depreciationForm
-      .valueChanges
-      .subscribe(value => {
-        this.depreciation.systemId = value.systemId;
-        this.depreciation.propertyClassId = value.propertyClassId;
-        this.depreciation.methodId = value.methodId;
-        this.depreciation.serviceDate = value.serviceDate;
-        this.depreciation.cost = value.cost;
-      }, error => {
-        console.log(error);
-      });
+   this.depreciationForm
+    .valueChanges
+    .subscribe(value => {
+      this.depreciation.methodId = value.methodId;
+      this.depreciation.systemId = value.systemId;
+      this.depreciation.propertyClassId = value.propertyClassId;
+      this.depreciation.serviceDate = value.serviceDate;
+      this.depreciation.cost = value.cost;
+    }, error => {
+      console.log(error);
+    });
 
     this.depreciationSystem = [];
     this.propertyClasses = [];
@@ -93,13 +95,32 @@ export class TaxCreationComponent implements OnInit {
           this.getDepreciationMethods('tax');
         }
       });
+
     this.depreciationForm.get('systemId').valueChanges
       .subscribe( value => {
         if (value) {
+          console.log(value);
           this.getDepreciationMethods('tax', value);
           this.getPropertyClasses(value);
         }
       });
+
+    this.sub = this.route.params.subscribe( params => {
+      this.depreciationId = params['depreciationId'];
+      this.depreciationService.getDepreciation(this.depreciationId, 'tax')
+        .subscribe( depreciation => {
+          this.assetId.setValue(depreciation.assetName);
+          this.systemId.setValue(depreciation.systemId);
+          this.methodId.setValue(depreciation.methodId);
+          this.propertyClassId.setValue(depreciation.propertyClassId);
+          this.serviceDate.setValue(depreciation.serviceDate);
+          this.cost.setValue(depreciation.cost);
+          this.depreciation = depreciation;
+        }, error => {
+          console.log(error);
+        });
+    });
+
     this.populateAssetIdDropDown();
   }
 
@@ -150,7 +171,13 @@ export class TaxCreationComponent implements OnInit {
       });
   }
 
+  get depreciationMethod(): DepreciationMethod[] {
+    return this._depreciationMethod;
+  }
 
+  set depreciationMethod(value: DepreciationMethod[]) {
+    this._depreciationMethod = value;
+  }
 
   get assetId(): FormControl {
     return this._assetId;
@@ -159,7 +186,7 @@ export class TaxCreationComponent implements OnInit {
   set assetId(value: FormControl) {
     this._assetId = value;
   }
-  
+
   get depreciationSystem(): DepreciationSystem[] {
     return this._depreciationSystem;
   }
@@ -167,21 +194,13 @@ export class TaxCreationComponent implements OnInit {
   set depreciationSystem(value: DepreciationSystem[]) {
     this._depreciationSystem = value;
   }
-  
+
   get propertyClasses(): PropertyClass[] {
     return this._propertyClasses;
   }
 
   set propertyClasses(value: PropertyClass[]) {
     this._propertyClasses = value;
-  }
-
-  get depreciationMethod(): DepreciationMethod[] {
-    return this._depreciationMethod;
-  }
-
-  set depreciationMethod(value: DepreciationMethod[]) {
-    this._depreciationMethod = value;
   }
 
   get systemId(): FormControl {
@@ -224,6 +243,7 @@ export class TaxCreationComponent implements OnInit {
     this._cost = value;
   }
 
+
   get depreciationForm(): FormGroup {
     return this._depreciationForm;
   }
@@ -254,9 +274,9 @@ export class TaxCreationComponent implements OnInit {
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
-    this.depreciationService.addDepreciation(this.depreciation, 'tax')
+      this.depreciationService.updateDepreciation(this.depreciation, 'tax')
       .subscribe(value => {
-        if (value.depreciationId) {
+        if (value) {
           this.router.navigate(['/depreciation/tax/schedule']);
         } else {
           this.doNotDisplayFailureMessage = false;

@@ -5,11 +5,11 @@ import {DepreciationService} from '../../depreciation.service';
 import {DepreciationArr} from '../../depreciation.arr';
 
 @Component({
-  selector: 'book-schedule',
-  templateUrl: './book.schedule.component.html',
-  styleUrls: ['./book.schedule.component.css']
+  selector: 'tax-schedule',
+  templateUrl: './tax.schedule.component.html',
+  styleUrls: ['./tax.schedule.component.css']
 })
-export class BookScheduleComponent implements OnInit {
+export class TaxScheduleComponent implements OnInit {
 
   private _depreciationId: string;
   private _depreciationName: string;
@@ -17,7 +17,7 @@ export class BookScheduleComponent implements OnInit {
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  private _routerLinkCreateDepreciation = '/depreciation/book/create';
+  private _routerLinkCreateDepreciation = '/depreciation/tax/create';
 
   constructor(private depreciationService: DepreciationService) {
     const depreciationArr = new DepreciationArr();
@@ -64,7 +64,7 @@ export class BookScheduleComponent implements OnInit {
   }
 
   getDepreciationArr() {
-    this.depreciationService.getDepreciationArr(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, 'book')
+    this.depreciationService.getDepreciationArr(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, 'tax')
       .subscribe(next => {
         this.depreciationArr = next;
       }, error => {
@@ -81,7 +81,7 @@ export class BookScheduleComponent implements OnInit {
 
   onDelete() {
     this.depreciationService
-    .deleteDepreciation(this.depreciationId, 'book')
+    .deleteDepreciation(this.depreciationId, 'tax')
     .subscribe(value => {
       if (value) {
         this.getDepreciationArr();

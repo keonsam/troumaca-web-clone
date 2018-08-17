@@ -4,18 +4,18 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/filter';
-import {Router} from '@angular/router';
-import {Depreciation} from "../../depreciation";
-import {DepreciationService} from "../../depreciation.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import { Depreciation } from "../../depreciation";
+import {DepreciationService} from '../../depreciation.service';
 import {DepreciationMethod} from "../../depreciation.method";
 
 @Component({
-  selector: 'book-creation',
-  templateUrl: './book.creation.component.html',
-  styleUrls: ['./book.creation.component.css']
+  selector: 'book-edit',
+  templateUrl: './book.edit.component.html',
+  styleUrls: ['./book.edit.component.css']
 })
 
-export class BookCreationComponent implements OnInit {
+export class BookEditComponent implements OnInit {
 
   private _depreciationMethod: DepreciationMethod[];
   private _assetId: FormControl;
@@ -36,13 +36,15 @@ export class BookCreationComponent implements OnInit {
 
   private _doNotDisplayFailureMessage: boolean;
   public requiredState: boolean;
+  private depreciationId: string;
+  private sub: any;
 
   constructor(private depreciationService: DepreciationService,
               private completerService: CompleterService,
               private formBuilder: FormBuilder,
+              private route: ActivatedRoute,
               private router: Router) {
 
-    this.depreciationMethod = [];
     this.depreciation = new Depreciation();
     this.depreciation.unitProduced = [];
 
@@ -93,6 +95,25 @@ export class BookCreationComponent implements OnInit {
           this.depreciationMethod = methods;
         }
       });
+
+    this.sub = this.route.params.subscribe( params => {
+      this.depreciationId = params['depreciationId'];
+      this.depreciationService.getDepreciation(this.depreciationId, 'book')
+        .subscribe( depreciation => {
+          this.assetId.setValue(depreciation.assetName);
+          this.method.setValue(depreciation.methodId);
+          this.purchaseDate.setValue(depreciation.purchaseDate);
+          this.cost.setValue(depreciation.cost);
+          this.salvageVal.setValue(depreciation.salvageVal);
+          this.usefulLife.setValue(depreciation.usefulLife);
+          this.unitProduced.setValue(depreciation.unitProduced.join(','));
+          this.totalUnits.setValue(depreciation.totalUnits);
+          this.depreciation = depreciation;
+        }, error => {
+          console.log(error);
+        });
+    });
+
     this.depreciationForm.get('method').valueChanges
       .subscribe( value => {
         if (value === 'unit-of-production') {
@@ -105,13 +126,13 @@ export class BookCreationComponent implements OnInit {
           this.depreciationForm.get('totalUnits').setValidators(null);
           this.depreciationForm.get('usefulLife').setValidators([Validators.required]);
           this.requiredState = false;
-
         }
         this.depreciationForm.get('unitProduced').updateValueAndValidity();
         this.depreciationForm.get('totalUnits').updateValueAndValidity();
         this.depreciationForm.get('usefulLife').updateValueAndValidity();
         this.depreciationForm.updateValueAndValidity();
       });
+
     this.populateAssetIdDropDown();
   }
 
@@ -246,9 +267,9 @@ export class BookCreationComponent implements OnInit {
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
-      this.depreciationService.addDepreciation(this.depreciation, 'book')
+      this.depreciationService.updateDepreciation(this.depreciation, 'book')
       .subscribe(value => {
-        if (value.depreciationId) {
+        if (value) {
           this.router.navigate(['/depreciation/book/schedule']);
         } else {
           this.doNotDisplayFailureMessage = false;

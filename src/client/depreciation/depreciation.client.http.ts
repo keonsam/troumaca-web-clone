@@ -6,6 +6,8 @@ import {DepreciationState} from "./depreciation.state";
 import {AssetState} from "../asset/asset.state";
 import {DepreciationStates} from "./depreciation.states";
 import {DepreciationMethod} from "../../depreciation/depreciation.method";
+import {DepreciationSystem} from "../../depreciation/depreciation.system";
+import {PropertyClass} from "../../depreciation/property.class";
 
 export class DepreciationClientHttp extends DepreciationClient {
 
@@ -25,8 +27,8 @@ export class DepreciationClientHttp extends DepreciationClient {
     });
   }
 
-  public getBookDepreciationArr(pageNumber: number, pageSize: number, sortOrder: string): Observable<DepreciationStates> {
-    const url = `${this.hostPort}/book-depreciation?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+  public getDepreciationArr(pageNumber: number, pageSize: number, sortOrder: string, type: string): Observable<DepreciationStates> {
+    const url = `${this.hostPort}/${type}-depreciation?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -35,8 +37,8 @@ export class DepreciationClientHttp extends DepreciationClient {
     });
   }
 
-  public getDepreciation(depreciationId: string): Observable<DepreciationState> {
-    const url = `${this.hostPort}/depreciation/${depreciationId}`;
+  public getDepreciation(depreciationId: string, type: string): Observable<DepreciationState> {
+    const url = `${this.hostPort}/depreciation/${depreciationId}/${type}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -58,18 +60,23 @@ export class DepreciationClientHttp extends DepreciationClient {
     });
   }
 
-  public updateDepreciation(depreciationState: DepreciationState): Observable<number> {
+  public updateDepreciation(depreciationState: DepreciationState, type: string): Observable<number> {
     const url = `${this.hostPort}/depreciation/${depreciationState.depreciationId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.put<number>(url, depreciationState.toJson(), httpOptions).map(data => {
+
+    const body = {
+      depreciation: depreciationState.toJson(),
+      type: type
+    };
+    return this.http.put<number>(url, body, httpOptions).map(data => {
       return data;
     });
   }
 
-  public deleteDepreciation(depreciationId: string): Observable<number> {
-    const url = `${this.hostPort}/depreciation/${depreciationId}`;
+  public deleteDepreciation(depreciationId: string, type: string): Observable<number> {
+    const url = `${this.hostPort}/depreciation/${depreciationId}/${type}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -78,12 +85,32 @@ export class DepreciationClientHttp extends DepreciationClient {
     });
   }
 
-  public getDepreciationMethod(): Observable<DepreciationMethod[]> {
-    const url = `${this.hostPort}/depreciation-methods`;
+  public getDepreciationMethod(type: string, system?: string): Observable<DepreciationMethod[]> {
+    const url = `${this.hostPort}/depreciation-methods/${type}/${system}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.http.get<DepreciationMethod[]>(url, httpOptions).map(data => {
+      return data;
+    });
+  }
+
+  public getDepreciationSystem(): Observable<DepreciationSystem[]> {
+    const url = `${this.hostPort}/depreciation-systems`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.get<DepreciationSystem[]>(url, httpOptions).map(data => {
+      return data;
+    });
+  }
+
+  public getPropertyClasses(system?: string): Observable<PropertyClass[]> {
+    const url = `${this.hostPort}/depreciation-property-classes/${system}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.get<PropertyClass[]>(url, httpOptions).map(data => {
       return data;
     });
   }

@@ -4,6 +4,8 @@ import {Asset} from "../assets/asset";
 import {Depreciation} from "./depreciation";
 import {DepreciationArr} from "./depreciation.arr";
 import {DepreciationMethod} from "./depreciation.method";
+import {DepreciationSystem} from "./depreciation.system";
+import {PropertyClass} from "./property.class";
 
 export class DepreciationService {
 
@@ -14,29 +16,35 @@ export class DepreciationService {
     return this.depreciationRepository.findAssets(searchStr, pageSize);
   }
 
-  public getBookDepreciationArr(pageNumber: number, pageSize: number, sortOrder: string): Observable<DepreciationArr> {
-    return this.depreciationRepository.getBookDepreciationArr(pageNumber, pageSize, sortOrder);
+  public getDepreciationArr(pageNumber: number, pageSize: number, sortOrder: string, type: string): Observable<DepreciationArr> {
+    return this.depreciationRepository.getDepreciationArr(pageNumber, pageSize, sortOrder, type);
   }
 
-  public getDepreciation(depreciationId: string): Observable<Depreciation> {
-    return this.depreciationRepository.getDepreciation(depreciationId);
+  public getDepreciation(depreciationId: string, type: string): Observable<Depreciation> {
+    return this.depreciationRepository.getDepreciation(depreciationId, type);
   }
 
   public addDepreciation(depreciation: Depreciation, type: string): Observable<Depreciation> {
     return this.depreciationRepository.addDepreciation(depreciation, type);
   }
 
-  public updateDepreciation(depreciation: Depreciation): Observable<number> {
-    return this.depreciationRepository.updateDepreciation(depreciation);
+  public updateDepreciation(depreciation: Depreciation, type: string): Observable<number> {
+    return this.depreciationRepository.updateDepreciation(depreciation, type);
   }
 
-  public deleteDepreciation(depreciationId: string): Observable<number> {
-    return this.depreciationRepository.deleteDepreciation(depreciationId);
+  public deleteDepreciation(depreciationId: string, type: string): Observable<number> {
+    return this.depreciationRepository.deleteDepreciation(depreciationId, type);
   }
 
-  public getDepreciationMethod(): Observable<DepreciationMethod[]> {
-    return this.depreciationRepository.getDepreciationMethod();
+  public getDepreciationMethod(type: string, system?: string): Observable<DepreciationMethod[]> {
+    return this.depreciationRepository.getDepreciationMethod(type, system);
   }
 
+  public getDepreciationSystem(): Observable<DepreciationSystem[]> {
+    return this.depreciationRepository.getDepreciationSystem();
+  }
 
+  public getPropertyClasses(system?: string): Observable<PropertyClass[]> {
+    return this.depreciationRepository.getPropertyClasses(system);
+  }
 }

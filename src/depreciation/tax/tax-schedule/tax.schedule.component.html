@@ -17,11 +17,11 @@
             <thead>
               <tr>
                 <th>Asset</th>
-                <th>Purchase Date</th>
+                <th>Depreciation System</th>
+                <th>Place in Service Date</th>
                 <th>Cost</th>
-                <th>Useful Life</th>
+                <th>Property Class</th>
                 <th>Method</th>
-                <th>Salvage Value</th>
                 <th>Current Depreciation</th>
                 <th>Accumulative Depreciation</th>
                 <th>Net Book Value</th>
@@ -31,11 +31,11 @@
             <tfoot>
               <tr>
                 <th>Asset</th>
-                <th>Purchase Date</th>
+                <th>Depreciation System</th>
+                <th>Place in Service Date</th>
                 <th>Cost</th>
-                <th>Useful Life</th>
+                <th>Property Class</th>
                 <th>Method</th>
-                <th>Salvage Value</th>
                 <th>Current Depreciation</th>
                 <th>Accumulative Depreciation</th>
                 <th>Net Book Value</th>
@@ -45,16 +45,16 @@
             <tbody>
               <tr role="row" *ngFor="let depreciation of depreciationArr.depreciation; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
                 <td>{{depreciation.assetName}}</td>
-                <td>{{depreciation.purchaseDate}}</td>
+                <td>{{depreciation.depreciationSystemName}}</td>
+                <td>{{depreciation.serviceDate}}</td>
                 <td>{{depreciation.cost}}</td>
-                <td>{{depreciation.usefulLife}}</td>
+                <td>{{depreciation.propertyClassName}}</td>
                 <td>{{depreciation.methodName}}</td>
-                <td>{{depreciation.salvageVal}}</td>
                 <td>{{depreciation.currentDepreciation}}</td>
                 <td>{{depreciation.cumulativeDepreciation}}</td>
                 <td>{{depreciation.bookValue}}</td>
                 <td class="row-actions">
-                  <a [routerLink]="['/depreciation/book', depreciation.depreciationId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(depreciation.depreciationId, depreciation.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+                  <a [routerLink]="['/depreciation/tax', depreciation.depreciationId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(depreciation.depreciationId, depreciation.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
                 </td>
               </tr>
               <tr *ngIf="depreciationArr.depreciation.length <= 0" class="odd">
