@@ -119,31 +119,29 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.errorExists = false;
-    this.accountFailed = false;
     const credential: Credential = new Credential();
     credential.username = this.username.value;
     credential.password = this.password.value;
     credential.rememberMe = this.rememberMe.value;
-    //let regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
     this.authenticationService
       .authenticate(credential)
-      .subscribe(authenticateResponse => {
-        if (authenticateResponse.authenticated) {
-          if (authenticateResponse.usernameConfirmed) {
-            if (authenticateResponse.accountExists) {
-              this.eventService.sendLoginEvent(this.createEventModel());
-              this.router.navigate(['/home/lobby']);
-            } else {
-              this.router.navigate(['/create-profile']);
-            }
-          }else {
-            this.router.navigate([`/authentication/confirmations/${authenticateResponse.credentialConfirmationId}`]);
-          }
+      .subscribe(authenticatedCredential => {
+        if (authenticatedCredential.authenticateStatus === 'AccountActive') {
+          this.eventService.sendLoginEvent(this.createEventModel());
+          this.router.navigate(['/home/lobby']);
+        }else if (authenticatedCredential.authenticateStatus === 'AccountConfirmed') {
+          this.router.navigate(['/create-profile']);
+        }else if (authenticatedCredential.authenticateStatus === 'AccountUsernameNotConfirmed') {
+          const credentialId = authenticatedCredential.credentialId;
+          const confirmationId = authenticatedCredential.confirmationId;
+          this.router.navigate([`/authentication/confirmations/${credentialId}/${confirmationId}`]);
         }else {
-          this.accountFailed = true;
+          console.log(authenticatedCredential.authenticateStatus);
+          this.errorExists = true;
         }
       }, error => {
+        console.log(error);
         this.errorExists = true;
       });
   }

@@ -3,7 +3,6 @@ import {UUIDGenerator} from '../../uuid.generator';
 import {Observable} from 'rxjs/Observable';
 import {AssetTypeClassState} from './asset.type.class.state';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
 import {AssetTypeClassStates} from './asset.type.class.states';
 import {AttributeStates} from '../attribute/attribute.states';
 import {AttributeState} from '../attribute/attribute.state';
@@ -15,18 +14,11 @@ import { map } from 'underscore';
 
 export class AssetTypeClassClientHttp extends AssetTypeClassClient {
 
-  private jsonConvert: JsonConvert;
-
   constructor(private uuidGenerator: UUIDGenerator,
               private httpClient: HttpClient,
               private hostPort: string
   ) {
     super();
-
-    this.jsonConvert = new JsonConvert();
-    this.jsonConvert.operationMode = OperationMode.LOGGING; // print some debug data
-    this.jsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
-    this.jsonConvert.valueCheckingMode = ValueCheckingMode.DISALLOW_NULL; // never allow null
   }
 
   public getDataTypes(): Observable<DataTypeState[]> {
@@ -85,18 +77,18 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
     });
   }
 
-  public getAvailableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<AttributeStates> {
-    const url = `${this.hostPort}/available-attributes?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}&assignedArray=${assignedArray}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient.get<AttributeStates>(url, httpOptions).map(data => {
-      return data;
-    });
-  }
+  // public getAvailableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<AttributeStates> {
+  //   const url = `${this.hostPort}/available-attributes?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}&assignedArray=${assignedArray}`;
+  //   const httpOptions = {
+  //     headers: this.jsonHttpHeaders()
+  //   };
+  //   return this.httpClient.get<AttributeStates>(url, httpOptions).map(data => {
+  //     return data;
+  //   });
+  // }
 
-  public getAssignAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<AttributeStates> {
-    const url = `${this.hostPort}/assigned-attributes?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}&assignedArray=${assignedArray}`;
+  public getAssignableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[], type: string): Observable<AttributeStates> {
+    const url = `${this.hostPort}/assignable-attributes/${type}?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}&assignedArray=${assignedArray}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };

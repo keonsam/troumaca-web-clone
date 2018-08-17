@@ -50,7 +50,7 @@ export class AssetTypeClassEditComponent implements OnInit {
 
   private assetTypeClass: AssetTypeClass;
   private _availableAttributes: Attributes;
-  private _assignAttributes: Attributes;
+  private _assignableAttributes: Attributes;
 
   private defaultPage = 1;
   private defaultPageSize = 10;
@@ -114,17 +114,24 @@ export class AssetTypeClassEditComponent implements OnInit {
        console.log(error2);
      });
 
+    this.assetTypeClassEditForm
+      .valueChanges
+      .subscribe(value => {
+        this.assetTypeClass.name = value.name;
+        this.assetTypeClass.description = value.description;
+      }, error2 => {
+        console.log(error2);
+      });
+
      this.assetTypeClass = new AssetTypeClass();
 
-     const newAttribute = new Attribute();
-     newAttribute.unitOfMeasure = new UnitOfMeasure();
-     this.attribute = newAttribute;
+     this.attribute = new Attribute();
 
      const newAttributes = new Attributes();
      newAttributes.page = new Page(0, 0, 0);
      newAttributes.sort = new Sort();
      this.availableAttributes = newAttributes;
-     this.assignAttributes = newAttributes;
+     this.assignableAttributes = newAttributes;
 
      this.assignedArray = [];
      this.assignedAttributes = [];
@@ -157,19 +164,11 @@ export class AssetTypeClassEditComponent implements OnInit {
         this.assetTypeClass = data.assetTypeClass;
         this.assignedArray = data.assignedAttributes.map(x => x.attributeId);
         this.assignedAttributes = data.assignedAttributes;
-        this.updateTable();
+        this.updateTable(this.assignedArray);
       }, error => {
         console.log(error);
       }, () => {
-        this.assetTypeClassEditForm
-        .valueChanges
-        .subscribe(value => {
-          this.assetTypeClass.name = value.name;
-          this.assetTypeClass.description = value.description;
-        }, error2 => {
-          console.log(error2);
-        });
-      })
+      });
     });
 
     this.populateUnitOfMeasureIdDropDown();
@@ -316,12 +315,12 @@ export class AssetTypeClassEditComponent implements OnInit {
      this._availableAttributes = value;
    }
 
-   get assignAttributes(): Attributes {
-     return this._assignAttributes;
+   get assignableAttributes(): Attributes {
+     return this._assignableAttributes;
    }
 
-   set assignAttributes(value: Attributes) {
-     this._assignAttributes = value;
+   set assignableAttributes(value: Attributes) {
+     this._assignableAttributes = value;
    }
 
    get assignedArray(): string[] {
@@ -380,55 +379,47 @@ export class AssetTypeClassEditComponent implements OnInit {
 
    isChecked(attributeId) {
     // weird error where isChecked get called when you removed an item for assignAttribute
-     const isChecked = this.assignedAttributes.find(x => x.attributeId == attributeId);
+     const isChecked = this.assignedAttributes.find(x => x.attributeId === attributeId);
      return isChecked ? isChecked.required : false;
    }
 
    onCheckBoxChange(event, attributeId) {
-     this.assignedAttributes.find(x => x.attributeId == attributeId).required = event.target.checked;
+     this.assignedAttributes.find(x => x.attributeId === attributeId).required = event.target.checked;
    }
 
-   getAvailableAttributes() {
-     this.assetTypeClassService
-     .getAvailableAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
-     .subscribe(next => {
-       this.availableAttributes = next;
-     }, error => {
-       console.log(error);
-     }, () => {
-       console.log('complete');
-     });
-   }
+  getAssignableAttributes(assignedArray, type) {
+    this.assetTypeClassService
+      .getAssignableAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, assignedArray, type)
+      .subscribe(next => {
+        if (type === 'available') {
+          this.availableAttributes = next;
+        }else {
+          this.assignableAttributes = next
+        }
+      }, error => {
+        console.log(error);
+      }, () => {
+        console.log('complete');
+      });
+  }
 
-   getAssignAttributes() {
-     this.assetTypeClassService
-     .getAssignAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
-     .subscribe(next => {
-       this.assignAttributes = next;
-     }, error => {
-       console.log(error);
-     }, () => {
-       console.log('complete');
-     });
-   }
-
-   updateTable() {
-     this.getAssignAttributes();
-     this.getAvailableAttributes();
+   updateTable(assignedArray) {
+     this.getAssignableAttributes(assignedArray, 'available');
+     this.getAssignableAttributes(assignedArray, 'assignable');
    }
 
    onAvailableDoubleClick(attributeId: string, ) {
      this.assignedArray.push(attributeId);
-     this.updateTable();
+     this.updateTable(this.assignedArray);
      // update and push to make sure no error
      this.assignedAttributes.push(new AssignedAttribute(attributeId));
 
    }
 
    onAssignedDoubleClick(attributeId: string) {
-    this.assignedArray = this.assignedArray.filter(val => val != attributeId);
-    this.updateTable();
-    this.assignedAttributes = this.assignedAttributes.filter(val => val.attributeId != attributeId);
+    this.assignedArray = this.assignedArray.filter(val => val !== attributeId);
+    this.updateTable(this.assignedArray);
+    this.assignedAttributes = this.assignedAttributes.filter(val => val.attributeId !== attributeId);
    }
 
    onOpenDeleteModal(attributeId: string, attributeName: string){
@@ -436,7 +427,7 @@ export class AssetTypeClassEditComponent implements OnInit {
      this.attributeNameTwo = attributeName;
    }
 
-   onOpenFormModal(attributeId: string){
+   onOpenFormModal(attributeId: string) {
      this.attributeId = attributeId;
      this.assetTypeClassService
      .getAttribute(attributeId)
@@ -444,7 +435,7 @@ export class AssetTypeClassEditComponent implements OnInit {
        this.attributeName.setValue(attribute.name);
        this.format.setValue(attribute.format);
        this.dataType.setValue(attribute.dataTypeId);
-       this.unitOfMeasureId.setValue(attribute.unitOfMeasure.name);
+       this.unitOfMeasureId.setValue(attribute.unitOfMeasureName);
        this.maximumValue.setValue(attribute.maximumValue);
        this.minimumValue.setValue(attribute.minimumValue);
        this.attribute = attribute;
@@ -472,19 +463,19 @@ export class AssetTypeClassEditComponent implements OnInit {
 
    onAvailableRequestPage(pageNumber: number) {
      this.defaultPage = pageNumber;
-     this.getAvailableAttributes();
+     this.getAssignableAttributes(this.assignedArray, 'available');
  }
 
    onAssignedRequestPage(pageNumber: number) {
      this.defaultPage = pageNumber;
-     this.getAssignAttributes();
+     this.getAssignableAttributes(this.assignedArray, 'assignable');
    }
 
    onDelete() {
      this.assetTypeClassService
      .deleteAttribute(this.attributeId)
      .subscribe(value => {
-     this.getAvailableAttributes();
+     this.getAssignableAttributes(this.assignedArray, 'available');
      }, error => {
      console.log(error);
      }, () => {
@@ -513,38 +504,47 @@ export class AssetTypeClassEditComponent implements OnInit {
      });
    }
 
+
+  addAttribute(attribute: Attribute) {
+    this.assetTypeClassService
+      .addAttribute(attribute)
+      .subscribe(value => {
+        if (value && value.attributeId) {
+          this.onResetForm();
+          this.getAssignableAttributes(this.assignedArray, 'available');
+          this.modalReference.close();
+        } else {
+          this.doNotDisplayFailureMessage2 = false;
+        }
+      }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage2 = false;
+      });
+  }
+
+  updateAttribute(attributeId: string, attribute: Attribute) {
+    this.assetTypeClassService
+      .updateAttribute(attributeId, attribute)
+      .subscribe(value => {
+        if (value) {
+          this.onResetForm();
+          this.getAssignableAttributes(this.assignedArray, 'available');
+          this.modalReference.close()
+        } else {
+          this.doNotDisplayFailureMessage2 = false;
+        }
+      }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage2 = false;
+      });
+  }
+
    onCreate2() {
      this.doNotDisplayFailureMessage2 = true;
-     if (this.newOrEdit == 'New'){
-       this.assetTypeClassService
-       .addAttribute(this.attribute)
-       .subscribe(value => {
-         if (value && value.attributeId) {
-           this.onResetForm();
-           this.getAvailableAttributes();
-           this.modalReference.close();
-         } else {
-           this.doNotDisplayFailureMessage2 = false;
-         }
-       }, error => {
-         console.log(error);
-         this.doNotDisplayFailureMessage2 = false;
-       });
-     }else{
-       this.assetTypeClassService
-       .updateAttribute(this.attributeId, this.attribute)
-       .subscribe(value => {
-         if (value) {
-           this.onResetForm();
-           this.getAvailableAttributes();
-           this.modalReference.close()
-         } else {
-           this.doNotDisplayFailureMessage2 = false;
-         }
-       }, error => {
-         console.log(error);
-         this.doNotDisplayFailureMessage2 = false;
-       });
+     if (this.newOrEdit === 'New') {
+       this.addAttribute(this.attribute)
+     }else {
+       this.updateAttribute(this.attributeId, this.attribute)
    }
    }
 

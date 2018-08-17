@@ -10,7 +10,7 @@
 
   <form [formGroup]="phoneVerificationForm" (ngSubmit)="onSubmit()">
     <p class="lead">
-      Enter the confirmation code we sent to {{username}}.
+      Enter the confirmation code we sent to your username.
     </p>
 
     <div class="form-group">
@@ -22,29 +22,28 @@
       Please login.
     </div>
 
-    <div *ngIf="sessionExpired" class="alert alert-danger">
+    <div *ngIf="confirmationSuccess" class="alert alert-danger">
       <strong>Error!</strong> But it seems this session has expired.
       A new session will be generated.
       Please Enter the code for that one.
     </div>
 
-    <div *ngIf="errorExists" class="alert alert-danger">
-      <strong>Error!</strong> Make sure you enter the text message code sent to your Email Address or Phone Number.
-      <a href="#" (click)="sendConfirmationCode();false">Click here </a> for an another text message.
-    </div>
-
     <div *ngIf="textMessageSuccess" class="alert alert-success">
-      <strong>Success!</strong> text Message has been sent.
+      <strong>Success!</strong> confirmation code has been sent.
       If you didn't get it in 5 minutes, Please try again.
     </div>
 
+    <div *ngIf="errorExists" class="alert alert-danger">
+      <strong>Error!</strong> confirmation code does not match or has been expired. Please try again or generate a new one below.
+    </div>
+
     <div *ngIf="noEntry" class="alert alert-danger">
-      <strong>Error!</strong> Please try again or register.
+      <strong>Error!</strong> Email has been verify or something went wrong. Please try again.
     </div>
 
     <div class="buttons-w">
       <div>
-        <button class="btn btn-white" id="button1" routerLink="/authentication/register">Change Number</button>
+        <button class="mr-2 mb-2 btn btn-outline-success" id="button1" routerLink="/authentication/register">Change Number</button>
         <button [disabled]="!phoneVerificationForm.valid" id="button2" class="btn btn-primary" type="submit">Verify</button>
       </div>
       <div class="sendPhoneCode">

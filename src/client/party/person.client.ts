@@ -29,8 +29,8 @@ export abstract class PersonClient {
 
   public abstract addUserState(userState: UserState, partyAccessRoleStates: PartyAccessRoleState[]): Observable<UserState>;
   public abstract addOrganizationState(organizationState: OrganizationState): Observable<OrganizationState>;
-  public abstract addPhoto(partyId: string, photoState: PhotoState, type: string): Observable<PhotoState>;
-  public abstract addAccountState(accountType: string, userState: UserState, organizationState: OrganizationState): Observable<AccountResponse>;
+  public abstract addPhoto(photoState: PhotoState, type: string): Observable<PhotoState>;
+  public abstract addAccountState(userState: UserState, organizationState: OrganizationState): Observable<AccountResponse>;
 
   public abstract deleteUser(partyId: string): Observable<number>;
   public abstract deleteOrganization(partyId: string): Observable<number>;
@@ -43,9 +43,7 @@ export abstract class PersonClient {
   public abstract updatePhoto(partyId: string, photoState: PhotoState, type: string): Observable<number>;
 
   // authentication part
+  abstract isValidUsername(username: string, partyId?: string): Observable<boolean>;
+
   abstract isValidPassword(password: string): Observable<boolean>;
-
-  abstract isValidUsername(username: string): Observable<boolean>;
-
-  abstract isValidEditUsername(partyId: string, username: string): Observable<boolean>;
 }

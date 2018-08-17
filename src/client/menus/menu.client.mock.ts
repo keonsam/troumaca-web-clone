@@ -58,6 +58,12 @@ export class MenuClientMock extends MenuClient {
     homesMenuState.menuItemStates = this.homeMenuItems();
     this.menuMap.set(homesMenuState.name, homesMenuState);
 
+    const depreciationMenuState = new MenuState();
+    depreciationMenuState.name = 'depreciation-menu';
+    depreciationMenuState.title = 'depreciation-menu';
+    depreciationMenuState.menuItemStates = this.depreciationMenuItems();
+    this.menuMap.set(depreciationMenuState.name, depreciationMenuState);
+
     const ordersMenuState = new MenuState();
     ordersMenuState.name = 'orders-menu';
     ordersMenuState.title = 'orders-menu';
@@ -152,7 +158,7 @@ export class MenuClientMock extends MenuClient {
   private assetsMenuItems() {
     return [
       // this.toMenuItem({id:'101', rank:'20', name: 'HOME', routeName: '/home', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id: '1021', rank: '21', name: 'ASSETS', routeName: '/assets', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id: '1021', rank: '21', name: 'REGISTER', routeName: '/assets', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
       this.toMenuItem({id: '1022', rank: '22', name: 'TYPES', routeName: '/asset-types', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
       this.toMenuItem({id: '1023', rank: '23', name: 'ATTRIBUTES', routeName: '/attributes', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
       this.toMenuItem({id: '1024', rank: '24', name: 'CLASSES', routeName: '/asset-type-classes', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
@@ -183,6 +189,13 @@ export class MenuClientMock extends MenuClient {
 
   private homeMenuItems() {
     return [
+    ];
+  }
+
+  private depreciationMenuItems() {
+    return [
+      this.toMenuItem({id: '1051', rank: '21', name: 'BOOK', routeName: '/depreciation/book/schedule', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id: '1052', rank: '22', name: 'TAX', routeName: '/depreciation/tax/schedule', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
     ];
   }
 

@@ -1,33 +1,20 @@
-import {AssetKindState} from './asset.kind.state';
-import {AssetTypeState} from '../asset-type/asset.type.state';
-//import {AssetTypeClassState} from "../asset-types/asset.type.class.state";
-import {UnitOfMeasureState} from '../assets/asset.unit.of.measure.state';
-import {AssetPersonState} from '../assets/asset.person.state';
-import {SiteState} from '../assets/asset.site.state';
-import {JsonObject, JsonProperty} from 'json2typescript';
-
-@JsonObject
 export class AssetState {
 
-  @JsonProperty('assetId', String)
   private _assetId: string;
   private _tenantId: string;
   private _assetKindId: string;
-  private _assetKind: AssetKindState;
+  private _assetKindName: string;
   private _serialNumber: string;
   private _description: string;
   private _quantity: number;
   private _unitOfMeasureId: string;
-  private _unitOfMeasure: UnitOfMeasureState;
-  //private _lotNumber:string;
+  private _unitOfMeasureName: string;
   private _siteId: string;
-  private _site: SiteState;
+  private _siteName: string;
   private _personId: string;
-  private _person: AssetPersonState;
-
-  //private _assetTypeClass: AssetTypeClassState;
+  private _personName: string;
   private _assetTypeId: string;
-  private _assetType: AssetTypeState;
+  private _assetTypeName: string;
 
   private _createdOn: string;
   private _modifiedOn: string;
@@ -54,14 +41,6 @@ export class AssetState {
 
   set assetKindId(value: string) {
     this._assetKindId = value;
-  }
-
-  get assetKind(): AssetKindState {
-    return this._assetKind;
-  }
-
-  set assetKind(value: AssetKindState) {
-    this._assetKind = value;
   }
 
   get serialNumber(): string {
@@ -92,48 +71,12 @@ export class AssetState {
     return this._unitOfMeasureId;
   }
 
-  set unitOfMeasureId(value: string) {
-    this._unitOfMeasureId = value;
-  }
-
-  get unitOfMeasure(): UnitOfMeasureState {
-    return this._unitOfMeasure;
-  }
-
-  set unitOfMeasure(value: UnitOfMeasureState) {
-    this._unitOfMeasure = value;
-  }
-
-  /*get lotNumber(): string {
-    return this._lotNumber;
-  }
-
-  set lotNumber(value: string) {
-    this._lotNumber = value;
-  }*/
-
-  /*get assetTypeClass(): AssetTypeClassState {
-    return this._assetTypeClass;
-  }
-
-  set assetTypeClass(value: AssetTypeClassState) {
-    this._assetTypeClass = value;
-  } */
-
   get assetTypeId(): string {
     return this._assetTypeId;
   }
 
   set assetTypeId(value: string) {
     this._assetTypeId = value;
-  }
-
-  get assetType(): AssetTypeState {
-    return this._assetType;
-  }
-
-  set assetType(value: AssetTypeState) {
-    this._assetType = value;
   }
 
   get siteId(): string {
@@ -152,22 +95,6 @@ export class AssetState {
     this._personId = value;
   }
 
-  get person(): AssetPersonState {
-    return this._person;
-  }
-
-  set person(value: AssetPersonState) {
-    this._person = value
-  }
-
-  get site(): SiteState {
-    return this._site;
-  }
-
-  set site(value: SiteState) {
-    this._site = value;
-  }
-
   get createdOn(): string {
     return this._createdOn;
   }
@@ -184,6 +111,46 @@ export class AssetState {
     this._modifiedOn = value;
   }
 
+  get assetKindName(): string {
+    return this._assetKindName;
+  }
+
+  set assetKindName(value: string) {
+    this._assetKindName = value;
+  }
+
+  get unitOfMeasureName(): string {
+    return this._unitOfMeasureName;
+  }
+
+  set unitOfMeasureName(value: string) {
+    this._unitOfMeasureName = value;
+  }
+
+  get siteName(): string {
+    return this._siteName;
+  }
+
+  set siteName(value: string) {
+    this._siteName = value;
+  }
+
+  get personName(): string {
+    return this._personName;
+  }
+
+  set personName(value: string) {
+    this._personName = value;
+  }
+
+  get assetTypeName(): string {
+    return this._assetTypeName;
+  }
+
+  set assetTypeName(value: string) {
+    this._assetTypeName = value;
+  }
+
   toJson() {
     return {
       assetId: this.assetId,
@@ -195,11 +162,9 @@ export class AssetState {
       quantity: this.quantity,
       unitOfMeasureId: this.unitOfMeasureId,
       personId: this.personId,
-      //lotNumber: this.lotNumber,
       siteId: this.siteId,
       createdOn: this.createdOn,
       modifiedOn: this.modifiedOn
-     //assetTypeClass: (this.assetTypeClass ? this.assetTypeClass : "")
     }
   }
 

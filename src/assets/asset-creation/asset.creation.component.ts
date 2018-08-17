@@ -377,7 +377,6 @@ export class AssetCreationComponent implements OnInit {
   }
 
   onCreate() {
-
     this.doNotDisplayFailureMessage = true;
 
       this.assetService.addAsset(this.asset)

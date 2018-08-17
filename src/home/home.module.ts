@@ -2,32 +2,30 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HomeComponent} from './home.component';
 import {RouterModule} from '@angular/router';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MenuModule} from '../menu/menu.module';
-import {LobbyHomeComponent} from './lobby-home/lobby.home.component';
 import {FrontHomeComponent} from './front-home/front.home.component';
-
+import { LobbyHomeComponent} from "./lobby-home/lobby.home.component";
+import {homeServiceProvider} from "./home.service.provider";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
-    NgbModule,
     RouterModule,
+    MenuModule,
     FormsModule,
-    ReactiveFormsModule,
-    MenuModule
+    ReactiveFormsModule
   ],
   declarations: [
     HomeComponent,
-    LobbyHomeComponent,
-    FrontHomeComponent
+    FrontHomeComponent,
+    LobbyHomeComponent
   ],
-  providers: [],
+  providers: [homeServiceProvider],
   exports: [
     HomeComponent,
-    LobbyHomeComponent,
-    FrontHomeComponent
+    FrontHomeComponent,
+    LobbyHomeComponent
   ]
 })
 export class HomeModule {}

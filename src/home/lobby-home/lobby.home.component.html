@@ -7,56 +7,173 @@
           <div class="element-wrapper">
             <div class="element-actions">
             </div>
-            <h4 class="element-header">
-              Troumaca Apps
-            </h4>
+            <h6 class="element-header">
+              Apps
+            </h6>
             <div style="margin-left: 20px; margin-right: 20px;" class="element-content">
-              <div class="row">
-                <div class="col-sm-4">
-                  <a routerLink="/assets" class="element-box el-tablo" href="#">
+              <div class="module-grid">
+                <div class="">
+                  <a (click)="module('Asset Management');false" [ngClass]="{'element-box': true, 'el-tablo': true, 'flex-modules': true , 'subscribed': information['Asset Management'].subscribed}" href="#">
+                    <div class="icon-w">
+                      <i class="os-icon os-icon-delivery-box-2"></i>
+                    </div>
                     <div class="label">
                       Asset Management
                     </div>
-                    <div class="value">
-                      57
-                    </div>
-                    <div class="trending trending-up-basic">
-                      <span>12%</span><i class="os-icon os-icon-arrow-up2"></i>
-                    </div>
                   </a>
                 </div>
-                <div class="col-sm-4">
-                  <a routerLink="/parties/users" class="element-box el-tablo" href="#">
+                <div class="">
+                  <a (click)="module('User Management');false" [ngClass]="{'element-box': true, 'el-tablo': true, 'flex-modules': true , 'subscribed': true}" href="#">
+                    <div class="icon-w">
+                      <i class="os-icon os-icon-user-male-circle"></i>
+                    </div>
                     <div class="label">
                       User Management
                     </div>
-                    <div class="value">
-                      25
-                    </div>
-                    <div class="trending trending-down-basic">
-                      <span>12%</span><i class="os-icon os-icon-arrow-down"></i>
-                    </div>
                   </a>
                 </div>
-                <div class="col-sm-4">
-                  <a routerLink="/parties" class="element-box el-tablo" href="#">
+                <div class="">
+                  <a (click)="module('Organization Management');false" [ngClass]="{'element-box': true, 'el-tablo': true, 'flex-modules': true , 'subscribed': true}" href="#">
+                    <div class="icon-w">
+                      <i class="os-icon os-icon-hierarchy-structure-2"></i>
+                    </div>
                     <div class="label">
                       Organization Management
                     </div>
-                    <div class="value">
-                      12
+                  </a>
+                </div>
+                <div class="">
+                  <a (click)="module('Depreciation Management');false" [ngClass]="{'element-box': true, 'el-tablo': true, 'flex-modules': true , 'subscribed': information['Depreciation Management'].subscribed}" href="#">
+                    <div class="icon-w">
+                      <i class="os-icon os-icon-graph-down"></i>
                     </div>
-                    <div class="trending trending-down-basic">
-                      <span>9%</span><i class="os-icon os-icon-arrow-down"></i>
+                    <div class="label">
+                      Depreciation Management
                     </div>
                   </a>
                 </div>
               </div>
+              <button data-target="#showcaseModal" data-toggle="modal" #showModal hidden>Showcase</button>
+
             </div>
           </div>
         </div>
       </div>
 
+      <!--APP SHOWCASE -->
+      <div aria-hidden="true" aria-labelledby="ShowcaseModal" id="showcaseModal" class="onboarding-modal modal fade animated show-on-load" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-centered" role="document">
+          <div class="modal-content text-center">
+            <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span class="close-label">Close</span><span class="os-icon os-icon-close"></span></button>
+            <div class="onboarding-slider-w">
+
+              <div *ngIf="currentModel === 'features'" class="onboarding-slide">
+                <div class="onboarding-media">
+                <img alt="" src="images/bigicon6.png" width="200px">
+                </div>
+                <div class="onboarding-content with-gradient">
+                  <h4 class="onboarding-title">
+                    {{ typeName }}
+                  </h4>
+                  <div class="onboarding-text">
+                    {{ information[typeName].description}}
+                  </div>
+                  <div *ngIf="information[typeName].features.length < 5">
+                    <ul class="features-list center-ul">
+                      <li *ngFor="let feature of information[typeName].features">{{feature}}</li><br/>
+                    </ul>
+                  </div>
+                  <div *ngIf="information[typeName].features.length > 4" class="row">
+                    <div class="col-sm-6">
+                      <ul class="features-list">
+                        <li *ngFor="let feature of information[typeName].features.slice(0,3)">{{feature}}</li>
+                      </ul>
+                    </div>
+                    <div class="col-sm-6">
+                      <ul class="features-list">
+                        <li *ngFor="let feature of information[typeName].features.slice(3)">{{feature}}</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <button [hidden]="billed" class="btn btn-primary next-button" (click)="showNextModel('billing')">To Billing</button>
+                  <button [hidden]="!billed" class="btn btn-primary next-button" (click)="showNextModel('subscribe')">To Subscription</button>
+                </div>
+            </div>
+
+              <div *ngIf="currentModel === 'billing'" class="onboarding-slide">
+                <div class="onboarding-media">
+                  <img alt="" src="images/bigicon5.png" width="200px">
+                </div>
+                <div class="onboarding-content with-gradient">
+                  <h4 class="onboarding-title">
+                    Billing Information
+                  </h4>
+                  <div class="onboarding-text">
+                    Enter billing information below to subscribe to the app.
+                  </div>
+                  <div>
+                    <label for="payment-method">Payment Method</label>
+                    <select id="payment-method" class="form-control" [(ngModel)]="paymentMethod" name="paymentMethod" required>
+                      <option value="Credit Card" selected>Credit Card</option>
+                      <option value="PayPal">PayPal</option>
+                    </select>
+                  </div>
+                  <form *ngIf="paymentMethod === 'Credit Card'" [formGroup]="creditCardForm">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="card-name">Name on Card</label><input id="card-name" class="form-control" formControlName="cardName" placeholder="John More Doe" type="text" value="" required>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="card-number">Credit Card Number</label><input id="card-number" class="form-control" formControlName="cardNumber" placeholder="1111-2222-3333-4444" type="text" value="" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="expire-date">Expiry Date</label><input id="expire-date" class="form-control" formControlName="cardExpDate" type="date" value="" required>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="card-cvv">CVV</label><input id="card-cvv" class="form-control" formControlName="cardCVV" placeholder="352" type="number" value="" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Process failed. Please check your details or contact support.</div>
+                    <div class="text-center">
+                      <button [hidden]="!justBilled" [disabled]="!creditCardForm.valid" class="btn btn-primary next-button" type="submit" (click)="onEditCreditCard()">Edit Billing</button>
+                      <button [hidden]="justBilled" [disabled]="!creditCardForm.valid" class="btn btn-primary next-button" type="submit" (click)="onCreditCardSubmit()">To Subscription</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div *ngIf="currentModel === 'subscribe'" class="onboarding-slide">
+                <div class="onboarding-media">
+                  <img alt="" src="images/bigicon2.png" width="200px">
+                </div>
+                <div class="onboarding-content with-gradient">
+                  <h4 class="onboarding-title">
+                    {{ information[typeName].cost}}
+                  </h4>
+                  <div class="onboarding-text">
+                    Press the button below to subscribe to {{typeName}}. {{'A monthly fee of ' + information[typeName].cost + ' will be charged to your account.'}}
+                  </div>
+                  <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to add subscription information.</div>
+                  <button [hidden]="billed" class="btn btn-outline-info next-button prev-button" (click)="showNextModel('billing')"> Back to Billing</button>
+                  <button [ngClass]="{'btn': true, 'btn-success': true, 'next-button': true, 'nex-button': !billed}" (click)="onSubscribe()">Subscribe</button>
+                  <button #showModal2 data-dismiss="modal" hidden>Dismiss Subscribe</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>

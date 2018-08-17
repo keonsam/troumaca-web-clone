@@ -62,7 +62,9 @@ export class OrganizationCompanyComponent implements OnInit {
        console.log(error2);
      });
 
-     this.doNotDisplayFailureMessage = true;
+    this.backgroundImage = 'url(https://i.pinimg.com/736x/05/19/3c/05193c43ed8e4a9ba4dfaa10ff0115f1.jpg)';
+
+    this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
 
   }
@@ -204,7 +206,7 @@ export class OrganizationCompanyComponent implements OnInit {
       this.photo.partyId = this.partyId;
       this.photo.imageStr = this.croppedImage;
       this.partyService
-        .addPhoto(this.partyId, this.photo, 'organization')
+        .addPhoto(this.photo, 'organization')
         .subscribe(value => {
           if (value) {
             this.getOrganizationPhoto();

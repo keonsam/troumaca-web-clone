@@ -118,21 +118,6 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     });
   }
 
-  // public addValueState(valueState: ValueState[]): Observable<ValueState[]> {
-  //   let url = `${this.hostPort}/values`;
-  //   let values = map(valueState, next => {
-  //     return next.toJson();
-  //   });
-  //   const httpOptions = {
-  //     headers: this.jsonHttpHeaders()
-  //   };
-  //   return this.httpClient
-  //   .post<ValueState[]>(url, values, httpOptions)
-  //   .map(data => {
-  //     return data;
-  //   });
-  // }
-
   public deleteAssetType(assetTypeId: string): Observable<number> {
     const url = `${this.hostPort}/asset-types/${assetTypeId}`;
     const httpOptions = {
@@ -167,7 +152,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
       'values': map(values, value => {
         return value.toJson();
       })
-    }
+    };
     return this.httpClient
     .put<number>(url, updateData, httpOptions)
     .map(data => {

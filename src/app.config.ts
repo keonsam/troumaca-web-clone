@@ -6,11 +6,13 @@ export class AppConfig {
   private _apiEndpoint: string;
   private _title: string;
   private _remoteEndPoints: boolean;
-  private server = 'http://ec2-18-204-213-58.compute-1.amazonaws.com:3000';
-  private local = 'http://localhost:3000';
+  private server: string;
+  private local: string;
   constructor() {
     // this._apiEndpoint = "api.heroes.com";
-    this._apiEndpoint = this.server;
+    this.local = 'http://localhost:3000';
+    this.server = 'http://ec2-18-204-213-58.compute-1.amazonaws.com:3000';
+    this._apiEndpoint = this.local;
     this._title = 'Troumaca';
     this._remoteEndPoints = false;
   }

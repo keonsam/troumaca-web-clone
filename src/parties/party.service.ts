@@ -64,12 +64,12 @@ export class PartyService {
     return this.partyRepository.addOrganization(organization);
   }
 
-  public addPhoto(partyId: string, photo: Photo, type: string): Observable<Photo> {
-    return this.partyRepository.addPhoto(partyId, photo, type);
+  public addPhoto(photo: Photo, type: string): Observable<Photo> {
+    return this.partyRepository.addPhoto(photo, type);
   }
 
-  public addAccount(accountType: string, user: User, organization: Organization ): Observable<AccountResponse> {
-    return this.partyRepository.addAccount(accountType, user, organization);
+  public addAccount(user: User, organization: Organization ): Observable<AccountResponse> {
+    return this.partyRepository.addAccount(user, organization);
   }
 
   public deleteUser(partyId: string): Observable<number> {
@@ -102,16 +102,12 @@ export class PartyService {
 
   // authentication part
 
-  public isValidUsername(username: string): Observable<boolean> {
-    return this.partyRepository.isValidUsername(username);
+  public isValidUsername(username: string, partyId?: string): Observable<boolean> {
+    return this.partyRepository.isValidUsername(username, partyId);
   }
 
   public isValidPassword(password: string): Observable<boolean> {
     return this.partyRepository.isValidPassword(password);
-  }
-
-  public isValidEditUsername(partyId: string, username: string): Observable<boolean> {
-    return this.partyRepository.isValidEditUsername(partyId, username);
   }
 
 }

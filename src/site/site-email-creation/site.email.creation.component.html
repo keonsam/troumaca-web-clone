@@ -34,7 +34,7 @@
                   <div [hidden]="emailAddress.valid || emailAddress.pristine" class="alert alert-danger">Invalid email address.</div>
                 </div>
               </fieldset>
-              
+
               <fieldset class="form-group">
                 <div class="form-group">
                   <label for="description">Description</label><textarea class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
@@ -44,7 +44,7 @@
 
               <div class="form-buttons-w">
                 <button class="btn btn-primary button1" [disabled]="!siteEmailForm.valid" type="submit"> Create</button>
-                <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>
+                <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
               </div>
 
             </form>

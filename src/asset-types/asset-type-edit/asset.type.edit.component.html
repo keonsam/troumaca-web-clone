@@ -89,15 +89,15 @@
 
             <form [formGroup]="attributeEditForm" >
               <fieldset *ngFor="let assigned of assignedAttributes" class="form-group">
-                <div *ngIf="assigned.attribute.dataType.name == 'Boolean'; else normalInput" class="form-check">
-                  <label class="form-check-label"><input class="form-check-input" formControlName="{{assigned.attributeId}}" type="checkbox" [required]="assigned.required">{{assigned.attribute.name}}</label>
-                  <div [hidden]="assigned.attributeId +'.valid' || assigned.attributeId +'.pristine'" class="alert alert-danger">Select {{assigned.attribute.name}}.</div>
+                <div *ngIf="assigned.dataTypeId == '61ae91b0-e01f-414b-98c6-2e5da6b12ff0'; else normalInput" class="form-check">
+                  <label class="form-check-label"><input class="form-check-input" formControlName="{{assigned.attributeId}}" type="checkbox" [required]="assigned.required">{{assigned.attributeName}}</label>
+                  <div [hidden]="assigned.attributeId +'.valid' || assigned.attributeId +'.pristine'" class="alert alert-danger">Select {{assigned.attributeName}}.</div>
                 </div>
 
                 <ng-template #normalInput>
                   <div class="form-group">
-                    <label for="{{assigned.attribute.name}}">{{assigned.attribute.name}}</label><input class="form-control" formControlName="{{assigned.attributeId}}" placeholder="Enter Value" [type]="onType(assigned.attribute.dataType.name)" [required]="assigned.required">
-                    <div [hidden]="assigned.attributeId +'.valid' || assigned.attributeId +'.pristine'" class="alert alert-danger">Invalid {{assigned.attribute.name}}.</div>
+                    <label for="{{assigned.attributeName}}">{{assigned.attributeName}}</label><input class="form-control" formControlName="{{assigned.attributeId}}" placeholder="Enter Value" [type]="onType(assigned.dataTypeId)" [required]="assigned.required">
+                    <div [hidden]="assigned.attributeId +'.valid' || assigned.attributeId +'.pristine'" class="alert alert-danger">Invalid {{assigned.attributeName}}.</div>
                   </div>
                 </ng-template>
               </fieldset>
@@ -105,7 +105,7 @@
 
               <div class="form-buttons-w">
                 <button class="btn btn-primary button1" [disabled]="!assetTypeEditForm.valid || !attributeEditForm.valid" (click)="onCreate()" type="button"> Submit</button>
-                <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>
+                <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
               </div>
 
           </div>

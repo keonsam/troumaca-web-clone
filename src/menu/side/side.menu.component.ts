@@ -27,6 +27,8 @@ export class SideMenuComponent implements OnInit {
     this.menuModel = new MenuModel();
     this.menuModel.menuItemModels = [];
 
+    this.imageStr = 'https://designdroide.com/images/abstract-user-icon-4.svg';
+
     this.eventService.subscribeToPhotoChangeEvent((data) => {
       this.getPhoto();
     });
@@ -71,7 +73,7 @@ export class SideMenuComponent implements OnInit {
     this.handleMenuRefreshEvent();
     this.partyService.getPartyId()
       .subscribe( partyId => {
-        if (partyId){
+        if (partyId) {
           this.partyId = partyId;
           this.getPhoto();
           this.getUserInformation();
@@ -109,8 +111,10 @@ export class SideMenuComponent implements OnInit {
         if (photo) {
           this.imageStr = photo.imageStr;
         }else {
-          this.imageStr = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwqeFAYIE3hTj9Gs1j3v7o-oBadM5uDkuPBuXMPtXS85LufL7UVA';
+          this.imageStr = 'https://designdroide.com/images/abstract-user-icon-4.svg';
         }
+      }, error => {
+        this.imageStr = 'https://designdroide.com/images/abstract-user-icon-4.svg';
       });
   }
 
@@ -118,7 +122,7 @@ export class SideMenuComponent implements OnInit {
     this.partyService.getUser(this.partyId)
       .subscribe( userResponse => {
         if (userResponse.user.partyId) {
-          this.userName = userResponse.user.name;
+          this.userName = userResponse.user.firstName + ' ' + userResponse.user.lastName;
         }
       });
   }

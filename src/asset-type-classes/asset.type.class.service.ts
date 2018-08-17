@@ -34,12 +34,8 @@ export class AssetTypeClassService {
     return this.assetTypeClassRepository.getAssetTypeClasses(pageNumber, pageSize, sortOrder);
   }
 
-  public getAvailableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes> {
-    return this.assetTypeClassRepository.getAvailableAttributes(pageNumber, pageSize, sortOrder, assignedArray);
-  }
-
-  public getAssignAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes> {
-    return this.assetTypeClassRepository.getAssignAttributes(pageNumber, pageSize, sortOrder, assignedArray);
+  public getAssignableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[], type: string): Observable<Attributes> {
+    return this.assetTypeClassRepository.getAssignableAttributes(pageNumber, pageSize, sortOrder, assignedArray, type);
   }
 
   public addAssetTypeClass(assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute[]): Observable<AssetTypeClass> {

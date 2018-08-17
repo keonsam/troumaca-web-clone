@@ -1,0 +1,99 @@
+<div class="content-i">
+
+  <div class="content-box">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="element-wrapper">
+          <div class="element-box">
+            <form [formGroup]="depreciationForm" (ngSubmit)="onCreate()" id="formValidate">
+              <h5 class="form-header">
+                Tax Depreciation Form
+              </h5>
+
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to add to Tax depreciation. Please try again or contact support.</div>
+
+              <fieldset class="form-group">
+                <div class="form-group" [class]="(assetId.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
+                  <label for="asset">Asset</label>
+                  <ng2-completer [datasource]="assetDataService"
+                                 [minSearchLength]="0"
+                                 [maxChars]="4"
+                                 [inputClass]="'form-control'"
+                                 [placeholder]="'Select available Asset'"
+                                 [matchClass]="'match'"
+                                 formControlName="assetId"
+                                 [autofocus]="true"
+                                 [clearUnselected]="true"
+                                 [fillHighlighted]="false"
+                                 [openOnClick]="true"
+                                 [textSearching]="false"
+                                 (selected)="onAssetSelect($event)"
+                                 id="asset"
+                                 required>
+                  </ng2-completer>
+                  <div [hidden]="assetId.valid || assetId.pristine" class="alert alert-danger">Please Select an Asset.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="depreciation-system">Depreciation System</label><br/>
+                  <select id="depreciation-system" class="form-control" formControlName="systemId" name="system" required>
+                    <option value="" disabled selected>Select a Depreciation System</option>
+                    <option *ngFor="let depSystem of depreciationSystem" [value]="depSystem.systemId">{{depSystem.name}}</option>
+                  </select>
+                  <div [hidden]="systemId.valid || systemId.pristine" class="alert alert-danger">Please Select a Depreciation System.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="depreciation-method">Depreciation Method</label><br/>
+                  <select id="depreciation-method" class="form-control" formControlName="methodId" name="method" required>
+                    <option value="" disabled selected>Select a Depreciation Method</option>
+                    <option *ngFor="let depMethod of depreciationMethod" [value]="depMethod.methodId">{{depMethod.name}}</option>
+                  </select>
+                  <div [hidden]="methodId.valid || methodId.pristine" class="alert alert-danger">Please Select a Depreciation Method.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="property-class">Property Class</label><br/>
+                  <select id="property-class" class="form-control" formControlName="propertyClassId" name="propertyClass" required>
+                    <option value="" disabled selected>Select a Property Class</option>
+                    <option *ngFor="let propertyClass of propertyClasses" [value]="propertyClass.propertyClassId">{{propertyClass.name}}</option>
+                  </select>
+                  <div [hidden]="propertyClassId.valid || propertyClassId.pristine" class="alert alert-danger">Please Select a Property Class.</div>
+                </div>
+              </fieldset>
+
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="service-date">Place in Service Date</label>
+                  <div class="date-input">
+                    <input class="form-control" formControlName="serviceDate" type="date" id="service-date" required>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="cost">Cost</label><input  id="cost" class="form-control" formControlName="cost" data-error="invalid number" placeholder="Cost of asset" type="number" required>
+                  <div [hidden]="cost.valid || cost.pristine" class="alert alert-danger">Please Enter Cost of Asset.</div>
+                </div>
+              </fieldset>
+
+              <div class="form-buttons-w">
+                <button class="btn btn-primary button1" [disabled]="!depreciationForm.valid" type="submit"> Add</button>
+                <button class="btn btn-outline-danger" type="button" (click)="cancel()"> Cancel</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

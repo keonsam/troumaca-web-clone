@@ -92,6 +92,15 @@ import {ResourceTypeListComponent} from '../access-roles/resource-types/resource
 import {AccessRoleTypeCreationComponent} from '../access-roles/access-role-types/access-role-type-creation/access.role.type.creation.component';
 import {AccessRoleTypeEditComponent} from '../access-roles/access-role-types/access-role-type-edit/access.role.type.edit.component';
 import {AccessRoleTypeListComponent} from '../access-roles/access-role-types/access-role-type-list/access.role.type.list.component';
+// depreciation
+import {BookScheduleComponent} from '../depreciation/book/book-schedule/book.schedule.component';
+import {BookCreationComponent} from '../depreciation/book/book-creation/book.creation.component';
+import { BookEditComponent } from '../depreciation/book/book-edit/book.edit.component';
+import {DepreciationComponent} from '../depreciation/depreciation.component';
+import { TaxCreationComponent } from '../depreciation/tax/tax-creation/tax.creation.component';
+import { TaxScheduleComponent } from '../depreciation/tax/tax-schedule/tax.schedule.component';
+import { TaxEditComponent } from "../depreciation/tax/tax-edit/tax.edit.component";
+// import {DepreciationEditComponent} from '../depreciation/book/book-edit/depreciation.edit.component';
 // OTHERS
 import {ContractComponent} from '../contracts/contract.component';
 import {OrderListComponent} from '../contracts/orders/order.list.component';
@@ -118,7 +127,7 @@ const appRoutes: Routes = [
     { path: 'login',  component: LoginComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
     { path: 'register', component: RegisterComponent },
-      {path: 'confirmations/:credentialConfirmationId', component: ConfirmationComponent}
+      {path: 'confirmations/:credentialId/:confirmationId', component: ConfirmationComponent}
   ]},
   { path: 'assets', component: AssetComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
     { path: '', redirectTo: 'listing', pathMatch: 'full' },
@@ -191,6 +200,16 @@ const appRoutes: Routes = [
       { path: 'access-role-types/:accessRoleTypeId/edit', component: AccessRoleTypeEditComponent, data: {menuName: 'access-role-menu'} },
       { path: 'access-role-types', component: AccessRoleTypeListComponent, data: {menuName: 'access-role-menu'} }
     ]},
+  { path: 'depreciation', component: DepreciationComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
+      { path: '', redirectTo: 'book/schedule', pathMatch: 'full' },
+      { path: 'book/schedule', component: BookScheduleComponent },
+      { path: 'book/create', component: BookCreationComponent},
+      { path: 'book/:depreciationId/edit', component: BookEditComponent},
+      { path: 'tax/create', component: TaxCreationComponent},
+      { path: 'tax/schedule', component: TaxScheduleComponent },
+      { path: 'tax/:depreciationId/edit', component: TaxEditComponent}
+
+    ]},
   { path: 'contracts', component: ContractComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
     { path: '', redirectTo: 'orders', pathMatch: 'full' },
     { path: 'listing', component: ContractListComponent, data: {menuName: 'orders-menu'}},
@@ -210,7 +229,7 @@ const appRoutes: Routes = [
     { path: 'create', component: ShipmentCreationComponent, data: {menuName: 'shipments-menu'} },
     { path: ':shipmentId/edit', component: ShipmentEditComponent, data: {menuName: 'shipments-menu'} }
   ]},
-  { path: 'create-profile', canActivate: [ProfileAuthGuard], component: CreateAccountComponent },
+  { path: 'create-profile', canActivate: [AuthGuard], component: CreateAccountComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

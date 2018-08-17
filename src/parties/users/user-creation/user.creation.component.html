@@ -54,32 +54,9 @@
                 </div>
               </fieldset>
 
-              <!--<fieldset class="form-group">-->
-                <!--<div class="form-group" [class]="(accessRole.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">-->
-                  <!--<label for="Enter Access Role">Access Role</label>-->
-                  <!--<ng2-completer [datasource]="accessRoleDataService"-->
-                                 <!--[inputClass]="'form-control form-control-inline'"-->
-                                 <!--[minSearchLength]="0"-->
-                                 <!--[maxChars]="4"-->
-                                 <!--[inputClass]="'form-control'"-->
-                                 <!--[placeholder]="'Select an Access Role'"-->
-                                 <!--[matchClass]="'match'"-->
-                                 <!--formControlName="accessRole"-->
-                                 <!--[autofocus]="true"-->
-                                 <!--[clearUnselected]="true"-->
-                                 <!--[openOnClick]="true"-->
-                                 <!--[fillHighlighted]="false"-->
-                                 <!--[textSearching]="false"-->
-                                 <!--(selected)="onAccessRoleSelect($event)"-->
-                                  <!--required>-->
-                  <!--</ng2-completer>-->
-                  <!--<div [hidden]="accessRole.valid || accessRole.pristine" class="alert alert-danger">Select an Access Role from the dropdown.</div>-->
-                <!--</div>-->
-              <!--</fieldset>-->
-
               <div class="form-buttons-w">
                 <button class="btn btn-primary button1" [disabled]="!userForm.valid" type="submit"> Create</button>
-                <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>
+                <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
               </div>
             </form>
           </div>

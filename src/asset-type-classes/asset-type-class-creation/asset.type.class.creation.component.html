@@ -87,19 +87,19 @@
                         </tr>
                       </tfoot>
                       <tbody>
-                        <tr class="clickable-tr" role="row" *ngFor="let attribute of assignAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedDoubleClick(attribute.attributeId)">
+                        <tr class="clickable-tr" role="row" *ngFor="let attribute of assignableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedDoubleClick(attribute.attributeId)">
                           <td class="text-center">
                             <input class="form-control" type="checkbox" (change)="onCheckBoxChange($event, attribute.attributeId)" [checked]="isChecked(attribute.attributeId)">
                           </td>
                           <td>{{attribute.name}}</td>
                           <td>{{getDataType(attribute.dataTypeId)}}</td>
                         </tr>
-                        <tr *ngIf="assignAttributes.attributes.length <= 0" class="odd">
+                        <tr *ngIf="assignableAttributes.attributes.length <= 0" class="odd">
                           <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No Assigned Attributes</td>
                         </tr>
                      </tbody>
                     </table>
-                    <paging [page]="assignAttributes.page" (requestPage)="onAssignedRequestPage($event)"></paging>
+                    <paging [page]="assignableAttributes.page" (requestPage)="onAssignedRequestPage($event)"></paging>
                   </div>
                 </div>
                 <!-- END OF ASSIGNED ATTRIBUTES -->
@@ -107,7 +107,7 @@
 
               <div class="form-buttons-w">
                 <button class="btn btn-primary button1" [disabled]="!assetTypeClassForm.valid" type="submit" (click)="onCreate()"> Submit</button>
-                <button class="btn btn-white" type="cancel" (click)="cancel()"> Cancel</button>
+                <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
               </div>
             </form>
           </div>
@@ -212,7 +212,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-primary" type="button" (click)="onCreate2()" [disabled]="!attributeForm.valid"> {{newOrEdit == "New" ? "Create": "Save"}}</button>
-            <button class="btn btn-secondary" data-dismiss="modal" type="button" (click)="c(); onResetForm()"> Close</button>
+            <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="c(); onResetForm()"> Close</button>
           </div>
         </ng-template>
         <!-- end of create attribute modal -->

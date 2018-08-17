@@ -69,7 +69,7 @@ export class UserMeComponent implements OnInit {
     this.firstName = new FormControl('', [Validators.required]);
     this.middleName = new FormControl('', [Validators.required]);
     this.lastName = new FormControl('', [Validators.required]);
-    this.username = new FormControl('', [Validators.required, this.usernameEditValidator(this.partyService)]);
+    this.username = new FormControl('', [Validators.required, this.usernameValidator(this.partyService)]);
     this.password = new FormControl('');
     this.confirmPassword = new FormControl('');
 
@@ -95,6 +95,9 @@ export class UserMeComponent implements OnInit {
        console.log(error2);
      });
 
+    this.userImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
+    this.organizationImage = 'url(https://i.pinimg.com/736x/05/19/3c/05193c43ed8e4a9ba4dfaa10ff0115f1.jpg)';
+
     this.doNotDisplayFailureMessage = true;
     this.doNotDisplayFailureMessage2 = true;
     this.doNotDisplayFailureMessage3 = true;
@@ -104,7 +107,7 @@ export class UserMeComponent implements OnInit {
   ngOnInit(): void {
     this.userMeForm.get('password').valueChanges
     .subscribe(value => {
-      if (value.length === 1 && !this.requiredState){
+      if (value.length === 1 && !this.requiredState) {
       this.requiredState = true;
       this.userMeForm.get('password').setValidators([Validators.required, this.passwordValidator(this.partyService)]);
       this.userMeForm.get('confirmPassword').setValidators([Validators.required, this.confirmPasswordValidator(this.password)]);
@@ -139,7 +142,7 @@ export class UserMeComponent implements OnInit {
          });
   }
 
-  usernameEditValidator(partyService: PartyService) {
+  usernameValidator(partyService: PartyService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
@@ -151,10 +154,10 @@ export class UserMeComponent implements OnInit {
       .filter(value => { // filter out empty values
         return !!(value);
       }).map(value => {
-        return partyService.isValidEditUsername(that.partyId, value);
+        return partyService.isValidUsername(value, that.partyId);
       }).subscribe(value => {
         value.subscribe( otherValue => {
-          isValidUsername = otherValue;
+          isValidUsername = otherValue.valid;
           usernameControl.updateValueAndValidity();
         });
       });
@@ -219,7 +222,7 @@ export class UserMeComponent implements OnInit {
 
   confirmPasswordValidator(password: FormControl) {
     return (c: FormControl) => {
-      return password.value == c.value ? null : {
+      return password.value === c.value ? null : {
         validateEmail: {
           valid: false
         }
@@ -432,7 +435,7 @@ export class UserMeComponent implements OnInit {
       this.photo.partyId = this.partyId;
       this.photo.imageStr = this.croppedImage;
       this.partyService
-        .addPhoto(this.partyId, this.photo, 'user')
+        .addPhoto(this.photo, 'user')
         .subscribe(value => {
           if (value.imageStr) {
             this.getPersonalPhoto();
@@ -471,7 +474,7 @@ export class UserMeComponent implements OnInit {
       this.photo2.partyId = this.partyId;
       this.photo2.imageStr = this.croppedImage2;
       this.partyService
-        .addPhoto(this.partyId, this.photo2, 'organization')
+        .addPhoto(this.photo2, 'organization')
         .subscribe(value => {
           if (value.imageStr) {
             this.getOrganizationPhoto();

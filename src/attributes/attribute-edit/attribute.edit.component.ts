@@ -9,7 +9,6 @@ import {Attribute} from '../attribute';
 import {DataType} from '../data.type';
 import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
-import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
 
 @Component({
   selector: 'attribute-edit',
@@ -65,9 +64,19 @@ export class AttributeEditComponent implements OnInit {
       'minimumValue': this.minimumValue
     });
 
-    const attribute = new Attribute();
-    attribute.unitOfMeasure = new UnitOfMeasure();
-    this.attribute = attribute;
+    this.attributeEditForm
+      .valueChanges
+      .subscribe(value => {
+        this.attribute.name = value.name;
+        this.attribute.format = value.format;
+        this.attribute.dataTypeId = value.dataType;
+        this.attribute.maximumValue = value.maximumValue;
+        this.attribute.minimumValue = value.minimumValue;
+      }, error => {
+        console.log(error);
+      });
+
+    this.attribute = new Attribute();
 
     this.dataTypes = [];
     this.doNotDisplayFailureMessage = true;
@@ -92,32 +101,20 @@ export class AttributeEditComponent implements OnInit {
         this.name.setValue(attribute.name);
         this.format.setValue(attribute.format);
         this.dataType.setValue(attribute.dataTypeId);
-        this.unitOfMeasureId.setValue(  attribute.unitOfMeasure.name); // backend needs to set the value
+        this.unitOfMeasureId.setValue(  attribute.unitOfMeasureName); // backend needs to set the value
         this.maximumValue.setValue(attribute.maximumValue);
         this.minimumValue.setValue(attribute.minimumValue);
         this.attribute = attribute;
       }, error => {
         console.log(error);
-      }, () => {
-        this.attributeEditForm
-        .valueChanges
-        .subscribe(value => {
-          this.attribute.name = value.name;
-          this.attribute.format = value.format;
-          this.attribute.dataTypeId = value.dataType;
-          this.attribute.maximumValue = value.maximumValue;
-          this.attribute.minimumValue = value.minimumValue;
-        }, error2 => {
-          console.log(error2);
-        });
-      })
+      });
     });
 
     this.populateUnitOfMeasureIdDropDown();
   }
 
   private populateUnitOfMeasureIdDropDown() {
-    if (!this.attribute.unitOfMeasure.unitOfMeasureId) {
+    if (!this.attribute.unitOfMeasureName) {
       this.findUnitOfMeasureId('');
     }
 

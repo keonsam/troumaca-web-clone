@@ -27,6 +27,8 @@ import {quoteClientProvider} from './quote/quote.client.provider';
 import {shipmentClientProvider} from './shipment/shipment.client.provider';
 import {sessionInterceptorProvider} from './session.interceptor.provider';
 import {clientEventProvider} from './client.event.provider';
+import {homeClientProvider} from "./home/home.client.provider";
+import {depreciationClientProvider} from "./depreciation/depreciation.client.provider";
 
 @NgModule({
   imports:      [
@@ -60,7 +62,9 @@ import {clientEventProvider} from './client.event.provider';
     shipmentClientProvider,
     clientEventProvider,
     sessionInterceptorProvider,
-    accessRolesClientProvider
+    accessRolesClientProvider,
+    homeClientProvider,
+    depreciationClientProvider
   ]
 })
 export class ClientModule { }

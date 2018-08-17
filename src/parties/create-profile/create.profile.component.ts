@@ -16,7 +16,6 @@ import {Event} from '../../authentication/event';
 })
 export class CreateAccountComponent implements OnInit {
 
-  private _accountType: FormControl;
   private _firstName: FormControl;
   private _middleName: FormControl;
   private _lastName: FormControl;
@@ -32,33 +31,31 @@ export class CreateAccountComponent implements OnInit {
   private photo2: Photo;
   private partyId: string;
   private _imageChangedEvent: any = '';
-  private croppedImage: any = '';
-  private _userImage: any = '';
+  public croppedImage: any = '';
+  private _userImage: any;
   private _imageChangedEvent2: any = '';
-  private croppedImage2: any = '';
-  private _organizationImage: any = '';
+  public croppedImage2: any = '';
+  private _organizationImage: any;
 
   private _doNotDisplayFailureMessage: boolean;
   private _doNotDisplayFailureMessage2: boolean;
   private _doNotDisplayFailureMessage3: boolean;
   private userImageComplete = false;
-  private requiredState = false;
+  public userExist: boolean = false;
 
   constructor(private partyService: PartyService,
               private eventService: EventService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
-    this.accountType = new FormControl('', [Validators.required]);
     this.firstName = new FormControl('', [Validators.required]);
     this.middleName = new FormControl('', [Validators.required]);
     this.lastName = new FormControl('', [Validators.required]);
-    this.purpose = new FormControl('', [Validators.required]);
-    this.organizationName = new FormControl('', [Validators.required]);
+    this.purpose = new FormControl('');
+    this.organizationName = new FormControl('');
     this.description = new FormControl('');
 
     this.createProfileForm = formBuilder.group({
-      'accountType': this.accountType,
       'firstName': this.firstName,
       'middleName': this.middleName,
       'lastName': this.lastName,
@@ -85,8 +82,8 @@ export class CreateAccountComponent implements OnInit {
        console.log(error2);
      });
 
-    this.userImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwqeFAYIE3hTj9Gs1j3v7o-oBadM5uDkuPBuXMPtXS85LufL7UVA';
-    this.organizationImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
+    this.userImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
+    this.organizationImage = 'url(https://i.pinimg.com/736x/05/19/3c/05193c43ed8e4a9ba4dfaa10ff0115f1.jpg)';
 
     this.doNotDisplayFailureMessage = true;
      this.doNotDisplayFailureMessage2 = true;
@@ -94,25 +91,21 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.createProfileForm.get('accountType')
-    .valueChanges
-    .subscribe(type => {
-      if (type === 'personal' || ''){
-        this.requiredState = false;
-        this.createProfileForm.get('organizationName').setValidators(null);
-        this.createProfileForm.get('purpose').setValidators(null);
-        this.createProfileForm.get('organizationName').updateValueAndValidity();
-        this.createProfileForm.get('purpose').updateValueAndValidity();
-      }else {
-        this.requiredState = true;
-        this.createProfileForm.get('organizationName').setValidators([Validators.required]);
-        this.createProfileForm.get('purpose').setValidators([Validators.required]);
-        this.createProfileForm.get('organizationName').updateValueAndValidity();
-        this.createProfileForm.get('purpose').updateValueAndValidity();
-      }
-      this.createProfileForm.updateValueAndValidity();
-    });
+    this.partyService.getPartyId()
+      .subscribe( partyId => {
+        if(!partyId) {
+          // TODO: throw error here partyId should exist
+          this.router.navigate(['/home']);
+        } else {
+          this.partyService.getUser(partyId)
+            .subscribe(userRes => {
+              this.firstName.setValue(userRes.user.firstName);
+              this.middleName.setValue(userRes.user.middleName);
+              this.lastName.setValue(userRes.user.lastName);
+              this.userExist = true;
+            });
+        }
+      });
   }
 
   createEventModel() {
@@ -165,14 +158,6 @@ export class CreateAccountComponent implements OnInit {
     this._organizationImage = value;
   }
 
-  get accountType(): FormControl {
-    return this._accountType;
-  }
-
-  set accountType(value: FormControl) {
-    this._accountType = value;
-  }
-
   get firstName(): FormControl {
     return this._firstName;
   }
@@ -220,8 +205,6 @@ export class CreateAccountComponent implements OnInit {
   set description(value: FormControl) {
     this._description = value;
   }
-
-
 
   get createProfileForm(): FormGroup {
     return this._createProfileForm;
@@ -288,7 +271,7 @@ export class CreateAccountComponent implements OnInit {
 
   addOrganizationPhoto() {
     this.photo2.partyId = this.partyId;
-   this.partyService.addPhoto(this.partyId, this.photo2, 'organization')
+   this.partyService.addPhoto(this.photo2, 'organization')
      .subscribe(value => {
        if (value.partyId) {
          this.loginUserIn();
@@ -304,7 +287,7 @@ export class CreateAccountComponent implements OnInit {
   savePhoto() {
     if (this.photo.imageStr && !this.userImageComplete) {
       this.photo.partyId = this.partyId;
-      this.partyService.addPhoto(this.partyId, this.photo, 'user')
+      this.partyService.addPhoto(this.photo, 'user')
         .subscribe(value => {
           if (value.partyId) {
             this.userImageComplete = true;
@@ -327,17 +310,17 @@ export class CreateAccountComponent implements OnInit {
 
   addAccount() {
     this.partyService
-      .addAccount(this.accountType.value, this.user , this.organization)
+      .addAccount( this.user , this.organization)
       .subscribe(value => {
-        if (value.created){
+        if (value.created) {
           this.partyId = value.user.partyId;
-          if (this.photo.imageStr || this.photo2.imageStr){
+          if (this.photo.imageStr || this.photo2.imageStr) {
             this.savePhoto();
           }else {
             this.eventService.sendLoginEvent(this.createEventModel());
             this.router.navigate(['/home/lobby']);
           }
-        }else {
+        } else {
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
