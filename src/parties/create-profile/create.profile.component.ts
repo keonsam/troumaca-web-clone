@@ -26,7 +26,7 @@ export class CreateAccountComponent implements OnInit {
   private _createProfileForm: FormGroup;
 
   private _user: User;
-  private organization: Organization;
+  private _organization: Organization;
   private photo: Photo;
   private photo2: Photo;
   private partyId: string;
@@ -124,6 +124,14 @@ export class CreateAccountComponent implements OnInit {
 
   set user(value: User) {
     this._user = value;
+  }
+
+  get organization(): Organization {
+    return this._organization;
+  }
+
+  set organization(value: Organization) {
+    this._organization = value;
   }
 
   get imageChangedEvent(): any {
