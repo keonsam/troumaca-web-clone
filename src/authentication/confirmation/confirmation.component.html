@@ -22,12 +22,6 @@
       Please login.
     </div>
 
-    <div *ngIf="confirmationSuccess" class="alert alert-danger">
-      <strong>Error!</strong> But it seems this session has expired.
-      A new session will be generated.
-      Please Enter the code for that one.
-    </div>
-
     <div *ngIf="textMessageSuccess" class="alert alert-success">
       <strong>Success!</strong> confirmation code has been sent.
       If you didn't get it in 5 minutes, Please try again.
