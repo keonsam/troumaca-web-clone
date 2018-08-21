@@ -1,5 +1,5 @@
 import {QuoteClient} from './quote.client';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {QuoteState} from './quote.state';
 import {HttpClient} from '@angular/common/http';
 import {UUIDGenerator} from '../../uuid.generator';

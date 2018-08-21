@@ -1,4 +1,4 @@
-import 'rxjs/add/operator/map';
+
 // import { map} from 'underscore';
 // import {Observable} from 'rxjs/Observable';
 // import {mapObjectProps} from '../../mapper/object.property.mapper';

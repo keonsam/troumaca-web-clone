@@ -1,5 +1,5 @@
 import {MenuState} from './menu.state';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 export abstract class MenuClient {
   abstract getTopMenuState(isLoggedIn: boolean): Observable<MenuState>;

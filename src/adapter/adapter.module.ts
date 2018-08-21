@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {leftMenuRepositoryProvider, menuRepositoryProvider} from './menu/menu.repository.adapter.provider';
 import {accountRepositoryProvider} from './account/account.repository.adapter.provider';
 import {reportRepositoryProvider} from './report/report.repository.adapter.provider';
-import {organizationRepositoryProvider, partyRepositoryProvider, assetPersonRepositoryProvider} from './party/party.repository.adapter.provider';
+import {assetPersonRepositoryProvider} from './party/party.repository.adapter.provider';
 import {securityRepositoryProvider} from './security/security.repository.provider';
 import {changePasswordRepositoryProvider} from './change-password/change.password.repository.adapter.provider';
 import {sessionRepositoryProvider} from './session/session.repository.adapter.provider';
@@ -24,6 +24,7 @@ import {authenticationRepositoryProvider} from './authentication/authentication.
 import {accessRoleRepositoryProvider} from './access-roles/access.role.adapter.provider';
 import {homeRepositoryProvider} from "./home/home.repository.adapter.provider";
 import {depreciationRepositoryProvider} from './depreciation/depreciation.repository.adapter.provider';
+import { partyRepositoryProvider } from "./party/party.repository.adapter.provider";
 
 @NgModule({
   imports:      [],
@@ -34,9 +35,7 @@ import {depreciationRepositoryProvider} from './depreciation/depreciation.reposi
     accountRepositoryProvider,
     reportRepositoryProvider,
     leftMenuRepositoryProvider,
-    // forgotPasswordRepositoryProvider,
-    organizationRepositoryProvider,
-    partyRepositoryProvider,
+    // forgotPasswordRepositoryProvider
     securityRepositoryProvider,
     changePasswordRepositoryProvider,
     sessionRepositoryProvider,
@@ -59,6 +58,7 @@ import {depreciationRepositoryProvider} from './depreciation/depreciation.reposi
     authenticationRepositoryProvider,
     accessRoleRepositoryProvider,
     homeRepositoryProvider,
+    partyRepositoryProvider,
     depreciationRepositoryProvider
   ]
 })

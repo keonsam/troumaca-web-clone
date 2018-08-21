@@ -1,5 +1,5 @@
 import {AssetTypeClassRepository} from './asset.type.class.repository';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {AssetTypeClass} from './asset.type.class';
 import {AssetTypeClasses} from './asset.type.classes';
 import {Attributes} from '../attributes/attributes';

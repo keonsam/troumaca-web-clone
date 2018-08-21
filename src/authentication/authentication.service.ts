@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {AuthenticationRepository} from './authentication.repository';
 import {Credential} from './credential';
 import {ValidResp} from "./resp.valid";

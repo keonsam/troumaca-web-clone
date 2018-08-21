@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/filter';
+
+
 import {AssetTypeService} from '../asset.type.service';
 import {AssetType} from '../asset.type';
 import {Value} from '../value';
 import {AssignedAttribute} from '../../asset-type-classes/assigned.attribute';
 import {Router} from '@angular/router';
+import {map, filter } from "rxjs/operators";
 
 @Component({
   selector: 'asset-type-creation',
@@ -97,9 +98,9 @@ export class AssetTypeCreationComponent implements OnInit {
     this.findAssetTypeClassId('');
     this.assetTypeForm.get('assetTypeClassId').valueChanges
       //.debounceTime(1000) // debounce
-      .filter(value => { // filter out empty values
+      .pipe(filter(value => { // filter out empty values
         return !!(value);
-      })
+      }))
       .subscribe(value => {
         this.findAssetTypeClassId(value);
       });
@@ -108,14 +109,14 @@ export class AssetTypeCreationComponent implements OnInit {
   findAssetTypeClassId(value) {
     this.assetTypeService
       .findAssetTypeClassId(value, this.pageSize) // send search request to the backend
-      .map(value2 => { // convert results to dropdown data
+      .pipe(map(value2 => { // convert results to dropdown data
         return value2.map(v2 => {
           return {
             assetTypeClassId: v2.assetTypeClassId,
             name: v2.name,
           };
         })
-      })
+      }))
       .subscribe(next => { // update the data
         this.assetTypeClassIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
@@ -127,9 +128,9 @@ export class AssetTypeCreationComponent implements OnInit {
     this.findUnitOfMeasureId('');
     this.assetTypeForm.get('unitOfMeasureId').valueChanges
       //.debounceTime(1000) // debounce
-      .filter(value => { // filter out empty values
+      .pipe(filter(value => { // filter out empty values
         return !!(value);
-      })
+      }))
       .subscribe(value => {
         this.findUnitOfMeasureId(value);
       });
@@ -138,14 +139,14 @@ export class AssetTypeCreationComponent implements OnInit {
   findUnitOfMeasureId(value) {
     this.assetTypeService
       .findUnitOfMeasureId(value, this.pageSize) // send search request to the backend
-      .map(value2 => { // convert results to dropdown data
+      .pipe(map(value2 => { // convert results to dropdown data
         return value2.map(v2 => {
           return {
             unitOfMeasureId: v2.unitOfMeasureId,
             name: v2.name
           };
         })
-      })
+      }))
       .subscribe(next => { // update the data
         this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {

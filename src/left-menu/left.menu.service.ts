@@ -1,5 +1,5 @@
 import {LeftMenuRepository} from './left.menu.repository';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {LeftMenuModel} from './left.menu.model';
 
 export class LeftMenuService {

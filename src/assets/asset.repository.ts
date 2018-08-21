@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Assets} from './assets';
 import {AssetKinds} from './asset.kinds';
 import {UnitOfMeasure} from '../unit-of-measure/unit.of.measure';

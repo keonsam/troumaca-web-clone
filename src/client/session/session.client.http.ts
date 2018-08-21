@@ -1,7 +1,8 @@
 import {SessionClient} from './session.client';
 import {UUIDGenerator} from '../../uuid.generator';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import {Observable, of } from 'rxjs';
+import { map } from "rxjs/operators";
+
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {SessionState} from './session.state';
 import {EventService} from '../../event/event.service';
@@ -34,15 +35,15 @@ export class SessionClientHttp extends SessionClient {
 
   getSession(): Observable<SessionState> {
     if (this.isNotExpiredSession(this.sessionState)) {
-      return Observable.of(this.sessionState);
+      return of(this.sessionState);
     } else {
       const that = this;
       return this.getRemoteSession()
-        .map(value => {
+        .pipe(map(value => {
           that.sessionState = value;
           that.sessionStateCachedDate = new Date().getTime();
           return value;
-        });
+        }));
     }
   }
 
@@ -60,7 +61,6 @@ export class SessionClientHttp extends SessionClient {
     const url = `${this.hostPort}/sessions/current-user-session`;
 
     const httpOptions = {
-      //withCredentials: true,
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'correlationId': this.uuidGenerator.generateUUID()
@@ -69,9 +69,9 @@ export class SessionClientHttp extends SessionClient {
 
     return this.httpClient
       .get<SessionState>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   activeSessionExists(): Observable<boolean> {
@@ -83,9 +83,9 @@ export class SessionClientHttp extends SessionClient {
 
     return this.httpClient
       .get<boolean>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public jsonHttpHeaders(): HttpHeaders {
@@ -109,13 +109,13 @@ export class SessionClientHttp extends SessionClient {
 
     return this.httpClient
       .get<boolean>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         if (data) {
           return true;
         } else {
           return false;
         }
-      });
+      }));
   }
 
 }

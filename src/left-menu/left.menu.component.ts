@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {LeftMenuService} from './left.menu.service';
 import {LeftMenuModel} from './left.menu.model';
-import {LeftMenuItemModel} from './left.menu.item.model';
 
 @Component({
   selector: 'left-menu',

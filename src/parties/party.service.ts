@@ -1,5 +1,5 @@
 import {PartyRepository} from './party.repository';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {User} from './user';
 import {Users} from './users';
 import {Credential} from './credential';

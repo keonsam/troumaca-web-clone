@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {ContractService} from './contract.service';
+import { filter} from "rxjs/operators";
 
 @Component({
   selector: 'contract',
@@ -14,7 +15,7 @@ export class ContractComponent implements OnInit {
   constructor(private contractService: ContractService,
               private router: Router) {
     this.router.events
-      .filter((event: any) => event instanceof NavigationEnd)
+      .pipe(filter((event: any) => event instanceof NavigationEnd))
       .subscribe(() => {
         let root = this.router.routerState.snapshot.root;
         let counter = 0;

@@ -1,5 +1,5 @@
 import {UnitOfMeasureClient} from './unit.of.measure.client';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {UnitOfMeasureStates} from './unit.of.measure.states';
 
 export class UnitOfMeasureClientMock extends UnitOfMeasureClient {

@@ -1,13 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/filter';
 import {Router} from '@angular/router';
 import {Depreciation} from "../../depreciation";
 import {DepreciationService} from "../../depreciation.service";
 import {DepreciationMethod} from "../../depreciation.method";
+import {map, filter } from "rxjs/operators";
 
 @Component({
   selector: 'book-creation',
@@ -118,9 +116,9 @@ export class BookCreationComponent implements OnInit {
   private populateAssetIdDropDown() {
     this.findAssets('');
     this.depreciationForm.get('assetId').valueChanges
-      .filter(value => { // filter out empty values
+      .pipe(filter(value => { // filter out empty values
         return !!(value);
-      })
+      }))
       .subscribe(value => {
         this.findAssets(value);
       });
@@ -129,14 +127,14 @@ export class BookCreationComponent implements OnInit {
   findAssets(value) {
     this.depreciationService
       .findAssets(value, this.pageSize) // send search request to the backend
-      .map(value2 => { // convert results to dropdown data
+      .pipe(map(value2 => { // convert results to dropdown data
         return value2.map(v2 => {
           return {
             assetId: v2.assetId,
             name: v2.assetTypeName
           };
         })
-      })
+      }))
       .subscribe(next => { // update the data
         this.assetDataService = this.completerService.local(next, 'name', 'name');
       }, error => {

@@ -1,5 +1,5 @@
 import {OrganizationRepository} from './organization.repository';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {OrganizationModel} from './organization.model';
 
 export class OrganizationService {

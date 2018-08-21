@@ -1,14 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/filter';
 
 import {AttributeService} from '../attribute.service';
 import {Attribute} from '../attribute';
 import {DataType} from '../data.type';
 import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
+import { map, filter } from "rxjs/operators";
 
 @Component({
   selector: 'attribute-edit',
@@ -119,9 +118,9 @@ export class AttributeEditComponent implements OnInit {
     }
 
     this.attributeEditForm.get('unitOfMeasureId').valueChanges
-      .filter(value => { // filter out empty values
+      .pipe(filter(value => { // filter out empty values
         return !!(value);
-      })
+      }))
       .subscribe(value => {
         this.findUnitOfMeasureId(value);
       });
@@ -130,14 +129,14 @@ export class AttributeEditComponent implements OnInit {
   findUnitOfMeasureId(value) {
     this.attributeService
       .findUnitOfMeasureId(value, this.pageSize) // send search request to the backend
-      .map(value2 => { // convert results to dropdown data
+      .pipe(map(value2 => { // convert results to dropdown data
         return value2.map(v2 => { //update to the new way of doing this
           return {
             unitOfMeasureId: v2.unitOfMeasureId,
             name: v2.name,
           };
         })
-      })
+      }))
       .subscribe(next => { // update the data
         this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {

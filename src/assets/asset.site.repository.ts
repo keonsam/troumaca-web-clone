@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {AssetUnionOfPhysicalSites} from './asset.union.of.physical.sites';
 
 export abstract class AssetSiteRepository {

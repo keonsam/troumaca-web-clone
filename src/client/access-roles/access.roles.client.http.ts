@@ -1,5 +1,4 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { map} from 'underscore';
 import {AccessRolesClient} from './access.roles.client';
 import {PermissionStates} from './permission.states';
 import {PermissionState} from './permission.state';
@@ -12,7 +11,8 @@ import {AccessRoleState} from './access.role.state';
 import {AccessRoleStates} from './access.role.states';
 import {AccessRoleTypeState} from './access.role.type.state';
 import {AccessRoleTypeStates} from './access.role.type.states';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import { map } from "rxjs/operators";
 import {UUIDGenerator} from '../../uuid.generator';
 import {GrantState} from './grant.state';
 import {AccessRoleResponse} from '../../access-roles/access.role.response';
@@ -24,16 +24,16 @@ export class AccessRolesClientHttp extends AccessRolesClient {
               private hostPort: string) {
     super();
   }
-  //permission
+  // permission
   public getPermissions(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<PermissionStates>{
     const url = `${this.hostPort}/permissions?pageNumber=${defaultPage}&pageSize=${defaultPageSize}&sortOrder=${defaultSortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<PermissionStates>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getPermissionById(permissionId: string): Observable<PermissionState>{
@@ -42,9 +42,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<PermissionState>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addPermission(permissionState: PermissionState): Observable<PermissionState>{
@@ -53,9 +53,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.post<PermissionState>(url, permissionState.toJson(), httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updatePermission(permissionState: PermissionState): Observable<number> {
@@ -64,9 +64,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.put<number>(url, permissionState.toJson(), httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public deletePermission(permissionId: string): Observable<number> {
@@ -75,9 +75,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.delete<number>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   //resources
@@ -87,9 +87,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<PermissionStates>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public  getResourcePermissionsByResourceId(permissionId: string): Observable<ResourcePermissionState[]> {
@@ -98,9 +98,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<ResourcePermissionState[]>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public findResourceTypeId(searchStr: string, pageSize: number): Observable<ResourceTypeState[]> {
@@ -109,9 +109,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<ResourceTypeState[]>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getResources(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<ResourceStates>{
@@ -120,9 +120,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<ResourceStates>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getResourceById(resourceId: string): Observable<ResourceState>{
@@ -131,40 +131,40 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<ResourceState>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
 
   public addResource(resourceState: ResourceState, resourcePermissionState: ResourcePermissionState[]): Observable<ResourceState>{
     const url = `${this.hostPort}/resources`;
     const resource = resourceState.toJson();
-    const resourcePermission = map(resourcePermissionState, value => {
+    const resourcePermission = resourcePermissionState.map( value => {
       return value.toJson();
     });
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.post<ResourceState>(url, {resource, resourcePermission}, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updateResource(resourceState: ResourceState, resourcePermissionState: ResourcePermissionState[]): Observable<number> {
     const url = `${this.hostPort}/resources/${resourceState.resourceId}`;
     const resource = resourceState.toJson();
-    const resourcePermission = map(resourcePermissionState, value => {
+    const resourcePermission = resourcePermissionState.map( value => {
       return value.toJson();
     });
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.put<number>(url, {resource, resourcePermission}, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public deleteResource(resourceId: string): Observable<number> {
@@ -173,9 +173,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.delete<number>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   //resourceTypes
@@ -185,9 +185,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<ResourceTypeStates>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getResourceTypeById(resourceTypeId: string): Observable<ResourceTypeState>{
@@ -196,9 +196,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<ResourceTypeState>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addResourceType(resourceTypeState: ResourceTypeState): Observable<ResourceTypeState>{
@@ -206,9 +206,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.post<ResourceTypeState>(url, resourceTypeState.toJson(), httpOptions).map(data => {
+    return this.httpClient.post<ResourceTypeState>(url, resourceTypeState.toJson(), httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updateResourceType(resourceTypeState: ResourceTypeState): Observable<number> {
@@ -216,9 +216,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.put<number>(url, resourceTypeState.toJson(), httpOptions).map(data => {
+    return this.httpClient.put<number>(url, resourceTypeState.toJson(), httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public deleteResourceType(resourceTypeId: string): Observable<number> {
@@ -226,9 +226,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.delete<number>(url, httpOptions).map(data => {
+    return this.httpClient.delete<number>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   //access-roles
@@ -238,9 +238,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<ResourceStates>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getAllResourcePermissions(): Observable<ResourcePermissionState[]> {
@@ -249,9 +249,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<ResourcePermissionState[]>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleTypeState[]> {
@@ -259,9 +259,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<AccessRoleTypeState[]>(url, httpOptions).map(data => {
+    return this.httpClient.get<AccessRoleTypeState[]>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleStates>{
@@ -269,9 +269,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<AccessRoleStates>(url, httpOptions).map(data => {
+    return this.httpClient.get<AccessRoleStates>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getAccessRoleById(accessRoleId: string): Observable<AccessRoleResponse>{
@@ -279,37 +279,37 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<AccessRoleResponse>(url, httpOptions).map(data => {
+    return this.httpClient.get<AccessRoleResponse>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addAccessRole(accessRoleState: AccessRoleState, grants: GrantState[]): Observable<AccessRoleState>{
     const url = `${this.hostPort}/access-roles`;
     const accessRole = accessRoleState.toJson();
-    const grant = map(grants, next => {
+    const grant = grants.map( next => {
       return next.toJson();
     });
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.post<AccessRoleState>(url, {accessRole, grant}, httpOptions).map(data => {
+    return this.httpClient.post<AccessRoleState>(url, {accessRole, grant}, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updateAccessRole(accessRoleState: AccessRoleState, grants: GrantState[]): Observable<number> {
     const url = `${this.hostPort}/access-roles/${accessRoleState.accessRoleId}`;
     const accessRole = accessRoleState.toJson();
-    const grant = map(grants, next => {
+    const grant = grants.map( next => {
       return next.toJson();
     });
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.put<number>(url, {accessRole, grant}, httpOptions).map(data => {
+    return this.httpClient.put<number>(url, {accessRole, grant}, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public deleteAccessRole(accessRoleId: string): Observable<number> {
@@ -317,31 +317,31 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.delete<number>(url, httpOptions).map(data => {
+    return this.httpClient.delete<number>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
-  //grants
+  // grants
   public getGrantsByAccessRoleId(accessRoleId: string): Observable<GrantState[]> {
     const url = `${this.hostPort}/grants/${accessRoleId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<GrantState[]>(url, httpOptions).map(data => {
+    return this.httpClient.get<GrantState[]>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
-  //access-role-types
+  // access-role-types
   public getAccessRoleTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleTypeStates>{
     const url = `${this.hostPort}/access-role-types?pageNumber=${defaultPage}&pageSize=${defaultPageSize}&sortOrder=${defaultSortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<AccessRoleTypeStates>(url, httpOptions).map(data => {
+    return this.httpClient.get<AccessRoleTypeStates>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getAccessRoleTypeById(accessRoleTypeId: string): Observable<AccessRoleTypeState>{
@@ -349,9 +349,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<AccessRoleTypeState>(url, httpOptions).map(data => {
+    return this.httpClient.get<AccessRoleTypeState>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addAccessRoleType(accessRoleTypeState: AccessRoleTypeState): Observable<AccessRoleTypeState>{
@@ -359,9 +359,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.post<AccessRoleTypeState>(url, accessRoleTypeState.toJson(), httpOptions).map(data => {
+    return this.httpClient.post<AccessRoleTypeState>(url, accessRoleTypeState.toJson(), httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updateAccessRoleType(accessRoleTypeState: AccessRoleTypeState): Observable<number> {
@@ -369,9 +369,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.put<number>(url, accessRoleTypeState.toJson(), httpOptions).map(data => {
+    return this.httpClient.put<number>(url, accessRoleTypeState.toJson(), httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public deleteAccessRoleType(accessRoleTypeId: string): Observable<number> {
@@ -380,9 +380,9 @@ export class AccessRolesClientHttp extends AccessRolesClient {
       headers: this.jsonHttpHeaders()
     };
 
-    return this.httpClient.delete<number>(url, httpOptions).map(data => {
+    return this.httpClient.delete<number>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public jsonHttpHeaders(): HttpHeaders {

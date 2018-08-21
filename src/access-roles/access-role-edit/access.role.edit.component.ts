@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/filter';
+
+
 import {ActivatedRoute, Router} from '@angular/router';
 import {AccessRoleService} from '../access.role.service';
 import {AccessRole} from '../access.role';
@@ -12,6 +12,8 @@ import {ResourcePermission} from '../resource.permission';
 import {Grant} from '../grant';
 import {Sort} from '../../sort/sort';
 import {Page} from '../../page/page';
+import { map, filter } from 'rxjs/operators';
+
 
 @Component({
   selector: 'access-role-edit',
@@ -138,9 +140,9 @@ export class AccessRoleEditComponent implements OnInit {
     }
     this.accessRoleForm.get('accessRoleTypeId').valueChanges
       //.debounceTime(1000) // debounce
-      .filter(value => { // filter out empty values
+      .pipe(filter(value => { // filter out empty values
         return !!(value);
-      })
+      }))
       .subscribe(value => {
         this.findAccessRoleTypeId(value);
       });
@@ -149,14 +151,14 @@ export class AccessRoleEditComponent implements OnInit {
   findAccessRoleTypeId(value) {
     this.accessRoleService
       .findAccessRoleTypeId(value, this.pageSize) // send search request to the backend
-      .map(value2 => { // convert results to dropdown data
+      .pipe(map(value2 => { // convert results to dropdown data
         return value2.map(v2 => {
           return {
             accessRoleTypeId: v2.accessRoleTypeId,
             name: v2.name,
           };
         })
-      })
+      }))
       .subscribe(next => { // update the data
         this.accessRoleTypeDataService = this.completerService.local(next, 'name', 'name');
       }, error => {

@@ -1,5 +1,5 @@
 import {MenuClient} from './menu.client';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {MenuState} from './menu.state';
 import {UUIDGenerator} from '../../uuid.generator';
 

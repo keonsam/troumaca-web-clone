@@ -1,9 +1,9 @@
 import {UUIDGenerator} from '../../uuid.generator';
 import {PersonClient} from './person.client';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import { map } from "rxjs/operators";
 import {UserState} from './user.state';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { map } from 'underscore';
 import {UserStates} from './user.states';
 import {CredentialState} from './credential.state';
 import {OrganizationState} from './organization.state';
@@ -27,9 +27,9 @@ export class PersonClientHttp implements PersonClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<AccessRoleState[]>(url, httpOptions).map(data => {
+    return this.httpClient.get<AccessRoleState[]>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public logOutUser(): Observable<boolean> {
@@ -41,9 +41,9 @@ export class PersonClientHttp implements PersonClient {
 
     return this.httpClient
       .get<boolean>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public getPartyAccessRoleById(partyId: string): Observable<PartyAccessRoleState[]> {
@@ -55,9 +55,9 @@ export class PersonClientHttp implements PersonClient {
 
     return this.httpClient
       .get<PartyAccessRoleState[]>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public getPartyAccessRoles(): Observable<PartyAccessRoleState[]> {
@@ -69,9 +69,9 @@ export class PersonClientHttp implements PersonClient {
 
     return this.httpClient
       .get<PartyAccessRoleState[]>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public getPartyId(): Observable<string> {
@@ -83,9 +83,9 @@ export class PersonClientHttp implements PersonClient {
 
     return this.httpClient
       .get<string>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<UserStates> {
@@ -93,9 +93,9 @@ export class PersonClientHttp implements PersonClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<UserStates>(url, httpOptions).map(data => {
+    return this.httpClient.get<UserStates>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getOrganizations(pageNumber: number, pageSize: number, sortOrder: string): Observable<OrganizationStates> {
@@ -103,9 +103,9 @@ export class PersonClientHttp implements PersonClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<OrganizationStates>(url, httpOptions).map(data => {
+    return this.httpClient.get<OrganizationStates>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getUserState(partyId: string): Observable<UserResponse>{
@@ -115,9 +115,9 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .get<UserResponse>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getOrganizationState(partyId: string): Observable<OrganizationState>{
@@ -127,9 +127,9 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .get<OrganizationState>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
 
@@ -140,15 +140,15 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .get<any>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addUserState(userState: UserState, partyAccessRoleStates: PartyAccessRoleState[]): Observable<UserState> {
     const url = `${this.hostPort}/users`;
     const user = userState.toJson();
-    const partyAccessRoles = map(partyAccessRoleStates, value => {
+    const partyAccessRoles = partyAccessRoleStates.map( value => {
       return value.toJson();
     });
     const httpOptions = {
@@ -156,9 +156,9 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .post<UserState>(url, {user, partyAccessRoles}, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addOrganizationState(organizationState: OrganizationState): Observable<OrganizationState> {
@@ -168,9 +168,9 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .post<OrganizationState>(url, organizationState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addPhoto(photoState: PhotoState, type: string): Observable<PhotoState> {
@@ -180,9 +180,9 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .post<PhotoState>(url, photoState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addAccountState(userState: UserState, organizationState: OrganizationState): Observable<AccountResponse> {
@@ -196,9 +196,9 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .post<AccountResponse>(url, body, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public deleteUser(partyId: string): Observable<number> {
@@ -208,9 +208,9 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .delete<number>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public deleteOrganization(partyId: string): Observable<number> {
@@ -220,15 +220,15 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .delete<number>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updateUser(userState: UserState, partyAccessRoleStates: PartyAccessRoleState[]): Observable<number> {
     const url = `${this.hostPort}/users/${userState.partyId}`;
     const user = userState.toJson();
-    const partyAccessRoles = map(partyAccessRoleStates, value => {
+    const partyAccessRoles = partyAccessRoleStates.map( value => {
       return value.toJson();
     });
     const httpOptions = {
@@ -236,9 +236,9 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .put<number>(url, {user, partyAccessRoles}, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updateUserMe(userState: UserState, credentialState: CredentialState): Observable<number> {
@@ -250,9 +250,9 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
       .put<number>(url, {user, credential}, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public updateOrganization(organizationState: OrganizationState): Observable<number> {
@@ -262,9 +262,9 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .put<number>(url, organizationState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updateCredential(credentialState: CredentialState): Observable<number> {
@@ -274,9 +274,9 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .put<number>(url, credentialState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
 
@@ -288,9 +288,9 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .post<number>(url, photoState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   // authentication part
@@ -309,9 +309,9 @@ export class PersonClientHttp implements PersonClient {
 
     return this.httpClient
       .post<boolean>(url, query, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   isValidPassword(password: string): Observable<boolean> {
@@ -325,9 +325,9 @@ export class PersonClientHttp implements PersonClient {
 
     return this.httpClient
       .post<boolean>(url, query, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public jsonHttpHeaders(): HttpHeaders {

@@ -1,5 +1,5 @@
 import {Credential} from './credential';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {ValidResp} from "./resp.valid";
 import { Confirmation } from "./confirmation";
 import {AuthenticatedCredential} from "./authenticated.credential";

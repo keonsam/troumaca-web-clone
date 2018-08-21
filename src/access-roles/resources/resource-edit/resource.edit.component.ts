@@ -10,6 +10,7 @@ import {ResourcePermission} from '../../resource.permission';
 import {Permissions} from '../../permissions';
 import {Page} from '../../../page/page';
 import {Sort} from '../../../sort/sort';
+import { map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'resource-edit',
@@ -104,7 +105,7 @@ export class ResourceEditComponent implements OnInit {
         console.log(type);
         if (type === 'permissions') {
           this.permissions = values;
-        }else{
+        }else {
           this.resourcePermissions = values;
         }
       }, onError => {
@@ -118,9 +119,9 @@ export class ResourceEditComponent implements OnInit {
     }
     this.resourceForm.get('resourceTypeId').valueChanges
     //.debounceTime(1000) // debounce
-      .filter(value => { // filter out empty values
+      .pipe(filter(value => { // filter out empty values
         return !!(value);
-      })
+      }))
       .subscribe(value => {
         this.findResourceTypeId(value);
       });
@@ -129,14 +130,14 @@ export class ResourceEditComponent implements OnInit {
   findResourceTypeId(value) {
     this.accessRoleService
       .findResourceTypeId(value, this.pageSize) // send search request to the backend
-      .map(value2 => { // convert results to dropdown data
+      .pipe(map(value2 => { // convert results to dropdown data
         return value2.map(v2 => {
           return {
             resourceTypeId: v2.resourceTypeId,
             name: v2.name,
           };
         })
-      })
+      }))
       .subscribe(next => { // update the data
         this.resourceTypeIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {

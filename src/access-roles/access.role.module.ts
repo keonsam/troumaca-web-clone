@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2CompleterModule} from 'ng2-completer';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AccessRoleComponent} from './access.role.component';
@@ -30,7 +29,6 @@ import {accessRoleServiceProvider} from './access.role.service.provider';
 @NgModule({
   imports: [
     CommonModule,
-    NgbModule,
     // FormsModule,
     RouterModule,
     Ng2CompleterModule,

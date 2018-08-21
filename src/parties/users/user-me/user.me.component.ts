@@ -1,13 +1,6 @@
 import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/single';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/switchMap';
 
 import {PartyEventService} from '../../party.event.service';
 import {PartyService} from '../../party.service';
@@ -16,6 +9,7 @@ import {Credential} from '../../credential';
 import {EventService} from '../../../event/event.service';
 import {Event} from '../../../authentication/event';
 import {Photo} from '../../photo';
+import { filter, debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 
 @Component({
   selector: 'user-me',
@@ -149,13 +143,13 @@ export class UserMeComponent implements OnInit {
     const that = this;
     const subscriberToChangeEvents = function () {
       valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
-      .filter(value => { // filter out empty values
+      .pipe(debounceTime(500),
+      distinctUntilChanged(),
+      filter(value => { // filter out empty values
         return !!(value);
-      }).map(value => {
+      }), map((value: string) => {
         return partyService.isValidUsername(value, that.partyId);
-      }).subscribe(value => {
+      })).subscribe(value => {
         value.subscribe( otherValue => {
           isValidUsername = otherValue.valid;
           usernameControl.updateValueAndValidity();
@@ -188,13 +182,13 @@ export class UserMeComponent implements OnInit {
 
     const subscriberToChangeEvents = function () {
       valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
-      .filter(value => { // filter out empty values
+      .pipe(debounceTime(500),
+      distinctUntilChanged(),
+      filter(value => { // filter out empty values
         return !!(value);
-      }).map(value => {
+      }), map((value: string) => {
         return partyService.isValidPassword(value);
-      }).subscribe(value => {
+      })).subscribe(value => {
         value.subscribe( otherValue => {
           isValidPassword = otherValue;
           passwordControl.updateValueAndValidity();

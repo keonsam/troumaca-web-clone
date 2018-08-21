@@ -93,7 +93,7 @@ export class CreateAccountComponent implements OnInit {
   ngOnInit(): void {
     this.partyService.getPartyId()
       .subscribe( partyId => {
-        if(!partyId) {
+        if (!partyId) {
           // TODO: throw error here partyId should exist
           this.router.navigate(['/home']);
         } else {

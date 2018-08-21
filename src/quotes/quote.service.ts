@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Quote} from './quote';
 import {QuoteRepository} from './quote.repository';
 

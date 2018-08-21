@@ -5,7 +5,6 @@ import {reportClientProvider} from './report/report.client.provider';
 import {accountClientProvider} from './account/account.client.provider';
 import {logoutClientProvider} from './logout/logout.client.provider';
 import {signUpClientProvider} from './sign-up/sign.up.client.provider';
-import {organizationClientProvider} from './party/organization.client.provider';
 import {personClientProvider} from './party/person.client.provider';
 import {securityClientProvider} from './security/security.client.provider';
 import {sessionClientProvider} from './session/session.client.provider';
@@ -44,7 +43,6 @@ import {depreciationClientProvider} from "./depreciation/depreciation.client.pro
     logoutClientProvider,
     reportClientProvider,
     signUpClientProvider,
-    organizationClientProvider,
     personClientProvider,
     securityClientProvider,
     sessionClientProvider,

@@ -2,12 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {AssetService} from '../asset.service';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/filter';
 import {Asset} from '../asset';
 import {AssetKind} from '../asset.kind';
 import {Router} from '@angular/router';
+import {map, filter } from "rxjs/operators";
+
 
 @Component({
   selector: 'asset-creation',
@@ -111,9 +110,9 @@ export class AssetCreationComponent implements OnInit {
   private populateAssetTypeDropDown() {
     this.findAssetTypes('');
     this.assetForm.get('assetType').valueChanges
-      .filter(value => { // filter out empty values
+      .pipe(filter(value => { // filter out empty values
         return !!(value);
-      })
+      }))
       .subscribe(value => {
         this.findAssetTypes(value);
       });
@@ -122,14 +121,14 @@ export class AssetCreationComponent implements OnInit {
   findAssetTypes(value) {
     this.assetService
       .findAssetTypes(value, this.pageSize) // send search request to the backend
-      .map(value2 => { // convert results to dropdown data
+      .pipe(map(value2 => { // convert results to dropdown data
         return value2.map(v2 => {
           return {
             assetTypeId: v2.assetTypeId,
             name: v2.name
           };
         })
-      })
+      }))
       .subscribe(next => { // update the data
         this.assetTypeDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
@@ -140,9 +139,9 @@ export class AssetCreationComponent implements OnInit {
   private populateUnitOfMeasureDropDown() {
     this.findUnitOfMeasures('');
     this.assetForm.get('unitOfMeasure').valueChanges
-      .filter(value => { // filter out empty values
+      .pipe(filter(value => { // filter out empty values
         return !!(value);
-      })
+      }))
       .subscribe(value => {
         this.findUnitOfMeasures(value);
       });
@@ -151,14 +150,14 @@ export class AssetCreationComponent implements OnInit {
   findUnitOfMeasures(value) {
     this.assetService
       .findUnitOfMeasures(value, this.pageSize) // send search request to the backend
-      .map(value2 => { // convert results to dropdown data
+      .pipe(map(value2 => { // convert results to dropdown data
         return value2.map(v2 => { // updated to new method
           return {
             unitOfMeasureId: v2.unitOfMeasureId,
             name: v2.name
           };
         })
-      })
+      }))
       .subscribe(next => { // update the data
         this.unitOfMeasureDataService = this.completerService
           .local(next, 'name', 'name');
@@ -170,9 +169,9 @@ export class AssetCreationComponent implements OnInit {
   private populateSiteDropDown() {
     this.findUnionOfPhysicalSites('');
     this.assetForm.get('site').valueChanges
-      .filter(value => { // filter out empty values
+      .pipe(filter(value => { // filter out empty values
         return !!(value);
-      })
+      }))
       .subscribe(value => {
         console.log('value: ' + value);
         this.findUnionOfPhysicalSites(value);
@@ -182,7 +181,7 @@ export class AssetCreationComponent implements OnInit {
   findUnionOfPhysicalSites(value) {
     this.assetService
       .findUnionOfPhysicalSites(value, this.pageSize) // send search request to the backend
-      .map(value2 => { // convert results to dropdown data
+      .pipe(map(value2 => { // convert results to dropdown data
         return value2.map(v2 => {
           /*let name = "";
           if (v2.postOfficeBoxNumber) {
@@ -195,7 +194,7 @@ export class AssetCreationComponent implements OnInit {
             name: v2.name
           };
         })
-      })
+      }))
       .subscribe(next => { // update the data
         this.siteDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
@@ -206,9 +205,9 @@ export class AssetCreationComponent implements OnInit {
   private populatePersonDropDown() {
     this.findPersons('');
     this.assetForm.get('person').valueChanges
-      .filter(value => { // filter out empty values
+      .pipe(filter(value => { // filter out empty values
         return !!(value);
-      })
+      }))
       .subscribe(value => {
         this.findPersons(value);
       });
@@ -217,14 +216,14 @@ export class AssetCreationComponent implements OnInit {
   findPersons(value) {
     this.assetService
       .findPersons(value, this.pageSize) // send search request to the backend
-      .map(value2 => { // convert results to dropdown data
+      .pipe(map(value2 => { // convert results to dropdown data
         return value2.map(v2 => {
           return {
             partyId: v2.partyId,
             name: v2.firstName
           };
         })
-      })
+      }))
       .subscribe(next => { // update the data
         this.personDataService = this.completerService.local(next, 'name', 'name');
       }, error => {

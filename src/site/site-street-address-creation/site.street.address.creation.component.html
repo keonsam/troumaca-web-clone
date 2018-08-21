@@ -16,42 +16,42 @@
 
               <fieldset class="form-group">
                 <div class="form-group row">
-                  <label for="suite or apartment" class="col-sm-4 col-form-label">Suite or Apartment</label>
+                  <label for="building-type" class="col-sm-4 col-form-label">Building Type</label>
                   <div class="col-sm-8">
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="form-check">
-                          <label for="suite" class="form-check-label"><input checked="" class="form-check-input" formControlName="suiteOrApartment" type="radio" value="Suite" required>Suite</label>
+                          <label for="suite" class="form-check-label"><input id="suite" class="form-check-input" formControlName="suiteOrApartment" type="radio" value="Suite" required>Suite</label>
                         </div>
                       </div>
                       <div class="col-sm-6">
                         <div class="form-check">
-                          <label for="apartment" class="form-check-label"><input class="form-check-input" formControlName="suiteOrApartment" type="radio" value="Apartment">Apartment</label>
+                          <label for="apartment" class="form-check-label"><input id="apartment" class="form-check-input" formControlName="suiteOrApartment" type="radio" value="Apartment">Apartment</label>
                         </div>
                       </div>
                     </div>
                    </div>
-                  <div [hidden]="suiteOrApartment.valid || suiteOrApartment.pristine" class="alert alert-danger">Please select a suite or apartment.</div>
+                  <div [hidden]="suiteOrApartment.valid || suiteOrApartment.pristine" class="alert alert-danger">Please Select Suite or Apartment.</div>
                  </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Name">Name</label><input class="form-control" formControlName="name" placeholder="Name" required type="text">
+                  <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Name" required type="text">
                   <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid street name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Floor">Floor</label><input class="form-control" formControlName="floor" placeholder="Floor" required type="text">
+                  <label for="floor">Floor</label><input id="floor" class="form-control" formControlName="floor" placeholder="Floor" required type="text">
                   <div [hidden]="floor.valid || floor.pristine" class="alert alert-danger">Invalid floor.</div>
                 </div>
               </fieldset>
 
               <fieldset *ngIf="suiteOrApartment.value" class="form-group">
                 <div class="form-group">
-                  <label for="Suite or Apartment Number">{{suiteOrApartment.value}} Number</label><input class="form-control" formControlName="suiteOrApartmentNumber" placeholder="Suite Or Apartment Number" required type="number">
+                  <label for="suite-or-apartment-number">{{suiteOrApartment.value}} Number</label><input id="suite-or-apartment-number" class="form-control" formControlName="suiteOrApartmentNumber" placeholder="Suite Or Apartment Number" required type="number">
                   <div [hidden]="suiteOrApartmentNumber.valid || suiteOrApartmentNumber.pristine" class="alert alert-danger">Invalid {{suiteOrApartment.value}} Number.</div>
                 </div>
               </fieldset>

@@ -1,4 +1,4 @@
-import 'rxjs/add/operator/map';
+
 import {AuthenticationClient} from '../../client/credential/authentication.client';
 import {ChangePasswordRepository} from '../../security/change-password/change.password.repository';
 

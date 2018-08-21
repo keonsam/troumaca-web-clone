@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {UnitOfMeasures} from './asset.unit.of.measures';
 
 export abstract class AssetUnitOfMeasureRepository {

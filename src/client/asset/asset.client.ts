@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {AssetStates} from './asset.states';
 import {AssetKindStates} from './asset.kind.states';
 import {AssetState} from './asset.state';

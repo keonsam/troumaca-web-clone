@@ -1,24 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-// import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/single';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/switchMap';
-
-import { map } from 'underscore';
 
 import {PartyEventService} from '../../party.event.service';
 import {PartyService} from '../../party.service';
 import {User} from '../../user';
-// import {Credential} from '../../credential';
 import {PartyAccessRole} from '../../party.access.role';
 import {Select2OptionData} from 'ng2-select2';
+import { map, distinctUntilChanged, filter, debounceTime } from "rxjs/operators";
+
 
 @Component({
   selector: 'user-edit',
@@ -126,7 +117,7 @@ export class UserEditComponent implements OnInit {
         this.user = userResponse.user;
         // this.credential.partyId = userResponse.user.partyId;
         // this.credential.username = userResponse.user.username;
-        const values = map(userResponse.partyAccessRoles, value => value.accessRole.accessRoleId);
+        const values = userResponse.partyAccessRoles.map( value => value.accessRole.accessRoleId);
         this.accessRole.setValue(values.join(','));
         this.value = values;
         this.partyAccessRoles = userResponse.partyAccessRoles;
@@ -147,14 +138,14 @@ export class UserEditComponent implements OnInit {
     console.log(value);
     this.partyService
       .findAccessRole(value, this.pageSize) // send search request to the backend
-      .map(value2 => { // convert results to dropdown data
+      .pipe(map(value2 => { // convert results to dropdown data
         return value2.map(v2 => {
           return {
             id: v2.accessRoleId,
             text: v2.name,
           };
         })
-      })
+      }))
       .subscribe(next => { // update the data
         this.accessRoleData = next;
       }, error => {
@@ -169,13 +160,13 @@ export class UserEditComponent implements OnInit {
     const that = this;
     const subscriberToChangeEvents = function () {
       valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
-      .filter(value => { // filter out empty values
+      .pipe(debounceTime(500),
+      distinctUntilChanged(),
+      filter(value => { // filter out empty values
         return !!(value);
-      }).map(value => {
+      }), map((value: string) => {
         return partyService.isValidUsername(value);
-      }).subscribe(value => {
+      })).subscribe(value => {
         value.subscribe( otherValue => {
           isValidUsername = otherValue;
           usernameControl.updateValueAndValidity();

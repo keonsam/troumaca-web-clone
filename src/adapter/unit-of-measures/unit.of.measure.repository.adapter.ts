@@ -1,6 +1,7 @@
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import { map} from 'underscore';
+import {Observable} from 'rxjs';
+import { map } from "rxjs/operators";
+
+// import { map} from 'underscore';
 import {mapObjectProps} from '../../mapper/object.property.mapper';
 import {AssetUnitOfMeasureRepository} from '../../assets/assset.unit.of.measure.repository';
 import {UnitOfMeasures} from '../../assets/asset.unit.of.measures';
@@ -16,13 +17,13 @@ export class UnitOfMeasureRepositoryAdapter extends AssetUnitOfMeasureRepository
   findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasures> {
     return this.unitOfMeasureClient
       .findUnitOfMeasureStates(searchStr, pageSize)
-      .map(values => {
+      .pipe(map(values => {
         const unitOfMeasures: UnitOfMeasures = new UnitOfMeasures();
-        unitOfMeasures.unitOfMeasures = map(values.unitOfMeasures, value => {
+        unitOfMeasures.unitOfMeasures = values.unitOfMeasures.map( value => {
           return mapObjectProps(value, new UnitOfMeasure());
         });
         return unitOfMeasures;
-      });
+      }));
   }
 
 }

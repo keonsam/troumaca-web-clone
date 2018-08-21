@@ -1,6 +1,7 @@
 import {AssetClient} from './asset.client';
 import {UUIDGenerator} from '../../uuid.generator';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import { map } from "rxjs/operators";
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {AssetStates} from './asset.states';
 import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
@@ -32,9 +33,9 @@ export class AssetClientHttp extends AssetClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.get<AssetStates>(url, httpOptions).map(data => {
+    return this.http.get<AssetStates>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getAssetState(assetId: string): Observable<AssetState>{
@@ -44,9 +45,9 @@ export class AssetClientHttp extends AssetClient {
     };
     return this.http
     .get<AssetState>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getAssetKinds(): Observable<AssetKindStates> {
@@ -54,9 +55,9 @@ export class AssetClientHttp extends AssetClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.get<AssetKindStates>(url, httpOptions).map(data => {
+    return this.http.get<AssetKindStates>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetTypeState[]> {
@@ -64,9 +65,9 @@ export class AssetClientHttp extends AssetClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.get<AssetTypeState[]>(url, httpOptions).map(data => {
+    return this.http.get<AssetTypeState[]>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteState[]> {
@@ -74,9 +75,9 @@ export class AssetClientHttp extends AssetClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.get<UnionOfPhysicalSiteState[]>(url, httpOptions).map(data => {
+    return this.http.get<UnionOfPhysicalSiteState[]>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
@@ -84,9 +85,9 @@ export class AssetClientHttp extends AssetClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.get<UnitOfMeasureState[]>(url, httpOptions).map(data => {
+    return this.http.get<UnitOfMeasureState[]>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public findPersons(searchStr: string, pageSize: number): Observable<AssetPersonState[]> {
@@ -94,9 +95,9 @@ export class AssetClientHttp extends AssetClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.get<AssetPersonState[]>(url, httpOptions).map(data => {
+    return this.http.get<AssetPersonState[]>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addAsset(assetState: AssetState): Observable<AssetState> {
@@ -104,9 +105,9 @@ export class AssetClientHttp extends AssetClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.post<AssetState>(url, assetState.toJson(), httpOptions).map(data => {
+    return this.http.post<AssetState>(url, assetState.toJson(), httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updateAsset(assetId: string, assetState: AssetState): Observable<number> {
@@ -116,9 +117,9 @@ export class AssetClientHttp extends AssetClient {
     };
     return this.http
     .put<number>(url, assetState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public deleteAsset(assetId: string): Observable<number> {
@@ -128,9 +129,9 @@ export class AssetClientHttp extends AssetClient {
     };
     return this.http
     .delete<number>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public jsonHttpHeaders(): HttpHeaders {

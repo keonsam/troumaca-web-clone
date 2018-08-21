@@ -1,6 +1,6 @@
 import {User} from './user';
 import {Users} from './users';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Credential} from './credential';
 import {Organization} from './organization';
 import {Organizations} from './organizations';

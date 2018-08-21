@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {PermissionState} from './permission.state';
 import {PermissionStates} from './permission.states';
 import {ResourceState} from './resource.state';

@@ -1,13 +1,13 @@
 import {PartyRepository} from '../../parties/party.repository';
 import {PersonClient} from '../../client/party/person.client';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import { map } from "rxjs/operators";
 import {User} from '../../parties/user';
 import {Users} from '../../parties/users';
 import {Credential} from '../../parties/credential';
 import {Organization} from '../../parties/organization';
 import {Organizations} from '../../parties/organizations';
-import 'rxjs/add/operator/map';
-import { map} from 'underscore';
+
 import {mapObjectProps} from '../../mapper/object.property.mapper';
 import {UserState} from '../../client/party/user.state';
 import {OrganizationState} from '../../client/party/organization.state';
@@ -30,11 +30,11 @@ export class PartyRepositoryAdapter extends PartyRepository {
 
   public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
     return this.personClient.findAccessRole(searchStr, pageSize)
-      .map(accessRoles => {
-        return map(accessRoles, value => {
+      .pipe(map(accessRoles => {
+        return accessRoles.map( value => {
           return mapObjectProps(value, new AccessRole());
-        })
-      });
+        });
+      }));
   }
 
   public logOutUser(): Observable<boolean> {
@@ -48,32 +48,35 @@ export class PartyRepositoryAdapter extends PartyRepository {
   public getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<Users> {
     return this.personClient
       .getUsers(pageNumber, pageSize, sortOrder)
-      .map(values => {
+      .pipe(map(values => {
         const userModels: Users = new Users();
-        userModels.users = map(values.users, value => {
+        userModels.users = values.users.map( value => {
           return mapObjectProps(value, new User());
         });
-        userModels.partyAccessRoles = map(values.partyAccessRoles, value => {
-          return mapObjectProps(value, new PartyAccessRole());
-        });
+        // if (!values.partyAccessRoles) {
+        //   values.partyAccessRoles = [];
+        // }
+        // userModels.partyAccessRoles = values.partyAccessRoles.map( value => {
+        //   return mapObjectProps(value, new PartyAccessRole());
+        // });
        userModels.page = mapObjectProps(values.page, new Page());
        userModels.sort = mapObjectProps(values.sort, new Sort());
         return userModels;
-      });
+      }));
   }
 
   public getOrganizations(pageNumber: number, pageSize: number, sortOrder: string): Observable<Organizations> {
     return this.personClient
       .getOrganizations(pageNumber, pageSize, sortOrder)
-      .map(values => {
+      .pipe(map(values => {
         const organizationModels: Organizations = new Organizations();
-        organizationModels.organizations = map(values.organizations, value => {
+        organizationModels.organizations = values.organizations.map( value => {
           return mapObjectProps(value, new Organization());
         });
        organizationModels.page = mapObjectProps(values.page, new Page());
        organizationModels.sort = mapObjectProps(values.sort, new Sort());
         return organizationModels;
-      });
+      }));
   }
 
   public getUser(partyId: string): Observable<UserResponse> {
@@ -83,68 +86,68 @@ export class PartyRepositoryAdapter extends PartyRepository {
   public getPartyAccessRoleById(partyId: string): Observable<PartyAccessRole[]> {
     return this.personClient
       .getPartyAccessRoleById(partyId)
-      .map(values => {
-        return map(values, value => {
+      .pipe(map(values => {
+        return values.map( value => {
           return mapObjectProps(value, new PartyAccessRole())
         });
-      });
+      }));
   }
 
   public getPartyAccessRoles(): Observable<PartyAccessRole[]> {
     return this.personClient.getPartyAccessRoles()
-      .map(value => {
-        return map(value, next => {
+      .pipe(map(value => {
+        return value.map( next => {
           return mapObjectProps(next , new PartyAccessRole());
         });
-      });
+      }));
   }
 
   public getOrganization(partyId: string): Observable<Organization> {
     return this.personClient
     .getOrganizationState(partyId)
-    .map(value => {
+    .pipe(map(value => {
        return mapObjectProps(value, new Organization());
-    });
+    }));
   }
 
   public getPhoto(partyId: string, type: string): Observable<Photo> {
     return this.personClient.getPhoto(partyId, type)
-      .map(value => {
+      .pipe(map(value => {
         return mapObjectProps(value, new Photo());
-      });
+      }));
   }
 
   public addUser(user: User, partyAccessRoles: PartyAccessRole[]): Observable<User> {
     return this.personClient
-    .addUserState(mapObjectProps(user, new UserState()), map(partyAccessRoles, data => {
+    .addUserState(mapObjectProps(user, new UserState()), partyAccessRoles.map( data => {
       return mapObjectProps(data, new PartyAccessRoleState());
     }))
-    .map(value => {
+    .pipe(map(value => {
       return mapObjectProps(value, new User());
-    });
+    }));
   }
 
   public addOrganization(organization: Organization): Observable<Organization> {
     return this.personClient
     .addOrganizationState(mapObjectProps(organization, new OrganizationState()))
-    .map(value => {
+    .pipe(map(value => {
       return mapObjectProps(value, new Organization());
-    });
+    }));
   }
 
   public addPhoto(photo: Photo, type: string, ): Observable<Photo> {
     return this.personClient.addPhoto(mapObjectProps(photo, new PhotoState()), type)
-      .map(value => {
+      .pipe(map(value => {
         return mapObjectProps(value, new Photo());
-      });
+      }));
   }
 
   public addAccount(user: User, organization: Organization): Observable<AccountResponse> {
     return this.personClient
     .addAccountState(mapObjectProps(user, new UserState()), mapObjectProps(organization, new OrganizationState()))
-    .map(value => {
+    .pipe(map(value => {
       return mapObjectProps(value, new AccountResponse());
-    });
+    }));
   }
 
   public deleteUser(partyId: string): Observable<number> {
@@ -156,7 +159,7 @@ export class PartyRepositoryAdapter extends PartyRepository {
   }
 
   public updateUser(user: User, partyAccessRoles: PartyAccessRole[]): Observable<number> {
-    return this.personClient.updateUser(mapObjectProps(user, new UserState()),  map(partyAccessRoles, value => {
+    return this.personClient.updateUser(mapObjectProps(user, new UserState()),  partyAccessRoles.map( value => {
       return mapObjectProps(value, new PartyAccessRoleState());
     }));
   }

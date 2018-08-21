@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Emails} from './emails';
 import {StreetAddresses} from './street.addresses';
 import {PostOfficeBoxes} from './post.office.boxes';

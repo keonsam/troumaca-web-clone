@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot, Router} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {AuthGuardService} from './auth.guard.service';
 import {EventService} from '../event/event.service';
 import {Event} from '../authentication/event';
+import {map} from "rxjs/operators";
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
@@ -15,22 +16,22 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.authGuardService.isLoggedIn
-      .map(value => {
+      .pipe(map(value => {
         if (!value) {
           this.eventService.sendSessionExpiredEvent(this.createEventModel());
         }
         return value;
-      });
+      }));
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.authGuardService.isLoggedIn
-      .map(value => {
+      .pipe(map(value => {
         if (!value) {
           this.eventService.sendSessionExpiredEvent(this.createEventModel());
         }
         return value;
-      });
+      }));
   }
 
   createEventModel() {

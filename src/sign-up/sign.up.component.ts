@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {SignUpService} from './sign.up.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import { of } from 'rxjs';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {SignUpModel} from './sign.up.model';
+import { map, filter, flatMap} from "rxjs/operators";
 
 @Component({
   selector: 'sign-up',
@@ -63,7 +64,7 @@ export class SignUpComponent implements OnInit {
 
   confirmEmailOrPhoneValidator(password: FormControl) {
     return (c: FormControl) => {
-      return password.value == c.value ? null : {
+      return password.value === c.value ? null : {
         validateEmail: {
           valid: false
         }
@@ -136,12 +137,11 @@ export class SignUpComponent implements OnInit {
 
     console.log('onSubmit');
     const values = this.signUpForm.value;
-    Observable
-      .of(values)
-      .filter((value) => this.signUpForm.valid)
-      .flatMap((value) => {
+    of(values)
+      .pipe(filter((value) => this.signUpForm.valid),
+      flatMap((value) => {
         return this.signUpService.registerPerson(this.createSignInModel(value));
-      })
+      }))
       .subscribe(succeed => {
         if (succeed && this.rememberMe.value) {
           Cookie.set('troumaca-remember-me', this.rememberMe.value);
@@ -167,11 +167,11 @@ export class SignUpComponent implements OnInit {
 
   printChanges() {
     this.signUpForm.valueChanges
-      .map((value) => {
+      .pipe(map((value) => {
         value.username = value.username.toUpperCase();
         return value;
-      })
-      .filter((value) => this.signUpForm.valid)
+      }),
+      filter((value) => this.signUpForm.valid))
       .subscribe((value) => {
         console.log('Model Driven Form valid value: vm = ', JSON.stringify(value));
       });

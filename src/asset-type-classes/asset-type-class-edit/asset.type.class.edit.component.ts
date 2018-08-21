@@ -4,8 +4,6 @@ import {AssetTypeClassService} from '../asset.type.class.service';
 import {AssetTypeClass} from '../asset.type.class';
 import {ActivatedRoute} from '@angular/router';
 import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/filter';
 
 import {Router} from '@angular/router';
 import {Attributes} from '../../attributes/attributes';
@@ -15,8 +13,7 @@ import {DataType} from '../../attributes/data.type';
 import {Attribute} from '../../attributes/attribute';
 import {AssignedAttribute} from '../assigned.attribute';
 import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
-
+import {map, filter } from "rxjs/operators";
 
 @Component({
   selector: 'asset-type-class-edit',
@@ -178,9 +175,9 @@ export class AssetTypeClassEditComponent implements OnInit {
     this.findUnitOfMeasureId('');
     this.attributeForm.get('unitOfMeasureId').valueChanges
     //.debounceTime(1000) // debounce
-      .filter(value => { // filter out empty values
+      .pipe(filter(value => { // filter out empty values
         return !!(value);
-      })
+      }))
       .subscribe(value => {
         this.findUnitOfMeasureId(value);
       });
@@ -189,14 +186,14 @@ export class AssetTypeClassEditComponent implements OnInit {
   findUnitOfMeasureId(value) {
     this.assetTypeClassService
       .findUnitOfMeasureId(value, this.pageSize) // send search request to the backend
-      .map(value2 => { // convert results to dropdown data
+      .pipe(map(value2 => { // convert results to dropdown data
         return value2.map(v2 => {
           return {
             unitOfMeasureId: v2.unitOfMeasureId,
             name: v2.name
           };
         })
-      })
+      }))
       .subscribe(next => { // update the data
         this.unitOfMeasureIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {

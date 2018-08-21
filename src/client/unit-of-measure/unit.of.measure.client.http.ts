@@ -1,7 +1,8 @@
 import {UnitOfMeasureClient} from './unit.of.measure.client';
 import {UUIDGenerator} from '../../uuid.generator';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import { map } from "rxjs/operators";
 import {UnitOfMeasureStates} from './unit.of.measure.states';
 
 export class UnitOfMeasureClientHttp extends UnitOfMeasureClient {
@@ -33,9 +34,9 @@ export class UnitOfMeasureClientHttp extends UnitOfMeasureClient {
 
     return this.httpClient.get<UnitOfMeasureStates>(array.join(''), {
       headers: new HttpHeaders().set('correlationId', this.uuidGenerator.generateUUID())
-    }).map(data => {
+    }).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
 }

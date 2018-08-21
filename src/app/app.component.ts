@@ -1,6 +1,6 @@
 import {Component, OnInit, Renderer2} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
-import 'rxjs/add/operator/filter';
+
 import {AppDynamicStyle} from './app.dynamic.style';
 import {EventService} from '../event/event.service';
 import {SessionService} from '../session/session.service';

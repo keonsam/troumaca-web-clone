@@ -1,6 +1,5 @@
-import 'rxjs/add/operator/map';
-import { map} from 'underscore';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import { map } from "rxjs/operators";
 import {mapObjectProps} from '../../mapper/object.property.mapper';
 
 import {AttributeRepository} from '../../attributes/attribute.repository';
@@ -22,19 +21,19 @@ export class AttributeRepositoryAdapter extends AttributeRepository {
   public getDataTypes(): Observable<DataType[]> {
     return this.attributeClient
     .getDataTypes()
-    .map(values => {
-      return map(values, value => {
+    .pipe(map(values => {
+      return values.map( value => {
         return mapObjectProps(value, new DataType());
       });
-    });
+    }));
   }
 
   public getAttributes(pageNumber: number, pageSize: number, sortOrder: string): Observable<Attributes> {
     return this.attributeClient
       .getAttributesStates(pageNumber, pageSize, sortOrder)
-      .map(values => {
+      .pipe(map(values => {
         const attributes: Attributes = new Attributes();
-        attributes.attributes = map(values.attributes, value => {
+        attributes.attributes = values.attributes.map( value => {
           const attribute = mapObjectProps(value, new Attribute());
           return attribute;
         });
@@ -42,32 +41,32 @@ export class AttributeRepositoryAdapter extends AttributeRepository {
         attributes.page = mapObjectProps(values.page, new Page());
         attributes.sort = mapObjectProps(values.sort, new Sort());
         return attributes;
-      });
+      }));
   }
 
   public getAttribute(attributeId: string): Observable<Attribute> {
     return this.attributeClient
       .getAttributeState(attributeId)
-      .map(value => {
+      .pipe(map(value => {
          return mapObjectProps(value, new Attribute());
-      });
+      }));
   }
 
   public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
     return this.attributeClient.findUnitOfMeasureIdState(searchStr, pageSize)
-      .map(data => {
-        return map(data, value => {
+      .pipe(map(data => {
+        return data.map( value => {
           return mapObjectProps(value, new UnitOfMeasure());
         });
-      });
+      }));
   }
 
   public addAttribute(attribute: Attribute): Observable<Attribute> {
     return this.attributeClient
     .addAttribute(mapObjectProps(attribute, new AttributeState()))
-    .map(attributeState => {
+    .pipe(map(attributeState => {
       return mapObjectProps(attributeState, new Attribute());
-    })
+    }));
   }
 
   public updateAttribute(attributeId: string, attribute: Attribute ): Observable<number> {

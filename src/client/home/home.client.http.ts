@@ -1,7 +1,8 @@
 import {HomeClient} from "./home.client";
 import {UUIDGenerator} from "../../uuid.generator";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
+import { map } from "rxjs/operators";
 import {SubscriptionState} from "./subscription.state";
 import {BillingState} from "./billing.state";
 import {ValidResp} from "../../authentication/resp.valid";
@@ -20,9 +21,9 @@ export class HomeClientHttp extends HomeClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<SubscriptionState>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public getBillingState(): Observable<BillingState> {
@@ -33,9 +34,9 @@ export class HomeClientHttp extends HomeClient {
     };
 
     return this.httpClient.get<BillingState>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public addBillingState(billingState: BillingState, methodState: any): Observable<BillingState> {
@@ -51,9 +52,9 @@ export class HomeClientHttp extends HomeClient {
     };
 
     return this.httpClient.post<BillingState>(url, body, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public addSubscriptionState(subscriptionState: SubscriptionState): Observable<SubscriptionState> {
@@ -63,9 +64,9 @@ export class HomeClientHttp extends HomeClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.post<SubscriptionState>(url, subscriptionState.toJson(), httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public updateBillingState(billingState: BillingState, methodState: any): Observable<number> {
@@ -81,9 +82,9 @@ export class HomeClientHttp extends HomeClient {
     };
 
     return this.httpClient.put<number>(url, body, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public getSubscriptionInformation(): Observable<any> {
@@ -94,9 +95,9 @@ export class HomeClientHttp extends HomeClient {
     };
 
     return this.httpClient.get<any>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   // CREDIT CARD
@@ -112,9 +113,9 @@ export class HomeClientHttp extends HomeClient {
     };
 
     return this.httpClient.post<ValidResp>(url, body, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public isValidCardNumber(value: string): Observable<ValidResp> {
@@ -128,9 +129,9 @@ export class HomeClientHttp extends HomeClient {
     };
 
     return this.httpClient.post<ValidResp>(url, body, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public isValidCardExpDate(value: Date): Observable<ValidResp> {
@@ -144,9 +145,9 @@ export class HomeClientHttp extends HomeClient {
     };
 
     return this.httpClient.post<ValidResp>(url, body, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public isValidCardCVV(value: string): Observable<ValidResp> {
@@ -160,9 +161,9 @@ export class HomeClientHttp extends HomeClient {
     };
 
     return this.httpClient.post<ValidResp>(url, body, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   public jsonHttpHeaders(): HttpHeaders {

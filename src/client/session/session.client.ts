@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {SessionState} from './session.state';
 
 export abstract class SessionClient {

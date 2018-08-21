@@ -1,11 +1,10 @@
-import 'rxjs/add/operator/map';
+
 import {SiteClient} from '../../client/site/site.client';
 import {SiteRepository} from '../../site/site.repository';
 import {AssetSiteRepository} from '../../assets/asset.site.repository';
 
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import { map} from 'underscore';
+import {Observable} from 'rxjs';
+import { map } from "rxjs/operators";
 import {mapObjectProps} from '../../mapper/object.property.mapper';
 import {AssetUnionOfPhysicalSites} from '../../assets/asset.union.of.physical.sites';
 import {UnionOfPhysicalSite} from '../../assets/asset.union.of.physical.site';
@@ -36,108 +35,108 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
   public getStreetAddresses(pageNumber: number, pageSize: number, sortOrder: string): Observable<StreetAddresses> {
     return this.siteClient
     .getStreetAddressStates(pageNumber, pageSize, sortOrder)
-    .map(values => {
+    .pipe(map(values => {
       const streetAddresses: StreetAddresses = new StreetAddresses();
-      streetAddresses.streetAddresses = map(values.streetAddresses, value => {
+      streetAddresses.streetAddresses = values.streetAddresses.map( value => {
         return mapObjectProps(value, new StreetAddress());
       });
       streetAddresses.page = mapObjectProps(values.page, new Page());
       streetAddresses.sort = mapObjectProps(values.sort, new Sort());
 
       return streetAddresses;
-    });
+    }));
 
   }
 
   public getPostOfficeBoxes(pageNumber: number, pageSize: number, sortOrder: string): Observable<PostOfficeBoxes> {
     return this.siteClient
     .getPostOfficeBoxStates(pageNumber, pageSize, sortOrder)
-    .map(values => {
+    .pipe(map(values => {
       const postOfficeBoxes: PostOfficeBoxes = new PostOfficeBoxes();
-      postOfficeBoxes.postOfficeBoxes = map(values.postOfficeBoxes, value => {
+      postOfficeBoxes.postOfficeBoxes = values.postOfficeBoxes.map( value => {
         return mapObjectProps(value, new PostOfficeBox());
       });
       postOfficeBoxes.page = mapObjectProps(values.page, new Page());
       postOfficeBoxes.sort = mapObjectProps(values.sort, new Sort());
 
       return postOfficeBoxes;
-    });
+    }));
   }
 
   public getEmails(pageNumber: number, pageSize: number, sortOrder: string): Observable<Emails> {
     return this.siteClient
     .getEmailStates(pageNumber, pageSize, sortOrder)
-    .map(values => {
+    .pipe(map(values => {
       const emails: Emails = new Emails();
-      emails.emails = map(values.emails, value => {
+      emails.emails = values.emails.map( value => {
         return mapObjectProps(value, new Email());
       });
       emails.page = mapObjectProps(values.page, new Page());
       emails.sort = mapObjectProps(values.sort, new Sort());
       return emails;
-    });
+    }));
   }
 
   public getWebSites(pageNumber: number, pageSize: number, sortOrder: string): Observable<WebSites> {
     return this.siteClient
     .getWebSiteStates(pageNumber, pageSize, sortOrder)
-    .map(values => {
+    .pipe(map(values => {
       const webSites: WebSites = new WebSites();
-      webSites.webSites = map(values.webSites, value => {
+      webSites.webSites = values.webSites.map( value => {
         return mapObjectProps(value, new WebSite());
       });
       webSites.page = mapObjectProps(values.page, new Page());
       webSites.sort = mapObjectProps(values.sort, new Sort());
       return webSites;
-    });
+    }));
   }
 
   public getStreetAddress(siteId: string): Observable<StreetAddress> {
     return this.siteClient
     .getStreetAddressState(siteId)
-    .map(value => {
+    .pipe(map(value => {
        return mapObjectProps(value, new StreetAddress());
-    });
+    }));
   }
 
   public getPostOfficeBox(siteId: string): Observable<PostOfficeBox> {
     return this.siteClient
     .getPostOfficeBoxState(siteId)
-    .map(value => {
+    .pipe(map(value => {
       return mapObjectProps(value, new PostOfficeBox());
-    });
+    }));
   }
 
   public getEmail(siteId: string): Observable<Email> {
     return this.siteClient
     .getEmailState(siteId)
-    .map(value => {
+    .pipe(map(value => {
       return mapObjectProps(value, new Email());
-    });
+    }));
   }
 
   public getWebSite(siteId: string): Observable<WebSite> {
     return this.siteClient
     .getWebSiteState(siteId)
-    .map(value => {
+    .pipe(map(value => {
       return mapObjectProps(value, new WebSite());
-    });
+    }));
   }
 
   public getPhone(siteId: string): Observable<Phone> {
     return this.siteClient
     .getPhoneState(siteId)
-    .map(value => {
+    .pipe(map(value => {
        return mapObjectProps(value, new Phone());
-    });
+    }));
   }
 
   public getPhones(pageNumber: number, pageSize: number, sortOrder: string): Observable<Phones> {
     return this.siteClient
     .getPhoneStates(pageNumber, pageSize, sortOrder)
-    .map(values => {
+    .pipe(map(values => {
       const phones: Phones = new Phones();
-      phones.phones = map(values.phones, value => {
+      phones.phones = values.phones.map( value => {
         const phone = mapObjectProps(value, new Phone());
         return phone;
       });
@@ -145,59 +144,59 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
       phones.page = mapObjectProps(values.page, new Page());
       phones.sort = mapObjectProps(values.sort, new Sort());
       return phones;
-    });
+    }));
   }
 
   public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<AssetUnionOfPhysicalSites> {
     return this.siteClient
       .findUnionOfPhysicalSiteStates(searchStr, pageSize)
-      .map(values => {
+      .pipe(map(values => {
         const unionOfPhysicalSites: AssetUnionOfPhysicalSites = new AssetUnionOfPhysicalSites();
-        unionOfPhysicalSites.unionOfPhysicalSites = map(values.unionOfPhysicalSites, value => {
+        unionOfPhysicalSites.unionOfPhysicalSites =values.unionOfPhysicalSites.map( value => {
           return mapObjectProps(value, new UnionOfPhysicalSite());
         });
         return unionOfPhysicalSites;
-      });
+      }));
   }
 
   public addPhone(phone: Phone): Observable<Phone> {
     return this.siteClient
     .addPhone(mapObjectProps(phone, new PhoneState()))
-    .map(phoneState => {
+    .pipe(map(phoneState => {
       return mapObjectProps(phoneState, new Phone());
-    });
+    }));
   }
 
   public addStreetAddress(streetAddress: StreetAddress): Observable<StreetAddress> {
     return this.siteClient
     .addStreetAddress(mapObjectProps(streetAddress, new StreetAddressState()))
-    .map(streetAddressState => {
+    .pipe(map(streetAddressState => {
       return mapObjectProps(streetAddressState, new StreetAddress());
-    });
+    }));
   }
 
   public addEmail(email: Email): Observable<Email> {
     return this.siteClient
     .addEmail(mapObjectProps(email, new EmailState()))
-    .map(emailState => {
+    .pipe(map(emailState => {
       return mapObjectProps(emailState, new Email());
-    });
+    }));
   }
 
   public addPostOfficeBox(postOfficeBox: PostOfficeBox): Observable<PostOfficeBox> {
     return this.siteClient
     .addPostOfficeBox(mapObjectProps(postOfficeBox, new PostOfficeBoxState()))
-    .map(postOfficeBoxState => {
+    .pipe(map(postOfficeBoxState => {
       return mapObjectProps(postOfficeBoxState, new PostOfficeBox());
-    });
+    }));
   }
 
   public addWebSite(webSite: WebSite): Observable<WebSite> {
     return this.siteClient
     .addWebSite(mapObjectProps(webSite, new WebSiteState()))
-    .map(webSiteState => {
+    .pipe(map(webSiteState => {
       return mapObjectProps(webSiteState, new WebSite());
-    });
+    }));
   }
 
   public updateStreetAddress(siteId: string, streetAddress: StreetAddress): Observable<number> {

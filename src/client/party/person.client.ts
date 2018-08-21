@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {UserState} from './user.state';
 import {UserStates} from './user.states';
 import {CredentialState} from './credential.state';

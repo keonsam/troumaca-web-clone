@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {UnitOfMeasureStates} from './unit.of.measure.states';
 
 export abstract class UnitOfMeasureClient {

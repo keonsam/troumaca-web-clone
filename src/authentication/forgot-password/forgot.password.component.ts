@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
+import {of } from 'rxjs';
+import { filter, flatMap } from "rxjs/operators";
 import {AuthenticationService} from '../authentication.service';
 
 @Component({
@@ -66,10 +67,9 @@ export class ForgotPasswordComponent implements OnInit {
     this.errorExists = false;
     const values = this.forgotPasswordForm.value;
     const regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-    Observable
-      .of(values)
-      .filter((value) => this.forgotPasswordForm.valid)
-      .flatMap((value) => {
+    of(values)
+      .pipe(filter((value) => this.forgotPasswordForm.valid),
+      flatMap((value) => {
         const username = value.username;
         if (regex.test(username)) {
           this.type = 'A text Message';
@@ -78,7 +78,7 @@ export class ForgotPasswordComponent implements OnInit {
         }
         return this.authenticationService
           .forgotPassword(username);
-      })
+      }))
       .subscribe((value) => {
         if (value) {
           this.messageSent = true;

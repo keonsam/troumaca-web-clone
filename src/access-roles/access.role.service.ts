@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 import {AccessRoleRepository} from './access.role.repository';
 import {Permission} from './permission';
