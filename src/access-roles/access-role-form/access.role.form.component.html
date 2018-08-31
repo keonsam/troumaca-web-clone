@@ -101,7 +101,7 @@
                     <td>
                       <ul id="resourceMenu">
                         <li *ngFor="let permission of getPermission(resource.resourceId)">
-                          <label class="form-check-label"><input class="form-check-input" type="checkbox" (change)="onPermissionsChange($event, resource.resourceId,permission.resourcePermissionId)">{{permission.permission.name}}</label>
+                          <label class="form-check-label"><input class="form-check-input" type="checkbox" (change)="onPermissionsChange($event, resource.resourceId,permission.resourcePermissionId)" [checked]="isChecked(permission.resourcePermissionId)">{{permission.permission.name}}</label>
                         </li>
                       </ul>
                     </td>

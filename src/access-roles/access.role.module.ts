@@ -9,22 +9,23 @@ import {MenuModule} from '../menu/menu.module';
 import {AccessRoleTopMenuComponent} from './access-role-top-menu/access.role.top.menu.component';
 import {SearchModule} from '../search/search.module';
 import {PagingModule} from '../paging/paging.module';
-import { AccessRoleFormComponent } from "./access-role-form/access.role.form.component";
-import { accessRoleResolveProvider } from "./access.role.resolve.provider";
+import { AccessRoleFormComponent } from './access-role-form/access.role.form.component';
+import { accessRoleResolveProvider } from './access.role.resolve.provider';
 import {AccessRoleListComponent} from './access-role-list/access.role.list.component';
-import {PermissionEditComponent} from './permissions/permission-edit/permission.edit.component';
+
+import { PermissionFormComponent } from './permissions/permission-form/permission.form.component';
 import {PermissionListComponent} from './permissions/permission-list/permission.list.component';
-import {PermissionCreationComponent} from './permissions/permission-creation/permission.creation.component';
 import {ResourceListComponent} from './resources/resource-list/resource.list.component';
-import {ResourceCreationComponent} from './resources/resource-creation/resource.creation.component';
-import {ResourceEditComponent} from './resources/resource-edit/resource.edit.component';
-import {ResourceTypeCreationComponent} from './resource-types/resorce.type.creation/resource.type.creation.component';
-import {ResourceTypeEditComponent} from './resource-types/resource.type.edit/resource.type.edit.component';
+import { ResourceFormComponent } from "./resources/resource-form/resource.form.component";
 import {ResourceTypeListComponent} from './resource-types/resource.type.list/resource.type.list.component';
-import {AccessRoleTypeCreationComponent} from './access-role-types/access-role-type-creation/access.role.type.creation.component';
-import {AccessRoleTypeEditComponent} from './access-role-types/access-role-type-edit/access.role.type.edit.component';
 import {AccessRoleTypeListComponent} from './access-role-types/access-role-type-list/access.role.type.list.component';
 import {accessRoleServiceProvider} from './access.role.service.provider';
+import { accessRoleTypeResolveProvider } from './access.role.type.resolve.provider';
+import {AccessRoleTypeFormComponent} from './access-role-types/access-role-type-form/access.role.type.form.component';
+import { permissionResolveProvider } from './permissions/permission.resolve.provider';
+import { ResourceTypeFormComponent } from './resource-types/resource.type.form/resource.type.form.component';
+import { resourceTypeResolveProvider} from './resource-types/resource.type.resolve.provider';
+import { resourceResolveProvider } from "./resources/resource.resolve.provider";
 
 @NgModule({
   imports: [
@@ -42,39 +43,20 @@ import {accessRoleServiceProvider} from './access.role.service.provider';
     AccessRoleComponent,
     AccessRoleFormComponent,
     AccessRoleListComponent,
-    PermissionEditComponent,
+    PermissionFormComponent,
     PermissionListComponent,
-    PermissionCreationComponent,
     AccessRoleTopMenuComponent,
     ResourceListComponent,
-    ResourceCreationComponent,
-    ResourceEditComponent,
-    ResourceTypeCreationComponent,
-    ResourceTypeEditComponent,
+    ResourceFormComponent,
+    ResourceTypeFormComponent,
     ResourceTypeListComponent,
-    AccessRoleTypeCreationComponent,
-    AccessRoleTypeEditComponent,
+    AccessRoleTypeFormComponent,
     AccessRoleTypeListComponent,
   ],
-  providers: [accessRoleServiceProvider, accessRoleResolveProvider],
+  providers: [accessRoleServiceProvider, accessRoleResolveProvider, accessRoleTypeResolveProvider,
+    permissionResolveProvider,
+    resourceTypeResolveProvider, resourceResolveProvider],
   exports: [
-    // AccessRoleComponent,
-    // AccessRoleCreationComponent,
-    // AccessRoleEditComponent,
-    // AccessRoleListComponent,
-    // PermissionEditComponent,
-    // PermissionListComponent,
-    // PermissionCreationComponent,
-    // ResourceEditComponent,
-    // ResourceCreationComponent,
-    // ResourceListComponent,
-    // ResourceTypeCreationComponent,
-    // ResourceTypeEditComponent,
-    // ResourceTypeListComponent,
-    // AccessRoleTypeCreationComponent,
-    // AccessRoleTypeEditComponent,
-    // AccessRoleTypeListComponent,
-    // AccessRoleTopMenuComponent
   ]
 })
 export class AccessRoleModule {}

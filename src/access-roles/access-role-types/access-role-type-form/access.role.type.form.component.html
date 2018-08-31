@@ -1,0 +1,45 @@
+<div class="content-i asset-container">
+
+  <access-role-top-menu></access-role-top-menu>
+
+  <div class="content-box">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="element-wrapper">
+          <div class="element-box">
+            <form [formGroup]="accessRoleTypeForm" id="formValidate">
+              <h5 class="form-header">
+                {{accessRoleTypeExist ? "Edit":"New"}} Access Role Type Form
+              </h5>
+
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{accessRoleTypeExist ? "Edit":"Create"}} Access Role Type.</div>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="Name">Name</label><input class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
+                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="description">Description</label><input class="form-control" formControlName="description" placeholder="Description" type="text">
+                  <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
+                </div>
+              </fieldset>
+
+              <div class="form-buttons-w">
+                <button class="btn btn-primary button1" [hidden]="accessRoleTypeExist" [disabled]="!accessRoleTypeForm.valid" type="submit" (click)="onCreate()"> Submit</button>
+                <button class="btn btn-primary button1" [hidden]="!accessRoleTypeExist" [disabled]="!accessRoleTypeForm.valid" type="submit" (click)="onUpdate()"> Update</button>
+                <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

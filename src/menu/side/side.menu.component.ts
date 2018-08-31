@@ -3,7 +3,6 @@ import {MenuModel} from '../menu.model';
 import {MenuService} from '../menu.service';
 import {EventService} from '../../event/event.service';
 import {MenuItemModel} from '../menu.item.model';
-import {PartyService} from '../../parties/party.service';
 
 @Component({
   selector: 'side-menu',
@@ -20,7 +19,10 @@ export class SideMenuComponent implements OnInit {
   private _menuModel: MenuModel;
   private _isLoggedIn: boolean;
 
-  constructor(private eventService: EventService, private _menuService: MenuService, private partyService: PartyService, private cd: ChangeDetectorRef) {
+  constructor(private eventService: EventService,
+              private _menuService: MenuService,
+              // private partyService: PartyService,
+              private cd: ChangeDetectorRef) {
     this.title = 'side-menu';
     this.name = 'side-menu';
     this.isLoggedIn = true;
@@ -71,14 +73,14 @@ export class SideMenuComponent implements OnInit {
   ngOnInit(): void {
     this.getMenu(this.isLoggedIn);
     this.handleMenuRefreshEvent();
-    this.partyService.getPartyId()
-      .subscribe( partyId => {
-        if (partyId) {
-          this.partyId = partyId;
-          this.getPhoto();
-          this.getUserInformation();
-        }
-      });
+    // this.partyService.getPartyId()
+    //   .subscribe( partyId => {
+    //     if (partyId) {
+    //       this.partyId = partyId;
+    //       this.getPhoto();
+    //       this.getUserInformation();
+    //     }
+    //   });
   }
 
   get imageStr(): string {
@@ -97,34 +99,27 @@ export class SideMenuComponent implements OnInit {
     this._userName = value;
   }
 
-  get menuService(): MenuService {
-    return this._menuService;
-  }
-
-  set menuService(value: MenuService) {
-    this._menuService = value;
-  }
-
   getPhoto() {
-    this.partyService.getPhoto(this.partyId, 'user')
-      .subscribe(photo => {
-        if (photo) {
-          this.imageStr = photo.imageStr;
-        }else {
-          this.imageStr = 'https://designdroide.com/images/abstract-user-icon-4.svg';
-        }
-      }, error => {
-        this.imageStr = 'https://designdroide.com/images/abstract-user-icon-4.svg';
-      });
+    return undefined;
+    // this.partyService.getPhoto(this.partyId, 'user')
+    //   .subscribe(photo => {
+    //     if (photo) {
+    //       this.imageStr = photo.imageStr;
+    //     }else {
+    //       this.imageStr = 'https://designdroide.com/images/abstract-user-icon-4.svg';
+    //     }
+    //   }, error => {
+    //     this.imageStr = 'https://designdroide.com/images/abstract-user-icon-4.svg';
+    //   });
   }
 
   getUserInformation() {
-    this.partyService.getUser(this.partyId)
-      .subscribe( userResponse => {
-        if (userResponse.user.partyId) {
-          this.userName = userResponse.user.firstName + ' ' + userResponse.user.lastName;
-        }
-      });
+    // this.partyService.getUser(this.partyId)
+    //   .subscribe( userResponse => {
+    //     if (userResponse.user.partyId) {
+    //       this.userName = userResponse.user.firstName + ' ' + userResponse.user.lastName;
+    //     }
+    //   });
   }
 
 
@@ -160,12 +155,12 @@ export class SideMenuComponent implements OnInit {
   }
 
   logOutEvent() {
-    this.partyService.logOutUser()
-      .subscribe(next => {
-        if (next) {
-          this.eventService.sendSessionLogoutEvent({'logOutEvent': true});
-        }
-      });
+    // this.partyService.logOutUser()
+    //   .subscribe(next => {
+    //     if (next) {
+    //       this.eventService.sendSessionLogoutEvent({'logOutEvent': true});
+    //     }
+    //   });
   }
 
 }

@@ -1,6 +1,5 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {MenuService} from '../menu.service';
-import {PartyService} from '../../parties/party.service';
 import {EventService} from '../../event/event.service';
 import {MenuModel} from '../menu.model';
 import {trigger, state, style, transition, animate} from '@angular/animations';
@@ -34,7 +33,10 @@ export class MobileMenuComponent implements OnInit {
   private _state: string;
   private _popUpState: string;
 
-  constructor(private eventService: EventService, private menuService: MenuService, private partyService: PartyService, private cd: ChangeDetectorRef) {
+  constructor(private eventService: EventService,
+              private menuService: MenuService,
+              // private partyService: PartyService,
+              private cd: ChangeDetectorRef) {
     this._state = 'inactive';
     this._popUpState = 'hide';
     this.imageStr = 'https://designdroide.com/images/abstract-user-icon-4.svg';
@@ -78,14 +80,14 @@ export class MobileMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.handleMenuRefreshEvent();
-    this.partyService.getPartyId()
-      .subscribe( partyId => {
-        if (partyId) {
-          this.partyId = partyId;
-          this.getPhoto();
-          this.getUserInformation();
-        }
-      });
+    // this.partyService.getPartyId()
+    //   .subscribe( partyId => {
+    //     if (partyId) {
+    //       this.partyId = partyId;
+    //       this.getPhoto();
+    //       this.getUserInformation();
+    //     }
+    //   });
   }
 
   get imageStr(): string {
@@ -130,23 +132,24 @@ export class MobileMenuComponent implements OnInit {
   }
 
   getPhoto() {
-    this.partyService.getPhoto(this.partyId, 'user')
-      .subscribe(photo => {
-        if (photo) {
-          this.imageStr = photo.imageStr;
-        } else {
-          this.imageStr = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwqeFAYIE3hTj9Gs1j3v7o-oBadM5uDkuPBuXMPtXS85LufL7UVA';
-        }
-      });
+    return undefined;
+    // this.partyService.getPhoto(this.partyId, 'user')
+    //   .subscribe(photo => {
+    //     if (photo) {
+    //       this.imageStr = photo.imageStr;
+    //     } else {
+    //       this.imageStr = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwqeFAYIE3hTj9Gs1j3v7o-oBadM5uDkuPBuXMPtXS85LufL7UVA';
+    //     }
+    //   });
   }
 
   getUserInformation() {
-    this.partyService.getUser(this.partyId)
-      .subscribe( userResponse => {
-        if (userResponse.user.partyId) {
-          this.userName = userResponse.user.firstName + ' ' + userResponse.user.lastName;
-        }
-      });
+    // this.partyService.getUser(this.partyId)
+    //   .subscribe( userResponse => {
+    //     if (userResponse.user.partyId) {
+    //       this.userName = userResponse.user.firstName + ' ' + userResponse.user.lastName;
+    //     }
+    //   });
   }
 
 
@@ -154,17 +157,16 @@ export class MobileMenuComponent implements OnInit {
     const that = this;
     this.eventService.subscribeToLoginEvent((data) => {
       that.isLoggedIn = true;
-      //that.getMenu(this.isLoggedIn);
     });
   }
 
   logOutEvent() {
-    this.partyService.logOutUser()
-      .subscribe(next => {
-        if (next) {
-          this.eventService.sendSessionLogoutEvent({'logOutEvent': true});
-        }
-      });
+    // this.partyService.logOutUser()
+    //   .subscribe(next => {
+    //     if (next) {
+    //       this.eventService.sendSessionLogoutEvent({'logOutEvent': true});
+    //     }
+    //   });
   }
 
 }

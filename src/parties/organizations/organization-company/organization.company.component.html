@@ -77,52 +77,7 @@
 
 
       <div class="col-sm-7">
-        <div class="element-wrapper">
-          <div class="element-box">
-            <form [formGroup]="companyEditForm" (ngSubmit)="onCreate()" id="formValidate">
-              <div class="element-info">
-                <div class="element-info-with-icon">
-                  <div class="element-info-icon">
-                    <div class="os-icon os-icon-wallet-loaded"></div>
-                  </div>
-                  <div class="element-info-text">
-                    <h5 class="element-inner-header">
-                      Company Information
-                    </h5>
-                  </div>
-                </div>
-              </div>
-
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to update your Company Information.</div>
-
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="Organization Name">Organization Name</label><input class="form-control" formControlName="name" placeholder="Enter Organization Name" required="required" type="text">
-                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Please organization name.</div>
-                </div>
-              </fieldset>
-
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="Organization Purpose">Organization Purpose</label><input class="form-control" formControlName="purpose" placeholder="Enter Organization Purpose" required="required" type="text">
-                  <div [hidden]="purpose.valid || purpose.pristine" class="alert alert-danger">Please enter purpose.</div>
-                </div>
-              </fieldset>
-
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="description">Description</label><textarea class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
-                  <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
-                </div>
-              </fieldset>
-
-              <div class="form-buttons-w">
-                <button class="btn btn-primary" [disabled]="!companyEditForm.valid" type="submit"> Save</button>
-              </div>
-
-            </form>
-          </div>
-        </div>
+        <app-organization-form></app-organization-form>
       </div>
 
       <!-- Upload Modal -->

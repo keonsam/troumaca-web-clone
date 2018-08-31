@@ -18,7 +18,7 @@ export class AssetTypeClassService {
     return this.assetTypeClassRepository.getDataTypes();
   }
 
-  public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]>{
+  public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
     return this.assetTypeClassRepository.findUnitOfMeasureId(searchStr, pageSize);
   }
 

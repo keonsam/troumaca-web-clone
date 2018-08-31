@@ -88,8 +88,7 @@ export class AccessRoleFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getResources();
-    this.getResourcePermissions();
+
     this.populateAccessRoleTypeDropDown();
     if (this.route.snapshot && this.route.snapshot.data['accessRoleRes']) {
       this.setInputValues(this.route.snapshot.data['accessRoleRes']);
@@ -105,6 +104,8 @@ export class AccessRoleFormComponent implements OnInit {
     this.description.setValue(accessRoleResponse.accessRole.description);
     this.accessRole = accessRoleResponse.accessRole;
     this.grants = accessRoleResponse.grants;
+    this.getResources();
+    this.getResourcePermissions();
   }
 
   private getResources() {
@@ -271,6 +272,15 @@ export class AccessRoleFormComponent implements OnInit {
     }
   }
 
+  isChecked(resourcePermissionId) {
+    const index = this.grants.find(x => x.resourcePermissionId === resourcePermissionId);
+    if (index) {
+      return true;
+    }else {
+      return false;
+    }
+  }
+
   onRequestPage(pageNumber: number) {
     this.defaultPage = pageNumber;
     this.getResources();
@@ -288,6 +298,23 @@ export class AccessRoleFormComponent implements OnInit {
     this.accessRoleService.addAccessRole(this.accessRole, this.grants)
       .subscribe( accessRole => {
         if (accessRole.accessRoleId) {
+          this.router.navigate(['/access-roles/listing']);
+        } else {
+          this.doNotDisplayFailureMessage = false;
+        }
+      }, error => {
+        this.doNotDisplayFailureMessage = false;
+      });
+  }
+
+  onUpdate() {
+    this.doNotDisplayFailureMessage = true;
+    this.grants.forEach(value => {
+      value.accessRoleId = this.accessRole.accessRoleId;
+    });
+    this.accessRoleService.updateAccessRole(this.accessRole, this.grants)
+      .subscribe( numUpdated => {
+        if (numUpdated) {
           this.router.navigate(['/access-roles/listing']);
         } else {
           this.doNotDisplayFailureMessage = false;
