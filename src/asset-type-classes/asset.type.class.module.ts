@@ -3,8 +3,6 @@ import {CommonModule} from '@angular/common';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AssetTypeClassComponent} from './asset.type.class.component';
-import {AssetTypeClassService} from './asset.type.class.service';
-import {AssetTypeClassRepository} from './asset.type.class.repository';
 import {RouterModule} from '@angular/router';
 import {MenuModule} from '../menu/menu.module';
 import {AssetTypeClassListComponent} from './asset-type-class-list/asset.type.class.list.component';
@@ -15,6 +13,7 @@ import {assetTypeClassServiceProvider} from './asset.type.class.service.provider
 import {PagingModule} from '../paging/paging.module';
 import {SearchModule} from '../search/search.module';
 import {Ng2CompleterModule} from 'ng2-completer';
+import { AssetTypeClassRoutingModule } from "./asset.type.class.routing.module";
 
 @NgModule({
   imports: [
@@ -26,7 +25,8 @@ import {Ng2CompleterModule} from 'ng2-completer';
     ReactiveFormsModule,
     MenuModule,
     PagingModule,
-    SearchModule
+    SearchModule,
+    AssetTypeClassRoutingModule
   ],
   declarations: [
     AssetTypeClassComponent,
@@ -37,11 +37,11 @@ import {Ng2CompleterModule} from 'ng2-completer';
   ],
   providers: [assetTypeClassServiceProvider],
   exports: [
-    AssetTypeClassComponent,
-    AssetTypeClassListComponent,
-    AssetTypeClassCreationComponent,
-    AssetTypeClassTopMenuComponent,
-    AssetTypeClassEditComponent
+    // AssetTypeClassComponent,
+    // AssetTypeClassListComponent,
+    // AssetTypeClassCreationComponent,
+    // AssetTypeClassTopMenuComponent,
+    // AssetTypeClassEditComponent
   ]
 })
 export class AssetTypeClassModule {}

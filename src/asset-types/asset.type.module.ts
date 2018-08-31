@@ -3,11 +3,7 @@ import {CommonModule} from '@angular/common';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AssetTypeComponent} from './asset.type.component';
-import {AssetTypeCreationComponent} from './asset-type-creation/asset.type.creation.component';
-import {AssetTypeEditComponent} from './asset-type-edit/asset.type.edit.component';
 import {AssetTypeListComponent} from './asset-type-list/asset.type.list.component';
-import {AssetTypeService} from './asset.type.service';
-import {AssetTypeRepository} from './asset.type.repository';
 import {RouterModule} from '@angular/router';
 import {MenuModule} from '../menu/menu.module';
 import {Ng2CompleterModule} from 'ng2-completer';
@@ -15,6 +11,10 @@ import {AssetTypeTopMenuComponent} from './asset-type-top-menu/asset.type.top.me
 import {SearchModule} from '../search/search.module';
 import {PagingModule} from '../paging/paging.module';
 import {assetTypeServiceProvider} from './asset.type.service.provider';
+import { AssetTypeRoutingModule} from "./asset.type.routing.module";
+import { UnitOfMeasureModule } from "../unit-of-measure/unit.of.measure.module";
+import { AssetTypeFormComponent } from "./asset-type-form/asset.type.form.component";
+import { assetTypeResolveProvider } from "./asset.type.resolve.provider";
 
 @NgModule({
   imports: [
@@ -26,22 +26,17 @@ import {assetTypeServiceProvider} from './asset.type.service.provider';
     MenuModule,
     Ng2CompleterModule,
     SearchModule,
-    PagingModule
+    PagingModule,
+    AssetTypeRoutingModule,
+    UnitOfMeasureModule
   ],
   declarations: [
     AssetTypeComponent,
     AssetTypeListComponent,
-    AssetTypeCreationComponent,
-    AssetTypeEditComponent,
+    AssetTypeFormComponent,
     AssetTypeTopMenuComponent
   ],
-  providers: [assetTypeServiceProvider],
-  exports: [
-    AssetTypeComponent,
-    AssetTypeListComponent,
-    AssetTypeCreationComponent,
-    AssetTypeEditComponent,
-    AssetTypeTopMenuComponent
-  ]
+  providers: [assetTypeServiceProvider, assetTypeResolveProvider],
+  exports: []
 })
 export class AssetTypesModule {}

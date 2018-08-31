@@ -5,6 +5,7 @@ export class AssignedAttributeState {
   private _assignedAttributeId: string;
   private _assetTypeClassId: string;
   private _attributeId: string;
+  private _dataTypeId: string;
   private _attribute: AttributeState;
   private _required: boolean;
   private _createdOn: string;
@@ -64,6 +65,14 @@ export class AssignedAttributeState {
 
   set modifiedOn(value: string) {
     this._modifiedOn = value;
+  }
+
+  get dataTypeId(): string {
+    return this._dataTypeId;
+  }
+
+  set dataTypeId(value: string) {
+    this._dataTypeId = value;
   }
 
   toJson() {

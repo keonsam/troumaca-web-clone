@@ -5,10 +5,10 @@
   - https://github.com/ReactTraining/react-router/blob/master/docs/guides/Histories.md#browserhistory
 */
 
-const express = require('express');
-const path = require('path');
-const port = process.env.PORT || 4200;
-const app = express();
+var express = require('express');
+var path = require('path');
+var port = process.env.PORT || 4200;
+var app = express();
 
 // serve static assets normally
 app.use(express.static(__dirname));

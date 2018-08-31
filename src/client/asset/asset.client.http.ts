@@ -38,7 +38,7 @@ export class AssetClientHttp extends AssetClient {
     }));
   }
 
-  public getAssetState(assetId: string): Observable<AssetState>{
+  public getAssetState(assetId: string): Observable<AssetState> {
     const url = `${this.hostPort}/assets/${assetId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()

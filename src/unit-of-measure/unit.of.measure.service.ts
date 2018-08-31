@@ -7,8 +7,8 @@ export class UnitOfMeasureService {
   constructor(private unitOfMeasureRepository: UnitOfMeasureRepository) {
   }
 
-  public getUnitOfMeasures(): Observable<UnitOfMeasure> {
-    return this.unitOfMeasureRepository.getUnitOfMeasures();
+  public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
+    return this.unitOfMeasureRepository.findUnitOfMeasures(searchStr, pageSize);
   }
 
 }

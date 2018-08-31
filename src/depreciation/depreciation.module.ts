@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {MenuModule} from '../menu/menu.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {DepreciationComponent} from './depreciation.component';
 import {depreciationServiceProvider} from './depreciation.service.provider';
 import {Ng2CompleterModule} from 'ng2-completer';
@@ -13,15 +13,18 @@ import { BookEditComponent } from './book/book-edit/book.edit.component';
 import { TaxCreationComponent } from './tax/tax-creation/tax.creation.component';
 import { TaxScheduleComponent } from './tax/tax-schedule/tax.schedule.component';
 import { TaxEditComponent } from './tax/tax-edit/tax.edit.component';
+import { DepreciationRoutingModule } from "./depreciation.routing.module";
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     MenuModule,
     Ng2CompleterModule,
     ReactiveFormsModule,
-    PagingModule
+    PagingModule,
+    DepreciationRoutingModule
   ],
   declarations: [
     DepreciationComponent,
@@ -34,13 +37,13 @@ import { TaxEditComponent } from './tax/tax-edit/tax.edit.component';
   ],
   providers: [depreciationServiceProvider],
   exports: [
-    DepreciationComponent,
-    BookCreationComponent,
-    BookScheduleComponent,
-    BookEditComponent,
-    TaxCreationComponent,
-    TaxScheduleComponent,
-    TaxEditComponent
+    // DepreciationComponent,
+    // BookCreationComponent,
+    // BookScheduleComponent,
+    // BookEditComponent,
+    // TaxCreationComponent,
+    // TaxScheduleComponent,
+    // TaxEditComponent
   ]
 })
 

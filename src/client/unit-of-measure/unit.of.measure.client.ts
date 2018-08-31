@@ -1,8 +1,8 @@
 import {Observable} from 'rxjs';
-import {UnitOfMeasureStates} from './unit.of.measure.states';
+import { UnitOfMeasureState } from "./unit.of.measure.state";
 
 export abstract class UnitOfMeasureClient {
 
-  public abstract findUnitOfMeasureStates(searchStr: string, pageSize: number): Observable<UnitOfMeasureStates>;
+  public abstract findUnitOfMeasureStates(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]>;
 
 }

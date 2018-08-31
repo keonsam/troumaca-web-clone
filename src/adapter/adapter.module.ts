@@ -12,7 +12,6 @@ import {assetSiteRepositoryProvider, siteRepositoryProvider} from './site/site.r
 import {workOrderRepositoryProvider} from './work-order/work.order.repository.adapter.provider';
 import {assetRepositoryProvider} from './assets/asset.repository.adapter.provider';
 import {authGuardServiceProvider} from './auth-guard/auth.guard.repository.adapter.provider';
-import {goodsRepositoryProvider} from './goods/goods.repository.adapter.provider';
 import {assetTypeRepositoryProvider} from './asset-types/asset.repository.adapter.provider';
 import {attributeRepositoryProvider} from './attributes/attributes.repository.adapter.provider';
 import {assetTypeClassRepositoryProvider} from './asset-type-classes/asset.type.classes.adapter.provider';
@@ -46,7 +45,6 @@ import { partyRepositoryProvider } from "./party/party.repository.adapter.provid
     workOrderRepositoryProvider,
     assetRepositoryProvider,
     authGuardServiceProvider,
-    goodsRepositoryProvider,
     assetTypeRepositoryProvider,
     attributeRepositoryProvider,
     assetTypeClassRepositoryProvider,

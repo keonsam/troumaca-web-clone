@@ -2,9 +2,8 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { PartyRoutingModule } from "./party.routing.module";
 import {PartyComponent} from './party.component';
-import {PartyService} from './party.service';
-import {PartyRepository} from './party.repository';
 import {RouterModule} from '@angular/router';
 import {PersonComponent} from './persons/person-creation/person.component';
 import {MeComponent} from './persons/person-me/me.component';
@@ -60,7 +59,8 @@ import {partyServiceProvider} from './party.service.provider';
     MenuModule,
     Ng2CompleterModule,
     ImageCropperModule,
-    Select2Module
+    Select2Module,
+    PartyRoutingModule
   ],
   declarations: [
     PartyComponent,
@@ -97,37 +97,37 @@ import {partyServiceProvider} from './party.service.provider';
   ],
   providers: [partyServiceProvider, PartyEventService],
   exports: [
-    PartyComponent,
-    PersonComponent,
-    PersonListComponent,
-    OrganizationListComponent,
-    OrganizationEditComponent,
-    OrganizationCreationComponent,
-    OrganizationCompanyComponent,
-    OrganizationTopMenuComponent,
-    CustomerListComponent,
-    CustomerTopMenuComponent,
-    VendorTopMenuComponent,
-    VendorListComponent,
-    EmployeeTopMenuComponent,
-    EmployeeListComponent,
-    UserComponent,
-    UserTopMenuComponent,
-    UserListComponent,
-    UserEditComponent,
-    UserCreationComponent,
-    UserMeComponent,
-    MeComponent,
-    CreateAccountComponent,
-    CustomerComponent,
-    CustomerCreationComponent,
-    CustomerEditComponent,
-    EmployeeComponent,
-    EmployeeCreationComponent,
-    EmployeeEditComponent,
-    VendorComponent,
-    VendorCreationComponent,
-    VendorEditComponent
+    // PartyComponent,
+    // PersonComponent,
+    // PersonListComponent,
+    // OrganizationListComponent,
+    // OrganizationEditComponent,
+    // OrganizationCreationComponent,
+    // OrganizationCompanyComponent,
+    // OrganizationTopMenuComponent,
+    // CustomerListComponent,
+    // CustomerTopMenuComponent,
+    // VendorTopMenuComponent,
+    // VendorListComponent,
+    // EmployeeTopMenuComponent,
+    // EmployeeListComponent,
+    // UserComponent,
+    // UserTopMenuComponent,
+    // UserListComponent,
+    // UserEditComponent,
+    // UserCreationComponent,
+    // UserMeComponent,
+    // MeComponent,
+    // CreateAccountComponent,
+    // CustomerComponent,
+    // CustomerCreationComponent,
+    // CustomerEditComponent,
+    // EmployeeComponent,
+    // EmployeeCreationComponent,
+    // EmployeeEditComponent,
+    // VendorComponent,
+    // VendorCreationComponent,
+    // VendorEditComponent
   ]
 })
 export class PartyModule {}

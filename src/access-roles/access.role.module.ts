@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Ng2CompleterModule} from 'ng2-completer';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { AccessRoleRoutingModule } from './access.role.routing.module';
 import {AccessRoleComponent} from './access.role.component';
-import {accessRoleRouting} from './access.role.routing';
 import {RouterModule} from '@angular/router';
 import {MenuModule} from '../menu/menu.module';
 import {AccessRoleTopMenuComponent} from './access-role-top-menu/access.role.top.menu.component';
 import {SearchModule} from '../search/search.module';
 import {PagingModule} from '../paging/paging.module';
-import {AccessRoleCreationComponent} from './access-role-creation/access.role.creation.component';
-import {AccessRoleEditComponent} from './access-role-edit/access.role.edit.component';
+import { AccessRoleFormComponent } from "./access-role-form/access.role.form.component";
+import { accessRoleResolveProvider } from "./access.role.resolve.provider";
 import {AccessRoleListComponent} from './access-role-list/access.role.list.component';
 import {PermissionEditComponent} from './permissions/permission-edit/permission.edit.component';
 import {PermissionListComponent} from './permissions/permission-list/permission.list.component';
@@ -29,19 +29,18 @@ import {accessRoleServiceProvider} from './access.role.service.provider';
 @NgModule({
   imports: [
     CommonModule,
-    // FormsModule,
+    FormsModule,
     RouterModule,
     Ng2CompleterModule,
     ReactiveFormsModule,
-    accessRoleRouting,
+    AccessRoleRoutingModule,
     MenuModule,
     SearchModule,
     PagingModule
   ],
   declarations: [
     AccessRoleComponent,
-    AccessRoleCreationComponent,
-    AccessRoleEditComponent,
+    AccessRoleFormComponent,
     AccessRoleListComponent,
     PermissionEditComponent,
     PermissionListComponent,
@@ -57,25 +56,25 @@ import {accessRoleServiceProvider} from './access.role.service.provider';
     AccessRoleTypeEditComponent,
     AccessRoleTypeListComponent,
   ],
-  providers: [accessRoleServiceProvider],
+  providers: [accessRoleServiceProvider, accessRoleResolveProvider],
   exports: [
-    AccessRoleComponent,
-    AccessRoleCreationComponent,
-    AccessRoleEditComponent,
-    AccessRoleListComponent,
-    PermissionEditComponent,
-    PermissionListComponent,
-    PermissionCreationComponent,
-    ResourceEditComponent,
-    ResourceCreationComponent,
-    ResourceListComponent,
-    ResourceTypeCreationComponent,
-    ResourceTypeEditComponent,
-    ResourceTypeListComponent,
-    AccessRoleTypeCreationComponent,
-    AccessRoleTypeEditComponent,
-    AccessRoleTypeListComponent,
-    AccessRoleTopMenuComponent
+    // AccessRoleComponent,
+    // AccessRoleCreationComponent,
+    // AccessRoleEditComponent,
+    // AccessRoleListComponent,
+    // PermissionEditComponent,
+    // PermissionListComponent,
+    // PermissionCreationComponent,
+    // ResourceEditComponent,
+    // ResourceCreationComponent,
+    // ResourceListComponent,
+    // ResourceTypeCreationComponent,
+    // ResourceTypeEditComponent,
+    // ResourceTypeListComponent,
+    // AccessRoleTypeCreationComponent,
+    // AccessRoleTypeEditComponent,
+    // AccessRoleTypeListComponent,
+    // AccessRoleTopMenuComponent
   ]
 })
 export class AccessRoleModule {}

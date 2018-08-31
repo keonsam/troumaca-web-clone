@@ -1,11 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SiteComponent} from './site.component';
-import {SiteService} from './site.service';
-import {SiteRepository} from './site.repository';
-import {siteRouting} from './site.routing';
 import {RouterModule} from '@angular/router';
 import {MenuModule} from '../menu/menu.module';
 import {SiteTopMenuComponent} from './site-top-menu/site.top.menu.component';
@@ -27,18 +24,19 @@ import {PagingModule} from '../paging/paging.module';
 import {SiteStreetAddressEditComponent} from './site-street-address-edit/site.street.address.edit.component';
 import {SitePhoneEditComponent} from './site-phone-edit/site.phone.edit.component';
 import {siteServiceProvider} from './site.service.provider';
+import { SiteRoutingModule } from "./site.routing.module";
 
 @NgModule({
   imports: [
     CommonModule,
     NgbModule,
-    // FormsModule,
+    FormsModule,
     RouterModule,
     ReactiveFormsModule,
-    siteRouting,
     MenuModule,
     SearchModule,
-    PagingModule
+    PagingModule,
+    SiteRoutingModule
   ],
   declarations: [
     SiteComponent,
@@ -61,23 +59,23 @@ import {siteServiceProvider} from './site.service.provider';
   ],
   providers: [siteServiceProvider],
   exports: [
-    SiteComponent,
-    SiteTopMenuComponent,
-    SiteStreetAddressCreationComponent,
-    SiteEmailCreationComponent,
-    SiteEmailEditComponent,
-    SiteEmailListComponent,
-    SitePhoneListComponent,
-    SitePhoneCreationComponent,
-    SiteStreetAddressEditComponent,
-    SitePhoneEditComponent,
-    SitePostOfficeBoxCreationComponent,
-    SitePostOfficeBoxEditComponent,
-    SitePostOfficeBoxListComponent,
-    SiteStreetAddressListComponent,
-    SiteWebCreationComponent,
-    SiteWebEditComponent,
-    SiteWebListComponent
+    // SiteComponent,
+    // SiteTopMenuComponent,
+    // SiteStreetAddressCreationComponent,
+    // SiteEmailCreationComponent,
+    // SiteEmailEditComponent,
+    // SiteEmailListComponent,
+    // SitePhoneListComponent,
+    // SitePhoneCreationComponent,
+    // SiteStreetAddressEditComponent,
+    // SitePhoneEditComponent,
+    // SitePostOfficeBoxCreationComponent,
+    // SitePostOfficeBoxEditComponent,
+    // SitePostOfficeBoxListComponent,
+    // SiteStreetAddressListComponent,
+    // SiteWebCreationComponent,
+    // SiteWebEditComponent,
+    // SiteWebListComponent
   ]
 })
 export class SiteModule {}

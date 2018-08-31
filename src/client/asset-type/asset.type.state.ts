@@ -1,4 +1,4 @@
-export class AssetTypeState {
+export class AssetTypeState  {
 
   private _assetTypeId: string;
   private _assetTypeClassId: string;

@@ -178,7 +178,7 @@ export class AccessRolesClientHttp extends AccessRolesClient {
     }));
   }
 
-  //resourceTypes
+  // resourceTypes
   public getResourceTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<ResourceTypeStates>{
     const url = `${this.hostPort}/resource-types?pageNumber=${defaultPage}&pageSize=${defaultPageSize}&sortOrder=${defaultSortOrder}`;
     const httpOptions = {
