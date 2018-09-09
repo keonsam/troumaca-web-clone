@@ -4,77 +4,122 @@
       <div class="col-sm-5">
 
         <div class="user-profile compact">
-          <div class="up-head-w" [style.background-image]="organizationImage">
-            <div class="up-social">
-              <a data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon-user-male-circle2 primary"></i></a>
-              <a data-target="#PhotoModal2" data-toggle="modal"><i class="os-icon os-icon-documents-07 primary"></i></a>
-            </div>
-            <div class="up-main-info">
-              <div class="user-avatar-w">
-                <div class="user-avatar">
-                  <img alt="" [src]="userImage">
-                </div>
-              </div>
-              <h2 class="up-header">
-                {{user.firstName + ' ' + user.lastName}}
-              </h2>
-              <h6 class="up-sub-header">
-                Troumaka
-              </h6>
-            </div>
-            <svg class="decor" width="842px" height="219px" viewBox="0 0 842 219" preserveAspectRatio="xMaxYMax meet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="translate(-381.000000, -362.000000)" fill="#FFFFFF"><path class="decor-path" d="M1223,362 L1223,581 L381,581 C868.912802,575.666667 1149.57947,502.666667 1223,362 Z"></path></g></svg>
-          </div>
-          <div class="up-contents">
-            <div class="m-b">
-              <div class="row m-b">
-                <div class="col-sm-6 b-r b-b">
-                  <div class="el-tablo centered padded-v">
-                    <div class="value">
-                      25
-                    </div>
-                    <div class="label">
-                      Assigned Assets
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6 b-b">
-                  <div class="el-tablo centered padded-v">
-                    <div class="value">
-                      315
-                    </div>
-                    <div class="label">
-                      Pending Requests
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <app-photo [type]="'user'" [user]="user"></app-photo>
+          <!--<div class="up-controls">-->
+            <!--<div class="row">-->
+              <!--<div class="col-sm-6">-->
+                <!--<div class="value-pair">-->
+                  <!--<div class="label">-->
+                    <!--Status:-->
+                  <!--</div>-->
+                  <!--<div class="value badge badge-pill badge-success">-->
+                    <!--Online-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col-sm-6 text-right">-->
+                <!--<a class="btn btn-primary btn-sm" href=""><i class="os-icon os-icon-link-3"></i><span>Add to Friends</span></a>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="up-contents">-->
+            <!--<div class="m-b">-->
+              <!--<div class="row m-b">-->
+                <!--<div class="col-sm-6 b-r b-b">-->
+                  <!--<div class="el-tablo centered padded-v">-->
+                    <!--<div class="value">-->
+                      <!--25-->
+                    <!--</div>-->
+                    <!--<div class="label">-->
+                      <!--Products Sold-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-6 b-b">-->
+                  <!--<div class="el-tablo centered padded-v">-->
+                    <!--<div class="value">-->
+                      <!--315-->
+                    <!--</div>-->
+                    <!--<div class="label">-->
+                      <!--Friends-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="padded">-->
+                <!--<div class="os-progress-bar primary">-->
+                  <!--<div class="bar-labels">-->
+                    <!--<div class="bar-label-left">-->
+                      <!--<span>Profile Completion</span><span class="positive">+10</span>-->
+                    <!--</div>-->
+                    <!--<div class="bar-label-right">-->
+                      <!--<span class="info">72/100</span>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="bar-level-1" style="width: 100%">-->
+                    <!--<div class="bar-level-2" style="width: 80%">-->
+                      <!--<div class="bar-level-3" style="width: 30%"></div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="os-progress-bar primary">-->
+                  <!--<div class="bar-labels">-->
+                    <!--<div class="bar-label-left">-->
+                      <!--<span>Status Unlocked</span><span class="positive">+5</span>-->
+                    <!--</div>-->
+                    <!--<div class="bar-label-right">-->
+                      <!--<span class="info">45/100</span>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="bar-level-1" style="width: 100%">-->
+                    <!--<div class="bar-level-2" style="width: 30%">-->
+                      <!--<div class="bar-level-3" style="width: 10%"></div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="os-progress-bar primary">-->
+                  <!--<div class="bar-labels">-->
+                    <!--<div class="bar-label-left">-->
+                      <!--<span>Followers</span><span class="negative">-12</span>-->
+                    <!--</div>-->
+                    <!--<div class="bar-label-right">-->
+                      <!--<span class="info">74/100</span>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="bar-level-1" style="width: 100%">-->
+                    <!--<div class="bar-level-2" style="width: 80%">-->
+                      <!--<div class="bar-level-3" style="width: 60%"></div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
 
-            </div>
-          </div>
         </div>
-        <!--                         -->
+
         <!-- START OF USER ACTIVITY -->
         <div class="element-wrapper">
           <div class="element-box">
             <h6 class="element-header">
-              User Activity
+              Activities
             </h6>
-            <div class="timed-activities compact">
-              <div class="timed-activity">
-                <div class="ta-date">
-                  <span>Assigned Assets</span>
-                </div>
-                <div class="ta-record-w">
-                </div>
-              </div>
-              <div class="timed-activity">
-                <div class="ta-date">
-                  <span>Request Orders</span>
-                </div>
-                <div class="ta-record-w">
-                </div>
-              </div>
-            </div>
+            <!--<div class="timed-activities compact">-->
+              <!--<div class="timed-activity">-->
+                <!--<div class="ta-date">-->
+                  <!--<span>Assigned Assets</span>-->
+                <!--</div>-->
+                <!--<div class="ta-record-w">-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="timed-activity">-->
+                <!--<div class="ta-date">-->
+                  <!--<span>Request Orders</span>-->
+                <!--</div>-->
+                <!--<div class="ta-record-w">-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
           </div>
         </div>
         <!-- END OF USER ACTIVITY -->
@@ -86,7 +131,7 @@
       <div class="col-sm-7">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="userMeForm" (ngSubmit)="onCreate()">
+            <form [formGroup]="userMeForm">
               <div class="element-info">
                 <div class="element-info-with-icon">
                   <div class="element-info-icon">
@@ -94,124 +139,77 @@
                   </div>
                   <div class="element-info-text">
                     <h5 class="element-inner-header">
-                      Profile Settings
+                      Profile
                     </h5>
                   </div>
                 </div>
               </div>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to update your Profile.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ userExist ? "Update": "Create"}} your Profile.</div>
+
+              <div [hidden]="!userExist">
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Username">Username</label><input class="form-control" formControlName="username" placeholder="Enter Email or Phone Number" required="required" type="text">
+                  <label for="username">Username</label><input id="username" class="form-control" formControlName="username" placeholder="Enter Email or Phone Number" [required]="userExist" type="text">
                   <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Email or Phone Number.</div>
                 </div>
               </fieldset>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="password">New Password</label><input class="form-control" formControlName="password" placeholder="Enter New password" [required]="requiredState" type="password">
-                  <div [hidden]="password.valid || password.pristine" class="alert alert-danger">Invalid new password.</div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <fieldset class="form-group">
+                    <div class="form-group">
+                      <label for="new-password">New Password</label><input id="new-password" class="form-control" formControlName="password" placeholder="Enter New password" [required]="requiredState" type="password">
+                      <div [hidden]="password.valid || password.pristine" class="alert alert-danger">Invalid new Password.</div>
+                    </div>
+                  </fieldset>
                 </div>
-              </fieldset>
 
-              <fieldset class="form-group" *ngIf="password.value">
-                <div class="form-group">
-                  <label for="Retype Password">Retype Your New Password</label><input class="form-control" formControlName="confirmPassword" placeholder="Enter password again" [required]="requiredState" type="password">
-                  <div [hidden]="confirmPassword.valid || confirmPassword.pristine" class="alert alert-danger">Make sure this matches your new password.</div>
+                <div class="col-sm-6">
+                  <fieldset class="form-group">
+                    <div class="form-group">
+                      <label for="confirm-password">Confirm Password</label><input id="confirm-password" class="form-control" formControlName="confirmPassword" placeholder="Enter Password Again" [required]="requiredState" type="password">
+                      <div [hidden]="confirmPassword.valid || confirmPassword.pristine" class="alert alert-danger">Re-enter your Password Again.</div>
+                    </div>
+                  </fieldset>
                 </div>
-              </fieldset>
+              </div>
 
               <legend><span>Personal Information</span></legend>
 
+              </div>
+
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="First Name">First Name</label><input class="form-control" formControlName="firstName" placeholder="Enter First Name" required="required" type="text">
+                  <label for="first-name">First Name</label><input id="first-name" class="form-control" formControlName="firstName" placeholder="Enter First Name" required="required" type="text">
                   <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">Invalid First Name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Middle Name">Middle Name</label><input class="form-control" formControlName="middleName" placeholder="Enter Middle Name" required="required" type="text">
+                  <label for="middle-name">Middle Name</label><input id="middle-name" class="form-control" formControlName="middleName" placeholder="Enter Middle Name" required="required" type="text">
                   <div [hidden]="middleName.valid || middleName.pristine" class="alert alert-danger">Invalid Middle Name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Last Name">Last Name</label><input class="form-control" formControlName="lastName" placeholder="Enter Last Name" required="required" type="text">
+                  <label for="last-name">Last Name</label><input id="last-name" class="form-control" formControlName="lastName" placeholder="Enter Last Name" required="required" type="text">
                   <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">Invalid Last Name.</div>
                 </div>
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [disabled]="!userMeForm.valid" type="submit"> Save</button>
+                <button class="btn btn-primary" [hidden]="userExist" [disabled]="!userMeForm.valid" type="submit" (click)="onCreate()"> {{stepper ? 'Next': 'Create'}}</button>
+                <button class="btn btn-primary" [hidden]="!userExist" [disabled]="!userMeForm.valid" type="submit" (click)="onUpdate()"> {{stepper ? 'Next': 'Update'}}</button>
               </div>
 
             </form>
           </div>
         </div>
       </div>
-
-      <!-- UPLOAD MODAL -->
-      <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="PhotoModal1" role="dialog" tabindex="-1">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Profile Photo
-              </h5>
-              <button aria-label="Close" class="close" data-dismiss="modal" type="button" #modalCloseButton><span aria-hidden="true"> &times;</span></button>
-            </div>
-            <div class="modal-body">
-              <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">Failed to upload your profile picture.</div>
-              <input #fileid type='file' (change)="fileChangeEvent($event)" hidden/>
-              <image-cropper
-                [imageChangedEvent]="imageChangedEvent"
-                imageQuality="100"
-                (imageCropped)="imageCropped($event)"
-              >
-              </image-cropper>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-white button1" type="button" (click)="fileid.click()"> Change Photo</button>
-              <button class="btn btn-primary" type="button" (click)="uploadPhoto()"> Save changes</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- END OF UPLOAD MODAL -->
-
-      <!-- START BACKGROUND IMAGE UPLOAD MODAL -->
-      <div aria-hidden="true" aria-labelledby="exampleModalLabel2" class="modal fade" id="PhotoModal2" role="dialog" tabindex="-1">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel2">
-                Add Background Photo
-              </h5>
-              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" #modalCloseButton2> &times;</span></button>
-            </div>
-            <div class="modal-body">
-              <input #fileid2 type='file' (change)="fileChangeEvent2($event)" hidden/>
-              <div [hidden]="doNotDisplayFailureMessage3" class="alert alert-danger">Failed to upload your background picture.</div>
-              <image-cropper
-                [imageChangedEvent]="imageChangedEvent2"
-                imageQuality="100"
-                (imageCropped)="imageCropped2($event)"
-              >
-              </image-cropper>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-white button1" type="button" (click)="fileid2.click()"> Change Photo</button>
-              <button class="btn btn-primary" type="button" (click)="uploadPhoto2()"> Save changes</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- END OF ORGANIZATION UPLOAD MODAL -->
 
     </div>
   </div>

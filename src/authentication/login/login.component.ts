@@ -1,15 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-
-
-
 import {Event} from '../event';
 
 import {Router} from '@angular/router';
 import {EventService} from '../../event/event.service';
 import {AuthenticationService} from '../authentication.service';
-import {Credential} from '../credential';
-
+import { Credential } from "../credential";
 
 @Component({
   selector: 'login',

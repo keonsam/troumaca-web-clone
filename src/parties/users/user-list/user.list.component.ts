@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Users} from '../../users';
 import {PartyEventService} from '../../party.event.service';
-import {PartyService} from '../../party.service';
 import {Page} from '../../../page/page';
 import {Sort} from '../../../sort/sort';
+import { UserService } from '../user.service';
 
 @Component({
-  selector: 'user-list',
+  selector: 'app-user-list',
   templateUrl: './user.list.component.html',
   styleUrls: ['./user.list.component.css']
 })
@@ -22,7 +22,7 @@ export class UserListComponent implements OnInit {
   private _routerLinkCreateUser = '/parties/users/create';
 
   constructor(private partyEventService: PartyEventService,
-              private partyService: PartyService) {
+              private userService: UserService) {
 
     const newUsers = new Users();
     newUsers.page = new Page(0, 0, 0);
@@ -62,7 +62,7 @@ export class UserListComponent implements OnInit {
   }
 
   getUsers() {
-    this.partyService
+    this.userService
     .getUsers(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
       this.users = next;
@@ -79,10 +79,12 @@ export class UserListComponent implements OnInit {
   }
 
   onDelete() {
-    this.partyService
+    this.userService
     .deleteUser(this.partyId)
     .subscribe(value => {
-      if (value) this.getUsers();
+      if (value) {
+        this.getUsers();
+      }
     }, error => {
     console.log(error);
     }, () => {

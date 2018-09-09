@@ -54,7 +54,6 @@ export class UserState extends PartyState {
       firstName: this.firstName,
       middleName: this.middleName,
       lastName: this.lastName,
-      username: this.username,
       dateOfBirth: this.dateOfBirth,
       createdOn: this.createdOn,
       modifiedOn: this.modifiedOn

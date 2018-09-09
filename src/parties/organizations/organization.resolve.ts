@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Organization } from '../organization';
-import {PartyService} from "../party.service";
+import {OrganizationService} from "./organization.service";
 
 @Injectable()
 export class OrganizationResolve implements Resolve<Organization> {
-  constructor(private partyService: PartyService) {}
+  constructor(private organizationService: OrganizationService) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    return this.partyService.getOrganization(route.paramMap.get('partyId'));
+    return this.organizationService.getOrganization(route.paramMap.get('partyId') || 'company');
   }
 
 }

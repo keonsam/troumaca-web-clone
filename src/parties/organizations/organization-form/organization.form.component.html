@@ -1,13 +1,13 @@
-<div class="content-i">
+<div [ngClass]="{'content-i': !profile }">
 
-  <div class="content-box">
-    <div class="row">
-      <div class="col-sm-12">
+  <div [ngClass]="{'content-box': !profile}">
+    <div [ngClass]="{'row': !profile}">
+      <div [ngClass]="{'col-sm-12': !profile}">
         <div class="element-wrapper">
           <div class="element-box">
             <form [formGroup]="organizationForm" id="formValidate">
               <h5 class="form-header">
-                {{organizationExist ? "Edit":"New"}} Organization Form
+                {{ profile ? "Organization Profile": organizationExist ? "Edit Organization Form" : "New Organization Form"}}
               </h5>
 
               <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{organizationExist ? "Update":"Create"}} organization.</div>
@@ -34,9 +34,9 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [hidden]="organizationExist" [disabled]="!organizationForm.valid" type="submit" (click)="onCreate()"> Create</button>
+                <button class="btn btn-primary button1" [hidden]="organizationExist" [disabled]="!organizationForm.valid" type="submit" (click)="onCreate()"> {{ stepper ? 'Next': 'Create'}}</button>
                 <button class="btn btn-primary button1" [hidden]="!organizationExist" [disabled]="!organizationForm.valid" type="submit" (click)="onUpdate()"> Update</button>
-                <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
+                <button class="btn btn-outline-danger" [hidden]="stepper" type="cancel" (click)="cancel()"> Cancel</button>
               </div>
 
             </form>

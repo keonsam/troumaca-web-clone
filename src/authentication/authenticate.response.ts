@@ -1,5 +1,5 @@
 import {Session} from './session';
-import {Credential} from './credential';
+import { Credential } from "./credential";
 
 export class AuthenticateResponse {
 

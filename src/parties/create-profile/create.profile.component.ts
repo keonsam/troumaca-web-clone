@@ -41,7 +41,7 @@ export class CreateAccountComponent implements OnInit {
   private _doNotDisplayFailureMessage2: boolean;
   private _doNotDisplayFailureMessage3: boolean;
   private userImageComplete = false;
-  public userExist: boolean = false;
+  public userExist = false;
 
   constructor(private partyService: PartyService,
               private eventService: EventService,
@@ -91,21 +91,21 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.partyService.getPartyId()
-      .subscribe( partyId => {
-        if (!partyId) {
-          // TODO: throw error here partyId should exist
-          this.router.navigate(['/home']);
-        } else {
-          this.partyService.getUser(partyId)
-            .subscribe(userRes => {
-              this.firstName.setValue(userRes.user.firstName);
-              this.middleName.setValue(userRes.user.middleName);
-              this.lastName.setValue(userRes.user.lastName);
-              this.userExist = true;
-            });
-        }
-      });
+    // this.partyService.getPartyId()
+    //   .subscribe( partyId => {
+    //     if (!partyId) {
+    //       // TODO: throw error here partyId should exist
+    //       this.router.navigate(['/home']);
+    //     } else {
+    //       this.partyService.getUser(partyId)
+    //         .subscribe(userRes => {
+    //           this.firstName.setValue(userRes.user.firstName);
+    //           this.middleName.setValue(userRes.user.middleName);
+    //           this.lastName.setValue(userRes.user.lastName);
+    //           this.userExist = true;
+    //         });
+    //     }
+    //   });
   }
 
   createEventModel() {
@@ -279,62 +279,62 @@ export class CreateAccountComponent implements OnInit {
 
   addOrganizationPhoto() {
     this.photo2.partyId = this.partyId;
-   this.partyService.addPhoto(this.photo2, 'organization')
-     .subscribe(value => {
-       if (value.partyId) {
-         this.loginUserIn();
-       }else {
-         this.doNotDisplayFailureMessage3 = false;
-       }
-     }, error => {
-       console.log(error);
-       this.doNotDisplayFailureMessage3 = false;
-     });
+   // this.partyService.addPhoto(this.photo2, 'organization')
+   //   .subscribe(value => {
+   //     if (value.partyId) {
+   //       this.loginUserIn();
+   //     }else {
+   //       this.doNotDisplayFailureMessage3 = false;
+   //     }
+   //   }, error => {
+   //     console.log(error);
+   //     this.doNotDisplayFailureMessage3 = false;
+   //   });
   }
 
   savePhoto() {
-    if (this.photo.imageStr && !this.userImageComplete) {
-      this.photo.partyId = this.partyId;
-      this.partyService.addPhoto(this.photo, 'user')
-        .subscribe(value => {
-          if (value.partyId) {
-            this.userImageComplete = true;
-            if (this.photo2.imageStr) {
-              this.addOrganizationPhoto();
-            } else {
-              this.loginUserIn();
-            }
-          } else {
-            this.doNotDisplayFailureMessage2 = false;
-          }
-        }, error => {
-          console.log(error);
-          this.doNotDisplayFailureMessage2 = false;
-        });
-    } else {
-      this.addOrganizationPhoto();
-    }
+    // if (this.photo.imageStr && !this.userImageComplete) {
+    //   this.photo.partyId = this.partyId;
+    //   this.partyService.addPhoto(this.photo, 'user')
+    //     .subscribe(value => {
+    //       if (value.partyId) {
+    //         this.userImageComplete = true;
+    //         if (this.photo2.imageStr) {
+    //           this.addOrganizationPhoto();
+    //         } else {
+    //           this.loginUserIn();
+    //         }
+    //       } else {
+    //         this.doNotDisplayFailureMessage2 = false;
+    //       }
+    //     }, error => {
+    //       console.log(error);
+    //       this.doNotDisplayFailureMessage2 = false;
+    //     });
+    // } else {
+    //   this.addOrganizationPhoto();
+    // }
   }
 
   addAccount() {
-    this.partyService
-      .addAccount( this.user , this.organization)
-      .subscribe(value => {
-        if (value.created) {
-          this.partyId = value.user.partyId;
-          if (this.photo.imageStr || this.photo2.imageStr) {
-            this.savePhoto();
-          }else {
-            this.eventService.sendLoginEvent(this.createEventModel());
-            this.router.navigate(['/home/lobby']);
-          }
-        } else {
-          this.doNotDisplayFailureMessage = false;
-        }
-      }, error => {
-        console.log(error);
-        this.doNotDisplayFailureMessage = false;
-      });
+    // this.partyService
+    //   .addAccount( this.user , this.organization)
+    //   .subscribe(value => {
+    //     if (value.created) {
+    //       this.partyId = value.user.partyId;
+    //       if (this.photo.imageStr || this.photo2.imageStr) {
+    //         this.savePhoto();
+    //       }else {
+    //         this.eventService.sendLoginEvent(this.createEventModel());
+    //         this.router.navigate(['/home/lobby']);
+    //       }
+    //     } else {
+    //       this.doNotDisplayFailureMessage = false;
+    //     }
+    //   }, error => {
+    //     console.log(error);
+    //     this.doNotDisplayFailureMessage = false;
+    //   });
   }
 
   onCreate() {

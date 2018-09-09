@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Organizations} from '../../organizations';
 import {PartyEventService} from '../../party.event.service';
-import {PartyService} from '../../party.service';
 import {Page} from '../../../page/page';
 import {Sort} from '../../../sort/sort';
+import { OrganizationService } from "../organization.service";
 
 @Component({
-  selector: 'organization-list',
+  selector: 'app-organization-list',
   templateUrl: './organization.list.component.html',
   styleUrls: ['./organization.list.component.css']
 })
@@ -22,7 +22,7 @@ export class OrganizationListComponent implements OnInit {
   private _routerLinkCreateUser = '/parties/organizations/create';
 
   constructor(private partyEventService: PartyEventService,
-              private partyService: PartyService) {
+              private organizationService: OrganizationService) {
 
     const newOrganizations = new Organizations();
     newOrganizations.page = new Page(0, 0, 0);
@@ -62,7 +62,7 @@ export class OrganizationListComponent implements OnInit {
   }
 
   getOrganizations() {
-    this.partyService
+    this.organizationService
     .getOrganizations(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
       console.log(next);
@@ -80,7 +80,7 @@ export class OrganizationListComponent implements OnInit {
   }
 
   onDelete() {
-    this.partyService
+    this.organizationService
     .deleteOrganization(this.partyId)
     .subscribe(value => {
     this.getOrganizations();

@@ -1,11 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
 
 import {Organization} from '../../organization';
-import {PartyEventService} from '../../party.event.service';
-import {PartyService} from '../../party.service';
+import {OrganizationService} from "../organization.service";
 
 @Component({
   selector: 'app-organization-form',
@@ -24,9 +23,12 @@ export class OrganizationFormComponent implements OnInit {
   public organizationExist = false;
 
   private _doNotDisplayFailureMessage: boolean;
+  @Input() profile: boolean;
+  @Output() organizationNameEvent = new EventEmitter<string>();
+  @Input() stepper: boolean;
+  @Output() organizationCreated = new EventEmitter<boolean>();
 
-  constructor(private partyEventService: PartyEventService,
-              private partyService: PartyService,
+  constructor(private organizationService: OrganizationService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
@@ -46,6 +48,9 @@ export class OrganizationFormComponent implements OnInit {
 
    this.organizationForm.valueChanges
    .subscribe(value => {
+     if (this.organization.name !== value.name) {
+       this.organizationNameEvent.emit(value.name);
+     }
      this.organization.purpose = value.purpose;
      this.organization.name = value.name;
      this.organization.description = value.description;
@@ -60,6 +65,11 @@ export class OrganizationFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.route.snapshot && this.route.snapshot.data['organization']) {
       this.setInputValues(this.route.snapshot.data['organization']);
+    } else if (this.profile) {
+      this.organizationService.getOrganization('company')
+        .subscribe( value => {
+          this.setInputValues(value);
+        });
     }
   }
   
@@ -67,6 +77,7 @@ export class OrganizationFormComponent implements OnInit {
     this.purpose.setValue(organization.purpose);
     this.name.setValue(organization.name);
     this.description.setValue(organization.description);
+    this.organizationNameEvent.emit(organization.name);
     this.organization = organization;
     this.organizationExist = true;
   }
@@ -114,11 +125,16 @@ export class OrganizationFormComponent implements OnInit {
   onCreate() {
     this.doNotDisplayFailureMessage = true;
 
-    this.partyService
-      .addOrganization(this.organization)
+    this.organizationService
+      .addOrganization(this.organization, this.stepper ? 'company' : undefined)
       .subscribe(value => {
         if (value && value.partyId) {
-          this.router.navigate(['/parties/organizations/listing']);
+          if (this.stepper) {
+
+            this.organizationCreated.emit(true);
+          }else {
+            this.router.navigate(['/parties/organizations/listing']);
+          }
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -131,11 +147,15 @@ export class OrganizationFormComponent implements OnInit {
   onUpdate() {
     this.doNotDisplayFailureMessage = true;
 
-    this.partyService
+    this.organizationService
       .updateOrganization(this.organization)
       .subscribe(value => {
         if (value) {
-          this.router.navigate(['/parties/organizations/listing']);
+          if (this.stepper) {
+            this.organizationCreated.emit(true);
+          }else {
+            this.router.navigate(['/parties/organizations/listing']);
+          }
         } else {
           this.doNotDisplayFailureMessage = false;
         }

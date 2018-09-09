@@ -12,7 +12,7 @@ export abstract class AuthenticationClient {
 
   abstract isValidPassword(password: string): Observable<ValidResp>;
 
-  abstract isValidUsername(username: string): Observable<ValidResp>;
+  abstract isValidUsername(username: string, partyId?: string): Observable<ValidResp>;
 
   abstract addCredential(credential: CredentialState): Observable<ConfirmationState>;
 

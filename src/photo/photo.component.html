@@ -1,0 +1,51 @@
+  <div class="up-head-w" [ngStyle]="{'background-image': 'url(' + organizationImage + ')'}">
+    <div class="up-social">
+      <a [attr.data-target]="'#' +type+ 'Modal'" data-toggle="modal"><i class="os-icon os-icon-user-male-circle2"></i></a>
+    </div>
+    <div class="up-main-info">
+      <div class="user-avatar-w">
+        <div [hidden]="type === 'organization'" class="user-avatar">
+          <img alt="" [src]="userImage">
+        </div>
+      </div>
+      <h2 class="up-header" *ngIf="organizationName || user">
+        {{type === 'organization' ? organizationName : user.firstName +' '+user.lastName}}
+      </h2>
+      <h6 class="up-sub-header">
+      </h6>
+    </div>
+    <svg class="decor" width="842px" height="219px" viewBox="0 0 842 219" preserveAspectRatio="xMaxYMax meet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="translate(-381.000000, -362.000000)" fill="#FFFFFF"><path class="decor-path" d="M1223,362 L1223,581 L381,581 C868.912802,575.666667 1149.57947,502.666667 1223,362 Z"></path></g></svg>
+  </div>
+
+<!-- START PROFILE UPLOAD MODAL -->
+<div aria-hidden="true" [attr.aria-labelledby]="type + 'ModalLabel'" class="modal fade" [id]="type+'Modal'" role="dialog" tabindex="0">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Add {{ type === "organization" ? "Organization": "Profile"}} Photo
+        </h5>
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" #modalCloseButton><span aria-hidden="true"> &times;</span></button>
+      </div>
+      <div class="modal-body">
+        <input #fileid type='file' (change)="fileChangeEvent($event)" hidden/>
+        <image-cropper
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="4 / 3"
+          [resizeToWidth]="128"
+          format="png"
+          (imageCroppedBase64)="imageCropped($event)"
+          (imageLoaded)="imageLoaded()"
+          (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
+        <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">{{errorMessage}}</div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary button1" type="button" (click)="fileid.click()"> Change Photo</button>
+        <button [disabled]="!croppedImage" class="btn btn-primary" type="button" (click)="onUpload()"> Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END OF PROFILE UPLOAD MODAL -->

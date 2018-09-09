@@ -5,7 +5,7 @@ import {EventService} from '../../event/event.service';
 import {MenuItemModel} from '../menu.item.model';
 
 @Component({
-  selector: 'side-menu',
+  selector: 'app-side-menu',
   templateUrl: './side.menu.component.html',
   styleUrls: ['./side.menu.component.css']
 })
@@ -19,10 +19,12 @@ export class SideMenuComponent implements OnInit {
   private _menuModel: MenuModel;
   private _isLoggedIn: boolean;
 
-  constructor(private eventService: EventService,
-              private _menuService: MenuService,
+  constructor(
+              // private eventService: EventService,
+              // private _menuService: MenuService,
               // private partyService: PartyService,
-              private cd: ChangeDetectorRef) {
+              // private cd: ChangeDetectorRef
+  ) {
     this.title = 'side-menu';
     this.name = 'side-menu';
     this.isLoggedIn = true;
@@ -31,9 +33,9 @@ export class SideMenuComponent implements OnInit {
 
     this.imageStr = 'https://designdroide.com/images/abstract-user-icon-4.svg';
 
-    this.eventService.subscribeToPhotoChangeEvent((data) => {
-      this.getPhoto();
-    });
+    // this.eventService.subscribeToPhotoChangeEvent((data) => {
+    //   this.getPhoto();
+    // });
 
   }
 
@@ -125,24 +127,24 @@ export class SideMenuComponent implements OnInit {
 
   handleMenuRefreshEvent() {
     const that = this;
-    this.eventService.subscribeToLoginEvent((data) => {
-      that.isLoggedIn = true;
-      that.getMenu(this.isLoggedIn);
-    });
+    // this.eventService.subscribeToLoginEvent((data) => {
+    //   that.isLoggedIn = true;
+    //   that.getMenu(this.isLoggedIn);
+    // });
   }
 
   getMenu(isLoggedIn: boolean) {
     if (!isLoggedIn) { return; }
 
     const that = this;
-    this._menuService.getMenuByName(this.name).subscribe(function (menu) {
-      that.menuModel.menuItemModels = [];
-      menu.menuItemModels.forEach(value => {
-        that.menuModel.menuItemModels.push(value);
-      });
-
-      that.cd.markForCheck();
-    });
+    // this._menuService.getMenuByName(this.name).subscribe(function (menu) {
+    //   that.menuModel.menuItemModels = [];
+    //   menu.menuItemModels.forEach(value => {
+    //     that.menuModel.menuItemModels.push(value);
+    //   });
+    //
+    //   that.cd.markForCheck();
+    // });
   }
 
   onSelected(menuItemModel: MenuItemModel) {

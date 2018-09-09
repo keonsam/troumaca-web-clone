@@ -8,7 +8,7 @@ import {ConfirmationComponent} from "./confirmation/confirmation.component";
 
 export const routes: Routes = [
   { path: '', component: AuthenticationComponent, children: [
-      { path: '', redirectTo: 'authentication/login', pathMatch: 'full' },
+      { path: '', redirectTo: '/authentication/login', pathMatch: 'full' },
       { path: 'login',  component: LoginComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'register', component: RegisterComponent },

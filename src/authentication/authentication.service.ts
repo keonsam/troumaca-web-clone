@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs';
 import {AuthenticationRepository} from './authentication.repository';
-import {Credential} from './credential';
+import { Credential } from "./credential";
 import {ValidResp} from "./resp.valid";
 import { Confirmation } from "./confirmation";
 import {AuthenticatedCredential} from "./authenticated.credential";
@@ -13,8 +13,8 @@ export class AuthenticationService {
   constructor(private authenticationRepository: AuthenticationRepository) {
   }
 
-  public isValidUsername(username: string): Observable<ValidResp> {
-    return this.authenticationRepository.isValidUsername(username);
+  public isValidUsername(username: string, partyId?: string): Observable<ValidResp> {
+    return this.authenticationRepository.isValidUsername(username, partyId);
   }
 
   public isValidPassword(password: string): Observable<ValidResp> {
@@ -22,7 +22,6 @@ export class AuthenticationService {
   }
 
   public authenticate(credential: Credential): Observable<AuthenticatedCredential> {
-    //let that = this;
     return this
     .authenticationRepository.authenticate(credential);
   }

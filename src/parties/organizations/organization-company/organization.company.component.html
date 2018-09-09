@@ -3,71 +3,57 @@
     <div class="row">
       <div class="col-sm-5">
         <div class="user-profile compact">
-          <div class="up-head-w" [style.background-image]="backgroundImage">
-            <div class="up-social">
-              <a data-target="#PhotoModal1" data-toggle="modal"><i class="os-icon os-icon os-icon-pencil-2 primary"></i></a>
-            </div>
-            <div class="up-main-info">
-              <h2 class="up-header">
-                {{organization.name}}
-              </h2>
-              <h6 class="up-sub-header">
-                {{organization.purpose}}
-              </h6>
-            </div>
-            <svg class="decor" width="842px" height="219px" viewBox="0 0 842 219" preserveAspectRatio="xMaxYMax meet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="translate(-381.000000, -362.000000)" fill="#FFFFFF"><path class="decor-path" d="M1223,362 L1223,581 L381,581 C868.912802,575.666667 1149.57947,502.666667 1223,362 Z"></path></g></svg>
-          </div>
-          <div class="up-contents">
-            <div class="m-b">
-              <div class="row m-b">
-                <div class="col-sm-6 b-r b-b">
-                  <div class="el-tablo centered padded-v">
-                    <div class="value">
-                      4
-                    </div>
-                    <div class="label">
-                      Organizations
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6 b-b">
-                  <div class="el-tablo centered padded-v">
-                    <div class="value">
-                      3
-                    </div>
-                    <div class="label">
-                      Pending Requests
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
+          <app-photo [type]="'organization'" [organizationName]="organizationName"></app-photo>
+          <!--<div class="up-contents">-->
+            <!--<div class="m-b">-->
+              <!--<div class="row m-b">-->
+                <!--<div class="col-sm-6 b-r b-b">-->
+                  <!--<div class="el-tablo centered padded-v">-->
+                    <!--<div class="value">-->
+                      <!--4-->
+                    <!--</div>-->
+                    <!--<div class="label">-->
+                      <!--Organizations-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-6 b-b">-->
+                  <!--<div class="el-tablo centered padded-v">-->
+                    <!--<div class="value">-->
+                      <!--3-->
+                    <!--</div>-->
+                    <!--<div class="label">-->
+                      <!--Pending Requests-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
         </div>
 
         <!-- START OF USER ACTIVITY -->
         <div class="element-wrapper">
           <div class="element-box">
             <h6 class="element-header">
-              Company Activity
+              Company Activities
             </h6>
-            <div class="timed-activities compact">
-              <div class="timed-activity">
-                <div class="ta-date">
-                  <span>Assets</span>
-                </div>
-                <div class="ta-record-w">
-                </div>
-              </div>
-              <div class="timed-activity">
-                <div class="ta-date">
-                  <span>Request Orders</span>
-                </div>
-                <div class="ta-record-w">
-                </div>
-              </div>
-            </div>
+            <!--<div class="timed-activities compact">-->
+              <!--<div class="timed-activity">-->
+                <!--<div class="ta-date">-->
+                  <!--<span>Assets</span>-->
+                <!--</div>-->
+                <!--<div class="ta-record-w">-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="timed-activity">-->
+                <!--<div class="ta-date">-->
+                  <!--<span>Request Orders</span>-->
+                <!--</div>-->
+                <!--<div class="ta-record-w">-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
           </div>
         </div>
         <!-- END OF USER ACTIVITY -->
@@ -77,39 +63,9 @@
 
 
       <div class="col-sm-7">
-        <app-organization-form></app-organization-form>
+        <app-organization-form [profile]="true" (organizationCreated)="emitOrganizationCratedEvent($event)" (organizationNameEvent)="setOrganization($event)" [stepper]="stepper"></app-organization-form>
       </div>
 
-      <!-- Upload Modal -->
-
-      <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="PhotoModal1" role="dialog" tabindex="-1">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Company Photo
-              </h5>
-              <button aria-label="Close" class="close" data-dismiss="modal" type="button" #modalCloseButton><span aria-hidden="true"> &times;</span></button>
-            </div>
-            <div class="modal-body">
-              <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">Failed to upload your organization picture.</div>
-              <input #fileid type='file' (change)="fileChangeEvent($event)" hidden/>
-              <image-cropper
-                [imageChangedEvent]="imageChangedEvent"
-                imageQuality="100"
-                (imageCropped)="imageCropped($event)"
-              >
-              </image-cropper>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-white button1" type="button" (click)="fileid.click()"> Change Photo</button>
-              <button class="btn btn-primary" type="button" (click)="uploadPhoto()"> Save changes</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- END OF UPLOAD MODAL -->
     </div>
   </div>
 </div>

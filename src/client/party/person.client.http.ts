@@ -21,16 +21,7 @@ export class PersonClientHttp implements PersonClient {
               private hostPort: string) {
   }
 
-  public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRoleState[]> {
-    const url = `${this.hostPort}/access-roles/find?q=${searchStr}&pageSize=${pageSize}`;
 
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient.get<AccessRoleState[]>(url, httpOptions).pipe(map(data => {
-      return data;
-    }));
-  }
 
   public logOutUser(): Observable<boolean> {
     const url = `${this.hostPort}/sessions/log-out-user`;
@@ -88,50 +79,6 @@ export class PersonClientHttp implements PersonClient {
       }));
   }
 
-  public getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<UserStates> {
-    const url = `${this.hostPort}/users?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient.get<UserStates>(url, httpOptions).pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public getOrganizations(pageNumber: number, pageSize: number, sortOrder: string): Observable<OrganizationStates> {
-    const url = `${this.hostPort}/organizations?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient.get<OrganizationStates>(url, httpOptions).pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public getUserState(partyId: string): Observable<UserResponse>{
-    const url = `${this.hostPort}/users/${partyId}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient
-    .get<UserResponse>(url, httpOptions)
-    .pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public getOrganizationState(partyId: string): Observable<OrganizationState>{
-    const url = `${this.hostPort}/organizations/${partyId}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient
-    .get<OrganizationState>(url, httpOptions)
-    .pipe(map(data => {
-      return data;
-    }));
-  }
-
 
   public getPhoto(partyId: string, type: string): Observable<PhotoState>{
     const url = `${this.hostPort}/photos/${type}/${partyId}`;
@@ -140,34 +87,6 @@ export class PersonClientHttp implements PersonClient {
     };
     return this.httpClient
     .get<any>(url, httpOptions)
-    .pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public addUserState(userState: UserState, partyAccessRoleStates: PartyAccessRoleState[]): Observable<UserState> {
-    const url = `${this.hostPort}/users`;
-    const user = userState.toJson();
-    const partyAccessRoles = partyAccessRoleStates.map( value => {
-      return value.toJson();
-    });
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient
-    .post<UserState>(url, {user, partyAccessRoles}, httpOptions)
-    .pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public addOrganizationState(organizationState: OrganizationState): Observable<OrganizationState> {
-    const url = `${this.hostPort}/organizations`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient
-    .post<OrganizationState>(url, organizationState.toJson(), httpOptions)
     .pipe(map(data => {
       return data;
     }));
@@ -201,72 +120,6 @@ export class PersonClientHttp implements PersonClient {
     }));
   }
 
-  public deleteUser(partyId: string): Observable<number> {
-    const url = `${this.hostPort}/users/${partyId}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient
-    .delete<number>(url, httpOptions)
-    .pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public deleteOrganization(partyId: string): Observable<number> {
-    const url = `${this.hostPort}/organizations/${partyId}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient
-    .delete<number>(url, httpOptions)
-    .pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public updateUser(userState: UserState, partyAccessRoleStates: PartyAccessRoleState[]): Observable<number> {
-    const url = `${this.hostPort}/users/${userState.partyId}`;
-    const user = userState.toJson();
-    const partyAccessRoles = partyAccessRoleStates.map( value => {
-      return value.toJson();
-    });
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient
-    .put<number>(url, {user, partyAccessRoles}, httpOptions)
-    .pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public updateUserMe(userState: UserState, credentialState: CredentialState): Observable<number> {
-    const url = `${this.hostPort}/users-me/${userState.partyId}`;
-    const user = userState.toJson();
-    const credential = credentialState.toJson();
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient
-      .put<number>(url, {user, credential}, httpOptions)
-      .pipe(map(data => {
-        return data;
-      }));
-  }
-
-  public updateOrganization(organizationState: OrganizationState): Observable<number> {
-    const url = `${this.hostPort}/organizations/${organizationState.partyId}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient
-    .put<number>(url, organizationState.toJson(), httpOptions)
-    .pipe(map(data => {
-      return data;
-    }));
-  }
-
   public updateCredential(credentialState: CredentialState): Observable<number> {
     const url = `${this.hostPort}/credentials/${credentialState.partyId}`;
     const httpOptions = {
@@ -293,44 +146,7 @@ export class PersonClientHttp implements PersonClient {
     }));
   }
 
-  // authentication part
-
-  isValidUsername(username: string, partyId?: string): Observable<boolean> {
-    const url = `${this.hostPort}/validate-username`;
-
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-
-    const query = {
-      username: username,
-      partyId: partyId
-    };
-
-    return this.httpClient
-      .post<boolean>(url, query, httpOptions)
-      .pipe(map(data => {
-        return data;
-      }));
-  }
-
-  isValidPassword(password: string): Observable<boolean> {
-    const url = `${this.hostPort}/validate-password`;
-
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-
-    const query = {password: password};
-
-    return this.httpClient
-      .post<boolean>(url, query, httpOptions)
-      .pipe(map(data => {
-        return data;
-      }));
-  }
-
-  public jsonHttpHeaders(): HttpHeaders {
+  private jsonHttpHeaders(): HttpHeaders {
   const httpHeaders: HttpHeaders = new HttpHeaders({
     'Content-Type':  'application/json',
     'correlationId': this.uuidGenerator.generateUUID()

@@ -5,7 +5,7 @@ import {MenuModel} from '../menu.model';
 import {trigger, state, style, transition, animate} from '@angular/animations';
 
 @Component({
-  selector: 'mobile-menu',
+  selector: 'app-mobile-menu',
   templateUrl: './mobile.menu.component.html',
   styleUrls: ['./mobile.menu.component.css'],
   animations: [
@@ -33,16 +33,18 @@ export class MobileMenuComponent implements OnInit {
   private _state: string;
   private _popUpState: string;
 
-  constructor(private eventService: EventService,
-              private menuService: MenuService,
+  constructor(
+    // private eventService: EventService,
+              // private menuService: MenuService,
               // private partyService: PartyService,
-              private cd: ChangeDetectorRef) {
+              //  private cd: ChangeDetectorRef
+  ) {
     this._state = 'inactive';
     this._popUpState = 'hide';
     this.imageStr = 'https://designdroide.com/images/abstract-user-icon-4.svg';
-    this.eventService.subscribeToPhotoChangeEvent((data) => {
-      this.getPhoto();
-    });
+    // this.eventService.subscribeToPhotoChangeEvent((data) => {
+    //   this.getPhoto();
+    // });
   }
 
   get title(): string {
@@ -155,9 +157,9 @@ export class MobileMenuComponent implements OnInit {
 
   handleMenuRefreshEvent() {
     const that = this;
-    this.eventService.subscribeToLoginEvent((data) => {
-      that.isLoggedIn = true;
-    });
+    // this.eventService.subscribeToLoginEvent((data) => {
+    //   that.isLoggedIn = true;
+    // });
   }
 
   logOutEvent() {

@@ -3,7 +3,7 @@ import { map } from "rxjs/operators";
 import {mapObjectProps} from '../../mapper/object.property.mapper';
 import {AuthenticationClient} from '../../client/credential/authentication.client';
 import {AuthenticationRepository} from '../../authentication/authentication.repository';
-import {Credential} from '../../authentication/credential';
+import { Credential } from "../../authentication/credential";
 import {CredentialState} from '../../client/credential/credential.state';
 import {ValidResp} from "../../authentication/resp.valid";
 import { Confirmation } from "../../authentication/confirmation";
@@ -32,8 +32,8 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     return this.authenticationClient.isValidPassword(password);
   }
 
-  isValidUsername(username: string): Observable<ValidResp> {
-    return this.authenticationClient.isValidUsername(username);
+  isValidUsername(username: string, partyId?: string): Observable<ValidResp> {
+    return this.authenticationClient.isValidUsername(username, partyId);
   }
 
   addCredential(credential: Credential): Observable<Confirmation> {

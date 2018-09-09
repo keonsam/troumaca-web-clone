@@ -12,5 +12,5 @@
 @import "css/breakdown-main-css/onboarding.css";
 @import "css/breakdown-main-css/dark.color.scheme.css";
 @import "css/breakdown-main-css/responsive.styles.css";
-
-/*@import "css/troumaca.overrides.css";*/
+@import "css/troumaca.overrides.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";

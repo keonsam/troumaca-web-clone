@@ -16,36 +16,37 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="First Name">First Name</label><input class="form-control" formControlName="firstName" placeholder="Enter First Name" required="required" type="text">
+                  <label for="first-name">First Name</label><input id="first-name" class="form-control" formControlName="firstName" placeholder="Enter First Name" required="required" type="text">
                   <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">Invalid First Name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Middle Name">Middle Name</label><input class="form-control" formControlName="middleName" placeholder="Enter Middle Name" required="required" type="text">
+                  <label for="middle-name">Middle Name</label><input id="middle-name" class="form-control" formControlName="middleName" placeholder="Enter Middle Name" required="required" type="text">
                   <div [hidden]="middleName.valid || middleName.pristine" class="alert alert-danger">Invalid Middle Name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Last Name">Last Name</label><input class="form-control" formControlName="lastName" placeholder="Enter Last Name" required="required" type="text">
+                  <label for="last-name">Last Name</label><input id="last-name" class="form-control" formControlName="lastName" placeholder="Enter Last Name" required="required" type="text">
                   <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">Invalid Last Name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Username">Username</label><input class="form-control" formControlName="username" placeholder="Enter Email or Phone Number" required="required" type="text">
+                  <label for="username">Username</label><input id="username" class="form-control" formControlName="username" placeholder="Enter Email or Phone Number" required="required" type="text">
                   <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Email or Phone Number.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group" [class]="(accessRole.valid) ? 'select2-valid':'select2-invalid'">
-                  <label for="Enter Access Role">Access Role</label>
-                  <select2 [data]="accessRoleData"
+                  <label for="access-role">Access Role</label>
+                  <select2 id="access-role"
+                           [data]="accessRoleData"
                            [options]="options"
                            [value]="value"
                            (valueChanged)="changed($event)"

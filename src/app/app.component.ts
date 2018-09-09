@@ -47,8 +47,7 @@ export class AppComponent implements OnInit {
               private route: ActivatedRoute,
               private renderer: Renderer2,
               private eventService: EventService,
-              private sessionService: SessionService,
-              private clientEvent: ClientEvent) {
+              private sessionService: SessionService) {
     this.frontCss = false;
     this.isLoggedIn = false;
     this.isAuthPath = false;
@@ -62,15 +61,15 @@ export class AppComponent implements OnInit {
       });
     });
 
-    this.clientEvent.subscribeToUnauthorizedEvent((data) => {
-      this.isLoggedIn = false;
-      this.router.navigate(['/home']);
-    });
-
-    this.clientEvent.subscribeToLogoutEvent((data) => {
-      this.isLoggedIn = false;
-      this.router.navigate(['/home']);
-    });
+    // this.clientEvent.subscribeToUnauthorizedEvent((data) => {
+    //   this.isLoggedIn = false;
+    //   this.router.navigate(['/home']);
+    // });
+    //
+    // this.clientEvent.subscribeToLogoutEvent((data) => {
+    //   this.isLoggedIn = false;
+    //   this.router.navigate(['/home']);
+    // });
 
     this.eventService.subscribeToLogoutEvent((data) => {
       this.isLoggedIn = false;
@@ -105,10 +104,10 @@ export class AppComponent implements OnInit {
           authUrl = authUrl.match(matchRegex)[0].slice(0, -1);
         }
         if (this.isAuthRoutes.indexOf(authUrl) !== -1) {
-          this.renderer.addClass(document.body, 'auth-wrapper');
+          this.renderer.addClass(document.body, 'center-container');
           this.isAuthPath = true;
         } else {
-          this.renderer.removeClass(document.body, 'auth-wrapper');
+          this.renderer.removeClass(document.body, 'center-container');
           this.isAuthPath = false;
         }
       }

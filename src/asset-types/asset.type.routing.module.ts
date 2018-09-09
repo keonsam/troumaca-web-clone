@@ -1,13 +1,12 @@
 import {Routes, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {AssetTypeComponent} from './asset.type.component';
-import {AuthGuard} from '../auth-guard/auth.guard';
 import {AssetTypeListComponent} from './asset-type-list/asset.type.list.component';
 import { AssetTypeFormComponent } from "./asset-type-form/asset.type.form.component";
 import {AssetTypeResolve} from "./asset.type.resolve";
 
 export const routes: Routes = [
-  { path: '', component: AssetTypeComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
+  { path: '', component: AssetTypeComponent, children: [
       { path: '', redirectTo: 'asset-types/listing', pathMatch: 'full' },
       { path: 'listing', component: AssetTypeListComponent },
       { path: 'create', component: AssetTypeFormComponent },

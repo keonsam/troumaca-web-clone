@@ -66,13 +66,16 @@ export class AuthenticationClientHttp extends AuthenticationClient {
       }));
   }
 
-  isValidUsername(username: string): Observable<ValidResp> {
+  isValidUsername(username: string, partyId?: string): Observable<ValidResp> {
     const url = `${this.hostPort}/validate-username`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    const query = {username: username};
+    const query = {
+      username: username,
+      partyId: partyId
+    };
     return this.httpClient
     .post<ValidResp>(url, query, httpOptions)
     .pipe(map(data => {

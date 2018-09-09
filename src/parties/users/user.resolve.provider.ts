@@ -1,10 +1,10 @@
 import { UserResolve } from './user.resolve';
-import { PartyService } from "../party.service";
+import { UserService } from "./user.service";
 
-export function userResolveProviderFactory (partyService: PartyService): UserResolve {
+export function userResolveProviderFactory (userService: UserService): UserResolve {
   let userResolve: UserResolve;
   if (!userResolve) {
-    userResolve = new UserResolve(partyService);
+    userResolve = new UserResolve(userService);
   }
   return userResolve;
 }
@@ -12,5 +12,5 @@ export function userResolveProviderFactory (partyService: PartyService): UserRes
 export let userResolveProvider = {
   provide: UserResolve,
   useFactory: userResolveProviderFactory,
-  deps: [PartyService]
+  deps: [UserService]
 };
