@@ -3,11 +3,13 @@
   <mat-horizontal-stepper *ngIf="!userResponse" id="mat-stepper" [linear]="true" #stepper>
     <mat-step [completed]="organizationCompleted">
       <ng-template matStepLabel> ORGANIZATION</ng-template>
+
       <div class="os-tabs-w mx-4 controls">
         <div class="os-tabs-controls">
           <ul class="nav nav-tabs upper">
             <li class="nav-item">
-              <a aria-expanded="false" class="nav-link" data-toggle="tab" (click)="toggleTab(0)"> Request Access</a>
+              <a aria-expanded="false" *ngIf="!createdOrganization" class="nav-link" data-toggle="tab" (click)="toggleTab(0)"> Request Access</a>
+              <a aria-expanded="false" *ngIf="createdOrganization" class="nav-link disabled" data-toggle="tab"> Request Access</a>
             </li>
             <li class="nav-item">
               <a aria-expanded="false" *ngIf="!requestAccessed" class="nav-link" data-toggle="tab" (click)="toggleTab(1)"> Create</a>
@@ -51,12 +53,15 @@
                                        (selected)="onOrganizationSelect($event)"
                                        required>
                         </ng2-completer>
-                        <div [hidden]="selectedOrganization.name === organizationId.value || organizationId.pristine" class="alert alert-danger">Select an Access Role Type.</div>
+                        <div [hidden]="selectedOrganization.name === organizationId.value || organizationId.pristine" class="alert alert-danger">Select an Organization.</div>
                       </div>
                     </fieldset>
                     <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to Send Request. Please try again</div>
 
-                    <button class="btn btn-primary" [disabled]="selectedOrganization.name !== organizationId.value" type="submit" (click)="onNext()"> Next</button>
+                    <div class="form-buttons-w">
+                      <button class="btn btn-primary button-margin" [disabled]="selectedOrganization.name !== organizationId.value" type="submit" (click)="onNext()"> Next</button>
+                      <button class="btn btn-outline-secondary" type="submit" (click)="onCancel()"> Cancel Request</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -66,7 +71,7 @@
       </div>
 
 
-      <app-organization-company *ngIf="tab === 1" (organizationCreated)="nextStep($event, 1)" [stepper]="true"></app-organization-company>
+      <app-organization-company *ngIf="tab === 1" (organizationCreated)="doOrganizationCreated();nextStep($event, 1)" [stepper]="true"></app-organization-company>
 
 
       <!--<ngb-tabset active>-->

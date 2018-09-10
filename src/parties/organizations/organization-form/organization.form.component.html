@@ -35,7 +35,7 @@
 
               <div class="form-buttons-w">
                 <button class="btn btn-primary button1" [hidden]="organizationExist" [disabled]="!organizationForm.valid" type="submit" (click)="onCreate()"> {{ stepper ? 'Next': 'Create'}}</button>
-                <button class="btn btn-primary button1" [hidden]="!organizationExist" [disabled]="!organizationForm.valid" type="submit" (click)="onUpdate()"> Update</button>
+                <button class="btn btn-primary button1" [hidden]="!organizationExist" [disabled]="!organizationForm.valid" type="submit" (click)="onUpdate()"> {{ stepper ? 'Next': 'Update'}}</button>
                 <button class="btn btn-outline-danger" [hidden]="stepper" type="cancel" (click)="cancel()"> Cancel</button>
               </div>
 

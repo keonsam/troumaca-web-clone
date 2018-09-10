@@ -6,6 +6,7 @@ import {FrontHomeComponent} from '../front-home/front.home.component';
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: FrontHomeComponent},
+  { path: 'lobby', loadChildren: '../home/home.module#HomeModule'},
   { path: 'access-roles', loadChildren: '../access-roles/access.role.module#AccessRoleModule' },
   { path: 'asset-type-classes', loadChildren: '../asset-type-classes/asset.type.class.module#AssetTypeClassModule' },
   { path: 'asset-types', loadChildren: '../asset-types/asset.type.module#AssetTypesModule' },
@@ -15,9 +16,9 @@ const appRoutes: Routes = [
   { path: 'depreciation', loadChildren: '../depreciation/depreciation.module#DepreciationModule' },
   { path: 'parties', loadChildren: '../parties/party.module#PartyModule' },
   { path: 'sites', loadChildren: '../site/site.module#SiteModule' },
-  { path: 'create-profile', loadChildren: '../create-profile/create.profile.module#CreateProfileModule'},
+  { path: 'profile', loadChildren: '../create-profile/create.profile.module#CreateProfileModule'},
   { path: '**', component: PageNotFoundComponent },
-];
+]
 
 @NgModule({
   imports: [

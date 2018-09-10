@@ -88,7 +88,7 @@ export class AppComponent implements OnInit {
         this.sessionService.activeSessionExists()
           .subscribe(value => {
             const url = event.url;
-            if (value && url !== '/create-profile') {
+            if (value && url !== '/profile') {
               this.isLoggedIn = true;
             }
             this.initLogSub.unsubscribe();

@@ -1,8 +1,14 @@
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {Photo} from "./photo";
 import {PhotoRepository} from "./photo.repository";
 
 export class PhotoService {
+
+  public photoData = new BehaviorSubject<{type: string, imgStr: string}>({
+    type: '',
+    imgStr: ''
+  });
+
   constructor(private photoRepository: PhotoRepository) {}
 
   public getPhotos(): Observable<Photo> {

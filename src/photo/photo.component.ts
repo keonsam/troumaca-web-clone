@@ -9,8 +9,8 @@ import { Photo } from "./photo";
   styleUrls: ['./photo.component.css']
 })
 export class PhotoComponent implements OnInit {
-  public userImage: string;
-  public organizationImage: string;
+  public userImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
+  public organizationImage = 'https://i.pinimg.com/736x/05/19/3c/05193c43ed8e4a9ba4dfaa10ff0115f1.jpg';
   public imageChangedEvent: any = '';
   public croppedImage: any = '';
   public doNotDisplayFailureMessage = true;
@@ -24,6 +24,14 @@ export class PhotoComponent implements OnInit {
 
   constructor(private photoService: PhotoService ) {
     this.photo = new Photo();
+
+    this.photoService.photoData.subscribe( data => {
+      if (data.type === 'user') {
+        this.userImage = data.imgStr;
+      }else if (data.type === 'organization')  {
+        this.organizationImage = data.imgStr;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -33,7 +41,7 @@ export class PhotoComponent implements OnInit {
   getPhotos() {
     this.photoService.getPhotos()
       .subscribe( photo => {
-        if (photo) {
+        if (photo.partyId) {
           this.userImage = photo.userImage;
           this.organizationImage = photo.organizationImage;
           this.photo = photo;
@@ -66,14 +74,10 @@ export class PhotoComponent implements OnInit {
     this.photoService.addPhoto(newPhoto, this.type)
       .subscribe(photo => {
         if (photo) {
-          if (this.type === 'organization') {
-            this.organizationImage = photo.imageStr;
-          }else {
-            this.userImage = photo.imageStr;
-          }
+          this.photoService.photoData.next({type: this.type, imgStr: newPhoto.imageStr});
           this.photo = photo;
           this.modalCloseButton.nativeElement.click();
-        }else {
+        } else {
           this.errorMessage = 'Failed to Add Image to Server, Please Type Again.';
           this.doNotDisplayFailureMessage = false;
         }
@@ -87,7 +91,7 @@ export class PhotoComponent implements OnInit {
     this.photoService.updatePhoto(newPhoto, this.type)
       .subscribe(photo => {
         if (photo) {
-          this.getPhotos();
+          this.photoService.photoData.next({type: this.type, imgStr: newPhoto.imageStr});
           this.modalCloseButton.nativeElement.click();
         }else {
           this.errorMessage = 'Failed to Update Image, Please Type Again.';
@@ -99,12 +103,10 @@ export class PhotoComponent implements OnInit {
   onUpload() {
     this.doNotDisplayFailureMessage = true;
     if (this.croppedImage) {
-      if (this.type === 'organization' && !this.organizationImage) {
-        this.addImage();
-      }else if (this.type === 'user' && !this.userImage) {
-        this.addImage();
-      }else {
+      if (this.photo.partyId) {
         this.updateImage();
+      } else {
+        this.addImage();
       }
     }else {
       this.errorMessage = 'No Image Available for Update. Please Crop Your Image.';

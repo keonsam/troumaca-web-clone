@@ -6,8 +6,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {debounceTime, filter, map} from 'rxjs/operators';
 import {OrganizationService} from '../parties/organizations/organization.service';
 import { MatStepper } from '@angular/material';
-import {EventService} from "../event/event.service";
-import {Event} from "../authentication/event";
+import {EventService} from '../event/event.service';
+import {Event} from '../authentication/event';
 
 @Component({
   selector: 'app-create-profile',
@@ -30,6 +30,7 @@ export class CreateProfileComponent implements OnInit {
   @ViewChild('stepper') stepper: MatStepper;
   requestAccessed = false;
   tab = 0;
+  createdOrganization = false;
 
   constructor(private route: ActivatedRoute,
               private completerService: CompleterService,
@@ -107,7 +108,9 @@ export class CreateProfileComponent implements OnInit {
   }
 
   onOrganizationSelect(selected: CompleterItem) {
-    this.selectedOrganization = selected.originalObject;
+    if (selected) {
+      this.selectedOrganization = selected.originalObject;
+    }
   }
 
   nextStep(created: boolean, index: number) {
@@ -160,12 +163,22 @@ export class CreateProfileComponent implements OnInit {
       });
   }
 
+  doOrganizationCreated() {
+    this.createdOrganization = true;
+  }
+
   doUserCreated(created: boolean) {
     this.userCompleted = true;
-    if (created && this.selectedOrganization.partyId) {
+    if (created && this.requestAccessed) {
       this.sendRequest();
     }else if (created) {
       this.loginUserIn();
     }
+  }
+
+  onCancel() {
+    this.organizationId.setValue('');
+    this.requestAccessed = false;
+    this.organizationCompleted = false;
   }
 }
