@@ -24,7 +24,7 @@ export class SiteStreetAddressFormComponent implements OnInit {
   private _postalCode: FormControl;
   private _country: FormControl;
 
-  private _siteStreetAddressEditForm: FormGroup;
+  private _siteStreetAddressForm: FormGroup;
 
   private streetAddress: StreetAddress;
 
@@ -49,7 +49,7 @@ export class SiteStreetAddressFormComponent implements OnInit {
      this.country = new FormControl('', [Validators.required]);
 
 
-     this.siteStreetAddressEditForm = formBuilder.group({
+     this.siteStreetAddressForm = formBuilder.group({
        'name': this.name,
        'suiteOrApartment': this.suiteOrApartment,
        'floor': this.floor,
@@ -65,7 +65,7 @@ export class SiteStreetAddressFormComponent implements OnInit {
 
      this.streetAddress = new StreetAddress();
 
-     this.siteStreetAddressEditForm
+     this.siteStreetAddressForm
      .valueChanges
      .subscribe(value => {
        this.streetAddress.name = value.name;
@@ -196,12 +196,12 @@ export class SiteStreetAddressFormComponent implements OnInit {
     this._country = value;
   }
 
-  get siteStreetAddressEditForm(): FormGroup {
-    return this._siteStreetAddressEditForm;
+  get siteStreetAddressForm(): FormGroup {
+    return this._siteStreetAddressForm;
   }
 
-  set siteStreetAddressEditForm(value: FormGroup) {
-    this._siteStreetAddressEditForm = value;
+  set siteStreetAddressForm(value: FormGroup) {
+    this._siteStreetAddressForm = value;
   }
 
   get doNotDisplayFailureMessage(): boolean {

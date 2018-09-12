@@ -70,16 +70,20 @@ export class SitePostOfficeBoxListComponent implements OnInit {
     this.postOfficeBoxName = postOfficeBoxName;
   }
 
-  onDelete() {
-    this.siteService
-    .deletePostOfficeBox(this.postOfficeBoxId)
-    .subscribe(value => {
-    this.getPostOfficeBoxes();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log('complete');
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.siteService
+        .deletePostOfficeBox(this.postOfficeBoxId)
+        .subscribe(value => {
+          if (value) {
+            this.getPostOfficeBoxes();
+          }
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

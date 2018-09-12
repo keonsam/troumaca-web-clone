@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, ViewChild, ElementRef} from '@angular/core';
 import {User} from '../parties/user';
-import {PhotoService } from "./photo.service";
-import { Photo } from "./photo";
+import {PhotoService } from './photo.service';
+import { Photo } from './photo';
 
 @Component({
   selector: 'app-photo',
@@ -20,7 +20,7 @@ export class PhotoComponent implements OnInit {
   @Input() user: User;
   @Input() organizationName: string;
   @ViewChild('modalCloseButton') private modalCloseButton: ElementRef;
-
+  public resize: number;
 
   constructor(private photoService: PhotoService ) {
     this.photo = new Photo();
@@ -36,6 +36,11 @@ export class PhotoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPhotos();
+    if(this.type === 'user') {
+      this.resize = 60;
+    }else {
+      this.resize = 0;
+    }
   }
 
   getPhotos() {

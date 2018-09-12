@@ -11,8 +11,8 @@ export class PhotoService {
 
   constructor(private photoRepository: PhotoRepository) {}
 
-  public getPhotos(): Observable<Photo> {
-    return this.photoRepository.getPhotos();
+  public getPhotos(type?: string): Observable<Photo> {
+    return this.photoRepository.getPhotos(type);
   }
 
   public addPhoto(photo: Photo, type: string): Observable<Photo> {

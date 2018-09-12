@@ -7,7 +7,7 @@
       <div class="col-sm-12">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="siteEmailForm" (ngSubmit)="onCreate()">
+            <form [formGroup]="siteEmailForm">
               <h5 class="form-header">
                 {{ emailExist ? "Edit": "New"}} Edit Email Form
               </h5>
@@ -16,36 +16,36 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="name">Name</label><input class="form-control" formControlName="name" placeholder="Name" required type="text">
+                  <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Enter Name" required type="text">
                   <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid street name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="domainName">Domain Name</label><input class="form-control" formControlName="domainName" placeholder="Domain Name" required type="text">
+                  <label for="domain-name">Domain Name</label><input id="domain-name" class="form-control" formControlName="domainName" placeholder="Domain Name" required type="text">
                   <div [hidden]="domainName.valid || domainName.pristine" class="alert alert-danger">Invalid domain name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="emailAddress">Email Address</label><input class="form-control" formControlName="emailAddress" placeholder="Email Address" required type="text">
+                  <label for="email-address">Email Address</label><input id="email-address" class="form-control" formControlName="emailAddress" placeholder="Email Address" required type="text">
                   <div [hidden]="emailAddress.valid || emailAddress.pristine" class="alert alert-danger">Invalid email address.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="description">Description</label><textarea class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
+                  <label for="description">Description</label><textarea id="description" class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
                   <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
                 </div>
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [hidden]="emailExist" [disabled]="!siteEmailForm.valid" type="submit" (click)="onCreate"> Create</button>
-                <button class="btn btn-primary button1" [hidden]="!emailExist" [disabled]="!siteEmailForm.valid" type="submit" (click)="onUpdate"> Update</button>
-                <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
+                <button class="btn btn-primary" [hidden]="emailExist" [disabled]="!siteEmailForm.valid" type="submit" (click)="onCreate()">Create</button>
+                <button class="btn btn-primary" [hidden]="!emailExist" [disabled]="!siteEmailForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
               </div>
 
             </form>

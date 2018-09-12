@@ -25,6 +25,7 @@ import { SiteStreetAddressFormComponent } from './site-street-address-form/site.
 import { streetAddressResolveProvider } from './site-street-address-form/street.address.resolve.provider';
 import { SiteWebFormComponent } from './site-web-form/site.web.form.component';
 import { webSiteResolveProvider } from './site-web-form/web.site.resolve.provider';
+import {DeleteModalModule} from '../delete-modal/delete.modal.module';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { webSiteResolveProvider } from './site-web-form/web.site.resolve.provide
     MenuModule,
     SearchModule,
     PagingModule,
-    SiteRoutingModule
+    SiteRoutingModule,
+    DeleteModalModule
   ],
   declarations: [
     SiteComponent,

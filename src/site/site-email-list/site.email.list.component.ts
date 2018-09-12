@@ -71,16 +71,20 @@ export class SiteEmailListComponent implements OnInit {
     this.emailName = emailName;
   }
 
-  onDelete() {
-    this.siteService
-    .deleteEmail(this.emailId)
-    .subscribe(value => {
-    this.getEmails();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log('complete');
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.siteService
+        .deleteEmail(this.emailId)
+        .subscribe(value => {
+          if (value) {
+            this.getEmails();
+          }
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

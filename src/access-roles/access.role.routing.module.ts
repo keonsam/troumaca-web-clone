@@ -26,7 +26,7 @@ import {ResourceResolve} from './resources/resource.resolve';
 
 const routes: Routes = [
   { path: '', component: AccessRoleComponent, children: [
-      { path: '', redirectTo: 'access-roles/listing', pathMatch: 'full' },
+      { path: '', redirectTo: '/access-roles/listing', pathMatch: 'full' },
       { path: 'listing', component: AccessRoleListComponent, data: {menuName: 'access-role-menu'} },
       { path: 'create', component: AccessRoleFormComponent, data: {menuName: 'access-role-menu'} },
       { path: ':accessRoleId/edit', component: AccessRoleFormComponent,

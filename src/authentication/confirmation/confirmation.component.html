@@ -10,7 +10,7 @@
 
   <form [formGroup]="phoneVerificationForm" (ngSubmit)="onSubmit()">
     <p class="lead">
-      Enter the confirmation code we sent to your username.
+      Enter the confirmation code we sent By Email or Phone.
     </p>
 
     <div class="form-group">
@@ -23,12 +23,12 @@
     </div>
 
     <div *ngIf="textMessageSuccess" class="alert alert-success">
-      <strong>Success!</strong> confirmation code has been sent.
+      <strong>Success!</strong> Confirmation code has been sent.
       If you didn't get it in 5 minutes, Please try again.
     </div>
 
     <div *ngIf="errorExists" class="alert alert-danger">
-      <strong>Error!</strong> confirmation code does not match or has been expired. Please try again or generate a new one below.
+      <strong>Error!</strong> Confirmation code does not match or has been expired. Please try again or generate a new one below.
     </div>
 
     <div *ngIf="noEntry" class="alert alert-danger">
@@ -36,13 +36,11 @@
     </div>
 
     <div class="buttons-w">
-      <div>
         <button class="mr-2 mb-2 btn btn-outline-success" id="button1" routerLink="/authentication/register">Change Number</button>
         <button [disabled]="!phoneVerificationForm.valid" id="button2" class="btn btn-primary" type="submit">Verify</button>
-      </div>
-      <div class="sendPhoneCode">
-        <a href="#" (click)="sendConfirmationCode();false">Didn't get the text message?</a>
-      </div>
+    </div>
+    <div class="sendPhoneCode">
+      <a href="#" (click)="sendConfirmationCode();false">Didn't get the text message?</a>
     </div>
   </form>
 

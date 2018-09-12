@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AssetTypeClassComponent} from './asset.type.class.component';
 import {RouterModule} from '@angular/router';
@@ -14,11 +13,13 @@ import {SearchModule} from '../search/search.module';
 import {Ng2CompleterModule} from 'ng2-completer';
 import { AssetTypeClassRoutingModule } from "./asset.type.class.routing.module";
 import { assetTypeClassResolveProvider } from "./asset.type.class.resolve.provider";
+import {DeleteModalModule} from "../delete-modal/delete.modal.module";
+import {attributeServiceProvider} from "../attributes/attribute.service.provider";
+import {AttributeModule} from "../attributes/attribute.module";
 
 @NgModule({
   imports: [
     CommonModule,
-    NgbModule,
     RouterModule,
     FormsModule,
     Ng2CompleterModule,
@@ -26,7 +27,9 @@ import { assetTypeClassResolveProvider } from "./asset.type.class.resolve.provid
     MenuModule,
     PagingModule,
     SearchModule,
-    AssetTypeClassRoutingModule
+    AssetTypeClassRoutingModule,
+    DeleteModalModule,
+    AttributeModule
   ],
   declarations: [
     AssetTypeClassComponent,
@@ -34,7 +37,7 @@ import { assetTypeClassResolveProvider } from "./asset.type.class.resolve.provid
     AssetTypeClassFormComponent,
     AssetTypeClassTopMenuComponent,
   ],
-  providers: [assetTypeClassServiceProvider, assetTypeClassResolveProvider],
+  providers: [assetTypeClassServiceProvider, assetTypeClassResolveProvider, attributeServiceProvider],
   exports: []
 })
 export class AssetTypeClassModule {}

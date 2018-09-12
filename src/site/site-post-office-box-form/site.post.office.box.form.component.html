@@ -7,7 +7,7 @@
       <div class="col-sm-12">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="sitePostOfficeBoxForm" (ngSubmit)="onCreate()">
+            <form [formGroup]="sitePostOfficeBoxForm">
               <h5 class="form-header">
                 {{ postOfficeBoxExist ? "Edit":"New"}} Post Office Box Form
               </h5>
@@ -16,57 +16,57 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="name">Name</label><input class="form-control" formControlName="name" placeholder="name" required type="text">
-                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid street name.</div>
+                  <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Enter Name" required type="text">
+                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="">Post Office Box Number</label><input class="form-control" formControlName="postOfficeBoxNumber" required placeholder="Enter Post Office Box Number" type="number">
+                  <label for="post-office-box-number">Post Office Box Number</label><input id="post-office-box-number" class="form-control" formControlName="postOfficeBoxNumber" required placeholder="Enter Post Office Box Number" type="number">
                   <div [hidden]="postOfficeBoxNumber.valid || postOfficeBoxNumber.pristine" class="alert alert-danger">Invalid post office box number.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="city">City</label><input class="form-control" formControlName="city" required placeholder="City">
+                  <label for="city">City</label><input id="city" class="form-control" formControlName="city" required placeholder="Enter City">
                   <div [hidden]="city.valid || city.pristine" class="alert alert-danger">The city is required.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="city">State or Province</label><input class="form-control" formControlName="stateOrProvince" required placeholder="State or Province">
+                  <label for="state-or-province">State or Province</label><input id="state-or-province" class="form-control" formControlName="stateOrProvince" required placeholder="Enter a State or Province">
                   <div [hidden]="stateOrProvince.valid || stateOrProvince.pristine" class="alert alert-danger">The state or province is required.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="postalCode">Postal Code</label><input class="form-control" formControlName="postalCode" required placeholder="Postal Code">
-                  <div [hidden]="postalCode.valid || postalCode.pristine" class="alert alert-danger">The postal code  is required.</div>
+                  <label for="postal-code">Postal Code</label><input id="postal-code" class="form-control" formControlName="postalCode" required placeholder="Enter a Postal Code">
+                  <div [hidden]="postalCode.valid || postalCode.pristine" class="alert alert-danger">The postal code is required.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="country">Country</label><input class="form-control" formControlName="country" required placeholder="Country">
+                  <label for="country">Country</label><input id="country" class="form-control" formControlName="country" required placeholder="Enter Country">
                   <div [hidden]="country.valid || country.pristine" class="alert alert-danger">The country is required.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="description">Description</label><textarea class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
+                  <label for="description">Description</label><textarea id="description" class="form-control" formControlName="description" placeholder="Enter a Description" rows="3"></textarea>
                   <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
                 </div>
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [hidden]="postOfficeBoxExist" [disabled]="!sitePostOfficeBoxForm.valid" type="submit" (click)="onCreate()"> Create</button>
-                <button class="btn btn-primary button1" [hidden]="!postOfficeBoxExist" [disabled]="!sitePostOfficeBoxForm.valid" type="submit" (click)="onUpdate()"> Create</button>
-                <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
+                <button class="btn btn-primary" [hidden]="postOfficeBoxExist" [disabled]="!sitePostOfficeBoxForm.valid" type="submit" (click)="onCreate()">Create</button>
+                <button class="btn btn-primary" [hidden]="!postOfficeBoxExist" [disabled]="!sitePostOfficeBoxForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
               </div>
 
             </form>

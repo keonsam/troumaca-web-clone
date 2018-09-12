@@ -16,50 +16,50 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="">Name</label><input class="form-control" formControlName="name" placeholder="Name">
+                  <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Name" required>
                   <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="">Country Code</label><input class="form-control" formControlName="countryCode" required placeholder="Country Code" type="number">
+                  <label for="country-code">Country Code</label><input id="country-code" class="form-control" formControlName="countryCode" required placeholder="Country Code" type="number">
                   <div [hidden]="countryCode.valid || countryCode.pristine" class="alert alert-danger">Country code required.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="">Area Code</label><input class="form-control" formControlName="areaCode" required placeholder="Area Code" type="number">
+                  <label for="area-code">Area Code</label><input id="area-code" class="form-control" formControlName="areaCode" required placeholder="Area Code" type="number">
                   <div [hidden]="areaCode.valid || areaCode.pristine" class="alert alert-danger">Area code required and must be 3 digits.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="">Exchange</label><input class="form-control" formControlName="exchange" placeholder="Exchange">
+                  <label for="exchange">Exchange</label><input id="exchange" class="form-control" formControlName="exchange" placeholder="Exchange">
                   <div [hidden]="exchange.valid || exchange.pristine" class="alert alert-danger">Invalid exchange.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="">Telephone Number</label><input class="form-control" formControlName="telephoneNumber" required placeholder="Telephone Number">
+                  <label for="telephone-number">Telephone Number</label><input id="telephone-number" class="form-control" formControlName="telephoneNumber" required placeholder="Telephone Number">
                   <div [hidden]="telephoneNumber.valid || telephoneNumber.pristine" class="alert alert-danger">Telephone Number required.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="">Description</label><textarea class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
+                  <label for="description">Description</label><textarea id="description" class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
                   <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
                 </div>
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [hidden]="phoneExist" [disabled]="!sitePhoneForm.valid" type="submit" (click)="onCreate()"> Create</button>
-                <button class="btn btn-primary button1" [hidden]="!phoneExist" [disabled]="!sitePhoneForm.valid" type="submit" (click)="onUpdate()"> Update</button>
-                <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
+                <button class="btn btn-primary" [hidden]="phoneExist" [disabled]="!sitePhoneForm.valid" type="submit" (click)="onCreate()">Create</button>
+                <button class="btn btn-primary" [hidden]="!phoneExist" [disabled]="!sitePhoneForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
               </div>
 
             </form>

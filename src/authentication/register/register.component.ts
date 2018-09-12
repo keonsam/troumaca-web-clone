@@ -17,7 +17,6 @@ export class RegisterComponent implements OnInit {
   private _username: FormControl;
   private _password: FormControl;
   private _confirmPassword: FormControl;
-  private redirectLink: string;
   private credential: Credential;
   private _doNotDisplayFailureMessage: boolean;
 

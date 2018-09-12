@@ -58,8 +58,6 @@ export class ConfirmationComponent implements OnInit {
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
-      // const credentialId = params['credentialId'];
-      // const confirmationId = params['confirmationId'];
       this.confirmation.credentialId = params['credentialId'];
       this.confirmation.confirmationId = params['confirmationId'];
       // this.authenticationService.getConfirmationsUsername(confirmationId)

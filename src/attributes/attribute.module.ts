@@ -15,6 +15,7 @@ import { AttributeRoutingModule } from "./attribute.routing.module";
 import { AttributeFormComponent } from "./attribute-form/attribute.form.component";
 import { attributeResolveProvider } from "./attribute.resolve.provider";
 import { UnitOfMeasureModule } from "../unit-of-measure/unit.of.measure.module";
+import {DeleteModalModule} from "../delete-modal/delete.modal.module";
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { UnitOfMeasureModule } from "../unit-of-measure/unit.of.measure.module";
     SearchModule,
     PagingModule,
     AttributeRoutingModule,
-    UnitOfMeasureModule
+    UnitOfMeasureModule,
+    DeleteModalModule
   ],
   declarations: [
     AttributeComponent,
@@ -38,6 +40,7 @@ import { UnitOfMeasureModule } from "../unit-of-measure/unit.of.measure.module";
   ],
   providers: [attributeServiceProvider, attributeResolveProvider],
   exports: [
+    AttributeFormComponent
   ]
 })
 export class AttributeModule {}

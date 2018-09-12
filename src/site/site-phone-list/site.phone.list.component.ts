@@ -71,16 +71,18 @@ export class SitePhoneListComponent implements OnInit {
     this.phoneName = phoneName;
   }
 
-  onDelete() {
-    this.siteService
-    .deletePhone(this.siteId)
-    .subscribe(value => {
-    this.getPhones();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log('complete');
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.siteService
+        .deletePhone(this.siteId)
+        .subscribe(value => {
+          this.getPhones();
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

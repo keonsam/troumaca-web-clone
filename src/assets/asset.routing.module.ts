@@ -7,7 +7,7 @@ import {AssetResolve} from "./asset.resolve";
 
 export const routes: Routes = [
   { path: '', component: AssetComponent, children: [
-      { path: '', redirectTo: 'assets/listing', pathMatch: 'full' },
+      { path: '', redirectTo: '/assets/listing', pathMatch: 'full' },
       { path: 'listing', component: AssetListComponent },
       { path: 'create', component: AssetFormComponent },
       { path: ':assetId/edit', component: AssetFormComponent, resolve: { asset: AssetResolve} }

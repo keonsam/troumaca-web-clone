@@ -1,6 +1,6 @@
 <div class="menu-mobile menu-activated-on-click color-scheme-dark">
   <div class="mm-logo-buttons-w">
-    <a class="mm-logo" href="#" routerLink="/home/lobby"><img src="images/logo.png"></a>
+    <a class="mm-logo" href="#" routerLink="/lobby"><img src="images/logo.png"></a>
     <div class="mm-buttons">
       <div class="content-panel-open">
         <div class="os-icon os-icon-grid-circles"></div>
@@ -18,10 +18,9 @@
         </div>
         <div class="logged-user-info-w">
           <div class="logged-user-name">
-            {{userName}}
+            {{name}}
           </div>
           <div class="logged-user-role">
-            Troumaka
           </div>
         </div>
         <!-- START OF POP UP -->
@@ -32,10 +31,9 @@
             </div>
             <div class="logged-user-info-w">
               <div class="logged-user-name">
-                {{userName}}
+                {{name}}
               </div>
               <div class="logged-user-role">
-                Asset Management
               </div>
             </div>
           </div>
@@ -43,11 +41,23 @@
             <i class="os-icon os-icon-wallet-loaded"></i>
           </div>
           <ul>
+            <li>
+              <a ><i class="os-icon os-icon-mail-01"></i><span>Incoming mail</span></a>
+            </li>
             <li (click)="mobileMenuTrigger()">
-              <a href="#" routerLink="/parties/user-me" ><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
+              <a routerLink="/parties/user-profile"><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
+            </li>
+            <li>
+              <a ><i class="os-icon os-icon-coins-4"></i><span>Billing Details</span></a>
+            </li>
+            <li>
+              <a ><i class="os-icon os-icon-others-43"></i><span>Notifications</span></a>
+            </li>
+            <li>
+              <a><i class="os-icon os-icon-others-43"></i><span>Session History</span></a>
             </li>
             <li (click)="logOutEvent();false">
-              <a href="#" ><i class="os-icon os-icon-signs-11"></i><span>Logout</span></a>
+              <a ><i class="os-icon os-icon-signs-11"></i><span>Logout</span></a>
             </li>
           </ul>
         </div>
@@ -64,16 +74,23 @@
         </a>
       </li>
       <li class="has-sub-menu">
-        <a routerLink="/parties/users" (click)="mobileMenuTrigger()">
+        <a routerLink="/parties/users/listing" (click)="mobileMenuTrigger()">
           <div class="icon-w">
             <i class="os-icon os-icon-user-male-circle"></i>
           </div>
         </a>
       </li>
       <li class="has-sub-menu">
-        <a routerLink="/parties" routerLinkActive="active" (click)="mobileMenuTrigger()">
+        <a routerLink="/parties/organizations/listing" routerLinkActive="active" (click)="mobileMenuTrigger()">
           <div class="icon-w">
             <i class="os-icon os-icon-hierarchy-structure-2"></i>
+          </div>
+        </a>
+      </li>
+      <li class="has-sub-menu">
+        <a routerLink="/depreciation" routerLinkActive="active" (click)="mobileMenuTrigger()">
+          <div class="icon-w">
+            <i class="os-icon os-icon-graph-down"></i>
           </div>
         </a>
       </li>

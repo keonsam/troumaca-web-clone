@@ -12,7 +12,6 @@ import {Router} from '@angular/router';
 })
 export class SiteEmailFormComponent implements OnInit {
 
-  private siteId: string;
   private _name: FormControl;
   private _description: FormControl;
   private _domainName: FormControl;
@@ -124,7 +123,20 @@ export class SiteEmailFormComponent implements OnInit {
   onCreate() {
     this.doNotDisplayFailureMessage = true;
     this.siteService
-    .updateEmail(this.siteId, this.email)
+      .addEmail(this.email)
+      .subscribe( value => {
+        if (value.siteId) {
+          this.router.navigate(['/sites/emails']);
+        } else {
+          this.doNotDisplayFailureMessage = false;
+        }
+      });
+  }
+
+  onUpdate() {
+    this.doNotDisplayFailureMessage = true;
+    this.siteService
+    .updateEmail(this.email.siteId, this.email)
     .subscribe(value => {
       if (value) {
         this.router.navigate(['/sites/emails']);

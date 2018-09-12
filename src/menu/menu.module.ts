@@ -10,6 +10,8 @@ import {SearchModule} from '../search/search.module';
 import {MessageModule} from '../message/message.module';
 import {SettingModule} from '../setting/setting.module';
 import {menuServiceProvider} from './menu.service.provider';
+import {userServiceProvider} from '../parties/users/user.service.provider';
+import {photoServiceProvider} from '../photo/photo.service.provider';
 
 @NgModule({
   imports: [
@@ -26,7 +28,7 @@ import {menuServiceProvider} from './menu.service.provider';
     SideMenuComponent,
     MenuComponent
   ],
-  providers: [menuServiceProvider],
+  providers: [menuServiceProvider, userServiceProvider, photoServiceProvider],
   exports: [
     MobileMenuComponent,
     TopMenuComponent,

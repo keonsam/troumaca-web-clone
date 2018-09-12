@@ -2,7 +2,7 @@ import {Observable} from "rxjs";
 import {Photo} from "./photo";
 
 export abstract class PhotoRepository {
-  abstract getPhotos(): Observable<Photo>;
+  abstract getPhotos(type?: string): Observable<Photo>;
 
   abstract addPhoto(photo: Photo, type: string): Observable<Photo>;
 

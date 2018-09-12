@@ -13,8 +13,6 @@ import {Router} from '@angular/router';
 })
 export class SiteWebFormComponent implements OnInit {
 
-  private siteId: string;
-  private sub: any;
   private _name: FormControl;
   private _description: FormControl;
   private _uniformResourceIdentifier: FormControl;

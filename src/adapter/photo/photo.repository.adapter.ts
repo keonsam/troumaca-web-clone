@@ -11,8 +11,8 @@ export class PhotoRepositoryAdapter extends PhotoRepository {
     super();
   }
 
-  public getPhotos(): Observable<Photo> {
-    return this.photoClient.getPhotos()
+  public getPhotos(type?: string): Observable<Photo> {
+    return this.photoClient.getPhotos(type)
       .pipe(map(photo => mapObjectProps(photo, new Photo())));
   }
 

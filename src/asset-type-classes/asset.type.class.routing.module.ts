@@ -7,7 +7,7 @@ import {AssetTypeClassResolve} from "./asset.type.class.resolve";
 
 export const routes: Routes = [
   { path: '', component: AssetTypeClassComponent, children: [
-      { path: '', redirectTo: 'asset-type-classes/listing', pathMatch: 'full' },
+      { path: '', redirectTo: '/asset-type-classes/listing', pathMatch: 'full' },
       { path: 'listing', component: AssetTypeClassListComponent },
       { path: 'create', component: AssetTypeClassFormComponent },
       { path: ':assetTypeClassId/edit', component: AssetTypeClassFormComponent, resolve: {assetTypeClassResponse: AssetTypeClassResolve} }

@@ -8,9 +8,12 @@ export class AssignedAttribute {
   private _createdOn: string;
   private _modifiedOn: string;
   private _dataTypeId: string;
+  private _dataTypeName: string;
 
-  constructor(attributeId?: string) {
+  constructor(attributeId?: string, attributeName?: string, dataTypeName?: string) {
     this._attributeId = attributeId;
+    this.attributeName = attributeName;
+    this.dataTypeName = dataTypeName;
   }
 
   get assignedAttributeId(): string {
@@ -75,5 +78,13 @@ export class AssignedAttribute {
 
   set dataTypeId(value: string) {
     this._dataTypeId = value;
+  }
+
+  get dataTypeName(): string {
+    return this._dataTypeName;
+  }
+
+  set dataTypeName(value: string) {
+    this._dataTypeName = value;
   }
 }

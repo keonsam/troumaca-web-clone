@@ -1,9 +1,9 @@
-import {PhotoClient} from "./photo.client";
-import {UUIDGenerator} from "../../uuid.generator";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
-import { PhotoState } from "./photo.state";
-import {map} from "rxjs/operators";
+import {PhotoClient} from './photo.client';
+import {UUIDGenerator} from '../../uuid.generator';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import { PhotoState } from './photo.state';
+import {map} from 'rxjs/operators';
 
 export class PhotoClientHttp implements PhotoClient {
   constructor(private uuidGenerator: UUIDGenerator,
@@ -11,8 +11,8 @@ export class PhotoClientHttp implements PhotoClient {
               private hostPort: string) {
   }
 
-  public getPhotos(): Observable<PhotoState> {
-    const url = `${this.hostPort}/photos`;
+  public getPhotos(type?: string): Observable<PhotoState> {
+    const url = `${this.hostPort}/photos?type=${type}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };

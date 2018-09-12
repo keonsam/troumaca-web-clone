@@ -67,6 +67,18 @@ export class SitePhoneFormComponent implements OnInit {
       'removedOn': this.removedOn,
     });
 
+    this.sitePhoneForm
+      .valueChanges
+      .subscribe( value => {
+        this.phone.name = value.name;
+        this.phone.countryCode = value.countryCode;
+        this.phone.areaCode = value.areaCode;
+        this.phone.telephoneNumber = value.telephoneNumber;
+        this.phone.exchange = value.exchange;
+        this.phone.extension = value.extension;
+        this.phone.description = value.description;
+      });
+
     this.phone = new Phone();
 
     this.doNotDisplayFailureMessage = true;

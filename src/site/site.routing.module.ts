@@ -22,7 +22,7 @@ import {WebSiteResolve} from './site-web-form/web.site.resolve';
 
 export const routes: Routes = [
   { path: '', component: SiteComponent,  children: [
-      { path: '', redirectTo: 'sites/street-addresses', pathMatch: 'full' },
+      { path: '', redirectTo: '/sites/street-addresses', pathMatch: 'full' },
       { path: 'street-addresses', component: SiteStreetAddressListComponent },
       { path: 'street-addresses/create', component: SiteStreetAddressFormComponent },
       { path: 'street-addresses/:siteId/edit', component: SiteStreetAddressFormComponent, resolve: { streetAddress: StreetAddressResolve} },

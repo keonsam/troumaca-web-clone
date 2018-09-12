@@ -9,7 +9,7 @@ import { TaxFormComponent } from "./tax/tax-form/tax.form.component";
 
 export const routes: Routes = [
   { path: '', component: DepreciationComponent, children: [
-      { path: '', redirectTo: 'depreciation/book/schedule', pathMatch: 'full' },
+      { path: '', redirectTo: '/depreciation/book/schedule', pathMatch: 'full' },
       { path: 'book/schedule', component: BookScheduleComponent },
       { path: 'book/create', component: BookFormComponent},
       { path: 'book/:depreciationId/edit', component: BookFormComponent, resolve: { depreciation: DepreciationBookResolve}},

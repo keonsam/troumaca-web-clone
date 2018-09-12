@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input, OnChanges, Output, EventEmitter} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AttributeService} from '../attribute.service';
 import {Attribute} from '../attribute';
@@ -11,7 +11,7 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./attribute.form.component.css']
 })
 
-export class AttributeFormComponent implements OnInit {
+export class AttributeFormComponent implements OnInit, OnChanges {
   private _name: FormControl;
   private _format: FormControl;
   private _dataType: FormControl;
@@ -25,8 +25,11 @@ export class AttributeFormComponent implements OnInit {
   private _dataTypes: DataType[];
 
   private _doNotDisplayFailureMessage: boolean;
-  public attributeExist: false;
+  public attributeExist = false;
   public unitOfMeasureId: string;
+  @Input() attributeId: string;
+  @Input() modalType: string;
+  @Output() closeModal = new EventEmitter<boolean>();
 
   constructor(private attributeService: AttributeService,
               private formBuilder: FormBuilder,
@@ -88,6 +91,27 @@ export class AttributeFormComponent implements OnInit {
     }
   }
 
+  ngOnChanges(): void {
+    if (this.modalType === 'edit') {
+      this.attributeService
+        .getAttributeById(this.attributeId)
+        .subscribe(attribute => {
+          if (attribute.attributeId) {
+            this.setInputValues(attribute);
+          }
+        });
+    }else if (this.modalType === 'new') {
+      this.attribute = new Attribute();
+      this.name.setValue('');
+      this.format.setValue('');
+      this.dataType.setValue('');
+      this.maximumValue.setValue('');
+      this.minimumValue.setValue('');
+      this.unitOfMeasureId = '';
+      this.attributeExist = false;
+    }
+  }
+
   private setInputValues(attribute: Attribute) {
     this.name.setValue(attribute.name);
     this.format.setValue(attribute.format);
@@ -96,6 +120,7 @@ export class AttributeFormComponent implements OnInit {
     this.minimumValue.setValue(attribute.minimumValue);
     this.unitOfMeasureId = attribute.unitOfMeasureName;
     this.attribute = attribute;
+    this.attributeExist = true;
   }
 
   get name(): FormControl {
@@ -172,7 +197,11 @@ export class AttributeFormComponent implements OnInit {
     .addAttribute(this.attribute)
     .subscribe(value => {
       if (value && value.attributeId) {
-        this.router.navigate(['/attributes']);
+        if (this.modalType) {
+          this.closeModal.emit(true);
+        }else {
+          this.router.navigate(['/attributes']);
+        }
       } else {
         this.doNotDisplayFailureMessage = false;
       }
@@ -188,7 +217,11 @@ export class AttributeFormComponent implements OnInit {
       .updateAttribute(this.attribute.attributeId, this.attribute)
       .subscribe(value => {
         if (value) {
-          this.router.navigate(['/attributes']);
+          if (this.modalType) {
+            this.closeModal.emit(true);
+          }else {
+            this.router.navigate(['/attributes']);
+          }
         } else {
           this.doNotDisplayFailureMessage = false;
         }

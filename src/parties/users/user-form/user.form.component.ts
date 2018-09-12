@@ -10,7 +10,7 @@ import { map, distinctUntilChanged, filter, debounceTime } from 'rxjs/operators'
 import {UserResponse} from '../../user.response';
 import { AuthenticationService } from '../../../authentication/authentication.service';
 import {UserService} from '../user.service';
-import {Credential} from "../../credential";
+import {Credential} from '../../credential';
 
 @Component({
   selector: 'app-user-form',

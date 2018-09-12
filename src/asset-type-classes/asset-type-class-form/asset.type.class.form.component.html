@@ -13,14 +13,14 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="name">Name</label><input class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
+                  <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Name" required type="text">
                   <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="description">Description</label><input class="form-control" formControlName="description" placeholder="Description" type="text">
+                  <label for="description">Description</label><input id="description" class="form-control" formControlName="description" placeholder="Description" type="text">
                   <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
                 </div>
               </fieldset>
@@ -29,7 +29,7 @@
                 <!-- START OF AVAILABLE ATTRIBUTES-->
                 <div class="col-sm-6">
                   <h6 class="text-center">
-                    Available Attributes <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" href="javascript:void(0);" (click)="onNewOrEdit('New'); open(content)">New</a></object>
+                    Available Attributes <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" href="javascript:void(0);" (click)="onModalOpen('new')" data-target="#attributeModal1" data-toggle="modal">New</a></object>
                   </h6>
                   <div class="table-responsive table-section">
                     <table class="table table-striped table-lightfont table-full-width">
@@ -48,11 +48,11 @@
                       </tr>
                       </tfoot>
                       <tbody>
-                      <tr class="clickable-tr" role="row" *ngFor="let attribute of availableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAvailableDoubleClick(attribute.attributeId)">
+                      <tr class="clickable-tr" role="row" *ngFor="let attribute of availableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAvailableDoubleClick(attribute.attributeId, attribute.name, attribute.dataTypeName)">
                         <td>{{attribute.name}}</td>
-                        <td>{{getDataType(attribute.dataTypeId)}}</td>
+                        <td>{{attribute.dataTypeName}}</td>
                         <td class="row-actions">
-                          <a (click)="onOpenFormModal(attribute.attributeId); onNewOrEdit('Edit'); open(content);false;" data-toggle="modal" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenDeleteModal(attribute.attributeId, attribute.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+                          <a data-toggle="modal" data-target="#attributeModal1" (click)="onModalOpen('edit', attribute.attributeId)" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenDeleteModal(attribute.attributeId, attribute.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
                         </td>
                       </tr>
                       <tr *ngIf="availableAttributes.attributes.length <= 0" class="odd">
@@ -87,22 +87,29 @@
                       </tr>
                       </tfoot>
                       <tbody>
-                      <tr class="clickable-tr" role="row" *ngFor="let attribute of assignableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedDoubleClick(attribute.attributeId)">
+                      <tr class="clickable-tr" role="row" *ngFor="let attribute of getSlice(); let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedDoubleClick(attribute.attributeId)">
                         <td class="text-center">
-                          <input class="form-control" type="checkbox" (change)="onCheckBoxChange($event, attribute.attributeId)" [checked]="isChecked(attribute.attributeId)">
+                          <input class="form-control" type="checkbox" (change)="attribute.required = attribute.required ? false: true" [checked]="attribute.required">
                         </td>
-                        <td>{{attribute.name}}</td>
-                        <td>{{getDataType(attribute.dataTypeId)}}</td>
+                        <td>{{attribute.attributeName}}</td>
+                        <td>{{attribute.dataTypeName}}</td>
                       </tr>
-                      <tr *ngIf="assignableAttributes.attributes.length <= 0" class="odd">
+                      <tr *ngIf="assignedAttributes.length <= 0" class="odd">
                         <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No Assigned Attributes</td>
                       </tr>
                       </tbody>
                     </table>
-                    <paging [page]="assignableAttributes.page" (requestPage)="onAssignedRequestPage($event)"></paging>
+                    <paging [page]="getAssignedPage" (requestPage)="onAssignedRequestPage($event)"></paging>
                   </div>
                 </div>
                 <!-- END OF ASSIGNED ATTRIBUTES -->
+              </div>
+
+              <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="attributeModal1" role="dialog" tabindex="-1">
+                <div class="modal-dialog" role="document">
+                  <app-attribute-form [attributeId]="attributeId" [modalType]="modalType" (closeModal)="doCloseModal($event)"> </app-attribute-form>
+                  <button class="btn btn-outline-danger" hidden data-dismiss="modal" #modelClose>don't click</button>
+                </div>
               </div>
 
               <div class="form-buttons-w">
@@ -115,109 +122,8 @@
           </div>
         </div>
 
-        <!-- delete from database modal -->
-        <div aria-labelledby="DeleteModalLabel" class="modal fade bd-example-modal-sm" id="DeleteModal1" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
-          <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="DeleteModalLabel">
-                  Delete {{attributeNameTwo}}
-                </h5>
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
-              </div>
-              <div class="modal-body">
-                <p>Are you sure you want to delete {{attributeNameTwo}}?</p>
-              </div>
-              <div class="modal-footer">
-                <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
-                <button class="btn btn-danger" type="button" data-dismiss="modal" (click)="onDelete()"> Delete</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- end of delete from database modal -->
+        <app-delete-modal [name]="attributeName" (delete)="onDelete($event)"></app-delete-modal>
 
-        <!-- create attribute modal -->
-        <ng-template #content let-c="close" let-d="dismiss">
-          <div class="modal-header">
-            <h5 class="modal-title" id="updateModalLabel">
-              {{newOrEdit}} Attribute Form
-            </h5>
-            <button aria-label="Close" class="close" type="button" (click)="d(); onResetForm()"><span aria-hidden="true"> &times;</span></button>
-          </div>
-          <div class="modal-body">
-            <form [formGroup]="attributeForm">
-
-              <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">Failed to {{newOrEdit === "New" ? "create": "edit"}} attribute.</div>
-
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="Attribute Name">Name</label><input class="form-control" formControlName="attributeName" placeholder="Name" required="required">
-                  <div [hidden]="attributeName.valid || attributeName.pristine" class="alert alert-danger">Invalid name.</div>
-                </div>
-              </fieldset>
-
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="Attribute Format">Format</label><input class="form-control" formControlName="format" placeholder="Format">
-                  <div [hidden]="format.valid || format.pristine" class="alert alert-danger">Invalid format.</div>
-                </div>
-              </fieldset>
-
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="Attribute Date Type">Data Type</label><br/>
-                  <select class="form-control" formControlName="dataType" name="dataType" required="required">
-                    <option value="" disabled selected>Select a Data Type</option>
-                    <option *ngFor="let dataType of dataTypes" [value]="dataType.dataTypeId">{{dataType.name}}</option>
-                  </select>
-                  <div [hidden]="dataType.valid || dataType.pristine" class="alert alert-danger">Invalid Data Type.</div>
-                </div>
-              </fieldset>
-
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="unit of measurement">Unit Of Measurement</label>
-                  <ng2-completer [datasource]="unitOfMeasureIdDataService"
-                                 [inputClass]="'form-control form-control-inline'"
-                                 [minSearchLength]="0"
-                                 [maxChars]="4"
-                                 [inputClass]="'form-control'"
-                                 [placeholder]="'Select an Unit of Measurement'"
-                                 [matchClass]="'match'"
-                                 formControlName="unitOfMeasureId"
-                                 [autofocus]="true"
-                                 [clearUnselected]="true"
-                                 [fillHighlighted]="false"
-                                 [openOnClick]="true"
-                                 [textSearching]="false"
-                                 (selected)="onUnitOfMeasureIdSelect($event)">
-                  </ng2-completer>
-                </div>
-              </fieldset>
-
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="Attribute Maximum Value">Maximum Value</label><input class="form-control" formControlName="maximumValue" placeholder="Maximum Value" type="number">
-                  <div [hidden]="maximumValue.valid || maximumValue.pristine" class="alert alert-danger">Invalid Maximum Value.</div>
-                </div>
-              </fieldset>
-
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="Attribute Minimum Value">Minimum Value</label><input class="form-control" formControlName="minimumValue" placeholder="Minimum Value" type="number">
-                  <div [hidden]="minimumValue.valid || minimumValue.pristine" class="alert alert-danger">Invalid Minimum Value.</div>
-                </div>
-              </fieldset>
-
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary" type="button" (click)="onCreate2()" [disabled]="!attributeForm.valid"> {{newOrEdit == "New" ? "Create": "Save"}}</button>
-            <button class="btn btn-outline-danger" data-dismiss="modal" type="button" (click)="c(); onResetForm()"> Close</button>
-          </div>
-        </ng-template>
-        <!-- end of create attribute modal -->
       </div>
     </div>
   </div>
