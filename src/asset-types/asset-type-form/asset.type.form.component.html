@@ -14,14 +14,14 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Name">Name</label><input class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
+                  <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
                   <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group" [class]="(assetTypeClassId.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
-                  <label for="asset type class">Asset Type Class</label>
+                  <label for="asset-type-class">Asset Type Class</label>
                   <ng2-completer [datasource]="assetTypeClassIdDataService"
                                  [inputClass]="'form-control form-control-inline'"
                                  [minSearchLength]="0"
@@ -36,7 +36,8 @@
                                  [openOnClick]="true"
                                  [textSearching]="false"
                                  (selected)="onAssetTypeClassIdSelect($event)"
-                                  required>
+                                  required
+                                  id="asset-type-class">
                   </ng2-completer>
                   <div [hidden]="assetTypeClassId.valid || assetTypeClassId.pristine" class="alert alert-danger">Select an Asset Type Class.</div>
                 </div>
@@ -44,14 +45,14 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Model Number">Model Number</label><input class="form-control" formControlName="modelNumber" placeholder="Model Number" type="text">
+                  <label for="model-number">Model Number</label><input id="model-number" class="form-control" formControlName="modelNumber" placeholder="Model Number" type="text">
                   <div [hidden]="modelNumber.valid || modelNumber.pristine" class="alert alert-danger">Invalid model number.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Material Code">Material Code</label><input class="form-control" formControlName="materialCode" placeholder="Material Code" type="text">
+                  <label for="material-code">Material Code</label><input id="material-code" class="form-control" formControlName="materialCode" placeholder="Material Code" type="text">
                   <div [hidden]="materialCode.valid || materialCode.pristine" class="alert alert-danger">Invalid material code.</div>
                 </div>
               </fieldset>
@@ -60,7 +61,7 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="description">Description</label><input class="form-control" formControlName="description" placeholder="Description" type="text">
+                  <label for="description">Description</label><input id="description" class="form-control" formControlName="description" placeholder="Description" type="text">
                   <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
                 </div>
               </fieldset>
@@ -68,13 +69,13 @@
               <div [formGroup]="valuesForm" class="sub-form">
               <fieldset *ngFor="let assigned of assignedAttributes" class="form-group">
                 <div *ngIf="assigned.dataTypeId == '61ae91b0-e01f-414b-98c6-2e5da6b12ff0'; else normalInput" class="form-check">
-                  <label for="attributes-check-box" class="form-check-label"><input id="attributes-check-box" class="form-check-input" formControlName="{{assigned.attributeId}}"type="checkbox" [required]="assigned.required">{{assigned.attributeName}}</label>
+                  <label [attr.for]="assigned.attributeName +'-check-box'" class="form-check-label"><input [id]="assigned.attributeName+'-check-box'" class="form-check-input" formControlName="{{assigned.attributeId}}"type="checkbox" [required]="assigned.required">{{assigned.attributeName}}</label>
                   <div [hidden]="assigned.attributeId +'.valid' || assigned.attributeId +'.pristine'" class="alert alert-danger">Select {{assigned.attributeName}}.</div>
                 </div>
 
                 <ng-template #normalInput>
                   <div class="form-group">
-                    <label for="attributes-input">{{assigned.attributeName}}</label><input id="attributes-input" class="form-control" formControlName="{{assigned.attributeId}}" placeholder="Enter Value" [type]="onType(assigned.dataTypeId)" [required]="assigned.required">
+                    <label [attr.for]="assigned.attributeName+'-input'">{{assigned.attributeName}}</label><input [id]="assigned.attributeName+'-input'" class="form-control" formControlName="{{assigned.attributeId}}" placeholder="Enter Value" [type]="onType(assigned.dataTypeId)" [required]="assigned.required">
                     <div [hidden]="assigned.attributeId +'.valid' || assigned.attributeId +'.pristine'" class="alert alert-danger">Invalid {{assigned.attributeName}}.</div>
                   </div>
                 </ng-template>
@@ -84,9 +85,9 @@
             </form>
 
             <div class="form-buttons-w">
-              <button class="btn btn-primary button1" [hidden]="assetTypeExist" [disabled]="!assetTypeForm.valid || !valuesForm.valid" (click)="onCreate()" type="button"> Submit</button>
-              <button class="btn btn-primary button1" [hidden]="!assetTypeExist" [disabled]="!assetTypeForm.valid || !valuesForm.valid" (click)="onUpdate()" type="button"> Update</button>
-              <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
+              <button class="btn btn-primary" [hidden]="assetTypeExist" [disabled]="!assetTypeForm.valid || !valuesForm.valid" (click)="onCreate()" type="button">Create</button>
+              <button class="btn btn-primary" [hidden]="!assetTypeExist" [disabled]="!assetTypeForm.valid || !valuesForm.valid" (click)="onUpdate()" type="button">Update</button>
+              <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
             </div>
 
           </div>

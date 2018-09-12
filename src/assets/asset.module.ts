@@ -15,6 +15,7 @@ import { AssetRoutingModule } from "./asset.routing.module";
 import { UnitOfMeasureModule } from "../unit-of-measure/unit.of.measure.module";
 import {assetResolveProvider } from "./asset.resolve.provider";
 import {AssetFormComponent} from "./asset-form/asset.form.component";
+import {DeleteModalModule} from "../delete-modal/delete.modal.module";
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import {AssetFormComponent} from "./asset-form/asset.form.component";
     SearchModule,
     PagingModule,
     AssetRoutingModule,
-    UnitOfMeasureModule
+    UnitOfMeasureModule,
+    DeleteModalModule
   ],
   declarations: [
     AssetComponent,

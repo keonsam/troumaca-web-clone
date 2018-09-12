@@ -11,10 +11,11 @@ import {AssetTypeTopMenuComponent} from './asset-type-top-menu/asset.type.top.me
 import {SearchModule} from '../search/search.module';
 import {PagingModule} from '../paging/paging.module';
 import {assetTypeServiceProvider} from './asset.type.service.provider';
-import { AssetTypeRoutingModule} from "./asset.type.routing.module";
-import { UnitOfMeasureModule } from "../unit-of-measure/unit.of.measure.module";
-import { AssetTypeFormComponent } from "./asset-type-form/asset.type.form.component";
-import { assetTypeResolveProvider } from "./asset.type.resolve.provider";
+import { AssetTypeRoutingModule} from './asset.type.routing.module';
+import { UnitOfMeasureModule } from '../unit-of-measure/unit.of.measure.module';
+import { AssetTypeFormComponent } from './asset-type-form/asset.type.form.component';
+import { assetTypeResolveProvider } from './asset.type.resolve.provider';
+import {DeleteModalModule} from '../delete-modal/delete.modal.module';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { assetTypeResolveProvider } from "./asset.type.resolve.provider";
     SearchModule,
     PagingModule,
     AssetTypeRoutingModule,
-    UnitOfMeasureModule
+    UnitOfMeasureModule,
+    DeleteModalModule
   ],
   declarations: [
     AssetTypeComponent,

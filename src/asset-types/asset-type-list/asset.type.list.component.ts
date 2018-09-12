@@ -72,19 +72,20 @@ export class AssetTypeListComponent implements OnInit {
     this.assetTypeName = assetTypeName;
   }
 
-  onDelete() {
-    this.assetTypeService
-    .deleteAssetType(this.assetTypeId)
-    .subscribe(value => {
-      // server decide what to do with the values
-      if (value) {
-        this.getAssetTypes();
-      }
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log('complete');
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.assetTypeService
+        .deleteAssetType(this.assetTypeId)
+        .subscribe(value => {
+          if (value) {
+            this.getAssetTypes();
+          }
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {
