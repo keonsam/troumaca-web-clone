@@ -66,8 +66,8 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
 
   // resources
 
-  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<Permissions> {
-    return this.accessRolesClient.getPermissionsByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray, type)
+  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[]): Observable<Permissions> {
+    return this.accessRolesClient.getPermissionsByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray)
       .pipe(map( permissionStates => {
         const permissionModels: Permissions = new Permissions();
         permissionModels.permissions = permissionStates.permissions.map( value => mapObjectProps(value, new Permission()));

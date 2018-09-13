@@ -1,13 +1,13 @@
-import {ResourceTypeState} from './resource.type.state';
+import {ResourcePermissionState} from "./resource.permission.state";
 
 export class ResourceState {
 
   private _resourceId: string;
   private _resourceTypeId: string;
-  private _resourceType: ResourceTypeState;
   private _name: string;
   private _description: string;
-  private _ownerPartyId: string;
+  private _resourceTypeName: string;
+  private _resourcePermissions: ResourcePermissionState[];
   private _createdOn: Date;
   private _modifiedOn: Date;
 
@@ -27,14 +27,6 @@ export class ResourceState {
     this._resourceTypeId = value;
   }
 
-  get resourceType(): ResourceTypeState {
-    return this._resourceType;
-  }
-
-  set resourceType(value: ResourceTypeState) {
-    this._resourceType = value;
-  }
-
   get name(): string {
     return this._name;
   }
@@ -51,12 +43,20 @@ export class ResourceState {
     this._description = value;
   }
 
-  get ownerPartyId(): string {
-    return this._ownerPartyId;
+  get resourceTypeName(): string {
+    return this._resourceTypeName;
   }
 
-  set ownerPartyId(value: string) {
-    this._ownerPartyId = value;
+  set resourceTypeName(value: string) {
+    this._resourceTypeName = value;
+  }
+
+  get resourcePermissions(): ResourcePermissionState[] {
+    return this._resourcePermissions;
+  }
+
+  set resourcePermissions(value: ResourcePermissionState[]) {
+    this._resourcePermissions = value;
   }
 
   get createdOn(): Date {
@@ -81,7 +81,6 @@ export class ResourceState {
       resourceTypeId: this.resourceTypeId,
       name: this.name,
       description: this.description,
-      ownerPartyId: this.ownerPartyId,
       createdOn: this.createdOn,
       modifiedOn: this.modifiedOn
     }

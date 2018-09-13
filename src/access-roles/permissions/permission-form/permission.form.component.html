@@ -9,29 +9,29 @@
           <div class="element-box">
             <form [formGroup]="permissionForm" id="formValidate">
               <h5 class="form-header">
-                {{ permissionExist ? "Edit":"New"}}New Permission Form
+                {{ permissionExist ? "Edit":"New"}} Permission Form
               </h5>
 
               <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ permissionExist ? "Update":"Create"}} Permission.</div>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Name">Name</label><input class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
+                  <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Enter Name" required="required" type="text">
                   <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="description">Description</label><input class="form-control" formControlName="description" placeholder="Description" type="text">
+                  <label for="description">Description</label><input id="description" class="form-control" formControlName="description" placeholder="Enter Description" type="text">
                   <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
                 </div>
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [hidden]="permissionExist" [disabled]="!permissionForm.valid" type="submit" (click)="onCreate()"> Submit</button>
-                <button class="btn btn-primary button1" [hidden]="!permissionExist" [disabled]="!permissionForm.valid" type="submit" (click)="onUpdate()"> Update</button>
-                <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
+                <button class="btn btn-primary" [hidden]="permissionExist" [disabled]="!permissionForm.valid" type="submit" (click)="onCreate()">Create</button>
+                <button class="btn btn-primary" [hidden]="!permissionExist" [disabled]="!permissionForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
               </div>
 
             </form>

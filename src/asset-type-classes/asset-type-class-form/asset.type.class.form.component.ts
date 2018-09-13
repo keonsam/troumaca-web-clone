@@ -218,7 +218,7 @@ export class AssetTypeClassFormComponent implements OnInit {
     const page: Page = new Page();
     page.number = this.assignedPageNumber;
     page.size = this.defaultPageSize;
-    page.items = this.assignedPageNumber < 2 ? this.assignedAttributes.length : (this.assignedPageNumber - 1) * this.defaultPageSize + 1;
+    page.items = this.getSlice().length;
     page.totalItems = this.assignedAttributes.length;
     this.getAssignedPage = page;
   }
@@ -230,10 +230,10 @@ export class AssetTypeClassFormComponent implements OnInit {
 
   getSlice() {
     if (this.assignedPageNumber < 2) {
-      return this.assignedAttributes.slice(0, 11);
+      return this.assignedAttributes.slice(0, 10);
     }else {
-      const begin = (this.assignedPageNumber - 1) * this.defaultPageSize + 1;
-      const end = (this.assignedPageNumber - 1) * this.defaultPageSize + 11;
+      const begin = (this.assignedPageNumber - 1) * this.defaultPageSize;
+      const end = (this.assignedPageNumber - 1) * this.defaultPageSize + 10;
       return this.assignedAttributes.slice(begin, end);
     }
   }

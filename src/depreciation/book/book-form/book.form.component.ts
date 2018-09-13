@@ -34,7 +34,7 @@ export class BookFormComponent implements OnInit {
 
   private _doNotDisplayFailureMessage: boolean;
   public requiredState: boolean;
-  private depreciationExist = false;
+  public depreciationExist = false;
 
   constructor(private depreciationService: DepreciationService,
               private completerService: CompleterService,

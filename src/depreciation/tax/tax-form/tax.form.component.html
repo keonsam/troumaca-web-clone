@@ -86,9 +86,9 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [hidden]="depreciationExist" [disabled]="!depreciationForm.valid" type="submit" (click)="onCreate()"> Submit</button>
-                <button class="btn btn-primary button1" [hidden]="!depreciationExist" [disabled]="!depreciationForm.valid" type="submit" (click)="onUpdate()"> Update</button>
-                <button class="btn btn-outline-danger" type="button" (click)="cancel()"> Cancel</button>
+                <button class="btn btn-primary" [hidden]="depreciationExist" [disabled]="!depreciationForm.valid" type="submit" (click)="onCreate()">Create</button>
+                <button class="btn btn-primary" [hidden]="!depreciationExist" [disabled]="!depreciationForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="btn btn-outline-danger right-button" type="button" (click)="cancel()">Cancel</button>
               </div>
 
             </form>

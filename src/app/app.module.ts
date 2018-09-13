@@ -2,7 +2,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {APP_BASE_HREF} from '@angular/common';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppComponent} from './app.component';
 import {appRoutingProviders} from './app.routing';
@@ -33,7 +32,6 @@ import 'hammerjs';
     Ng2CompleterModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule,
     MaterialModule,
     HttpClientModule,
     AdapterModule,

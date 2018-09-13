@@ -26,6 +26,7 @@ import { permissionResolveProvider } from './permissions/permission.resolve.prov
 import { ResourceTypeFormComponent } from './resource-types/resource.type.form/resource.type.form.component';
 import { resourceTypeResolveProvider} from './resource-types/resource.type.resolve.provider';
 import { resourceResolveProvider } from "./resources/resource.resolve.provider";
+import {DeleteModalModule} from "../delete-modal/delete.modal.module";
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { resourceResolveProvider } from "./resources/resource.resolve.provider";
     AccessRoleRoutingModule,
     MenuModule,
     SearchModule,
-    PagingModule
+    PagingModule,
+    DeleteModalModule
   ],
   declarations: [
     AccessRoleComponent,

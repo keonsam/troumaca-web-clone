@@ -61,13 +61,15 @@ export class ResourceTypeListComponent implements OnInit {
     this.resourceTypeName = resourceTypeName
   }
 
-  onDelete() {
-    this.accessRoleService.deleteResourceType(this.resourceTypeId)
-      .subscribe(next => {
-        if (next) {
-          this.getResourceTypes();
-        }
-      });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.accessRoleService.deleteResourceType(this.resourceTypeId)
+        .subscribe(next => {
+          if (next) {
+            this.getResourceTypes();
+          }
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

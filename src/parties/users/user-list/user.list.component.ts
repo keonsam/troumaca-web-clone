@@ -78,18 +78,20 @@ export class UserListComponent implements OnInit {
     this.username = username;
   }
 
-  onDelete() {
-    this.userService
-    .deleteUser(this.partyId)
-    .subscribe(value => {
-      if (value) {
-        this.getUsers();
-      }
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log('complete');
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.userService
+        .deleteUser(this.partyId)
+        .subscribe(value => {
+          if (value) {
+            this.getUsers();
+          }
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

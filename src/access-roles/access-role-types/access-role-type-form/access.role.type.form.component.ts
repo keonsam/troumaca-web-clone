@@ -93,10 +93,9 @@ export class AccessRoleTypeFormComponent implements OnInit {
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
-
-    this.accessRoleService.updateAccessRoleType(this.accessRoleType)
-      .subscribe( numUpdated => {
-        if (numUpdated) {
+    this.accessRoleService.addAccessRoleType(this.accessRoleType)
+      .subscribe( value => {
+        if (value.accessRoleTypeId) {
           this.router.navigate(['/access-roles/access-role-types']);
         } else {
           this.doNotDisplayFailureMessage = false;

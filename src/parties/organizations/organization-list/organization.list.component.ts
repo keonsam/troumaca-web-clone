@@ -79,16 +79,20 @@ export class OrganizationListComponent implements OnInit {
     this.organizationName = organizationName;
   }
 
-  onDelete() {
-    this.organizationService
-    .deleteOrganization(this.partyId)
-    .subscribe(value => {
-    this.getOrganizations();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log('complete');
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.organizationService
+        .deleteOrganization(this.partyId)
+        .subscribe(value => {
+          if (value) {
+            this.getOrganizations();
+          }
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

@@ -6,6 +6,7 @@ import { BookFormComponent } from "./book/book-form/book.form.component";
 import {TaxScheduleComponent} from "./tax/tax-schedule/tax.schedule.component";
 import {DepreciationBookResolve} from "./depreciation.book.resolve";
 import { TaxFormComponent } from "./tax/tax-form/tax.form.component";
+import {DepreciationTaxResolve} from "./depreciation.tax.resolve";
 
 export const routes: Routes = [
   { path: '', component: DepreciationComponent, children: [
@@ -15,7 +16,7 @@ export const routes: Routes = [
       { path: 'book/:depreciationId/edit', component: BookFormComponent, resolve: { depreciation: DepreciationBookResolve}},
       { path: 'tax/create', component: TaxFormComponent},
       { path: 'tax/schedule', component: TaxScheduleComponent },
-      { path: 'tax/:depreciationId/edit', component: TaxFormComponent}
+      { path: 'tax/:depreciationId/edit', component: TaxFormComponent, resolve: { depreciation: DepreciationTaxResolve}}
     ]}
 ];
 

@@ -6,7 +6,6 @@ import {OrganizationListComponent} from './organizations/organization-list/organ
 import {UserListComponent} from './users/user-list/user.list.component';
 import { UserFormComponent } from './users/user-form/user.form.component';
 import {UserMeComponent} from './users/user-me/user.me.component';
-import {CreateAccountComponent} from './create-profile/create.profile.component';
 import { OrganizationFormComponent } from './organizations/organization-form/organization.form.component';
 import {OrganizationResolve} from './organizations/organization.resolve';
 import {UserResolve} from './users/user.resolve';
@@ -24,7 +23,6 @@ export const routes: Routes = [
       { path: 'users/:partyId/edit', component: UserFormComponent,
         resolve: {userResponse: UserResolve}, data: {menuName: 'users-menu'} },
       { path: 'user-profile', component: UserMeComponent, resolve: {userResponse: UserResolve}, data: {menuName: 'users-menu'}},
-      { path: 'create-profile', component: CreateAccountComponent }
     ]}
 ];
 

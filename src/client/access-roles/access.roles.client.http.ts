@@ -81,12 +81,18 @@ export class AccessRolesClientHttp extends AccessRolesClient {
   }
 
   //resources
-  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<PermissionStates> {
-    const url = `${this.hostPort}/permissions/${type}?pageNumber=${defaultPage}&pageSize=${defaultPageSize}&sortOrder=${defaultSortOrder}&assignedArray=${assignedArray}`;
+  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[]): Observable<PermissionStates> {
+    const url = `${this.hostPort}/available-permissions`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<PermissionStates>(url, httpOptions)
+    const body = {
+      pageNumber: defaultPage,
+      pageSize: defaultPageSize,
+      sortOrder: defaultSortOrder,
+      assignedArray: assignedArray
+    };
+    return this.httpClient.post<PermissionStates>(url, body, httpOptions)
       .pipe(map(data => {
       return data;
     }));

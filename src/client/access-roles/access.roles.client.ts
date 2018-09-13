@@ -27,7 +27,7 @@ export abstract class AccessRolesClient {
   abstract deletePermission(permissionId: string): Observable<number>;
 
   // resources
-  abstract getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<PermissionStates>;
+  abstract getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[]): Observable<PermissionStates>;
 
   abstract getResourcePermissionsByResourceId(permissionId: string): Observable<ResourcePermissionState[]>;
 

@@ -31,7 +31,7 @@
             <tbody>
               <tr role="row" *ngFor="let resource of resources.resources; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
                 <td>{{resource.name}}</td>
-                <td>{{resource.resourceType.name}}</td>
+                <td>{{resource.resourceTypeName}}</td>
                 <td>{{resource.description}}</td>
                 <td class="row-actions">
                  <a [routerLink]="['/access-roles/resources', resource.resourceId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(resource.resourceId, resource.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
@@ -42,26 +42,7 @@
               </tr>
             </tbody>
           </table>
-          <div aria-labelledby="DeleteModalLabel" class="modal fade bd-example-modal-sm" id="DeleteModal1" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
-           <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-             <div class="modal-header">
-              <h5 class="modal-title" id="DeleteModalLabel">
-               Delete {{resourceName}}
-              </h5>
-              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
-             </div>
-             <div class="modal-body">
-             <p>Are you sure you want to delete {{resourceName}}?</p>
-             </div>
-                <div class="modal-footer">
-                <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
-                <button class="btn btn-danger" type="button" data-dismiss="modal" (click)="onDelete()"> Delete</button>
-               </div>
-              </div>
-             </div>
-           </div>
-          <!--<pre>{{resources | json}}</pre>-->
+          <app-delete-modal [name]="resourceName" (delete)="onDelete($event)"></app-delete-modal>
           <paging [page]="resources.page" (requestPage)="onRequestPage($event)"></paging>
         </div>
       </div>

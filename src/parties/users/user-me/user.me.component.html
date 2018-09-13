@@ -207,8 +207,8 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [hidden]="userExist" [disabled]="!userMeForm.valid" type="submit" (click)="onCreate()"> {{stepper ? 'Next': 'Create'}}</button>
-                <button class="btn btn-primary" [hidden]="!userExist" [disabled]="!userMeForm.valid" type="submit" (click)="onUpdate()"> {{stepper ? 'Next': 'Update'}}</button>
+                <button class="btn btn-primary" [hidden]="userExist" [disabled]="!userMeForm.valid" type="submit" (click)="onCreate()">{{stepper ? 'Next': 'Create'}}</button>
+                <button class="btn btn-primary" [hidden]="!userExist" [disabled]="!userMeForm.valid" type="submit" (click)="onUpdate()">{{stepper ? 'Next': 'Update'}}</button>
               </div>
 
             </form>

@@ -16,14 +16,14 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Name">Name</label><input class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
+                  <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
                   <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group" [class]="(accessRoleTypeId.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
-                  <label for="Enter Access Role Type">Access Role Type</label>
+                  <label for="access-role-type">Access Role Type</label>
                   <ng2-completer [datasource]="accessRoleTypeDataService"
                                  [inputClass]="'form-control form-control-inline'"
                                  [minSearchLength]="0"
@@ -38,6 +38,7 @@
                                  [openOnClick]="true"
                                  [textSearching]="false"
                                  (selected)="onAccessRoleTypeSelect($event)"
+                                 id="access-role-type"
                                   required>
                   </ng2-completer>
                   <div [hidden]="accessRoleTypeId.valid || accessRoleTypeId.pristine" class="alert alert-danger">Select an Access Role Type.</div>
@@ -46,7 +47,7 @@
 
               <fieldset class="form-group">
                 <div class="form-check">
-                  <label class="form-check-label"><input class="form-check-input" formControlName="prohibitionIndicator" type="checkbox">Prohibition Indicator</label>
+                  <label for="prohibition-indicator" class="form-check-label"><input id="prohibition-indicator" class="form-check-input" formControlName="prohibitionIndicator" type="checkbox">Prohibition Indicator</label>
                 </div>
               </fieldset>
 
@@ -54,9 +55,9 @@
                 <div class="col-sm-6">
                   <fieldset class="form-group">
                     <div class="form-group">
-                      <label for="effective date"> Effective Date</label>
+                      <label for="effective-date"> Effective Date</label>
                       <div class="date-input">
-                        <input class="form-control" formControlName="effectiveDate" type="date">
+                        <input id="effective-date" class="form-control" formControlName="effectiveDate" type="date">
                       </div>
                     </div>
                   </fieldset>
@@ -65,9 +66,9 @@
                 <div class="col-sm-6">
                   <fieldset class="form-group">
                     <div class="form-group">
-                      <label for="until date">Until Date</label>
+                      <label for="until-date">Until Date</label>
                       <div class="date-input">
-                        <input class="form-control"  formControlName="untilDate" type="date">
+                        <input id="until-date" class="form-control"  formControlName="untilDate" type="date">
                       </div>
                     </div>
                   </fieldset>
@@ -97,11 +98,11 @@
                   <tbody>
                   <tr role="row" *ngFor="let resource of resources.resources; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
                     <td>{{resource.name}}</td>
-                    <td>{{resource.resourceType.name}}</td>
+                    <td>{{resource.resourceTypeName}}</td>
                     <td>
                       <ul id="resourceMenu">
-                        <li *ngFor="let permission of getPermission(resource.resourceId)">
-                          <label class="form-check-label"><input class="form-check-input" type="checkbox" (change)="onPermissionsChange($event, resource.resourceId,permission.resourcePermissionId)" [checked]="isChecked(permission.resourcePermissionId)">{{permission.permission.name}}</label>
+                        <li *ngFor="let resourcePermission of resource.resourcePermissions">
+                          <label class="form-check-label"><input class="form-check-input" type="checkbox" (change)="onPermissionsChange($event, resource.resourceId, resourcePermission.resourcePermissionId)" [checked]="isChecked(resourcePermission.resourcePermissionId)">{{resourcePermission.permissionName}}</label>
                         </li>
                       </ul>
                     </td>
@@ -117,15 +118,15 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="description">Description</label><input class="form-control" formControlName="description" placeholder="Description" type="text">
+                  <label for="description">Description</label><input id="description" class="form-control" formControlName="description" placeholder="Description" type="text">
                   <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
                 </div>
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [hidden]="accessRoleExist" [disabled]="!accessRoleForm.valid" type="submit" (click)="onCreate()"> Submit</button>
-                <button class="btn btn-primary button1" [hidden]="!accessRoleExist" [disabled]="!accessRoleForm.valid" type="submit"(click)="onUpdate()"> Update</button>
-                <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
+                <button class="btn btn-primary" [hidden]="accessRoleExist" [disabled]="!accessRoleForm.valid" type="submit" (click)="onCreate()">Create</button>
+                <button class="btn btn-primary" [hidden]="!accessRoleExist" [disabled]="!accessRoleForm.valid" type="submit"(click)="onUpdate()">Update</button>
+                <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
               </div>
 
             </form>

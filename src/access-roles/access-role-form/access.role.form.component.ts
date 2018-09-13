@@ -5,7 +5,6 @@ import {AccessRole} from '../access.role';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AccessRoleService} from '../access.role.service';
 import {Resources} from '../resources';
-import {ResourcePermission} from '../resource.permission';
 import {Grant} from '../grant';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
@@ -29,7 +28,6 @@ export class AccessRoleFormComponent implements OnInit {
 
   private accessRole: AccessRole;
   private _resources: Resources;
-  private _resourcePermissions: ResourcePermission[];
   private _grants: Grant[];
 
   private defaultPage = 1;
@@ -40,7 +38,7 @@ export class AccessRoleFormComponent implements OnInit {
 
   private pageSize = 15;
   private _doNotDisplayFailureMessage: boolean;
-  public accessRoleExist: false;
+  public accessRoleExist = false;
 
   constructor(private accessRoleService: AccessRoleService,
               private completerService: CompleterService,
@@ -82,7 +80,6 @@ export class AccessRoleFormComponent implements OnInit {
     newResources.sort = new Sort();
     this.resources = newResources;
 
-    this.resourcePermissions = [];
     this.grants = [];
     this.doNotDisplayFailureMessage = true;
   }
@@ -93,6 +90,7 @@ export class AccessRoleFormComponent implements OnInit {
     if (this.route.snapshot && this.route.snapshot.data['accessRoleRes']) {
       this.setInputValues(this.route.snapshot.data['accessRoleRes']);
     }
+    this.getResources();
   }
 
   private setInputValues(accessRoleResponse: AccessRoleResponse) {
@@ -104,8 +102,7 @@ export class AccessRoleFormComponent implements OnInit {
     this.description.setValue(accessRoleResponse.accessRole.description);
     this.accessRole = accessRoleResponse.accessRole;
     this.grants = accessRoleResponse.grants;
-    this.getResources();
-    this.getResourcePermissions();
+    this.accessRoleExist = true;
   }
 
   private getResources() {
@@ -116,15 +113,6 @@ export class AccessRoleFormComponent implements OnInit {
         console.log(onError);
       });
   };
-
-  private getResourcePermissions() {
-    this.accessRoleService.getAllResourcePermissions()
-      .subscribe(values => {
-        this.resourcePermissions = values;
-      }, onError => {
-        console.log(onError);
-      });
-  }
 
   populateAccessRoleTypeDropDown() {
     this.findAccessRoleTypeId('');
@@ -223,14 +211,6 @@ export class AccessRoleFormComponent implements OnInit {
     this._resources = value;
   }
 
-  get resourcePermissions(): ResourcePermission[] {
-    return this._resourcePermissions;
-  }
-
-  set resourcePermissions(value: ResourcePermission[]) {
-    this._resourcePermissions = value;
-  }
-
   get grants(): Grant[] {
     return this._grants;
   }
@@ -253,13 +233,6 @@ export class AccessRoleFormComponent implements OnInit {
 
   set doNotDisplayFailureMessage(value: boolean) {
     this._doNotDisplayFailureMessage = value;
-  }
-
-  getPermission(resourceId: string) {
-    const newArray = this.resourcePermissions.filter(value => {
-      return value.resourceId === resourceId;
-    });
-    return newArray;
   }
 
   onPermissionsChange(event, resourceId: string, resourcePermissionId: string) {

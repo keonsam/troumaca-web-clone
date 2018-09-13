@@ -81,7 +81,7 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.findAccessRole('');
+
 
     this.options = {
       width: '100%',
@@ -99,6 +99,8 @@ export class UserFormComponent implements OnInit {
     };
     if (this.route.snapshot && this.route.snapshot.data['userResponse']) {
       this.setInputValues(this.route.snapshot.data['userResponse']);
+    }else {
+      this.findAccessRole('');
     }
   }
 
@@ -110,11 +112,11 @@ export class UserFormComponent implements OnInit {
     this.firstUsername = userResponse.user.username;
     this.user = userResponse.user;
     this.credential.username = userResponse.user.username;
-    const values = userResponse.partyAccessRoles.map( value => value.accessRole.accessRoleId);
+    const values = userResponse.partyAccessRoles.map(value => value.accessRole.accessRoleId);
     this.accessRole.setValue(values.join(','));
-    this.value = values;
     this.partyAccessRoles = userResponse.partyAccessRoles;
     this.userExist = true;
+    this.findAccessRole('', values);
   }
 
   changed(data: {value: string[]}) {
@@ -122,7 +124,7 @@ export class UserFormComponent implements OnInit {
     this.accessRoles = data.value;
   }
 
-  findAccessRole(value) {
+  findAccessRole(value, defaultValues?: string[]) {
     this.userService
       .findAccessRole(value, this.pageSize) // send search request to the backend
       .pipe(map(value2 => { // convert results to dropdown data
@@ -135,6 +137,7 @@ export class UserFormComponent implements OnInit {
       }))
       .subscribe(next => { // update the data
         this.accessRoleData = next;
+        this.value = defaultValues;
       }, error => {
         console.log('findAccessRole error - ' + error);
       });
@@ -270,7 +273,7 @@ export class UserFormComponent implements OnInit {
       .addUser(this.user, this.credential, this.partyAccessRoles)
       .subscribe(value => {
         if (value && value.partyId) {
-          this.router.navigate(['/parties/users']);
+          this.router.navigate(['/parties/users/listing']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -291,7 +294,7 @@ export class UserFormComponent implements OnInit {
       .updateUser(this.user, this.credential, this.removePartyAccessRoles(this.partyAccessRoles))
       .subscribe(value => {
         if (value) {
-          this.router.navigate(['/parties/users']);
+          this.router.navigate(['/parties/users/listing']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -302,7 +305,7 @@ export class UserFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/parties/users']);
+    this.router.navigate(['/parties/users/listing']);
   }
 
 }

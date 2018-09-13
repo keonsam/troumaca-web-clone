@@ -15,7 +15,6 @@ import { UserFormComponent } from './users/user-form/user.form.component';
 import {UserListComponent} from './users/user-list/user.list.component';
 import {UserTopMenuComponent} from './users/user-top-menu/user.top.menu.component';
 
-import {CreateAccountComponent} from './create-profile/create.profile.component';
 import {PartyEventService} from './party.event.service';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import {Ng2CompleterModule} from 'ng2-completer';
@@ -31,6 +30,7 @@ import {UserMeModule} from './users/user-me/user.me.module';
 import { organizationServiceProvider } from './organizations/organization.service.provider';
 import {OrganizationCompanyModule} from './organizations/organization-company/organization.company.module';
 import { OrganizationFormModule } from './organizations/organization-form/organization.form.module';
+import {DeleteModalModule} from '../delete-modal/delete.modal.module';
 
 @NgModule({
   imports: [
@@ -48,6 +48,7 @@ import { OrganizationFormModule } from './organizations/organization-form/organi
     UserMeModule,
     OrganizationFormModule,
     OrganizationCompanyModule,
+    DeleteModalModule
   ],
   declarations: [
     PartyComponent,
@@ -55,8 +56,7 @@ import { OrganizationFormModule } from './organizations/organization-form/organi
     OrganizationTopMenuComponent,
     UserTopMenuComponent,
     UserFormComponent,
-    UserListComponent,
-    CreateAccountComponent,
+    UserListComponent
   ],
   providers: [partyServiceProvider, PartyEventService,
     organizationResolveProvider, userResolveProvider, userServiceProvider,

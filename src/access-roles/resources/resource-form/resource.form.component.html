@@ -12,18 +12,18 @@
                 {{resourceExist ? "Edit":"New"}} Resource Form
               </h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{resourceExist ? "Update":"Create"}} resource.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{resourceExist ? "Update":"Create"}} Resource.</div>
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="Name">Name</label><input class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
+                  <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder=" Enter Name" required="required" type="text">
                   <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
                 </div>
               </fieldset>
 
               <fieldset class="form-group">
                 <div class="form-group" [class]="(resourceTypeId.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
-                  <label for="resource type">Resource Type</label>
+                  <label for="resource-type">Resource Type</label>
                   <ng2-completer [datasource]="resourceTypeIdDataService"
                                  [inputClass]="'form-control form-control-inline'"
                                  [minSearchLength]="0"
@@ -38,6 +38,7 @@
                                  [openOnClick]="true"
                                  [textSearching]="false"
                                  (selected)="onResourceTypeIdSelect($event)"
+                                 id="resource-type"
                                  required>
                   </ng2-completer>
                   <div [hidden]="resourceTypeId.valid || resourceTypeId.pristine" class="alert alert-danger">Select a Resource Type.</div>
@@ -65,7 +66,7 @@
                       </tr>
                       </tfoot>
                       <tbody>
-                      <tr  class="clickable-tr" role="row" *ngFor="let permission of permissions.permissions; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onPermissionDoubleClick(permission.name, permission.permissionId)">
+                      <tr  class="clickable-tr" role="row" *ngFor="let permission of permissions.permissions; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onPermissionDoubleClick(permission.name, permission.permissionId, permission.description)">
                         <td>{{permission.name}}</td>
                         <td>{{permission.description}}</td>
                       </tr>
@@ -74,7 +75,7 @@
                       </tr>
                       </tbody>
                     </table>
-                    <paging [page]="permissions.page" (requestPage)="onRequestPage($event, 'permissions')"></paging>
+                    <paging [page]="permissions.page" (requestPage)="onRequestPage($event)"></paging>
                   </div>
                 </div>
                 <!-- end of permissions -->
@@ -99,16 +100,16 @@
                       </tr>
                       </tfoot>
                       <tbody>
-                      <tr class="clickable-tr" role="row" *ngFor="let resourcePermission of resourcePermissions.permissions; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven"(dblclick)="onResourceDoubleClick(resourcePermission.permissionId)" >
-                        <td>{{resourcePermission.name}}</td>
-                        <td>{{resourcePermissions.description}}</td>
+                      <tr class="clickable-tr" role="row" *ngFor="let permission of getAssignedPermissions(); let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven"(dblclick)="onResourceDoubleClick(permission.permissionId)" >
+                        <td>{{permission.permissionName}}</td>
+                        <td>{{permission.description}}</td>
                       </tr>
-                      <tr *ngIf="resourcePermissions.permissions.length <= 0" class="odd">
+                      <tr *ngIf="getAssignedPermissions().length <= 0" class="odd">
                         <td valign="top" align="" colspan="7" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
                       </tr>
                       </tbody>
                     </table>
-                    <paging [page]="resourcePermissions.page" (requestPage)="onRequestPage($event,'resource-permissions')"></paging>
+                    <paging [page]="getAssignedPage" (requestPage)="onAssignedRequestPage($event)"></paging>
                   </div>
                 </div>
               </div>
@@ -116,15 +117,15 @@
 
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="description">Description</label><input class="form-control" formControlName="description" placeholder="Description" type="text">
+                  <label for="description">Description</label><input id="description" class="form-control" formControlName="description" placeholder="Description" type="text">
                   <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
                 </div>
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [hidden]="resourceExist" [disabled]="!resourceForm.valid" type="submit" (click)="onCreate()"> Create</button>
-                <button class="btn btn-primary button1" [hidden]="!resourceExist" [disabled]="!resourceForm.valid" type="submit" (click)="onUpdate()"> Update</button>
-                <button class="btn btn-outline-danger" type="cancel" (click)="cancel()"> Cancel</button>
+                <button class="btn btn-primary" [hidden]="resourceExist" [disabled]="!resourceForm.valid" type="submit" (click)="onCreate()">Create</button>
+                <button class="btn btn-primary" [hidden]="!resourceExist" [disabled]="!resourceForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
               </div>
 
             </form>

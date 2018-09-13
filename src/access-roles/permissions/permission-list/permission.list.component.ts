@@ -61,13 +61,15 @@ export class PermissionListComponent implements OnInit {
     this.permissionName = permissionName
   }
 
-  onDelete() {
-    this.accessRoleService.deletePermission(this.permissionId)
-      .subscribe(next => {
-        if (next) {
-          this.getPermissions();
-        }
-      });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.accessRoleService.deletePermission(this.permissionId)
+        .subscribe(next => {
+          if (next) {
+            this.getPermissions();
+          }
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

@@ -1,17 +1,18 @@
-import {Permission} from './permission';
 
 export class ResourcePermission {
 
   private _resourcePermissionId: string;
   private _resourceId: string;
-  private _permission: Permission = new Permission();
-  //private _ownerPartyId:string;
+  private _permissionName: string;
+  private _permissionId: string;
+  private _description: string;
   private _createdOn: Date;
   private _modifiedOn: Date;
 
-  constructor(name?: string, permissionId?: string) {
-    this.permission.name = name;
-    this.permission.permissionId = permissionId;
+  constructor(name?: string, permissionId?: string, description?: string) {
+    this.permissionName = name;
+    this.permissionId = permissionId;
+    this.description = description;
   }
 
   get resourcePermissionId(): string {
@@ -30,21 +31,29 @@ export class ResourcePermission {
     this._resourceId = value;
   }
 
-  get permission(): Permission {
-    return this._permission;
+  get permissionName(): string {
+    return this._permissionName;
   }
 
-  set permission(value: Permission) {
-    this._permission = value;
+  set permissionName(value: string) {
+    this._permissionName = value;
   }
 
-// get ownerPartyId(): string {
-  //   return this._ownerPartyId;
-  // }
-  //
-  // set ownerPartyId(value: string) {
-  //   this._ownerPartyId = value;
-  // }
+  get permissionId(): string {
+    return this._permissionId;
+  }
+
+  set permissionId(value: string) {
+    this._permissionId = value;
+  }
+
+  get description(): string {
+    return this._description;
+  }
+
+  set description(value: string) {
+    this._description = value;
+  }
 
   get createdOn(): Date {
     return this._createdOn;
