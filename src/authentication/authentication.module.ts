@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {LoginComponent} from './login/login.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
@@ -15,7 +14,6 @@ import { AuthenticationRoutingModule } from './authentication.routing.module';
 @NgModule({
   imports: [
     CommonModule,
-    NgbModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,

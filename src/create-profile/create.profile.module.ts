@@ -9,7 +9,6 @@ import {userResolveProvider} from '../parties/users/user.resolve.provider';
 import { Ng2CompleterModule } from 'ng2-completer';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {organizationServiceProvider} from '../parties/organizations/organization.service.provider';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -21,7 +20,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     Ng2CompleterModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
   ],
   declarations: [
     CreateProfileComponent
