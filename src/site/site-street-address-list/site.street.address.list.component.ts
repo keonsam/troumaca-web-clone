@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {StreetAddress} from '../street.address';
 import {StreetAddresses} from '../street.addresses';
 import {SiteService} from '../site.service';
 import {Page} from '../../page/page';
@@ -72,16 +71,20 @@ export class SiteStreetAddressListComponent implements OnInit {
     this.streetAddressName = streetAddressName;
   }
 
-  onDelete() {
-    this.siteService
-    .deleteStreetAddress(this.streetAddressId)
-    .subscribe(value => {
-    this.getStreetAddresses();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log('complete');
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.siteService
+        .deleteStreetAddress(this.streetAddressId)
+        .subscribe(value => {
+          if (value) {
+            this.getStreetAddresses();
+          }
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

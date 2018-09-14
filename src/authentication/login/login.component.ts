@@ -1,15 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/filter';
 import {Event} from '../event';
-import 'rxjs/add/observable/of';
+
 import {Router} from '@angular/router';
 import {EventService} from '../../event/event.service';
 import {AuthenticationService} from '../authentication.service';
-import {Credential} from '../credential';
-
+import { Credential } from '../credential';
 
 @Component({
   selector: 'login',
@@ -129,9 +125,9 @@ export class LoginComponent implements OnInit {
       .subscribe(authenticatedCredential => {
         if (authenticatedCredential.authenticateStatus === 'AccountActive') {
           this.eventService.sendLoginEvent(this.createEventModel());
-          this.router.navigate(['/home/lobby']);
+          this.router.navigate(['/lobby']);
         }else if (authenticatedCredential.authenticateStatus === 'AccountConfirmed') {
-          this.router.navigate(['/create-profile']);
+          this.router.navigate(['/profile']);
         }else if (authenticatedCredential.authenticateStatus === 'AccountUsernameNotConfirmed') {
           const credentialId = authenticatedCredential.credentialId;
           const confirmationId = authenticatedCredential.confirmationId;

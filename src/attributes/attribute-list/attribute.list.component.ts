@@ -73,16 +73,18 @@ export class AttributeListComponent implements OnInit {
     this.attributeName = attributeName;
   }
 
-  onDelete() {
-    this.attributeService
-    .deleteAttribute(this.attributeId)
-    .subscribe(value => {
-    this.getAttributes();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log('complete');
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.attributeService
+        .deleteAttribute(this.attributeId)
+        .subscribe(value => {
+          this.getAttributes();
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

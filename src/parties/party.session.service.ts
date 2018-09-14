@@ -1,5 +1,5 @@
 import {PartySessionRepository} from './party.session.repository';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {PartySession} from './party.session';
 
 export class PartySessionService {

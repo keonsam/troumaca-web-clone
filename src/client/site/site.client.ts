@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {UnionOfPhysicalSiteStates} from './union.of.physical.site.states';
 import {EmailState} from './email.state';
 import {EmailStates} from './email.states';

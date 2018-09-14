@@ -1,8 +1,8 @@
 import {MenuClient} from './menu.client';
-import {Observable} from 'rxjs/Observable';
+import {Observable, of } from 'rxjs';
 import {MenuState} from './menu.state';
 import {MenuItemState} from './menu.item.state';
-import 'rxjs/add/observable/of';
+
 
 export class MenuClientMock extends MenuClient {
 
@@ -18,7 +18,7 @@ export class MenuClientMock extends MenuClient {
   }
 
   getMenuByName(menuName: string): Observable<MenuState> {
-    return Observable.of(this.menuMap.get(menuName));
+    return of(this.menuMap.get(menuName));
   }
 
   cacheMenus() {
@@ -109,10 +109,10 @@ export class MenuClientMock extends MenuClient {
 
     menuState.menuItemStates = this.topMenuItems()
       .filter(menuItemState => {
-        return menuItemState.secured == isLoggedIn;
+        return menuItemState.secured === isLoggedIn;
       }).sort(this.compare);
 
-    return Observable.of(menuState);
+    return of(menuState);
   }
 
   compare(a, b): number {
@@ -171,16 +171,16 @@ export class MenuClientMock extends MenuClient {
 
   private usersMenuItems() {
     return [
-      this.toMenuItem({id: '1031', rank: '31', name: 'Users', routeName: '/parties/users', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
+      this.toMenuItem({id: '1031', rank: '31', name: 'Users', routeName: '/parties/users/listing', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
       this.toMenuItem({id: '1032', rank: '32', name: 'Access Roles', routeName: '/access-roles', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id: '1033', rank: '33', name: 'Me', routeName: '/parties/user-me', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
+      this.toMenuItem({id: '1033', rank: '33', name: 'Profile', routeName: '/parties/user-profile', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
     ];
   }
 
   private organizationsMenuItems2() {
     return [
       this.toMenuItem({id: '1041', rank: '31', name: 'Organizations', routeName: 'organizations/listing', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false}),
-      this.toMenuItem({id: '1042', rank: '32', name: 'Company', routeName: 'organizations/company', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
+      this.toMenuItem({id: '1042', rank: '32', name: 'Profile', routeName: 'organization-profile', iconClasses: '', color: 'black', backgroundColor: 'white', selected: true, active: true, secured: false})
     // , this.toMenuItem({id:'1042', rank:'32', name: 'Customers', routeName: 'customers', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: false, secured: false})
     // , this.toMenuItem({id:'1042', rank:'32', name: 'Vendors', routeName: 'vendors', iconClasses:'', color: 'black', backgroundColor: 'white', selected: true, active: false, secured: false})
     ];
@@ -253,7 +253,7 @@ export class MenuClientMock extends MenuClient {
     menuState.push(myInfoMenuState);
     menuState.push(securityMenuState);
 
-    return Observable.of(menuState);
+    return of(menuState);
   }
 
 
@@ -292,7 +292,7 @@ export class MenuClientMock extends MenuClient {
     // menuState.push(securityMenuState);
 
     const leftMenu = this.leftMenuMap.get(menuName);
-    return Observable.of(leftMenu);
+    return of(leftMenu);
   }
 
   get accountLeftMenu(): MenuState {
@@ -414,7 +414,7 @@ export class MenuClientMock extends MenuClient {
     menuState.push(myInfoMenuState);
     menuState.push(securityMenuState);
 
-    // return Observable.of(menuState);
+    // return of(menuState);
     return null;
   }
 

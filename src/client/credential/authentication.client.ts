@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {CredentialState} from './credential.state';
 import {ValidResp} from "../../authentication/resp.valid";
 import {ConfirmationState} from "./confirmation.state";
@@ -12,7 +12,7 @@ export abstract class AuthenticationClient {
 
   abstract isValidPassword(password: string): Observable<ValidResp>;
 
-  abstract isValidUsername(username: string): Observable<ValidResp>;
+  abstract isValidUsername(username: string, partyId?: string): Observable<ValidResp>;
 
   abstract addCredential(credential: CredentialState): Observable<ConfirmationState>;
 

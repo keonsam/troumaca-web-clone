@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Attribute} from './attribute';
 import {Attributes} from './attributes';
 import {DataType} from './data.type';

@@ -1,5 +1,5 @@
 import {MenuRepository} from './menu.repository';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {MenuModel} from './menu.model';
 import {Injectable} from '@angular/core';
 

@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {HomeComponent} from './home.component';
 import {RouterModule} from '@angular/router';
 import {MenuModule} from '../menu/menu.module';
-import {FrontHomeComponent} from './front-home/front.home.component';
-import { LobbyHomeComponent} from "./lobby-home/lobby.home.component";
-import {homeServiceProvider} from "./home.service.provider";
+import { LobbyHomeComponent} from './lobby-home/lobby.home.component';
+import {homeServiceProvider} from './home.service.provider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MaterialModule} from '../app/material.module';
+import { HomeRoutingModule } from "./home.routing.module";
 
 @NgModule({
   imports: [
@@ -14,18 +14,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     RouterModule,
     MenuModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule,
+    HomeRoutingModule
   ],
   declarations: [
-    HomeComponent,
-    FrontHomeComponent,
     LobbyHomeComponent
   ],
   providers: [homeServiceProvider],
-  exports: [
-    HomeComponent,
-    FrontHomeComponent,
-    LobbyHomeComponent
-  ]
+  exports: []
 })
+
 export class HomeModule {}

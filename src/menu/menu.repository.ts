@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Rx';
+import {Observable} from 'rxjs';
 import {MenuModel} from './menu.model';
 
 export abstract class MenuRepository {

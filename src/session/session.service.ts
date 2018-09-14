@@ -1,5 +1,5 @@
 import {SessionRepository} from './session.repository';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 export class SessionService {
 

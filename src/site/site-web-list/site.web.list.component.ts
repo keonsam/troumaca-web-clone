@@ -71,16 +71,20 @@ export class SiteWebListComponent implements OnInit {
     this.webSiteName = webSiteName;
   }
 
-  onDelete() {
-    this.siteService
-    .deleteWebSite(this.webSiteId)
-    .subscribe(value => {
-    this.getWebSites();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log('complete');
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.siteService
+        .deleteWebSite(this.webSiteId)
+        .subscribe(value => {
+          if (value) {
+            this.getWebSites();
+          }
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

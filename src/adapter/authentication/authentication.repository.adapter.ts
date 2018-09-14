@@ -1,9 +1,9 @@
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import {Observable} from 'rxjs';
+import { map } from "rxjs/operators";
 import {mapObjectProps} from '../../mapper/object.property.mapper';
 import {AuthenticationClient} from '../../client/credential/authentication.client';
 import {AuthenticationRepository} from '../../authentication/authentication.repository';
-import {Credential} from '../../authentication/credential';
+import { Credential } from "../../authentication/credential";
 import {CredentialState} from '../../client/credential/credential.state';
 import {ValidResp} from "../../authentication/resp.valid";
 import { Confirmation } from "../../authentication/confirmation";
@@ -19,9 +19,9 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
 
   authenticate(credential: Credential): Observable<AuthenticatedCredential> {
     return this.authenticationClient.authenticate(mapObjectProps(credential, new CredentialState()))
-      .map(authenticatedCredential => {
+      .pipe(map(authenticatedCredential => {
         return mapObjectProps(authenticatedCredential, new AuthenticatedCredentialState());
-      });
+      }));
   }
 
   forgotPassword(username: string): Observable<boolean> {
@@ -32,31 +32,31 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     return this.authenticationClient.isValidPassword(password);
   }
 
-  isValidUsername(username: string): Observable<ValidResp> {
-    return this.authenticationClient.isValidUsername(username);
+  isValidUsername(username: string, partyId?: string): Observable<ValidResp> {
+    return this.authenticationClient.isValidUsername(username, partyId);
   }
 
   addCredential(credential: Credential): Observable<Confirmation> {
     return this.authenticationClient
     .addCredential(mapObjectProps(credential, new CredentialState()))
-    .map(confirmationState => {
+    .pipe(map(confirmationState => {
       return mapObjectProps(confirmationState, new Confirmation());
-    });
+    }));
   }
 
   verifyConfirmation(confirmation: Confirmation): Observable<Confirmation> {
     return this.authenticationClient
     .verifyConfirmationState(mapObjectProps(confirmation, new ConfirmationState()))
-    .map(result => {
+    .pipe(map(result => {
      return mapObjectProps(result, new Confirmation());
-    });
+    }));
   }
 
   resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation> {
     return this.authenticationClient.resendConfirmationCode(confirmationId, credentialId)
-    .map(result => {
+    .pipe(map(result => {
       return mapObjectProps(result, new Confirmation());
-    });
+    }));
   }
 
   getConfirmationsUsername(credentialConfirmationId: string): Observable<string> {

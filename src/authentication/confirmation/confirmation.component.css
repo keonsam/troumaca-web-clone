@@ -24,6 +24,10 @@
   margin-bottom: 3rem;
 }
 
+#button1 {
+  margin-right: 0 !important;
+}
+
 #button2 {
   float: right;
 }

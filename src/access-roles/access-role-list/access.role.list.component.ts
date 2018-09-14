@@ -62,13 +62,15 @@ export class AccessRoleListComponent implements OnInit {
     this.accessRoleName = accessRoleName
   }
 
-  onDelete() {
-    this.accessRoleService.deleteAccessRole(this.accessRoleId)
-      .subscribe(next => {
-        if (next) {
-          this.getAccessRoles();
-        }
-      });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.accessRoleService.deleteAccessRole(this.accessRoleId)
+        .subscribe(next => {
+          if (next) {
+            this.getAccessRoles();
+          }
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

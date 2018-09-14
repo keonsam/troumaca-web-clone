@@ -18,7 +18,6 @@ export class Asset {
   private _createdOn: string;
   private _modifiedOn: string;
 
-
   constructor() {
   }
 

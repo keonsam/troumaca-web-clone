@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ShipmentService} from './shipment.service';
 import {NavigationEnd, Router} from '@angular/router';
+import { filter } from "rxjs/operators";
 
 @Component({
   selector: 'shipment',
@@ -15,7 +16,7 @@ export class ShipmentComponent implements OnInit {
               private router: Router) {
 
     this.router.events
-      .filter((event: any) => event instanceof NavigationEnd)
+      .pipe(filter((event: any) => event instanceof NavigationEnd))
       .subscribe(() => {
         let root = this.router.routerState.snapshot.root;
         let counter = 0;

@@ -3,18 +3,19 @@ import {CommonModule} from '@angular/common';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AttributeComponent} from './attribute.component';
-import {AttributeService} from './attribute.service';
-import {AttributeRepository} from './attribute.repository';
 import {RouterModule} from '@angular/router';
 import {MenuModule} from '../menu/menu.module';
-import {AttributeCreationComponent} from './attribute-creation/attribute.creation.component';
-import {AttributeEditComponent} from './attribute-edit/attribute.edit.component';
 import {AttributeListComponent} from './attribute-list/attribute.list.component';
 import {AttributeTopMenuComponent} from './attribute-top-menu/attribute.top.menu.component';
 import {SearchModule} from '../search/search.module';
 import {PagingModule} from '../paging/paging.module';
 import {Ng2CompleterModule} from 'ng2-completer';
 import {attributeServiceProvider} from './attribute.service.provider';
+import { AttributeRoutingModule } from "./attribute.routing.module";
+import { AttributeFormComponent } from "./attribute-form/attribute.form.component";
+import { attributeResolveProvider } from "./attribute.resolve.provider";
+import { UnitOfMeasureModule } from "../unit-of-measure/unit.of.measure.module";
+import {DeleteModalModule} from "../delete-modal/delete.modal.module";
 
 @NgModule({
   imports: [
@@ -26,22 +27,20 @@ import {attributeServiceProvider} from './attribute.service.provider';
     ReactiveFormsModule,
     MenuModule,
     SearchModule,
-    PagingModule
+    PagingModule,
+    AttributeRoutingModule,
+    UnitOfMeasureModule,
+    DeleteModalModule
   ],
   declarations: [
     AttributeComponent,
-    AttributeCreationComponent,
-    AttributeEditComponent,
+    AttributeFormComponent,
     AttributeListComponent,
     AttributeTopMenuComponent
   ],
-  providers: [attributeServiceProvider],
+  providers: [attributeServiceProvider, attributeResolveProvider],
   exports: [
-    AttributeComponent,
-    AttributeCreationComponent,
-    AttributeEditComponent,
-    AttributeListComponent,
-    AttributeTopMenuComponent
+    AttributeFormComponent
   ]
 })
 export class AttributeModule {}

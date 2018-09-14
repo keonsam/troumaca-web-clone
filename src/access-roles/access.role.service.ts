@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 import {AccessRoleRepository} from './access.role.repository';
 import {Permission} from './permission';
@@ -42,8 +42,8 @@ export class AccessRoleService {
   }
 
   // resources
-  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<Permissions> {
-   return this.accessRoleRepository.getPermissionsByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray, type);
+  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[]): Observable<Permissions> {
+   return this.accessRoleRepository.getPermissionsByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray);
   }
 
   public getResourcePermissionsByResourceId(resourceId: string): Observable<ResourcePermission[]> {

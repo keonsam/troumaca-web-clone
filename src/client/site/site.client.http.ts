@@ -1,6 +1,7 @@
 import {SiteClient} from './site.client';
 import {UUIDGenerator} from '../../uuid.generator';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import { map } from "rxjs/operators";
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {UnionOfPhysicalSiteStates} from './union.of.physical.site.states';
 import {EmailState} from './email.state';
@@ -27,9 +28,9 @@ export class SiteClientHttp extends SiteClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<StreetAddressStates>(url, httpOptions).map(data => {
+    return this.httpClient.get<StreetAddressStates>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getPostOfficeBoxStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<PostOfficeBoxStates> {
@@ -37,9 +38,9 @@ export class SiteClientHttp extends SiteClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<PostOfficeBoxStates>(url, httpOptions).map(data => {
+    return this.httpClient.get<PostOfficeBoxStates>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getEmailStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<EmailStates> {
@@ -47,9 +48,9 @@ export class SiteClientHttp extends SiteClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<EmailStates>(url, httpOptions).map(data => {
+    return this.httpClient.get<EmailStates>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getWebSiteStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<WebSiteStates> {
@@ -57,9 +58,9 @@ export class SiteClientHttp extends SiteClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<WebSiteStates>(url, httpOptions).map(data => {
+    return this.httpClient.get<WebSiteStates>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getPhoneStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<PhoneStates> {
@@ -67,9 +68,9 @@ export class SiteClientHttp extends SiteClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<PhoneStates>(url, httpOptions).map(data => {
+    return this.httpClient.get<PhoneStates>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getStreetAddressState(siteId: string): Observable<StreetAddressState> {
@@ -79,9 +80,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .get<StreetAddressState>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getPostOfficeBoxState(siteId: string): Observable<PostOfficeBoxState> {
@@ -91,9 +92,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .get<PostOfficeBoxState>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getEmailState(siteId: string): Observable<EmailState> {
@@ -103,9 +104,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .get<EmailState>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getWebSiteState(siteId: string): Observable<WebSiteState> {
@@ -115,9 +116,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .get<WebSiteState>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public getPhoneState(siteId: string): Observable<PhoneState> {
@@ -127,9 +128,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .get<PhoneState>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public findUnionOfPhysicalSiteStates(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteStates> {
@@ -137,9 +138,9 @@ export class SiteClientHttp extends SiteClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<UnionOfPhysicalSiteStates>(url, httpOptions).map(data => {
+    return this.httpClient.get<UnionOfPhysicalSiteStates>(url, httpOptions).pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addPhone(phoneState: PhoneState): Observable<PhoneState> {
@@ -149,9 +150,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .post<PhoneState>(url, phoneState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addStreetAddress(streetAddressState: StreetAddressState): Observable<StreetAddressState> {
@@ -161,9 +162,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .post<StreetAddressState>(url, streetAddressState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addPostOfficeBox(postOfficeBoxState: PostOfficeBoxState): Observable<PostOfficeBoxState> {
@@ -173,9 +174,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .post<PostOfficeBoxState>(url, postOfficeBoxState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addEmail(emailState: EmailState): Observable<EmailState> {
@@ -185,9 +186,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .post<EmailState>(url, emailState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public addWebSite(webSiteState: WebSiteState): Observable<WebSiteState> {
@@ -197,9 +198,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .post<WebSiteState>(url, webSiteState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updateStreetAddress(siteId: string, streetAddressState: StreetAddressState): Observable<number> {
@@ -209,9 +210,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .put<number>(url, streetAddressState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updatePostOfficeBox(siteId: string, postOfficeBoxState: PostOfficeBoxState): Observable<number> {
@@ -221,9 +222,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .put<number>(url, postOfficeBoxState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updateEmail(siteId: string, emailState: EmailState): Observable<number> {
@@ -233,9 +234,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .put<number>(url, emailState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updateWebSite(siteId: string, webSiteState: WebSiteState): Observable<number> {
@@ -245,9 +246,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .put<number>(url, webSiteState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public updatePhone(siteId: string, phoneState: PhoneState): Observable<number> {
@@ -257,9 +258,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .put<number>(url, phoneState.toJson(), httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public deleteStreetAddress(siteId: string): Observable<number> {
@@ -269,9 +270,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .delete<number>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public deletePostOfficeBox(siteId: string): Observable<number> {
@@ -281,9 +282,9 @@ export class SiteClientHttp extends SiteClient {
     };
     return this.httpClient
     .delete<number>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
 }
 
 public deleteEmail(siteId: string): Observable<number> {
@@ -293,9 +294,9 @@ public deleteEmail(siteId: string): Observable<number> {
   };
   return this.httpClient
   .delete<number>(url, httpOptions)
-  .map(data => {
+  .pipe(map(data => {
     return data;
-  });
+  }));
 }
 
 public deleteWebSite(siteId: string): Observable<number> {
@@ -305,9 +306,9 @@ public deleteWebSite(siteId: string): Observable<number> {
   };
   return this.httpClient
   .delete<number>(url, httpOptions)
-  .map(data => {
+  .pipe(map(data => {
     return data;
-  });
+  }));
 }
 
   public deletePhone(siteId: string): Observable<number> {
@@ -317,9 +318,9 @@ public deleteWebSite(siteId: string): Observable<number> {
     };
     return this.httpClient
     .delete<number>(url, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   public jsonHttpHeaders(): HttpHeaders {

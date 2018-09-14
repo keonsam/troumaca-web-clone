@@ -1,4 +1,4 @@
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {EventName} from './event.name';
 

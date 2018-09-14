@@ -16,37 +16,37 @@
         <table class="table table-striped table-lightfont table-full-width">
           <thead>
           <tr>
-            <th>Post Office Box Name</th>
-            <th>Description</th>
+            <th>Name</th>
             <th>Post Office Box Number</th>
             <th>City</th>
             <th>State or Province</th>
             <th>Postal Code</th>
             <th>Country</th>
+            <th>Description</th>
             <th>Actions</th>
           </tr>
           </thead>
           <tfoot>
           <tr>
-            <th>Post Office Box Name</th>
-            <th>Description</th>
+            <th>Name</th>
             <th>Post Office Box Number</th>
             <th>City</th>
             <th>State or Province</th>
             <th>Postal Code</th>
             <th>Country</th>
+            <th>Description</th>
             <th>Actions</th>
           </tr>
           </tfoot>
           <tbody>
           <tr role="row" *ngFor="let postOfficeBox of postOfficeBoxes.postOfficeBoxes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
             <td>{{postOfficeBox.name}}</td>
-            <td>{{postOfficeBox.description}}</td>
             <td>{{postOfficeBox.postOfficeBoxNumber}}</td>
             <td>{{postOfficeBox.city}}</td>
             <td>{{postOfficeBox.stateOrProvince}}</td>
             <td>{{postOfficeBox.postalCode}}</td>
             <td>{{postOfficeBox.country}}</td>
+            <td>{{postOfficeBox.description}}</td>
             <td class="row-actions">
               <a [routerLink]="['/sites/post-office-boxes', postOfficeBox.siteId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(postOfficeBox.siteId, postOfficeBox.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
             </td>
@@ -56,25 +56,7 @@
           </tr>
           </tbody>
         </table>
-        <div aria-labelledby="DeleteModalLabel" class="modal fade bd-example-modal-sm" id="DeleteModal1" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
-         <div class="modal-dialog modal-sm" role="document">
-          <div class="modal-content">
-           <div class="modal-header">
-            <h5 class="modal-title" id="DeleteModalLabel">
-             Delete {{postOfficeBoxName}}
-            </h5>
-            <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
-           </div>
-           <div class="modal-body">
-           <p>Are you sure you want to delete {{postOfficeBoxName}}?</p>
-           </div>
-              <div class="modal-footer">
-              <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
-              <button class="btn btn-danger" type="button" data-dismiss="modal" (click)="onDelete()"> Delete</button>
-             </div>
-            </div>
-           </div>
-         </div>
+        <app-delete-modal [name]="postOfficeBoxName" (delete)="onDelete($event)"></app-delete-modal>
         <paging [page]="postOfficeBoxes.page" (requestPage)="onRequestPage($event)"></paging>
       </div>
 

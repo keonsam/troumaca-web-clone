@@ -5,7 +5,6 @@ import {reportClientProvider} from './report/report.client.provider';
 import {accountClientProvider} from './account/account.client.provider';
 import {logoutClientProvider} from './logout/logout.client.provider';
 import {signUpClientProvider} from './sign-up/sign.up.client.provider';
-import {organizationClientProvider} from './party/organization.client.provider';
 import {personClientProvider} from './party/person.client.provider';
 import {securityClientProvider} from './security/security.client.provider';
 import {sessionClientProvider} from './session/session.client.provider';
@@ -29,6 +28,9 @@ import {sessionInterceptorProvider} from './session.interceptor.provider';
 import {clientEventProvider} from './client.event.provider';
 import {homeClientProvider} from "./home/home.client.provider";
 import {depreciationClientProvider} from "./depreciation/depreciation.client.provider";
+import { photoClientProvider } from "./photo/photo.client.provider";
+import { userClientProvider } from "./party/user/user.client.provider";
+import { organizationClientProvider } from "./party/organization/organization.client.provider";
 
 @NgModule({
   imports:      [
@@ -44,7 +46,6 @@ import {depreciationClientProvider} from "./depreciation/depreciation.client.pro
     logoutClientProvider,
     reportClientProvider,
     signUpClientProvider,
-    organizationClientProvider,
     personClientProvider,
     securityClientProvider,
     sessionClientProvider,
@@ -64,7 +65,10 @@ import {depreciationClientProvider} from "./depreciation/depreciation.client.pro
     sessionInterceptorProvider,
     accessRolesClientProvider,
     homeClientProvider,
-    depreciationClientProvider
+    depreciationClientProvider,
+    photoClientProvider,
+    userClientProvider,
+    organizationClientProvider
   ]
 })
 export class ClientModule { }

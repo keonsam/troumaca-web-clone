@@ -1,0 +1,48 @@
+<div [ngClass]="{'content-i': !profile }">
+
+  <div [ngClass]="{'content-box': !profile}">
+    <div [ngClass]="{'row': !profile}">
+      <div [ngClass]="{'col-sm-12': !profile}">
+        <div class="element-wrapper">
+          <div class="element-box">
+            <form [formGroup]="organizationForm" id="formValidate">
+              <h5 class="form-header">
+                {{ profile ? "Organization Profile": organizationExist ? "Edit Organization Form" : "New Organization Form"}}
+              </h5>
+
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{organizationExist ? "Update":"Create"}} organization.</div>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="organization-name">Organization Name</label><input id="organization-name" class="form-control" formControlName="name" placeholder="Enter Organization Name" required="required" type="text">
+                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Enter your organization name.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="organization-purpose">Organization Purpose</label><input id="organization-purpose" class="form-control" formControlName="purpose" placeholder="Enter Organization Purpose" required="required" type="text">
+                  <div [hidden]="purpose.valid || purpose.pristine" class="alert alert-danger">Enter your organization purpose.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="description">Description</label><textarea id="description" class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
+                  <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
+                </div>
+              </fieldset>
+
+              <div class="form-buttons-w">
+                <button class="btn btn-primary" [hidden]="organizationExist" [disabled]="!organizationForm.valid" type="submit" (click)="onCreate()">{{ stepper ? 'Next': 'Create'}}</button>
+                <button class="btn btn-primary" [hidden]="!organizationExist" [disabled]="!organizationForm.valid" type="submit" (click)="onUpdate()">{{ stepper ? 'Next': 'Update'}}</button>
+                <button class="btn btn-outline-danger right-button" [hidden]="profile || stepper" type="cancel" (click)="cancel()">Cancel</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

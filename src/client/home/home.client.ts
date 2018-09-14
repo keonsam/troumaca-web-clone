@@ -1,4 +1,4 @@
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {SubscriptionState} from "./subscription.state";
 import {BillingState} from "./billing.state";
 import {ValidResp} from "../../authentication/resp.valid";

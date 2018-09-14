@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {AttributeState} from './attribute.state';
 import {AttributeStates} from './attribute.states';
 import {DataTypeState} from './data.type.state';

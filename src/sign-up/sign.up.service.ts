@@ -1,7 +1,7 @@
 import {SignUpRepository} from './sign.up.repository';
 import {SignUpModel} from './sign.up.model';
 import {SignUp} from './sigin.up';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 export class SignUpService {
 

@@ -1,7 +1,8 @@
 import {AuthenticationClient} from './authentication.client';
 import {UUIDGenerator} from '../../uuid.generator';
-import 'rxjs/add/operator/catch';
-import {Observable} from 'rxjs/Observable';
+
+import {Observable} from 'rxjs';
+import { map } from "rxjs/operators";
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CredentialState} from './credential.state';
 import {ValidResp} from "../../authentication/resp.valid";
@@ -30,9 +31,9 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     };
     return this.httpClient
       .post<AuthenticatedCredentialState>(url, query, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   forgotPassword(username: string): Observable<boolean> {
@@ -44,9 +45,9 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
     return this.httpClient
       .post<boolean>(url, {username}, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   isValidPassword(password: string): Observable<ValidResp> {
@@ -60,23 +61,26 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
     return this.httpClient
       .post<ValidResp>(url, query, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
-  isValidUsername(username: string): Observable<ValidResp> {
+  isValidUsername(username: string, partyId?: string): Observable<ValidResp> {
     const url = `${this.hostPort}/validate-username`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    const query = {username: username};
+    const query = {
+      username: username,
+      partyId: partyId
+    };
     return this.httpClient
     .post<ValidResp>(url, query, httpOptions)
-    .map(data => {
+    .pipe(map(data => {
       return data;
-    });
+    }));
   }
 
   addCredential(credentialState: CredentialState): Observable<ConfirmationState> {
@@ -88,9 +92,9 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
     return this.httpClient
       .post<ConfirmationState>(url, credentialState.toJson(), httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   verifyConfirmationState(confirmationState: ConfirmationState): Observable<ConfirmationState> {
@@ -102,9 +106,9 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
     return this.httpClient
       .post<ConfirmationState>(url, confirmationState.toJson(), httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   resendConfirmationCode(confirmationId: string, credentialId: string): Observable<ConfirmationState> {
@@ -116,9 +120,9 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
     return this.httpClient
       .get<ConfirmationState>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
   getConfirmationsUsername(confirmationId: string): Observable<string> {
@@ -130,9 +134,9 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
     return this.httpClient
       .get<string>(url, httpOptions)
-      .map(data => {
+      .pipe(map(data => {
         return data;
-      });
+      }));
   }
 
 

@@ -1,5 +1,5 @@
 import {HomeRepository} from "./home.repository";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {Subscription} from "./lobby-home/subscription";
 import { Billing } from "./lobby-home/billing";
 import {ValidResp} from "../authentication/resp.valid";

@@ -33,6 +33,7 @@ export class Credential {
   set rememberMe(value: boolean) {
     this._rememberMe = value;
   }
+
   get changedPassword(): string {
     return this._changedPassword;
   }
@@ -40,6 +41,7 @@ export class Credential {
   set changedPassword(value: string) {
     this._changedPassword = value;
   }
+
   get password(): string {
     return this._password;
   }
@@ -47,6 +49,7 @@ export class Credential {
   set password(value: string) {
     this._password = value;
   }
+
   get username(): string {
     return this._username;
   }
@@ -75,13 +78,9 @@ export class Credential {
     }
 
     // let validNumber = this.numberRegEx.test(this.username);
-
     // if (!validNumber) {
     //   return validNumber;
     // }
-
-    console.log(this.username);
-
     // need to internationalized
     const parsedNumber = parse(this.username, 'US');
 
@@ -93,5 +92,4 @@ export class Credential {
 
     return validNumber2;
   }
-
 }

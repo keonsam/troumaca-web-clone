@@ -1,9 +1,9 @@
-import 'rxjs/add/operator/map';
 import {AssetTypeRepository} from '../../asset-types/asset.type.repository';
 import {AssetTypesClient} from '../../client/asset-type/asset.types.client';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import { map } from 'rxjs/operators';
 import {mapObjectProps} from '../../mapper/object.property.mapper';
-import { map } from 'underscore';
+// import { map } from 'underscore';
 import {AssetType} from '../../asset-types/asset.type';
 import {AssetTypes} from '../../asset-types/asset.types';
 import {AssetTypeClass} from '../../asset-type-classes/asset.type.class';
@@ -26,35 +26,35 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
   public getAssetTypes(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetTypes> {
     return this.assetTypesClient
       .getAssetTypes(pageNumber, pageSize, sortOrder)
-      .map(values => {
+      .pipe(map(values => {
         const assetTypeModels: AssetTypes = new AssetTypes();
-        assetTypeModels.assetTypes = map(values.assetTypes, value => mapObjectProps(value, new AssetType()));
+        assetTypeModels.assetTypes = values.assetTypes.map( value => mapObjectProps(value, new AssetType()));
        assetTypeModels.page = mapObjectProps(values.page, new Page());
        assetTypeModels.sort = mapObjectProps(values.sort, new Sort());
         return assetTypeModels;
-      });
+      }));
   }
 
   public getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]> {
     return this.assetTypesClient
       .getAssignedAttributes(assetTypeClassId)
-      .map(assignedAttributes => {
-        return map(assignedAttributes, value => {
+      .pipe(map(assignedAttributes => {
+        return assignedAttributes.map( value => {
          return mapObjectProps(value, new AssignedAttribute());
         });
-      });
+      }));
   }
 
   public getValues(assetTypeId: string): Observable<Values> {
     return this.assetTypesClient
       .getValues(assetTypeId)
-      .map(values => {
+      .pipe(map(values => {
         const valueModels: Values = new Values();
-        valueModels.values = map(values.values, value => {
+        valueModels.values = values.values.map( value => {
           return mapObjectProps(value, new Value());
         });
         return valueModels;
-      });
+      }));
   }
 
   public getAssetType(assetTypeId: string): Observable<AssetTypeResponse> {
@@ -64,39 +64,39 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
   public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass> {
     return this.assetTypesClient
     .getAssetTypeClassState(assetTypeClassId)
-    .map(value => {
+    .pipe(map(value => {
        return mapObjectProps(value, new AssetTypeClass());
-    });
+    }));
   }
 
   public findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClass[]> {
     return this.assetTypesClient
     .findAssetTypeClassId(searchStr, pageSize)
-    .map(values => {
-      return map(values, value => {
+    .pipe(map(values => {
+      return values.map( value => {
         return mapObjectProps(value, new AssetTypeClass());
       });
-    });
+    }));
   }
 
   public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
     return this.assetTypesClient
       .findUnitOfMeasureIdState(searchStr, pageSize)
-      .map(data => {
-        return map(data, value => {
+      .pipe(map(data => {
+        return data.map( value => {
           return mapObjectProps(value, new UnitOfMeasure());
         });
-      });
+      }));
   }
 
   public addAssetType(assetType: AssetType, values: Value[]): Observable<AssetType> {
     return this.assetTypesClient
-    .addAssetTypeState(mapObjectProps(assetType, new AssetTypeState()), map(values, value => {
+    .addAssetTypeState(mapObjectProps(assetType, new AssetTypeState()), values.map( value => {
       return mapObjectProps(value, new ValueState());
     }))
-    .map(value => {
+    .pipe(map(value => {
       return mapObjectProps(value, new AssetType());
-    });
+    }));
   }
 
   public deleteAssetType(assetTypeId: string): Observable<number> {
@@ -108,7 +108,7 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
   }
 
   public updateAssetType(assetTypeId: string, assetType: AssetType, values: Value[]): Observable<number> {
-    return this.assetTypesClient.updateAssetType(assetTypeId,  mapObjectProps(assetType, new AssetTypeState()), map(values, value => {
+    return this.assetTypesClient.updateAssetType(assetTypeId,  mapObjectProps(assetType, new AssetTypeState()), values.map( value => {
       return mapObjectProps(value, new ValueState());
     }));
   }

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {QuoteService} from './quote.service';
 import {NavigationEnd, Router} from '@angular/router';
+import { filter } from "rxjs/operators";
 
 @Component({
   selector: 'quote',
@@ -15,7 +16,7 @@ export class QuoteComponent implements OnInit {
               private router: Router) {
 
     this.router.events
-      .filter((event: any) => event instanceof NavigationEnd)
+      .pipe(filter((event: any) => event instanceof NavigationEnd))
       .subscribe(() => {
         let root = this.router.routerState.snapshot.root;
         let counter = 0;

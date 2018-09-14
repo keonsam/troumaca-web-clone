@@ -1,5 +1,5 @@
 import {AssetTypeState} from './asset.type.state';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {AssetTypeStates} from './asset.type.states';
 import {AssetTypeClassState} from '../asset-type-class/asset.type.class.state';
 import {ValueState} from './value.state';

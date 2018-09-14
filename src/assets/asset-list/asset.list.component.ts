@@ -72,16 +72,20 @@ export class AssetListComponent implements OnInit {
     this.assetName = assetName;
   }
 
-  onDelete() {
-    this.assetService
-    .deleteAsset(this.assetId)
-    .subscribe(value => {
-    this.getAssets();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log('complete');
-  });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.assetService
+        .deleteAsset(this.assetId)
+        .subscribe(value => {
+          if (value) {
+            this.getAssets();
+          }
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
 

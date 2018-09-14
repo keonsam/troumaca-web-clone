@@ -71,6 +71,10 @@ export class AssetState {
     return this._unitOfMeasureId;
   }
 
+  set unitOfMeasureId(value: string) {
+    this._unitOfMeasureId = value;
+  }
+
   get assetTypeId(): string {
     return this._assetTypeId;
   }

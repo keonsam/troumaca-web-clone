@@ -1,19 +1,13 @@
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/single';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/switchMap';
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../authentication.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Credential} from '../credential';
+import { Credential} from "../credential";
 import {Router} from '@angular/router';
-import { ValidResp} from "../resp.valid";
+import { ValidResp} from '../resp.valid';
+import {debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'register',
+  selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: [ './register.component.css' ]
 })
@@ -23,7 +17,6 @@ export class RegisterComponent implements OnInit {
   private _username: FormControl;
   private _password: FormControl;
   private _confirmPassword: FormControl;
-  private redirectLink: string;
   private credential: Credential;
   private _doNotDisplayFailureMessage: boolean;
 
@@ -77,13 +70,11 @@ export class RegisterComponent implements OnInit {
 
     const subscriberToChangeEvents = function () {
       valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
-      .filter(value => { // filter out empty values
+      .pipe(debounceTime(1000), distinctUntilChanged(),  filter(value => { // filter out empty values
         return !!(value);
-      }).map(value => {
+      }), map((value: string) => {
         return authenticationService.isValidUsername(value);
-      }).subscribe(value => {
+      })).subscribe(value => {
         value.subscribe( (otherValue: ValidResp) => {
           isValidUsername = otherValue.valid;
           usernameControl.updateValueAndValidity();
@@ -116,13 +107,11 @@ export class RegisterComponent implements OnInit {
 
     const subscriberToChangeEvents = function () {
       valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
-      .filter(value => { // filter out empty values
+      .pipe(debounceTime(500), distinctUntilChanged(), filter(value => { // filter out empty values
         return !!(value);
-      }).map(value => {
+      }), map((value: string) => {
         return authenticationService.isValidPassword(value);
-      }).subscribe(value => {
+      })).subscribe(value => {
         value.subscribe( (otherValue: ValidResp) => {
           isValidPassword = otherValue.valid;
           passwordControl.updateValueAndValidity();

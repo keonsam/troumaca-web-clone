@@ -1,7 +1,7 @@
 import isEmail from 'validator/lib/isEmail';
 import isNumeric from 'validator/lib/isNumeric';
-import {parse, format, isValidNumber, CountryCode} from 'libphonenumber-js'
-import {Credential} from './credential';
+import {parse, isValidNumber, CountryCode} from 'libphonenumber-js'
+import { Credential } from './credential';
 
 export class Login {
 
@@ -28,7 +28,6 @@ export class Login {
     if (!validNumber) {
       return validNumber;
     }
-
     return  isValidNumber(parse(username));
   }
 

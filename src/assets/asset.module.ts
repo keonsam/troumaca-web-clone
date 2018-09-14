@@ -7,12 +7,15 @@ import {RouterModule} from '@angular/router';
 import {MenuModule} from '../menu/menu.module';
 import {PagingModule} from '../paging/paging.module';
 import {SearchModule} from '../search/search.module';
-import {AssetEditComponent} from './asset-edit/asset.edit.component';
 import {AssetListComponent} from './asset-list/asset.list.component';
 import {AssetTopMenuComponent} from './asset-top-menu/asset.top.menu.component';
-import {AssetCreationComponent} from './asset-creation/asset.creation.component';
 import {Ng2CompleterModule} from 'ng2-completer';
 import {assetServiceProvider} from './asset.service.provider';
+import { AssetRoutingModule } from "./asset.routing.module";
+import { UnitOfMeasureModule } from "../unit-of-measure/unit.of.measure.module";
+import {assetResolveProvider } from "./asset.resolve.provider";
+import {AssetFormComponent} from "./asset-form/asset.form.component";
+import {DeleteModalModule} from "../delete-modal/delete.modal.module";
 
 @NgModule({
   imports: [
@@ -23,24 +26,25 @@ import {assetServiceProvider} from './asset.service.provider';
     FormsModule,
     ReactiveFormsModule,
     MenuModule,
-    PagingModule,
     SearchModule,
-    PagingModule
+    PagingModule,
+    AssetRoutingModule,
+    UnitOfMeasureModule,
+    DeleteModalModule
   ],
   declarations: [
     AssetComponent,
-    AssetEditComponent,
+    AssetFormComponent,
     AssetListComponent,
     AssetTopMenuComponent,
-    AssetCreationComponent
   ],
-  providers: [assetServiceProvider],
+  providers: [assetServiceProvider, assetResolveProvider],
   exports: [
-    AssetComponent,
-    AssetEditComponent,
-    AssetListComponent,
-    AssetTopMenuComponent,
-    AssetCreationComponent
+    // AssetComponent,
+    // AssetEditComponent,
+    // AssetListComponent,
+    // AssetTopMenuComponent,
+    // AssetCreationComponent
   ]
 })
 export class AssetModule {}

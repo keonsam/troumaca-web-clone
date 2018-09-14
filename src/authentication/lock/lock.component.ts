@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/filter';
+
 import {Event} from '../event';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import {of} from 'rxjs';
+import { filter, flatMap} from "rxjs/operators";
 import {Router} from '@angular/router';
 import {EventService} from '../../event/event.service';
 import {AuthenticationService} from '../authentication.service';
@@ -53,13 +51,12 @@ export class LockComponent implements OnInit {
   onSubmit() {
 
     const values = this.lockForm.value;
-    Observable
-      .of(values)
-      .filter((value) => this.lockForm.valid)
-      .flatMap((value) => {
+    of(values)
+      .pipe(filter((value) => this.lockForm.valid),
+       flatMap((value) => {
         return this.authenticationService
           .authenticate(this.createCredential(value));
-      })
+      }))
       .subscribe(session => {
         // Cookie.set("troumaca-session-id", session.sessionId);
         // if (this.rememberMe.value) {

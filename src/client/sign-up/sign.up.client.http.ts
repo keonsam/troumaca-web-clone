@@ -1,7 +1,7 @@
 import {SignUpClient} from './sign.up.client';
 import {UUIDGenerator} from '../../uuid.generator';
 import {SignUpState} from './sign.up.state';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 export class SignUpClientHttp extends SignUpClient {
 

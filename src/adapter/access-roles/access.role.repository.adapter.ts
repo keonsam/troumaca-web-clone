@@ -14,10 +14,11 @@ import {AccessRoleState} from '../../client/access-roles/access.role.state';
 import {AccessRoleType} from '../../access-roles/access.role.type';
 import {AccessRoleTypes} from '../../access-roles/access.role.types';
 import {AccessRoleTypeState} from '../../client/access-roles/access.role.type.state';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import { map } from 'rxjs/operators'
 import {AccessRolesClient} from '../../client/access-roles/access.roles.client';
 import {mapObjectProps} from '../../mapper/object.property.mapper';
-import { map} from 'underscore';
+// import { map } from 'underscore';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
 import {ResourcePermission} from '../../access-roles/resource.permission';
@@ -34,29 +35,25 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
 
   public getPermissions(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<Permissions> {
     return this.accessRolesClient.getPermissions(defaultPage, defaultPageSize, defaultSortOrder)
-      .map( permissionStates => {
+      .pipe(map( permissionStates => {
         const permissionModels: Permissions = new Permissions();
-        permissionModels.permissions = map(permissionStates.permissions, value => {
-          return mapObjectProps(value, new Permission());
-        });
+        permissionModels.permissions = permissionStates.permissions.map( value => mapObjectProps(value, new Permission()));
         permissionModels.page = mapObjectProps(permissionStates.page, new Page());
         permissionModels.sort = mapObjectProps(permissionStates.sort, new Sort());
         return permissionModels;
-      });
+      }));
   }
 
   public getPermissionById(permissionId: string): Observable<Permission> {
     return this.accessRolesClient.getPermissionById(permissionId)
-      .map(value => {
+      .pipe(map(value => {
         return mapObjectProps(value, new Permission());
-      });
+      }));
   }
 
   public addPermission(permission: Permission): Observable<Permission> {
     return this.accessRolesClient.addPermission(mapObjectProps(permission, new PermissionState()))
-      .map(value => {
-        return mapObjectProps(value, new Permission());
-      });
+      .pipe(map(value => mapObjectProps(value, new Permission())));
   }
 
   public updatePermission(permission: Permission): Observable<number> {
@@ -67,70 +64,54 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
     return this.accessRolesClient.deletePermission(permissionId);
   }
 
-  //resources
+  // resources
 
-  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<Permissions> {
-    return this.accessRolesClient.getPermissionsByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray, type)
-      .map( permissionStates => {
+  public getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[]): Observable<Permissions> {
+    return this.accessRolesClient.getPermissionsByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray)
+      .pipe(map( permissionStates => {
         const permissionModels: Permissions = new Permissions();
-        permissionModels.permissions = map(permissionStates.permissions, value => {
-          return mapObjectProps(value, new Permission());
-        });
+        permissionModels.permissions = permissionStates.permissions.map( value => mapObjectProps(value, new Permission()));
         permissionModels.page = mapObjectProps(permissionStates.page, new Page());
         permissionModels.sort = mapObjectProps(permissionStates.sort, new Sort());
         return permissionModels;
-      });
+      }));
   }
 
   public getResourcePermissionsByResourceId(resourceId: string): Observable<ResourcePermission[]> {
     return this.accessRolesClient.getResourcePermissionsByResourceId(resourceId)
-      .map(data => {
-        return map(data, value => {
-          return mapObjectProps(value, new ResourcePermission());
-        });
-      });
+      .pipe(map(data => data.map(value => mapObjectProps(value, new ResourcePermission()))));
   }
 
   public findResourceTypeId(searchStr: string, pageSize: number): Observable<ResourceType[]> {
     return this.accessRolesClient.findResourceTypeId(searchStr, pageSize)
-      .map(data => {
-        return map(data, value => {
-          return mapObjectProps(value, new ResourceType());
-        });
-      });
+      .pipe(map(data => data.map(value => mapObjectProps(value, new ResourceType()))));
   }
 
   public getResources(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<Resources> {
     return this.accessRolesClient.getResources(defaultPage, defaultPageSize, defaultSortOrder)
-      .map( resourceStates => {
+      .pipe(map( resourceStates => {
         const resourceModels: Resources = new Resources();
-        resourceModels.resources = map(resourceStates.resources, value => {
-          return mapObjectProps(value, new Resource());
-        });
+        resourceModels.resources = resourceStates.resources.map( value => mapObjectProps(value, new Resource()));
         resourceModels.page = mapObjectProps(resourceStates.page, new Page());
         resourceModels.sort = mapObjectProps(resourceStates.sort, new Sort());
         return resourceModels;
-      });
+      }));
   }
 
   public getResourceById(resourceId: string): Observable<Resource> {
     return this.accessRolesClient.getResourceById(resourceId)
-      .map(value => {
-        return mapObjectProps(value, new Resource());
-      });
+      .pipe(map(value => mapObjectProps(value, new Resource())));
   }
 
   public addResource(resource: Resource, resourcePermissions: ResourcePermission[]): Observable<Resource> {
-    return this.accessRolesClient.addResource(mapObjectProps(resource, new ResourceState()), map(resourcePermissions, value => {
+    return this.accessRolesClient.addResource(mapObjectProps(resource, new ResourceState()), resourcePermissions.map( value => {
       return mapObjectProps(value, new ResourcePermissionState());
     }))
-      .map(value => {
-        return mapObjectProps(value, new Resource());
-      });
+      .pipe(map(value => mapObjectProps(value, new Resource())));
   }
 
   public updateResource(resource: Resource, resourcePermissions: ResourcePermission[]): Observable<number> {
-    return this.accessRolesClient.updateResource(mapObjectProps(resource, new ResourceState()), map(resourcePermissions, value => {
+    return this.accessRolesClient.updateResource(mapObjectProps(resource, new ResourceState()), resourcePermissions.map(value => {
       return mapObjectProps(value, new ResourcePermissionState());
     }));
   }
@@ -139,32 +120,32 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
     return this.accessRolesClient.deleteResource(resourceId);
   }
 
-  //resourceTypes
+  // resourceTypes
   public getResourceTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<ResourceTypes> {
     return this.accessRolesClient.getResourceTypes(defaultPage, defaultPageSize, defaultSortOrder)
-      .map( resourceTypeStates => {
+      .pipe(map( resourceTypeStates => {
         const resourceTypeModels: ResourceTypes = new ResourceTypes();
-        resourceTypeModels.resourceTypes = map(resourceTypeStates.resourceTypes, value => {
+        resourceTypeModels.resourceTypes = resourceTypeStates.resourceTypes.map( value => {
           return mapObjectProps(value, new ResourceType());
         });
         resourceTypeModels.page = mapObjectProps(resourceTypeStates.page, new Page());
         resourceTypeModels.sort = mapObjectProps(resourceTypeStates.sort, new Sort());
         return resourceTypeModels;
-      });
+      }));
   }
 
   public getResourceTypeById(resourceTypeId: string): Observable<ResourceType> {
     return this.accessRolesClient.getResourceTypeById(resourceTypeId)
-      .map(value => {
+      .pipe(map(value => {
         return mapObjectProps(value, new ResourceType());
-      });
+      }));
   }
 
   public addResourceType(resourceType: ResourceType): Observable<ResourceType> {
     return this.accessRolesClient.addResourceType(mapObjectProps(resourceType, new ResourceTypeState()))
-      .map(value => {
+      .pipe(map(value => {
         return mapObjectProps(value, new ResourceType());
-      });
+      }));
   }
 
   public updateResourceType(resourceType: ResourceType): Observable<number> {
@@ -175,49 +156,49 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
     return this.accessRolesClient.deleteResourceType(resourceTypeId);
   }
 
-  //access-roles
+  // access-roles
   public getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<Resources> {
     return this.accessRolesClient.getResourcesByArray(defaultPage, defaultPageSize, defaultSortOrder, assignedArray, type)
-      .map(resourceStates => {
+      .pipe(map(resourceStates => {
         const resourceModels: Resources = new Resources();
-        resourceModels.resources = map(resourceStates.resources, value => {
+        resourceModels.resources = resourceStates.resources.map( value => {
           return mapObjectProps(value, new Resource());
         });
         resourceModels.page = mapObjectProps(resourceStates.page, new Page());
         resourceModels.sort = mapObjectProps(resourceStates.sort, new Sort());
         return resourceModels;
-      });
+      }));
   }
 
   public getAllResourcePermissions(): Observable<ResourcePermission[]> {
     return this.accessRolesClient.getAllResourcePermissions()
-      .map(data => {
-        return map(data, value => {
+      .pipe(map(data => {
+        return data.map(value => {
           return mapObjectProps(value, new ResourcePermission());
         });
-      });
+      }));
   }
 
   public findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleType[]> {
     return this.accessRolesClient.findAccessRoleTypeId(searchStr, pageSize)
-      .map(data => {
-        return map(data, value => {
+      .pipe(map(data => {
+        return data.map( value => {
           return mapObjectProps(value, new AccessRoleType());
         });
-      });
+      }));
   }
 
   public getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoles> {
     return this.accessRolesClient.getAccessRoles(defaultPage, defaultPageSize, defaultSortOrder)
-      .map( accessRoleStates => {
+      .pipe(map( accessRoleStates => {
         const accessRoleModels: AccessRoles = new AccessRoles();
-        accessRoleModels.accessRoles = map(accessRoleStates.accessRoles, value => {
+        accessRoleModels.accessRoles = accessRoleStates.accessRoles.map(value => {
           return mapObjectProps(value, new AccessRole());
         });
         accessRoleModels.page = mapObjectProps(accessRoleStates.page, new Page());
         accessRoleModels.sort = mapObjectProps(accessRoleStates.sort, new Sort());
         return accessRoleModels;
-      });
+      }));
   }
 
   public getAccessRoleById(accessRoleId: string): Observable<AccessRoleResponse> {
@@ -225,16 +206,16 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
   }
 
   public addAccessRole(accessRole: AccessRole, grants: Grant[]): Observable<AccessRole> {
-    return this.accessRolesClient.addAccessRole(mapObjectProps(accessRole, new AccessRoleState()), map(grants, next => {
+    return this.accessRolesClient.addAccessRole(mapObjectProps(accessRole, new AccessRoleState()), grants.map( next => {
       return mapObjectProps(next, new GrantState());
     }))
-      .map(value => {
+      .pipe(map(value => {
         return mapObjectProps(value, new AccessRole());
-      });
+      }));
   }
 
   public updateAccessRole(accessRole: AccessRole, grants: Grant[]): Observable<number> {
-    return this.accessRolesClient.updateAccessRole(mapObjectProps(accessRole, new AccessRoleState()),  map(grants, next => {
+    return this.accessRolesClient.updateAccessRole(mapObjectProps(accessRole, new AccessRoleState()),  grants.map( next => {
       return mapObjectProps(next, new GrantState());
     }));
   }
@@ -243,42 +224,42 @@ export class  AccessRoleRepositoryAdapter extends AccessRoleRepository {
     return this.accessRolesClient.deleteAccessRole(accessRoleId);
   }
 
-  //grants
+  // grants
   public getGrantsByAccessRoleId(accessRoleId: string): Observable<Grant[]> {
     return this.accessRolesClient.getGrantsByAccessRoleId(accessRoleId)
-      .map(data => {
-        return map(data, value => {
+      .pipe(map(data => {
+        return data.map( value => {
           return mapObjectProps(value, new Grant());
         });
-      });
+      }));
   }
 
-  //access-role-types
+  // access-role-types
   public getAccessRoleTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleTypes> {
     return this.accessRolesClient.getAccessRoleTypes(defaultPage, defaultPageSize, defaultSortOrder)
-      .map( accessRoleTypeStates => {
+      .pipe(map( accessRoleTypeStates => {
         const accessRoleTypeModels: AccessRoleTypes = new AccessRoleTypes();
-        accessRoleTypeModels.accessRoleTypes = map(accessRoleTypeStates.accessRoleTypes, value => {
+        accessRoleTypeModels.accessRoleTypes = accessRoleTypeStates.accessRoleTypes.map( value => {
           return mapObjectProps(value, new AccessRoleType());
         });
         accessRoleTypeModels.page = mapObjectProps(accessRoleTypeStates.page, new Page());
         accessRoleTypeModels.sort = mapObjectProps(accessRoleTypeStates.sort, new Sort());
         return accessRoleTypeModels;
-      });
+      }));
   }
 
   public getAccessRoleTypeById(accessRoleTypeId: string): Observable<AccessRoleType> {
     return this.accessRolesClient.getAccessRoleTypeById(accessRoleTypeId)
-      .map(value => {
+      .pipe(map(value => {
         return mapObjectProps(value, new AccessRoleType());
-      });
+      }));
   }
 
   public addAccessRoleType(accessRoleType: AccessRoleType): Observable<AccessRoleType> {
     return this.accessRolesClient.addAccessRoleType(mapObjectProps(accessRoleType, new AccessRoleTypeState()))
-      .map(value => {
+      .pipe(map(value => {
         return mapObjectProps(value, new AccessRoleType());
-      });
+      }));
   }
 
   public updateAccessRoleType(accessRoleType: AccessRoleType): Observable<number> {

@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Permission} from './permission';
 import {Permissions} from './permissions';
 import {Resource} from './resource';
@@ -26,8 +26,8 @@ export abstract class AccessRoleRepository {
 
   abstract deletePermission(permissionId: string): Observable<number>;
 
-  //resources
-  abstract getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<Permissions>;
+  // resources
+  abstract getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[]): Observable<Permissions>;
 
 
   abstract getResourcePermissionsByResourceId(resourceId: string): Observable<ResourcePermission[]>;

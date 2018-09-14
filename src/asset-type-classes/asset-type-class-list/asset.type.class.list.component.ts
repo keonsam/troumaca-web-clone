@@ -85,16 +85,20 @@ export class AssetTypeClassListComponent implements OnInit {
   this.getAssetTypeClasses();
   }
 
-  onDelete() {
-    this.assetTypeClassService
-    .deleteAssetTypeClass(this.assetTypeClassId)
-    .subscribe(value => {
-    this.getAssetTypeClasses();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log('complete');
-    });
+  onDelete(deleted?: boolean) {
+    if (deleted) {
+      this.assetTypeClassService
+        .deleteAssetTypeClass(this.assetTypeClassId)
+        .subscribe(value => {
+          if (value) {
+            this.getAssetTypeClasses();
+          }
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
 }
 
 }
