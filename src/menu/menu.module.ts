@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {CommonModule} from '@angular/common';
 import {MenuComponent} from './menu.component';
 import {RouterModule} from '@angular/router';
@@ -16,7 +15,6 @@ import {photoServiceProvider} from '../photo/photo.service.provider';
 @NgModule({
   imports: [
     CommonModule,
-    NgbModule,
     RouterModule,
     SearchModule,
     MessageModule,

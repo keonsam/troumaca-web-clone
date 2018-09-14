@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AttributeComponent} from './attribute.component';
 import {RouterModule} from '@angular/router';
@@ -20,7 +19,6 @@ import {DeleteModalModule} from "../delete-modal/delete.modal.module";
 @NgModule({
   imports: [
     CommonModule,
-    NgbModule,
     RouterModule,
     FormsModule,
     Ng2CompleterModule,

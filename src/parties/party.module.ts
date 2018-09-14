@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { PartyRoutingModule } from './party.routing.module';
 import {PartyComponent} from './party.component';
@@ -35,7 +34,6 @@ import {DeleteModalModule} from '../delete-modal/delete.modal.module';
 @NgModule({
   imports: [
     CommonModule,
-    NgbModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
