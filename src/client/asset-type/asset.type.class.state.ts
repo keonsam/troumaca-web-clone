@@ -1,4 +1,3 @@
-
 import {AttributeState} from './attribute.state';
 
 export class AssetTypeClassState {

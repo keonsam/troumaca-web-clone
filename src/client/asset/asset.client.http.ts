@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 import { map } from "rxjs/operators";
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {AssetStates} from './asset.states';
-import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
 import {AssetKindStates} from './asset.kind.states';
 import {AssetState} from './asset.state';
 import {AssetTypeState} from '../asset-type/asset.type.state';
@@ -14,17 +13,10 @@ import {AssetPersonState} from './asset.person.state';
 
 export class AssetClientHttp extends AssetClient {
 
-  private jsonConvert: JsonConvert;
-
   constructor(private uuidGenerator: UUIDGenerator,
               private http: HttpClient,
               private hostPort: string) {
     super();
-
-    this.jsonConvert = new JsonConvert();
-    this.jsonConvert.operationMode = OperationMode.LOGGING; // print some debug data
-    this.jsonConvert.ignorePrimitiveChecks = false; // don't allow assigning number to string etc.
-    this.jsonConvert.valueCheckingMode = ValueCheckingMode.DISALLOW_NULL; // never allow null
   }
 
 
