@@ -1,18 +1,13 @@
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
-import "rxjs/add/operator/distinctUntilChanged";
-import "rxjs/add/operator/first";
-import "rxjs/add/operator/single";
-import "rxjs/add/operator/take";
-import "rxjs/add/operator/switchMap";
-import {Component, OnInit} from "@angular/core";
-import {AuthenticationService} from "../authentication.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Credential} from "../credential";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {AuthenticationService} from '../authentication.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { Credential} from "../credential";
+import {Router} from '@angular/router';
+import { ValidResp} from '../resp.valid';
+import {debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'register',
+  selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: [ './register.component.css' ]
 })
@@ -22,61 +17,72 @@ export class RegisterComponent implements OnInit {
   private _username: FormControl;
   private _password: FormControl;
   private _confirmPassword: FormControl;
-  private redirectLink: string;
+  private credential: Credential;
+  private _doNotDisplayFailureMessage: boolean;
 
-  constructor(private authenticationService:AuthenticationService,
+  constructor(private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
-    this.username = new FormControl("", [
+    this.credential = new Credential();
+
+    this.username = new FormControl('', [
       Validators.required,
       this.usernameValidator(authenticationService)
     ]);
 
-    this.password = new FormControl("", [
+    this.password = new FormControl('', [
       Validators.required,
       this.passwordValidator(this.authenticationService)
     ]);
 
-    this.confirmPassword = new FormControl("", [
+    this.confirmPassword = new FormControl('', [
       Validators.required,
       this.confirmEmailOrPhoneValidator(this.password)
     ]);
 
 
     this.registrationForm = formBuilder.group({
-      "username": this.username,
-      "password": this.password,
-      "confirmPassword": this.confirmPassword
+      'username': this.username,
+      'password': this.password,
+      'confirmPassword': this.confirmPassword
     });
+
+    this.registrationForm
+      .valueChanges
+      .subscribe( value => {
+        this.credential.username = value.username;
+        this.credential.password = value.password;
+        this.credential.changedPassword = value.confirmPassword;
+      });
+
+    this.doNotDisplayFailureMessage = true;
 
   }
 
   ngOnInit(): void {
   }
 
-  usernameValidator(authenticationService:AuthenticationService) {
+  usernameValidator(authenticationService: AuthenticationService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
 
-    let subscriberToChangeEvents = function () {
+    const subscriberToChangeEvents = function () {
       valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
-      .filter(value => { // filter out empty values
+      .pipe(debounceTime(1000), distinctUntilChanged(),  filter(value => { // filter out empty values
         return !!(value);
-      }).map(value => {
+      }), map((value: string) => {
         return authenticationService.isValidUsername(value);
-      }).subscribe(value => {
-        value.subscribe( otherValue => {
-          isValidUsername = otherValue;
+      })).subscribe(value => {
+        value.subscribe( (otherValue: ValidResp) => {
+          isValidUsername = otherValue.valid;
           usernameControl.updateValueAndValidity();
         });
       });
     };
 
-    return (control:FormControl) => {
+    return (control: FormControl) => {
        if (!usernameControl) {
          usernameControl = control;
        }
@@ -94,28 +100,26 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  passwordValidator(authenticationService:AuthenticationService) {
+  passwordValidator(authenticationService: AuthenticationService) {
     let passwordControl = null;
     let isValidPassword = false;
     let valueChanges = null;
 
-    let subscriberToChangeEvents = function () {
+    const subscriberToChangeEvents = function () {
       valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
-      .filter(value => { // filter out empty values
+      .pipe(debounceTime(500), distinctUntilChanged(), filter(value => { // filter out empty values
         return !!(value);
-      }).map(value => {
+      }), map((value: string) => {
         return authenticationService.isValidPassword(value);
-      }).subscribe(value => {
-        value.subscribe( otherValue => {
-          isValidPassword = otherValue;
+      })).subscribe(value => {
+        value.subscribe( (otherValue: ValidResp) => {
+          isValidPassword = otherValue.valid;
           passwordControl.updateValueAndValidity();
         });
       });
     };
 
-    return (control:FormControl) => {
+    return (control: FormControl) => {
       if (!passwordControl) {
         passwordControl = control;
       }
@@ -133,9 +137,9 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  confirmEmailOrPhoneValidator(password:FormControl) {
-    return (c:FormControl) => {
-      return password.value == c.value ? null : {
+  confirmEmailOrPhoneValidator(password: FormControl) {
+    return (c: FormControl) => {
+      return password.value === c.value ? null : {
         validateEmail: {
           valid: false
         }
@@ -175,21 +179,30 @@ export class RegisterComponent implements OnInit {
     this._confirmPassword = value;
   }
 
+  get doNotDisplayFailureMessage(): boolean {
+    return this._doNotDisplayFailureMessage;
+  }
+
+  set doNotDisplayFailureMessage(value: boolean) {
+    this._doNotDisplayFailureMessage = value;
+  }
+
   onSubmit() {
-    let credential:Credential = new Credential();
-    credential.username = this.username.value;
-    credential.password = this.password.value;
-    credential.changedPassword = this.confirmPassword.value;
-    //let regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    this.doNotDisplayFailureMessage = true;
+
     this.authenticationService
-    .addCredential(credential)
-    .subscribe(credentialConfirmation => {
-      let credentialConfirmationId = credentialConfirmation.credentialConfirmationId;
-      if (credentialConfirmationId) {
-        this.router.navigate([`/authentication/confirmations/${credentialConfirmationId}`]);
+    .addCredential(this.credential)
+    .subscribe(confirmation => {
+      const confirmationId = confirmation.confirmationId;
+      const credentialId = confirmation.credentialId;
+      if (confirmationId && credentialId) {
+        this.router.navigate([`/authentication/confirmations/${credentialId}/${confirmationId}`]);
       } else {
-        // display errors
+        this.doNotDisplayFailureMessage = false;
       }
+    }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage = false;
     });
   }
 

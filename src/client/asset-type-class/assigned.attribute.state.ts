@@ -1,15 +1,15 @@
-import {AttributeState} from "../attribute/attribute.state";
-
 export class AssignedAttributeState {
 
-  private _assignedAttributeId:string;
+  private _assignedAttributeId: string;
   private _assetTypeClassId: string;
   private _attributeId: string;
-  private _attribute: AttributeState;
+  private _dataTypeId: string;
+  private _attributeName: string;
+  private _dataTypeName: string;
   private _required: boolean;
   private _createdOn: string;
   private _modifiedOn: string;
-  
+
   get assignedAttributeId(): string {
     return this._assignedAttributeId;
   }
@@ -33,13 +33,21 @@ export class AssignedAttributeState {
   set attributeId(value: string) {
     this._attributeId = value;
   }
-  
-  get attribute(): AttributeState {
-    return this._attribute;
+
+  get attributeName(): string {
+    return this._attributeName;
   }
 
-  set attribute(value: AttributeState) {
-    this._attribute = value;
+  set attributeName(value: string) {
+    this._attributeName = value;
+  }
+
+  get dataTypeName(): string {
+    return this._dataTypeName;
+  }
+
+  set dataTypeName(value: string) {
+    this._dataTypeName = value;
   }
 
   get required(): boolean {
@@ -64,6 +72,14 @@ export class AssignedAttributeState {
 
   set modifiedOn(value: string) {
     this._modifiedOn = value;
+  }
+
+  get dataTypeId(): string {
+    return this._dataTypeId;
+  }
+
+  set dataTypeId(value: string) {
+    this._dataTypeId = value;
   }
 
   toJson() {

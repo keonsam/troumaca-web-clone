@@ -1,8 +1,8 @@
-import {SessionRepositoryAdapter} from "./session.repository.adapter";
-import {SessionClient} from "../../client/session/session.client";
-import {SessionRepository} from "../../session/session.repository";
+import {SessionRepositoryAdapter} from './session.repository.adapter';
+import {SessionClient} from '../../client/session/session.client';
+import {SessionRepository} from '../../session/session.repository';
 
-export function sessionRepositoryProviderFactory (sessionClient:SessionClient):SessionRepository {
+export function sessionRepositoryProviderFactory (sessionClient: SessionClient): SessionRepository {
   let sessionRepositoryAdapter: SessionRepositoryAdapter;
   if (!sessionRepositoryAdapter) {
     sessionRepositoryAdapter = new SessionRepositoryAdapter(sessionClient);

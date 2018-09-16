@@ -1,52 +1,468 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit,ViewChild, ElementRef} from '@angular/core';
+import {HomeService} from '../home.service';
+import { Router} from '@angular/router';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {CreditCard} from './credit.card';
+import {Billing} from './billing';
+import { Subscription} from './subscription';
 
 @Component({
   selector: 'lobby-home',
   templateUrl: './lobby.home.component.html',
   styleUrls: ['./lobby.home.component.css']
 })
-export class LobbyHomeComponent {
 
-  private _title:string = 'app';
-  private _isLoggedIn:boolean;
-  private _dynamicMenuName:string;
-  private _routerLinkAssetList: string = "/assets/listing";
+export class LobbyHomeComponent implements OnInit {
 
-  constructor() {
-    this.dynamicMenuName = "home-menu";
+  @ViewChild('showModal') showModal: ElementRef;
+  @ViewChild('showModal2') showModal2: ElementRef;
+
+
+  private _paymentMethod: string;
+  private _cardName: FormControl;
+  private _cardNumber: FormControl;
+  private _cardExpDate: FormControl;
+  private _cardCVV: FormControl;
+
+  private _creditCardForm: FormGroup;
+
+  private creditCard: CreditCard;
+  private billing: Billing;
+  private subscription: Subscription;
+
+  private _billed: boolean;
+  private _typeName: string;
+
+  private _doNotDisplayFailureMessage: boolean;
+  private _doNotDisplayFailureMessage1: boolean;
+  private _currentModel: string;
+  private _justBilled: boolean;
+  private _information: any;
+
+  // private _paymentMethods: PaymentMethod[];
+
+  constructor(private homeService: HomeService,
+              private formBuilder: FormBuilder,
+              private router: Router) {
+
+    this.paymentMethod = 'Credit Card';
+
+    this.creditCard = new CreditCard();
+    this.billing = new Billing();
+    this.subscription = new Subscription();
+
+    this.cardName = new FormControl('', [Validators.required, this.cardNameValidator(this.homeService)]);
+    this.cardNumber = new FormControl('', [Validators.required, this.cardNumberValidator(this.homeService)]);
+    this.cardExpDate = new FormControl('', [Validators.required, this.cardExpDateValidator(this.homeService)]);
+    this.cardCVV = new FormControl('', [Validators.required, this.cardCVVValidator(this.homeService)]);
+
+    this.creditCardForm = formBuilder.group({
+      'cardName': this.cardName,
+      'cardNumber': this.cardNumber,
+      'cardExpDate': this.cardExpDate,
+      'cardCVV': this.cardCVV
+    });
+
+    this.creditCardForm
+      .valueChanges
+      .subscribe( value => {
+        this.creditCard.cardName = value.cardName;
+        this.creditCard.cardNumber = value.cardNumber;
+        this.creditCard.cardExpDate = value.cardExpDate;
+        this.creditCard.cardCVV = value.cardCVV;
+      }, error => {
+        console.log(error);
+      });
+
+    this.billed = false;
+    this.justBilled = false;
+
+    this.information = {
+      'Asset Management': {
+        'description': '',
+        'features': [],
+        'route': ['/assets'],
+        'cost': '199.99',
+        'subscribed': false
+      },
+      'User Management': {
+        'description': '',
+        'features': [],
+        'route': ['/parties/users'],
+        'cost': 'Free',
+        'subscribed': false
+      },
+      'Organization Management': {
+        'description': '',
+        'features': [],
+        'route': ['/parties'],
+        'cost': 'Free',
+        'subscribed': false
+      },
+      'Depreciation Management': {
+        'description': '',
+        'features': [],
+        'route': ['/depreciation'],
+        'cost': '99.99',
+        'subscribed': false
+      }
+    };
+
+    this.doNotDisplayFailureMessage = true;
+    this.doNotDisplayFailureMessage1 = true;
   }
 
-  get routerLinkAssetList(): string {
-    return this._routerLinkAssetList;
+  ngOnInit(): void {
+    this.homeService.getSubscriptionInformation()
+      .subscribe( information => {
+        if (information) {
+          this.information = information;
+        }
+      });
   }
 
-  set routerLinkAssetList(value: string) {
-    this._routerLinkAssetList = value;
+  cardNameValidator(homeService: HomeService) {
+    let cardNameControl = null;
+    let isValidCardName = false;
+    let valueChanges = null;
+    const that = this;
+    const subscriberToChangeEvents = function () {
+      valueChanges
+        .debounceTime(500)
+        .distinctUntilChanged()
+        .filter(value => { // filter out empty values
+          return !!(value);
+        }).map(value => {
+        return homeService.isValidCardName(value);
+      }).subscribe(value => {
+        value.subscribe( otherValue => {
+          isValidCardName = otherValue.valid;
+          cardNameControl.updateValueAndValidity();
+        });
+      });
+    };
+
+    return (control: FormControl) => {
+      if (!cardNameControl) {
+        cardNameControl = control;
+      }
+
+      if (!valueChanges && control.valueChanges) {
+        valueChanges = control.valueChanges;
+        subscriberToChangeEvents();
+      }
+
+      return isValidCardName ? null : {
+        validateCardName: {
+          valid: false
+        }
+      };
+    }
   }
 
-  get title(): string {
-    return this._title;
+  cardNumberValidator(homeService: HomeService) {
+    let cardNumberControl = null;
+    let isValidCardNumber = false;
+    let valueChanges = null;
+    const that = this;
+    const subscriberToChangeEvents = function () {
+      valueChanges
+        .debounceTime(500)
+        .distinctUntilChanged()
+        .filter(value => { // filter out empty values
+          return !!(value);
+        }).map(value => {
+        return homeService.isValidCardNumber(value);
+      }).subscribe(value => {
+        value.subscribe( otherValue => {
+          isValidCardNumber = otherValue.valid;
+          cardNumberControl.updateValueAndValidity();
+        });
+      });
+    };
+
+    return (control: FormControl) => {
+      if (!cardNumberControl) {
+        cardNumberControl = control;
+      }
+
+      if (!valueChanges && control.valueChanges) {
+        valueChanges = control.valueChanges;
+        subscriberToChangeEvents();
+      }
+
+      return isValidCardNumber ? null : {
+        validateCardNumber: {
+          valid: false
+        }
+      };
+    }
   }
 
-  set title(value: string) {
-    this._title = value;
+  cardExpDateValidator(homeService: HomeService) {
+    let cardExpDateControl = null;
+    let isValidCardExpDate = false;
+    let valueChanges = null;
+    const that = this;
+    const subscriberToChangeEvents = function () {
+      valueChanges
+        .debounceTime(500)
+        .distinctUntilChanged()
+        .filter(value => { // filter out empty values
+          return !!(value);
+        }).map(value => {
+        return homeService.isValidCardExpDate(value);
+      }).subscribe(value => {
+        value.subscribe( otherValue => {
+          isValidCardExpDate = otherValue.valid;
+          cardExpDateControl.updateValueAndValidity();
+        });
+      });
+    };
+
+    return (control: FormControl) => {
+      if (!cardExpDateControl) {
+        cardExpDateControl = control;
+      }
+
+      if (!valueChanges && control.valueChanges) {
+        valueChanges = control.valueChanges;
+        subscriberToChangeEvents();
+      }
+
+      return isValidCardExpDate ? null : {
+        validateCardExpDate: {
+          valid: false
+        }
+      };
+    }
   }
 
-  get isLoggedIn(): boolean {
-    return this._isLoggedIn;
+  cardCVVValidator(homeService: HomeService) {
+    let cardCVVControl = null;
+    let isValidCardCVV = false;
+    let valueChanges = null;
+    const that = this;
+    const subscriberToChangeEvents = function () {
+      valueChanges
+        .debounceTime(500)
+        .distinctUntilChanged()
+        .filter(value => { // filter out empty values
+          return !!(value);
+        }).map(value => {
+        return homeService.isValidCardCVV(value);
+      }).subscribe(value => {
+        value.subscribe( otherValue => {
+          isValidCardCVV = otherValue.valid;
+          cardCVVControl.updateValueAndValidity();
+        });
+      });
+    };
+
+    return (control: FormControl) => {
+      if (!cardCVVControl) {
+        cardCVVControl = control;
+      }
+
+      if (!valueChanges && control.valueChanges) {
+        valueChanges = control.valueChanges;
+        subscriberToChangeEvents();
+      }
+
+      return isValidCardCVV ? null : {
+        validateCardCVV: {
+          valid: false
+        }
+      };
+    }
   }
 
-  @Input()
-  set isLoggedIn(value: boolean) {
-    this._isLoggedIn = value;
+  get paymentMethod(): string {
+    return this._paymentMethod;
   }
 
-
-  get dynamicMenuName(): string {
-    return this._dynamicMenuName;
+  set paymentMethod(value: string) {
+    this._paymentMethod = value;
   }
 
-  set dynamicMenuName(value: string) {
-    this._dynamicMenuName = value;
+  get cardName(): FormControl {
+    return this._cardName;
   }
+
+  set cardName(value: FormControl) {
+    this._cardName = value;
+  }
+
+  get cardNumber(): FormControl {
+    return this._cardNumber;
+  }
+
+  set cardNumber(value: FormControl) {
+    this._cardNumber = value;
+  }
+
+  get cardExpDate(): FormControl {
+    return this._cardExpDate;
+  }
+
+  set cardExpDate(value: FormControl) {
+    this._cardExpDate = value;
+  }
+
+  get cardCVV(): FormControl {
+    return this._cardCVV;
+  }
+
+  set cardCVV(value: FormControl) {
+    this._cardCVV = value;
+  }
+
+  get creditCardForm(): FormGroup {
+    return this._creditCardForm;
+  }
+
+  set creditCardForm(value: FormGroup) {
+    this._creditCardForm = value;
+  }
+
+  get billed(): boolean {
+    return this._billed;
+  }
+
+  set billed(value: boolean) {
+    this._billed = value;
+  }
+
+  get typeName(): string {
+    return this._typeName;
+  }
+
+  set typeName(value: string) {
+    this._typeName = value;
+  }
+
+  get doNotDisplayFailureMessage(): boolean {
+    return this._doNotDisplayFailureMessage;
+  }
+
+  set doNotDisplayFailureMessage(value: boolean) {
+    this._doNotDisplayFailureMessage = value;
+  }
+
+  get doNotDisplayFailureMessage1(): boolean {
+    return this._doNotDisplayFailureMessage1;
+  }
+
+  set doNotDisplayFailureMessage1(value: boolean) {
+    this._doNotDisplayFailureMessage1 = value;
+  }
+
+  get currentModel(): string {
+    return this._currentModel;
+  }
+
+  set currentModel(value: string) {
+    this._currentModel = value;
+  }
+
+  get justBilled(): boolean {
+    return this._justBilled;
+  }
+
+  set justBilled(value: boolean) {
+    this._justBilled = value;
+  }
+
+  get information(): any {
+    return this._information;
+  }
+
+  set information(value: any) {
+    this._information = value;
+  }
+
+  showNextModel(type: string) {
+    this.currentModel = type;
+  }
+
+  module(type: string) {
+    if (this.information[type].cost === 'Free') {
+      this.router.navigate(this.information[type].route);
+    }else {
+      this.homeService.getSubscription(type)
+        .subscribe(subscription => {
+          if (subscription.subscribed) {
+            this.router.navigate(this.information[type].route);
+          } else {
+            this.currentModel = 'features';
+            this.typeName = type;
+            this.homeService.getBilling()
+              .subscribe(billing => {
+                if (billing.confirmed) {
+                  this.billed = true;
+                } else {
+                  this.billed = false;
+                }
+                this.showModal.nativeElement.click();
+              });
+          }
+        });
+    }
+  }
+
+  onCreditCardSubmit() {
+    this.doNotDisplayFailureMessage = true;
+
+    this.billing.type = this.paymentMethod;
+    this.homeService.addBilling(this.billing, this.creditCard)
+      .subscribe( billing => {
+        if (billing.billingId) {
+          this.billing = billing;
+          this.justBilled = true;
+          this.showNextModel('subscribe');
+        }else {
+          this.doNotDisplayFailureMessage = false;
+        }
+      }, error => {
+        this.doNotDisplayFailureMessage = false;
+        console.log(error);
+      });
+  }
+
+  onEditCreditCard() {
+    this.doNotDisplayFailureMessage = true;
+    this.billing.type = this.paymentMethod;
+    this.homeService.updateBilling(this.billing, this.creditCard)
+      .subscribe( numReplaced => {
+        if (numReplaced) {
+          this.justBilled = true;
+          this.showNextModel('subscribe');
+        }else {
+          this.doNotDisplayFailureMessage = false;
+        }
+      }, error => {
+        this.doNotDisplayFailureMessage = false;
+        console.log(error);
+      });
+  }
+
+  onSubscribe() {
+    this.doNotDisplayFailureMessage1 = true;
+
+    this.subscription.type = this.typeName;
+
+    this.homeService.addSubscription(this.subscription)
+      .subscribe( subscription => {
+        if (subscription.subscriptionId) {
+          this.showModal2.nativeElement.click();
+        } else {
+          this.doNotDisplayFailureMessage1 = false;
+        }
+      }, error => {
+        this.doNotDisplayFailureMessage1 = false;
+        console.log(error);
+      });
+  }
+
 }
+

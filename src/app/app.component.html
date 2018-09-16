@@ -1,41 +1,37 @@
-<div [class]="(isAuth) ? 'auth-wrapper':''">
-<div [class]="(isLoggedIn) ? 'all-wrapper menu-side':'all-wrapper menu-side with-pattern'">
-
-  <div [class]="(isLoggedIn) ?'layout-w':''">
-      <!--------------------
-      START - Mobile Menu
-      -------------------->
-      <mobile-menu *ngIf="isLoggedIn"></mobile-menu>
-      <!--------------------
-      END - Mobile Menu
-      -------------------->
+<div [ngClass]="{'all-wrapper': true, 'menu-side': true, 'with-pattern': isAuthPath}">
+  <div [ngClass]="{'layout-w': isLoggedIn}">
+    <!--------------------
+    START - Mobile Menu
+    -------------------->
+    <app-mobile-menu *ngIf="isLoggedIn"></app-mobile-menu>
+    <!--------------------
+    END - Mobile Menu
+    -------------------->
 
     <!--Might be able to move order down to the component-->
-    <div [class]="(isLoggedIn) ? 'container-app':''">
+    <div [ngClass]="{'container-app': isLoggedIn}">
 
       <!--------------------
       START - Menu side compact
       -------------------->
-      <side-menu *ngIf="isLoggedIn"></side-menu>
+      <app-side-menu *ngIf="isLoggedIn"></app-side-menu>
       <!--------------------
       END - Menu side compact
       -------------------->
 
       <!--Might be able to move order down to the component-->
-      <div [class]="(isLoggedIn)? 'container-content2':''">
+      <div [ngClass]="{'container-content2': isLoggedIn}">
         <!--------------------
         START - Content W
         -------------------->
         <router-outlet></router-outlet>
+      </div>
         <!--------------------
         End - Content W
         -------------------->
-      <!--</div>-->
-
-    <!--</div>-->
+    </div>
 
   </div>
-  <!-- No idea what this is for-->
+  <!--No idea what this is for-->
   <!--<div class="display-type"></div>-->
-</div>
 </div>

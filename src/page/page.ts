@@ -1,12 +1,12 @@
 export class Page {
 
-  private _number:number;
-  private _size:number;
-  private _items:number;
-  private _totalItems:number;
+  private _number: number;
+  private _size: number;
+  private _items: number;
+  private _totalItems: number;
 
 
-  constructor(number?: number, size?: number, items?: number, totalItems?:number) {
+  constructor(number?: number, size?: number, items?: number, totalItems?: number) {
     this.number = number;
     this.size = size;
     this.items = items;

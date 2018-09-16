@@ -1,6 +1,6 @@
 <div class="menu-mobile menu-activated-on-click color-scheme-dark">
   <div class="mm-logo-buttons-w">
-    <a class="mm-logo" href="#" routerLink="/home/lobby"><img src="images/logo.png"><span>Troumaca</span></a>
+    <a class="mm-logo" href="#" routerLink="/lobby"><img src="images/logo.png"></a>
     <div class="mm-buttons">
       <div class="content-panel-open">
         <div class="os-icon os-icon-grid-circles"></div>
@@ -18,7 +18,7 @@
         </div>
         <div class="logged-user-info-w">
           <div class="logged-user-name">
-            {{userName}}
+            {{name}}
           </div>
           <div class="logged-user-role">
           </div>
@@ -31,10 +31,9 @@
             </div>
             <div class="logged-user-info-w">
               <div class="logged-user-name">
-                {{userName}}
+                {{name}}
               </div>
               <div class="logged-user-role">
-
               </div>
             </div>
           </div>
@@ -43,10 +42,22 @@
           </div>
           <ul>
             <li>
-              <a href="#" routerLink="/parties/user-me" (click)="mobileMenuTrigger()"><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
+              <a ><i class="os-icon os-icon-mail-01"></i><span>Incoming mail</span></a>
+            </li>
+            <li (click)="mobileMenuTrigger()">
+              <a routerLink="/parties/user-profile"><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
             </li>
             <li>
-              <a href="#" (click)="logOutEvent();false"><i class="os-icon os-icon-signs-11"></i><span>Logout</span></a>
+              <a ><i class="os-icon os-icon-coins-4"></i><span>Billing Details</span></a>
+            </li>
+            <li>
+              <a ><i class="os-icon os-icon-others-43"></i><span>Notifications</span></a>
+            </li>
+            <li>
+              <a><i class="os-icon os-icon-others-43"></i><span>Session History</span></a>
+            </li>
+            <li (click)="logOutEvent();false">
+              <a ><i class="os-icon os-icon-signs-11"></i><span>Logout</span></a>
             </li>
           </ul>
         </div>
@@ -63,40 +74,47 @@
         </a>
       </li>
       <li class="has-sub-menu">
-        <a routerLink="/parties/users" (click)="mobileMenuTrigger()">
+        <a routerLink="/parties/users/listing" (click)="mobileMenuTrigger()">
           <div class="icon-w">
             <i class="os-icon os-icon-user-male-circle"></i>
           </div>
         </a>
       </li>
       <li class="has-sub-menu">
-        <a routerLink="/parties" routerLinkActive="active" (click)="mobileMenuTrigger()">
+        <a routerLink="/parties/organizations/listing" routerLinkActive="active" (click)="mobileMenuTrigger()">
           <div class="icon-w">
             <i class="os-icon os-icon-hierarchy-structure-2"></i>
           </div>
         </a>
       </li>
       <li class="has-sub-menu">
-        <a routerLink="/contracts" routerLinkActive="active" (click)="mobileMenuTrigger()">
+        <a routerLink="/depreciation" routerLinkActive="active" (click)="mobileMenuTrigger()">
           <div class="icon-w">
-            <i class="icon-social-dropbox" title="Orders"></i>
+            <i class="os-icon os-icon-graph-down"></i>
           </div>
         </a>
       </li>
-      <li class="has-sub-menu">
-        <a routerLink="/shipments" routerLinkActive="active" (click)="mobileMenuTrigger()">
-          <div class="icon-w">
-            <i class="os-icon os-icon-ui-92" title="Shipping"></i>
-          </div>
-        </a>
-      </li>
-      <li class="has-sub-menu">
-        <a routerLink="/quotes" routerLinkActive="active" (click)="mobileMenuTrigger()">
-          <div class="icon-w">
-            <i class="batch-icon-speech-bubble-center-2" title="Receiving"></i>
-          </div>
-        </a>
-      </li>
+      <!--<li class="has-sub-menu">-->
+        <!--<a routerLink="/contracts" routerLinkActive="active" (click)="mobileMenuTrigger()">-->
+          <!--<div class="icon-w">-->
+            <!--<i class="icon-social-dropbox" title="Orders"></i>-->
+          <!--</div>-->
+        <!--</a>-->
+      <!--</li>-->
+      <!--<li class="has-sub-menu">-->
+        <!--<a routerLink="/shipments" routerLinkActive="active" (click)="mobileMenuTrigger()">-->
+          <!--<div class="icon-w">-->
+            <!--<i class="os-icon os-icon-ui-92" title="Shipping"></i>-->
+          <!--</div>-->
+        <!--</a>-->
+      <!--</li>-->
+      <!--<li class="has-sub-menu">-->
+        <!--<a routerLink="/quotes" routerLinkActive="active" (click)="mobileMenuTrigger()">-->
+          <!--<div class="icon-w">-->
+            <!--<i class="batch-icon-speech-bubble-center-2" title="Receiving"></i>-->
+          <!--</div>-->
+        <!--</a>-->
+      <!--</li>-->
     </ul>
   </div>
 </div>

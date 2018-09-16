@@ -1,9 +1,9 @@
-import {AssetTypeClass} from "./asset.type.class";
-import {AssignedAttribute} from "./assigned.attribute";
+import {AssetTypeClass} from './asset.type.class';
+import {AssignedAttribute} from './assigned.attribute';
 
 export class AssetTypeClassResponse {
 
-  private _created:boolean;
+  private _created: boolean;
   private _assetTypeClass: AssetTypeClass;
   private _assignedAttributes: AssignedAttribute[];
 

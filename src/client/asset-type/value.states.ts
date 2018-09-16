@@ -1,6 +1,6 @@
-import {ValueState} from "./value.state";
-import {PageState} from "../page/page.state";
-import {SortState} from "../sort/sort.state";
+import {ValueState} from './value.state';
+import {PageState} from '../page/page.state';
+import {SortState} from '../sort/sort.state';
 
 export class ValueStates {
   private _values: ValueState[];

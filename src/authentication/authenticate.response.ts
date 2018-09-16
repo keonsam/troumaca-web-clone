@@ -1,14 +1,14 @@
-import {Session} from "./session";
-import {Credential} from "./credential";
+import {Session} from './session';
+import { Credential } from "./credential";
 
 export class AuthenticateResponse {
 
-  private _authenticated:boolean;
-  private _usernameConfirmed:boolean;
+  private _authenticated: boolean;
+  private _usernameConfirmed: boolean;
   private _credentialConfirmationId: string;
-  private _accountExists:boolean;
-  private _credential:Credential;
-  private _session:Session;
+  private _accountExists: boolean;
+  private _credential: Credential;
+  private _session: Session;
 
 
   get authenticated(): boolean {

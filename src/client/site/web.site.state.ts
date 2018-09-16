@@ -1,15 +1,15 @@
-import {VirtualSiteState} from "./virtual.site.state";
+import {VirtualSiteState} from './virtual.site.state';
 
 export class WebSiteState extends VirtualSiteState {
 
-  private _uniformResourceIdentifer:string;
+  private _uniformResourceIdentifier: string;
 
-  get uniformResourceIdentifer(): string {
-    return this._uniformResourceIdentifer;
+  get uniformResourceIdentifier(): string {
+    return this._uniformResourceIdentifier;
   }
 
-  set uniformResourceIdentifer(value: string) {
-    this._uniformResourceIdentifer = value;
+  set uniformResourceIdentifier(value: string) {
+    this._uniformResourceIdentifier = value;
   }
 
   toJson() {
@@ -19,7 +19,7 @@ export class WebSiteState extends VirtualSiteState {
       name: this.name,
       description: this.description,
 
-      uniformResourceIdentifer: this.uniformResourceIdentifer,
+      uniformResourceIdentifier: this.uniformResourceIdentifier,
 
       createdOn: this.createdOn,
       removedOn: this.removedOn

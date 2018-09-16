@@ -1,8 +1,8 @@
-import {Lot} from "./asset.lot";
+import {Lot} from './asset.lot';
 
 export class Lots {
-  
-  private _lots:Lot[];
+
+  private _lots: Lot[];
 
   get sites(): Lot[] {
     return this._lots;

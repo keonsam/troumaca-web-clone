@@ -1,6 +1,6 @@
-import {Component, OnInit} from "@angular/core";
-import {AttributeService} from "./attribute.service";
-import {Attribute} from "./attribute";
+import {Component, OnInit} from '@angular/core';
+import {AttributeService} from './attribute.service';
+import {Attribute} from './attribute';
 
 @Component({
   selector: 'asset-types',
@@ -9,9 +9,9 @@ import {Attribute} from "./attribute";
 })
 export class AttributeComponent implements OnInit {
 
-  private _attributeModels:Attribute[];
+  private _attributeModels: Attribute[];
 
-  constructor(private attributeService:AttributeService) {
+  constructor(private attributeService: AttributeService) {
   }
 
   ngOnInit(): void {

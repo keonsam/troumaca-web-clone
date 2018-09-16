@@ -1,9 +1,9 @@
 export class Site {
 
-  private _siteId:string;
-  private _tenantId:string;
-  private _name:string;
-  private _description:string;
+  private _siteId: string;
+  private _tenantId: string;
+  private _name: string;
+  private _description: string;
 
   get siteId(): string {
     return this._siteId;

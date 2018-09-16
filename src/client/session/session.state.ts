@@ -1,13 +1,13 @@
 export class SessionState {
 
-  private _sessionId:string;
-  private _partyId:string;
-  private _credentialId:string;
-  private _customerId:string;
-  private _expirationTime:Date;
-  private _createdOn:Date;
-  private _modifiedOn:Date;
-  private _data:Map<String, Object>;
+  private _sessionId: string;
+  private _partyId: string;
+  private _credentialId: string;
+  private _customerId: string;
+  private _expirationTime: Date;
+  private _createdOn: Date;
+  private _modifiedOn: Date;
+  private _data: Map<String, Object>;
 
   get sessionId(): string {
     return this._sessionId;

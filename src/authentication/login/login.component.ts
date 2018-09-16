@@ -1,15 +1,11 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/filter';
-import {Event} from "../event";
-import "rxjs/add/observable/of";
-import {Router} from "@angular/router";
-import {EventService} from "../../event/event.service";
-import {AuthenticationService} from "../authentication.service";
-import {Credential} from "../credential";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Event} from '../event';
 
+import {Router} from '@angular/router';
+import {EventService} from '../../event/event.service';
+import {AuthenticationService} from '../authentication.service';
+import { Credential } from '../credential';
 
 @Component({
   selector: 'login',
@@ -23,30 +19,30 @@ export class LoginComponent implements OnInit {
   private _password: FormControl;
   private _rememberMe: FormControl;
 
-  private _message:string = "";
+  private _message = '';
 
-  private _errorExists:boolean;
-  private accountFailed:boolean;
+  private _errorExists: boolean;
+  private _accountFailed: boolean;
 
   constructor(private eventService: EventService,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private router: Router) {
 
-    this.username = new FormControl("", [
+    this.username = new FormControl('', [
       Validators.required
     ]);
 
-    this.password = new FormControl("", [
+    this.password = new FormControl('', [
       Validators.required
     ]);
 
-    this.rememberMe = new FormControl("");
+    this.rememberMe = new FormControl('');
 
     this.loginForm = formBuilder.group({
-      "username": this.username,
-      "password": this.password,
-      "rememberMe": this.rememberMe
+      'username': this.username,
+      'password': this.password,
+      'rememberMe': this.rememberMe
     });
 
     this.accountFailed = false;
@@ -56,13 +52,21 @@ export class LoginComponent implements OnInit {
   }
 
   createEventModel() {
-    let event:Event = new Event();
-    event.partyId = "123";
+    const event: Event = new Event();
+    event.partyId = '123';
     event.timestamp = new Date().getTime();
-    event.source = "login.component";
-    event.name = "login";
+    event.source = 'login.component';
+    event.name = 'login';
 
     return event;
+  }
+
+  get accountFailed(): boolean {
+    return this._accountFailed;
+  }
+
+  set accountFailed(value: boolean) {
+    this._accountFailed = value;
   }
 
   get errorExists(): boolean {
@@ -111,32 +115,29 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.errorExists = false;
-    this.accountFailed = false;
-    let credential:Credential = new Credential();
+    const credential: Credential = new Credential();
     credential.username = this.username.value;
     credential.password = this.password.value;
     credential.rememberMe = this.rememberMe.value;
-    //let regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
     this.authenticationService
       .authenticate(credential)
-      .subscribe(authenticateResponse => {
-        if(authenticateResponse.authenticated) {
-          if(authenticateResponse.usernameConfirmed) {
-            // TODO: I think this should return a value
-            if (authenticateResponse.accountExists) {
-              this.eventService.sendLoginEvent(this.createEventModel());
-              this.router.navigate(['/home/lobby']);
-            } else {
-              this.router.navigate(['/create-profile']);
-            }
-          }else {
-            this.router.navigate([`/authentication/confirmations/${authenticateResponse.credentialConfirmationId}`]);
-          }
+      .subscribe(authenticatedCredential => {
+        if (authenticatedCredential.authenticateStatus === 'AccountActive') {
+          this.eventService.sendLoginEvent(this.createEventModel());
+          this.router.navigate(['/lobby']);
+        }else if (authenticatedCredential.authenticateStatus === 'AccountConfirmed') {
+          this.router.navigate(['/profile']);
+        }else if (authenticatedCredential.authenticateStatus === 'AccountUsernameNotConfirmed') {
+          const credentialId = authenticatedCredential.credentialId;
+          const confirmationId = authenticatedCredential.confirmationId;
+          this.router.navigate([`/authentication/confirmations/${credentialId}/${confirmationId}`]);
         }else {
-          this.accountFailed = true;
+          console.log(authenticatedCredential.authenticateStatus);
+          this.errorExists = true;
         }
       }, error => {
+        console.log(error);
         this.errorExists = true;
       });
   }

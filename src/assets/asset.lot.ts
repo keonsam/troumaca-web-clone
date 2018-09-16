@@ -1,3 +1,3 @@
 export class Lot {
-  private _lotId:string;
+  private _lotId: string;
 }

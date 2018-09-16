@@ -1,9 +1,9 @@
-import {SiteState} from "./site.state";
+import {SiteState} from './site.state';
 
 export class VirtualSiteState extends SiteState {
 
-  private _createdOn:Date;
-  private _removedOn:Date;
+  private _createdOn: Date;
+  private _removedOn: Date;
 
   get createdOn(): Date {
     return this._createdOn;

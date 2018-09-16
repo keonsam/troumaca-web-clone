@@ -1,4 +1,4 @@
-import {SecurityRepository} from "./security.repository";
+import {SecurityRepository} from './security.repository';
 
 export class SecurityService {
 

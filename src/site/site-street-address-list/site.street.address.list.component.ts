@@ -1,9 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {StreetAddress} from "../street.address";
-import {StreetAddresses} from "../street.addresses";
-import {SiteService} from "../site.service";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
+import {Component, OnInit} from '@angular/core';
+import {StreetAddresses} from '../street.addresses';
+import {SiteService} from '../site.service';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
 
 @Component({
   selector: 'site-street-address-list',
@@ -13,15 +12,15 @@ import {Sort} from "../../sort/sort";
 export class SiteStreetAddressListComponent implements OnInit {
 
   private streetAddressId: string;
-  private _streetAddresses:StreetAddresses;
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
-  private _routerLinkCreateStreetAddress:string = "/sites/street-addresses/create";
-  private streetAddressName:string;
-  
-  constructor(private siteService:SiteService) {
-    let newStreetAddresses = new StreetAddresses();
+  private _streetAddresses: StreetAddresses;
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
+  private _routerLinkCreateStreetAddress = '/sites/street-addresses/create';
+  private _streetAddressName: string;
+
+  constructor(private siteService: SiteService) {
+    const newStreetAddresses = new StreetAddresses();
     newStreetAddresses.page = new Page(0, 0, 0);
     newStreetAddresses.sort = new Sort();
     this.streetAddresses = newStreetAddresses;
@@ -29,6 +28,14 @@ export class SiteStreetAddressListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getStreetAddresses();
+  }
+
+  get streetAddressName(): string {
+    return this._streetAddressName;
+  }
+
+  set streetAddressName(value: string) {
+    this._streetAddressName = value;
   }
 
   get streetAddresses(): StreetAddresses {
@@ -55,7 +62,7 @@ export class SiteStreetAddressListComponent implements OnInit {
     }, error => {
       console.log(error);
     }, () => {
-      console.log("complete");
+      console.log('complete');
     });
   }
 
@@ -64,16 +71,20 @@ export class SiteStreetAddressListComponent implements OnInit {
     this.streetAddressName = streetAddressName;
   }
 
-  onDelete() {
-    this.siteService
-    .deleteStreetAddress(this.streetAddressId)
-    .subscribe(value => {
-    this.getStreetAddresses();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log("complete");
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.siteService
+        .deleteStreetAddress(this.streetAddressId)
+        .subscribe(value => {
+          if (value) {
+            this.getStreetAddresses();
+          }
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

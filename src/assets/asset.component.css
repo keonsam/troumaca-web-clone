@@ -1,34 +1,4 @@
-/*.all-wrapper.white-bg-content .content-w {*/
-.content-w {
-  background-color: #fff;
-  background-image: none;
-}
 
-/*.menu-side .content-w {*/
-.content-w {
-  border-radius: 0px 4px 4px 0px;
-  display: table-cell;
-}
-
-/*.menu-top .content-w {*/
-.content-w {
-  border-radius: 0px 0px 4px 4px;
-}
-
-.content-w {
-  background-color: #f2f4f8;
-  background-image: url("../images/bg-pattern.png");
-  background-repeat: no-repeat;
-  background-position: 20px 50px;
-  vertical-align: top;
-}
-
-/* #11. Phones (< 767px) */
-@media (max-width: 767px) {
-  .content-w{
-    display: block;
-  }
-}
 /*
   Troumaca overrides etc. */
 .content-w {

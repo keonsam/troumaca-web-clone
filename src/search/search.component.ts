@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'search',
@@ -7,8 +7,8 @@ import {Component, Input, OnInit} from "@angular/core";
 })
 export class SearchComponent implements OnInit {
 
-  private _searchText:string;
-  private _visible:boolean;
+  private _searchText: string;
+  private _visible: boolean;
 
   constructor() {
     this.visible = true;

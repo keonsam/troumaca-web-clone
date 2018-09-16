@@ -1,6 +1,6 @@
-import {Observable} from "rxjs/Observable";
-import {QuoteState} from "./quote.state";
+import {Observable} from 'rxjs';
+import {QuoteState} from './quote.state';
 
 export abstract class QuoteClient {
-  public abstract getQuotes():Observable<QuoteState>;
+  public abstract getQuotes(): Observable<QuoteState>;
 }

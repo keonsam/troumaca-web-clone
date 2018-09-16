@@ -1,4 +1,4 @@
-import {PartyState} from "./party.state";
+import {PartyState} from './party.state';
 
 export class AccountState extends PartyState {
 

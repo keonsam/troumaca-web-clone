@@ -1,0 +1,90 @@
+<div class="content-i">
+
+  <!--<depreciation-top-menu></depreciation-top-menu> -->
+
+  <div class="content-box">
+
+    <div class="element-wrapper">
+      <h6 class="element-header">
+        Depreciation Schedule <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right"  href="#" [routerLink]="routerLinkCreateDepreciation" >New</a></object>
+      </h6>
+      <div class="element-box">
+
+      <!--  <search></search> -->
+
+        <div class="table-responsive table-section">
+          <table class="table table-striped table-lightfont table-full-width">
+            <thead>
+              <tr>
+                <th>Asset</th>
+                <th>Depreciation System</th>
+                <th>Place in Service Date</th>
+                <th>Cost</th>
+                <th>Property Class</th>
+                <th>Method</th>
+                <th>Current Depreciation</th>
+                <th>Accumulative Depreciation</th>
+                <th>Net Book Value</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Asset</th>
+                <th>Depreciation System</th>
+                <th>Place in Service Date</th>
+                <th>Cost</th>
+                <th>Property Class</th>
+                <th>Method</th>
+                <th>Current Depreciation</th>
+                <th>Accumulative Depreciation</th>
+                <th>Net Book Value</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </tfoot>
+            <tbody>
+              <tr role="row" *ngFor="let depreciation of depreciationArr.depreciation; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+                <td>{{depreciation.assetName}}</td>
+                <td>{{depreciation.depreciationSystemName}}</td>
+                <td>{{depreciation.serviceDate}}</td>
+                <td>{{depreciation.cost}}</td>
+                <td>{{depreciation.propertyClassName}}</td>
+                <td>{{depreciation.methodName}}</td>
+                <td>{{depreciation.currentDepreciation}}</td>
+                <td>{{depreciation.cumulativeDepreciation}}</td>
+                <td>{{depreciation.bookValue}}</td>
+                <td class="row-actions">
+                  <a [routerLink]="['/depreciation/tax', depreciation.depreciationId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(depreciation.depreciationId, depreciation.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+                </td>
+              </tr>
+              <tr *ngIf="depreciationArr.depreciation.length <= 0" class="odd">
+                <td valign="top" align="" colspan="10" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+              </tr>
+            </tbody>
+          </table>
+          <div aria-labelledby="DeleteModalLabel" class="modal fade bd-example-modal-sm" id="DeleteModal1" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+           <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+             <div class="modal-header">
+              <h5 class="modal-title" id="DeleteModalLabel">
+               Delete
+              </h5>
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
+             </div>
+             <div class="modal-body">
+             <p>Are you sure you want to delete ?</p>
+             </div>
+                <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
+                <button class="btn btn-danger" type="button" data-dismiss="modal" (click)="onDelete()"> Delete</button>
+               </div>
+              </div>
+             </div>
+           </div>
+          <paging [page]="depreciationArr.page" (requestPage)="onRequestPage($event)"></paging>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

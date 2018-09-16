@@ -1,12 +1,12 @@
-import {Organization} from "./organization";
-import {Sort} from "../sort/sort";
-import {Page} from "../page/page";
+import {Organization} from './organization';
+import {Sort} from '../sort/sort';
+import {Page} from '../page/page';
 
 export class Organizations {
 
-  private _organizations:Organization[] = [];
-  private _page:Page;
-  private _sort:Sort;
+  private _organizations: Organization[] = [];
+  private _page: Page;
+  private _sort: Sort;
 
   get organizations(): Organization[] {
     return this._organizations;

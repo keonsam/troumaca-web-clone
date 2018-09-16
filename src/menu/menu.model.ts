@@ -1,4 +1,4 @@
-import {MenuItemModel} from "./menu.item.model";
+import {MenuItemModel} from './menu.item.model';
 
 export class MenuModel {
 
@@ -26,8 +26,8 @@ export class MenuModel {
     this._menuItemModels = value;
   }
 
-  private _id:string;
-  private _title:string;
-  private _menuItemModels:MenuItemModel[];
+  private _id: string;
+  private _title: string;
+  private _menuItemModels: MenuItemModel[];
 
 }

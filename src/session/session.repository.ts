@@ -1,5 +1,5 @@
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs';
 
 export abstract class SessionRepository {
-  abstract activeSessionExists():Observable<boolean>;
+  abstract activeSessionExists(): Observable<boolean>;
 }

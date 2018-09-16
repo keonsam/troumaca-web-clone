@@ -1,0 +1,208 @@
+/* 3c. Override bootstrap form styles */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: "Avenir Next W01", "Proxima Nova W01", "Rubik", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+}
+
+.form-control.rounded {
+  border-radius: 30px;
+}
+
+select.form-control.rounded {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 40px;
+  padding-left: 15px;
+  background-position: right 5px top 50%;
+  background-repeat: no-repeat;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAMCAYAAABSgIzaAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDZFNDEwNjlGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDZFNDEwNkFGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0NkU0MTA2N0Y3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0NkU0MTA2OEY3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuGsgwQAAAA5SURBVHjaYvz//z8DOYCJgUxAf42MQIzTk0D/M+KzkRGPoQSdykiKJrBGpOhgJFYTWNEIiEeAAAMAzNENEOH+do8AAAAASUVORK5CYII=);
+}
+
+.form-text {
+  font-size: 0.81rem;
+}
+
+.has-danger .form-control-feedback.text-muted, .has-danger .invoice-body .invoice-desc .form-control-feedback.desc-value, .invoice-body .invoice-desc .has-danger .form-control-feedback.desc-value {
+  color: #e65252 !important;
+}
+
+.form-control {
+  font-family: "Avenir Next W01", "Proxima Nova W01", "Rubik", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.form-control.bright {
+  border-color: #e2e4ef;
+}
+
+.form-control[type="checkbox"] {
+  width: auto;
+  display: inline-block;
+}
+
+.form-group .date-input {
+  position: relative;
+}
+
+.form-group .date-input:before {
+  content: "\e972";
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'osfont' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 15px;
+  color: #047bf8;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.form-group .date-input .form-control {
+  padding-left: 35px;
+}
+
+.form-control::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.form-control:-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.form-control::-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.form-control::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.form-check-input {
+  margin-right: 0.5rem;
+}
+
+.form-check.stick-right span {
+  margin-right: 5px;
+}
+
+.form-buttons-w {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.form-buttons-w.compact {
+  margin-top: 0.5rem;
+}
+
+.form-buttons-w .btn + .btn, .form-buttons-w .all-wrapper .fc-button + .btn, .all-wrapper .form-buttons-w .fc-button + .btn, .form-buttons-w .all-wrapper .btn + .fc-button, .all-wrapper .form-buttons-w .btn + .fc-button, .form-buttons-w .all-wrapper .fc-button + .fc-button, .all-wrapper .form-buttons-w .fc-button + .fc-button {
+  margin-left: 10px;
+}
+
+label.bigger {
+  font-size: 1.08rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+label.lighter {
+  color: rgba(90, 99, 126, 0.49);
+}
+
+fieldset {
+  margin-top: 2rem;
+}
+
+legend {
+  font-size: 0.99rem;
+  display: block;
+  margin-bottom: 1.5rem;
+  position: relative;
+  color: #047bf8;
+}
+
+legend span {
+  padding: 0px 0.5rem 0 0;
+  background-color: #fff;
+  display: inline-block;
+  z-index: 2;
+  position: relative;
+}
+
+legend:before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  height: 1px;
+  top: 50%;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.form-header {
+  margin-bottom: 1rem;
+  padding-top: 0.5rem;
+  display: block;
+}
+
+.form-desc {
+  color: #999;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+  font-size: 0.9rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: block;
+}
+
+.os-toggler-w {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.os-toggler-w .os-toggler-i {
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  height: 20px;
+  width: 35px;
+  position: relative;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.os-toggler-w .os-toggler-i .os-toggler-pill {
+  background-color: #fff;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.os-toggler-w.on .os-toggler-i {
+  background-color: #E1E6F2;
+}
+
+.os-toggler-w.on .os-toggler-i .os-toggler-pill {
+  -webkit-transform: translate(15px, -50%);
+  transform: translate(15px, -50%);
+  background-color: #047bf8;
+}

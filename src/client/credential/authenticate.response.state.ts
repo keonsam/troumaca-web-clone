@@ -1,13 +1,13 @@
-import {CredentialState} from "./credential.state";
-import {SessionState} from "./session.state";
+import {CredentialState} from './credential.state';
+import {SessionState} from './session.state';
 
 export class AuthenticateResponseState {
 
-  private _authenticated:boolean;
-  private _usernameConfirmed:boolean;
-  private _accountExists:boolean;
-  private _credential:CredentialState;
-  private _session:SessionState;
+  private _authenticated: boolean;
+  private _usernameConfirmed: boolean;
+  private _accountExists: boolean;
+  private _credential: CredentialState;
+  private _session: SessionState;
   private _credentialConfirmationId: string;
 
   get authenticated(): boolean {

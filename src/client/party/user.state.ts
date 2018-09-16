@@ -1,12 +1,12 @@
-import {PartyState} from "./party.state";
+import {PartyState} from './party.state';
 
 export class UserState extends PartyState {
 
-  private _firstName:string;
-  private _middleName:string;
-  private _lastName:string;
+  private _firstName: string;
+  private _middleName: string;
+  private _lastName: string;
   private _username: string;
-  private _dateOfBirth:Date;
+  private _dateOfBirth: Date;
 
   get firstName(): string {
     return this._firstName;
@@ -54,7 +54,6 @@ export class UserState extends PartyState {
       firstName: this.firstName,
       middleName: this.middleName,
       lastName: this.lastName,
-      username: this.username,
       dateOfBirth: this.dateOfBirth,
       createdOn: this.createdOn,
       modifiedOn: this.modifiedOn

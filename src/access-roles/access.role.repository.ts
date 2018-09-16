@@ -1,16 +1,17 @@
-import {Observable} from "rxjs/Observable";
-import {Permission} from "./permission";
-import {Permissions} from "./permissions";
-import {Resource} from "./resource";
-import {Resources} from "./resources";
-import {ResourceType} from "./resource.type";
-import {ResourceTypes} from "./resource.types";
-import {ResourcePermission} from "./resource.permission";
-import {AccessRole} from "./access.role";
-import {AccessRoles} from "./access.roles";
-import {AccessRoleType} from "./access.role.type";
-import {AccessRoleTypes} from "./access.role.types";
-import {Grant} from "./grant";
+import {Observable} from 'rxjs';
+import {Permission} from './permission';
+import {Permissions} from './permissions';
+import {Resource} from './resource';
+import {Resources} from './resources';
+import {ResourceType} from './resource.type';
+import {ResourceTypes} from './resource.types';
+import {ResourcePermission} from './resource.permission';
+import {AccessRole} from './access.role';
+import {AccessRoles} from './access.roles';
+import {AccessRoleType} from './access.role.type';
+import {AccessRoleTypes} from './access.role.types';
+import {Grant} from './grant';
+import {AccessRoleResponse} from './access.role.response';
 
 export abstract class AccessRoleRepository {
 
@@ -25,8 +26,8 @@ export abstract class AccessRoleRepository {
 
   abstract deletePermission(permissionId: string): Observable<number>;
 
-  //resources
-  abstract getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<Permissions>;
+  // resources
+  abstract getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[]): Observable<Permissions>;
 
 
   abstract getResourcePermissionsByResourceId(resourceId: string): Observable<ResourcePermission[]>;
@@ -37,7 +38,7 @@ export abstract class AccessRoleRepository {
 
   abstract getResourceById(resourceId: string): Observable<Resource>;
 
-  abstract addResource(resource: Resource,resourcePermissions: ResourcePermission[]): Observable<Resource>;
+  abstract addResource(resource: Resource, resourcePermissions: ResourcePermission[]): Observable<Resource>;
 
   abstract updateResource(resource: Resource, resourcePermissions: ResourcePermission[]): Observable<number>;
 
@@ -55,7 +56,7 @@ export abstract class AccessRoleRepository {
   abstract deleteResourceType(resourceTypeId: string): Observable<number>;
 
   //access-roles
-  abstract getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray:string[], type:string): Observable<Resources>;
+  abstract getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<Resources>;
 
   abstract getAllResourcePermissions(): Observable<ResourcePermission[]>;
 
@@ -63,7 +64,7 @@ export abstract class AccessRoleRepository {
 
   abstract getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoles>;
 
-  abstract getAccessRoleById(accessRoleId: string): Observable<AccessRole>;
+  abstract getAccessRoleById(accessRoleId: string): Observable<AccessRoleResponse>;
 
   abstract addAccessRole(accessRole: AccessRole, grants: Grant[]): Observable<AccessRole>;
 
@@ -72,7 +73,7 @@ export abstract class AccessRoleRepository {
   abstract deleteAccessRole(accessRoleId: string): Observable<number>;
 
   //grants
-  abstract getGrantsByAccessRoleId(accessRoleId:string): Observable<Grant[]>;
+  abstract getGrantsByAccessRoleId(accessRoleId: string): Observable<Grant[]>;
 
     //access-role-types
   abstract getAccessRoleTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleTypes>;

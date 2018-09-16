@@ -1,6 +1,6 @@
-import {Subject} from "rxjs/Subject";
-import {Injectable} from "@angular/core";
-import {EventName} from "./event.name";
+import {Subject} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {EventName} from './event.name';
 
 @Injectable()
 export class ClientEvent {
@@ -19,17 +19,17 @@ export class ClientEvent {
   }
 
 
-  sendUnauthorizedEvent(data:any) {
-    this._subject.next({name:EventName.UNAUTHORIZED, data:data});
+  sendUnauthorizedEvent(data: any) {
+    this._subject.next({name: EventName.UNAUTHORIZED, data: data});
   }
 
-  sendLoginTimeOutEvent(data:any) {
-    this._subject.next({name:EventName.LOGIN_TIME_OUT, data:data});
+  sendLoginTimeOutEvent(data: any) {
+    this._subject.next({name: EventName.LOGIN_TIME_OUT, data: data});
   }
 
   subscribeToLogoutEvent(func) {
     this.subject.subscribe( next => {
-      if(next.name === EventName.LOGIN_TIME_OUT) {
+      if (next.name === EventName.LOGIN_TIME_OUT) {
         func(next.data);
       }
     })
@@ -37,7 +37,7 @@ export class ClientEvent {
 
   subscribeToUnauthorizedEvent(func) {
     this.subject.subscribe( next => {
-      if(next.name === EventName.UNAUTHORIZED) {
+      if (next.name === EventName.UNAUTHORIZED) {
         func(next.data);
       }
     })

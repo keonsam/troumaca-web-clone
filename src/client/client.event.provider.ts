@@ -1,6 +1,6 @@
-import {ClientEvent} from "./client.event";
+import {ClientEvent} from './client.event';
 
-export function clientEventFactory ():ClientEvent {
+export function clientEventFactory (): ClientEvent {
   return new ClientEvent();
 }
 

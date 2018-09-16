@@ -1,8 +1,8 @@
-import {DataType} from "./data.type";
+import {DataType} from './data.type';
 
 export class DataTypes {
 
-  private _dataTypes:DataType[];
+  private _dataTypes: DataType[];
 
   get dataTypes(): DataType[] {
     return this._dataTypes;

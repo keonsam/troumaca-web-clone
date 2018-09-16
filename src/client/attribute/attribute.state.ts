@@ -1,22 +1,19 @@
-import {DataTypeState} from "./data.type.state";
-import {UnitOfMeasureState} from "../unit-of-measure/unit.of.measure.state";
-
 export class AttributeState {
 
-  private _attributeId:string;
-  private _tenantId:string;
-  private _name:string;
-  private _format:string;
+  private _attributeId: string;
+  private _tenantId: string;
+  private _name: string;
+  private _format: string;
   // replace with data type
   private _dataTypeId: string;
-  private _dataType: DataTypeState;
+  private _dataTypeName: string;
   // replace with unit of measure
   private _unitOfMeasureId: string;
-  private _unitOfMeasure: UnitOfMeasureState;
-  private _maximumValue:string;
-  private _minimumValue:string;
-  private _createdOn:Date;
-  private _modifiedOn:Date;
+  private _unitOfMeasureName: string;
+  private _maximumValue: string;
+  private _minimumValue: string;
+  private _createdOn: Date;
+  private _modifiedOn: Date;
 
   get attributeId(): string {
     return this._attributeId;
@@ -49,7 +46,7 @@ export class AttributeState {
   set format(value: string) {
     this._format = value;
   }
-  
+
   get dataTypeId(): string {
     return this._dataTypeId;
   }
@@ -58,28 +55,12 @@ export class AttributeState {
     this._dataTypeId = value;
   }
 
-  get dataType(): DataTypeState {
-    return this._dataType;
-  }
-
-  set dataType(value: DataTypeState) {
-    this._dataType = value;
-  }
-  
   get unitOfMeasureId(): string {
     return this._unitOfMeasureId;
   }
 
   set unitOfMeasureId(value: string) {
     this._unitOfMeasureId = value;
-  }
-
-  get unitOfMeasure(): UnitOfMeasureState {
-    return this._unitOfMeasure;
-  }
-
-  set unitOfMeasure(value: UnitOfMeasureState) {
-    this._unitOfMeasure = value;
   }
 
   get maximumValue(): string {
@@ -114,6 +95,21 @@ export class AttributeState {
     this._modifiedOn = value;
   }
 
+  get dataTypeName(): string {
+    return this._dataTypeName;
+  }
+
+  set dataTypeName(value: string) {
+    this._dataTypeName = value;
+  }
+
+  get unitOfMeasureName(): string {
+    return this._unitOfMeasureName;
+  }
+
+  set unitOfMeasureName(value: string) {
+    this._unitOfMeasureName = value;
+  }
 
   toJson() {
     return {

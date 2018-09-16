@@ -1,6 +1,6 @@
-import {Value} from "./value";
-import {Page} from "../page/page";
-import {Sort} from "../sort/sort";
+import {Value} from './value';
+import {Page} from '../page/page';
+import {Sort} from '../sort/sort';
 
 export class Values {
   private _values: Value[] = [];

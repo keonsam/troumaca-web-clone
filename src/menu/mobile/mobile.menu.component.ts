@@ -1,13 +1,11 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
-import {MenuService} from "../menu.service";
-import {PartyService} from "../../parties/party.service";
-//import {MenuItemModel} from "../menu.item.model";
-import {EventService} from "../../event/event.service";
-import {MenuModel} from "../menu.model";
-import {trigger, state, style, transition, animate} from "@angular/animations";
+import { Component, OnInit} from '@angular/core';
+import {trigger, state, style, transition, animate} from '@angular/animations';
+import {PhotoService} from '../../photo/photo.service';
+import {UserService} from '../../parties/users/user.service';
+import {UserResponse} from '../../parties/user.response';
 
 @Component({
-  selector: 'mobile-menu',
+  selector: 'app-mobile-menu',
   templateUrl: './mobile.menu.component.html',
   styleUrls: ['./mobile.menu.component.css'],
   animations: [
@@ -23,112 +21,67 @@ import {trigger, state, style, transition, animate} from "@angular/animations";
     ]),
   ]
 })
+
 export class MobileMenuComponent implements OnInit {
 
-  private partyId: string;
-  private imageStr: string;
-  private userName: string;
-  private _title:string;
-  private _name:string;
-  private _menuModel:MenuModel;
-  private _isLoggedIn:boolean;
-  private state: string;
-  private popUpState: string;
+  public imageStr: string;
+  public name = '';
+  public state: string;
+  public popUpState: string;
+  private userResponse: UserResponse;
 
-  constructor(private eventService:EventService, private menuService:MenuService, private partyService: PartyService, private cd: ChangeDetectorRef) {
+  constructor(private photoService: PhotoService,
+              private userService: UserService) {
     this.state = 'inactive';
     this.popUpState = 'hide';
-  }
-
-  get title(): string {
-    return this._title;
-  }
-
-  set title(value: string) {
-    this._title = value;
-  }
-
-  get name(): string {
-    return this._name;
-  }
-
-  set name(value: string) {
-    this._name = value;
-  }
-
-  get menuModel(): MenuModel {
-    return this._menuModel;
-  }
-
-  set menuModel(value: MenuModel) {
-    this._menuModel = value;
-  }
-
-  get isLoggedIn(): boolean {
-    return this._isLoggedIn;
-  }
-
-  @Input()
-  set isLoggedIn(value: boolean) {
-    this._isLoggedIn = value;
+    this.imageStr = 'https://designdroide.com/images/abstract-user-icon-4.svg';
+    this.photoService.photoData.subscribe( data => {
+      if (data.type === 'user') {
+        this.imageStr = data.imgStr;
+      }
+    });
   }
 
   ngOnInit(): void {
-    //this.getMenu(this.isLoggedIn);
-    this.handleMenuRefreshEvent();
-    this.partyService.getPartyId()
-      .subscribe( partyId => {
-        if(partyId){
-          this.partyId = partyId;
-          this.getPhoto();
-          this.getUserInformation();
-        }
-      });
+    this.getPhoto('user');
+    this.getUserInformation();
   }
 
   mobileMenuTrigger() {
     this.popUpState = 'hide';
-    this.state = this.state === 'inactive' ? 'active': 'inactive';
+    this.state = this.state === 'inactive' ? 'active' : 'inactive';
   }
 
   popUpTrigger() {
-    this.popUpState = this.popUpState === 'hide' ? 'show': 'hide';
+    this.popUpState = this.popUpState === 'hide' ? 'show' : 'hide';
   }
 
-  getPhoto() {
-    this.partyService.getPhoto(this.partyId, "user")
-      .subscribe(imgStr => {
-        if(imgStr) {
-          this.imageStr = imgStr;
+  getPhoto(type: string) {
+    this.photoService.getPhotos(type)
+      .subscribe( photo => {
+        if (photo.partyId) {
+          this.imageStr = photo.userImage
         }
-      });
+      })
   }
 
   getUserInformation() {
-    this.partyService.getUser(this.partyId)
-      .subscribe( user => {
-        if(user.partyId) {
-          this.userName = user.name;
+    this.userService.getUser('me')
+      .subscribe( userRes => {
+        if (userRes.user.partyId) {
+          this.userResponse = userRes;
+          this.name = `${userRes.user.firstName} , ${userRes.user.lastName}`
         }
-      });
-  }
-
-
-  handleMenuRefreshEvent() {
-    let that = this;
-    this.eventService.subscribeToLoginEvent((data) => {
-      that.isLoggedIn = true;
-      //that.getMenu(this.isLoggedIn);
-    });
+      })
   }
 
   logOutEvent() {
-    this.partyService.logOutUser()
-      .subscribe(next => {
-        if(next) {
-          this.eventService.sendSessionLogoutEvent({"logOutEvent":true});
-        }
-      });
+    // this.partyService.logOutUser()
+    //   .subscribe(next => {
+    //     if (next) {
+    //       this.eventService.sendSessionLogoutEvent({'logOutEvent': true});
+    //     }
+    //   });
   }
 
 }

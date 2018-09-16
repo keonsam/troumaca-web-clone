@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {AccessRoleService} from "../access.role.service";
-import {AccessRoles} from "../access.roles";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
+import {Component, OnInit} from '@angular/core';
+import {AccessRoleService} from '../access.role.service';
+import {AccessRoles} from '../access.roles';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
 
 @Component({
   selector: 'access-role-list',
@@ -13,13 +13,13 @@ export class AccessRoleListComponent implements OnInit {
 
   private accessRoleId: string;
   private _accessRoles: AccessRoles;
-  private accessRoleName: string;
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
+  private _accessRoleName: string;
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
 
   constructor(private accessRoleService: AccessRoleService){
-    let newAccessRoles = new AccessRoles();
+    const newAccessRoles = new AccessRoles();
     newAccessRoles.page = new Page();
     newAccessRoles.sort = new Sort();
     this.accessRoles = newAccessRoles;
@@ -37,8 +37,16 @@ export class AccessRoleListComponent implements OnInit {
       }, error => {
         console.log(error);
       }, () => {
-        console.log("complete");
+        console.log('complete');
       });
+  }
+
+  get accessRoleName(): string {
+    return this._accessRoleName;
+  }
+
+  set accessRoleName(value: string) {
+    this._accessRoleName = value;
   }
 
   get accessRoles(): AccessRoles {
@@ -49,21 +57,23 @@ export class AccessRoleListComponent implements OnInit {
     this._accessRoles = value;
   }
 
-  onOpenModal(accessRoleId:string, accessRoleName: string){
+  onOpenModal(accessRoleId: string, accessRoleName: string){
     this.accessRoleId = accessRoleId;
     this.accessRoleName = accessRoleName
   }
 
-  onDelete() {
-    this.accessRoleService.deleteAccessRole(this.accessRoleId)
-      .subscribe(next => {
-        if(next) {
-          this.getAccessRoles();
-        }
-      });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.accessRoleService.deleteAccessRole(this.accessRoleId)
+        .subscribe(next => {
+          if (next) {
+            this.getAccessRoles();
+          }
+        });
+    }
   }
 
-  onRequestPage(pageNumber:number) {
+  onRequestPage(pageNumber: number) {
     this.defaultPage = pageNumber;
     this.getAccessRoles();
   }

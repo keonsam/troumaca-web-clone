@@ -1,0 +1,126 @@
+<div class="content-i">
+
+  <div class="content-box">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="element-wrapper">
+          <div class="element-box">
+            <form [formGroup]="assetForm" id="formValidate">
+              <h5 class="form-header">
+                {{ assetExist ? "Edit" : "New" }} Asset Form
+              </h5>
+
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ assetExist ? "Update" : "Create" }} Asset.</div>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="asset-kind">Asset Kind</label><br/>
+                  <select id="asset-kind" class="form-control" formControlName="assetKindId" name="assetKind" required>
+                    <option value="" disabled selected>Select an Asset Kind</option>
+                    <option *ngFor="let assetKind of assetKinds" [value]="assetKind.assetKindId">{{assetKind.name}}</option>
+                  </select>
+                  <div [hidden]="assetKindId.valid || assetKindId.pristine" class="alert alert-danger">Please select an asset kind.</div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group" [class]="(assetType.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
+                  <label for="asset-type">Asset Type</label>
+                  <ng2-completer [datasource]="assetTypeDataService"
+                                 [minSearchLength]="0"
+                                 [maxChars]="4"
+                                 [inputClass]="'form-control'"
+                                 [placeholder]="'Select an Asset Type'"
+                                 [matchClass]="'match'"
+                                 formControlName="assetType"
+                                 [autofocus]="true"
+                                 [clearUnselected]="true"
+                                 [fillHighlighted]="false"
+                                 [openOnClick]="true"
+                                 [textSearching]="false"
+                                 (selected)="onAssetTypeSelect($event)"
+                                 id="asset-type"
+                                 required>
+                  </ng2-completer>
+                  <div [hidden]="assetType.valid || assetType.pristine" class="alert alert-danger">Please Select an Asset Type.</div>
+                </div>
+              </fieldset>
+
+              <fieldset *ngIf="isDiscreteItem()" class="form-group">
+                <div class="form-group">
+                  <label for="serial-number">Serial Number</label><input id="serial-number" class="form-control" formControlName="serialNumber"  data-error="Your email address is invalid" placeholder="Enter Serial Number" type="text">
+                  <div [hidden]="serialNumber.valid || serialNumber.pristine" class="alert alert-danger">Please enter a serial number.</div>
+                </div>
+              </fieldset>
+
+              <fieldset *ngIf="isInventory()" class="form-group">
+                <div class="form-group">
+                  <label for="quantity">Quantity</label><input id="quantity" class="form-control" formControlName="quantity" data-error="Your email address is invalid" placeholder="Enter Quantity" type="number">
+                  <div [hidden]="quantity.valid || quantity.pristine" class="alert alert-danger">Please enter an quantity.</div>
+                </div>
+              </fieldset>
+
+              <app-unit-of-measure *ngIf="isInventory()" (unitOfMeasureEvent)="setUnitOfMeasureId($event)" [initialUnitOfMeasureId]="unitOfMeasureId"></app-unit-of-measure>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="assignee">Assignee</label>
+                  <ng2-completer [datasource]="personDataService"
+                                 [minSearchLength]="0"
+                                 [maxChars]="4"
+                                 [inputClass]="'form-control'"
+                                 [placeholder]="'Select a Person'"
+                                 [matchClass]="'match'"
+                                 formControlName="person"
+                                 [autofocus]="true"
+                                 [clearUnselected]="true"
+                                 [fillHighlighted]="false"
+                                 [openOnClick]="true"
+                                 [textSearching]="false"
+                                 id="assignee"
+                                 (selected)="onPersonSelect($event)">
+                  </ng2-completer>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="site">Site</label>
+                  <ng2-completer [datasource]="siteDataService"
+                                 [minSearchLength]="0"
+                                 [maxChars]="4"
+                                 [inputClass]="'form-control'"
+                                 [placeholder]="'Select a Site'"
+                                 [matchClass]="'match'"
+                                 formControlName="site"
+                                 [autofocus]="true"
+                                 [clearUnselected]="true"
+                                 [fillHighlighted]="false"
+                                 [openOnClick]="true"
+                                 [textSearching]="false"
+                                 id="site"
+                                 (selected)="onPhysicalSiteSelect($event)">
+                  </ng2-completer>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <div class="form-group">
+                  <label for="description">Description</label><textarea id="description" class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
+                  <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
+                </div>
+              </fieldset>
+
+              <div class="form-buttons-w">
+                <button class="btn btn-primary" [hidden]="assetExist" [disabled]="!assetForm.valid" type="submit" (click)="onCreate()">Create</button>
+                <button class="btn btn-primary" [hidden]="!assetExist" [disabled]="!assetForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,13 +1,13 @@
-import {Observable} from "rxjs/Observable";
-import {Quote} from "./quote";
-import {QuoteRepository} from "./quote.repository";
+import {Observable} from 'rxjs';
+import {Quote} from './quote';
+import {QuoteRepository} from './quote.repository';
 
 export class QuoteService {
 
-  constructor(private quoteRepository:QuoteRepository) {
+  constructor(private quoteRepository: QuoteRepository) {
   }
 
-  public getQuotes():Observable<Quote> {
+  public getQuotes(): Observable<Quote> {
     return this.quoteRepository.getQuotes();
   }
 }

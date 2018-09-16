@@ -1,12 +1,12 @@
 export class AssetAttribute {
 
-  private _attributeAssignmentId:string;
-  private _valueId:string;
-  private _value:string;
-  private _attributeId:string;
-  private _name:string;
-  private _format:string;
-  private _unitOfMeasure:string;
+  private _attributeAssignmentId: string;
+  private _valueId: string;
+  private _value: string;
+  private _attributeId: string;
+  private _name: string;
+  private _format: string;
+  private _unitOfMeasure: string;
   private _defaultHighValue;
   private _defaultLowValue;
 

@@ -7,11 +7,11 @@ export function mapObjectProps2(fromObject, toObject) {
     return toObject;
   }
 
-  for (let toKey in toObject) {
-    for (let fromKey in fromObject) {
+  for (const toKey in toObject) {
+    for (const fromKey in fromObject) {
       if (toKey == fromKey) {
 
-        let fromObject2 = fromObject[fromKey];
+        const fromObject2 = fromObject[fromKey];
 
         if (typeof fromObject2 == 'function') {
 

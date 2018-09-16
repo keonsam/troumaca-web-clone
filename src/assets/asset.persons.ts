@@ -1,8 +1,8 @@
-import {AssetPerson} from "./asset.person";
+import {AssetPerson} from './asset.person';
 
 export class AssetPersons {
 
-  private _persons:AssetPerson[];
+  private _persons: AssetPerson[];
 
   get persons(): AssetPerson[] {
     return this._persons;

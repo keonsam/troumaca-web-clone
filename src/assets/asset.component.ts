@@ -1,6 +1,5 @@
-import {Component, OnInit} from "@angular/core";
-import {Asset} from "./asset";
-import {AssetService} from "./asset.service";
+import {Component, OnInit} from '@angular/core';
+import {AssetService} from './asset.service';
 
 @Component({
   selector: 'assets',
@@ -13,7 +12,7 @@ export class AssetComponent implements OnInit {
   // private _dataValues:AssetModel[] = [];
 
 
-  constructor(private assetService:AssetService) {
+  constructor(private assetService: AssetService) {
   }
 
   ngOnInit(): void {

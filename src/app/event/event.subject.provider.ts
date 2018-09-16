@@ -1,7 +1,7 @@
-import {EventService} from "../../event/event.service";
+import {EventService} from '../../event/event.service';
 
-export function eventSubjectProviderFactory ():EventService {
-  let eventSubject:EventService;
+export function eventSubjectProviderFactory (): EventService {
+  let eventSubject: EventService;
   if (!eventSubject) {
     eventSubject = new EventService();
 

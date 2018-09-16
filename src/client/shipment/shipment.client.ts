@@ -1,6 +1,6 @@
-import {Observable} from "rxjs/Observable";
-import {ShipmentState} from "./shipment.state";
+import {Observable} from 'rxjs';
+import {ShipmentState} from './shipment.state';
 
 export abstract class ShipmentClient {
-  public abstract getShipments():Observable<ShipmentState>;
+  public abstract getShipments(): Observable<ShipmentState>;
 }

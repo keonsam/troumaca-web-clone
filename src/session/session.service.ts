@@ -1,12 +1,12 @@
-import {SessionRepository} from "./session.repository";
-import {Observable} from "rxjs/Observable";
+import {SessionRepository} from './session.repository';
+import {Observable} from 'rxjs';
 
 export class SessionService {
 
-  constructor(private sessionRepository:SessionRepository) {
+  constructor(private sessionRepository: SessionRepository) {
   }
 
-  activeSessionExists():Observable<boolean> {
+  activeSessionExists(): Observable<boolean> {
     return this.sessionRepository.activeSessionExists();
   }
 

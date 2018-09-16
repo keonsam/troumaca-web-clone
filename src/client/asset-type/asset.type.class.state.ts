@@ -1,12 +1,11 @@
-
-import {AttributeState} from "./attribute.state";
+import {AttributeState} from './attribute.state';
 
 export class AssetTypeClassState {
 
-  private _assetTypeClassId:string;
-  private _name:string;
-  private _description:string;
-  private _attributes:AttributeState[];
+  private _assetTypeClassId: string;
+  private _name: string;
+  private _description: string;
+  private _attributes: AttributeState[];
 
   get assetTypeClassId(): string {
     return this._assetTypeClassId;

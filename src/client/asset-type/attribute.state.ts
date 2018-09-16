@@ -1,14 +1,14 @@
 export class AttributeState {
 
-  private _attributeAssignmentId:string;
-  private _valueId:string;
-  private _value:string;
-  private _attributeId:string;
-  private _name:string;
-  private _format:string;
-  private _unitOfMeasure:string;
-  private _defaultHighValue:string;
-  private _defaultLowValue:string;
+  private _attributeAssignmentId: string;
+  private _valueId: string;
+  private _value: string;
+  private _attributeId: string;
+  private _name: string;
+  private _format: string;
+  private _unitOfMeasure: string;
+  private _defaultHighValue: string;
+  private _defaultLowValue: string;
 
   get attributeAssignmentId(): string {
     return this._attributeAssignmentId;

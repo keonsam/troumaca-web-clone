@@ -1,58 +1,48 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AssetComponent} from "./asset.component";
-import {AssetService} from "./asset.service";
-import {AssetRepository} from "./asset.repository";
-import {RouterModule} from "@angular/router";
-import {MenuModule} from "../menu/menu.module";
-import {PagingModule} from "../paging/paging.module";
-import {SearchModule} from "../search/search.module";
-import {AssetEditComponent} from "./asset-edit/asset.edit.component";
-import {AssetListComponent} from "./asset-list/asset.list.component";
-import {AssetTopMenuComponent} from "./asset-top-menu/asset.top.menu.component";
-import {AssetCreationComponent} from "./asset-creation/asset.creation.component";
-import {Ng2CompleterModule} from "ng2-completer";
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AssetComponent} from './asset.component';
+import {RouterModule} from '@angular/router';
+import {MenuModule} from '../menu/menu.module';
+import {PagingModule} from '../paging/paging.module';
+import {SearchModule} from '../search/search.module';
+import {AssetListComponent} from './asset-list/asset.list.component';
+import {AssetTopMenuComponent} from './asset-top-menu/asset.top.menu.component';
+import {Ng2CompleterModule} from 'ng2-completer';
+import {assetServiceProvider} from './asset.service.provider';
+import { AssetRoutingModule } from "./asset.routing.module";
+import { UnitOfMeasureModule } from "../unit-of-measure/unit.of.measure.module";
+import {assetResolveProvider } from "./asset.resolve.provider";
+import {AssetFormComponent} from "./asset-form/asset.form.component";
+import {DeleteModalModule} from "../delete-modal/delete.modal.module";
 
 @NgModule({
   imports: [
     CommonModule,
-    NgbModule,
     RouterModule,
     Ng2CompleterModule,
     FormsModule,
     ReactiveFormsModule,
     MenuModule,
-    PagingModule,
     SearchModule,
-    PagingModule
+    PagingModule,
+    AssetRoutingModule,
+    UnitOfMeasureModule,
+    DeleteModalModule
   ],
   declarations: [
     AssetComponent,
-    AssetEditComponent,
+    AssetFormComponent,
     AssetListComponent,
     AssetTopMenuComponent,
-    AssetCreationComponent
   ],
-  providers: [{
-    provide: AssetService,
-    useFactory(assetRepository:AssetRepository) {
-      let assetService: AssetService;
-      if (!assetService) {
-        assetService = new AssetService(
-          assetRepository);
-      }
-      return assetService;
-    },
-    deps: [AssetRepository]
-  }],
+  providers: [assetServiceProvider, assetResolveProvider],
   exports: [
-    AssetComponent,
-    AssetEditComponent,
-    AssetListComponent,
-    AssetTopMenuComponent,
-    AssetCreationComponent
+    // AssetComponent,
+    // AssetEditComponent,
+    // AssetListComponent,
+    // AssetTopMenuComponent,
+    // AssetCreationComponent
   ]
 })
 export class AssetModule {}

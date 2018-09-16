@@ -1,33 +1,25 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {RouterModule} from "@angular/router";
-import {UnitOfMeasureRepository} from "./unit.of.measure.repository";
-import {UnitOfMeasureService} from "./unit.of.measure.service";
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
+import { UnitOfMeasureComponent } from './unit.of.measure.component';
+import { Ng2CompleterModule } from "ng2-completer";
+import {unitOfMeasureServiceProvider } from "./unit.of.measure.service.provider";
 
 @NgModule({
   imports: [
     CommonModule,
-    NgbModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    Ng2CompleterModule
   ],
   declarations: [
+    UnitOfMeasureComponent
   ],
-  providers: [{
-    provide: UnitOfMeasureService,
-    useFactory(unitOfMeasureRepository:UnitOfMeasureRepository) {
-      let unitOfMeasureService: UnitOfMeasureService;
-      if (!unitOfMeasureService) {
-        unitOfMeasureService = new UnitOfMeasureService(unitOfMeasureRepository);
-      }
-      return unitOfMeasureService;
-    },
-    deps: [UnitOfMeasureRepository]
-  }],
+  providers: [unitOfMeasureServiceProvider],
   exports: [
+    UnitOfMeasureComponent
   ]
 })
-export class ActivityModule {}
+export class UnitOfMeasureModule {}

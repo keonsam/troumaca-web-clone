@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {SiteService} from "../site.service";
-import {Phones} from "../phones";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
+import {Component, OnInit} from '@angular/core';
+import {SiteService} from '../site.service';
+import {Phones} from '../phones';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
 
 @Component({
   selector: 'site-phone-list',
@@ -12,15 +12,15 @@ import {Sort} from "../../sort/sort";
 export class SitePhoneListComponent implements OnInit {
 
   private siteId: string;
-  private _phones:Phones;
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
-  private _routerLinkCreatePhone:string = "/sites/phones/create";
-  private phoneName:string;
+  private _phones: Phones;
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
+  private _routerLinkCreatePhone = '/sites/phones/create';
+  private _phoneName: string;
 
-  constructor(private siteService:SiteService) {
-    let newPhones = new Phones();
+  constructor(private siteService: SiteService) {
+    const newPhones = new Phones();
     newPhones.page = new Page(0, 0, 0);
     newPhones.sort = new Sort();
     this.phones = newPhones;
@@ -28,6 +28,14 @@ export class SitePhoneListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPhones();
+  }
+
+  get phoneName(): string {
+    return this._phoneName;
+  }
+
+  set phoneName(value: string) {
+    this._phoneName = value;
   }
 
   get phones(): Phones {
@@ -54,25 +62,27 @@ export class SitePhoneListComponent implements OnInit {
     }, error => {
       console.log(error);
     }, () => {
-      console.log("complete");
+      console.log('complete');
     });
   }
 
-  onOpenModal(siteId: string, phoneName:string) {
+  onOpenModal(siteId: string, phoneName: string) {
     this.siteId = siteId;
     this.phoneName = phoneName;
   }
 
-  onDelete() {
-    this.siteService
-    .deletePhone(this.siteId)
-    .subscribe(value => {
-    this.getPhones();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log("complete");
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.siteService
+        .deletePhone(this.siteId)
+        .subscribe(value => {
+          this.getPhones();
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

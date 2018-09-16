@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {PostOfficeBoxes} from "../post.office.boxes";
-import {SiteService} from "../site.service";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
+import {Component, OnInit} from '@angular/core';
+import {PostOfficeBoxes} from '../post.office.boxes';
+import {SiteService} from '../site.service';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
 
 @Component({
   selector: 'site-post-office-pox-list',
@@ -13,14 +13,14 @@ export class SitePostOfficeBoxListComponent implements OnInit {
 
   private postOfficeBoxId: string;
   private _postOfficeBoxes: PostOfficeBoxes;
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
-  private _routerLinkCreatePostOfficeBox:string = "/sites/post-office-boxes/create";
-  private postOfficeBoxName:string;
-  
-  constructor(private siteService:SiteService) {
-    let newPostOfficeBoxes = new PostOfficeBoxes();
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
+  private _routerLinkCreatePostOfficeBox = '/sites/post-office-boxes/create';
+  private _postOfficeBoxName: string;
+
+  constructor(private siteService: SiteService) {
+    const newPostOfficeBoxes = new PostOfficeBoxes();
     newPostOfficeBoxes.page = new Page(0, 0, 0);
     newPostOfficeBoxes.sort = new Sort();
     this.postOfficeBoxes = newPostOfficeBoxes;
@@ -28,6 +28,14 @@ export class SitePostOfficeBoxListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPostOfficeBoxes();
+  }
+
+  get postOfficeBoxName(): string {
+    return this._postOfficeBoxName;
+  }
+
+  set postOfficeBoxName(value: string) {
+    this._postOfficeBoxName = value;
   }
 
   get postOfficeBoxes(): PostOfficeBoxes {
@@ -53,25 +61,29 @@ export class SitePostOfficeBoxListComponent implements OnInit {
     }, error => {
       console.log(error);
     }, () => {
-      console.log("complete");
+      console.log('complete');
     });
   }
 
-  onOpenModal(postOfficeBoxId: string, postOfficeBoxName:string) {
+  onOpenModal(postOfficeBoxId: string, postOfficeBoxName: string) {
     this.postOfficeBoxId = postOfficeBoxId;
     this.postOfficeBoxName = postOfficeBoxName;
   }
 
-  onDelete() {
-    this.siteService
-    .deletePostOfficeBox(this.postOfficeBoxId)
-    .subscribe(value => {
-    this.getPostOfficeBoxes();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log("complete");
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.siteService
+        .deletePostOfficeBox(this.postOfficeBoxId)
+        .subscribe(value => {
+          if (value) {
+            this.getPostOfficeBoxes();
+          }
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

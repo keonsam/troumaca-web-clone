@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {WebSites} from "../web.sites";
-import {SiteService} from "../site.service";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
+import {Component, OnInit} from '@angular/core';
+import {WebSites} from '../web.sites';
+import {SiteService} from '../site.service';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
 
 @Component({
   selector: 'site-web-list',
@@ -13,14 +13,14 @@ export class SiteWebListComponent implements OnInit {
 
   private webSiteId: string;
   private _webSites: WebSites;
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
-  private _routerLinkCreateWebSite:string = "/sites/web-sites/create";
-  private webSiteName:string;
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
+  private _routerLinkCreateWebSite = '/sites/web-sites/create';
+  private _webSiteName: string;
 
-  constructor(private siteService:SiteService) {
-    let newWebSites = new WebSites();
+  constructor(private siteService: SiteService) {
+    const newWebSites = new WebSites();
     newWebSites.page = new Page(0, 0, 0);
     newWebSites.sort = new Sort();
     this.webSites = newWebSites;
@@ -29,6 +29,14 @@ export class SiteWebListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getWebSites()
+  }
+
+  get webSiteName(): string {
+    return this._webSiteName;
+  }
+
+  set webSiteName(value: string) {
+    this._webSiteName = value;
   }
 
   get webSites(): WebSites {
@@ -54,25 +62,29 @@ export class SiteWebListComponent implements OnInit {
     }, error => {
       console.log(error);
     }, () => {
-      console.log("complete");
+      console.log('complete');
     });
   }
 
-  onOpenModal(webSiteId: string, webSiteName:string) {
+  onOpenModal(webSiteId: string, webSiteName: string) {
     this.webSiteId = webSiteId;
     this.webSiteName = webSiteName;
   }
 
-  onDelete() {
-    this.siteService
-    .deleteWebSite(this.webSiteId)
-    .subscribe(value => {
-    this.getWebSites();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log("complete");
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.siteService
+        .deleteWebSite(this.webSiteId)
+        .subscribe(value => {
+          if (value) {
+            this.getWebSites();
+          }
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
   onRequestPage(pageNumber: number) {

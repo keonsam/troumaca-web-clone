@@ -1,14 +1,12 @@
-import {AssetTypeClassState} from "./asset.type.class.state";
-import {PageState} from "../page/page.state";
-import {SortState} from "../sort/sort.state";
-import {JsonObject, JsonProperty} from "json2typescript";
+import {AssetTypeClassState} from './asset.type.class.state';
+import {PageState} from '../page/page.state';
+import {SortState} from '../sort/sort.state';
 
-@JsonObject
 export class AssetTypeClassStates {
 
-  private _assetTypeClasses:AssetTypeClassState[];
-  private _page:PageState;
-  private _sort:SortState;
+  private _assetTypeClasses: AssetTypeClassState[];
+  private _page: PageState;
+  private _sort: SortState;
 
 
   get assetTypeClasses(): AssetTypeClassState[] {

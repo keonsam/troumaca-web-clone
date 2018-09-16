@@ -1,9 +1,9 @@
 
-import {AttributeClient} from "../../client/attribute/attribute.client";
-import {AttributeRepository} from "../../attributes/attribute.repository";
-import {AttributeRepositoryAdapter} from "./attributes.repository.adapter";
+import {AttributeClient} from '../../client/attribute/attribute.client';
+import {AttributeRepository} from '../../attributes/attribute.repository';
+import {AttributeRepositoryAdapter} from './attributes.repository.adapter';
 
-export function attributeRepositoryProviderFactory (attributeClient:AttributeClient):AttributeRepository {
+export function attributeRepositoryProviderFactory (attributeClient: AttributeClient): AttributeRepository {
   let attributeRepositoryAdapter: AttributeRepositoryAdapter;
   if (!attributeRepositoryAdapter) {
     attributeRepositoryAdapter = new AttributeRepositoryAdapter(attributeClient);

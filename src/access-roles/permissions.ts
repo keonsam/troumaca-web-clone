@@ -1,6 +1,6 @@
-import {Permission} from "./permission";
-import {Page} from "../page/page";
-import {Sort} from "../sort/sort";
+import {Permission} from './permission';
+import {Page} from '../page/page';
+import {Sort} from '../sort/sort';
 
 export class  Permissions {
   private _permissions: Permission[] = [];

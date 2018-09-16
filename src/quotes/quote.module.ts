@@ -1,21 +1,19 @@
-import {NgModule} from "@angular/core";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {CommonModule} from "@angular/common";
-import {RouterModule} from "@angular/router";
-import {MenuModule} from "../menu/menu.module";
-import {PagingModule} from "../paging/paging.module";
-import {QuoteComponent} from "./quote.component";
-import {QuoteService} from "./quote.service";
-import {QuoteRepository} from "./quote.repository";
-import {QuoteListComponent} from "./quote-list/quote.list.component";
-import {QuoteEditComponent} from "./quote-edit/quote.list.component";
-import {QuoteCreationComponent} from "./quote-creation/quote.list.component";
+import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
+import {MenuModule} from '../menu/menu.module';
+import {PagingModule} from '../paging/paging.module';
+import {QuoteComponent} from './quote.component';
+import {QuoteService} from './quote.service';
+import {QuoteRepository} from './quote.repository';
+import {QuoteListComponent} from './quote-list/quote.list.component';
+import {QuoteEditComponent} from './quote-edit/quote.list.component';
+import {QuoteCreationComponent} from './quote-creation/quote.list.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    NgbModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
@@ -30,7 +28,7 @@ import {QuoteCreationComponent} from "./quote-creation/quote.list.component";
   ],
   providers: [{
     provide: QuoteService,
-    useFactory(quoteRepository:QuoteRepository) {
+    useFactory(quoteRepository: QuoteRepository) {
       let quoteService: QuoteService;
       if (!quoteService) {
         quoteService = new QuoteService(quoteRepository);

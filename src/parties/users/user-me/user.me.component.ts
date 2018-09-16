@@ -1,29 +1,21 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/filter";
-import "rxjs/add/operator/distinctUntilChanged";
-import "rxjs/add/operator/first";
-import "rxjs/add/operator/single";
-import "rxjs/add/operator/take";
-import "rxjs/add/operator/switchMap";
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
 
-import {PartyEventService} from "../../party.event.service";
-import {PartyService} from "../../party.service";
-import {User} from "../../user";
-import {Credential} from "../../credential";
-import {EventService} from "../../../event/event.service";
-import {Event} from "../../../authentication/event";
+import {User} from '../../user';
+import {Credential} from '../../credential';
+import { filter, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { AuthenticationService} from '../../../authentication/authentication.service';
+import {UserService} from '../user.service';
+import {UserResponse} from '../../user.response';
 
 @Component({
-  selector: 'user-me',
-  templateUrl:'./user.me.component.html',
+  selector: 'app-user-me',
+  templateUrl: './user.me.component.html',
   styleUrls: ['./user.me.component.css']
 })
 export class UserMeComponent implements OnInit {
 
-  private partyId: string;
   private _firstName: FormControl;
   private _middleName: FormControl;
   private _lastName: FormControl;
@@ -33,42 +25,40 @@ export class UserMeComponent implements OnInit {
 
   private _userMeForm: FormGroup;
 
-  private user: User;
+  private _user: User;
   private credential: Credential;
 
-  private imageChangedEvent: any = '';
-  private croppedImage: any = '';
-  private userImage: any = '';
-  private updateImage: boolean = false;
-
   private _doNotDisplayFailureMessage: boolean;
-  private requiredState: boolean = false;
+  requiredState= false;
+  userExist = false;
 
-  private organizationImage: string;
+  @Input() stepper: boolean;
+  @Input() userResponse: UserResponse;
+  @Output() userCreated = new EventEmitter<boolean>();
 
-  constructor(private partyEventService:PartyEventService,
-              private partyService: PartyService,
-              private eventService: EventService,
+  constructor(private userService: UserService,
+              private authService: AuthenticationService,
+              private route: ActivatedRoute,
               private formBuilder: FormBuilder,
               private router: Router) {
 
     this.user = new User();
     this.credential = new Credential();
 
-    this.firstName = new FormControl("", [Validators.required]);
-    this.middleName = new FormControl("", [Validators.required]);
-    this.lastName = new FormControl("", [Validators.required]);
-    this.username = new FormControl("", [Validators.required, this.usernameEditValidator(this.partyService)]);
-    this.password = new FormControl("");
-    this.confirmPassword = new FormControl("");
+    this.firstName = new FormControl('', [Validators.required]);
+    this.middleName = new FormControl('', [Validators.required]);
+    this.lastName = new FormControl('', [Validators.required]);
+    this.username = new FormControl('', null);
+    this.password = new FormControl('');
+    this.confirmPassword = new FormControl('');
 
     this.userMeForm = formBuilder.group({
-      "firstName": this.firstName,
-      "middleName": this.middleName,
-      "lastName": this.lastName,
-      "username": this.username,
-      "password": this.password,
-      "confirmPassword": this.confirmPassword
+      'firstName': this.firstName,
+      'middleName': this.middleName,
+      'lastName': this.lastName,
+      'username': this.username,
+      'password': this.password,
+      'confirmPassword': this.confirmPassword
     });
 
     this.userMeForm
@@ -77,88 +67,74 @@ export class UserMeComponent implements OnInit {
        this.user.firstName = value.firstName;
        this.user.middleName = value.middleName;
        this.user.lastName = value.lastName;
-       this.user.username = value.username;
        this.credential.username = value.username;
        this.credential.password = value.password;
      }, error2 => {
        console.log(error2);
      });
 
-    this.userImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwqeFAYIE3hTj9Gs1j3v7o-oBadM5uDkuPBuXMPtXS85LufL7UVA';
-    this.organizationImage = 'url(http://backgroundcheckall.com/wp-content/uploads/2017/12/windows-7-default-background-4.jpg)';
-
     this.doNotDisplayFailureMessage = true;
   }
 
   ngOnInit(): void {
-    this.userMeForm.get("password").valueChanges
-    .subscribe(value => {
-      if(value.length === 1 && !this.requiredState){
-      this.requiredState = true;
-      this.userMeForm.get("password").setValidators([Validators.required, this.passwordValidator(this.partyService)]);
-      this.userMeForm.get("confirmPassword").setValidators([Validators.required, this.confirmPasswordValidator(this.password)]);
-      this.userMeForm.get("confirmPassword").updateValueAndValidity();
-      }else if (!value) {
-      this.requiredState = false;
-      this.userMeForm.get("password").setValidators(null);
-      this.userMeForm.get("confirmPassword").setValidators(null);
-      this.userMeForm.get("confirmPassword").updateValueAndValidity();
-    }
+    this.password
+      .valueChanges
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe(value => {
+        if (value && !this.requiredState) {
+          this.requiredState = true;
+          this.userMeForm.get('password').setValidators([Validators.required, this.passwordValidator(this.authService)]);
+          this.userMeForm.get('confirmPassword').setValidators([Validators.required, this.confirmPasswordValidator(this.password)]);
+          this.userMeForm.get('confirmPassword').updateValueAndValidity();
+        } else if (!value) {
+          this.requiredState = false;
+          this.userMeForm.get('password').setValidators(null);
+          this.userMeForm.get('confirmPassword').setValidators(null);
+          this.userMeForm.get('confirmPassword').updateValueAndValidity();
+        }
     this.userMeForm.updateValueAndValidity();
     });
-
-       this.partyService.getPartyId()
-         .subscribe((partyId: string) => {
-           this.partyId = partyId;
-           this.partyService.getUser(this.partyId)
-             .subscribe(user =>{
-               this.firstName.setValue(user.firstName);
-               this.middleName.setValue(user.middleName);
-               this.lastName.setValue(user.lastName);
-               this.username.setValue(user.username);
-               this.user = user;
-               this.partyId = user.partyId;
-               this.credential.partyId = user.partyId;
-               this.credential.username = user.username;
-             }, error => {
-               console.log(error);
-             });
-
-           this.getPersonalPhoto();
-
-           this.partyService.getPhoto(this.partyId, "organization")
-             .subscribe(imageStr => {
-               if(imageStr) {
-                 this.organizationImage = `url(${imageStr})`;
-               }
-             },error => {
-               console.log(error);
-             });
-         });
+    
+    if (this.route.snapshot && this.route.snapshot.data['userResponse']) {
+      this.setInputValues(this.route.snapshot.data['userResponse']);
+    }else if (this.userResponse) {
+      this.setInputValues(this.userResponse);
+    }
   }
 
-  usernameEditValidator(partyService:PartyService) {
+  private setInputValues(userResponse: UserResponse) {
+    this.userMeForm.get('username').setValidators([Validators.required, this.usernameValidator(this.authService)]);
+    this.firstName.setValue(userResponse.user.firstName);
+    this.middleName.setValue(userResponse.user.middleName);
+    this.lastName.setValue(userResponse.user.lastName);
+    this.username.setValue(userResponse.user.username);
+    this.user = userResponse.user;
+    this.credential.username = userResponse.user.username;
+    this.userExist = true;
+  }
+
+  usernameValidator(authService: AuthenticationService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
-    let that = this;
-    let subscriberToChangeEvents = function () {
+    const that = this;
+    const subscriberToChangeEvents = function () {
       valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
-      .filter(value => { // filter out empty values
+      .pipe(debounceTime(1000),
+      distinctUntilChanged(),
+      filter(value => { // filter out empty values
         return !!(value);
-      }).map(value => {
-        return partyService.isValidEditUsername(that.partyId,value);
-      }).subscribe(value => {
+      }), map((value: string) => {
+        return authService.isValidUsername(value, that.user.partyId);
+      })).subscribe(value => {
         value.subscribe( otherValue => {
-          isValidUsername = otherValue;
+          isValidUsername = otherValue.valid;
           usernameControl.updateValueAndValidity();
         });
       });
     };
 
-    return (control:FormControl) => {
+    return (control: FormControl) => {
        if (!usernameControl) {
          usernameControl = control;
        }
@@ -176,28 +152,28 @@ export class UserMeComponent implements OnInit {
     }
   }
 
-  passwordValidator(partyService:PartyService) {
+  passwordValidator(authService: AuthenticationService) {
     let passwordControl = null;
     let isValidPassword = false;
     let valueChanges = null;
 
-    let subscriberToChangeEvents = function () {
+    const subscriberToChangeEvents = function () {
       valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
-      .filter(value => { // filter out empty values
+      .pipe(debounceTime(1000),
+      distinctUntilChanged(),
+      filter(value => { // filter out empty values
         return !!(value);
-      }).map(value => {
-        return partyService.isValidPassword(value);
-      }).subscribe(value => {
+      }), map((value: string) => {
+        return authService.isValidPassword(value);
+      })).subscribe(value => {
         value.subscribe( otherValue => {
-          isValidPassword = otherValue;
+          isValidPassword = otherValue.valid;
           passwordControl.updateValueAndValidity();
         });
       });
     };
 
-    return (control:FormControl) => {
+    return (control: FormControl) => {
       if (!passwordControl) {
         passwordControl = control;
       }
@@ -215,9 +191,9 @@ export class UserMeComponent implements OnInit {
     }
   }
 
-  confirmPasswordValidator(password:FormControl) {
-    return (c:FormControl) => {
-      return password.value == c.value ? null : {
+  confirmPasswordValidator(password: FormControl) {
+    return (c: FormControl) => {
+      return password.value === c.value ? null : {
         validateEmail: {
           valid: false
         }
@@ -225,14 +201,12 @@ export class UserMeComponent implements OnInit {
     };
   }
 
-  createEventModel() {
-    let event:Event = new Event();
-    event.partyId = this.partyId
-    event.timestamp = new Date().getTime();
-    event.source = "user.me.component";
-    event.name = "image change";
+  get user(): User {
+    return this._user;
+  }
 
-    return event;
+  set user(value: User) {
+    this._user = value;
   }
 
   get firstName(): FormControl {
@@ -299,71 +273,33 @@ export class UserMeComponent implements OnInit {
     this._doNotDisplayFailureMessage = value;
   }
 
-  fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
-  }
-
-  imageCropped(image: string) {
-    this.croppedImage = image;
-  }
-
-  pictureModalClose() {
-    this.croppedImage = this.userImage;
-  }
-
-  getPersonalPhoto() {
-    this.partyService.getPhoto(this.partyId, "user")
-      .subscribe(imageStr => {
-        if(imageStr) {
-          this.updateImage = true;
-          this.userImage = imageStr;
+  onCreate() {
+    this.doNotDisplayFailureMessage = true;
+    this.userService
+      .addUser(this.user)
+      .subscribe(value => {
+        if (value) {
+          if (this.stepper) {
+            this.userCreated.emit(true);
+          }else {
+            this.router.navigate(['/lobby']);
+          }
+        } else {
+          this.doNotDisplayFailureMessage = false;
         }
-      },error => {
+      }, error => {
         console.log(error);
+        this.doNotDisplayFailureMessage = false;
       });
   }
 
-  uploadPhoto() {
-    if(!this.croppedImage) {
-      console.log("No image");
-    }else if(this.updateImage && this.updateImage !== this.croppedImage) {
-      this.partyService
-        .updatePhoto(this.partyId, this.croppedImage, "user")
-        .subscribe(value => {
-          if(value){
-            this.getPersonalPhoto();
-            this.eventService.sendPhotoChangeEvent(this.createEventModel());
-          }else {
-            console.log("error");
-          }
-        }, error => {
-          console.log(error);
-        });
-    }else if(!this.updateImage) {
-      this.partyService
-        .addPhoto(this.partyId, this.croppedImage, "user")
-        .subscribe(value => {
-          if (value) {
-            this.getPersonalPhoto();
-            this.eventService.sendPhotoChangeEvent(this.createEventModel());
-          } else {
-            // TODO: make errors fail to upload picture or something like that.
-            console.log("error");
-          }
-        }, error => {
-          console.log(error);
-        });
-    }
-  }
-
-  onCreate() {
+  onUpdate() {
     this.doNotDisplayFailureMessage = true;
-
-      this.partyService
-      .updateUserMe(this.user, this.credential)
+      this.userService
+      .updateUser(this.user, this.credential)
       .subscribe(value => {
         if (value) {
-          this.router.navigate(['/parties/users']);
+          this.router.navigate(['/lobby']);
         } else {
           this.doNotDisplayFailureMessage = false;
         }

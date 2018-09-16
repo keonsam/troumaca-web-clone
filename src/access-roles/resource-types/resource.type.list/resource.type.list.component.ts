@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {AccessRoleService} from "../../access.role.service";
-import {Page} from "../../../page/page";
-import {Sort} from "../../../sort/sort";
-import {ResourceTypes} from "../../resource.types";
+import {Component, OnInit} from '@angular/core';
+import {AccessRoleService} from '../../access.role.service';
+import {Page} from '../../../page/page';
+import {Sort} from '../../../sort/sort';
+import {ResourceTypes} from '../../resource.types';
 
 @Component({
   selector: 'resource-type-list',
@@ -12,13 +12,13 @@ import {ResourceTypes} from "../../resource.types";
 export class ResourceTypeListComponent implements OnInit {
   private resourceTypeId: string;
   private _resourceTypes: ResourceTypes;
-  private resourceTypeName: string;
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
+  private _resourceTypeName: string;
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
 
   constructor(private accessRoleService: AccessRoleService){
-    let newResourceTypes = new ResourceTypes();
+    const newResourceTypes = new ResourceTypes();
     newResourceTypes.page = new Page();
     newResourceTypes.sort = new Sort();
     this.resourceTypes = newResourceTypes;
@@ -36,8 +36,16 @@ export class ResourceTypeListComponent implements OnInit {
       }, error => {
         console.log(error);
       }, () => {
-        console.log("complete");
+        console.log('complete');
       });
+  }
+
+  get resourceTypeName(): string {
+    return this._resourceTypeName;
+  }
+
+  set resourceTypeName(value: string) {
+    this._resourceTypeName = value;
   }
 
   get resourceTypes(): ResourceTypes {
@@ -48,21 +56,23 @@ export class ResourceTypeListComponent implements OnInit {
     this._resourceTypes = value;
   }
 
-  onOpenModal(resourceTypeId:string, resourceTypeName: string){
+  onOpenModal(resourceTypeId: string, resourceTypeName: string){
     this.resourceTypeId = resourceTypeId;
     this.resourceTypeName = resourceTypeName
   }
 
-  onDelete() {
-    this.accessRoleService.deleteResourceType(this.resourceTypeId)
-      .subscribe(next => {
-        if(next) {
-          this.getResourceTypes();
-        }
-      });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.accessRoleService.deleteResourceType(this.resourceTypeId)
+        .subscribe(next => {
+          if (next) {
+            this.getResourceTypes();
+          }
+        });
+    }
   }
 
-  onRequestPage(pageNumber:number) {
+  onRequestPage(pageNumber: number) {
     this.defaultPage = pageNumber;
     this.getResourceTypes();
   }

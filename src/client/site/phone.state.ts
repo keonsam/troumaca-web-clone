@@ -1,12 +1,12 @@
-import {VirtualSiteState} from "./virtual.site.state";
+import {VirtualSiteState} from './virtual.site.state';
 
 export class PhoneState extends VirtualSiteState {
 
-  private _countryCode:string;
-  private _areaCode:string;
-  private _exchange:string;
-  private _telephoneNumber:string;
-  private _extension:string;
+  private _countryCode: string;
+  private _areaCode: string;
+  private _exchange: string;
+  private _telephoneNumber: string;
+  private _extension: string;
 
   get countryCode(): string {
     return this._countryCode;
@@ -50,18 +50,18 @@ export class PhoneState extends VirtualSiteState {
 
   toJson() {
     return {
-      siteId:this.siteId,
-      name:this.name,
-      description:this.description,
+      siteId: this.siteId,
+      name: this.name,
+      description: this.description,
 
-      createdOn:this.createdOn,
-      removedOn:this.removedOn,
+      createdOn: this.createdOn,
+      removedOn: this.removedOn,
 
-      countryCode:this.countryCode,
-      areaCode:this.areaCode,
-      exchange:this.exchange,
-      telephoneNumber:this.telephoneNumber,
-      extension:this.extension
+      countryCode: this.countryCode,
+      areaCode: this.areaCode,
+      exchange: this.exchange,
+      telephoneNumber: this.telephoneNumber,
+      extension: this.extension
     }
   }
 

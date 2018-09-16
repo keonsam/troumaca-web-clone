@@ -1,11 +1,11 @@
 export class PermissionState {
 
-  private _permissionId:string;
-  private _name:string;
-  private _description:string;
-  private _ownerPartyId:string;
-  private _createdOn:Date;
-  private _modifiedOn:Date;
+  private _permissionId: string;
+  private _name: string;
+  private _description: string;
+  private _ownerPartyId: string;
+  private _createdOn: Date;
+  private _modifiedOn: Date;
 
   get permissionId(): string {
     return this._permissionId;

@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {AssetTypes} from "../asset.types";
-import {AssetTypeService} from "../asset.type.service";
-import {Page} from "../../page/page";
-import {Sort} from "../../sort/sort";
+import {Component, OnInit} from '@angular/core';
+import {AssetTypes} from '../asset.types';
+import {AssetTypeService} from '../asset.type.service';
+import {Page} from '../../page/page';
+import {Sort} from '../../sort/sort';
 
 @Component({
   selector: 'asset-type-list',
@@ -13,15 +13,15 @@ export class AssetTypeListComponent implements OnInit {
 
   private assetTypeId: string;
   private _assetTypes: AssetTypes;
-  private defaultPage:number = 1;
-  private defaultPageSize:number = 10;
-  private defaultSortOrder = "asc";
-  private _routerLinkCreateAssetType:string = "/asset-types/create";
-  private assetTypeName: string;
+  private defaultPage = 1;
+  private defaultPageSize = 10;
+  private defaultSortOrder = 'asc';
+  private _routerLinkCreateAssetType = '/asset-types/create';
+  private _assetTypeName: string;
 
   constructor(private assetTypeService: AssetTypeService) {
 
-     let newAssetTypes = new AssetTypes();
+     const newAssetTypes = new AssetTypes();
      newAssetTypes.page = new Page(0, 0, 0);
      newAssetTypes.sort = new Sort();
      this.assetTypes = newAssetTypes;
@@ -29,6 +29,14 @@ export class AssetTypeListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAssetTypes();
+  }
+
+  get assetTypeName(): string {
+    return this._assetTypeName;
+  }
+
+  set assetTypeName(value: string) {
+    this._assetTypeName = value;
   }
 
   get assetTypes(): AssetTypes {
@@ -55,7 +63,7 @@ export class AssetTypeListComponent implements OnInit {
     }, error => {
       console.log(error);
     }, () => {
-      console.log("complete");
+      console.log('complete');
     });
   }
 
@@ -64,20 +72,23 @@ export class AssetTypeListComponent implements OnInit {
     this.assetTypeName = assetTypeName;
   }
 
-  onDelete() {
-    this.assetTypeService
-    .deleteAssetType(this.assetTypeId)
-    .subscribe(value => {
-      // server decide what to do with the values
-    this.getAssetTypes();
-    }, error => {
-    console.log(error);
-    }, () => {
-    console.log("complete");
-    });
+  onDelete(deleted: boolean) {
+    if (deleted) {
+      this.assetTypeService
+        .deleteAssetType(this.assetTypeId)
+        .subscribe(value => {
+          if (value) {
+            this.getAssetTypes();
+          }
+        }, error => {
+          console.log(error);
+        }, () => {
+          console.log('complete');
+        });
+    }
   }
 
-  onRequestPage(pageNumber:number) {
+  onRequestPage(pageNumber: number) {
    this.defaultPage = pageNumber;
    this.getAssetTypes();
   }

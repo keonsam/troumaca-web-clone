@@ -37,9 +37,9 @@ export class SignUpModel {
     this._rememberMe = rememberMe;
   }
 
-  private _username:string;
-  private _password:string;
-  private _confirmPassword:string;
-  private _rememberMe:boolean;
+  private _username: string;
+  private _password: string;
+  private _confirmPassword: string;
+  private _rememberMe: boolean;
 
 }
