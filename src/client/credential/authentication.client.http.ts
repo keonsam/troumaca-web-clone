@@ -8,13 +8,24 @@ import {CredentialConfirmationState} from "./credential.confirmation.state";
 import {Result} from "../../result/result.success";
 //import {AuthenticateResponseState} from "./authenticate.response.state";
 import {AuthenticateResponse} from "../../authentication/authenticate.response";
+import {Fingerprint2} from "fingerprintjs2"
 
 export class AuthenticationClientHttp extends AuthenticationClient {
+
+  // private fingerPrint:string = "";
 
   constructor(private uuidGenerator: UUIDGenerator,
               private httpClient: HttpClient,
               private hostPort:string) {
     super();
+    // let that = this;
+    // new Fingerprint2().get(function(result, components) {
+      // a hash, representing your device fingerprint
+      // console.log(result);
+      // that.fingerPrint = result;
+      // an array of FP components
+      // console.log(components)
+    // });
   }
 
   authenticate(credentialState:CredentialState): Observable<AuthenticateResponse> {
