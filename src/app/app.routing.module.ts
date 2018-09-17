@@ -17,8 +17,9 @@ const appRoutes: Routes = [
   { path: 'parties', loadChildren: '../parties/party.module#PartyModule' },
   { path: 'sites', loadChildren: '../site/site.module#SiteModule' },
   { path: 'profile', loadChildren: '../create-profile/create.profile.module#CreateProfileModule'},
+  { path: 'billing-details', loadChildren: '../billing-details/billing-details.module#BillingDetailsModule'},
   { path: '**', component: PageNotFoundComponent },
-]
+];
 
 @NgModule({
   imports: [

@@ -1,0 +1,51 @@
+<div *ngIf="currentModel === 'billing'" class="onboarding-slide">
+  <div class="onboarding-media">
+    <img alt="" src="images/bigicon5.png" width="200px">
+  </div>
+  <div class="onboarding-content with-gradient">
+    <h4 class="onboarding-title">
+      Billing Information
+    </h4>
+    <div class="onboarding-text">
+      Enter billing information below to subscribe to the app.
+    </div>
+    <div>
+      <label for="payment-method">Payment Method</label>
+      <select id="payment-method" class="form-control" [(ngModel)]="paymentMethod" name="paymentMethod" required>
+        <option value="Credit Card" selected>Credit Card</option>
+        <option value="PayPal">PayPal</option>
+      </select>
+    </div>
+    <form *ngIf="paymentMethod === 'Credit Card'" [formGroup]="creditCardForm">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="card-name">Name on Card</label><input id="card-name" class="form-control" formControlName="cardName" placeholder="John More Doe" type="text" value="" required>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="card-number">Credit Card Number</label><input id="card-number" class="form-control" formControlName="cardNumber" placeholder="1111-2222-3333-4444" type="text" value="" required>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="expire-date">Expiry Date</label><input id="expire-date" class="form-control" formControlName="cardExpDate" type="date" value="" required>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="card-cvv">CVV</label><input id="card-cvv" class="form-control" formControlName="cardCVV" placeholder="352" type="number" value="" required>
+          </div>
+        </div>
+      </div>
+      <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Process failed. Please check your details or contact support.</div>
+      <div class="text-center">
+        <button [hidden]="!justBilled" [disabled]="!creditCardForm.valid" class="btn btn-primary next-button" type="submit" (click)="onEditCreditCard()">Edit Billing</button>
+        <button [hidden]="justBilled" [disabled]="!creditCardForm.valid" class="btn btn-primary next-button" type="submit" (click)="onCreditCardSubmit()">To Subscription</button>
+      </div>
+    </form>
+  </div>
+</div>
