@@ -3,6 +3,8 @@ import {MenuModel} from '../menu.model';
 import {MenuService} from '../menu.service';
 import {EventService} from '../../event/event.service';
 import {MenuItemModel} from '../menu.item.model';
+import {CreditCard} from "../../billing-details/billing-modal/credit.card";
+import {BillingDetailsService} from "../../billing-details/billing.details.service";
 
 @Component({
   selector: 'top-menu',
@@ -16,21 +18,36 @@ export class TopMenuComponent implements OnInit {
   private _isLoggedIn: boolean;
   private _menuName: string;
   private _displaySearchBox: boolean;
+  creditCards: CreditCard[] = [];
+  openClass = false;
 
-  constructor(private eventService: EventService, private menuService: MenuService) {
+  constructor(private eventService: EventService,
+              private menuService: MenuService,
+              private billingDetailsService: BillingDetailsService ) {
     this.title = 'Troumaca';
     this.isLoggedIn = false;
     this.menuModel = new MenuModel();
     this.menuModel.menuItemModels = [];
     this.menuName = 'side-menu';
     this.displaySearchBox = false;
-    // if (true) {
-    //   console.log("Ok.");
-    // }
+    this.billingDetailsService.paymentData.subscribe( data => {
+      if (data.length > 0) {
+        this.creditCards = data;
+      }
+    })
   }
 
   ngOnInit(): void {
-    this.getMenu(this.menuName);
+    if (this.menuName === 'billings-menu') {
+      // this.billingDetailsService.getCreditCards()
+      //   .subscribe( creditCards => {
+      //     if (creditCards) {
+      //       this.creditCards = creditCards;
+      //     }
+      //   });
+    }else {
+      this.getMenu(this.menuName);
+    }
 
     this.handleMenuRefreshEvent();
   }
@@ -89,6 +106,10 @@ export class TopMenuComponent implements OnInit {
     });
   }
 
+  getPrimaryCard( ) {
+    return this.creditCards.find(x => x.status === 'primary');
+  }
+
   getMenu(menuName: string) {
     console.log('getMenu(' + menuName + ')');
     const that = this;
@@ -102,6 +123,10 @@ export class TopMenuComponent implements OnInit {
     });
   }
 
+  onOpenClassClick() {
+    this.openClass = !this.openClass;
+  }
+
   onSelected(menuItemModel: MenuItemModel) {
     this._menuModel.menuItemModels.forEach(mi => {
       if (mi.active) {
@@ -109,6 +134,10 @@ export class TopMenuComponent implements OnInit {
       }
     });
     menuItemModel.active = true;
+  }
+
+  onPrimary(card: CreditCard) {
+    this.billingDetailsService.sendPrimary.next(card);
   }
 
 }

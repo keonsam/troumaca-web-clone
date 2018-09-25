@@ -31,6 +31,7 @@ import {depreciationClientProvider} from "./depreciation/depreciation.client.pro
 import { photoClientProvider } from "./photo/photo.client.provider";
 import { userClientProvider } from "./party/user/user.client.provider";
 import { organizationClientProvider } from "./party/organization/organization.client.provider";
+import { billingDetailsClientProvider } from "./billing-details/billing-details.client.provider";
 
 @NgModule({
   imports:      [
@@ -68,7 +69,8 @@ import { organizationClientProvider } from "./party/organization/organization.cl
     depreciationClientProvider,
     photoClientProvider,
     userClientProvider,
-    organizationClientProvider
+    organizationClientProvider,
+    billingDetailsClientProvider
   ]
 })
 export class ClientModule { }

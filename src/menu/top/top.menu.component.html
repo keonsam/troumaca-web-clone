@@ -1,5 +1,59 @@
-<div class="top-menu-secondary">
-  <ul>
+<div [ngClass]="{'top-menu-secondary': true, 'with-overflow': menuName === 'billings-menu'}">
+
+  <div *ngIf="menuName === 'billings-menu'" [ngClass]="{'fancy-selector-w': true, 'opened': openClass}">
+    <div *ngIf="creditCards.length <= 0" class="fancy-selector-current">
+      <div class="fs-img">
+        <img alt="" src="../../css/img/card1.png">
+      </div>
+      <div class="fs-main-info">
+        <div class="fs-name">
+          No Payment Method
+        </div>
+      </div>
+      <div class="fs-extra-info">
+        <strong>0000</strong><span>ending</span>
+      </div>
+      <div class="fs-selector-trigger" (click)="onOpenClassClick()">
+        <i class="os-icon os-icon-arrow-down4"></i>
+      </div>
+    </div>
+
+    <div *ngIf="creditCards.length > 0" class="fancy-selector-current">
+      <div class="fs-img">
+        <img alt="" src="../../css/img/card1.png">
+      </div>
+      <div class="fs-main-info">
+        <div class="fs-name">
+          {{ getPrimaryCard().cardName }}
+        </div>
+      </div>
+      <div class="fs-extra-info">
+        <strong>{{ getPrimaryCard().ending }}</strong><span>ending</span>
+      </div>
+      <div class="fs-selector-trigger" (click)="onOpenClassClick()">
+        <i class="os-icon os-icon-arrow-down4"></i>
+      </div>
+    </div>
+
+    <div class="fancy-selector-options">
+      <div *ngFor="let card of creditCards" [ngClass]="{'fancy-selector-option': true, 'active': card.status === 'primary'}" (click)="onPrimary(card)">
+        <div class="fs-img">
+          <img alt="" src="../../css/img/card1.png">
+        </div>
+        <div class="fs-main-info">
+          <div class="fs-name">
+            {{ card.cardName }}
+          </div>
+        </div>
+        <div class="fs-extra-info">
+          <strong>{{ card.ending }}</strong><span>ending</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <ul *ngIf="menuName !== 'billings-menu'">
     <li *ngFor="let menuItemModel of menuModel.menuItemModels" (click)="onSelected(menuItemModel)" routerLinkActive="active">
       <a href="#" routerLink="{{menuItemModel.routeName}}">{{menuItemModel.name}}</a>
     </li>
