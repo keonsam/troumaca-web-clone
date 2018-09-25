@@ -1,54 +1,108 @@
 <div class="content-w">
+
+  <top-menu menuName="billings-menu"></top-menu>
+
   <div class="content-i">
     <div class="content-box">
       <div class="element-wrapper compact pt-4">
         <div class="element-actions">
-          <a class="btn btn-primary btn-sm" href="#"><i class="os-icon os-icon-ui-22"></i><span>Add Account</span></a><a class="btn btn-success btn-sm" href="#"><i class="os-icon os-icon-grid-10"></i><span>Make Payment</span></a>
+          <a class="btn btn-primary btn-sm" href data-target="#billingModal1" data-toggle="modal" (click)="onBillingModalOpen('new')"><i class="os-icon os-icon-ui-22"></i><span>Add Account</span></a>
         </div>
         <h6 class="element-header">
           Financial Overview
         </h6>
         <div class="element-box-tp">
           <div class="row">
+
             <div class="col-lg-7 col-xxl-6">
               <!--START - BALANCES-->
-              <div class="element-balances">
-                <div class="balance hidden-mobile">
-                  <div class="balance-title">
-                    Total Balance
-                  </div>
-                  <div class="balance-value">
-                    <span>$350</span><span class="trending trending-down-basic"><span>%12</span><i class="os-icon os-icon-arrow-2-down"></i></span>
-                  </div>
-                  <div class="balance-link">
-                    <a class="btn btn-link btn-underlined" href="#"><span>View Statement</span><i class="os-icon os-icon-arrow-right4"></i></a>
-                  </div>
-                </div>
+              <div  *ngFor="let subscription of subscriptions" class="element-balances">
                 <div class="balance">
                   <div class="balance-title">
-                    Credit Available
+                    {{ subscription.name }}
                   </div>
                   <div class="balance-value">
-                    $17,800
+                    {{ subscription.cost }}
                   </div>
                   <div class="balance-link">
-                    <a class="btn btn-link btn-underlined" href="#"><span>Request Increase</span><i class="os-icon os-icon-arrow-right4"></i></a>
+                    <a class="btn btn-link btn-underlined" href="#"><span>Unsubscribe</span></a>
                   </div>
                 </div>
+              </div>
+
+              <div  *ngIf="subscriptions.length < 1" class="element-balances">
                 <div class="balance">
                   <div class="balance-title">
-                    Due Today
-                  </div>
-                  <div class="balance-value danger">
-                    $180
-                  </div>
-                  <div class="balance-link">
-                    <a class="btn btn-link btn-underlined btn-gold" href="#"><span>Pay Now</span><i class="os-icon os-icon-arrow-right4"></i></a>
+                    No Billing
                   </div>
                 </div>
               </div>
               <!--END - BALANCES-->
             </div>
+
+            <div class="col-lg-5 col-xxl-6">
+              <!--START - MESSAGE ALERT-->
+              <div class="row">
+                <div class="col-12">
+                  <div class="element-balances">
+                    <div class="balance">
+                      <div class="balance-title">
+                        Total Monthly Subscription
+                      </div>
+                      <div class="balance-value">
+                        {{ totalBilling || '0' }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="element-wrapper">
+                    <h6 class="element-header">
+                      Payment Methods
+                    </h6>
+                    <div class="element-box">
+                      <div class="table-responsive table-section">
+                        <table class="table table-striped table-lightfont table-full-width">
+                          <thead>
+                          <tr>
+                            <th>Type</th>
+                            <th>Name</th>
+                            <th>Ending</th>
+                            <th class="text-center">Actions</th>
+                          </tr>
+                          </thead>
+                          <tfoot>
+                          <tr>
+                            <th>Type</th>
+                            <th>Name</th>
+                            <th>Ending</th>
+                            <th class="text-center">Actions</th>
+                          </tr>
+                          </tfoot>
+                          <tbody>
+                          <tr role="row" *ngFor="let creditCard of creditCards; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+                            <td>{{creditCard.type}}</td>
+                            <td>{{creditCard.cardName}}</td>
+                            <td>{{creditCard.ending}}</td>
+                            <td class="row-actions">
+                              <a href="#" data-target="#billingModal1" data-toggle="modal" (click)="onBillingModalOpen('edit', creditCard)"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(creditCard.creditCardId, creditCard.cardName + ' ' + creditCard.ending);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+                            </td>
+                          </tr>
+                          <tr *ngIf="creditCards.length <= 0" class="odd">
+                            <td valign="top" align="" colspan="9" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+                          </tr>
+                          </tbody>
+                        </table>
+                        <app-delete-modal [name]="cardName" (delete)="onDelete($event)"></app-delete-modal>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--END - MESSAGE ALERT-->
+            </div>
+
           </div>
         </div>
       </div>
@@ -64,16 +118,13 @@
               <thead>
               <tr>
                 <th>
-                  Status
-                </th>
-                <th>
                   Date
                 </th>
                 <th>
                   Description
                 </th>
                 <th class="text-center">
-                  Category
+                  Subscription
                 </th>
                 <th class="text-right">
                   Amount
@@ -81,107 +132,22 @@
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td class="nowrap">
-                  <span class="status-pill smaller green"></span><span>Complete</span>
+              <tr *ngFor="let billing of billings">
+                <td>
+                  <span>{{ billing.date }}</span>
                 </td>
                 <td>
-                  <span>Today</span><span class="smaller lighter">1:52am</span>
-                </td>
-                <td class="cell-with-media">
-                  <img alt="" src="img/company1.png" style="height: 25px;"><span>Banana Shakes LLC</span>
+                  <span>{{ billing.description }}</span>
                 </td>
                 <td class="text-center">
-                  <a class="badge badge-success" href="">Shopping</a>
+                  <span>{{ billing.name }}</span>
                 </td>
                 <td class="text-right bolder nowrap">
-                  <span class="text-success">+ 1,250 USD</span>
+                  <span class="text-danger">- {{ billing.amount }} USD</span>
                 </td>
               </tr>
-              <tr>
-                <td class="nowrap">
-                  <span class="status-pill smaller red"></span><span>Declined</span>
-                </td>
-                <td>
-                  <span>Jan 19th</span><span class="smaller lighter">3:22pm</span>
-                </td>
-                <td class="cell-with-media">
-                  <img alt="" src="img/company2.png" style="height: 25px;"><span>Stripe Payment Processing</span>
-                </td>
-                <td class="text-center">
-                  <a class="badge badge-danger" href="">Cafe</a>
-                </td>
-                <td class="text-right bolder nowrap">
-                  <span class="text-success">+ 952.23 USD</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="nowrap">
-                  <span class="status-pill smaller yellow"></span><span>Pending</span>
-                </td>
-                <td>
-                  <span>Yesterday</span><span class="smaller lighter">7:45am</span>
-                </td>
-                <td class="cell-with-media">
-                  <img alt="" src="img/company3.png" style="height: 25px;"><span>MailChimp Services</span>
-                </td>
-                <td class="text-center">
-                  <a class="badge badge-warning" href="">Restaurants</a>
-                </td>
-                <td class="text-right bolder nowrap">
-                  <span class="text-danger">- 320 USD</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="nowrap">
-                  <span class="status-pill smaller yellow"></span><span>Pending</span>
-                </td>
-                <td>
-                  <span>Jan 23rd</span><span class="smaller lighter">2:12pm</span>
-                </td>
-                <td class="cell-with-media">
-                  <img alt="" src="img/company1.png" style="height: 25px;"><span>Starbucks Cafe</span>
-                </td>
-                <td class="text-center">
-                  <a class="badge badge-primary" href="">Shopping</a>
-                </td>
-                <td class="text-right bolder nowrap">
-                  <span class="text-success">+ 17.99 USD</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="nowrap">
-                  <span class="status-pill smaller green"></span><span>Complete</span>
-                </td>
-                <td>
-                  <span>Jan 12th</span><span class="smaller lighter">9:51am</span>
-                </td>
-                <td class="cell-with-media">
-                  <img alt="" src="img/company4.png" style="height: 25px;"><span>Ebay Marketplace</span>
-                </td>
-                <td class="text-center">
-                  <a class="badge badge-danger" href="">Groceries</a>
-                </td>
-                <td class="text-right bolder nowrap">
-                  <span class="text-danger">- 244 USD</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="nowrap">
-                  <span class="status-pill smaller yellow"></span><span>Pending</span>
-                </td>
-                <td>
-                  <span>Jan 9th</span><span class="smaller lighter">12:45pm</span>
-                </td>
-                <td class="cell-with-media">
-                  <img alt="" src="img/company2.png" style="height: 25px;"><span>Envato Templates Inc</span>
-                </td>
-                <td class="text-center">
-                  <a class="badge badge-primary" href="">Business</a>
-                </td>
-                <td class="text-right bolder nowrap">
-                  <span class="text-success">+ 340 USD</span>
-                </td>
+              <tr *ngIf="billings.length < 1">
+                <td  valign="top" align="" colspan="4" class="text-center">No Data</td>
               </tr>
               </tbody>
             </table>
@@ -190,4 +156,31 @@
       </div>
     </div>
   </div>
+
+  <div aria-hidden="true" aria-labelledby="billingModalLabel" class="modal fade" id="billingModal1" role="dialog" tabindex="-1">
+    <app-billing-modal (billingChanged)="onBillingChanges($event)" [modalType]="billingModalType" [importedCreditCard]="creditCard"></app-billing-modal>
+  </div>
+
+  <button hidden #openButton data-target="#primaryModal1" data-toggle="modal"></button>
+  <div aria-hidden="true" aria-labelledby="primaryModalLabel" class="modal fade" id="primaryModal1" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="primaryModalLabel">
+            Primary Payment
+          </h5>
+          <button aria-label="Close" class="close" data-dismiss="modal" type="button" #closeButton><span aria-hidden="true"> ×</span></button>
+        </div>
+        <div class="modal-body">
+          <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ creditCard.cardName + ' ' + creditCard.ending}} primary. Please try again.</div>
+          <p>This make <strong>{{ creditCard.cardName + ' ' + creditCard.ending}}</strong> your primary payment method?</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-dismiss="modal" type="button" (click)="onMakePrimary()">Yes</button>
+          <button class="btn btn-outline-danger right-button" type="button" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

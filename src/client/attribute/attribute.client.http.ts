@@ -98,7 +98,7 @@ export class AttributeClientHttp extends AttributeClient {
  }
 
 
-  public jsonHttpHeaders(): HttpHeaders {
+  private jsonHttpHeaders(): HttpHeaders {
     const httpHeaders: HttpHeaders = new HttpHeaders({
       'Content-Type':  'application/json',
       'correlationId': this.uuidGenerator.generateUUID()

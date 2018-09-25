@@ -28,7 +28,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   authenticate(credentialState: CredentialState): Observable<AuthenticatedCredentialState> {
-    const url = `${this.hostPort}/authenticate`;
+    const url = `${this.hostPort}/authentication/authenticate`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -61,7 +61,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   isValidPassword(password: string): Observable<ValidResp> {
-    const url = `${this.hostPort}/validate-password`;
+    const url = `${this.hostPort}/authentication/validate-password`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -77,7 +77,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   isValidUsername(username: string, partyId?: string): Observable<ValidResp> {
-    const url = `${this.hostPort}/validate-username`;
+    const url = `${this.hostPort}/authentication/validate-username`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit,ViewChild, ElementRef} from '@angular/core';
+import {Component, Input, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {HomeService} from '../home.service';
 import { Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -51,10 +51,10 @@ export class LobbyHomeComponent implements OnInit {
     this.billing = new Billing();
     this.subscription = new Subscription();
 
-    this.cardName = new FormControl('', [Validators.required, this.cardNameValidator(this.homeService)]);
-    this.cardNumber = new FormControl('', [Validators.required, this.cardNumberValidator(this.homeService)]);
-    this.cardExpDate = new FormControl('', [Validators.required, this.cardExpDateValidator(this.homeService)]);
-    this.cardCVV = new FormControl('', [Validators.required, this.cardCVVValidator(this.homeService)]);
+    this.cardName = new FormControl('', [Validators.required]);
+    this.cardNumber = new FormControl('', [Validators.required]);
+    this.cardExpDate = new FormControl('', [Validators.required]);
+    this.cardCVV = new FormControl('', [Validators.required]);
 
     this.creditCardForm = formBuilder.group({
       'cardName': this.cardName,
@@ -119,162 +119,6 @@ export class LobbyHomeComponent implements OnInit {
           this.information = information;
         }
       });
-  }
-
-  cardNameValidator(homeService: HomeService) {
-    let cardNameControl = null;
-    let isValidCardName = false;
-    let valueChanges = null;
-    const that = this;
-    const subscriberToChangeEvents = function () {
-      valueChanges
-        .debounceTime(500)
-        .distinctUntilChanged()
-        .filter(value => { // filter out empty values
-          return !!(value);
-        }).map(value => {
-        return homeService.isValidCardName(value);
-      }).subscribe(value => {
-        value.subscribe( otherValue => {
-          isValidCardName = otherValue.valid;
-          cardNameControl.updateValueAndValidity();
-        });
-      });
-    };
-
-    return (control: FormControl) => {
-      if (!cardNameControl) {
-        cardNameControl = control;
-      }
-
-      if (!valueChanges && control.valueChanges) {
-        valueChanges = control.valueChanges;
-        subscriberToChangeEvents();
-      }
-
-      return isValidCardName ? null : {
-        validateCardName: {
-          valid: false
-        }
-      };
-    }
-  }
-
-  cardNumberValidator(homeService: HomeService) {
-    let cardNumberControl = null;
-    let isValidCardNumber = false;
-    let valueChanges = null;
-    const that = this;
-    const subscriberToChangeEvents = function () {
-      valueChanges
-        .debounceTime(500)
-        .distinctUntilChanged()
-        .filter(value => { // filter out empty values
-          return !!(value);
-        }).map(value => {
-        return homeService.isValidCardNumber(value);
-      }).subscribe(value => {
-        value.subscribe( otherValue => {
-          isValidCardNumber = otherValue.valid;
-          cardNumberControl.updateValueAndValidity();
-        });
-      });
-    };
-
-    return (control: FormControl) => {
-      if (!cardNumberControl) {
-        cardNumberControl = control;
-      }
-
-      if (!valueChanges && control.valueChanges) {
-        valueChanges = control.valueChanges;
-        subscriberToChangeEvents();
-      }
-
-      return isValidCardNumber ? null : {
-        validateCardNumber: {
-          valid: false
-        }
-      };
-    }
-  }
-
-  cardExpDateValidator(homeService: HomeService) {
-    let cardExpDateControl = null;
-    let isValidCardExpDate = false;
-    let valueChanges = null;
-    const that = this;
-    const subscriberToChangeEvents = function () {
-      valueChanges
-        .debounceTime(500)
-        .distinctUntilChanged()
-        .filter(value => { // filter out empty values
-          return !!(value);
-        }).map(value => {
-        return homeService.isValidCardExpDate(value);
-      }).subscribe(value => {
-        value.subscribe( otherValue => {
-          isValidCardExpDate = otherValue.valid;
-          cardExpDateControl.updateValueAndValidity();
-        });
-      });
-    };
-
-    return (control: FormControl) => {
-      if (!cardExpDateControl) {
-        cardExpDateControl = control;
-      }
-
-      if (!valueChanges && control.valueChanges) {
-        valueChanges = control.valueChanges;
-        subscriberToChangeEvents();
-      }
-
-      return isValidCardExpDate ? null : {
-        validateCardExpDate: {
-          valid: false
-        }
-      };
-    }
-  }
-
-  cardCVVValidator(homeService: HomeService) {
-    let cardCVVControl = null;
-    let isValidCardCVV = false;
-    let valueChanges = null;
-    const that = this;
-    const subscriberToChangeEvents = function () {
-      valueChanges
-        .debounceTime(500)
-        .distinctUntilChanged()
-        .filter(value => { // filter out empty values
-          return !!(value);
-        }).map(value => {
-        return homeService.isValidCardCVV(value);
-      }).subscribe(value => {
-        value.subscribe( otherValue => {
-          isValidCardCVV = otherValue.valid;
-          cardCVVControl.updateValueAndValidity();
-        });
-      });
-    };
-
-    return (control: FormControl) => {
-      if (!cardCVVControl) {
-        cardCVVControl = control;
-      }
-
-      if (!valueChanges && control.valueChanges) {
-        valueChanges = control.valueChanges;
-        subscriberToChangeEvents();
-      }
-
-      return isValidCardCVV ? null : {
-        validateCardCVV: {
-          valid: false
-        }
-      };
-    }
   }
 
   get paymentMethod(): string {
@@ -449,7 +293,7 @@ export class LobbyHomeComponent implements OnInit {
   onSubscribe() {
     this.doNotDisplayFailureMessage1 = true;
 
-    this.subscription.type = this.typeName;
+    // this.subscription.type = this.typeName;
 
     this.homeService.addSubscription(this.subscription)
       .subscribe( subscription => {

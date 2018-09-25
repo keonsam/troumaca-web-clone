@@ -20,6 +20,7 @@ import { partyRepositoryProvider } from './party/party.repository.adapter.provid
 import { photoRepositoryProvider } from './photo/photo.repository.adapter.provider';
 import { userRepositoryProvider } from './party/user/user.repository.adapter.provider';
 import { organizationRepositoryProvider } from "./party/organization/organization.repository.adapter.provider";
+import {billingDetailsRepositoryProvider} from "./billing-details/billing-details.repository.adapter.provider";
 
 @NgModule({
   imports:      [],
@@ -47,7 +48,8 @@ import { organizationRepositoryProvider } from "./party/organization/organizatio
     depreciationRepositoryProvider,
     photoRepositoryProvider,
     userRepositoryProvider,
-    organizationRepositoryProvider
+    organizationRepositoryProvider,
+    billingDetailsRepositoryProvider
   ]
 })
 export class AdapterModule { }

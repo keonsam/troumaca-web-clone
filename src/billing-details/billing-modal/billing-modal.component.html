@@ -1,51 +1,61 @@
-<div *ngIf="currentModel === 'billing'" class="onboarding-slide">
-  <div class="onboarding-media">
-    <img alt="" src="images/bigicon5.png" width="200px">
-  </div>
-  <div class="onboarding-content with-gradient">
-    <h4 class="onboarding-title">
-      Billing Information
-    </h4>
-    <div class="onboarding-text">
-      Enter billing information below to subscribe to the app.
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">
+        Billing
+      </h5>
+      <button aria-label="Close" class="close" data-dismiss="modal" type="button" #closeModal><span aria-hidden="true"> &times;</span></button>
     </div>
-    <div>
-      <label for="payment-method">Payment Method</label>
-      <select id="payment-method" class="form-control" [(ngModel)]="paymentMethod" name="paymentMethod" required>
-        <option value="Credit Card" selected>Credit Card</option>
-        <option value="PayPal">PayPal</option>
-      </select>
+    <div class="modal-body">
+      <form [formGroup]="billingForm">
+
+        <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to add payment method. Please check your details or contact support.</div>
+
+        <div class="form-group">
+          <label for="payment-method">Payment Method</label>
+          <select formControlName="paymentMethodId"  id="payment-method" class="form-control" required>
+          <option value="" disabled selected>Select a Payment Method</option>
+          <option *ngFor="let method of paymentMethods" [value]="method.paymentMethodId">{{method.name}}</option>
+        </select>
+        </div>
+
+        <div *ngIf="paymentMethodId.value === '9f9e5106-1235-4f61-9609-b8fea945e066'" class="no-ng-invalid" [formGroup]="creditCardForm">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="card-name">Name on Card</label><input id="card-name" class="form-control" formControlName="cardName" placeholder="John More Doe" type="text" value="" required>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="card-number">Credit Card Number</label><input id="card-number" class="form-control" formControlName="cardNumber" placeholder="1111-2222-3333-4444" type="text" value="" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="expire-date">Expiration Date</label><input id="expire-date" class="form-control" formControlName="cardExpDate" type="date" value="" required>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="card-cvv">CVV</label><input id="card-cvv" class="form-control" formControlName="cardCVV" placeholder="352" type="number" value="" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="paymentMethodId.value === 'b173a8b9-1b57-47b8-8106-58a3ab879bf4'">
+          <button class="mr-2 mb-2 btn btn-primary btn-rounded">Subscribe</button>
+        </div>
+
+      </form>
     </div>
-    <form *ngIf="paymentMethod === 'Credit Card'" [formGroup]="creditCardForm">
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label for="card-name">Name on Card</label><input id="card-name" class="form-control" formControlName="cardName" placeholder="John More Doe" type="text" value="" required>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label for="card-number">Credit Card Number</label><input id="card-number" class="form-control" formControlName="cardNumber" placeholder="1111-2222-3333-4444" type="text" value="" required>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label for="expire-date">Expiry Date</label><input id="expire-date" class="form-control" formControlName="cardExpDate" type="date" value="" required>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label for="card-cvv">CVV</label><input id="card-cvv" class="form-control" formControlName="cardCVV" placeholder="352" type="number" value="" required>
-          </div>
-        </div>
-      </div>
-      <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Process failed. Please check your details or contact support.</div>
-      <div class="text-center">
-        <button [hidden]="!justBilled" [disabled]="!creditCardForm.valid" class="btn btn-primary next-button" type="submit" (click)="onEditCreditCard()">Edit Billing</button>
-        <button [hidden]="justBilled" [disabled]="!creditCardForm.valid" class="btn btn-primary next-button" type="submit" (click)="onCreditCardSubmit()">To Subscription</button>
-      </div>
-    </form>
+    <div *ngIf="paymentMethodId.value === '9f9e5106-1235-4f61-9609-b8fea945e066'" class="modal-footer">
+      <button class="btn btn-primary" [hidden]="creditCardExist" [disabled]="!creditCardForm.valid" type="submit" (click)="onCreate()">Add</button>
+      <button class="btn btn-primary" [hidden]="!creditCardExist" [disabled]="!creditCardForm.valid" type="submit" (click)="onUpdate()">Update</button>
+      <button class="btn btn-outline-danger right-button" data-dismiss="modal" type="cancel">Cancel</button>
+    </div>
   </div>
 </div>

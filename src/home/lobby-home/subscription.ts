@@ -1,7 +1,8 @@
 export class Subscription {
   private _subscriptionId: string;
   private _subscribed: boolean;
-  private _type: string;
+  private _name: string;
+  private _cost: string;
 
   get subscriptionId(): string {
     return this._subscriptionId;
@@ -19,11 +20,19 @@ export class Subscription {
     this._subscribed = value;
   }
 
-  get type(): string {
-    return this._type;
+  get name(): string {
+    return this._name;
   }
 
-  set type(value: string) {
-    this._type = value;
+  set name(value: string) {
+    this._name = value;
+  }
+
+  get cost(): string {
+    return this._cost;
+  }
+
+  set cost(value: string) {
+    this._cost = value;
   }
 }

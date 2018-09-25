@@ -5,3 +5,28 @@ troumaca overrides etc.
 /*.top-menu-secondary {*/
   /*width: 100%;*/
 /*}*/
+
+.fancy-selector-w {
+  margin-left: 0;
+  border: 1px solid #047bf8;
+}
+
+.fancy-selector-current {
+  background-color: white;
+  color: #3E4B5B;
+  z-index: 0;
+}
+
+.fs-selector-trigger {
+  background-color: white !important;
+  color: #3E4B5B !important;
+}
+
+
+.fancy-selector-current .fs-extra-info {
+  color: #3E4B5B !important;
+}
+
+.fancy-selector-current .fs-extra-info span {
+  color: #3E4B5B !important;
+}
