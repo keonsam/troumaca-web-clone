@@ -6,7 +6,7 @@ import {PaymentMethodState} from "./payment.method.state";
 import {map} from "rxjs/operators";
 import {CreditCardState} from "./credit.card.state";
 import {ValidResp} from "../../authentication/resp.valid";
-import {SubscriptionState} from "../home/subscription.state";
+import {SubscriptionState} from "../lobby/subscription.state";
 import {BillingState} from "./billing.state";
 
 export class BillingDetailsClientHttp extends BillingDetailsClient {

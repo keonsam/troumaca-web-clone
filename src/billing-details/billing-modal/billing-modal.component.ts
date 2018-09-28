@@ -26,6 +26,7 @@ export class BillingModalComponent implements OnInit, OnChanges {
   @ViewChild('closeModal') closeModal: ElementRef;
   @Input() modalType: string;
   @Input() importedCreditCard: CreditCard;
+  @Input() stepper: boolean;
   creditCardExist = false;
   @Output() billingChanged = new EventEmitter<boolean>();
 

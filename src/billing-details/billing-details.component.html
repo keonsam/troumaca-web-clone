@@ -157,8 +157,13 @@
     </div>
   </div>
 
-  <div aria-hidden="true" aria-labelledby="billingModalLabel" class="modal fade" id="billingModal1" role="dialog" tabindex="-1">
-    <app-billing-modal (billingChanged)="onBillingChanges($event)" [modalType]="billingModalType" [importedCreditCard]="creditCard"></app-billing-modal>
+  <div aria-hidden="true" class="onboarding-modal modal fade animated" id="billingModal1" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-centered" role="document">
+      <div class="modal-content text-center">
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span class="close-label">Close</span><span class="os-icon os-icon-close"></span></button>
+        <app-billing-modal (billingChanged)="onBillingChanges($event)" [modalType]="billingModalType" [importedCreditCard]="creditCard"></app-billing-modal>
+      </div>
+    </div>
   </div>
 
   <button hidden #openButton data-target="#primaryModal1" data-toggle="modal"></button>

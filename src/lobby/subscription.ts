@@ -1,8 +1,14 @@
 export class Subscription {
   private _subscriptionId: string;
+  private _moduleId: string;
   private _subscribed: boolean;
   private _name: string;
   private _cost: string;
+
+  constructor(moduleId?: string, cost?: string) {
+    this._moduleId = moduleId;
+    this._cost = cost;
+  }
 
   get subscriptionId(): string {
     return this._subscriptionId;
@@ -10,6 +16,14 @@ export class Subscription {
 
   set subscriptionId(value: string) {
     this._subscriptionId = value;
+  }
+
+  get moduleId(): string {
+    return this._moduleId;
+  }
+
+  set moduleId(value: string) {
+    this._moduleId = value;
   }
 
   get subscribed(): boolean {

@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {Subscription} from "../home/lobby-home/subscription";
+import {Subscription} from "../lobby/subscription";
 import {Billing} from "./billing";
 import {BillingDetailsService} from "./billing.details.service";
 import {CreditCard} from "./billing-modal/credit.card";
