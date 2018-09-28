@@ -1,9 +1,5 @@
 /*Troumaca overrides etc. */
 
-.content-w {
-  background-size: cover;
-}
-
 .onboarding-content.with-gradient {
   padding-bottom: 30px;
 }
@@ -39,11 +35,6 @@
   height: 100% !important;
 }
 
-/*.center-ul {*/
-  /*margin-left: auto;*/
-  /*margin-right: auto;*/
-/*}*/
-
 .ng-valid[required]:not(ng2-completer), .ng-valid.required:not(ng2-completer)  {
   border-left: 5px solid #42A948; /* green */
 }
@@ -51,9 +42,6 @@
 .ng-invalid:not(form):not(ng2-completer)  {
   border-left: 5px solid #a94442; /* red */
 }
-/*li {*/
-  /*display: block;*/
-/*}*/
 
 .prev-button {
   float: left;
@@ -76,33 +64,18 @@
   margin-right: 30px;
 }
 
-@media (min-width: 856px) {
-  .module-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(200px, 300px));
-    column-gap: 15px;
-  }
-}
-
-@media (max-width: 855px) {
-  .module-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(200px, 300px));
-    column-gap: 15px;
-  }
-}
-
-@media (max-width: 525px) {
-  .module-grid {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(200px, 300px));
-    column-gap: 15px;
-  }
-}
-
 .subscribed {
   background-color: rgba(255,255,255, 0.6);
   border: dashed 1px #49afe2;
+}
+
+#modal-stepper {
+  position: relative;
+  top: 30px;
+}
+
+::ng-deep .mat-horizontal-content-container {
+  padding: 0 0 0 0 !important;
 }
 
 

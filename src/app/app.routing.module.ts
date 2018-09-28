@@ -6,7 +6,7 @@ import {FrontHomeComponent} from '../front-home/front.home.component';
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: FrontHomeComponent},
-  { path: 'lobby', loadChildren: '../home/home.module#HomeModule'},
+  { path: 'lobby', loadChildren: '../lobby/lobby.module#LobbyModule'},
   { path: 'access-roles', loadChildren: '../access-roles/access.role.module#AccessRoleModule' },
   { path: 'asset-type-classes', loadChildren: '../asset-type-classes/asset.type.class.module#AssetTypeClassModule' },
   { path: 'asset-types', loadChildren: '../asset-types/asset.type.module#AssetTypesModule' },

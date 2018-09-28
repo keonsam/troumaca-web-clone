@@ -14,13 +14,13 @@ import {quoteRepositoryProvider} from './quote/quote.repository.adapter.provider
 import {shipmentRepositoryProvider} from './shipment/shipment.repository.adapter.provider';
 import {authenticationRepositoryProvider} from './authentication/authentication.repository.adapter.provider';
 import {accessRoleRepositoryProvider} from './access-roles/access.role.adapter.provider';
-import {homeRepositoryProvider} from './home/home.repository.adapter.provider';
 import {depreciationRepositoryProvider} from './depreciation/depreciation.repository.adapter.provider';
 import { partyRepositoryProvider } from './party/party.repository.adapter.provider';
 import { photoRepositoryProvider } from './photo/photo.repository.adapter.provider';
 import { userRepositoryProvider } from './party/user/user.repository.adapter.provider';
 import { organizationRepositoryProvider } from "./party/organization/organization.repository.adapter.provider";
 import {billingDetailsRepositoryProvider} from "./billing-details/billing-details.repository.adapter.provider";
+import {lobbyRepositoryProvider} from "./lobby/lobby.repository.adapter.provider";
 
 @NgModule({
   imports:      [],
@@ -43,13 +43,13 @@ import {billingDetailsRepositoryProvider} from "./billing-details/billing-detail
     shipmentRepositoryProvider,
     authenticationRepositoryProvider,
     accessRoleRepositoryProvider,
-    homeRepositoryProvider,
     partyRepositoryProvider,
     depreciationRepositoryProvider,
     photoRepositoryProvider,
     userRepositoryProvider,
     organizationRepositoryProvider,
-    billingDetailsRepositoryProvider
+    billingDetailsRepositoryProvider,
+    lobbyRepositoryProvider
   ]
 })
 export class AdapterModule { }

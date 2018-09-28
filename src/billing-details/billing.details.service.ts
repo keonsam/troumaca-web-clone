@@ -3,7 +3,7 @@ import {PaymentMethod} from "./billing-modal/payment.method";
 import {BillingDetailsRepository} from "./billing.details.repository";
 import {CreditCard} from "./billing-modal/credit.card";
 import {ValidResp} from "../authentication/resp.valid";
-import {Subscription} from "../home/lobby-home/subscription";
+import {Subscription} from "../lobby/subscription";
 import {Billing} from "./billing";
 
 export class BillingDetailsService {

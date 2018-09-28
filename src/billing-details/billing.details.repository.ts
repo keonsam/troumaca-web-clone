@@ -2,7 +2,7 @@ import {Observable} from "rxjs";
 import {PaymentMethod} from "./billing-modal/payment.method";
 import {CreditCard} from "./billing-modal/credit.card";
 import {ValidResp} from "../authentication/resp.valid";
-import {Subscription} from "../home/lobby-home/subscription";
+import {Subscription} from "../lobby/subscription";
 import {Billing} from "./billing";
 
 export abstract class BillingDetailsRepository {

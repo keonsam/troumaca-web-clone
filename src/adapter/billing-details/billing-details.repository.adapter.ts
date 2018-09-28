@@ -7,7 +7,7 @@ import {mapObjectProps} from "../../mapper/object.property.mapper";
 import {CreditCard} from "../../billing-details/billing-modal/credit.card";
 import {CreditCardState} from "../../client/billing-details/credit.card.state";
 import {ValidResp} from "../../authentication/resp.valid";
-import {Subscription} from "../../home/lobby-home/subscription";
+import {Subscription} from "../../lobby/subscription";
 import {Billing} from "../../billing-details/billing";
 
 export class BillingDetailsRepositoryAdapter extends BillingDetailsRepository {

@@ -26,12 +26,12 @@ import {quoteClientProvider} from './quote/quote.client.provider';
 import {shipmentClientProvider} from './shipment/shipment.client.provider';
 import {sessionInterceptorProvider} from './session.interceptor.provider';
 import {clientEventProvider} from './client.event.provider';
-import {homeClientProvider} from "./home/home.client.provider";
 import {depreciationClientProvider} from "./depreciation/depreciation.client.provider";
 import { photoClientProvider } from "./photo/photo.client.provider";
 import { userClientProvider } from "./party/user/user.client.provider";
 import { organizationClientProvider } from "./party/organization/organization.client.provider";
 import { billingDetailsClientProvider } from "./billing-details/billing-details.client.provider";
+import {lobbyClientProvider} from "./lobby/lobby.client.provider";
 
 @NgModule({
   imports:      [
@@ -65,12 +65,12 @@ import { billingDetailsClientProvider } from "./billing-details/billing-details.
     clientEventProvider,
     sessionInterceptorProvider,
     accessRolesClientProvider,
-    homeClientProvider,
     depreciationClientProvider,
     photoClientProvider,
     userClientProvider,
     organizationClientProvider,
-    billingDetailsClientProvider
+    billingDetailsClientProvider,
+    lobbyClientProvider
   ]
 })
 export class ClientModule { }
