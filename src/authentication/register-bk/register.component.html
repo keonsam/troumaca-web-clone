@@ -1,0 +1,40 @@
+  <!--<div class="auth-box-w wider">-->
+    <!--<div class="logo-w">-->
+      <!--<a routerLink="/home"><img alt="" src="/images/logo-big.png"></a>-->
+    <!--</div>-->
+    <!--<h4 class="auth-header">-->
+      <!--Create New Account-->
+    <!--</h4>-->
+    <!--<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" >-->
+
+      <!--<div class="form-group">-->
+        <!--<label for="username"> Username</label><input id="username" class="form-control" formControlName="username" autocomplete="username" placeholder="Enter Email or Phone" required type="text">-->
+        <!--<div class="pre-icon os-icon os-icon-email-2-at2"></div>-->
+      <!--</div>-->
+      <!--<div [hidden]="username.valid || username.pristine" class="alert alert-danger">Email or phone must not be taken. Phone number should have area code included e.g 1 (5xx) 43xx - 2xx.</div>-->
+      <!--<div class="row">-->
+
+        <!--<div class="col-sm-6">-->
+          <!--<div class="form-group">-->
+            <!--<label for="password"> Password</label><input id="password" class="form-control" formControlName="password" autocomplete="new-password" placeholder="Enter Password" required type="password">-->
+            <!--<div class="pre-icon os-icon os-icon-fingerprint"></div>-->
+          <!--</div>-->
+          <!--<div [hidden]="password.valid || password.pristine" class="alert alert-danger">Password must be at least eight characters long, 1 upper case letter, numeric, and special character.</div>-->
+        <!--</div>-->
+
+        <!--<div class="col-sm-6">-->
+          <!--<div class="form-group">-->
+            <!--<label for="confirmed-password">Confirm Password</label><input id="confirmed-password" class="form-control" formControlName="confirmPassword" autocomplete="new-password" placeholder="Password" required type="password">-->
+            <!--<div class="confirmation-icon pre-icon os-icon os-icon-fingerprint"></div>-->
+          <!--</div>-->
+          <!--<div [hidden]="confirmPassword.valid || confirmPassword.pristine" class="alert alert-danger">Please re-enter your password.</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!--<div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to register account. Please try again or contact support.</div>-->
+
+      <!--<div class="buttons-w">-->
+        <!--<button class="btn btn-primary" [disabled]="!registrationForm.valid">Register Now</button> <object align="right"><a routerLink="/authentication/login">Login</a></object>-->
+      <!--</div>-->
+    <!--</form>-->
+  <!--</div>-->

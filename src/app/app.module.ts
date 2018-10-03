@@ -8,11 +8,8 @@ import {appRoutingProviders} from './app.routing';
 import {UUIDGenerator} from '../uuid.generator';
 import {AppConfig} from '../app.config';
 
-import {MenuModule} from '../menu/menu.module';
 import {AdapterModule} from '../adapter/adapter.module';
 import {PageNotFoundModule} from './page-not-found/page.not.found.module';
-import {EventSubjectModule} from './event/event.module';
-import {EventModule} from '../event/event.module';
 
 import {sessionInterceptorProvider} from '../client/session.interceptor.provider';
 import {AppRoutingModule} from './app.routing.module';
@@ -36,9 +33,6 @@ import 'hammerjs';
     HttpClientModule,
     AdapterModule,
     PageNotFoundModule,
-    EventSubjectModule,
-    EventModule,
-    MenuModule,
     SessionModule,
     ClientModule,
     FrontHomeModule,

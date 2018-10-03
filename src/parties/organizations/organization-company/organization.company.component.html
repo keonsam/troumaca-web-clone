@@ -68,7 +68,7 @@
 
 
       <div class="col-sm-7">
-        <app-organization-form [profile]="true" (organizationCreated)="emitOrganizationCratedEvent($event)" (organizationNameEvent)="setOrganization($event)" [stepper]="stepper"></app-organization-form>
+        <app-organization-form [profile]="true" (organizationNameEvent)="setOrganization($event)"></app-organization-form>
       </div>
 
     </div>

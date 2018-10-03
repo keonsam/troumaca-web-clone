@@ -2,13 +2,7 @@
   Troumaca overrides etc.
 */
 
-.confirmation-icon {
-  display: none;
-}
-/*.auth-object-button {*/
-  /*margin-top: 22px;*/
-  /*float: right;*/
-/*}*/
+
 
 .ng-valid[required], .ng-valid.required  {
   border-left: 5px solid #42A948; /* green */
@@ -17,23 +11,9 @@
   border-left: 5px solid #a94442; /* red */
 }
 
-/*@media (max-width: 350px) {*/
-  /*.buttons-w button {*/
-    /*display: block;*/
-  /*}*/
-  /*.auth-object-button {*/
-    /*float: left;*/
-  /*}*/
-/*}*/
-
-@media (max-width: 575px) {
-  .confirmation-icon {
-    display: block;
-  }
-}
-
 @media (max-width: 399px) {
   .auth-box-w form {
-    padding: 20px 50px 60px;
+    padding-left: 50px;
+    padding-right: 50px;
   }
 }

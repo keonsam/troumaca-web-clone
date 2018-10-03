@@ -10,6 +10,8 @@ import { Confirmation } from "../../authentication/confirmation";
 import { ConfirmationState } from "../../client/credential/confirmation.state";
 import {AuthenticatedCredential} from "../../authentication/authenticated.credential";
 import {AuthenticatedCredentialState} from "../../client/credential/authenticated.credential.state";
+import {User} from "../../parties/user";
+import {UserState} from "../../client/party/user.state";
 
 export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
 
@@ -36,9 +38,9 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     return this.authenticationClient.isValidUsername(username, partyId);
   }
 
-  addCredential(credential: Credential): Observable<Confirmation> {
+  addCredential(credential: Credential, user: User): Observable<Confirmation> {
     return this.authenticationClient
-    .addCredential(mapObjectProps(credential, new CredentialState()))
+    .addCredential(mapObjectProps(credential, new CredentialState()), mapObjectProps(user, new UserState()))
     .pipe(map(confirmationState => {
       return mapObjectProps(confirmationState, new Confirmation());
     }));
@@ -57,10 +59,6 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     .pipe(map(result => {
       return mapObjectProps(result, new Confirmation());
     }));
-  }
-
-  getConfirmationsUsername(credentialConfirmationId: string): Observable<string> {
-    return this.authenticationClient.getConfirmationsUsername(credentialConfirmationId);
   }
 
 }

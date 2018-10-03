@@ -5,7 +5,7 @@ import {reportClientProvider} from './report/report.client.provider';
 import {accountClientProvider} from './account/account.client.provider';
 import {logoutClientProvider} from './logout/logout.client.provider';
 import {signUpClientProvider} from './sign-up/sign.up.client.provider';
-import {personClientProvider} from './party/person.client.provider';
+import {partyClientProvider} from './party/party.client.provider';
 import {securityClientProvider} from './security/security.client.provider';
 import {sessionClientProvider} from './session/session.client.provider';
 import {activityClientProvider} from './activity/activity.client.provider';
@@ -47,7 +47,7 @@ import {lobbyClientProvider} from "./lobby/lobby.client.provider";
     logoutClientProvider,
     reportClientProvider,
     signUpClientProvider,
-    personClientProvider,
+    partyClientProvider,
     securityClientProvider,
     sessionClientProvider,
     activityClientProvider,

@@ -28,13 +28,6 @@ import { AuthenticationRoutingModule } from './authentication.routing.module';
     LockComponent
   ],
   providers: [authenticationServiceProvider],
-  exports: [
-    // LoginComponent,
-    // AuthenticationComponent,
-    // RegisterComponent,
-    // ForgotPasswordComponent,
-    // ConfirmationComponent,
-    // LockComponent
-  ]
+  exports: []
 })
 export class AuthenticationModule {}

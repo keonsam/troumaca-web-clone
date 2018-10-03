@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-organization-company',
@@ -8,8 +8,6 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 export class OrganizationCompanyComponent implements OnInit {
 
   public organizationName: string;
-  @Input() stepper: boolean;
-  @Output() organizationCreated = new EventEmitter<boolean>();
 
   constructor() {}
 
@@ -18,12 +16,6 @@ export class OrganizationCompanyComponent implements OnInit {
 
   setOrganization( name: string) {
     this.organizationName = name;
-  }
-
-  emitOrganizationCratedEvent(created: boolean) {
-    if (created) {
-      this.organizationCreated.emit(created);
-    }
   }
 
 }

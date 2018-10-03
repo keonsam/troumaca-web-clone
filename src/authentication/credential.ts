@@ -1,5 +1,3 @@
-import { parse, format, isValidNumber } from 'libphonenumber-js'
-
 export class Credential {
 
   private _credentialId: string;
@@ -8,8 +6,6 @@ export class Credential {
   private _changedPassword: string;
   private _rememberMe: boolean;
   private _credentialStatus: string;
-  private emailRegEx: RegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-  private numberRegEx: RegExp = new RegExp(/^\d+$/);
 
   constructor(username?: string, password?: string, changedPassword?: string, rememberMe?: boolean) {
     this._username = username;
@@ -64,32 +60,5 @@ export class Credential {
 
   set credentialStatus(value: string) {
     this._credentialStatus = value;
-  }
-
-  public isUsernameValid(): boolean {
-    if (!this.username) {
-      return false
-    }
-
-    const validEmail: boolean = this.emailRegEx.test(this.username);
-
-    if (validEmail) {
-      return validEmail;
-    }
-
-    // let validNumber = this.numberRegEx.test(this.username);
-    // if (!validNumber) {
-    //   return validNumber;
-    // }
-    // need to internationalized
-    const parsedNumber = parse(this.username, 'US');
-
-    let validNumber2 = false;
-
-    if (parsedNumber.phone) {
-      validNumber2 = isValidNumber(parsedNumber);
-    }
-
-    return validNumber2;
   }
 }

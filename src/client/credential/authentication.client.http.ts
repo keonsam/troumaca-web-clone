@@ -8,6 +8,7 @@ import {CredentialState} from './credential.state';
 import {ValidResp} from "../../authentication/resp.valid";
 import {ConfirmationState} from "./confirmation.state";
 import {AuthenticatedCredentialState} from "./authenticated.credential.state";
+import {UserState} from "../party/user.state";
 
 export class AuthenticationClientHttp extends AuthenticationClient {
 
@@ -93,22 +94,27 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     }));
   }
 
-  addCredential(credentialState: CredentialState): Observable<ConfirmationState> {
+  addCredential(credentialState: CredentialState, userState: UserState): Observable<ConfirmationState> {
     const url = `${this.hostPort}/authentication/credentials`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
 
+    const body = {
+      credential: credentialState.toJson(),
+      user: userState.toJson()
+    };
+
     return this.httpClient
-      .post<ConfirmationState>(url, credentialState.toJson(), httpOptions)
+      .post<ConfirmationState>(url, body, httpOptions)
       .pipe(map(data => {
         return data;
       }));
   }
 
   verifyConfirmationState(confirmationState: ConfirmationState): Observable<ConfirmationState> {
-    const url = `${this.hostPort}/verify-credentials-confirmations`;
+    const url = `${this.hostPort}/authentication/confirmations/verify`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -122,7 +128,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   resendConfirmationCode(confirmationId: string, credentialId: string): Observable<ConfirmationState> {
-    const url = `${this.hostPort}/send-confirmation-codes/${credentialId}/${confirmationId}`;
+    const url = `${this.hostPort}/authentication/confirmations/send/${credentialId}/${confirmationId}`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -135,27 +141,11 @@ export class AuthenticationClientHttp extends AuthenticationClient {
       }));
   }
 
-  getConfirmationsUsername(confirmationId: string): Observable<string> {
-    const url = `${this.hostPort}confirmation-username/${confirmationId}`;
-
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-
-    return this.httpClient
-      .get<string>(url, httpOptions)
-      .pipe(map(data => {
-        return data;
-      }));
-  }
-
-
-  jsonHttpHeaders(): HttpHeaders {
+  private jsonHttpHeaders(): HttpHeaders {
     const httpHeaders: HttpHeaders = new HttpHeaders({
       'Content-Type':  'application/json',
       'correlationId': this.uuidGenerator.generateUUID()
     });
-
     return httpHeaders;
   }
 

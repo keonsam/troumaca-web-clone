@@ -12,19 +12,14 @@ import { Confirmation } from "../confirmation";
 })
 export class ConfirmationComponent implements OnInit {
 
-  private _phoneVerificationForm: FormGroup;
-  private _confirmationCode: FormControl;
-
+  phoneVerificationForm: FormGroup;
+  confirmationCode: FormControl;
   private confirmation: Confirmation;
-
-  private _confirmationSuccessful: boolean;
-  private _sessionExpired: boolean;
-  private _errorExists: boolean;
-  private _textMessageSuccess: boolean;
-  private _noEntry: boolean;
-  private _message = '';
-  private sub: any;
-  private _username: string;
+  message: string;
+  username: string;
+  showSuccessMessage = false;
+  showErrorMessage = false;
+  sub: any;
 
   constructor(private route: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -48,153 +43,64 @@ export class ConfirmationComponent implements OnInit {
       });
 
     this.confirmation = new Confirmation();
-
-    this.confirmationSuccessful = false;
-    this.sessionExpired = false;
-    this.errorExists = false;
-    this.textMessageSuccess = false;
-    this.noEntry = false;
   }
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       this.confirmation.credentialId = params['credentialId'];
       this.confirmation.confirmationId = params['confirmationId'];
-      // this.authenticationService.getConfirmationsUsername(confirmationId)
-      //   .subscribe(username => {
-      //     this.username = username
-      //   }, error => {
-      //     console.log(error);
-      //   });
     });
   }
 
-  get confirmationSuccessful(): boolean {
-    return this._confirmationSuccessful;
-  }
-
-  set confirmationSuccessful(value: boolean) {
-    this._confirmationSuccessful = value;
-  }
-
-  get sessionExpired(): boolean {
-    return this._sessionExpired;
-  }
-
-  set sessionExpired(value: boolean) {
-    this._sessionExpired = value;
-  }
-
-  get errorExists(): boolean {
-    return this._errorExists;
-  }
-
-  set errorExists(value: boolean) {
-    this._errorExists = value;
-  }
-
-  get textMessageSuccess(): boolean {
-    return this._textMessageSuccess;
-  }
-
-  set textMessageSuccess(value: boolean) {
-    this._textMessageSuccess = value;
-  }
-
-  get noEntry(): boolean {
-    return this._noEntry;
-  }
-
-  set noEntry(value: boolean) {
-    this._noEntry = value;
-  }
-
-  get username(): string {
-    return this._username;
-  }
-
-  set username(value: string) {
-    this._username = value;
-  }
-
-  get confirmationCode(): FormControl {
-    return this._confirmationCode;
-  }
-
-  set confirmationCode(value: FormControl) {
-    this._confirmationCode = value;
-  }
-
-  get phoneVerificationForm(): FormGroup {
-    return this._phoneVerificationForm;
-  }
-
-  set phoneVerificationForm(value: FormGroup) {
-    this._phoneVerificationForm = value;
-  }
-
-  get message(): string {
-    return this._message;
-  }
-
-  set message(value: string) {
-    this._message = value;
-  }
-
   sendConfirmationCode() {
-    this.textMessageSuccess = false;
-    this.sessionExpired = false;
-    this.errorExists = false;
-    this.noEntry = false;
-
-    this.confirmationSuccessful = false;
-    this.sessionExpired = false;
-    this.errorExists = false;
+    this.showSuccessMessage = false;
+    this.showErrorMessage = false;
 
     this.authenticationService
       .resendConfirmationCode(this.confirmation.confirmationId, this.confirmation.credentialId)
       .subscribe(confirmation => {
-        console.log(confirmation);
         if (confirmation.confirmationId) {
-          this.textMessageSuccess = true;
+          this.message = 'Confirmation code has been sent.\n' +
+            '      If you didn\'t get it in 5 minutes, Please try again.';
+          this.showSuccessMessage = true;
           setTimeout(() => {
             this.router.navigate([`/authentication/confirmations/${confirmation.credentialId}/${confirmation.confirmationId}`]);
           }, 2000);
         }else {
-          this.noEntry = true;
+          this.message = 'Email has been verify or something went wrong. Please try again.';
+          this.showErrorMessage = true;
         }
       }, error => {
         console.log(error);
-        /// make better error for this
-        this.noEntry = true;
+        this.message = 'Email has been verify or something went wrong. Please try again.';
+        this.showErrorMessage = true;
       });
   }
 
   onSubmit() {
-    this.confirmationSuccessful = false;
-    this.sessionExpired = false;
-    this.errorExists = false;
-
-    this.textMessageSuccess = false;
-    this.sessionExpired = false;
-    this.errorExists = false;
-    this.noEntry = false;
+    this.showSuccessMessage = false;
+    this.showErrorMessage = false;
 
     this.authenticationService
       .verifyConfirmation(this.confirmation)
       .subscribe(confirmation => {
-        console.log(confirmation);
         if (confirmation.confirmationId) {
-          this.confirmationSuccessful = true;
+          this.message = 'Your account has been confirmed.\n' +
+            '      Please login.';
+          this.showSuccessMessage = true;
           setTimeout(() => {
             this.router.navigate(['/authentication/login']);
           }, 1000);
         } else {
-          this.errorExists = true;
+          this.message = 'Confirmation code does not match or has been expired. \n' +
+            '      Please try again or generate a new one below.';
+          this.showErrorMessage = true;
         }
       }, error => {
         console.log(error);
-        this.errorExists = true;
+        this.message = 'Confirmation code does not match or has been expired. \n' +
+          '      Please try again or generate a new one below.';
+        this.showErrorMessage = true;
       });
   }
 

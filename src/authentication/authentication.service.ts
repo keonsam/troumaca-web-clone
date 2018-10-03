@@ -4,11 +4,9 @@ import { Credential } from "./credential";
 import {ValidResp} from "./resp.valid";
 import { Confirmation } from "./confirmation";
 import {AuthenticatedCredential} from "./authenticated.credential";
+import {User} from "../parties/user";
 
 export class AuthenticationService {
-
-  private sessionIdName = 'troumaca-session-id';
-  private rememberMeName = 'troumaca-remember-me';
 
   constructor(private authenticationRepository: AuthenticationRepository) {
   }
@@ -30,8 +28,8 @@ export class AuthenticationService {
     return this.authenticationRepository.forgotPassword(username);
   }
 
-  public addCredential(credential: Credential): Observable<Confirmation> {
-    return this.authenticationRepository.addCredential(credential);
+  public addCredential(credential: Credential, user: User): Observable<Confirmation> {
+    return this.authenticationRepository.addCredential(credential, user);
   }
 
   public verifyConfirmation(confirmation: Confirmation): Observable<Confirmation> {
@@ -40,10 +38,6 @@ export class AuthenticationService {
 
   public resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation> {
     return this.authenticationRepository.resendConfirmationCode(confirmationId, credentialId);
-  }
-
-  public getConfirmationsUsername(confirmationId: string): Observable<string> {
-    return this.authenticationRepository.getConfirmationsUsername(confirmationId);
   }
 
 }

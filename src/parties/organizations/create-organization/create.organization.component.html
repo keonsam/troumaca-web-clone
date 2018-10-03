@@ -1,0 +1,66 @@
+<div class="content-w">
+  <div class="content-i">
+    <div class="content-box">
+
+      <div class="os-tabs-w mx-4">
+        <div class="os-tabs-controls">
+          <ul class="nav nav-tabs upper">
+            <li class="nav-item">
+              <a aria-expanded="false" class="nav-link" data-toggle="tab" (click)="tab = 0">Join</a>
+            </li>
+            <li class="nav-item">
+              <a aria-expanded="false"  class="nav-link" data-toggle="tab" (click)="tab = 1">Create</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div *ngIf="tab === 0" class="element-wrapper">
+            <div class="element-box">
+              <form [formGroup]="requestAccessForm">
+                <h5 class="form-header">
+                  Request Access Form
+                </h5>
+
+                <div class="form-desc">
+                  <strong>Use the 'CREATE' tab above to make an organization.</strong>
+                </div>
+
+                <fieldset class="form-group">
+                  <div class="form-group" [class]="(organizationId.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
+                    <label for="organization"> Join An Organization</label>
+                    <ng2-completer id="organization"
+                                   [datasource]="organizationDataService"
+                                   [minSearchLength]="0"
+                                   [maxChars]="4"
+                                   [inputClass]="'form-control'"
+                                   [placeholder]="'Select An Organization'"
+                                   [matchClass]="'match'"
+                                   formControlName="organizationId"
+                                   [autofocus]="true"
+                                   [clearUnselected]="true"
+                                   [fillHighlighted]="false"
+                                   [openOnClick]="true"
+                                   [textSearching]="false"
+                                   (selected)="onOrganizationSelect($event)"
+                                   required>
+                    </ng2-completer>
+                    <div [hidden]="organizationId.value || organizationId.pristine" class="alert alert-danger">Select an Organization.</div>
+                  </div>
+                </fieldset>
+                <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to Send Request. Please try again</div>
+
+                <div class="form-buttons-w">
+                  <button class="btn btn-primary" [disabled]="!requestAccessForm.valid" type="submit" (click)="onJoin()">Join</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+      <app-organization-form *ngIf="tab === 1" [profile]="true"></app-organization-form>
+
+
+    </div>
+  </div>
+
+</div>

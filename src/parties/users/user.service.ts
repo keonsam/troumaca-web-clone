@@ -5,7 +5,7 @@ import {Users} from '../users';
 import {UserResponse} from '../user.response';
 import {PartyAccessRole} from '../party.access.role';
 import {User} from '../user';
-import {Credential} from '../credential';
+import { Credential } from "../../authentication/credential";
 
 export class UserService {
   constructor(private userRepository: UserRepository) {}
