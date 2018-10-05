@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {User} from '../../user';
-import {Credential} from '../../credential';
+import { Credential} from "../../../authentication/credential";
 import { filter, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { AuthenticationService} from '../../../authentication/authentication.service';
 import {UserService} from '../user.service';

@@ -16,7 +16,8 @@ const appRoutes: Routes = [
   { path: 'depreciation', loadChildren: '../depreciation/depreciation.module#DepreciationModule' },
   { path: 'parties', loadChildren: '../parties/party.module#PartyModule' },
   { path: 'sites', loadChildren: '../site/site.module#SiteModule' },
-  { path: 'profile', loadChildren: '../create-profile/create.profile.module#CreateProfileModule'},
+  { path: 'profile-organizations',
+    loadChildren: '../parties/organizations/create-organization/create.organization.module#CreateOrganizationModule'},
   { path: 'billing-details', loadChildren: '../billing-details/billing-details.module#BillingDetailsModule'},
   { path: '**', component: PageNotFoundComponent },
 ];

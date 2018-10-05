@@ -4,7 +4,7 @@ import {AccessRole} from '../../../access-roles/access.role';
 import {Users} from '../../../parties/users';
 import {UserResponse} from '../../../parties/user.response';
 import {User} from '../../../parties/user';
-import {Credential} from '../../../parties/credential';
+import { Credential} from "../../../authentication/credential";
 import {PartyAccessRole} from '../../../parties/party.access.role';
 import {UserClient} from '../../../client/party/user/user.client';
 import {mapObjectProps} from '../../../mapper/object.property.mapper';

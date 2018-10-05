@@ -2,11 +2,10 @@ import {Party} from './party';
 
 export class User extends Party {
 
-  private _firstName: string = '';
-  private _middleName: string = '';
-  private _lastName: string = '';
+  private _firstName: string;
+  private _middleName: string;
+  private _lastName: string;
   private _username: string;
-  private _dateOfBirth: Date;
 
   get name(): string {
     return `${this.lastName || ''}, ${this.firstName || ''}`;
@@ -42,14 +41,6 @@ export class User extends Party {
 
   set username(value: string) {
     this._username = value;
-  }
-
-  get dateOfBirth(): Date {
-    return this._dateOfBirth;
-  }
-
-  set dateOfBirth(value: Date) {
-    this._dateOfBirth = value;
   }
 
 }

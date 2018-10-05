@@ -2,6 +2,7 @@ import {Observable} from "rxjs";
 import {Organizations} from "../organizations";
 import {OrganizationRepository} from "./organization.repository";
 import {Organization} from "../organization";
+import {JoinOrganization} from "../join.organization";
 
 export class OrganizationService {
   constructor(private organizationRepository: OrganizationRepository) {}
@@ -10,8 +11,8 @@ export class OrganizationService {
     return this.organizationRepository.findOrganizations(searchStr, pageSize)
   }
 
-  sendOrganizationRequest(request: string): Observable<boolean> {
-    return this.organizationRepository.sendOrganizationRequest(request);
+  addOrganizationRequest(request: JoinOrganization): Observable<JoinOrganization> {
+    return this.organizationRepository.addOrganizationRequest(request);
   }
 
   public getOrganizations(pageNumber: number, pageSize: number, sortOrder: string): Observable<Organizations> {
@@ -22,8 +23,8 @@ export class OrganizationService {
     return this.organizationRepository.getOrganization(partyId);
   }
   
-  public addOrganization(organization: Organization, type?: string): Observable<Organization> {
-    return this.organizationRepository.addOrganization(organization, type);
+  public addOrganization(organization: Organization, profile?: boolean): Observable<Organization> {
+    return this.organizationRepository.addOrganization(organization, profile);
   }
 
   public deleteOrganization(partyId: string): Observable<number> {

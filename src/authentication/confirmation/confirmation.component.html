@@ -5,41 +5,31 @@
   </div>
 
   <h4 class="auth-header">
-    New User Confirmation
+    User Confirmation
   </h4>
 
   <form [formGroup]="phoneVerificationForm" (ngSubmit)="onSubmit()">
     <p class="lead">
-      Enter the confirmation code we sent By Email or Phone.
+      Enter the confirmation code we sent to {{username || 'your phone number or email address'}}.
     </p>
+
+    <div *ngIf="showSuccessMessage" class="alert alert-success">
+      <strong>Success!</strong> {{ message || ''}}
+    </div>
+
+    <div *ngIf="showErrorMessage" class="alert alert-danger">
+      <strong>Error!</strong> {{ message || ''}}.
+    </div>
 
     <div class="form-group">
       <label for="confirmation-code">Enter Confirmation Code:</label><input id="confirmation-code" class="form-control" formControlName="confirmationCode" placeholder="Enter the 6-digit code" required type="text">
     </div>
 
-    <div *ngIf="confirmationSuccessful" class="alert alert-info">
-      <strong>Confirmed!</strong> Your account has been confirmed.
-      Please login.
-    </div>
-
-    <div *ngIf="textMessageSuccess" class="alert alert-success">
-      <strong>Success!</strong> Confirmation code has been sent.
-      If you didn't get it in 5 minutes, Please try again.
-    </div>
-
-    <div *ngIf="errorExists" class="alert alert-danger">
-      <strong>Error!</strong> Confirmation code does not match or has been expired. Please try again or generate a new one below.
-    </div>
-
-    <div *ngIf="noEntry" class="alert alert-danger">
-      <strong>Error!</strong> Email has been verify or something went wrong. Please try again.
-    </div>
-
     <div class="buttons-w">
-        <button class="mr-2 mb-2 btn btn-outline-success" id="button1" routerLink="/authentication/register">Change Number</button>
+        <button class="btn btn-outline-secondary" routerLink="/authentication/register">Change Number</button>
         <button [disabled]="!phoneVerificationForm.valid" id="button2" class="btn btn-primary" type="submit">Verify</button>
     </div>
-    <div class="sendPhoneCode">
+    <div class="sendCode">
       <a href="#" (click)="sendConfirmationCode();false">Didn't get the text message?</a>
     </div>
   </form>

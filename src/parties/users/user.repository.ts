@@ -1,7 +1,7 @@
 import { User } from '../user';
 import { Users } from '../users';
 import {Observable} from 'rxjs';
-import { Credential } from '../credential';
+import { Credential } from "../../authentication/credential";
 import { PartyAccessRole } from '../party.access.role';
 import { AccessRole} from '../../access-roles/access.role';
 import { UserResponse } from '../user.response';

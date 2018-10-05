@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
 
 import {Organization} from '../../organization';
-import {OrganizationService} from "../organization.service";
+import {OrganizationService} from '../organization.service';
 
 @Component({
   selector: 'app-organization-form',
@@ -25,8 +25,7 @@ export class OrganizationFormComponent implements OnInit {
   private _doNotDisplayFailureMessage: boolean;
   @Input() profile: boolean;
   @Output() organizationNameEvent = new EventEmitter<string>();
-  @Input() stepper: boolean;
-  @Output() organizationCreated = new EventEmitter<boolean>();
+
 
   constructor(private organizationService: OrganizationService,
               private formBuilder: FormBuilder,
@@ -66,9 +65,11 @@ export class OrganizationFormComponent implements OnInit {
     if (this.route.snapshot && this.route.snapshot.data['organization']) {
       this.setInputValues(this.route.snapshot.data['organization']);
     } else if (this.profile) {
-      this.organizationService.getOrganization('company')
+      this.organizationService.getOrganization()
         .subscribe( value => {
-          this.setInputValues(value);
+          if (value) {
+            this.setInputValues(value);
+          }
         });
     }
   }
@@ -126,12 +127,11 @@ export class OrganizationFormComponent implements OnInit {
     this.doNotDisplayFailureMessage = true;
 
     this.organizationService
-      .addOrganization(this.organization, this.stepper ? 'company' : undefined)
+      .addOrganization(this.organization, this.profile || false)
       .subscribe(value => {
         if (value && value.partyId) {
-          if (this.stepper) {
-
-            this.organizationCreated.emit(true);
+          if (this.profile) {
+            this.router.navigate(['/lobby']);
           }else {
             this.router.navigate(['/parties/organizations/listing']);
           }
@@ -151,9 +151,9 @@ export class OrganizationFormComponent implements OnInit {
       .updateOrganization(this.organization)
       .subscribe(value => {
         if (value) {
-          if (this.stepper) {
-            this.organizationCreated.emit(true);
-          }else {
+          if (this.profile) {
+            this.router.navigate(['/lobby']);
+          } else {
             this.router.navigate(['/parties/organizations/listing']);
           }
         } else {

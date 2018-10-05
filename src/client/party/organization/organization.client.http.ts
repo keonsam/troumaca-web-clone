@@ -5,7 +5,7 @@ import {Observable} from "rxjs";
 import {OrganizationStates} from "../organization.states";
 import {map} from "rxjs/operators";
 import {OrganizationState} from "../organization.state";
-import {Organization} from "../../../parties/organization";
+import {JoinOrganizationState} from "../join.organization.state";
 
 export class OrganizationClientHttp implements OrganizationClient {
   constructor(private uuidGenerator: UUIDGenerator,
@@ -23,13 +23,13 @@ export class OrganizationClientHttp implements OrganizationClient {
     }));
   }
 
-  sendOrganizationRequest(request: string): Observable<boolean> {
-    const url = `${this.hostPort}/organizations-send-request`;
+  addOrganizationRequest(request: JoinOrganizationState): Observable<JoinOrganizationState> {
+    const url = `${this.hostPort}/organizations/access-requests`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-      .post<boolean>(url, {request}, httpOptions)
+      .post<JoinOrganizationState>(url, request.toJson(), httpOptions)
       .pipe(map(data => {
         return data;
       }));
@@ -58,18 +58,19 @@ export class OrganizationClientHttp implements OrganizationClient {
       }));
   }
 
-  public addOrganizationState(organizationState: OrganizationState, type?: string): Observable<OrganizationState> {
-    const url = `${this.hostPort}/organizations`;
+  public addOrganizationState(organizationState: OrganizationState, profile?: boolean): Observable<OrganizationState> {
+    let url: string;
+    if (profile) {
+      url = `${this.hostPort}/organizations/profile`;
+    }else {
+      url = `${this.hostPort}/organizations`;
+    }
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    const body = {
-      organization: organizationState.toJson(),
-      type: type
-    };
 
     return this.httpClient
-      .post<OrganizationState>(url, body, httpOptions)
+      .post<OrganizationState>(url, organizationState.toJson(), httpOptions)
       .pipe(map(data => {
         return data;
       }));

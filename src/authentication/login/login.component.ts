@@ -3,31 +3,28 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Event} from '../event';
 
 import {Router} from '@angular/router';
-import {EventService} from '../../event/event.service';
 import {AuthenticationService} from '../authentication.service';
 import { Credential } from '../credential';
+import {PartyService} from "../../parties/party.service";
 
 @Component({
-  selector: 'login',
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
-  private _loginForm: FormGroup;
-  private _username: FormControl;
-  private _password: FormControl;
-  private _rememberMe: FormControl;
+  loginForm: FormGroup;
+  username: FormControl;
+  password: FormControl;
+  rememberMe: FormControl;
+  private credential: Credential;
+  errorExists: boolean;
 
-  private _message = '';
-
-  private _errorExists: boolean;
-  private _accountFailed: boolean;
-
-  constructor(private eventService: EventService,
-              private formBuilder: FormBuilder,
+  constructor(private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private router: Router) {
+    this.credential = new Credential();
 
     this.username = new FormControl('', [
       Validators.required
@@ -45,89 +42,29 @@ export class LoginComponent implements OnInit {
       'rememberMe': this.rememberMe
     });
 
-    this.accountFailed = false;
+    this.loginForm
+      .valueChanges
+      .subscribe( value => {
+        this.credential.username = value.username;
+        this.credential.password = value.password;
+        this.credential.rememberMe = value.rememberMe;
+      });
+
   }
 
   ngOnInit(): void {
   }
 
-  createEventModel() {
-    const event: Event = new Event();
-    event.partyId = '123';
-    event.timestamp = new Date().getTime();
-    event.source = 'login.component';
-    event.name = 'login';
-
-    return event;
-  }
-
-  get accountFailed(): boolean {
-    return this._accountFailed;
-  }
-
-  set accountFailed(value: boolean) {
-    this._accountFailed = value;
-  }
-
-  get errorExists(): boolean {
-    return this._errorExists;
-  }
-
-  set errorExists(value: boolean) {
-    this._errorExists = value;
-  }
-  get message(): string {
-    return this._message;
-  }
-
-  set message(value: string) {
-    this._message = value;
-  }
-  get rememberMe(): FormControl {
-    return this._rememberMe;
-  }
-
-  set rememberMe(value: FormControl) {
-    this._rememberMe = value;
-  }
-  get password(): FormControl {
-    return this._password;
-  }
-
-  set password(value: FormControl) {
-    this._password = value;
-  }
-  get username(): FormControl {
-    return this._username;
-  }
-
-  set username(value: FormControl) {
-    this._username = value;
-  }
-
-  get loginForm(): FormGroup {
-    return this._loginForm;
-  }
-
-  set loginForm(value: FormGroup) {
-    this._loginForm = value;
-  }
-
   onSubmit() {
     this.errorExists = false;
-    const credential: Credential = new Credential();
-    credential.username = this.username.value;
-    credential.password = this.password.value;
-    credential.rememberMe = this.rememberMe.value;
 
     this.authenticationService
-      .authenticate(credential)
+      .authenticate(this.credential)
       .subscribe(authenticatedCredential => {
         if (authenticatedCredential.authenticateStatus === 'AccountActive') {
-          this.eventService.sendLoginEvent(this.createEventModel());
           this.router.navigate(['/lobby']);
         }else if (authenticatedCredential.authenticateStatus === 'AccountConfirmed') {
-          this.router.navigate(['/profile']);
+          this.router.navigate(['/profile-organizations']);
         }else if (authenticatedCredential.authenticateStatus === 'AccountUsernameNotConfirmed') {
           const credentialId = authenticatedCredential.credentialId;
           const confirmationId = authenticatedCredential.confirmationId;

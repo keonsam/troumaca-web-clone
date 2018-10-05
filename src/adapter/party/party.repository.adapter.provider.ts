@@ -1,13 +1,13 @@
-import {PersonClient} from '../../client/party/person.client';
+import {PartyClient} from '../../client/party/party.client';
 import {PartyRepository} from '../../parties/party.repository';
 import {AssetPersonRepository} from '../../assets/asset.person.repository';
 import {PartyRepositoryAdapter} from './party.repository.adapter';
 
 
-export function partyRepositoryProviderFactory (personClient: PersonClient): PartyRepository {
+export function partyRepositoryProviderFactory (partyClient: PartyClient): PartyRepository {
   let partyRepositoryAdapter: PartyRepositoryAdapter;
   if (!partyRepositoryAdapter) {
-    partyRepositoryAdapter = new PartyRepositoryAdapter(personClient);
+    partyRepositoryAdapter = new PartyRepositoryAdapter(partyClient);
   }
   return partyRepositoryAdapter;
 }
@@ -15,11 +15,11 @@ export function partyRepositoryProviderFactory (personClient: PersonClient): Par
 export let partyRepositoryProvider = {
   provide: PartyRepository,
   useFactory: partyRepositoryProviderFactory,
-  deps: [PersonClient]
+  deps: [PartyClient]
 };
 
 export let assetPersonRepositoryProvider = {
   provide: AssetPersonRepository,
   useFactory: partyRepositoryProviderFactory,
-  deps: [PersonClient]
+  deps: [PartyClient]
 };

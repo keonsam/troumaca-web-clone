@@ -5,6 +5,7 @@ import { Credential} from "../credential";
 import {Router} from '@angular/router';
 import { ValidResp} from '../resp.valid';
 import {debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import {User} from "../../parties/user";
 
 @Component({
   selector: 'app-register',
@@ -13,23 +14,31 @@ import {debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 })
 export class RegisterComponent implements OnInit {
 
-  private _registrationForm: FormGroup;
-  private _username: FormControl;
-  private _password: FormControl;
-  private _confirmPassword: FormControl;
+  registrationForm: FormGroup;
+  username: FormControl;
+  firstName: FormControl;
+  lastName: FormControl;
+  password: FormControl;
+  confirmPassword: FormControl;
   private credential: Credential;
-  private _doNotDisplayFailureMessage: boolean;
+  private user: User;
+  doNotDisplayFailureMessage: boolean;
 
   constructor(private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
               private router: Router) {
 
     this.credential = new Credential();
+    this.user = new User();
 
     this.username = new FormControl('', [
       Validators.required,
       this.usernameValidator(authenticationService)
     ]);
+
+    this.firstName = new FormControl( '', [Validators.required]);
+
+    this.lastName = new FormControl( '', [Validators.required]);
 
     this.password = new FormControl('', [
       Validators.required,
@@ -44,16 +53,19 @@ export class RegisterComponent implements OnInit {
 
     this.registrationForm = formBuilder.group({
       'username': this.username,
+      'firstName': this.firstName,
+      'lastName': this.lastName,
       'password': this.password,
       'confirmPassword': this.confirmPassword
     });
 
     this.registrationForm
       .valueChanges
-      .subscribe( value => {
+      .subscribe(value => {
         this.credential.username = value.username;
         this.credential.password = value.password;
-        this.credential.changedPassword = value.confirmPassword;
+        this.user.firstName = value.firstName;
+        this.user.lastName = value.lastName;
       });
 
     this.doNotDisplayFailureMessage = true;
@@ -147,56 +159,14 @@ export class RegisterComponent implements OnInit {
     };
   }
 
-  get registrationForm(): FormGroup {
-    return this._registrationForm;
-  }
-
-  set registrationForm(value: FormGroup) {
-    this._registrationForm = value;
-  }
-
-  get username(): FormControl {
-    return this._username;
-  }
-
-  set username(value: FormControl) {
-    this._username = value;
-  }
-
-  get password(): FormControl {
-    return this._password;
-  }
-
-  set password(value: FormControl) {
-    this._password = value;
-  }
-
-  get confirmPassword(): FormControl {
-    return this._confirmPassword;
-  }
-
-  set confirmPassword(value: FormControl) {
-    this._confirmPassword = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
-  }
-
   onSubmit() {
     this.doNotDisplayFailureMessage = true;
 
     this.authenticationService
-    .addCredential(this.credential)
+    .addCredential(this.credential, this.user)
     .subscribe(confirmation => {
-      const confirmationId = confirmation.confirmationId;
-      const credentialId = confirmation.credentialId;
-      if (confirmationId && credentialId) {
-        this.router.navigate([`/authentication/confirmations/${credentialId}/${confirmationId}`]);
+      if (confirmation) {
+        this.router.navigate([`/authentication/confirmations/${confirmation.credentialId}/${confirmation.confirmationId}`]);
       } else {
         this.doNotDisplayFailureMessage = false;
       }

@@ -11,21 +11,25 @@
 
 @media (max-width: 399px) {
   .auth-box-w form {
-    padding: 20px 40px 60px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
 }
 
-.sendPhoneCode {
+@media (max-width: 295px) {
+  .auth-box-w form {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+.sendCode {
   margin-top: 2rem;
   text-align: center;
 }
 
 #heading-message {
   margin-bottom: 3rem;
-}
-
-#button1 {
-  margin-right: 0 !important;
 }
 
 #button2 {
