@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PhotoService} from '../../photo/photo.service';
-import {UserService} from "../../parties/users/user.service";
-import {UserResponse} from "../../parties/user.response";
+import {UserService} from '../../parties/users/user.service';
+import {UserResponse} from '../../parties/user.response';
 
 @Component({
   selector: 'app-side-menu',

@@ -20,6 +20,7 @@ import { FrontHomeModule } from '../front-home/front-home.module';
 import { ClientModule } from '../client/client.module';
 import { MaterialModule } from './material.module';
 import 'hammerjs';
+import {MenuModule} from "../menu/menu.module";
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import 'hammerjs';
     SessionModule,
     ClientModule,
     FrontHomeModule,
+    MenuModule
   ],
   declarations: [
     AppComponent,

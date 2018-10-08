@@ -1,69 +1,59 @@
 /*
   Troumaca overrides etc.
 */
-/*.all-wrapper {*/
-  /*max-width: 1820px;*/
-  /*height: 100% !important;*/
-/*}*/
+.all-wrapper {
+max-width: 1820px;
+height: 100% !important;
+}
 
 /*.container-main {*/
-  /*width: 100%;*/
-  /*height: 100% !important;*/
+/*width: 100%;*/
+/*height: 100% !important;*/
 /*}*/
 
 /*.menu-side .layout-w {*/
-  /*height: 100% !important;*/
-  /*width: 100%;*/
-  /*display: flex;*/
-  /*display: -webkit-flex;*/
-  /*-webkit-flex-direction: column;*/
-  /*flex-direction: column;*/
+/*height: 100% !important;*/
+/*width: 100%;*/
+/*display: flex;*/
+/*display: -webkit-flex;*/
+/*-webkit-flex-direction: column;*/
+/*flex-direction: column;*/
 /*}*/
 
-/*.container-app {*/
-  /*height: 100% !important;*/
-  /*width: 100%;*/
-  /*order: 2;*/
-  /*display: flex;*/
-  /*display: -webkit-flex;*/
-  /*-webkit-flex-direction: row;*/
-  /*flex-direction: row;*/
-  /*min-height: 768px;*/
+.container-app {
+  height: 100% !important;
+  width: 100%;
+  order: 2;
+  display: flex;
+  display: -webkit-flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  min-height: 768px;
   /*-webkit-align-items: flex-start;*/
   /*align-items: flex-start;  */
-/*}*/
+}
 
-/*.container-content {*/
-  /*order: 2;*/
-  /*width: 100%;*/
-  /*height: 100% !important;*/
-/*}*/
+.container-content {
+  order: 2;
+  flex-grow: 100;
+  min-height: 100% !important;
+}
 
-
-/*.container-content2 {*/
-  /*order: 2;*/
-  /*width: calc(100% - 90px);*/
-  /*height: 100% !important;*/
-/*}*/
-
-/*.layout-w {*/
-  /*min-height: 768px;*/
-/*}*/
+.layout-w {
+  min-height: 768px;
+}
 
 /*Media query*/
-/*@media only screen and (max-width: 750px) {*/
-  /*.menu-container-side {*/
-    /*display: none;*/
-  /*}*/
-  /*.container-content2 {*/
-    /*width: 100%;*/
-  /*}*/
-/*}*/
+@media only screen and (max-width: 750px) {
+  .menu-container-side {
+    display: none;
+  }
+  .container-content {
+    width: 100%;
+  }
+}
 
 /*:host  {*/
-  /*width: 100%;*/
-  /*height: 100% !important;*/
+/*width: 100%;*/
+/*height: 100% !important;*/
 /*}*/
-
-
-

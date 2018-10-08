@@ -12,6 +12,7 @@ import {menuServiceProvider} from './menu.service.provider';
 import {userServiceProvider} from '../parties/users/user.service.provider';
 import {photoServiceProvider} from '../photo/photo.service.provider';
 import {billingDetailsServiceProvider} from "../billing-details/billing-details.service.provider";
+import { eventServiceProvider } from "../event/event.service.provider";
 
 @NgModule({
   imports: [
@@ -27,7 +28,7 @@ import {billingDetailsServiceProvider} from "../billing-details/billing-details.
     SideMenuComponent,
     MenuComponent
   ],
-  providers: [menuServiceProvider, userServiceProvider, photoServiceProvider, billingDetailsServiceProvider],
+  providers: [menuServiceProvider, userServiceProvider, photoServiceProvider, billingDetailsServiceProvider, eventServiceProvider],
   exports: [
     MobileMenuComponent,
     TopMenuComponent,
