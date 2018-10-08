@@ -128,14 +128,19 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   resendConfirmationCode(confirmationId: string, credentialId: string): Observable<ConfirmationState> {
-    const url = `${this.hostPort}/authentication/confirmations/send/${credentialId}/${confirmationId}`;
+    const url = `${this.hostPort}/authentication/confirmations/resend`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
 
+    const body = {
+      confirmationId: confirmationId,
+      credentialId: credentialId
+    };
+
     return this.httpClient
-      .get<ConfirmationState>(url, httpOptions)
+      .post<ConfirmationState>(url, body, httpOptions)
       .pipe(map(data => {
         return data;
       }));

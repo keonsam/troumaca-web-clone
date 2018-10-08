@@ -84,7 +84,7 @@ export class ConfirmationComponent implements OnInit {
     this.authenticationService
       .verifyConfirmation(this.confirmation)
       .subscribe(confirmation => {
-        if (confirmation.confirmationId) {
+        if (confirmation.status === 'Confirmed') {
           this.message = 'Your account has been confirmed.\n' +
             '      Please login.';
           this.showSuccessMessage = true;

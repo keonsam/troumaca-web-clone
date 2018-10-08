@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <div *ngIf="tab === 0" class="element-wrapper">
+      <div *ngIf="tab === 0" class="element-wrapper smaller-wrapper">
             <div class="element-box">
               <form [formGroup]="requestAccessForm">
                 <h5 class="form-header">
@@ -57,7 +57,9 @@
             </div>
           </div>
 
-      <app-organization-form *ngIf="tab === 1" [profile]="true"></app-organization-form>
+      <div class="smaller-wrapper">
+        <app-organization-form *ngIf="tab === 1" [profile]="true" ></app-organization-form>
+      </div>
 
 
     </div>

@@ -17,17 +17,27 @@ export class AppComponent implements OnInit {
     '/authentication/register'
   ];
 
+  isAuthPath = false;
+  showMenu = false;
+
   constructor(private router: Router,
               private renderer: Renderer2,
-              ) { }
+              ) {}
 
   ngOnInit(): void {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
         const url = this.calURL(event.url);
         if (this.isAuthRoutes.indexOf(url) !== -1) {
+          this.isAuthPath = true;
           this.renderer.addClass(document.body, 'center-container');
         } else {
+          this.isAuthPath = false;
+          if (url === '/profile-organizations') {
+            this.showMenu = false;
+          } else {
+            this.showMenu = true;
+          }
           this.renderer.removeClass(document.body, 'center-container');
         }
       }

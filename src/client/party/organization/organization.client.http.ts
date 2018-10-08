@@ -61,7 +61,7 @@ export class OrganizationClientHttp implements OrganizationClient {
   public addOrganizationState(organizationState: OrganizationState, profile?: boolean): Observable<OrganizationState> {
     let url: string;
     if (profile) {
-      url = `${this.hostPort}/organizations/profile`;
+      url = `${this.hostPort}/organizations/profiles`;
     }else {
       url = `${this.hostPort}/organizations`;
     }
