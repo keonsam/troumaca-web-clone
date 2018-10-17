@@ -13,16 +13,7 @@ export class LobbyRepositoryAdapter extends LobbyRepository {
   }
 
   getModules(): Observable<Module[]> {
-    return this.lobbyClient.getModules()
-      .pipe( map( value => {
-        let newModules: Module[] = [];
-        if (value) {
-          newModules = value.map(x => {
-            return mapObjectProps(x, new Module());
-          });
-        }
-        return newModules;
-      }));
+    return this.lobbyClient.getModules();
   }
 
   addSubscription(subscription: Subscription): Observable<Subscription> {

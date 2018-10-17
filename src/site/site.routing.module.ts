@@ -19,9 +19,10 @@ import { SiteStreetAddressFormComponent } from './site-street-address-form/site.
 import { StreetAddressResolve } from './site-street-address-form/street.address.resolve';
 import { SiteWebFormComponent } from './site-web-form/site.web.form.component';
 import {WebSiteResolve} from './site-web-form/web.site.resolve';
+import {AuthGuard} from "../auth-guard/auth.guard";
 
 export const routes: Routes = [
-  { path: '', component: SiteComponent,  children: [
+  { path: '', component: SiteComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
       { path: '', redirectTo: '/sites/street-addresses', pathMatch: 'full' },
       { path: 'street-addresses', component: SiteStreetAddressListComponent },
       { path: 'street-addresses/create', component: SiteStreetAddressFormComponent },

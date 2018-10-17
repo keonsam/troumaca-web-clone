@@ -4,9 +4,10 @@ import {AssetTypeComponent} from './asset.type.component';
 import {AssetTypeListComponent} from './asset-type-list/asset.type.list.component';
 import { AssetTypeFormComponent } from "./asset-type-form/asset.type.form.component";
 import {AssetTypeResolve} from "./asset.type.resolve";
+import {AuthGuard} from "../auth-guard/auth.guard";
 
 export const routes: Routes = [
-  { path: '', component: AssetTypeComponent, children: [
+  { path: '', component: AssetTypeComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
       { path: '', redirectTo: '/asset-types/listing', pathMatch: 'full' },
       { path: 'listing', component: AssetTypeListComponent },
       { path: 'create', component: AssetTypeFormComponent },

@@ -1,14 +1,14 @@
-import {BillingDetailsRepository} from "../../billing-details/billing.details.repository";
-import {Observable} from "rxjs";
-import {PaymentMethod} from "../../billing-details/billing-modal/payment.method";
-import {BillingDetailsClient} from "../../client/billing-details/billing-details.client";
-import {map} from "rxjs/operators";
-import {mapObjectProps} from "../../mapper/object.property.mapper";
-import {CreditCard} from "../../billing-details/billing-modal/credit.card";
-import {CreditCardState} from "../../client/billing-details/credit.card.state";
-import {ValidResp} from "../../authentication/resp.valid";
-import {Subscription} from "../../lobby/subscription";
-import {Billing} from "../../billing-details/billing";
+import {BillingDetailsRepository} from '../../billing-details/billing.details.repository';
+import {Observable} from 'rxjs';
+import {PaymentMethod} from '../../billing-details/billing-modal/payment.method';
+import {BillingDetailsClient} from '../../client/billing-details/billing-details.client';
+import {map} from 'rxjs/operators';
+import {mapObjectProps} from '../../mapper/object.property.mapper';
+import {CreditCard} from '../../billing-details/billing-modal/credit.card';
+import {CreditCardState} from '../../client/billing-details/credit.card.state';
+import { ValidResponse } from "../../authentication/valid.response";
+import {Subscription} from '../../lobby/subscription';
+import {Billing} from '../../billing-details/billing';
 
 export class BillingDetailsRepositoryAdapter extends BillingDetailsRepository {
 
@@ -76,19 +76,19 @@ export class BillingDetailsRepositoryAdapter extends BillingDetailsRepository {
 
   // Validation
 
-  isValidCardName(value: string): Observable<ValidResp> {
+  isValidCardName(value: string): Observable<ValidResponse> {
     return this.billingDetailsClient.isValidCardName(value);
   }
 
-  isValidCardNumber(value: string): Observable<ValidResp> {
+  isValidCardNumber(value: string): Observable<ValidResponse> {
     return this.billingDetailsClient.isValidCardNumber(value);
   }
 
-  isValidCardExpDate(value: Date): Observable<ValidResp> {
+  isValidCardExpDate(value: Date): Observable<ValidResponse> {
     return this.billingDetailsClient.isValidCardExpDate(value);
   }
 
-  isValidCardCVV(value: string): Observable<ValidResp> {
+  isValidCardCVV(value: string): Observable<ValidResponse> {
     return this.billingDetailsClient.isValidCardCVV(value);
   }
 

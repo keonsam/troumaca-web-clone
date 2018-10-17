@@ -15,6 +15,7 @@ import { UnitOfMeasureModule } from "../unit-of-measure/unit.of.measure.module";
 import {assetResolveProvider } from "./asset.resolve.provider";
 import {AssetFormComponent} from "./asset-form/asset.form.component";
 import {DeleteModalModule} from "../delete-modal/delete.modal.module";
+import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 
 @NgModule({
   imports: [
@@ -36,7 +37,7 @@ import {DeleteModalModule} from "../delete-modal/delete.modal.module";
     AssetListComponent,
     AssetTopMenuComponent,
   ],
-  providers: [assetServiceProvider, assetResolveProvider],
+  providers: [assetServiceProvider, assetResolveProvider, authGuardProvider],
   exports: [
     // AssetComponent,
     // AssetEditComponent,

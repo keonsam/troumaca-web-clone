@@ -1,52 +1,12 @@
 export class Subscription {
-  private _subscriptionId: string;
-  private _moduleId: string;
-  private _subscribed: boolean;
-  private _name: string;
-  private _cost: string;
+  subscriptionId: string;
+  moduleId: string;
+  subscribed: boolean;
+  name: string;
+  cost: string;
 
   constructor(moduleId?: string, cost?: string) {
-    this._moduleId = moduleId;
-    this._cost = cost;
-  }
-
-  get subscriptionId(): string {
-    return this._subscriptionId;
-  }
-
-  set subscriptionId(value: string) {
-    this._subscriptionId = value;
-  }
-
-  get moduleId(): string {
-    return this._moduleId;
-  }
-
-  set moduleId(value: string) {
-    this._moduleId = value;
-  }
-
-  get subscribed(): boolean {
-    return this._subscribed;
-  }
-
-  set subscribed(value: boolean) {
-    this._subscribed = value;
-  }
-
-  get name(): string {
-    return this._name;
-  }
-
-  set name(value: string) {
-    this._name = value;
-  }
-
-  get cost(): string {
-    return this._cost;
-  }
-
-  set cost(value: string) {
-    this._cost = value;
+    this.moduleId = moduleId;
+    this.cost = cost;
   }
 }

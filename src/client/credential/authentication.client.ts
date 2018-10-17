@@ -1,17 +1,17 @@
-import {Observable} from 'rxjs';
-import {CredentialState} from './credential.state';
-import {ValidResp} from "../../authentication/resp.valid";
-import {ConfirmationState} from "./confirmation.state";
-import {AuthenticatedCredentialState} from "./authenticated.credential.state";
-import {UserState} from "../party/user.state";
+import { Observable } from 'rxjs';
+import { ValidResponse } from '../../authentication/valid.response';
+import { Credential } from '../../authentication/credential';
+import { User } from '../../parties/user';
+import { AuthenticatedCredential } from '../../authentication/authenticated.credential';
+import { Confirmation } from '../../authentication/confirmation';
 
 export abstract class AuthenticationClient {
 
-  abstract authenticate(credentialState: CredentialState): Observable<AuthenticatedCredentialState>;
+  abstract authenticate(credentialState: Credential): Observable<AuthenticatedCredential>;
   abstract forgotPassword(username: string): Observable<boolean>;
-  abstract isValidPassword(password: string): Observable<ValidResp>;
-  abstract isValidUsername(username: string, partyId?: string): Observable<ValidResp>;
-  abstract addCredential(credential: CredentialState, userState: UserState): Observable<ConfirmationState>;
-  abstract verifyConfirmationState(conformationState: ConfirmationState): Observable<ConfirmationState>;
-  abstract resendConfirmationCode(confirmationId: string, credentialId: string): Observable<ConfirmationState>;
+  abstract isValidPassword(password: string): Observable<ValidResponse>;
+  abstract isValidUsername(username: string, partyId?: string): Observable<ValidResponse>;
+  abstract addCredential(credential: Credential, userState: User): Observable<Confirmation>;
+  abstract verifyConfirmationState(conformationState: Confirmation): Observable<Confirmation>;
+  abstract resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation>;
 }

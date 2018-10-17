@@ -7,9 +7,10 @@ import {TaxScheduleComponent} from "./tax/tax-schedule/tax.schedule.component";
 import {DepreciationBookResolve} from "./depreciation.book.resolve";
 import { TaxFormComponent } from "./tax/tax-form/tax.form.component";
 import {DepreciationTaxResolve} from "./depreciation.tax.resolve";
+import {AuthGuard} from "../auth-guard/auth.guard";
 
 export const routes: Routes = [
-  { path: '', component: DepreciationComponent, children: [
+  { path: '', component: DepreciationComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
       { path: '', redirectTo: '/depreciation/book/schedule', pathMatch: 'full' },
       { path: 'book/schedule', component: BookScheduleComponent },
       { path: 'book/create', component: BookFormComponent},

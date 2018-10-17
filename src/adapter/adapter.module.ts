@@ -10,7 +10,6 @@ import {assetTypeRepositoryProvider} from './asset-types/asset.repository.adapte
 import {attributeRepositoryProvider} from './attributes/attributes.repository.adapter.provider';
 import {assetTypeClassRepositoryProvider} from './asset-type-classes/asset.type.classes.adapter.provider';
 import {unitOfMeasureRepositoryProvider} from './unit-of-measures/unit.of.measure.repository.adapter.provider';
-import {quoteRepositoryProvider} from './quote/quote.repository.adapter.provider';
 import {shipmentRepositoryProvider} from './shipment/shipment.repository.adapter.provider';
 import {authenticationRepositoryProvider} from './authentication/authentication.repository.adapter.provider';
 import {accessRoleRepositoryProvider} from './access-roles/access.role.adapter.provider';
@@ -18,9 +17,10 @@ import {depreciationRepositoryProvider} from './depreciation/depreciation.reposi
 import { partyRepositoryProvider } from './party/party.repository.adapter.provider';
 import { photoRepositoryProvider } from './photo/photo.repository.adapter.provider';
 import { userRepositoryProvider } from './party/user/user.repository.adapter.provider';
-import { organizationRepositoryProvider } from "./party/organization/organization.repository.adapter.provider";
-import {billingDetailsRepositoryProvider} from "./billing-details/billing-details.repository.adapter.provider";
-import {lobbyRepositoryProvider} from "./lobby/lobby.repository.adapter.provider";
+import { organizationRepositoryProvider } from './party/organization/organization.repository.adapter.provider';
+import {billingDetailsRepositoryProvider} from './billing-details/billing-details.repository.adapter.provider';
+import {lobbyRepositoryProvider} from './lobby/lobby.repository.adapter.provider';
+import { authGuardServiceProvider } from './auth-guard/auth.guard.repository.adapter.provider';
 
 @NgModule({
   imports:      [],
@@ -39,7 +39,6 @@ import {lobbyRepositoryProvider} from "./lobby/lobby.repository.adapter.provider
     assetTypeClassRepositoryProvider,
     unitOfMeasureRepositoryProvider,
     assetPersonRepositoryProvider,
-    quoteRepositoryProvider,
     shipmentRepositoryProvider,
     authenticationRepositoryProvider,
     accessRoleRepositoryProvider,
@@ -49,7 +48,8 @@ import {lobbyRepositoryProvider} from "./lobby/lobby.repository.adapter.provider
     userRepositoryProvider,
     organizationRepositoryProvider,
     billingDetailsRepositoryProvider,
-    lobbyRepositoryProvider
+    lobbyRepositoryProvider,
+    authGuardServiceProvider
   ]
 })
 export class AdapterModule { }

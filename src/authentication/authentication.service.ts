@@ -1,21 +1,21 @@
 import {Observable} from 'rxjs';
 import {AuthenticationRepository} from './authentication.repository';
-import { Credential } from "./credential";
-import {ValidResp} from "./resp.valid";
-import { Confirmation } from "./confirmation";
-import {AuthenticatedCredential} from "./authenticated.credential";
-import {User} from "../parties/user";
+import { Credential } from './credential';
+import { ValidResponse} from './valid.response';
+import { Confirmation } from './confirmation';
+import {AuthenticatedCredential} from './authenticated.credential';
+import {User} from '../parties/user';
 
 export class AuthenticationService {
 
   constructor(private authenticationRepository: AuthenticationRepository) {
   }
 
-  public isValidUsername(username: string, partyId?: string): Observable<ValidResp> {
+  public isValidUsername(username: string, partyId?: string): Observable<ValidResponse> {
     return this.authenticationRepository.isValidUsername(username, partyId);
   }
 
-  public isValidPassword(password: string): Observable<ValidResp> {
+  public isValidPassword(password: string): Observable<ValidResponse> {
     return this.authenticationRepository.isValidPassword(password);
   }
 

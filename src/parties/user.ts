@@ -1,46 +1,13 @@
 import {Party} from './party';
 
 export class User extends Party {
-
-  private _firstName: string;
-  private _middleName: string;
-  private _lastName: string;
-  private _username: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  username: string;
 
   get name(): string {
     return `${this.lastName || ''}, ${this.firstName || ''}`;
-  }
-
-  get firstName(): string {
-    return this._firstName;
-  }
-
-  set firstName(value: string) {
-    this._firstName = value;
-  }
-
-  get middleName(): string {
-    return this._middleName;
-  }
-
-  set middleName(value: string) {
-    this._middleName = value;
-  }
-
-  get lastName(): string {
-    return this._lastName;
-  }
-
-  set lastName(value: string) {
-    this._lastName = value;
-  }
-
-  get username(): string {
-    return this._username;
-  }
-
-  set username(value: string) {
-    this._username = value;
   }
 
 }

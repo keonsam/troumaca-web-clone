@@ -4,7 +4,6 @@ import { Subscription } from './subscription';
 import { Module } from './module';
 import {LobbyService} from './lobby.service';
 import {BillingDetailsService} from "../billing-details/billing.details.service";
-import {MatStepper} from "@angular/material";
 
 @Component({
   selector: 'app-lobby-home',
@@ -17,7 +16,7 @@ export class LobbyComponent implements OnInit {
   modules: Module[];
   moduleClass: Module;
   @ViewChild('showModal') showModal: ElementRef;
-  @ViewChild('stepper') stepper: MatStepper;
+  // @ViewChild('stepper') stepper: MatStepper;
   @ViewChild('closeButton') closeButton: ElementRef;
   private subscription: Subscription;
   doNotDisplayFailureMessage = true;
@@ -47,7 +46,7 @@ export class LobbyComponent implements OnInit {
   private getModules() {
     this.lobbyService.getModules()
       .subscribe( modules => {
-        if (modules) {
+        if (modules && modules.length > 0) {
           this.modules = modules;
         }
       });
@@ -63,9 +62,9 @@ export class LobbyComponent implements OnInit {
   }
 
   nextStep(index: number) {
-    if (this.stepper.selectedIndex !== index) {
-      this.stepper.selectedIndex = index;
-    }
+    // if (this.stepper.selectedIndex !== index) {
+    //   this.stepper.selectedIndex = index;
+    // }
   }
 
   onBillingChanges(changed: boolean) {

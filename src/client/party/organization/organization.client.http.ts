@@ -1,11 +1,11 @@
-import {OrganizationClient} from "./organization.client";
-import {UUIDGenerator} from "../../../uuid.generator";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {OrganizationStates} from "../organization.states";
-import {map} from "rxjs/operators";
-import {OrganizationState} from "../organization.state";
-import {JoinOrganizationState} from "../join.organization.state";
+import {OrganizationClient} from './organization.client';
+import {UUIDGenerator} from '../../../uuid.generator';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import { Organizations } from '../../../parties/organizations';
+import {map} from 'rxjs/operators';
+import { Organization } from '../../../parties/organization';
+import { JoinOrganization } from '../../../parties/join.organization';
 
 export class OrganizationClientHttp implements OrganizationClient {
   constructor(private uuidGenerator: UUIDGenerator,
@@ -13,52 +13,52 @@ export class OrganizationClientHttp implements OrganizationClient {
               private hostPort: string) {
   }
 
-  findOrganizations(searchStr: string, pageSize: number): Observable<OrganizationState[]> {
+  findOrganizations(searchStr: string, pageSize: number): Observable<Organization[]> {
     const url = `${this.hostPort}/organizations-find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<OrganizationState[]>(url, httpOptions).pipe(map(data => {
+    return this.httpClient.get<Organization[]>(url, httpOptions).pipe(map(data => {
       return data;
     }));
   }
 
-  addOrganizationRequest(request: JoinOrganizationState): Observable<JoinOrganizationState> {
-    const url = `${this.hostPort}/organizations/access-requests`;
+  addOrganizationRequest(request: JoinOrganization): Observable<JoinOrganization> {
+    const url = `${this.hostPort}/organizations/request-access`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-      .post<JoinOrganizationState>(url, request.toJson(), httpOptions)
+      .post<JoinOrganization>(url, request, httpOptions)
       .pipe(map(data => {
         return data;
       }));
   }
 
-  public getOrganizations(pageNumber: number, pageSize: number, sortOrder: string): Observable<OrganizationStates> {
+  public getOrganizations(pageNumber: number, pageSize: number, sortOrder: string): Observable<Organizations> {
     const url = `${this.hostPort}/organizations?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<OrganizationStates>(url, httpOptions).pipe(map(data => {
+    return this.httpClient.get<Organizations>(url, httpOptions).pipe(map(data => {
       return data;
     }));
   }
 
 
-  public getOrganizationState(partyId?: string): Observable<OrganizationState>{
+  public getOrganizationState(partyId?: string): Observable<Organization> {
     const url = `${this.hostPort}/organizations/${partyId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-      .get<OrganizationState>(url, httpOptions)
+      .get<Organization>(url, httpOptions)
       .pipe(map(data => {
         return data;
       }));
   }
 
-  public addOrganizationState(organizationState: OrganizationState, profile?: boolean): Observable<OrganizationState> {
+  public addOrganizationState(organizationState: Organization, profile?: boolean): Observable<Organization> {
     let url: string;
     if (profile) {
       url = `${this.hostPort}/organizations/profiles`;
@@ -70,7 +70,7 @@ export class OrganizationClientHttp implements OrganizationClient {
     };
 
     return this.httpClient
-      .post<OrganizationState>(url, organizationState.toJson(), httpOptions)
+      .post<Organization>(url, organizationState, httpOptions)
       .pipe(map(data => {
         return data;
       }));
@@ -88,13 +88,13 @@ export class OrganizationClientHttp implements OrganizationClient {
       }));
   }
 
-  public updateOrganization(organizationState: OrganizationState): Observable<number> {
+  public updateOrganization(organizationState: Organization): Observable<number> {
     const url = `${this.hostPort}/organizations/${organizationState.partyId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-      .put<number>(url, organizationState.toJson(), httpOptions)
+      .put<number>(url, organizationState, httpOptions)
       .pipe(map(data => {
         return data;
       }));

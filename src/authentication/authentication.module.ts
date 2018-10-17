@@ -7,7 +7,6 @@ import {AuthenticationComponent} from './authentication.component';
 import {RegisterComponent} from './register/register.component';
 import {ForgotPasswordComponent} from './forgot-password/forgot.password.component';
 import {ConfirmationComponent} from './confirmation/confirmation.component';
-import {LockComponent} from './lock/lock.component';
 import {authenticationServiceProvider} from './authenticate.service.provider';
 import { AuthenticationRoutingModule } from './authentication.routing.module';
 
@@ -25,7 +24,6 @@ import { AuthenticationRoutingModule } from './authentication.routing.module';
     RegisterComponent,
     ForgotPasswordComponent,
     ConfirmationComponent,
-    LockComponent
   ],
   providers: [authenticationServiceProvider],
   exports: []

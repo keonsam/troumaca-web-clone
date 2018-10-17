@@ -18,9 +18,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SessionModule} from '../session/session.module';
 import { FrontHomeModule } from '../front-home/front-home.module';
 import { ClientModule } from '../client/client.module';
-import { MaterialModule } from './material.module';
-import 'hammerjs';
-import {MenuModule} from "../menu/menu.module";
+import { MenuModule } from '../menu/menu.module';
+import { authGuardProvider } from '../auth-guard/auth.guard.provider';
 
 @NgModule({
   imports: [
@@ -30,7 +29,6 @@ import {MenuModule} from "../menu/menu.module";
     Ng2CompleterModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule,
     HttpClientModule,
     AdapterModule,
     PageNotFoundModule,
@@ -47,7 +45,8 @@ import {MenuModule} from "../menu/menu.module";
     {provide: APP_BASE_HREF, useValue: '/'},
     {provide: AppConfig, useClass: AppConfig},
     {provide: UUIDGenerator, useClass: UUIDGenerator},
-    sessionInterceptorProvider
+    sessionInterceptorProvider,
+    authGuardProvider
   ],
   bootstrap: [AppComponent]
 })

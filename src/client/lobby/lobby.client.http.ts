@@ -3,8 +3,8 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { map } from "rxjs/operators";
 import {LobbyClient} from "./lobby.client";
-import {ModuleState} from "./module.state";
 import {SubscriptionState} from "./subscription.state";
+import {Module} from "../../lobby/module";
 
 export class LobbyClientHttp extends LobbyClient {
   constructor(private uuidGenerator: UUIDGenerator,
@@ -13,12 +13,12 @@ export class LobbyClientHttp extends LobbyClient {
     super();
   }
 
-  getModules(): Observable<ModuleState[]> {
+  getModules(): Observable<Module[]> {
     const url = `${this.hostPort}/subscriptions/modules`;
       const httpOptions = {
         headers: this.jsonHttpHeaders()
       };
-      return this.httpClient.get<ModuleState[]>(url, httpOptions)
+      return this.httpClient.get<Module[]>(url, httpOptions)
         .pipe(map(data => {
           return data;
         }));

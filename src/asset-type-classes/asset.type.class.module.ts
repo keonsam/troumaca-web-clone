@@ -16,6 +16,7 @@ import { assetTypeClassResolveProvider } from './asset.type.class.resolve.provid
 import {DeleteModalModule} from '../delete-modal/delete.modal.module';
 import {attributeServiceProvider} from '../attributes/attribute.service.provider';
 import {AttributeModule} from '../attributes/attribute.module';
+import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 
 @NgModule({
   imports: [
@@ -37,7 +38,7 @@ import {AttributeModule} from '../attributes/attribute.module';
     AssetTypeClassFormComponent,
     AssetTypeClassTopMenuComponent,
   ],
-  providers: [assetTypeClassServiceProvider, assetTypeClassResolveProvider, attributeServiceProvider],
+  providers: [assetTypeClassServiceProvider, assetTypeClassResolveProvider, attributeServiceProvider, authGuardProvider],
   exports: []
 })
 export class AssetTypeClassModule {}
