@@ -1,5 +1,6 @@
 import {Component, OnInit, Renderer2} from '@angular/core';
-import {NavigationStart, Router} from '@angular/router';
+import {NavigationEnd, NavigationStart, Router} from '@angular/router';
+import { authRoutes } from "./auth.routes";
 
 @Component({
   selector: 'app-component',
@@ -8,37 +9,33 @@ import {NavigationStart, Router} from '@angular/router';
 })
 export class AppComponent implements OnInit {
 
-  private isAuthRoutes: string[] = [
-    '/',
-    '/home',
-    '/authentication/login',
-    '/authentication/forgot-password',
-    '/authentication/confirmations',
-    '/authentication/register'
-  ];
-
   isAuthPath = false;
   showMenu = false;
 
   constructor(private router: Router,
               private renderer: Renderer2,
-              ) {}
+              ) { }
 
   ngOnInit(): void {
     this.router.events.subscribe((event: any) => {
+
       if (event instanceof NavigationStart) {
         const url = this.calURL(event.url);
-        if (this.isAuthRoutes.indexOf(url) !== -1) {
+        if (authRoutes.indexOf(url) > -1) {
           this.isAuthPath = true;
           this.renderer.addClass(document.body, 'center-container');
         } else {
           this.isAuthPath = false;
-          if (url === '/profile-organizations') {
-            this.showMenu = false;
-          } else {
-            this.showMenu = true;
-          }
           this.renderer.removeClass(document.body, 'center-container');
+        }
+      }
+
+      if (event instanceof NavigationEnd) {
+        const url = this.calURL(event.url);
+        if (authRoutes.indexOf(url) > -1 || url === '/profile-organizations') {
+          this.showMenu = false;
+        } else {
+          this.showMenu = true;
         }
       }
     });

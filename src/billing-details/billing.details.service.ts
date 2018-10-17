@@ -1,10 +1,10 @@
-import {BehaviorSubject, Observable} from "rxjs";
-import {PaymentMethod} from "./billing-modal/payment.method";
-import {BillingDetailsRepository} from "./billing.details.repository";
-import {CreditCard} from "./billing-modal/credit.card";
-import {ValidResp} from "../authentication/resp.valid";
-import {Subscription} from "../lobby/subscription";
-import {Billing} from "./billing";
+import {BehaviorSubject, Observable} from 'rxjs';
+import {PaymentMethod} from './billing-modal/payment.method';
+import {BillingDetailsRepository} from './billing.details.repository';
+import {CreditCard} from './billing-modal/credit.card';
+import { ValidResponse } from "../authentication/valid.response";
+import {Subscription} from '../lobby/subscription';
+import {Billing} from './billing';
 
 export class BillingDetailsService {
 
@@ -49,19 +49,19 @@ export class BillingDetailsService {
 
   // VALIDATION
 
-  public isValidCardName(value: string): Observable<ValidResp> {
+  public isValidCardName(value: string): Observable<ValidResponse> {
     return this.billingDetailsRepository.isValidCardName(value);
   }
 
-  public isValidCardNumber(value: string): Observable<ValidResp> {
+  public isValidCardNumber(value: string): Observable<ValidResponse> {
     return this.billingDetailsRepository.isValidCardNumber(value);
   }
 
-  public isValidCardExpDate(value: Date): Observable<ValidResp> {
+  public isValidCardExpDate(value: Date): Observable<ValidResponse> {
     return this.billingDetailsRepository.isValidCardExpDate(value);
   }
 
-  public isValidCardCVV(value: string): Observable<ValidResp> {
+  public isValidCardCVV(value: string): Observable<ValidResponse> {
     return this.billingDetailsRepository.isValidCardCVV(value);
   }
 

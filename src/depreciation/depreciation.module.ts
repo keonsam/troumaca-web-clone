@@ -14,6 +14,7 @@ import { BookFormComponent } from "./book/book-form/book.form.component";
 import { depreciationBookResolveProvider } from "./depreciation.book.resolve.provider";
 import { TaxFormComponent } from "./tax/tax-form/tax.form.component";
 import { depreciationTaxResolveProvider } from "./depreciation.tax.resolve.provider";
+import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 
 @NgModule({
   imports: [
@@ -33,7 +34,7 @@ import { depreciationTaxResolveProvider } from "./depreciation.tax.resolve.provi
     TaxFormComponent,
     TaxScheduleComponent,
   ],
-  providers: [depreciationServiceProvider, depreciationBookResolveProvider, depreciationTaxResolveProvider],
+  providers: [depreciationServiceProvider, depreciationBookResolveProvider, depreciationTaxResolveProvider, authGuardProvider],
   exports: []
 })
 

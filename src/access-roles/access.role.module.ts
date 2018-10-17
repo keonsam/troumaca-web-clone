@@ -27,6 +27,7 @@ import { ResourceTypeFormComponent } from './resource-types/resource.type.form/r
 import { resourceTypeResolveProvider} from './resource-types/resource.type.resolve.provider';
 import { resourceResolveProvider } from "./resources/resource.resolve.provider";
 import {DeleteModalModule} from "../delete-modal/delete.modal.module";
+import { authGuardProvider } from "../auth-guard/auth.guard.provider";
 
 @NgModule({
   imports: [
@@ -57,7 +58,7 @@ import {DeleteModalModule} from "../delete-modal/delete.modal.module";
   ],
   providers: [accessRoleServiceProvider, accessRoleResolveProvider, accessRoleTypeResolveProvider,
     permissionResolveProvider,
-    resourceTypeResolveProvider, resourceResolveProvider],
+    resourceTypeResolveProvider, resourceResolveProvider, authGuardProvider],
   exports: [
   ]
 })

@@ -1,9 +1,9 @@
-import {Observable} from "rxjs";
-import {PaymentMethod} from "./billing-modal/payment.method";
-import {CreditCard} from "./billing-modal/credit.card";
-import {ValidResp} from "../authentication/resp.valid";
-import {Subscription} from "../lobby/subscription";
-import {Billing} from "./billing";
+import {Observable} from 'rxjs';
+import {PaymentMethod} from './billing-modal/payment.method';
+import {CreditCard} from './billing-modal/credit.card';
+import { ValidResponse } from "../authentication/valid.response";
+import {Subscription} from '../lobby/subscription';
+import {Billing} from './billing';
 
 export abstract class BillingDetailsRepository {
   abstract getPaymentMethods(): Observable<PaymentMethod[]>;
@@ -15,8 +15,8 @@ export abstract class BillingDetailsRepository {
   abstract deleteCreditCard(creditCardId: string): Observable<number>;
 
   // VALIDATION
-  abstract isValidCardName(value: string): Observable<ValidResp>;
-  abstract isValidCardNumber(value: string): Observable<ValidResp>;
-  abstract isValidCardExpDate(value: Date): Observable<ValidResp>;
-  abstract isValidCardCVV(value: string): Observable<ValidResp>;
+  abstract isValidCardName(value: string): Observable<ValidResponse>;
+  abstract isValidCardNumber(value: string): Observable<ValidResponse>;
+  abstract isValidCardExpDate(value: Date): Observable<ValidResponse>;
+  abstract isValidCardCVV(value: string): Observable<ValidResponse>;
 }

@@ -1,13 +1,13 @@
-import {BillingDetailsClient} from "./billing-details.client";
-import {UUIDGenerator} from "../../uuid.generator";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {PaymentMethodState} from "./payment.method.state";
-import {map} from "rxjs/operators";
-import {CreditCardState} from "./credit.card.state";
-import {ValidResp} from "../../authentication/resp.valid";
-import {SubscriptionState} from "../lobby/subscription.state";
-import {BillingState} from "./billing.state";
+import {BillingDetailsClient} from './billing-details.client';
+import {UUIDGenerator} from '../../uuid.generator';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {PaymentMethodState} from './payment.method.state';
+import {map} from 'rxjs/operators';
+import {CreditCardState} from './credit.card.state';
+import { ValidResponse } from "../../authentication/valid.response";
+import {SubscriptionState} from '../lobby/subscription.state';
+import {BillingState} from './billing.state';
 
 export class BillingDetailsClientHttp extends BillingDetailsClient {
 
@@ -82,7 +82,7 @@ export class BillingDetailsClientHttp extends BillingDetailsClient {
 
   // VALIDATION
 
-  isValidCardName(value: string): Observable<ValidResp> {
+  isValidCardName(value: string): Observable<ValidResponse> {
     const url = `${this.hostPort}/billings/validate/card-name`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -92,13 +92,13 @@ export class BillingDetailsClientHttp extends BillingDetailsClient {
       cardName: value
     };
 
-    return this.httpClient.post<ValidResp>(url, body, httpOptions)
+    return this.httpClient.post<ValidResponse>(url, body, httpOptions)
       .pipe(map(data => {
         return data;
       }));
   }
 
-  public isValidCardNumber(value: string): Observable<ValidResp> {
+  public isValidCardNumber(value: string): Observable<ValidResponse> {
     const url = `${this.hostPort}/billings/validate/card-number`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -108,13 +108,13 @@ export class BillingDetailsClientHttp extends BillingDetailsClient {
       cardNumber: value
     };
 
-    return this.httpClient.post<ValidResp>(url, body, httpOptions)
+    return this.httpClient.post<ValidResponse>(url, body, httpOptions)
       .pipe(map(data => {
         return data;
       }));
   }
 
-  public isValidCardExpDate(value: Date): Observable<ValidResp> {
+  public isValidCardExpDate(value: Date): Observable<ValidResponse> {
     const url = `${this.hostPort}/billings/validate/card-exp-date`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -124,13 +124,13 @@ export class BillingDetailsClientHttp extends BillingDetailsClient {
       cardExpDate: value
     };
 
-    return this.httpClient.post<ValidResp>(url, body, httpOptions)
+    return this.httpClient.post<ValidResponse>(url, body, httpOptions)
       .pipe(map(data => {
         return data;
       }));
   }
 
-  public isValidCardCVV(value: string): Observable<ValidResp> {
+  public isValidCardCVV(value: string): Observable<ValidResponse> {
     const url = `${this.hostPort}/billings/validate/card-cvv`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -140,7 +140,7 @@ export class BillingDetailsClientHttp extends BillingDetailsClient {
       cardCVV: value
     };
 
-    return this.httpClient.post<ValidResp>(url, body, httpOptions)
+    return this.httpClient.post<ValidResponse>(url, body, httpOptions)
       .pipe(map(data => {
         return data;
       }));

@@ -1,12 +1,11 @@
 import {SessionClient} from './session.client';
 import {UUIDGenerator} from '../../uuid.generator';
 import {Observable, of } from 'rxjs';
-import { map } from "rxjs/operators";
+import { map } from 'rxjs/operators';
 
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {SessionState} from './session.state';
-import {EventService} from '../../event/event.service';
-import {Event} from '../../authentication/event';
+import {ValidSession} from '../../session/valid.session';
 
 export class SessionClientHttp extends SessionClient {
 
@@ -17,20 +16,9 @@ export class SessionClientHttp extends SessionClient {
 
   constructor(private uuidGenerator: UUIDGenerator,
               private httpClient: HttpClient,
-              private hostPort: string,
-              private eventService: EventService) {
+              private hostPort: string) {
     super();
     this.duration = 1000 * 60 * 20;
-  }
-
-  createEventModel() {
-    const event: Event = new Event();
-    event.partyId = '123';
-    event.timestamp = new Date().getTime();
-    event.source = 'session.client.http';
-    event.name = 'session expired';
-
-    return event;
   }
 
   getSession(): Observable<SessionState> {
@@ -88,7 +76,21 @@ export class SessionClientHttp extends SessionClient {
       }));
   }
 
-  public jsonHttpHeaders(): HttpHeaders {
+  isValidSession(): Observable<ValidSession> {
+    const url = `${this.hostPort}/sessions/is-valid-session`;
+
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+
+    return this.httpClient
+      .get<ValidSession>(url, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+  private jsonHttpHeaders(): HttpHeaders {
     const httpHeaders: HttpHeaders = new HttpHeaders({
       'Content-Type':  'application/json',
       'correlationId': this.uuidGenerator.generateUUID()

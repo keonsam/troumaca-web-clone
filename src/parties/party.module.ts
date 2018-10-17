@@ -30,6 +30,7 @@ import { organizationServiceProvider } from './organizations/organization.servic
 import {OrganizationCompanyModule} from './organizations/organization-company/organization.company.module';
 import { OrganizationFormModule } from './organizations/organization-form/organization.form.module';
 import {DeleteModalModule} from '../delete-modal/delete.modal.module';
+import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 
 @NgModule({
   imports: [
@@ -58,7 +59,7 @@ import {DeleteModalModule} from '../delete-modal/delete.modal.module';
   ],
   providers: [partyServiceProvider, PartyEventService,
     organizationResolveProvider, userResolveProvider, userServiceProvider,
-    authenticationServiceProvider, organizationServiceProvider],
+    authenticationServiceProvider, organizationServiceProvider, authGuardProvider],
   exports: []
 })
 export class PartyModule {}

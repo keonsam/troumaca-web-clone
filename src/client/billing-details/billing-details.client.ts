@@ -1,9 +1,9 @@
-import {Observable} from "rxjs";
-import {PaymentMethodState} from "./payment.method.state";
-import {CreditCardState} from "./credit.card.state";
-import {ValidResp} from "../../authentication/resp.valid";
-import {SubscriptionState} from "../lobby/subscription.state";
-import {BillingState} from "./billing.state";
+import {Observable} from 'rxjs';
+import {PaymentMethodState} from './payment.method.state';
+import {CreditCardState} from './credit.card.state';
+import { ValidResponse } from "../../authentication/valid.response";
+import {SubscriptionState} from '../lobby/subscription.state';
+import {BillingState} from './billing.state';
 
 export abstract class BillingDetailsClient {
   abstract getPaymentMethods(): Observable<PaymentMethodState[]>;
@@ -16,8 +16,8 @@ export abstract class BillingDetailsClient {
 
 
   // VALIDATION
-  abstract isValidCardName(value: string): Observable<ValidResp>;
-  abstract isValidCardNumber(value: string): Observable<ValidResp>;
-  abstract isValidCardExpDate(value: Date): Observable<ValidResp>;
-  abstract isValidCardCVV(value: string): Observable<ValidResp>;
+  abstract isValidCardName(value: string): Observable<ValidResponse>;
+  abstract isValidCardNumber(value: string): Observable<ValidResponse>;
+  abstract isValidCardExpDate(value: Date): Observable<ValidResponse>;
+  abstract isValidCardCVV(value: string): Observable<ValidResponse>;
 }

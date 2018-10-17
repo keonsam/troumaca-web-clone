@@ -2,13 +2,13 @@ import {UserClient} from './user.client';
 import {UUIDGenerator} from '../../../uuid.generator';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {AccessRoleState} from '../../access-roles/access.role.state';
+import { AccessRole } from '../../../access-roles/access.role';
 import {map} from 'rxjs/operators';
-import {UserStates} from '../user.states';
+import { Users } from '../../../parties/users';
 import {UserResponse} from '../../../parties/user.response';
-import {UserState} from '../user.state';
-import {PartyAccessRoleState} from '../party.access.role.state';
-import {CredentialState} from '../../credential/credential.state';
+import { User } from '../../../parties/user';
+import { PartyAccessRole } from '../../../parties/party.access.role';
+import { Credential } from '../../../authentication/credential';
 
 export class UserClientHttp implements UserClient {
 
@@ -17,23 +17,23 @@ export class UserClientHttp implements UserClient {
               private hostPort: string) {
   }
 
-  public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRoleState[]> {
+  public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
     const url = `${this.hostPort}/access-roles/find?q=${searchStr}&pageSize=${pageSize}`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<AccessRoleState[]>(url, httpOptions).pipe(map(data => {
+    return this.httpClient.get<AccessRole[]>(url, httpOptions).pipe(map(data => {
       return data;
     }));
   }
 
-  public getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<UserStates> {
+  public getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<Users> {
     const url = `${this.hostPort}/users?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<UserStates>(url, httpOptions).pipe(map(data => {
+    return this.httpClient.get<Users>(url, httpOptions).pipe(map(data => {
       return data;
     }));
   }
@@ -50,28 +50,18 @@ export class UserClientHttp implements UserClient {
       }));
   }
 
-  public addUserState(userState: UserState, credentialState?: CredentialState, partyAccessRoleStates?: PartyAccessRoleState[]): Observable<UserState> {
+  public addUserState(userState: User, credentialState?: Credential, partyAccessRoleStates?: PartyAccessRole[]): Observable<User> {
     const url = `${this.hostPort}/users`;
-    let newPartyAccessRoleStates: any[];
-    let newCredentialState: any;
-    if (partyAccessRoleStates && partyAccessRoleStates.length > 0) {
-      newPartyAccessRoleStates = partyAccessRoleStates.map( value => {
-        return value.toJson();
-      });
-    }
-    if (credentialState) {
-      newCredentialState = credentialState.toJson();
-    }
     const body = {
-      user: userState.toJson(),
-      credential: newCredentialState,
-      partyAccessRoles: newPartyAccessRoleStates
+      user: userState,
+      credential: credentialState,
+      partyAccessRoles: partyAccessRoleStates
     };
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-      .post<UserState>(url, body, httpOptions)
+      .post<User>(url, body, httpOptions)
       .pipe(map(data => {
         return data;
       }));
@@ -89,18 +79,12 @@ export class UserClientHttp implements UserClient {
       }));
   }
 
-  public updateUser(userState: UserState, credentialState: CredentialState, partyAccessRoleStates: PartyAccessRoleState[]): Observable<number> {
+  public updateUser(userState: User, credentialState: Credential, partyAccessRoleStates: PartyAccessRole[]): Observable<number> {
     const url = `${this.hostPort}/users/${userState.partyId}`;
-    let newPartyAccessRoleStates: any[];
-    if (partyAccessRoleStates && partyAccessRoleStates.length > 0) {
-      newPartyAccessRoleStates = partyAccessRoleStates.map( value => {
-        return value.toJson();
-      });
-    }
     const body = {
-      user: userState.toJson(),
-      credential: credentialState.toJson(),
-      partyAccessRoles: newPartyAccessRoleStates
+      user: userState,
+      credential: credentialState,
+      partyAccessRoles: partyAccessRoleStates
     };
     const httpOptions = {
       headers: this.jsonHttpHeaders()

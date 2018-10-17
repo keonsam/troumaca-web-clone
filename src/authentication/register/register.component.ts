@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../authentication.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import { Credential} from "../credential";
+import { Credential} from '../credential';
 import {Router} from '@angular/router';
-import { ValidResp} from '../resp.valid';
+import { ValidResponse } from "../valid.response";
 import {debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
-import {User} from "../../parties/user";
+import {User} from '../../parties/user';
 
 @Component({
   selector: 'app-register',
@@ -87,7 +87,7 @@ export class RegisterComponent implements OnInit {
       }), map((value: string) => {
         return authenticationService.isValidUsername(value);
       })).subscribe(value => {
-        value.subscribe( (otherValue: ValidResp) => {
+        value.subscribe( (otherValue: ValidResponse) => {
           isValidUsername = otherValue.valid;
           usernameControl.updateValueAndValidity();
         });
@@ -124,7 +124,7 @@ export class RegisterComponent implements OnInit {
       }), map((value: string) => {
         return authenticationService.isValidPassword(value);
       })).subscribe(value => {
-        value.subscribe( (otherValue: ValidResp) => {
+        value.subscribe( (otherValue: ValidResponse) => {
           isValidPassword = otherValue.valid;
           passwordControl.updateValueAndValidity();
         });
@@ -165,7 +165,7 @@ export class RegisterComponent implements OnInit {
     this.authenticationService
     .addCredential(this.credential, this.user)
     .subscribe(confirmation => {
-      if (confirmation) {
+      if (confirmation && confirmation.confirmationId) {
         this.router.navigate([`/authentication/confirmations/${confirmation.credentialId}/${confirmation.confirmationId}`]);
       } else {
         this.doNotDisplayFailureMessage = false;

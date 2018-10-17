@@ -1,11 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Event} from '../event';
-
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
 import { Credential } from '../credential';
-import {PartyService} from "../../parties/party.service";
 
 @Component({
   selector: 'app-login',
@@ -61,16 +58,16 @@ export class LoginComponent implements OnInit {
     this.authenticationService
       .authenticate(this.credential)
       .subscribe(authenticatedCredential => {
-        if (authenticatedCredential.authenticateStatus === 'AccountActive') {
+        if (authenticatedCredential && authenticatedCredential.authenticateStatus === 'AccountActive') {
           this.router.navigate(['/lobby']);
-        }else if (authenticatedCredential.authenticateStatus === 'AccountConfirmed') {
+        }else if (authenticatedCredential && authenticatedCredential.authenticateStatus === 'AccountConfirmed') {
           this.router.navigate(['/profile-organizations']);
-        }else if (authenticatedCredential.authenticateStatus === 'AccountUsernameNotConfirmed') {
+        }else if (authenticatedCredential && authenticatedCredential.authenticateStatus === 'AccountUsernameNotConfirmed') {
           const credentialId = authenticatedCredential.credentialId;
           const confirmationId = authenticatedCredential.confirmationId;
           this.router.navigate([`/authentication/confirmations/${credentialId}/${confirmationId}`]);
         }else {
-          console.log(authenticatedCredential.authenticateStatus);
+          console.log(authenticatedCredential);
           this.errorExists = true;
         }
       }, error => {

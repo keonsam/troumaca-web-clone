@@ -15,6 +15,7 @@ import { UnitOfMeasureModule } from '../unit-of-measure/unit.of.measure.module';
 import { AssetTypeFormComponent } from './asset-type-form/asset.type.form.component';
 import { assetTypeResolveProvider } from './asset.type.resolve.provider';
 import {DeleteModalModule} from '../delete-modal/delete.modal.module';
+import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 
 @NgModule({
   imports: [
@@ -36,7 +37,7 @@ import {DeleteModalModule} from '../delete-modal/delete.modal.module';
     AssetTypeFormComponent,
     AssetTypeTopMenuComponent
   ],
-  providers: [assetTypeServiceProvider, assetTypeResolveProvider],
+  providers: [assetTypeServiceProvider, assetTypeResolveProvider, authGuardProvider],
   exports: []
 })
 export class AssetTypesModule {}

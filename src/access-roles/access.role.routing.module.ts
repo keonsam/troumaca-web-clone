@@ -23,9 +23,10 @@ import {AccessRoleTypeResolve} from './access.role.type.resolve';
 import {PermissionResolve} from './permissions/permission.resolve';
 import {ResourceResolve} from './resources/resource.resolve';
 
+import { AuthGuard } from "../auth-guard/auth.guard";
 
 const routes: Routes = [
-  { path: '', component: AccessRoleComponent, children: [
+  { path: '', component: AccessRoleComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
       { path: '', redirectTo: '/access-roles/listing', pathMatch: 'full' },
       { path: 'listing', component: AccessRoleListComponent, data: {menuName: 'access-role-menu'} },
       { path: 'create', component: AccessRoleFormComponent, data: {menuName: 'access-role-menu'} },

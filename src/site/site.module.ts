@@ -25,6 +25,7 @@ import { streetAddressResolveProvider } from './site-street-address-form/street.
 import { SiteWebFormComponent } from './site-web-form/site.web.form.component';
 import { webSiteResolveProvider } from './site-web-form/web.site.resolve.provider';
 import {DeleteModalModule} from '../delete-modal/delete.modal.module';
+import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 
 @NgModule({
   imports: [
@@ -53,7 +54,7 @@ import {DeleteModalModule} from '../delete-modal/delete.modal.module';
     SiteWebListComponent
   ],
   providers: [siteServiceProvider, emailResolveProvider, phoneResolveProvider,
-    postOfficeBoxResolveProvider, streetAddressResolveProvider, webSiteResolveProvider],
+    postOfficeBoxResolveProvider, streetAddressResolveProvider, webSiteResolveProvider, authGuardProvider],
   exports: []
 })
 export class SiteModule {}

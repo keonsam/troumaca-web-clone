@@ -3,10 +3,10 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
-import { Confirmation } from "../confirmation";
+import { Confirmation } from '../confirmation';
 
 @Component({
-  selector: 'confirmation',
+  selector: 'app-confirmation',
   templateUrl: './confirmation.component.html',
   styleUrls: ['./confirmation.component.css']
 })
@@ -59,20 +59,23 @@ export class ConfirmationComponent implements OnInit {
     this.authenticationService
       .resendConfirmationCode(this.confirmation.confirmationId, this.confirmation.credentialId)
       .subscribe(confirmation => {
-        if (confirmation.confirmationId) {
+        if (confirmation && confirmation.status === 'New') {
           this.message = 'Confirmation code has been sent.\n' +
             '      If you didn\'t get it in 5 minutes, Please try again.';
           this.showSuccessMessage = true;
           setTimeout(() => {
             this.router.navigate([`/authentication/confirmations/${confirmation.credentialId}/${confirmation.confirmationId}`]);
           }, 2000);
-        }else {
-          this.message = 'Email has been verify or something went wrong. Please try again.';
+        } else if (confirmation && confirmation.status === 'Confirmed') {
+          this.message = 'Username has already been confirmed, please log in.';
+          this.showErrorMessage = true;
+        } else {
+          this.message = 'Something went wrong, please try again.';
           this.showErrorMessage = true;
         }
       }, error => {
         console.log(error);
-        this.message = 'Email has been verify or something went wrong. Please try again.';
+        this.message = 'Something went wrong, please try again.';
         this.showErrorMessage = true;
       });
   }
@@ -84,21 +87,25 @@ export class ConfirmationComponent implements OnInit {
     this.authenticationService
       .verifyConfirmation(this.confirmation)
       .subscribe(confirmation => {
-        if (confirmation.status === 'Confirmed') {
+        if (confirmation && confirmation.status === 'Confirmed') {
           this.message = 'Your account has been confirmed.\n' +
             '      Please login.';
           this.showSuccessMessage = true;
           setTimeout(() => {
             this.router.navigate(['/authentication/login']);
           }, 1000);
+        } else if (confirmation && confirmation.status === 'Expired') {
+          this.message = 'Confirmation code has been expired. \n' +
+            '      Please generate a new one below.';
+          this.showErrorMessage = true;
         } else {
-          this.message = 'Confirmation code does not match or has been expired. \n' +
+          this.message = 'Confirmation code does not match or an error has occurred. \n' +
             '      Please try again or generate a new one below.';
           this.showErrorMessage = true;
         }
       }, error => {
         console.log(error);
-        this.message = 'Confirmation code does not match or has been expired. \n' +
+        this.message = 'Confirmation code does not match or an error has occurred. \n' +
           '      Please try again or generate a new one below.';
         this.showErrorMessage = true;
       });

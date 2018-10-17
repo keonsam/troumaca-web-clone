@@ -9,9 +9,10 @@ import {UserMeComponent} from './users/user-me/user.me.component';
 import { OrganizationFormComponent } from './organizations/organization-form/organization.form.component';
 import {OrganizationResolve} from './organizations/organization.resolve';
 import {UserResolve} from './users/user.resolve';
+import {AuthGuard} from "../auth-guard/auth.guard";
 
 export const routes: Routes = [
-  { path: '', component: PartyComponent, children: [
+  { path: '', component: PartyComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
       { path: '', redirectTo: '/parties/organizations/listing', pathMatch: 'full' },
       { path: 'organization-profile', component: OrganizationCompanyComponent, data: {menuName: 'organizations-menu'} },
       { path: 'organizations/listing', component: OrganizationListComponent, data: {menuName: 'organizations-menu'} },

@@ -6,6 +6,7 @@ import { BillingModalModule } from "./billing-modal/billing-modal.module";
 import {MenuModule} from "../menu/menu.module";
 import {billingDetailsServiceProvider} from "./billing-details.service.provider";
 import {DeleteModalModule} from "../delete-modal/delete.modal.module";
+import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import {DeleteModalModule} from "../delete-modal/delete.modal.module";
   declarations: [
     BillingDetailsComponent
   ],
-  providers: [billingDetailsServiceProvider],
+  providers: [billingDetailsServiceProvider, authGuardProvider],
   exports: []
 })
 

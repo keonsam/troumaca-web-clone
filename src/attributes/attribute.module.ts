@@ -15,6 +15,7 @@ import { AttributeFormComponent } from "./attribute-form/attribute.form.componen
 import { attributeResolveProvider } from "./attribute.resolve.provider";
 import { UnitOfMeasureModule } from "../unit-of-measure/unit.of.measure.module";
 import {DeleteModalModule} from "../delete-modal/delete.modal.module";
+import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 
 @NgModule({
   imports: [
@@ -36,7 +37,7 @@ import {DeleteModalModule} from "../delete-modal/delete.modal.module";
     AttributeListComponent,
     AttributeTopMenuComponent
   ],
-  providers: [attributeServiceProvider, attributeResolveProvider],
+  providers: [attributeServiceProvider, attributeResolveProvider, authGuardProvider],
   exports: [
     AttributeFormComponent
   ]

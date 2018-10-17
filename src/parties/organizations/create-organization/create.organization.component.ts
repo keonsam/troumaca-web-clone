@@ -76,7 +76,7 @@ export class CreateOrganizationComponent implements OnInit {
     this.doNotDisplayFailureMessage = true;
     this.organizationService.addOrganizationRequest(this.requestAccess)
       .subscribe( value => {
-        if (value) {
+        if (value && value.accessRequestId) {
           this.router.navigate(['/lobby']);
         } else {
           this.doNotDisplayFailureMessage = false;
