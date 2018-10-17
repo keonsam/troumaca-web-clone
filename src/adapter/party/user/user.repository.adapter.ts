@@ -25,12 +25,16 @@ export class UserRepositoryAdapter extends UserRepository {
     return this.userClient.getUserState(partyId);
   }
 
-  public addUser(user: User, credential?: Credential, partyAccessRoles?: PartyAccessRole[]): Observable<User> {
+  public addUser(user: User, credential: Credential, partyAccessRoles?: PartyAccessRole[]): Observable<User> {
     return this.userClient.addUserState(user, credential, partyAccessRoles);
   }
 
   public updateUser(user: User, credential: Credential, partyAccessRoles?: PartyAccessRole[]): Observable<number> {
     return this.userClient.updateUser(user, credential, partyAccessRoles);
+  }
+
+  public updateUserMe(user: User, credential: Credential): Observable<number> {
+    return this.userClient.updateUserMe(user, credential);
   }
 
   public deleteUser(partyId: string): Observable<number> {

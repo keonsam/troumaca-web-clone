@@ -65,7 +65,9 @@ export class UserListComponent implements OnInit {
     this.userService
     .getUsers(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      this.users = next;
+      if (next && next.users.length > 0) {
+        this.users = next;
+      }
     }, error => {
       console.log(error);
     }, () => {

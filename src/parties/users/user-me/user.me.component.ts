@@ -1,9 +1,9 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {User} from '../../user';
-import { Credential} from "../../../authentication/credential";
+import { Credential} from '../../../authentication/credential';
 import { filter, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { AuthenticationService} from '../../../authentication/authentication.service';
 import {UserService} from '../user.service';
@@ -16,25 +16,20 @@ import {UserResponse} from '../../user.response';
 })
 export class UserMeComponent implements OnInit {
 
-  private _firstName: FormControl;
-  private _middleName: FormControl;
-  private _lastName: FormControl;
-  private _username: FormControl;
-  private _password: FormControl;
-  private _confirmPassword: FormControl;
+  firstName: FormControl;
+  middleName: FormControl;
+  lastName: FormControl;
+  username: FormControl;
+  password: FormControl;
+  confirmPassword: FormControl;
 
-  private _userMeForm: FormGroup;
+  userMeForm: FormGroup;
 
-  private _user: User;
+  private user: User;
   private credential: Credential;
 
-  private _doNotDisplayFailureMessage: boolean;
-  requiredState= false;
-  userExist = false;
-
-  @Input() stepper: boolean;
-  @Input() userResponse: UserResponse;
-  @Output() userCreated = new EventEmitter<boolean>();
+  doNotDisplayFailureMessage: boolean;
+  requiredState = false;
 
   constructor(private userService: UserService,
               private authService: AuthenticationService,
@@ -97,8 +92,6 @@ export class UserMeComponent implements OnInit {
     
     if (this.route.snapshot && this.route.snapshot.data['userResponse']) {
       this.setInputValues(this.route.snapshot.data['userResponse']);
-    }else if (this.userResponse) {
-      this.setInputValues(this.userResponse);
     }
   }
 
@@ -110,7 +103,6 @@ export class UserMeComponent implements OnInit {
     this.username.setValue(userResponse.user.username);
     this.user = userResponse.user;
     this.credential.username = userResponse.user.username;
-    this.userExist = true;
   }
 
   usernameValidator(authService: AuthenticationService) {
@@ -201,102 +193,10 @@ export class UserMeComponent implements OnInit {
     };
   }
 
-  get user(): User {
-    return this._user;
-  }
-
-  set user(value: User) {
-    this._user = value;
-  }
-
-  get firstName(): FormControl {
-    return this._firstName;
-  }
-
-  set firstName(value: FormControl) {
-    this._firstName = value;
-  }
-
-  get middleName(): FormControl {
-    return this._middleName;
-  }
-
-  set middleName(value: FormControl) {
-    this._middleName = value;
-  }
-
-  get lastName(): FormControl {
-    return this._lastName;
-  }
-
-  set lastName(value: FormControl) {
-    this._lastName = value;
-  }
-
-  get username(): FormControl {
-    return this._username;
-  }
-
-  set username(value: FormControl) {
-    this._username = value;
-  }
-
-  get password(): FormControl {
-    return this._password;
-  }
-
-  set password(value: FormControl) {
-    this._password = value;
-  }
-
-  get confirmPassword(): FormControl {
-    return this._confirmPassword;
-  }
-
-  set confirmPassword(value: FormControl) {
-    this._confirmPassword = value;
-  }
-
-  get userMeForm(): FormGroup {
-    return this._userMeForm;
-  }
-
-  set userMeForm(value: FormGroup) {
-    this._userMeForm = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
-  }
-
-  onCreate() {
-    this.doNotDisplayFailureMessage = true;
-    this.userService
-      .addUser(this.user)
-      .subscribe(value => {
-        if (value) {
-          if (this.stepper) {
-            this.userCreated.emit(true);
-          }else {
-            this.router.navigate(['/lobby']);
-          }
-        } else {
-          this.doNotDisplayFailureMessage = false;
-        }
-      }, error => {
-        console.log(error);
-        this.doNotDisplayFailureMessage = false;
-      });
-  }
-
   onUpdate() {
     this.doNotDisplayFailureMessage = true;
       this.userService
-      .updateUser(this.user, this.credential)
+      .updateUserMe(this.user, this.credential)
       .subscribe(value => {
         if (value) {
           this.router.navigate(['/lobby']);

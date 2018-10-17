@@ -150,7 +150,7 @@
                 </div>
               </div>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ userExist ? "Update": "Create"}} your Profile.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to Update Your Profile.</div>
 
               <div [hidden]="!userExist">
 
@@ -207,8 +207,7 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [hidden]="userExist" [disabled]="!userMeForm.valid" type="submit" (click)="onCreate()">{{stepper ? 'Next': 'Create'}}</button>
-                <button class="btn btn-primary" [hidden]="!userExist" [disabled]="!userMeForm.valid" type="submit" (click)="onUpdate()">{{stepper ? 'Next': 'Update'}}</button>
+                <button class="btn btn-primary" [disabled]="!userMeForm.valid" type="submit" (click)="onUpdate()">Update</button>
               </div>
 
             </form>
