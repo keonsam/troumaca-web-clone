@@ -1,90 +1,53 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {of } from 'rxjs';
-import { filter, flatMap } from "rxjs/operators";
+import { filter, flatMap } from 'rxjs/operators';
 import {AuthenticationService} from '../authentication.service';
+import {Credential} from "../credential";
+import {Router} from "@angular/router";
 
 @Component({
-  selector: 'forgot.password',
+  selector: 'app-forgot-password',
   templateUrl: './forgot.password.component.html',
   styleUrls: ['./forgot.password.component.css']
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  private _errorExists: boolean;
-  private _messageSent: boolean;
-  private type: string;
-  private _username: FormControl;
-  private _forgotPasswordForm: FormGroup;
+  errorExists: boolean;
+  username: FormControl;
+  forgotPasswordForm: FormGroup;
+  private credential: Credential;
 
   constructor(private authenticationService: AuthenticationService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private router: Router) {
 
     this.username = new FormControl('', [Validators.required]);
     this.forgotPasswordForm = formBuilder.group({
       'username': this.username,
     });
 
-  }
-
-  get forgotPasswordForm(): FormGroup {
-    return this._forgotPasswordForm;
-  }
-
-  set forgotPasswordForm(value: FormGroup) {
-    this._forgotPasswordForm = value;
-  }
-
-  get username(): FormControl {
-    return this._username;
-  }
-
-  set username(value: FormControl) {
-    this._username = value;
-  }
-
-  get errorExists(): boolean {
-    return this._errorExists;
-  }
-
-  set errorExists(value: boolean) {
-    this._errorExists = value;
-  }
-
-  get messageSent(): boolean {
-    return this._messageSent;
-  }
-
-  set messageSent(value: boolean) {
-    this._messageSent = value;
+    this.forgotPasswordForm
+      .valueChanges
+      .subscribe( value => {
+        this.credential.username = value.username;
+      });
   }
 
   ngOnInit(): void {
   }
 
   onSubmit() {
-    this.messageSent = false;
     this.errorExists = false;
-    const values = this.forgotPasswordForm.value;
-    const regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-    of(values)
-      .pipe(filter((value) => this.forgotPasswordForm.valid),
-      flatMap((value) => {
-        const username = value.username;
-        if (regex.test(username)) {
-          this.type = 'A text Message';
+    this.authenticationService.forgotPassword(this.credential)
+      .subscribe( value => {
+        if (value && value.confirmationId) {
+          this.router.navigate([`/authentication/confirmations/${value.credentialId}/${value.confirmationId}`]);
         }else {
-          this.type = 'An e-mail';
-        }
-        return this.authenticationService
-          .forgotPassword(username);
-      }))
-      .subscribe((value) => {
-        if (value) {
-          this.messageSent = true;
-        } else {
           this.errorExists = true;
         }
+      }, error => {
+        this.errorExists = true;
       });
   }
 }

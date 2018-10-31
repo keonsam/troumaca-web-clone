@@ -104,7 +104,7 @@ For more info, [read the related issue](https://github.com/FezVrasta/popper.js/i
 Popper.js is currently shipped with 3 targets in mind: UMD, ESM and ESNext.  
 No idea what am I talking about? You are looking for UMD probably.
 
-- UMD - Universal Module Definition: AMD, RequireJS and globals;
+- UMD - Universal App Definition: AMD, RequireJS and globals;
 - ESM - ES Modules: For webpack/Rollup or browser supporting the spec;
 - ESNext: Available in `dist/`, can be used with webpack and `babel-preset-env`;
 

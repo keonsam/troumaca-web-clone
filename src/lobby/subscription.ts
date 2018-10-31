@@ -5,8 +5,7 @@ export class Subscription {
   name: string;
   cost: string;
 
-  constructor(moduleId?: string, cost?: string) {
+  constructor(moduleId?: string) {
     this.moduleId = moduleId;
-    this.cost = cost;
   }
 }

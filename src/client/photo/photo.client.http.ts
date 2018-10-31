@@ -2,8 +2,8 @@ import {PhotoClient} from './photo.client';
 import {UUIDGenerator} from '../../uuid.generator';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import { PhotoState } from './photo.state';
 import {map} from 'rxjs/operators';
+import {Photo} from "../../photo/photo";
 
 export class PhotoClientHttp implements PhotoClient {
   constructor(private uuidGenerator: UUIDGenerator,
@@ -11,7 +11,7 @@ export class PhotoClientHttp implements PhotoClient {
               private hostPort: string) {
   }
 
-  public getPhotos(type?: string): Observable<PhotoState> {
+  public getPhotos(type?: string): Observable<Photo> {
     const url = `${this.hostPort}/photos?type=${type}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -23,25 +23,27 @@ export class PhotoClientHttp implements PhotoClient {
       }));
   }
 
-  public addPhoto(photoState: PhotoState, type: string): Observable<PhotoState> {
+  public addPhoto(photoState: File, type: string): Observable<Photo> {
     const url = `${this.hostPort}/photos/${type}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
+    const httpHeaders: HttpHeaders = new HttpHeaders({
+      'Content-Type':  'image/*',
+      'correlationId': this.uuidGenerator.generateUUID()
+    });
     return this.httpClient
-      .post<PhotoState>(url, photoState.toJson(), httpOptions)
+      .post<Photo>(url, photoState, {headers: httpHeaders})
       .pipe(map(data => {
         return data;
       }));
   }
 
-  public updatePhoto(photoState: PhotoState, type: string): Observable<number> {
-    const url = `${this.hostPort}/photos/${type}/${photoState.partyId}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
+  public updatePhoto(photoState: File, type: string): Observable<number> {
+    const url = `${this.hostPort}/photos/${type}`;
+    const httpHeaders: HttpHeaders = new HttpHeaders({
+      'Content-Type':  'image/*',
+      'correlationId': this.uuidGenerator.generateUUID()
+    });
     return this.httpClient
-      .put<number>(url, photoState.toJson(), httpOptions)
+      .put<number>(url, photoState, {headers: httpHeaders})
       .pipe(map(data => {
         return data;
       }));

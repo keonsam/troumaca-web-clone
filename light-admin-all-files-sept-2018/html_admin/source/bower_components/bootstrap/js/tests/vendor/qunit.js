@@ -3411,7 +3411,7 @@
   		addEvent(moduleSearch, "click", searchFocus);
 
   		label.id = "qunit-modulefilter-search-container";
-  		label.innerHTML = "Module: ";
+  		label.innerHTML = "App: ";
   		label.appendChild(moduleSearch);
 
   		actions.id = "qunit-modulefilter-actions";

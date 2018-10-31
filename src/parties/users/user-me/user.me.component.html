@@ -4,7 +4,7 @@
       <div class="col-sm-5">
 
         <div class="user-profile compact">
-          <app-photo [type]="'user'" [user]="user"></app-photo>
+          <app-photo [type]="'user'" [firstName]="firstName.value" [lastName]="lastName.value"></app-photo>
           <!--<div class="up-controls">-->
             <!--<div class="row">-->
               <!--<div class="col-sm-6">-->
@@ -152,11 +152,9 @@
 
               <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to Update Your Profile.</div>
 
-              <div [hidden]="!userExist">
-
               <fieldset class="form-group">
                 <div class="form-group">
-                  <label for="username">Username</label><input id="username" class="form-control" formControlName="username" placeholder="Enter Email or Phone Number" [required]="userExist" type="text">
+                  <label for="username">Username</label><input id="username" class="form-control" formControlName="username" placeholder="Enter Email or Phone Number" required type="text">
                   <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Email or Phone Number.</div>
                 </div>
               </fieldset>
@@ -182,8 +180,6 @@
               </div>
 
               <legend><span>Personal Information</span></legend>
-
-              </div>
 
               <fieldset class="form-group">
                 <div class="form-group">

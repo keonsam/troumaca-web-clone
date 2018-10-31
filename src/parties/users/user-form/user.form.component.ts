@@ -80,9 +80,6 @@ export class UserFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
-
     this.options = {
       width: '100%',
       placeholder: 'Select Access Roles',
@@ -110,7 +107,6 @@ export class UserFormComponent implements OnInit {
     this.lastName.setValue(userResponse.user.lastName);
     this.username.setValue(userResponse.user.username);
     this.user = userResponse.user;
-    this.credential.username = userResponse.user.username;
     const values = userResponse.partyAccessRoles.map(value => value.accessRole.accessRoleId);
     this.accessRole.setValue(values.join(','));
     this.partyAccessRoles = userResponse.partyAccessRoles;
@@ -123,7 +119,7 @@ export class UserFormComponent implements OnInit {
     this.accessRoles = data.value;
   }
 
-  findAccessRole(value, defaultValues?: string[]) {
+  private findAccessRole(value, defaultValues?: string[]) {
     this.userService
       .findAccessRole(value, this.pageSize) // send search request to the backend
       .pipe(map(value2 => { // convert results to dropdown data
@@ -142,7 +138,7 @@ export class UserFormComponent implements OnInit {
       });
   }
 
-  usernameValidator(authService: AuthenticationService) {
+  private usernameValidator(authService: AuthenticationService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
@@ -180,7 +176,7 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  removePartyAccessRoles(partyAccessRoles) {
+  private removePartyAccessRoles(partyAccessRoles) {
     return partyAccessRoles.filter(value => {
       if (this.accessRoles.indexOf(value.accessRoleId) > -1) {
         if (!value.partyId) {

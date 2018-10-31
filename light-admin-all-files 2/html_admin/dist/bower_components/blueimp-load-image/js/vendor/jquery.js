@@ -1254,7 +1254,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		});
 
 		assert(function( div ) {
-			// Support: Windows 8 Native Apps
+			// Support: Windows 8 Native App
 			// The type and name attributes are restricted during .innerHTML assignment
 			var input = doc.createElement("input");
 			input.setAttribute( "type", "hidden" );

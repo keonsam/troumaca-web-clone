@@ -26,7 +26,7 @@ Here is the list of features you don't have if you choose to support IE 8:
 - A real developer tools
 - A consistent box model
 - jQuery 2
-- Google Apps
+- Google App
 - Tether
 
 It's true that IE 8 still holds a big chunk of the browsing population, but the reasons

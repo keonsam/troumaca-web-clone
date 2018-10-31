@@ -35,7 +35,7 @@ There are several ways to use [Browserify](http://browserify.org/) and [Webpack]
 var $ = require("jquery");
 ```
 
-#### AMD (Asynchronous Module Definition)
+#### AMD (Asynchronous App Definition)
 
 AMD is a module format built for the browser. For more information, we recommend [require.js' documentation](http://requirejs.org/docs/whyamd.html).
 

@@ -1,57 +1,64 @@
-<div class="onboarding-media">
-  <img alt="" src="images/bigicon5.png" width="200px">
-</div>
-<div class="onboarding-content with-gradient">
-  <h4 class="onboarding-title">
-    Billing Information
-  </h4>
-
-  <form [formGroup]="billingForm">
-
-    <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to add payment method. Please check your details or contact support.</div>
-
-    <div class="form-group">
-      <label for="payment-method">Payment Method</label>
-      <select formControlName="paymentMethodId"  id="payment-method" class="form-control" required>
-        <option value="" disabled selected>Select a Payment Method</option>
-        <option *ngFor="let method of paymentMethods" [value]="method.paymentMethodId">{{method.name}}</option>
-      </select>
-    </div>
-
-    <div *ngIf="paymentMethodId.value === '9f9e5106-1235-4f61-9609-b8fea945e066'" class="no-ng-invalid" [formGroup]="creditCardForm">
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label for="card-name">Name on Card</label><input id="card-name" class="form-control" formControlName="cardName" placeholder="John More Doe" type="text" value="" required>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label for="card-number">Credit Card Number</label><input id="card-number" class="form-control" formControlName="cardNumber" placeholder="1111-2222-3333-4444" type="text" value="" required>
-          </div>
-        </div>
+<div aria-hidden="true" class="onboarding-modal modal fade animated" id="billingModal1" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-centered" role="document">
+    <div class="modal-content text-center">
+      <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span class="close-label">Close</span><span class="os-icon os-icon-close"></span></button>
+      <div class="onboarding-media">
+        <img alt="" src="images/bigicon5.png" width="200px">
       </div>
-      <div class="row">
-        <div class="col-sm-6">
+      <div class="onboarding-content with-gradient">
+        <h4 class="onboarding-title">
+          Billing Information
+        </h4>
+
+        <form [formGroup]="billingForm">
+
+          <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to add payment method. Please check your details or contact support.</div>
+
           <div class="form-group">
-            <label for="expire-date">Expiration Date</label><input id="expire-date" class="form-control" formControlName="cardExpDate" type="date" value="" required>
+            <label for="payment-method">Payment Method</label>
+            <select formControlName="paymentMethodId"  id="payment-method" class="form-control" required>
+              <option value="" disabled selected>Select a Payment Method</option>
+              <option *ngFor="let method of paymentMethods" [value]="method.paymentMethodId">{{method.name}}</option>
+            </select>
           </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label for="card-cvv">CVV</label><input id="card-cvv" class="form-control" formControlName="cardCVV" placeholder="352" type="number" value="" required>
+
+          <div *ngIf="paymentMethodId.value === '9f9e5106-1235-4f61-9609-b8fea945e066'" class="no-ng-invalid" [formGroup]="creditCardForm">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="card-name">Name on Card</label><input id="card-name" class="form-control" formControlName="cardName" placeholder="John More Doe" type="text" value="" required>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="card-number">Credit Card Number</label><input id="card-number" class="form-control" formControlName="cardNumber" placeholder="1111-2222-3333-4444" type="text" value="" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="expire-date">Expiration Date</label><input id="expire-date" class="form-control" formControlName="cardExpDate" type="date" value="" required>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="card-cvv">CVV</label><input id="card-cvv" class="form-control" formControlName="cardCVV" placeholder="352" type="number" value="" required>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" [disabled]="!creditCardForm.valid" type="submit" (click)="creditCardExist ? onUpdate() : onCreate()">{{ creditCardExist ? "Update" : "Create"}}</button>
+            <button class="btn btn-outline-danger right-button" data-dismiss="modal" type="cancel" #closeModal>Cancel</button>
           </div>
-        </div>
+
+          <div *ngIf="paymentMethodId.value === 'b173a8b9-1b57-47b8-8106-58a3ab879bf4'">
+            <button class="mr-2 mb-2 btn btn-primary btn-rounded">Subscribe</button>
+          </div>
+        </form>
+
       </div>
-
-      <button [ngClass]="{'btn': true, 'btn-primary': true, 'center-button': stepper}" [hidden]="creditCardExist" [disabled]="!creditCardForm.valid" type="submit" (click)="onCreate()">Add</button>
-      <button [ngClass]="{'btn': true, 'btn-primary': true, 'center-button': stepper}" [hidden]="!creditCardExist" [disabled]="!creditCardForm.valid" type="submit" (click)="onUpdate()">Update</button>
-      <button class="btn btn-outline-danger right-button" [hidden]="stepper" data-dismiss="modal" type="cancel" #closeModal>Cancel</button>
     </div>
-
-    <div *ngIf="paymentMethodId.value === 'b173a8b9-1b57-47b8-8106-58a3ab879bf4'">
-      <button class="mr-2 mb-2 btn btn-primary btn-rounded">Subscribe</button>
-    </div>
-  </form>
+  </div>
 
 </div>

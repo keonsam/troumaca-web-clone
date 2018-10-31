@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ViewChild, ElementRef} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {User} from '../parties/user';
 import {PhotoService } from './photo.service';
 import { Photo } from './photo';
@@ -9,113 +9,75 @@ import { Photo } from './photo';
   styleUrls: ['./photo.component.css']
 })
 export class PhotoComponent implements OnInit {
-  public userImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
-  public organizationImage = 'https://i.pinimg.com/736x/05/19/3c/05193c43ed8e4a9ba4dfaa10ff0115f1.jpg';
-  public imageChangedEvent: any = '';
-  public croppedImage: any = '';
-  public doNotDisplayFailureMessage = true;
-  public errorMessage = '';
-  private photo: Photo;
+  private selectedImage: File;
+  photo: Photo;
   @Input() type = 'photo';
   @Input() user: User;
+  @Input() firstName: string;
+  @Input() lastName: string;
   @Input() organizationName: string;
-  @ViewChild('modalCloseButton') private modalCloseButton: ElementRef;
-  public resize: number;
 
   constructor(private photoService: PhotoService ) {
     this.photo = new Photo();
+    this.photo.userImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
+    this.photo.organizationImage = 'https://i.pinimg.com/736x/05/19/3c/05193c43ed8e4a9ba4dfaa10ff0115f1.jpg';
 
-    this.photoService.photoData.subscribe( data => {
-      if (data.type === 'user') {
-        this.userImage = data.imgStr;
-      }else if (data.type === 'organization')  {
-        this.organizationImage = data.imgStr;
-      }
-    });
   }
 
   ngOnInit(): void {
     this.getPhotos();
-    if(this.type === 'user') {
-      this.resize = 60;
-    }else {
-      this.resize = 0;
-    }
   }
 
   getPhotos() {
-    this.photoService.getPhotos()
+    this.photoService.photoData
       .subscribe( photo => {
-        if (photo.partyId) {
-          this.userImage = photo.userImage;
-          this.organizationImage = photo.organizationImage;
+        if (photo && photo.partyId) {
           this.photo = photo;
+        } else {
+          this.photoService.getPhotos()
+            .subscribe( photo2 => {
+              if (photo2 && photo2.partyId) {
+                this.photo = photo2;
+                this.photoService.photoData.next(photo2);
+              }
+            });
         }
       });
   }
 
   fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
+    this.selectedImage = event.target.files[0];
+    this.onUpload();
   }
 
-  imageCropped(image: string) {
-    this.croppedImage = image;
-  }
-
-  imageLoaded() {
-    this.doNotDisplayFailureMessage = true;
-    // show cropper
-  }
-
-  loadImageFailed() {
-    this.errorMessage = 'Failed to Load Image, Please Try Again.';
-    this.doNotDisplayFailureMessage = false;
-    // show message
-  }
-
-  addImage() {
-    const newPhoto = new Photo();
-    newPhoto.imageStr = this.croppedImage;
-    this.photoService.addPhoto(newPhoto, this.type)
+  private addImage() {
+    this.photoService.addPhoto(this.selectedImage, this.type)
       .subscribe(photo => {
         if (photo) {
-          this.photoService.photoData.next({type: this.type, imgStr: newPhoto.imageStr});
-          this.photo = photo;
-          this.modalCloseButton.nativeElement.click();
-        } else {
-          this.errorMessage = 'Failed to Add Image to Server, Please Type Again.';
-          this.doNotDisplayFailureMessage = false;
+          this.photoService.photoData.next(photo);
         }
-      })
+      });
   }
 
-  updateImage() {
-    const newPhoto = new Photo();
-    newPhoto.partyId = this.photo.partyId;
-    newPhoto.imageStr = this.croppedImage;
-    this.photoService.updatePhoto(newPhoto, this.type)
-      .subscribe(photo => {
-        if (photo) {
-          this.photoService.photoData.next({type: this.type, imgStr: newPhoto.imageStr});
-          this.modalCloseButton.nativeElement.click();
-        }else {
-          this.errorMessage = 'Failed to Update Image, Please Type Again.';
-          this.doNotDisplayFailureMessage = false;
+  private updateImage() {
+    this.photoService.updatePhoto(this.selectedImage, this.type)
+      .subscribe(numUpdated => {
+        if (numUpdated) {
+          if (this.type === 'user') {
+            this.photo.userImage = this.selectedImage;
+          } else {
+            this.photo.organizationImage = this.selectedImage;
+          }
+          this.photoService.photoData.next(this.photo);
         }
-      })
+      });
   }
 
-  onUpload() {
-    this.doNotDisplayFailureMessage = true;
-    if (this.croppedImage) {
-      if (this.photo.partyId) {
-        this.updateImage();
-      } else {
-        this.addImage();
-      }
-    }else {
-      this.errorMessage = 'No Image Available for Update. Please Crop Your Image.';
-      this.doNotDisplayFailureMessage = false;
+  private onUpload() {
+    if (this.photo.partyId) {
+      this.updateImage();
+    } else {
+      this.addImage();
     }
   }
 

@@ -1,9 +1,9 @@
 import {Observable} from "rxjs";
-import {Module} from "./module";
+import {App} from "./app";
 import {Subscription} from "./subscription";
 
 export abstract class LobbyRepository {
 
-  abstract getModules(): Observable<Module[]>;
+  abstract getApps(): Observable<App[]>;
   abstract addSubscription(subscription: Subscription): Observable<Subscription>;
 }

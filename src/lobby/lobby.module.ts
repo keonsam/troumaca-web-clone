@@ -5,7 +5,6 @@ import { LobbyComponent } from './lobby.component';
 import { lobbyServiceProvider} from './lobby.service.provider';
 import {LobbyRoutingModule} from "./lobby.routing.module";
 import {BillingModalModule} from "../billing-details/billing-modal/billing-modal.module";
-import {billingDetailsServiceProvider} from "../billing-details/billing-details.service.provider";
 import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 
 @NgModule({
@@ -18,7 +17,7 @@ import {authGuardProvider} from "../auth-guard/auth.guard.provider";
   declarations: [
     LobbyComponent
   ],
-  providers: [lobbyServiceProvider, billingDetailsServiceProvider, authGuardProvider],
+  providers: [lobbyServiceProvider, authGuardProvider],
   exports: []
 })
 

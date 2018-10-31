@@ -13,13 +13,13 @@ import { UserService } from '../user.service';
 export class UserListComponent implements OnInit {
 
   private partyId: string;
-  private _username: string;
-  private _users: Users;
+  username: string;
+  users: Users;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
   private menuName = 'users-menu';
-  private _routerLinkCreateUser = '/parties/users/create';
+  routerLinkCreateUser = '/parties/users/create';
 
   constructor(private partyEventService: PartyEventService,
               private userService: UserService) {
@@ -28,7 +28,6 @@ export class UserListComponent implements OnInit {
     newUsers.page = new Page(0, 0, 0);
     newUsers.sort = new Sort();
     this.users = newUsers;
-
   }
 
 
@@ -37,31 +36,7 @@ export class UserListComponent implements OnInit {
     this.getUsers();
   }
 
-  get username(): string {
-    return this._username;
-  }
-
-  set username(value: string) {
-    this._username = value;
-  }
-
-  get users(): Users {
-    return this._users;
-  }
-
-  set users(value: Users) {
-    this._users = value;
-  }
-
-  get routerLinkCreateUser(): string {
-    return this._routerLinkCreateUser;
-  }
-
-  set routerLinkCreateUser(value: string) {
-    this._routerLinkCreateUser = value;
-  }
-
-  getUsers() {
+  private getUsers() {
     this.userService
     .getUsers(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {

@@ -13,12 +13,16 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     super();
   }
 
+  getCredential(credentialId: string): Observable<User> {
+    return this.authenticationClient.getCredential(credentialId);
+  }
+
   authenticate(credential: Credential): Observable<AuthenticatedCredential> {
     return this.authenticationClient.authenticate(credential);
   }
 
-  forgotPassword(username: string): Observable<boolean> {
-    return this.authenticationClient.forgotPassword(username);
+  forgotPassword(credential: Credential): Observable<Confirmation> {
+    return this.authenticationClient.forgotPassword(credential);
   }
 
   isValidPassword(password: string): Observable<ValidResponse> {
@@ -39,6 +43,10 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
 
   resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation> {
     return this.authenticationClient.resendConfirmationCode(confirmationId, credentialId);
+  }
+
+  updateCredential(credential: Credential, user: User): Observable<number> {
+    return this.authenticationClient.updateCredential(credential, user);
   }
 
 }

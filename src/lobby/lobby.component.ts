@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { Router} from '@angular/router';
 import { Subscription } from './subscription';
-import { Module } from './module';
+import { App } from './app';
 import {LobbyService} from './lobby.service';
-import {BillingDetailsService} from "../billing-details/billing.details.service";
+import {BillingDetailsService} from '../billing-details/billing.details.service';
 
 @Component({
   selector: 'app-lobby-home',
@@ -13,79 +13,63 @@ import {BillingDetailsService} from "../billing-details/billing.details.service"
 
 export class LobbyComponent implements OnInit {
 
-  modules: Module[];
-  moduleClass: Module;
+  apps: App[];
+  app: App;
   @ViewChild('showModal') showModal: ElementRef;
-  // @ViewChild('stepper') stepper: MatStepper;
   @ViewChild('closeButton') closeButton: ElementRef;
-  private subscription: Subscription;
   doNotDisplayFailureMessage = true;
-  billingModalType: string;
-  billingExist = false;
+  doNotDisplayFailureMessage2 = true;
+  validBilling = false;
 
 
 
   constructor(private lobbyService: LobbyService,
               private billingDetailsService: BillingDetailsService,
               private router: Router) {
-    this.modules = [];
-    this.billingModalType = 'new';
+    this.apps = [];
   }
 
   ngOnInit(): void {
-    // this.billingDetailsService.getCreditCards()
-    //   .subscribe( creditCards => {
-    //     if (creditCards.length > 0) {
-    //       this.billingExist = true;
-    //     }
-    //   });
-
-    this.getModules();
+    this.getApps();
   }
 
-  private getModules() {
-    this.lobbyService.getModules()
-      .subscribe( modules => {
-        if (modules && modules.length > 0) {
-          this.modules = modules;
+  private getApps() {
+    this.lobbyService.getApps()
+      .subscribe( apps => {
+        if (apps && apps.length > 0) {
+          this.apps = apps;
         }
       });
   }
 
-  onModule(moduleId: string) {
-    this.moduleClass = this.modules.find(x => x.moduleId === moduleId);
-    if (this.moduleClass.subscribed) {
-      this.router.navigate([this.moduleClass.information.route]);
+  onApp(app: App) {
+    this.doNotDisplayFailureMessage2 = true;
+    this.app = app;
+    if (app.subscribed) {
+      this.router.navigate([app.route]);
     } else {
-      this.showModal.nativeElement.click();
-    }
-  }
-
-  nextStep(index: number) {
-    // if (this.stepper.selectedIndex !== index) {
-    //   this.stepper.selectedIndex = index;
-    // }
-  }
-
-  onBillingChanges(changed: boolean) {
-    if (changed) {
-      this.nextStep(2);
-      this.billingModalType = 'edit';
+      this.billingDetailsService.isValidPaymentMethod()
+        .subscribe( value => {
+          if (value && value.valid) {
+            this.validBilling = true;
+          }else {
+            this.doNotDisplayFailureMessage2 = false;
+            this.validBilling = false;
+          }
+          this.showModal.nativeElement.click();
+        });
     }
   }
 
   onSubscribe() {
     this.doNotDisplayFailureMessage = true;
-    console.log(this.moduleClass);
-    this.subscription = new Subscription(this.moduleClass.moduleId, this.moduleClass.information.price);
-
-    this.lobbyService.addSubscription(this.subscription)
-      .subscribe( subscription => {
-        console.log(subscription);
-        if (subscription) {
-          this.subscription = subscription;
-          this.getModules();
+    this.doNotDisplayFailureMessage2 = true;
+    const subscription: Subscription = new Subscription(this.app.moduleId);
+    this.lobbyService.addSubscription(subscription)
+      .subscribe( sub => {
+        if (sub && sub.subscriptionId) {
           this.closeButton.nativeElement.click();
+          this.getApps();
         } else {
           this.doNotDisplayFailureMessage = false;
         }

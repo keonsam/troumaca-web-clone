@@ -13,16 +13,16 @@ import {OrganizationService} from '../organization.service';
 })
 export class OrganizationFormComponent implements OnInit {
 
-  private _purpose: FormControl;
-  private _name: FormControl;
-  private _description: FormControl;
+  purpose: FormControl;
+  name: FormControl;
+  description: FormControl;
 
-  private _organizationForm: FormGroup;
+  organizationForm: FormGroup;
 
   private organization: Organization;
-  public organizationExist = false;
+  organizationExist = false;
 
-  private _doNotDisplayFailureMessage: boolean;
+  doNotDisplayFailureMessage: boolean;
   @Input() profile: boolean;
   @Output() organizationNameEvent = new EventEmitter<string>();
 
@@ -65,7 +65,7 @@ export class OrganizationFormComponent implements OnInit {
     if (this.route.snapshot && this.route.snapshot.data['organization']) {
       this.setInputValues(this.route.snapshot.data['organization']);
     } else if (this.profile) {
-      this.organizationService.getOrganization()
+      this.organizationService.getOrganization('profile')
         .subscribe( value => {
           if (value) {
             this.setInputValues(value);
@@ -81,46 +81,6 @@ export class OrganizationFormComponent implements OnInit {
     this.organizationNameEvent.emit(organization.name);
     this.organization = organization;
     this.organizationExist = true;
-  }
-
-  get purpose(): FormControl {
-    return this._purpose;
-  }
-
-  set purpose(value: FormControl) {
-    this._purpose = value;
-  }
-
-  get name(): FormControl {
-    return this._name;
-  }
-
-  set name(value: FormControl) {
-    this._name = value;
-  }
-
-  get description(): FormControl {
-    return this._description;
-  }
-
-  set description(value: FormControl) {
-    this._description = value;
-  }
-
-  get organizationForm(): FormGroup {
-    return this._organizationForm;
-  }
-
-  set organizationForm(value: FormGroup) {
-    this._organizationForm = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
   }
 
   onCreate() {

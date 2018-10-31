@@ -9,6 +9,7 @@ import {ForgotPasswordComponent} from './forgot-password/forgot.password.compone
 import {ConfirmationComponent} from './confirmation/confirmation.component';
 import {authenticationServiceProvider} from './authenticate.service.provider';
 import { AuthenticationRoutingModule } from './authentication.routing.module';
+import {registerResolveProvider} from "./register/register.resolve.provider";
 
 @NgModule({
   imports: [
@@ -25,7 +26,7 @@ import { AuthenticationRoutingModule } from './authentication.routing.module';
     ForgotPasswordComponent,
     ConfirmationComponent,
   ],
-  providers: [authenticationServiceProvider],
+  providers: [authenticationServiceProvider, registerResolveProvider],
   exports: []
 })
 export class AuthenticationModule {}

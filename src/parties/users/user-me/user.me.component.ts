@@ -43,7 +43,7 @@ export class UserMeComponent implements OnInit {
     this.firstName = new FormControl('', [Validators.required]);
     this.middleName = new FormControl('', [Validators.required]);
     this.lastName = new FormControl('', [Validators.required]);
-    this.username = new FormControl('', null);
+    this.username = new FormControl('', [Validators.required, this.usernameValidator(this.authService)]);
     this.password = new FormControl('');
     this.confirmPassword = new FormControl('');
 
@@ -96,16 +96,14 @@ export class UserMeComponent implements OnInit {
   }
 
   private setInputValues(userResponse: UserResponse) {
-    this.userMeForm.get('username').setValidators([Validators.required, this.usernameValidator(this.authService)]);
     this.firstName.setValue(userResponse.user.firstName);
     this.middleName.setValue(userResponse.user.middleName);
     this.lastName.setValue(userResponse.user.lastName);
     this.username.setValue(userResponse.user.username);
     this.user = userResponse.user;
-    this.credential.username = userResponse.user.username;
   }
 
-  usernameValidator(authService: AuthenticationService) {
+  private usernameValidator(authService: AuthenticationService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
@@ -144,7 +142,7 @@ export class UserMeComponent implements OnInit {
     }
   }
 
-  passwordValidator(authService: AuthenticationService) {
+  private passwordValidator(authService: AuthenticationService) {
     let passwordControl = null;
     let isValidPassword = false;
     let valueChanges = null;
@@ -183,7 +181,7 @@ export class UserMeComponent implements OnInit {
     }
   }
 
-  confirmPasswordValidator(password: FormControl) {
+  private confirmPasswordValidator(password: FormControl) {
     return (c: FormControl) => {
       return password.value === c.value ? null : {
         validateEmail: {

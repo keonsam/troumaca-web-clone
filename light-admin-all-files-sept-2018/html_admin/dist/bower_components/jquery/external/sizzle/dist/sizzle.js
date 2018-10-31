@@ -788,7 +788,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 			el.innerHTML = "<a href='' disabled='disabled'></a>" +
 				"<select disabled='disabled'><option/></select>";
 
-			// Support: Windows 8 Native Apps
+			// Support: Windows 8 Native App
 			// The type and name attributes are restricted during .innerHTML assignment
 			var input = document.createElement("input");
 			input.setAttribute( "type", "hidden" );

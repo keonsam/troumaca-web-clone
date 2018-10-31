@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PhotoService} from '../../photo/photo.service';
 import {UserService} from '../../parties/users/user.service';
 import {UserResponse} from '../../parties/user.response';
+import {Photo} from "../../photo/photo";
 
 @Component({
   selector: 'app-side-menu',
@@ -13,16 +14,13 @@ export class SideMenuComponent implements OnInit {
   public imageStr: string;
   private userResponse: UserResponse;
   public name = '';
+  photo: Photo;
 
   constructor(private photoService: PhotoService,
               private userService: UserService) {
-    this.imageStr = 'https://designdroide.com/images/abstract-user-icon-4.svg';
+    this.photo = new Photo();
+    this.photo.userImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
 
-    this.photoService.photoData.subscribe( data => {
-      if (data.type === 'user') {
-        this.imageStr = data.imgStr;
-      }
-    });
   }
 
   ngOnInit(): void {
@@ -31,16 +29,24 @@ export class SideMenuComponent implements OnInit {
   }
 
   getPhoto(type: string) {
-    this.photoService.getPhotos(type)
+    this.photoService.photoData
       .subscribe( photo => {
-        if (photo.partyId) {
-          this.imageStr = photo.userImage
+        if (photo && photo.partyId) {
+          this.photo = photo;
+        } else {
+          this.photoService.getPhotos(type)
+            .subscribe( photo2 => {
+              if (photo2 && photo2.partyId) {
+                this.photo = photo2;
+                this.photoService.photoData.next(photo2);
+              }
+            });
         }
-      })
+      });
   }
 
   getUserInformation() {
-    this.userService.getUser('me')
+    this.userService.getUser('profile')
       .subscribe( userRes => {
         if (userRes.user.partyId) {
           this.userResponse = userRes;

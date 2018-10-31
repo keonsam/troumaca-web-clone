@@ -1,7 +1,5 @@
 <div class="content-w">
 
-  <top-menu menuName="billings-menu"></top-menu>
-
   <div class="content-i">
     <div class="content-box">
       <div class="element-wrapper compact pt-4">
@@ -58,14 +56,14 @@
                 <div class="col-12">
                   <div class="element-wrapper">
                     <h6 class="element-header">
-                      Payment Methods
+                      Payment Information
                     </h6>
                     <div class="element-box">
                       <div class="table-responsive table-section">
                         <table class="table table-striped table-lightfont table-full-width">
                           <thead>
                           <tr>
-                            <th>Type</th>
+                            <th>Method</th>
                             <th>Name</th>
                             <th>Ending</th>
                             <th class="text-center">Actions</th>
@@ -73,22 +71,22 @@
                           </thead>
                           <tfoot>
                           <tr>
-                            <th>Type</th>
+                            <th>Method</th>
                             <th>Name</th>
                             <th>Ending</th>
                             <th class="text-center">Actions</th>
                           </tr>
                           </tfoot>
                           <tbody>
-                          <tr role="row" *ngFor="let creditCard of creditCards; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-                            <td>{{creditCard.type}}</td>
-                            <td>{{creditCard.cardName}}</td>
-                            <td>{{creditCard.ending}}</td>
+                          <tr role="row" *ngFor="let payInfo of paymentInformation; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+                            <td>{{payInfo.method}}</td>
+                            <td>{{payInfo.name}}</td>
+                            <td>{{payInfo.ending}}</td>
                             <td class="row-actions">
-                              <a href="#" data-target="#billingModal1" data-toggle="modal" (click)="onBillingModalOpen('edit', creditCard)"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(creditCard.creditCardId, creditCard.cardName + ' ' + creditCard.ending);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+                              <a href="#" data-target="#billingModal1" data-toggle="modal" (click)="onBillingModalOpen('edit', payInfo)"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(payInfo.paymentId, payInfo.cardName);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
                             </td>
                           </tr>
-                          <tr *ngIf="creditCards.length <= 0" class="odd">
+                          <tr *ngIf="paymentInformation.length <= 0" class="odd">
                             <td valign="top" align="" colspan="9" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
                           </tr>
                           </tbody>
@@ -134,7 +132,7 @@
               <tbody>
               <tr *ngFor="let billing of billings">
                 <td>
-                  <span>{{ billing.date }}</span>
+                  <span>{{ billing.createdOn | date: 'fullDate' }}</span>
                 </td>
                 <td>
                   <span>{{ billing.description }}</span>
@@ -142,7 +140,10 @@
                 <td class="text-center">
                   <span>{{ billing.name }}</span>
                 </td>
-                <td class="text-right bolder nowrap">
+                <td *ngIf="billing.amount === 'Free'" class="text-right bolder nowrap">
+                  <span class="text-primary">{{ billing.amount }}</span>
+                </td>
+                <td *ngIf="billing.amount !== 'Free'" class="text-right bolder nowrap">
                   <span class="text-danger">- {{ billing.amount }} USD</span>
                 </td>
               </tr>
@@ -157,35 +158,28 @@
     </div>
   </div>
 
-  <div aria-hidden="true" class="onboarding-modal modal fade animated" id="billingModal1" role="dialog" tabindex="-1">
-    <div class="modal-dialog modal-centered" role="document">
-      <div class="modal-content text-center">
-        <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span class="close-label">Close</span><span class="os-icon os-icon-close"></span></button>
-        <app-billing-modal (billingChanged)="onBillingChanges($event)" [modalType]="billingModalType" [importedCreditCard]="creditCard"></app-billing-modal>
-      </div>
-    </div>
-  </div>
+  <app-billing-modal (billingChanged)="onBillingChanges($event)" [modalType]="billingModalType" [importedPaymentInfo]="paymentInfo"></app-billing-modal>
 
   <button hidden #openButton data-target="#primaryModal1" data-toggle="modal"></button>
-  <div aria-hidden="true" aria-labelledby="primaryModalLabel" class="modal fade" id="primaryModal1" role="dialog" tabindex="-1">
-    <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="primaryModalLabel">
-            Primary Payment
-          </h5>
-          <button aria-label="Close" class="close" data-dismiss="modal" type="button" #closeButton><span aria-hidden="true"> ×</span></button>
-        </div>
-        <div class="modal-body">
-          <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ creditCard.cardName + ' ' + creditCard.ending}} primary. Please try again.</div>
-          <p>This make <strong>{{ creditCard.cardName + ' ' + creditCard.ending}}</strong> your primary payment method?</p>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" data-dismiss="modal" type="button" (click)="onMakePrimary()">Yes</button>
-          <button class="btn btn-outline-danger right-button" type="button" data-dismiss="modal">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!--<div aria-hidden="true" aria-labelledby="primaryModalLabel" class="modal fade" id="primaryModal1" role="dialog" tabindex="-1">-->
+    <!--<div class="modal-dialog modal-sm" role="document">-->
+      <!--<div class="modal-content">-->
+        <!--<div class="modal-header">-->
+          <!--<h5 class="modal-title" id="primaryModalLabel">-->
+            <!--Primary Payment-->
+          <!--</h5>-->
+          <!--<button aria-label="Close" class="close" data-dismiss="modal" type="button" #closeButton><span aria-hidden="true"> ×</span></button>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+          <!--<div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ creditCard.cardName + ' ' + creditCard.ending}} primary. Please try again.</div>-->
+          <!--<p>This make <strong>{{ creditCard.cardName + ' ' + creditCard.ending}}</strong> your primary payment method?</p>-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+          <!--<button class="btn btn-primary" data-dismiss="modal" type="button" (click)="onMakePrimary()">Yes</button>-->
+          <!--<button class="btn btn-outline-danger right-button" type="button" data-dismiss="modal">Cancel</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 
 </div>
