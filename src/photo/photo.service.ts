@@ -12,11 +12,11 @@ export class PhotoService {
     return this.photoRepository.getPhotos(type);
   }
 
-  public addPhoto(photo: File, type: string): Observable<Photo> {
+  public addPhoto(photo: FormData, type: string): Observable<Photo> {
     return this.photoRepository.addPhoto(photo, type);
   }
 
-  public updatePhoto(photo: File, type: string): Observable<number> {
+  public updatePhoto(photo: FormData, type: string): Observable<Photo> {
     return this.photoRepository.updatePhoto(photo, type);
   }
 }

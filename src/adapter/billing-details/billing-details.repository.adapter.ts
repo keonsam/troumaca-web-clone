@@ -41,6 +41,10 @@ export class BillingDetailsRepositoryAdapter extends BillingDetailsRepository {
     return this.billingDetailsClient.deletePaymentInformation(paymentId);
   }
 
+  deleteSubscription(subscriptionId: string): Observable<number> {
+    return this.billingDetailsClient.deleteSubscription(subscriptionId);
+  }
+
 
   // Validation
 

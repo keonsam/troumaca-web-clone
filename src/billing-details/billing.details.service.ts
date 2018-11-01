@@ -8,6 +8,9 @@ import {PaymentInformation} from "./billing-modal/payment.information";
 
 export class BillingDetailsService {
 
+  public onOpenModal = new BehaviorSubject<PaymentInformation>(new PaymentInformation());
+  public paymentInfoEdit = new BehaviorSubject<boolean>(false);
+
   constructor(private billingDetailsRepository: BillingDetailsRepository) {}
 
   getPaymentMethods(): Observable<PaymentMethod[]> {
@@ -36,6 +39,10 @@ export class BillingDetailsService {
 
   deletePaymentInformation(paymentId: string): Observable<number> {
     return this.billingDetailsRepository.deletePaymentInformation(paymentId);
+  }
+
+  deleteSubscription(subscriptionId: string): Observable<number> {
+    return this.billingDetailsRepository.deleteSubscription(subscriptionId);
   }
 
 

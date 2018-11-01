@@ -80,6 +80,15 @@ export class BillingDetailsClientHttp extends BillingDetailsClient {
       .pipe( map(value => value));
   }
 
+  deleteSubscription(subscriptionId: string): Observable<number> {
+    const url = `${this.hostPort}/subscriptions/${subscriptionId}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.delete<number>(url, httpOptions)
+      .pipe( map(value => value));
+  }
+
   // VALIDATION
 
   isValidCardName(value: string): Observable<ValidResponse> {

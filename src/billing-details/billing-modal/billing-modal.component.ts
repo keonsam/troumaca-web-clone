@@ -1,9 +1,9 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, ViewChild, Output} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PaymentMethod} from './payment.method';
 import {BillingDetailsService} from '../billing.details.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { debounceTime, filter, map, distinctUntilChanged } from 'rxjs/operators';
-import {PaymentInformation} from "./payment.information";
+import {PaymentInformation} from './payment.information';
 
 @Component({
   selector: 'app-billing-modal',
@@ -11,7 +11,7 @@ import {PaymentInformation} from "./payment.information";
   styleUrls: ['billing-modal.component.css']
 })
 
-export class BillingModalComponent implements OnInit, OnChanges {
+export class BillingModalComponent implements OnInit {
 
   billingForm: FormGroup;
   creditCardForm: FormGroup;
@@ -24,12 +24,9 @@ export class BillingModalComponent implements OnInit, OnChanges {
   private paymentInformation: PaymentInformation;
   paymentMethods: PaymentMethod[];
   doNotDisplayFailureMessage = true;
-  creditCardExist = false;
+  paymentInfoExist = false;
 
   @ViewChild('closeModal') closeModal: ElementRef;
-  @Input() modalType: string;
-  @Input() importedPaymentInfo: PaymentInformation;
-  @Output() billingChanged = new EventEmitter<boolean>();
 
   constructor(private billingDetailsService: BillingDetailsService,
               private formBuilder: FormBuilder) {
@@ -52,7 +49,7 @@ export class BillingModalComponent implements OnInit, OnChanges {
     });
 
     this.billingForm.valueChanges
-      .subscribe( value => {
+      .subscribe(value => {
         this.paymentInformation.paymentMethodId = value.paymentMethodId;
       });
 
@@ -66,6 +63,27 @@ export class BillingModalComponent implements OnInit, OnChanges {
       }, error => {
         console.log(error);
       });
+
+    this.billingDetailsService.onOpenModal
+      .subscribe(paymentInfo => {
+        if (paymentInfo && paymentInfo.paymentId) {
+          this.paymentInformation = paymentInfo;
+          this.paymentMethodId.setValue(paymentInfo.paymentMethodId);
+          this.cardName.setValue(paymentInfo.cardName);
+          this.cardNumber.setValue('');
+          this.cardExpDate.setValue('');
+          this.cardCVV.setValue('');
+          this.paymentInfoExist = true;
+        } else {
+          this.paymentInformation = new PaymentInformation();
+          this.paymentMethodId.setValue('');
+          this.cardName.setValue('');
+          this.cardNumber.setValue('');
+          this.cardExpDate.setValue('');
+          this.cardCVV.setValue('');
+          this.paymentInfoExist = false;
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -75,21 +93,6 @@ export class BillingModalComponent implements OnInit, OnChanges {
           this.paymentMethods = paymentMethods;
         }
       });
-  }
-
-  ngOnChanges(): void {
-    if (this.modalType === 'edit') {
-      this.paymentInformation = this.importedPaymentInfo;
-      this.cardName.setValue(this.importedPaymentInfo.cardName);
-      this.creditCardExist = true;
-    } else {
-      this.paymentInformation = new PaymentInformation();
-      this.cardName.setValue('');
-      this.cardNumber.setValue('');
-      this.cardExpDate.setValue('');
-      this.cardCVV.setValue('');
-      this.creditCardExist = false;
-    }
   }
 
   private cardNameValidator(billingDetailsService: BillingDetailsService) {
@@ -251,7 +254,7 @@ export class BillingModalComponent implements OnInit, OnChanges {
       .addPaymentInformation(this.paymentInformation)
       .subscribe(paymentInfo => {
         if (paymentInfo && paymentInfo.paymentId) {
-          this.billingChanged.emit(true);
+          this.billingDetailsService.paymentInfoEdit.next(true);
           this.closeModal.nativeElement.click();
         } else {
           this.doNotDisplayFailureMessage = false;
@@ -269,7 +272,7 @@ export class BillingModalComponent implements OnInit, OnChanges {
       .updatePaymentInformation(this.paymentInformation)
       .subscribe(num => {
         if (num) {
-          this.billingChanged.emit(true);
+          this.billingDetailsService.paymentInfoEdit.next(true);
           this.closeModal.nativeElement.click();
         } else {
           this.doNotDisplayFailureMessage = false;

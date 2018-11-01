@@ -1,12 +1,12 @@
-  <div class="up-head-w" [ngStyle]="{'background-image': 'url(' + photo.organizationImage + ')'}">
+  <div class="up-head-w" [ngStyle]="{'background-image': 'url(' + defaultOrganizationImage + ')'}">
     <div class="up-social">
-      <input #fileid type="file" (change)="fileChangeEvent($event)" accept="image/*"  hidden/>
+      <input #fileid type="file" (change)="onUpload($event)" accept="image/*"  hidden/>
       <a (click)="fileid.click()"><i class="os-icon os-icon-pencil-2"></i></a>
     </div>
     <div class="up-main-info">
       <div class="user-avatar-w">
         <div [hidden]="type === 'organization'" class="user-avatar">
-          <img alt="Image of user" [src]="photo.userImage">
+          <img alt="Image of user" [src]="photo.userImage || defaultUserImage">
         </div>
       </div>
       <h2 class="up-header" *ngIf="organizationName || firstName">

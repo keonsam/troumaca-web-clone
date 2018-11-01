@@ -13,6 +13,7 @@ export abstract class BillingDetailsRepository {
   abstract getPaymentInformation(): Observable<PaymentInformation[]>;
   abstract updatePaymentInformation(paymentInformation: PaymentInformation): Observable<number>;
   abstract deletePaymentInformation(paymentId: string): Observable<number>;
+  abstract deleteSubscription(subscriptionId: string): Observable<number>;
 
   // VALIDATION
   abstract isValidCardName(value: string): Observable<ValidResponse>;

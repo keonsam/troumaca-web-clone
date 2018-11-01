@@ -23,10 +23,10 @@ export class PhotoClientHttp implements PhotoClient {
       }));
   }
 
-  public addPhoto(photoState: File, type: string): Observable<Photo> {
+  public addPhoto(photoState: FormData, type: string): Observable<Photo> {
     const url = `${this.hostPort}/photos/${type}`;
     const httpHeaders: HttpHeaders = new HttpHeaders({
-      'Content-Type':  'image/*',
+      'Content-Type':  'multipart/form-data',
       'correlationId': this.uuidGenerator.generateUUID()
     });
     return this.httpClient
@@ -36,14 +36,15 @@ export class PhotoClientHttp implements PhotoClient {
       }));
   }
 
-  public updatePhoto(photoState: File, type: string): Observable<number> {
+  public updatePhoto(photoState: FormData, type: string): Observable<Photo> {
     const url = `${this.hostPort}/photos/${type}`;
     const httpHeaders: HttpHeaders = new HttpHeaders({
-      'Content-Type':  'image/*',
+      'Content-Type':  'multipart/form-data',
       'correlationId': this.uuidGenerator.generateUUID()
     });
+    console.log(photoState);
     return this.httpClient
-      .put<number>(url, photoState, {headers: httpHeaders})
+      .put<Photo>(url, photoState, {headers: httpHeaders})
       .pipe(map(data => {
         return data;
       }));

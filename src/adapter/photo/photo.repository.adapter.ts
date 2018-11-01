@@ -12,11 +12,11 @@ export class PhotoRepositoryAdapter extends PhotoRepository {
     return this.photoClient.getPhotos(type);
   }
 
-  public addPhoto(photo: File, type: string): Observable<Photo> {
+  public addPhoto(photo: FormData, type: string): Observable<Photo> {
     return this.photoClient.addPhoto(photo, type);
   }
 
-  public updatePhoto(photo: File, type: string): Observable<number> {
+  public updatePhoto(photo: FormData, type: string): Observable<Photo> {
     return this.photoClient.updatePhoto(photo, type);
   }
 

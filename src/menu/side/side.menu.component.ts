@@ -15,12 +15,11 @@ export class SideMenuComponent implements OnInit {
   private userResponse: UserResponse;
   public name = '';
   photo: Photo;
+  defaultUserImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
 
   constructor(private photoService: PhotoService,
               private userService: UserService) {
     this.photo = new Photo();
-    this.photo.userImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
-
   }
 
   ngOnInit(): void {

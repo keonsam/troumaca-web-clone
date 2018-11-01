@@ -13,11 +13,9 @@ export class BillingDetailsComponent implements OnInit {
 
   subscriptions: Subscription[];
   billings: Billing[];
-  totalBilling: number;
   paymentInformation: PaymentInformation[];
   cardName: string;
   paymentId: string;
-  billingModalType: string;
   paymentInfo: PaymentInformation;
   @ViewChild('openButton') openButton: ElementRef;
   @ViewChild('closeButton') closeButton: ElementRef;
@@ -30,16 +28,16 @@ export class BillingDetailsComponent implements OnInit {
     this.paymentInformation = [];
 
     this.paymentInfo = new PaymentInformation();
+
+    this.billingDetailsService.paymentInfoEdit
+      .subscribe(value => {
+        if (value) {
+          this.getPaymentInformation();
+        }
+      });
   }
 
   ngOnInit(): void {
-    this.billingDetailsService.getSubscriptions()
-      .subscribe(subscriptions => {
-        if (subscriptions && subscriptions.length > 0) {
-          this.subscriptions = subscriptions;
-        }
-      });
-
     // This is made to the billed db to get all past billed payments
     this.billingDetailsService.getBillings()
       .subscribe(billings => {
@@ -48,7 +46,19 @@ export class BillingDetailsComponent implements OnInit {
         }
       });
 
+    this.getSubscriptions();
     this.getPaymentInformation();
+  }
+
+  private getSubscriptions() {
+    this.billingDetailsService.getSubscriptions()
+      .subscribe(subscriptions => {
+        if (subscriptions && subscriptions.length > 0) {
+          this.subscriptions = subscriptions;
+        }else {
+          this.subscriptions = [];
+        }
+      });
   }
 
   private getPaymentInformation() {
@@ -65,17 +75,8 @@ export class BillingDetailsComponent implements OnInit {
     this.cardName = cardName;
   }
 
-  onBillingModalOpen(type: string, paymentInfo?: PaymentInformation) {
-    this.billingModalType = type;
-    if (paymentInfo) {
-      this.paymentInfo = paymentInfo;
-    }
-  }
-
-  onBillingChanges(changed: boolean) {
-    if (changed) {
-      this.getPaymentInformation();
-    }
+  onBillingModalOpen(paymentInfo?: PaymentInformation) {
+    this.billingDetailsService.onOpenModal.next(paymentInfo);
   }
 
   onDelete(deleted: boolean) {
@@ -88,6 +89,15 @@ export class BillingDetailsComponent implements OnInit {
           }
         });
     }
+  }
+
+  onUnSubscribe(subscriptionId: string) {
+    this.billingDetailsService.deleteSubscription(subscriptionId)
+      .subscribe( num => {
+        if (num) {
+          this.getSubscriptions();
+        }
+      });
   }
 
   // onMakePrimary() {

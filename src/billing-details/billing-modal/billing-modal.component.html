@@ -12,7 +12,7 @@
 
         <form [formGroup]="billingForm">
 
-          <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to add payment method. Please check your details or contact support.</div>
+          <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ paymentInfoExist ? "update": "add"}} payment method. Please check your details or contact support.</div>
 
           <div class="form-group">
             <label for="payment-method">Payment Method</label>
@@ -48,7 +48,7 @@
               </div>
             </div>
 
-            <button class="btn btn-primary" [disabled]="!creditCardForm.valid" type="submit" (click)="creditCardExist ? onUpdate() : onCreate()">{{ creditCardExist ? "Update" : "Create"}}</button>
+            <button class="btn btn-primary" [disabled]="!creditCardForm.valid" type="submit" (click)="paymentInfoExist ? onUpdate() : onCreate()">{{ paymentInfoExist ? "Update" : "Create"}}</button>
             <button class="btn btn-outline-danger right-button" data-dismiss="modal" type="cancel" #closeModal>Cancel</button>
           </div>
 

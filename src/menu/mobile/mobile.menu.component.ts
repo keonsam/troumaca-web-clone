@@ -31,11 +31,11 @@ export class MobileMenuComponent implements OnInit {
   public popUpState: string;
   private userResponse: UserResponse;
   photo: Photo;
+  defaultUserImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
 
   constructor(private photoService: PhotoService,
               private userService: UserService) {
     this.photo = new Photo();
-    this.photo.userImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
     this.state = 'inactive';
     this.popUpState = 'hide';
   }

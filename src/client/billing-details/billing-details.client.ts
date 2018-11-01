@@ -20,6 +20,8 @@ export abstract class BillingDetailsClient {
 
   abstract deletePaymentInformation(paymentId: string): Observable<number>;
 
+  abstract deleteSubscription(subscriptionId: string): Observable<number>;
+
 
   // VALIDATION
   abstract isValidCardName(value: string): Observable<ValidResponse>;

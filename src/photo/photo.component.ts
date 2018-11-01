@@ -9,19 +9,16 @@ import { Photo } from './photo';
   styleUrls: ['./photo.component.css']
 })
 export class PhotoComponent implements OnInit {
-  private selectedImage: File;
   photo: Photo;
   @Input() type = 'photo';
   @Input() user: User;
   @Input() firstName: string;
   @Input() lastName: string;
   @Input() organizationName: string;
-
+  defaultUserImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
+  defaultOrganizationImage = 'https://www.desktopbackground.org/p/2015/10/22/1030276_high-quality-nature-wallpapers-free-download-desktop-wallpapers_2560x1920_h.jpg';
   constructor(private photoService: PhotoService ) {
     this.photo = new Photo();
-    this.photo.userImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
-    this.photo.organizationImage = 'https://i.pinimg.com/736x/05/19/3c/05193c43ed8e4a9ba4dfaa10ff0115f1.jpg';
-
   }
 
   ngOnInit(): void {
@@ -45,13 +42,9 @@ export class PhotoComponent implements OnInit {
       });
   }
 
-  fileChangeEvent(event: any): void {
-    this.selectedImage = event.target.files[0];
-    this.onUpload();
-  }
 
-  private addImage() {
-    this.photoService.addPhoto(this.selectedImage, this.type)
+  private addImage(uploadData: FormData) {
+    this.photoService.addPhoto(uploadData, this.type)
       .subscribe(photo => {
         if (photo) {
           this.photoService.photoData.next(photo);
@@ -59,25 +52,23 @@ export class PhotoComponent implements OnInit {
       });
   }
 
-  private updateImage() {
-    this.photoService.updatePhoto(this.selectedImage, this.type)
-      .subscribe(numUpdated => {
-        if (numUpdated) {
-          if (this.type === 'user') {
-            this.photo.userImage = this.selectedImage;
-          } else {
-            this.photo.organizationImage = this.selectedImage;
-          }
-          this.photoService.photoData.next(this.photo);
+  private updateImage(uploadData: FormData) {
+    this.photoService.updatePhoto(uploadData, this.type)
+      .subscribe(photo => {
+        if (photo && photo.partyId) {
+          this.photoService.photoData.next(photo);
         }
       });
   }
 
-  private onUpload() {
+  onUpload(event: any): void {
+    const selectedFile = event.target.files[0];
+    const uploadData: FormData = new FormData();
+    uploadData.append('image', selectedFile, selectedFile.name);
     if (this.photo.partyId) {
-      this.updateImage();
+      this.updateImage(uploadData);
     } else {
-      this.addImage();
+      this.addImage(uploadData);
     }
   }
 
