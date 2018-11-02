@@ -7,7 +7,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class OrganizationCompanyComponent implements OnInit {
 
-  public organizationName: string;
+  organizationName: string;
 
   constructor() {}
 

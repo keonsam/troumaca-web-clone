@@ -14,7 +14,7 @@ export class OrganizationClientHttp implements OrganizationClient {
   }
 
   findOrganizations(searchStr: string, pageSize: number): Observable<Organization[]> {
-    const url = `${this.hostPort}/organizations-find?q=${searchStr}&pageSize=${pageSize}`;
+    const url = `${this.hostPort}/organizations/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };

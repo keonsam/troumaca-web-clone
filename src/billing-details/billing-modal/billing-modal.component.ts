@@ -1,9 +1,9 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, ViewChild, Output} from "@angular/core";
-import {PaymentMethod} from "./payment.method";
-import {BillingDetailsService} from "../billing.details.service";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {PaymentMethod} from './payment.method';
+import {BillingDetailsService} from '../billing.details.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {CreditCard} from "./credit.card";
-import { debounceTime, filter, map, distinctUntilChanged } from "rxjs/operators";
+import { debounceTime, filter, map, distinctUntilChanged } from 'rxjs/operators';
+import {PaymentInformation} from './payment.information';
 
 @Component({
   selector: 'app-billing-modal',
@@ -11,29 +11,27 @@ import { debounceTime, filter, map, distinctUntilChanged } from "rxjs/operators"
   styleUrls: ['billing-modal.component.css']
 })
 
-export class BillingModalComponent implements OnInit, OnChanges {
-  paymentMethods: PaymentMethod[];
-  doNotDisplayFailureMessage = true;
+export class BillingModalComponent implements OnInit {
+
   billingForm: FormGroup;
   creditCardForm: FormGroup;
-
   paymentMethodId: FormControl;
   cardName: FormControl;
   cardNumber: FormControl;
   cardExpDate: FormControl;
   cardCVV: FormControl;
-  private creditCard: CreditCard;
+
+  private paymentInformation: PaymentInformation;
+  paymentMethods: PaymentMethod[];
+  doNotDisplayFailureMessage = true;
+  paymentInfoExist = false;
+
   @ViewChild('closeModal') closeModal: ElementRef;
-  @Input() modalType: string;
-  @Input() importedCreditCard: CreditCard;
-  @Input() stepper: boolean;
-  creditCardExist = false;
-  @Output() billingChanged = new EventEmitter<boolean>();
 
   constructor(private billingDetailsService: BillingDetailsService,
               private formBuilder: FormBuilder) {
 
-    this.paymentMethodId = new FormControl('9f9e5106-1235-4f61-9609-b8fea945e066', [Validators.required]);
+    this.paymentMethodId = new FormControl('', [Validators.required]);
     this.cardName = new FormControl('', [Validators.required, this.cardNameValidator(this.billingDetailsService)]);
     this.cardNumber = new FormControl('', [Validators.required, this.cardNumberValidator(this.billingDetailsService)]);
     this.cardExpDate = new FormControl('', [Validators.required, this.cardExpDateValidator(this.billingDetailsService)]);
@@ -50,42 +48,51 @@ export class BillingModalComponent implements OnInit, OnChanges {
       'cardCVV': this.cardCVV
     });
 
+    this.billingForm.valueChanges
+      .subscribe(value => {
+        this.paymentInformation.paymentMethodId = value.paymentMethodId;
+      });
+
     this.creditCardForm
       .valueChanges
       .subscribe(value => {
-        this.creditCard.cardName = value.cardName;
-        this.creditCard.cardNumber = value.cardNumber;
-        this.creditCard.cardExpDate = value.cardExpDate;
-        this.creditCard.cardCVV = value.cardCVV;
+        this.paymentInformation.cardName = value.cardName;
+        this.paymentInformation.cardNumber = value.cardNumber;
+        this.paymentInformation.cardExpDate = value.cardExpDate;
+        this.paymentInformation.cardCVV = value.cardCVV;
       }, error => {
         console.log(error);
+      });
+
+    this.billingDetailsService.onOpenModal
+      .subscribe(paymentInfo => {
+        if (paymentInfo && paymentInfo.paymentId) {
+          this.paymentInformation = paymentInfo;
+          this.paymentMethodId.setValue(paymentInfo.paymentMethodId);
+          this.cardName.setValue(paymentInfo.cardName);
+          this.cardNumber.setValue('');
+          this.cardExpDate.setValue('');
+          this.cardCVV.setValue('');
+          this.paymentInfoExist = true;
+        } else {
+          this.paymentInformation = new PaymentInformation();
+          this.paymentMethodId.setValue('');
+          this.cardName.setValue('');
+          this.cardNumber.setValue('');
+          this.cardExpDate.setValue('');
+          this.cardCVV.setValue('');
+          this.paymentInfoExist = false;
+        }
       });
   }
 
   ngOnInit(): void {
     this.billingDetailsService.getPaymentMethods()
-      .subscribe( paymentMethods => {
-       if (paymentMethods.length > 0) {
-         this.paymentMethods = paymentMethods;
-       }else {
-         // display errors here
-       }
-    });
-  }
-
-  ngOnChanges(): void {
-    if (this.modalType === 'edit') {
-      this.creditCard = this.importedCreditCard;
-      this.cardName.setValue(this.importedCreditCard.cardName);
-      this.creditCardExist = true;
-    }else {
-      this.creditCard = new CreditCard();
-      this.cardName.setValue('');
-      this.cardNumber.setValue('');
-      this.cardExpDate.setValue(new Date());
-      this.cardCVV.setValue('');
-      this.creditCardExist = false;
-    }
+      .subscribe(paymentMethods => {
+        if (paymentMethods && paymentMethods.length > 0) {
+          this.paymentMethods = paymentMethods;
+        }
+      });
   }
 
   private cardNameValidator(billingDetailsService: BillingDetailsService) {
@@ -95,13 +102,13 @@ export class BillingModalComponent implements OnInit, OnChanges {
     const subscriberToChangeEvents = function () {
       valueChanges
         .pipe(debounceTime(500),
-        distinctUntilChanged(),
-        filter(value => { // filter out empty values
-          return !!(value);
-        }), map((value: string) => {
-        return billingDetailsService.isValidCardName(value);
-      })).subscribe(value => {
-        value.subscribe( otherValue => {
+          distinctUntilChanged(),
+          filter(value => { // filter out empty values
+            return !!(value);
+          }), map((value: string) => {
+            return billingDetailsService.isValidCardName(value);
+          })).subscribe(value => {
+        value.subscribe(otherValue => {
           isValidCardName = otherValue.valid;
           cardNameControl.updateValueAndValidity();
         });
@@ -133,13 +140,13 @@ export class BillingModalComponent implements OnInit, OnChanges {
     const subscriberToChangeEvents = function () {
       valueChanges
         .pipe(debounceTime(500),
-        distinctUntilChanged(),
-        filter(value => { // filter out empty values
-          return !!(value);
-        }), map((value: string) => {
-        return billingDetailsService.isValidCardNumber(value);
-      })).subscribe(value => {
-        value.subscribe( otherValue => {
+          distinctUntilChanged(),
+          filter(value => { // filter out empty values
+            return !!(value);
+          }), map((value: string) => {
+            return billingDetailsService.isValidCardNumber(value);
+          })).subscribe(value => {
+        value.subscribe(otherValue => {
           isValidCardNumber = otherValue.valid;
           cardNumberControl.updateValueAndValidity();
         });
@@ -170,14 +177,14 @@ export class BillingModalComponent implements OnInit, OnChanges {
     let valueChanges = null;
     const subscriberToChangeEvents = function () {
       valueChanges
-        .pipe( debounceTime(500),
-        distinctUntilChanged(),
-        filter(value => { // filter out empty values
-          return !!(value);
-        }), map((value: Date) => {
-        return billingDetailsService.isValidCardExpDate(value);
-      })).subscribe(value => {
-        value.subscribe( otherValue => {
+        .pipe(debounceTime(500),
+          distinctUntilChanged(),
+          filter(value => { // filter out empty values
+            return !!(value);
+          }), map((value: any) => {
+            return billingDetailsService.isValidCardExpDate(value);
+          })).subscribe(value => {
+        value.subscribe(otherValue => {
           isValidCardExpDate = otherValue.valid;
           cardExpDateControl.updateValueAndValidity();
         });
@@ -209,13 +216,13 @@ export class BillingModalComponent implements OnInit, OnChanges {
     const subscriberToChangeEvents = function () {
       valueChanges
         .pipe(debounceTime(500),
-        distinctUntilChanged(),
-        filter(value => { // filter out empty values
-          return !!(value);
-        }), map((value: string) => {
-        return billingDetailsService.isValidCardCVV(value);
-      })).subscribe(value => {
-        value.subscribe( otherValue => {
+          distinctUntilChanged(),
+          filter(value => { // filter out empty values
+            return !!(value);
+          }), map((value: string) => {
+            return billingDetailsService.isValidCardCVV(value);
+          })).subscribe(value => {
+        value.subscribe(otherValue => {
           isValidCardCVV = otherValue.valid;
           cardCVVControl.updateValueAndValidity();
         });
@@ -244,14 +251,17 @@ export class BillingModalComponent implements OnInit, OnChanges {
     this.doNotDisplayFailureMessage = true;
 
     this.billingDetailsService
-      .addCreditCard(this.creditCard)
-      .subscribe( creditCard => {
-        if (creditCard.creditCardId) {
-          this.billingChanged.emit(true);
+      .addPaymentInformation(this.paymentInformation)
+      .subscribe(paymentInfo => {
+        if (paymentInfo && paymentInfo.paymentId) {
+          this.billingDetailsService.paymentInfoEdit.next(true);
           this.closeModal.nativeElement.click();
         } else {
           this.doNotDisplayFailureMessage = false;
         }
+      }, error1 => {
+        this.doNotDisplayFailureMessage = false;
+        console.log(error1);
       });
   }
 
@@ -259,14 +269,17 @@ export class BillingModalComponent implements OnInit, OnChanges {
     this.doNotDisplayFailureMessage = true;
 
     this.billingDetailsService
-      .updateCreditCard(this.creditCard)
-      .subscribe( num => {
+      .updatePaymentInformation(this.paymentInformation)
+      .subscribe(num => {
         if (num) {
-          this.billingChanged.emit(true);
+          this.billingDetailsService.paymentInfoEdit.next(true);
           this.closeModal.nativeElement.click();
         } else {
           this.doNotDisplayFailureMessage = false;
         }
+      }, error1 => {
+        this.doNotDisplayFailureMessage = false;
+        console.log(error1);
       });
   }
 }

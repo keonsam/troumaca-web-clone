@@ -28,6 +28,18 @@ export class AuthenticationClientHttp extends AuthenticationClient {
     // });
   }
 
+  getCredential(partyId: string): Observable<User> {
+    const url = `${this.hostPort}/authentication/credentials/${partyId}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient
+      .get<User>(url, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
   authenticate(credentialState: Credential): Observable<AuthenticatedCredential> {
     const url = `${this.hostPort}/authentication/authenticate`;
 
@@ -47,15 +59,15 @@ export class AuthenticationClientHttp extends AuthenticationClient {
       }));
   }
 
-  forgotPassword(username: string): Observable<boolean> {
-    const url = `${this.hostPort}/forgot-password`;
+  forgotPassword(credential: Credential): Observable<Confirmation> {
+    const url = `${this.hostPort}/authentication/forgot-password`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
-      .post<boolean>(url, {username}, httpOptions)
+      .post<Confirmation>(url, credential, httpOptions)
       .pipe(map(data => {
         return data;
       }));
@@ -141,6 +153,25 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
     return this.httpClient
       .post<Confirmation>(url, body, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+  updateCredential(credential: Credential, user: User): Observable<number> {
+    const url = `${this.hostPort}/authentication/credentials/${user.partyId}`;
+
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+
+    const body = {
+      credential,
+      user
+    };
+
+    return this.httpClient
+      .put<number>(url, body, httpOptions)
       .pipe(map(data => {
         return data;
       }));

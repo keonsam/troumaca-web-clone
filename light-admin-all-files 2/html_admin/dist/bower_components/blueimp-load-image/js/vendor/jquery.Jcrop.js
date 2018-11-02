@@ -393,7 +393,7 @@
     // }}}
     // }}}
     // Internal Modules {{{
-    // Touch Module {{{ 
+    // Touch App {{{ 
     var Touch = (function () {
       // Touch support detection function adapted (under MIT License)
       // from code by Jeffrey Sambells - http://github.com/iamamused/
@@ -453,7 +453,7 @@
       };
     }());
     // }}}
-    // Coords Module {{{
+    // Coords App {{{
     var Coords = (function () {
       var x1 = 0,
           y1 = 0,
@@ -734,7 +734,7 @@
     }());
 
     //}}}
-    // Shade Module {{{
+    // Shade App {{{
     var Shade = (function() {
       var enabled = false,
           holder = $('<div />').css({
@@ -851,7 +851,7 @@
       };
     }());
     // }}}
-    // Selection Module {{{
+    // Selection App {{{
     var Selection = (function () {
       var awake,
           hdep = 370,
@@ -1122,7 +1122,7 @@
     }());
     
     //}}}
-    // Tracker Module {{{
+    // Tracker App {{{
     var Tracker = (function () {
       var onMove = function () {},
           onDone = function () {},
@@ -1218,7 +1218,7 @@
       };
     }());
     //}}}
-    // KeyManager Module {{{
+    // KeyManager App {{{
     var KeyManager = (function () {
       var $keymgr = $('<input type="radio" />').css({
         position: 'fixed',

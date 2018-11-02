@@ -108,14 +108,14 @@ var config = require('./config');
 
 module.exports = function (_chai, util) {
   /*!
-   * Module dependencies.
+   * App dependencies.
    */
 
   var AssertionError = _chai.AssertionError
     , flag = util.flag;
 
   /*!
-   * Module export.
+   * App export.
    */
 
   _chai.Assertion = Assertion;
@@ -2166,7 +2166,7 @@ module.exports = function (chai, util) {
     , flag = util.flag;
 
   /*!
-   * Module export.
+   * App export.
    */
 
   /**
@@ -4042,7 +4042,7 @@ module.exports = function (chai, util) {
  */
 
 /*!
- * Module dependencies
+ * App dependencies
  */
 
 var transferFlags = require('./transferFlags');
@@ -4050,7 +4050,7 @@ var flag = require('./flag');
 var config = require('../config');
 
 /*!
- * Module variables
+ * App variables
  */
 
 // Check whether `__proto__` is supported
@@ -4381,7 +4381,7 @@ module.exports = function getEnumerableProperties(object) {
  */
 
 /*!
- * Module dependancies
+ * App dependancies
  */
 
 var flag = require('./flag')
@@ -5189,7 +5189,7 @@ function objectToString(o) {
  */
 
 /*!
- * Module dependancies
+ * App dependancies
  */
 
 var inspect = require('./inspect');
@@ -5408,7 +5408,7 @@ module.exports = function (ctx, name, getter) {
  */
 
 /*!
- * Module dependancies
+ * App dependancies
  */
 
 var flag = require('./flag');
@@ -5602,7 +5602,7 @@ module.exports = require('./lib/eql');
  */
 
 /*!
- * Module dependencies
+ * App dependencies
  */
 
 var type = require('type-detect');

@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs';
 import { LobbyRepository } from './lobby.repository';
-import {Module} from "./module";
+import {App} from "./app";
 import {Subscription} from "./subscription";
 
 export class LobbyService  {
@@ -8,8 +8,8 @@ export class LobbyService  {
   constructor(private lobbyRepository: LobbyRepository) {
   }
 
-  getModules(): Observable<Module[]> {
-    return this.lobbyRepository.getModules();
+  getApps(): Observable<App[]> {
+    return this.lobbyRepository.getApps();
   }
 
   addSubscription(subscription: Subscription): Observable<Subscription> {

@@ -14,7 +14,7 @@
     <div class="logged-user-w">
       <div class="user-tab-div" [class.active]="popUpState === 'show'? true:false" (click)="popUpTrigger()">
         <div class="avatar-w">
-          <img alt="" [src]="imageStr">
+          <img alt="" [src]="photo.userImage || defaultUserImage">
         </div>
         <div class="logged-user-info-w">
           <div class="logged-user-name">
@@ -27,7 +27,7 @@
         <div class="logged-user-menu">
           <div class="logged-user-avatar-info">
             <div class="avatar-w">
-              <img alt="" [src]="imageStr">
+              <img alt="" [src]="photo.userImage || defaultUserImage">
             </div>
             <div class="logged-user-info-w">
               <div class="logged-user-name">

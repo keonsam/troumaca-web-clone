@@ -9,8 +9,8 @@ import {Select2OptionData} from 'ng2-select2';
 import { map, distinctUntilChanged, filter, debounceTime } from 'rxjs/operators';
 import {UserResponse} from '../../user.response';
 import { AuthenticationService } from '../../../authentication/authentication.service';
-import {UserService} from '../user.service';
-import { Credential} from "../../../authentication/credential";
+import { UserService } from '../user.service';
+import { Credential } from '../../../authentication/credential';
 
 @Component({
   selector: 'app-user-form',
@@ -19,27 +19,27 @@ import { Credential} from "../../../authentication/credential";
 })
 export class UserFormComponent implements OnInit {
 
-  private firstUsername: string;
-  private _firstName: FormControl;
-  private _middleName: FormControl;
-  private _lastName: FormControl;
-  private _username: FormControl;
-  private _accessRole: FormControl;
-  private _accessRoleId: string;
-  private _userForm: FormGroup;
+  firstName: FormControl;
+  middleName: FormControl;
+  lastName: FormControl;
+  username: FormControl;
+  accessRole: FormControl;
+  userForm: FormGroup;
+
+  private accessRoleId: string;
 
   private user: User;
   private credential: Credential;
   private partyAccessRoles: PartyAccessRole[];
+  private accessRoles: string[];
 
   private pageSize = 15;
-  private _doNotDisplayFailureMessage: boolean;
+  doNotDisplayFailureMessage: boolean;
 
-  public accessRoleData: Array<Select2OptionData>;
-  public options: Select2Options;
-  private _value: string[];
-  private accessRoles: string[];
-  public userExist = false;
+  accessRoleData: Array<Select2OptionData>;
+  options: Select2Options;
+  value: string[];
+  userExist = false;
 
   constructor(private userService: UserService,
               private authService: AuthenticationService,
@@ -80,9 +80,6 @@ export class UserFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
-
     this.options = {
       width: '100%',
       placeholder: 'Select Access Roles',
@@ -109,9 +106,7 @@ export class UserFormComponent implements OnInit {
     this.middleName.setValue(userResponse.user.middleName);
     this.lastName.setValue(userResponse.user.lastName);
     this.username.setValue(userResponse.user.username);
-    this.firstUsername = userResponse.user.username;
     this.user = userResponse.user;
-    this.credential.username = userResponse.user.username;
     const values = userResponse.partyAccessRoles.map(value => value.accessRole.accessRoleId);
     this.accessRole.setValue(values.join(','));
     this.partyAccessRoles = userResponse.partyAccessRoles;
@@ -124,7 +119,7 @@ export class UserFormComponent implements OnInit {
     this.accessRoles = data.value;
   }
 
-  findAccessRole(value, defaultValues?: string[]) {
+  private findAccessRole(value, defaultValues?: string[]) {
     this.userService
       .findAccessRole(value, this.pageSize) // send search request to the backend
       .pipe(map(value2 => { // convert results to dropdown data
@@ -143,7 +138,7 @@ export class UserFormComponent implements OnInit {
       });
   }
 
-  usernameValidator(authService: AuthenticationService) {
+  private usernameValidator(authService: AuthenticationService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
@@ -181,79 +176,7 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  get value(): string[] {
-    return this._value;
-  }
-
-  set value(value: string[]) {
-    this._value = value;
-  }
-
-  get firstName(): FormControl {
-    return this._firstName;
-  }
-
-  set firstName(value: FormControl) {
-    this._firstName = value;
-  }
-
-  get middleName(): FormControl {
-    return this._middleName;
-  }
-
-  set middleName(value: FormControl) {
-    this._middleName = value;
-  }
-
-  get lastName(): FormControl {
-    return this._lastName;
-  }
-
-  set lastName(value: FormControl) {
-    this._lastName = value;
-  }
-
-  get username(): FormControl {
-    return this._username;
-  }
-
-  set username(value: FormControl) {
-    this._username = value;
-  }
-
-  get accessRole(): FormControl {
-    return this._accessRole;
-  }
-
-  set accessRole(value: FormControl) {
-    this._accessRole = value;
-  }
-
-  get accessRoleId(): string {
-    return this._accessRoleId;
-  }
-
-  set accessRoleId(value: string) {
-    this._accessRoleId = value;
-  }
-
-  get userForm(): FormGroup {
-    return this._userForm;
-  }
-
-  set userForm(value: FormGroup) {
-    this._userForm = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
-  }
-
-  removePartyAccessRoles(partyAccessRoles) {
+  private removePartyAccessRoles(partyAccessRoles) {
     return partyAccessRoles.filter(value => {
       if (this.accessRoles.indexOf(value.accessRoleId) > -1) {
         if (!value.partyId) {
@@ -265,12 +188,13 @@ export class UserFormComponent implements OnInit {
   }
 
   onCreate() {
+    const newPartyAccessRoles: PartyAccessRole[] = [];
     this.accessRoles.forEach( value => {
-      this.partyAccessRoles.push(new PartyAccessRole(value));
+      newPartyAccessRoles.push(new PartyAccessRole(value));
     });
     this.doNotDisplayFailureMessage = true;
     this.userService
-      .addUser(this.user, this.credential, this.partyAccessRoles)
+      .addUser(this.user, this.credential, newPartyAccessRoles)
       .subscribe(value => {
         if (value && value.partyId) {
           this.router.navigate(['/parties/users/listing']);

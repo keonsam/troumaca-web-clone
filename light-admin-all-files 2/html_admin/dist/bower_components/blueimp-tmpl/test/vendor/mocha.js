@@ -194,7 +194,7 @@ module.exports = function(type) {
 
 },{}],3:[function(require,module,exports){
 /**
- * Module exports.
+ * App exports.
  */
 
 exports.EventEmitter = EventEmitter;
@@ -523,7 +523,7 @@ exports.getWindowSize = function getWindowSize() {
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],6:[function(require,module,exports){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var JSON = require('json3');
@@ -635,7 +635,7 @@ Context.prototype.inspect = function() {
 
 },{"json3":54}],7:[function(require,module,exports){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Runnable = require('./runnable');
@@ -683,7 +683,7 @@ Hook.prototype.error = function(err) {
 
 },{"./runnable":33,"./utils":38}],8:[function(require,module,exports){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Test = require('../test');
@@ -958,7 +958,7 @@ module.exports = function(suites, context, mocha) {
 
 },{"../suite":35}],10:[function(require,module,exports){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Suite = require('../suite');
@@ -1027,7 +1027,7 @@ exports.exports = require('./exports');
 
 },{"./bdd":8,"./exports":10,"./qunit":12,"./tdd":13}],12:[function(require,module,exports){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Test = require('../test');
@@ -1126,7 +1126,7 @@ module.exports = function(suite) {
 
 },{"../test":36,"./common":9}],13:[function(require,module,exports){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Test = require('../test');
@@ -1239,7 +1239,7 @@ module.exports = function(suite) {
  */
 
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var escapeRe = require('escape-string-regexp');
@@ -1904,7 +1904,7 @@ function Pending(message) {
 },{}],17:[function(require,module,exports){
 (function (process,global){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var tty = require('tty');
@@ -2396,7 +2396,7 @@ function sameType(a, b) {
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"../ms":15,"../utils":38,"_process":67,"diff":46,"supports-color":42,"tty":5}],18:[function(require,module,exports){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -2461,7 +2461,7 @@ function Doc(runner) {
 },{"../utils":38,"./base":17}],19:[function(require,module,exports){
 (function (process){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -2533,7 +2533,7 @@ inherits(Dot, Base);
 /* eslint-env browser */
 
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -2898,7 +2898,7 @@ exports.JSONStream = exports['json-stream'] = require('./json-stream');
 },{"./base":17,"./doc":18,"./dot":19,"./html":20,"./json":23,"./json-stream":22,"./landing":24,"./list":25,"./markdown":26,"./min":27,"./nyan":28,"./progress":29,"./spec":30,"./tap":31,"./xunit":32}],22:[function(require,module,exports){
 (function (process){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -2963,7 +2963,7 @@ function clean(test) {
 },{"./base":17,"_process":67,"json3":54}],23:[function(require,module,exports){
 (function (process){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -3057,7 +3057,7 @@ function errorJSON(err) {
 },{"./base":17,"_process":67}],24:[function(require,module,exports){
 (function (process){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -3153,7 +3153,7 @@ inherits(Landing, Base);
 },{"../utils":38,"./base":17,"_process":67}],25:[function(require,module,exports){
 (function (process){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -3218,7 +3218,7 @@ inherits(List, Base);
 },{"../utils":38,"./base":17,"_process":67}],26:[function(require,module,exports){
 (function (process){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -3319,7 +3319,7 @@ function Markdown(runner) {
 },{"../utils":38,"./base":17,"_process":67}],27:[function(require,module,exports){
 (function (process){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -3359,7 +3359,7 @@ inherits(Min, Base);
 },{"../utils":38,"./base":17,"_process":67}],28:[function(require,module,exports){
 (function (process){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -3624,7 +3624,7 @@ function write(string) {
 },{"../utils":38,"./base":17,"_process":67}],29:[function(require,module,exports){
 (function (process){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -3716,7 +3716,7 @@ inherits(Progress, Base);
 }).call(this,require('_process'))
 },{"../utils":38,"./base":17,"_process":67}],30:[function(require,module,exports){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -3797,7 +3797,7 @@ inherits(Spec, Base);
 
 },{"../utils":38,"./base":17}],31:[function(require,module,exports){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -3868,7 +3868,7 @@ function title(test) {
 },{"./base":17}],32:[function(require,module,exports){
 (function (process,global){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Base = require('./base');
@@ -4038,7 +4038,7 @@ function tag(name, attrs, close, content) {
 },{"../utils":38,"./base":17,"_process":67,"fs":42,"mkdirp":64,"path":42}],33:[function(require,module,exports){
 (function (global){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var EventEmitter = require('events').EventEmitter;
@@ -4422,7 +4422,7 @@ Runnable.prototype.run = function(fn) {
 },{"./ms":15,"./pending":16,"./utils":38,"debug":2,"events":3,"json3":54,"lodash.create":60}],34:[function(require,module,exports){
 (function (process,global){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var EventEmitter = require('events').EventEmitter;
@@ -5382,7 +5382,7 @@ function extraGlobals() {
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./pending":16,"./runnable":33,"./utils":38,"_process":67,"debug":2,"events":3}],35:[function(require,module,exports){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var EventEmitter = require('events').EventEmitter;
@@ -5784,7 +5784,7 @@ Suite.prototype.run = function run() {
 
 },{"./hook":7,"./ms":15,"./utils":38,"debug":2,"events":3}],36:[function(require,module,exports){
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var Runnable = require('./runnable');
@@ -5878,7 +5878,7 @@ module.exports = toISOString;
 /* eslint-env browser */
 
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var JSON = require('json3');
@@ -9774,7 +9774,7 @@ function isUndefined(arg) {
 // Growl - Copyright TJ Holowaychuk <tj@vision-media.ca> (MIT Licensed)
 
 /**
- * Module dependencies.
+ * App dependencies.
  */
 
 var exec = require('child_process').exec
@@ -14797,7 +14797,7 @@ function base64DetectIncompleteChar(buffer) {
 (function (global){
 
 /**
- * Module exports.
+ * App exports.
  */
 
 module.exports = deprecate;

@@ -1,5 +1,4 @@
 import {ChangeDetectorRef, Component, Input, OnInit, Output} from '@angular/core';
-import {Person} from './person';
 import {PartyService} from './party.service';
 import {PartyEventService} from './party.event.service';
 import {NavigationEnd, Router} from '@angular/router';
@@ -12,7 +11,6 @@ import { filter } from "rxjs/operators";
 })
 export class PartyComponent implements OnInit {
 
-  private _persons: Person[];
   private _dynamicMenuName: string;
 
   constructor(private partyService: PartyService,
@@ -46,14 +44,6 @@ export class PartyComponent implements OnInit {
 
   set dynamicMenuName(value: string) {
     this._dynamicMenuName = value;
-  }
-
-  get persons(): Person[] {
-    return this._persons;
-  }
-
-  set persons(value: Person[]) {
-    this._persons = value;
   }
 
 }

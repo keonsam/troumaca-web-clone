@@ -2,13 +2,10 @@ import {BillingDetailsRepository} from '../../billing-details/billing.details.re
 import {Observable} from 'rxjs';
 import {PaymentMethod} from '../../billing-details/billing-modal/payment.method';
 import {BillingDetailsClient} from '../../client/billing-details/billing-details.client';
-import {map} from 'rxjs/operators';
-import {mapObjectProps} from '../../mapper/object.property.mapper';
-import {CreditCard} from '../../billing-details/billing-modal/credit.card';
-import {CreditCardState} from '../../client/billing-details/credit.card.state';
-import { ValidResponse } from "../../authentication/valid.response";
+import { ValidResponse } from '../../authentication/valid.response';
 import {Subscription} from '../../lobby/subscription';
 import {Billing} from '../../billing-details/billing';
+import {PaymentInformation} from '../../billing-details/billing-modal/payment.information';
 
 export class BillingDetailsRepositoryAdapter extends BillingDetailsRepository {
 
@@ -16,61 +13,36 @@ export class BillingDetailsRepositoryAdapter extends BillingDetailsRepository {
     super();
   }
 
-  getPaymentMethods(): Observable<PaymentMethod[]> {
-    return this.billingDetailsClient.getPaymentMethods()
-      .pipe( map( paymentMethods => {
-        let newPaymentMethods: PaymentMethod[] = [];
-        if (paymentMethods) {
-          newPaymentMethods = paymentMethods.map( method => mapObjectProps(method, new PaymentMethod()));
-        }
-        return newPaymentMethods;
-      }));
-  }
-
-  addCreditCard(creditCard: CreditCard): Observable<CreditCard> {
-    return this.billingDetailsClient.addCreditCard(mapObjectProps(creditCard, new CreditCardState()))
-      .pipe( map( value => mapObjectProps(value, new CreditCard())));
-  }
-
   getSubscriptions(): Observable<Subscription[]> {
-    return this.billingDetailsClient.getSubscriptions()
-      .pipe( map( value => {
-        let newSubscription: Subscription[] = [];
-        if (value) {
-          newSubscription = value.map(x => mapObjectProps(x, new Subscription()));
-        }
-        return newSubscription;
-      }));
+    return this.billingDetailsClient.getSubscriptions();
   }
 
   getBillings(): Observable<Billing[]> {
-    return this.billingDetailsClient.getBillings()
-      .pipe( map( value => {
-        let newBillings: Billing[] = [];
-        if (value) {
-          newBillings = value.map(x => mapObjectProps(x, new Billing()));
-        }
-        return newBillings;
-      }));
+    return this.billingDetailsClient.getBillings();
   }
 
-  getCreditCards(): Observable<CreditCard[]> {
-    return this.billingDetailsClient.getCreditCards()
-      .pipe( map( value => {
-        let newCreditCards: CreditCard[] = [];
-        if (value) {
-          newCreditCards = value.map(x => mapObjectProps(x, new CreditCard()));
-        }
-        return newCreditCards;
-      }));
+  getPaymentMethods(): Observable<PaymentMethod[]> {
+    return this.billingDetailsClient.getPaymentMethods();
   }
 
-  updateCreditCard(creditCard: CreditCard): Observable<number> {
-    return this.billingDetailsClient.updateCreditCard(mapObjectProps(creditCard, new CreditCardState()));
+  addPaymentInformation(paymentInformation: PaymentInformation): Observable<PaymentInformation> {
+    return this.billingDetailsClient.addPaymentInformation(paymentInformation);
   }
 
-  deleteCreditCard(creditCardId: string): Observable<number> {
-    return this.billingDetailsClient.deleteCreditCard(creditCardId);
+  getPaymentInformation(): Observable<PaymentInformation[]> {
+    return this.billingDetailsClient.getPaymentInformation();
+  }
+
+  updatePaymentInformation(paymentInfo: PaymentInformation): Observable<number> {
+    return this.billingDetailsClient.updatePaymentInformation(paymentInfo);
+  }
+
+  deletePaymentInformation(paymentId: string): Observable<number> {
+    return this.billingDetailsClient.deletePaymentInformation(paymentId);
+  }
+
+  deleteSubscription(subscriptionId: string): Observable<number> {
+    return this.billingDetailsClient.deleteSubscription(subscriptionId);
   }
 
 
@@ -90,6 +62,10 @@ export class BillingDetailsRepositoryAdapter extends BillingDetailsRepository {
 
   isValidCardCVV(value: string): Observable<ValidResponse> {
     return this.billingDetailsClient.isValidCardCVV(value);
+  }
+
+  isValidPaymentMethod(): Observable<ValidResponse> {
+    return this.billingDetailsClient.isValidPaymentMethod();
   }
 
 }

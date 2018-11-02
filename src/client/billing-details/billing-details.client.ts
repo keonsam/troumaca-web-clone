@@ -1,23 +1,37 @@
 import {Observable} from 'rxjs';
-import {PaymentMethodState} from './payment.method.state';
-import {CreditCardState} from './credit.card.state';
 import { ValidResponse } from "../../authentication/valid.response";
-import {SubscriptionState} from '../lobby/subscription.state';
-import {BillingState} from './billing.state';
+import {Subscription} from "../../lobby/subscription";
+import {Billing} from "../../billing-details/billing";
+import {PaymentMethod} from "../../billing-details/billing-modal/payment.method";
+import {PaymentInformation} from "../../billing-details/billing-modal/payment.information";
 
 export abstract class BillingDetailsClient {
-  abstract getPaymentMethods(): Observable<PaymentMethodState[]>;
-  abstract addCreditCard(creditCardState: CreditCardState): Observable<CreditCardState>;
-  abstract getSubscriptions(): Observable<SubscriptionState[]>;
-  abstract getBillings(): Observable<BillingState[]>;
-  abstract getCreditCards(): Observable<CreditCardState[]>;
-  abstract updateCreditCard(creditCardState: CreditCardState): Observable<number>;
-  abstract deleteCreditCard(creditCardId: string): Observable<number>;
+  abstract getSubscriptions(): Observable<Subscription[]>;
+
+  abstract getBillings(): Observable<Billing[]>;
+
+  abstract getPaymentMethods(): Observable<PaymentMethod[]>;
+
+  abstract addPaymentInformation(paymentInformation: PaymentInformation): Observable<PaymentInformation>;
+
+  abstract getPaymentInformation(): Observable<PaymentInformation[]>;
+
+  abstract updatePaymentInformation(paymentInformation: PaymentInformation): Observable<number>;
+
+  abstract deletePaymentInformation(paymentId: string): Observable<number>;
+
+  abstract deleteSubscription(subscriptionId: string): Observable<number>;
 
 
   // VALIDATION
   abstract isValidCardName(value: string): Observable<ValidResponse>;
+
   abstract isValidCardNumber(value: string): Observable<ValidResponse>;
+
   abstract isValidCardExpDate(value: Date): Observable<ValidResponse>;
+
   abstract isValidCardCVV(value: string): Observable<ValidResponse>;
+
+  abstract isValidPaymentMethod(): Observable<ValidResponse>;
 }
+

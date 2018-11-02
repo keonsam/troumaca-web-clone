@@ -39,7 +39,12 @@ export class UserClientHttp implements UserClient {
   }
 
   public getUserState(partyId?: string): Observable<UserResponse> {
-    const url = `${this.hostPort}/users/${partyId}`;
+    let url: string;
+    if (partyId ===  'profile') {
+      url = `${this.hostPort}/users/profile`;
+    } else {
+      url = `${this.hostPort}/users/${partyId}`;
+    }
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -50,7 +55,7 @@ export class UserClientHttp implements UserClient {
       }));
   }
 
-  public addUserState(userState: User, credentialState?: Credential, partyAccessRoleStates?: PartyAccessRole[]): Observable<User> {
+  public addUserState(userState: User, credentialState: Credential, partyAccessRoleStates: PartyAccessRole[]): Observable<User> {
     const url = `${this.hostPort}/users`;
     const body = {
       user: userState,
@@ -85,6 +90,22 @@ export class UserClientHttp implements UserClient {
       user: userState,
       credential: credentialState,
       partyAccessRoles: partyAccessRoleStates
+    };
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient
+      .put<number>(url, body, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+  public updateUserMe(userState: User, credentialState: Credential): Observable<number> {
+    const url = `${this.hostPort}/users/profile`;
+    const body = {
+      user: userState,
+      credential: credentialState,
     };
     const httpOptions = {
       headers: this.jsonHttpHeaders()

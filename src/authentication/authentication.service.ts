@@ -11,33 +11,41 @@ export class AuthenticationService {
   constructor(private authenticationRepository: AuthenticationRepository) {
   }
 
-  public isValidUsername(username: string, partyId?: string): Observable<ValidResponse> {
+  getCredential(credentialId: string): Observable<User> {
+    return this.authenticationRepository.getCredential(credentialId);
+  }
+
+  isValidUsername(username: string, partyId?: string): Observable<ValidResponse> {
     return this.authenticationRepository.isValidUsername(username, partyId);
   }
 
-  public isValidPassword(password: string): Observable<ValidResponse> {
+  isValidPassword(password: string): Observable<ValidResponse> {
     return this.authenticationRepository.isValidPassword(password);
   }
 
-  public authenticate(credential: Credential): Observable<AuthenticatedCredential> {
+  authenticate(credential: Credential): Observable<AuthenticatedCredential> {
     return this
     .authenticationRepository.authenticate(credential);
   }
 
-  public forgotPassword(username: string): Observable<boolean> {
-    return this.authenticationRepository.forgotPassword(username);
+  forgotPassword(credential: Credential): Observable<Confirmation> {
+    return this.authenticationRepository.forgotPassword(credential);
   }
 
-  public addCredential(credential: Credential, user: User): Observable<Confirmation> {
+  addCredential(credential: Credential, user: User): Observable<Confirmation> {
     return this.authenticationRepository.addCredential(credential, user);
   }
 
-  public verifyConfirmation(confirmation: Confirmation): Observable<Confirmation> {
+  verifyConfirmation(confirmation: Confirmation): Observable<Confirmation> {
     return this.authenticationRepository.verifyConfirmation(confirmation);
   }
 
-  public resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation> {
+  resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation> {
     return this.authenticationRepository.resendConfirmationCode(confirmationId, credentialId);
+  }
+
+  updateCredential(credential: Credential, user: User): Observable<number> {
+    return this.authenticationRepository.updateCredential(credential, user);
   }
 
 }

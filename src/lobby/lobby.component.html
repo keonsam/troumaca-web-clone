@@ -8,24 +8,24 @@
             <div class="element-actions">
             </div>
             <h6 class="element-header">
-              Apps
+              App
             </h6>
             <div style="margin-left: 20px; margin-right: 20px;" class="element-content">
               <div class="row">
-                <div *ngFor="let module of modules" class="col-sm-4">
-                  <a (click)="onModule(module.moduleId);false" [ngClass]="{'element-box': true, 'el-tablo': true, 'flex-modules': true , 'subscribed': module.subscribed}" href>
+                <div *ngFor="let app of apps" class="col-sm-4">
+                  <a (click)="onApp(app);false" [ngClass]="{'element-box': true, 'el-tablo': true, 'flex-modules': true , 'subscribed': app.subscribed}" href>
                     <div class="icon-w">
-                      <i [class]="module.information.iconClass"></i>
+                      <i [class]="app.iconClass"></i>
                     </div>
                     <div class="label">
-                      {{ module.name }}
+                      {{ app.name }}
                     </div>
                   </a>
                 </div>
               </div>
             </div>
 
-              <button data-target="#subscriptionModal" data-toggle="modal" #showModal hidden>Showcase</button>
+            <button data-target="#subscriptionModal" data-toggle="modal" #showModal hidden>Subscription Modal</button>
 
             </div>
           </div>
@@ -33,60 +33,31 @@
       </div>
     </div>
 
-  <!--<div aria-hidden="true" class="onboarding-modal modal fade animated" id="subscriptionModal" role="dialog" tabindex="-1">-->
-    <!--<div class="modal-dialog modal-centered" role="document">-->
-      <!--<div class="modal-content text-center">-->
-        <!--<button aria-label="Close" class="close" data-dismiss="modal" type="button" #closeButton><span class="close-label">Close</span><span class="os-icon os-icon-close"></span></button>-->
+  <div aria-hidden="true" class="onboarding-modal modal fade animated" id="subscriptionModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-centered" role="document">
+      <div class="modal-content text-center">
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" #closeButton><span class="close-label">Close</span><span class="os-icon os-icon-close"></span></button>
+        <div class="onboarding-media">
+          <img alt="" src="images/bigicon2.png" width="200px">
+        </div>
 
-        <!--<mat-horizontal-stepper id="modal-stepper" #stepper>-->
-          <!--<mat-step>-->
-            <!--<ng-template matStepLabel>Features</ng-template>-->
+        <div class="onboarding-content with-gradient">
+          <h4 class="onboarding-title">
+            {{ app?.price }}
+          </h4>
+          <div class="onboarding-text">
+            Thank you for supporting Troumaka. A monthly fee of  {{app?.price}} will be charged to your account.
+          </div>
 
-            <!--<div class="onboarding-media">-->
-              <!--<img alt="" src="images/bigicon6.png" width="200px">-->
-            <!--</div>-->
-            <!--<div class="onboarding-content with-gradient">-->
-              <!--<h4 class="onboarding-title">-->
-                <!--{{ moduleClass?.name }}-->
-              <!--</h4>-->
-              <!--<div class="onboarding-text">-->
-                <!--{{ moduleClass?.information.description }}-->
-              <!--</div>-->
-              <!--<div class="row">-->
-                <!--<div *ngFor="let feature of moduleClass?.information.features" class="col-sm-6">-->
-                  <!--<ul class="features-list">-->
-                    <!--<li>{{feature}}</li>-->
-                  <!--</ul>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<button class="btn btn-primary next-button" (click)="nextStep(1);false">Next</button>-->
-            <!--</div>-->
+          <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to add subscription information.</div>
+          <div [hidden]="doNotDisplayFailureMessage2" class="alert alert-danger">No valid billing detail found, click below to enter one.</div>
+          <div><a [hidden]="doNotDisplayFailureMessage2" routerLink="/billing-details" data-dismiss="modal">Enter Billing Details</a></div>
 
-          <!--</mat-step>-->
-          <!--<mat-step *ngIf="!billingExist">-->
-            <!--<ng-template matStepLabel> Billing</ng-template>-->
-            <!--<app-billing-modal (billingChanged)="onBillingChanges($event)" [stepper]="true" [modalType]="billingModalType"></app-billing-modal>-->
-          <!--</mat-step>-->
-          <!--<mat-step>-->
-            <!--<ng-template matStepLabel> Subscription</ng-template>-->
-            <!--<div class="onboarding-media">-->
-              <!--<img alt="" src="images/bigicon2.png" width="200px">-->
-            <!--</div>-->
-            <!--<div class="onboarding-content with-gradient">-->
-              <!--<h4 class="onboarding-title">-->
-                <!--{{ moduleClass?.information.price }}-->
-              <!--</h4>-->
-              <!--<div class="onboarding-text">-->
-                <!--Thank you for supporting Troumaka. A monthly fee of  {{moduleClass?.information.price}} will be charged to your account.-->
-              <!--</div>-->
-              <!--<div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to add subscription information.</div>-->
-              <!--<button class="btn btn-primary next-button" (click)="onSubscribe()" >Subscribe</button>-->
-            <!--</div>-->
-          <!--</mat-step>-->
-        <!--</mat-horizontal-stepper>-->
+          <button class="btn btn-primary next-button" [disabled]="!validBilling" (click)="onSubscribe()" >Subscribe</button>
+        </div>
 
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
+      </div>
+    </div>
+  </div>
 
 </div>

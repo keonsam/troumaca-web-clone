@@ -1,8 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {Subscription} from "../lobby/subscription";
-import {Billing} from "./billing";
-import {BillingDetailsService} from "./billing.details.service";
-import {CreditCard} from "./billing-modal/credit.card";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Subscription} from '../lobby/subscription';
+import {Billing} from './billing';
+import {BillingDetailsService} from './billing.details.service';
+import {PaymentInformation} from './billing-modal/payment.information';
 
 @Component({
   selector: 'app-billing-details',
@@ -13,12 +13,10 @@ export class BillingDetailsComponent implements OnInit {
 
   subscriptions: Subscription[];
   billings: Billing[];
-  totalBilling: number;
-  creditCards: CreditCard[];
+  paymentInformation: PaymentInformation[];
   cardName: string;
-  cardId: string;
-  billingModalType: string;
-  creditCard: CreditCard;
+  paymentId: string;
+  paymentInfo: PaymentInformation;
   @ViewChild('openButton') openButton: ElementRef;
   @ViewChild('closeButton') closeButton: ElementRef;
   doNotDisplayFailureMessage = true;
@@ -27,87 +25,92 @@ export class BillingDetailsComponent implements OnInit {
   constructor(private billingDetailsService: BillingDetailsService) {
     this.subscriptions = [];
     this.billings = [];
-    this.creditCards = [];
+    this.paymentInformation = [];
 
-    this.billingDetailsService.sendPrimary.subscribe(data => {
-      if (data.creditCardId) {
-        this.creditCard = data;
-        this.openButton.nativeElement.click();
-      }
-    });
-    this.creditCard = new CreditCard();
+    this.paymentInfo = new PaymentInformation();
+
+    this.billingDetailsService.paymentInfoEdit
+      .subscribe(value => {
+        if (value) {
+          this.getPaymentInformation();
+        }
+      });
   }
 
   ngOnInit(): void {
-    this.billingDetailsService.getSubscriptions()
-      .subscribe(subscriptions => {
-        if (subscriptions.length > 0) {
-          this.subscriptions = [];
-        }
-      });
-
     // This is made to the billed db to get all past billed payments
     this.billingDetailsService.getBillings()
       .subscribe(billings => {
-        if (billings.length > 0) {
+        if (billings && billings.length > 0) {
           this.billings = billings;
         }
       });
 
-    this.getCreditCards();
+    this.getSubscriptions();
+    this.getPaymentInformation();
   }
 
-  private getCreditCards() {
-    this.billingDetailsService.getCreditCards()
-      .subscribe(creditCards => {
-        if (creditCards.length > 0) {
-          this.creditCards = creditCards;
-          this.billingDetailsService.paymentData.next(creditCards);
+  private getSubscriptions() {
+    this.billingDetailsService.getSubscriptions()
+      .subscribe(subscriptions => {
+        if (subscriptions && subscriptions.length > 0) {
+          this.subscriptions = subscriptions;
+        }else {
+          this.subscriptions = [];
         }
       });
   }
 
-  onOpenModal(cardId: string, cardName: string) {
-    this.cardId = cardId;
+  private getPaymentInformation() {
+    this.billingDetailsService.getPaymentInformation()
+      .subscribe(paymentInfo => {
+        if (paymentInfo && paymentInfo.length > 0) {
+          this.paymentInformation = paymentInfo;
+        }
+      });
+  }
+
+  onOpenModal(paymentId: string, cardName: string) {
+    this.paymentId = paymentId;
     this.cardName = cardName;
   }
 
-  onBillingModalOpen(type: string, creditCard?: CreditCard) {
-    this.billingModalType = type;
-    if (creditCard) {
-      this.creditCard = creditCard;
-    }
-  }
-
-  onBillingChanges(changed: boolean) {
-    if (changed) {
-      this.getCreditCards();
-    }
+  onBillingModalOpen(paymentInfo?: PaymentInformation) {
+    this.billingDetailsService.onOpenModal.next(paymentInfo);
   }
 
   onDelete(deleted: boolean) {
     if (deleted) {
       this.billingDetailsService
-        .deleteCreditCard(this.cardId)
+        .deletePaymentInformation(this.paymentId)
         .subscribe(num => {
           if (num) {
-            this.getCreditCards();
+            this.getPaymentInformation();
           }
         });
     }
   }
 
-  onMakePrimary() {
-    this.doNotDisplayFailureMessage = true;
-    this.creditCard.status = 'primary';
-    this.billingDetailsService.updateCreditCard(this.creditCard)
-      .subscribe(num => {
+  onUnSubscribe(subscriptionId: string) {
+    this.billingDetailsService.deleteSubscription(subscriptionId)
+      .subscribe( num => {
         if (num) {
-          this.getCreditCards();
-          this.closeButton.nativeElement.click();
-        } else {
-          this.doNotDisplayFailureMessage = false;
+          this.getSubscriptions();
         }
       });
   }
+
+  // onMakePrimary() {
+  //   this.doNotDisplayFailureMessage = true;
+  //   this.paymentInfo.status = 'primary';
+  //   this.billingDetailsService.updatePaymentInformation(this.paymentInfo)
+  //     .subscribe(num => {
+  //       if (num) {
+  //         this.getPaymentInformation();
+  //         this.closeButton.nativeElement.click();
+  //       } else {
+  //         this.doNotDisplayFailureMessage = false;
+  //       }
+  //     });
+  // }
 }

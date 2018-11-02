@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../authentication.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Credential} from '../credential';
-import {Router} from '@angular/router';
-import { ValidResponse } from "../valid.response";
+import {ActivatedRoute, Router} from '@angular/router';
+import { ValidResponse } from '../valid.response';
 import {debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import {User} from '../../parties/user';
 
@@ -15,17 +15,18 @@ import {User} from '../../parties/user';
 export class RegisterComponent implements OnInit {
 
   registrationForm: FormGroup;
-  username: FormControl;
   firstName: FormControl;
   lastName: FormControl;
+  username: FormControl;
   password: FormControl;
-  confirmPassword: FormControl;
   private credential: Credential;
   private user: User;
   doNotDisplayFailureMessage: boolean;
+  userExist = false;
 
   constructor(private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
+              private route: ActivatedRoute,
               private router: Router) {
 
     this.credential = new Credential();
@@ -45,18 +46,12 @@ export class RegisterComponent implements OnInit {
       this.passwordValidator(this.authenticationService)
     ]);
 
-    this.confirmPassword = new FormControl('', [
-      Validators.required,
-      this.confirmEmailOrPhoneValidator(this.password)
-    ]);
-
 
     this.registrationForm = formBuilder.group({
       'username': this.username,
       'firstName': this.firstName,
       'lastName': this.lastName,
       'password': this.password,
-      'confirmPassword': this.confirmPassword
     });
 
     this.registrationForm
@@ -73,6 +68,17 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.route.snapshot && this.route.snapshot.data['user']) {
+      this.setInputValues(this.route.snapshot.data['user']);
+    }
+  }
+
+  private setInputValues(user: User) {
+    this.firstName.setValue(user.firstName);
+    this.lastName.setValue(user.lastName);
+    this.username.setValue(user.username);
+    this.user = user;
+    this.userExist = true;
   }
 
   usernameValidator(authenticationService: AuthenticationService) {
@@ -149,17 +155,7 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  confirmEmailOrPhoneValidator(password: FormControl) {
-    return (c: FormControl) => {
-      return password.value === c.value ? null : {
-        validateEmail: {
-          valid: false
-        }
-      };
-    };
-  }
-
-  onSubmit() {
+  onCreate() {
     this.doNotDisplayFailureMessage = true;
 
     this.authenticationService
@@ -174,6 +170,23 @@ export class RegisterComponent implements OnInit {
         console.log(error);
         this.doNotDisplayFailureMessage = false;
     });
+  }
+
+  onUpdate() {
+    this.doNotDisplayFailureMessage = true;
+
+    this.authenticationService
+      .updateCredential(this.credential, this.user)
+      .subscribe(confirmation => {
+        if (confirmation) {
+          this.router.navigate(['/authentication/login']);
+        } else {
+          this.doNotDisplayFailureMessage = false;
+        }
+      }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage = false;
+      });
   }
 
 }

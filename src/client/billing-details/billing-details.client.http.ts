@@ -2,12 +2,12 @@ import {BillingDetailsClient} from './billing-details.client';
 import {UUIDGenerator} from '../../uuid.generator';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {PaymentMethodState} from './payment.method.state';
 import {map} from 'rxjs/operators';
-import {CreditCardState} from './credit.card.state';
-import { ValidResponse } from "../../authentication/valid.response";
-import {SubscriptionState} from '../lobby/subscription.state';
-import {BillingState} from './billing.state';
+import { ValidResponse } from '../../authentication/valid.response';
+import {Subscription} from '../../lobby/subscription';
+import {Billing} from '../../billing-details/billing';
+import {PaymentMethod} from '../../billing-details/billing-modal/payment.method';
+import {PaymentInformation} from '../../billing-details/billing-modal/payment.information';
 
 export class BillingDetailsClientHttp extends BillingDetailsClient {
 
@@ -17,62 +17,71 @@ export class BillingDetailsClientHttp extends BillingDetailsClient {
     super();
   }
 
-  getPaymentMethods(): Observable<PaymentMethodState[]> {
-    const url = `${this.hostPort}/billings/payment-methods`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient.get<PaymentMethodState[]>(url, httpOptions)
-      .pipe( map( paymentMethods => paymentMethods));
-  }
-
-  addCreditCard(creditCardState: CreditCardState): Observable<CreditCardState> {
-    const url = `${this.hostPort}/billings/credit-cards`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient.post<CreditCardState>(url, creditCardState.toJson(), httpOptions)
-      .pipe( map( value => value));
-  }
-
-  getSubscriptions(): Observable<SubscriptionState[]> {
+  getSubscriptions(): Observable<Subscription[]> {
     const url = `${this.hostPort}/subscriptions`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<SubscriptionState[]>(url, httpOptions)
+    return this.httpClient.get<Subscription[]>(url, httpOptions)
       .pipe( map(value => value));
   }
 
-  getBillings(): Observable<BillingState[]> {
+  getBillings(): Observable<Billing[]> {
     const url = `${this.hostPort}/billings`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<BillingState[]>(url, httpOptions)
+    return this.httpClient.get<Billing[]>(url, httpOptions)
       .pipe( map(value => value));
   }
 
-  getCreditCards(): Observable<CreditCardState[]> {
-    const url = `${this.hostPort}/billings/credit-cards`;
+  getPaymentMethods(): Observable<PaymentMethod[]> {
+    const url = `${this.hostPort}/billings/payment-methods`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<CreditCardState[]>(url, httpOptions)
-      .pipe( map(value => value));
+    return this.httpClient.get<PaymentMethod[]>(url, httpOptions)
+      .pipe( map( paymentMethods => paymentMethods));
   }
 
-  updateCreditCard(creditCardState: CreditCardState): Observable<number> {
-    const url = `${this.hostPort}/billings/credit-cards/${creditCardState.creditCardId}`;
+  addPaymentInformation(paymentInformation: PaymentInformation): Observable<PaymentInformation> {
+    const url = `${this.hostPort}/billings/payment-information`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.put<number>(url, creditCardState.toJson(), httpOptions)
+    return this.httpClient.post<PaymentInformation>(url, paymentInformation, httpOptions)
+      .pipe( map( value => value));
+  }
+
+  getPaymentInformation(): Observable<PaymentInformation[]> {
+    const url = `${this.hostPort}/billings/payment-information`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.get<PaymentInformation[]>(url, httpOptions)
       .pipe( map(value => value));
   }
 
-  deleteCreditCard(creditCardId: string): Observable<number> {
-    const url = `${this.hostPort}/billings/credit-cards/${creditCardId}`;
+  updatePaymentInformation(paymentInfo: PaymentInformation): Observable<number> {
+    const url = `${this.hostPort}/billings/payment-information/${paymentInfo.paymentId}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.put<number>(url, paymentInfo, httpOptions)
+      .pipe( map(value => value));
+  }
+
+  deletePaymentInformation(paymentId: string): Observable<number> {
+    const url = `${this.hostPort}/billings/payment-information/${paymentId}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.delete<number>(url, httpOptions)
+      .pipe( map(value => value));
+  }
+
+  deleteSubscription(subscriptionId: string): Observable<number> {
+    const url = `${this.hostPort}/subscriptions/${subscriptionId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -141,6 +150,18 @@ export class BillingDetailsClientHttp extends BillingDetailsClient {
     };
 
     return this.httpClient.post<ValidResponse>(url, body, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+  isValidPaymentMethod(): Observable<ValidResponse> {
+    const url = `${this.hostPort}/billings/payment-methods/is-valid`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+
+    return this.httpClient.get<ValidResponse>(url, httpOptions)
       .pipe(map(data => {
         return data;
       }));

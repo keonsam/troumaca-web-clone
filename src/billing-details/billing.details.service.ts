@@ -1,20 +1,15 @@
 import {BehaviorSubject, Observable} from 'rxjs';
 import {PaymentMethod} from './billing-modal/payment.method';
 import {BillingDetailsRepository} from './billing.details.repository';
-import {CreditCard} from './billing-modal/credit.card';
 import { ValidResponse } from "../authentication/valid.response";
 import {Subscription} from '../lobby/subscription';
 import {Billing} from './billing';
+import {PaymentInformation} from "./billing-modal/payment.information";
 
 export class BillingDetailsService {
 
-  public paymentData = new BehaviorSubject<CreditCard[]>(
-    []
-  );
-
-  public sendPrimary = new BehaviorSubject<CreditCard>(
-    new CreditCard()
-  );
+  public onOpenModal = new BehaviorSubject<PaymentInformation>(new PaymentInformation());
+  public paymentInfoEdit = new BehaviorSubject<boolean>(false);
 
   constructor(private billingDetailsRepository: BillingDetailsRepository) {}
 
@@ -22,8 +17,8 @@ export class BillingDetailsService {
     return this.billingDetailsRepository.getPaymentMethods();
   }
 
-  addCreditCard(creditCard: CreditCard): Observable<CreditCard> {
-    return this.billingDetailsRepository.addCreditCard(creditCard);
+  addPaymentInformation(paymentInformation: PaymentInformation): Observable<PaymentInformation> {
+    return this.billingDetailsRepository.addPaymentInformation(paymentInformation);
   }
 
   getSubscriptions(): Observable<Subscription[]> {
@@ -34,16 +29,20 @@ export class BillingDetailsService {
     return this.billingDetailsRepository.getBillings();
   }
 
-  getCreditCards(): Observable<CreditCard[]> {
-    return this.billingDetailsRepository.getCreditCards();
+  getPaymentInformation(): Observable<PaymentInformation[]> {
+    return this.billingDetailsRepository.getPaymentInformation();
   }
 
-  updateCreditCard(creditCard: CreditCard): Observable<number> {
-    return this.billingDetailsRepository.updateCreditCard(creditCard);
+  updatePaymentInformation(paymentInformation: PaymentInformation): Observable<number> {
+    return this.billingDetailsRepository.updatePaymentInformation(paymentInformation);
   }
 
-  deleteCreditCard(creditCardId: string): Observable<number> {
-    return this.billingDetailsRepository.deleteCreditCard(creditCardId);
+  deletePaymentInformation(paymentId: string): Observable<number> {
+    return this.billingDetailsRepository.deletePaymentInformation(paymentId);
+  }
+
+  deleteSubscription(subscriptionId: string): Observable<number> {
+    return this.billingDetailsRepository.deleteSubscription(subscriptionId);
   }
 
 
@@ -63,6 +62,10 @@ export class BillingDetailsService {
 
   public isValidCardCVV(value: string): Observable<ValidResponse> {
     return this.billingDetailsRepository.isValidCardCVV(value);
+  }
+
+  isValidPaymentMethod(): Observable<ValidResponse> {
+    return this.billingDetailsRepository.isValidPaymentMethod();
   }
 
 }

@@ -1,11 +1,11 @@
 import {Observable} from "rxjs";
-import { PhotoState } from "./photo.state";
+import {Photo} from "../../photo/photo";
 
 export abstract class PhotoClient {
-  abstract getPhotos(type?: string): Observable<PhotoState>;
+  abstract getPhotos(type?: string): Observable<Photo>;
 
-  abstract addPhoto(photoState: PhotoState, type: string): Observable<PhotoState>;
+  abstract addPhoto(photoState: FormData, type: string): Observable<Photo>;
 
-  abstract updatePhoto(photoState: PhotoState, type: string): Observable<number>;
+  abstract updatePhoto(photoState: FormData, type: string): Observable<Photo>;
 
 }
