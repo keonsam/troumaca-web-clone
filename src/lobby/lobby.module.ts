@@ -6,13 +6,15 @@ import { lobbyServiceProvider} from './lobby.service.provider';
 import {LobbyRoutingModule} from "./lobby.routing.module";
 import {BillingModalModule} from "../billing-details/billing-modal/billing-modal.module";
 import {authGuardProvider} from "../auth-guard/auth.guard.provider";
+import {MenuModule} from "../menu/menu.module";
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     LobbyRoutingModule,
-    BillingModalModule
+    BillingModalModule,
+    MenuModule
   ],
   declarations: [
     LobbyComponent

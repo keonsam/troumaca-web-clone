@@ -1,22 +1,22 @@
 import {AssetTypeState} from './asset.type.state';
 import {Observable} from 'rxjs';
 import {AssetTypeStates} from './asset.type.states';
-import {AssetTypeClassState} from '../asset-type-class/asset.type.class.state';
 import {ValueState} from './value.state';
 import {ValueStates} from './value.states';
 import {UnitOfMeasureState} from '../unit-of-measure/unit.of.measure.state';
-import {AssignedAttributeState} from '../asset-type-class/assigned.attribute.state';
 import {AssetTypeResponse} from '../../asset-types/asset.type.response';
+import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
+import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
 
 export abstract class AssetTypesClient {
   abstract getAssetTypes(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetTypeStates>;
-  abstract getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttributeState[]>;
+  abstract getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]>;
   abstract getValues(assetTypeId: string): Observable<ValueStates>;
 
   abstract getAssetTypeState(assetTypeId: string): Observable<AssetTypeResponse>;
-  abstract getAssetTypeClassState(assetTypeClassId: string): Observable<AssetTypeClassState>;
+  abstract getAssetTypeClassState(assetTypeClassId: string): Observable<AssetTypeClass>;
 
-  abstract findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClassState[]>;
+  abstract findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClass[]>;
   abstract findUnitOfMeasureIdState(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]>
 
   abstract addAssetTypeState(assetTypeState: AssetTypeState, values: ValueState[]): Observable<AssetTypeState>;

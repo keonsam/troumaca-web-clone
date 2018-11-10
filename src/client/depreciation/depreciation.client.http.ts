@@ -4,11 +4,11 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { map } from "rxjs/operators";
 import {DepreciationState} from "./depreciation.state";
-import {AssetState} from "../asset/asset.state";
 import {DepreciationStates} from "./depreciation.states";
 import {DepreciationMethod} from "../../depreciation/depreciation.method";
 import {DepreciationSystem} from "../../depreciation/depreciation.system";
 import {PropertyClass} from "../../depreciation/property.class";
+import {Asset} from "../../assets/asset";
 
 export class DepreciationClientHttp extends DepreciationClient {
 
@@ -18,12 +18,12 @@ export class DepreciationClientHttp extends DepreciationClient {
     super();
   }
 
-  public findAssets(searchStr: string, pageSize: number): Observable<AssetState[]> {
+  public findAssets(searchStr: string, pageSize: number): Observable<Asset[]> {
     const url = `${this.hostPort}/depreciation/assets/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.get<AssetState[]>(url, httpOptions).pipe(map(data => {
+    return this.http.get<Asset[]>(url, httpOptions).pipe(map(data => {
       return data;
     }));
   }

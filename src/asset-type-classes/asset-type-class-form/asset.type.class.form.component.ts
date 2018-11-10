@@ -19,16 +19,16 @@ import {AttributeService} from '../../attributes/attribute.service';
 })
 export class AssetTypeClassFormComponent implements OnInit {
 
-  private _name: FormControl;
-  private _description: FormControl;
+  name: FormControl;
+  description: FormControl;
 
-  private _assetTypeClassForm: FormGroup;
+  assetTypeClassForm: FormGroup;
 
-  private _assignedAttributes: AssignedAttribute[];
+  assignedAttributes: AssignedAttribute[];
 
   private assetTypeClass: AssetTypeClass;
-  private _availableAttributes: Attributes;
-  private _assignableAttributes: Attributes;
+  availableAttributes: Attributes;
+  assignableAttributes: Attributes;
 
   private defaultPage = 1;
   private defaultPageSize = 10;
@@ -36,7 +36,7 @@ export class AssetTypeClassFormComponent implements OnInit {
 
   public attributeId: string;
 
-  private _doNotDisplayFailureMessage: boolean;
+  doNotDisplayFailureMessage: boolean;
   private assignedArray: string[];
   private assignedPageNumber = 1;
 
@@ -53,13 +53,13 @@ export class AssetTypeClassFormComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router) {
 
-     this.name = new FormControl('', Validators.required);
-     this.description = new FormControl('');
+    this.name = new FormControl('', Validators.required);
+    this.description = new FormControl('');
 
-     this.assetTypeClassForm = formBuilder.group({
-        'name': this.name,
-        'description': this.description
-     });
+    this.assetTypeClassForm = formBuilder.group({
+      'name': this.name,
+      'description': this.description
+    });
 
     this.assetTypeClassForm
       .valueChanges
@@ -70,26 +70,28 @@ export class AssetTypeClassFormComponent implements OnInit {
         console.log(error2);
       });
 
-     this.assetTypeClass = new AssetTypeClass();
+    this.assetTypeClass = new AssetTypeClass();
 
-     const newAttributes = new Attributes();
-     newAttributes.page = new Page(0, 0, 0);
-     newAttributes.sort = new Sort();
-     this.availableAttributes = newAttributes;
-     this.assignableAttributes = newAttributes;
+    const newAttributes = new Attributes();
+    newAttributes.page = new Page(0, 0, 0);
+    newAttributes.sort = new Sort();
+    this.availableAttributes = newAttributes;
+    this.assignableAttributes = newAttributes;
 
-     this.assignedAttributes = [];
-     this.assignedArray = [];
+    this.assignedAttributes = [];
+    this.assignedArray = [];
 
-     this.doNotDisplayFailureMessage = true;
+    this.doNotDisplayFailureMessage = true;
   }
 
   ngOnInit() {
     if (this.route.snapshot && this.route.snapshot.data['assetTypeClassResponse']) {
       this.setInputValues(this.route.snapshot.data['assetTypeClassResponse']);
-      this.getAvailableAttributes(this.assignedArray);
-    }else {
-      this.getAvailableAttributes(this.assignedArray);
+      this.getAvailableAttributes();
+      this.getAssignableAttributes();
+    } else {
+      this.getAvailableAttributes();
+      this.getAssignableAttributes();
     }
   }
 
@@ -99,65 +101,48 @@ export class AssetTypeClassFormComponent implements OnInit {
     this.assetTypeClass = assetTypeClassResponse.assetTypeClass;
     this.assignedAttributes = assetTypeClassResponse.assignedAttributes;
     this.assignedArray = this.assignedAttributes.map(x => x.attributeId);
-    this.setAssignedPage();
     this.assetTypeClassExist = true;
   }
 
-  get name(): FormControl {
-     return this._name;
-   }
-
-   set name(value: FormControl) {
-     this._name = value;
-   }
-
-   get description(): FormControl {
-     return this._description;
-   }
-
-   set description(value: FormControl) {
-     this._description = value;
-   }
-
-  get assetTypeClassForm(): FormGroup {
-    return this._assetTypeClassForm;
+  private getAvailableAttributes() {
+    this.assetTypeClassService
+      .getAvailableAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
+      .subscribe(attributes => {
+        this.availableAttributes = attributes;
+      });
   }
 
-  set assetTypeClassForm(value: FormGroup) {
-    this._assetTypeClassForm = value;
+  private getAssignableAttributes() {
+    this.assetTypeClassService
+      .getAssignableAttributes(this.assignedPageNumber, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
+      .subscribe(attributes => {
+        this.assignableAttributes = attributes;
+      });
   }
 
-  get availableAttributes(): Attributes {
-     return this._availableAttributes;
-   }
+  getChecked(attributeId: string) {
+    const attr = this.assignedAttributes.find(x => x.attributeId === attributeId);
+    return attr ? attr.required : false;
+  }
 
-   set availableAttributes(value: Attributes) {
-     this._availableAttributes = value;
-   }
+  onChange(attributeId: string) {
+    const index = this.assignedAttributes.findIndex(x => x.attributeId === attributeId);
+    this.assignedAttributes[index].required = !this.assignedAttributes[index].required;
+  }
 
-   get assignableAttributes(): Attributes {
-     return this._assignableAttributes;
-   }
+  onAvailableDoubleClick(attributeId: string) {
+    this.assignedAttributes.push(new AssignedAttribute(attributeId));
+    this.assignedArray.push(attributeId);
+    this.getAvailableAttributes();
+    this.getAssignableAttributes();
+  }
 
-   set assignableAttributes(value: Attributes) {
-     this._assignableAttributes = value;
-   }
-
-   get assignedAttributes(): AssignedAttribute[] {
-     return this._assignedAttributes;
-   }
-
-   set assignedAttributes(value: AssignedAttribute[]) {
-     this._assignedAttributes = value;
-   }
-
-   get doNotDisplayFailureMessage(): boolean {
-     return this._doNotDisplayFailureMessage;
-   }
-
-   set doNotDisplayFailureMessage(value: boolean) {
-     this._doNotDisplayFailureMessage = value;
-   }
+  onAssignedDoubleClick(attributeId: string) {
+    this.assignedAttributes = this.assignedAttributes.filter(val => val.attributeId !== attributeId);
+    this.assignedArray = this.assignedArray.filter(x => x !== attributeId);
+    this.getAvailableAttributes();
+    this.getAssignableAttributes();
+  }
 
   onModalOpen(type: string, attributeId?: string) {
     this.modalType = type;
@@ -166,37 +151,15 @@ export class AssetTypeClassFormComponent implements OnInit {
 
   doCloseModal(closed: boolean) {
     if (closed) {
-      this.getAvailableAttributes(this.assignedArray);
+      this.getAvailableAttributes();
       this.modelClose.nativeElement.click();
     }
   }
 
-   private getAvailableAttributes(assignedAttributes) {
-     this.assetTypeClassService
-       .getAvailableAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, assignedAttributes)
-       .subscribe(attributes => {
-         this.availableAttributes = attributes;
-       });
-   }
-
-   onAvailableDoubleClick(attributeId: string, attributeName, dataTypeName ) {
-     this.assignedAttributes.push(new AssignedAttribute(attributeId, attributeName, dataTypeName));
-     this.assignedArray.push(attributeId);
-     this.setAssignedPage();
-     this.getAvailableAttributes(this.assignedArray);
-   }
-
-   onAssignedDoubleClick(attributeId: string) {
-    this.assignedAttributes = this.assignedAttributes.filter(val => val.attributeId !== attributeId);
-    this.assignedArray = this.assignedArray.filter( x => x !== attributeId);
-    this.setAssignedPage();
-    this.getAvailableAttributes(this.assignedArray);
-   }
-
   onOpenDeleteModal(attributeId: string, attributeName: string) {
-     this.attributeId = attributeId;
-     this.attributeName = attributeName;
-   }
+    this.attributeId = attributeId;
+    this.attributeName = attributeName;
+  }
 
   onDelete(deleted: boolean) {
     if (deleted) {
@@ -204,7 +167,7 @@ export class AssetTypeClassFormComponent implements OnInit {
         .deleteAttribute(this.attributeId)
         .subscribe(value => {
           if (value) {
-            this.getAvailableAttributes(this.assignedArray);
+            this.getAvailableAttributes();
           }
         }, error => {
           console.log(error);
@@ -214,33 +177,15 @@ export class AssetTypeClassFormComponent implements OnInit {
     }
   }
 
-  setAssignedPage() {
-    const page: Page = new Page();
-    page.number = this.assignedPageNumber;
-    page.size = this.defaultPageSize;
-    page.items = this.getSlice().length;
-    page.totalItems = this.assignedAttributes.length;
-    this.getAssignedPage = page;
-  }
-
   onAvailableRequestPage(pageNumber: number) {
     this.defaultPage = pageNumber;
-    this.getAvailableAttributes(this.assignedArray);
+    this.getAvailableAttributes();
   }
 
-  getSlice() {
-    if (this.assignedPageNumber < 2) {
-      return this.assignedAttributes.slice(0, 10);
-    }else {
-      const begin = (this.assignedPageNumber - 1) * this.defaultPageSize;
-      const end = (this.assignedPageNumber - 1) * this.defaultPageSize + 10;
-      return this.assignedAttributes.slice(begin, end);
-    }
+  onAssignedRequestPage(pageNumber: number) {
+    this.assignedPageNumber = pageNumber;
+    this.getAssignableAttributes();
   }
-
-   onAssignedRequestPage(pageNumber: number) {
-     this.assignedPageNumber = pageNumber;
-   }
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
@@ -258,28 +203,28 @@ export class AssetTypeClassFormComponent implements OnInit {
       });
   }
 
-   onUpdate() {
-     this.doNotDisplayFailureMessage = true;
-     this.assignedAttributes.forEach(value => {
-       if (!value.assetTypeClassId) {
-         value.assetTypeClassId = this.assetTypeClass.assetTypeClassId;
-       }
-     });
-     this.assetTypeClassService
-     .updateAssetTypeClass(this.assetTypeClass.assetTypeClassId, this.assetTypeClass, this.assignedAttributes)
-     .subscribe(value => {
-       if (value) {
-         this.router.navigate(['/asset-type-classes']);
-       } else {
-         this.doNotDisplayFailureMessage = false;
-       }
-     }, error => {
-       console.log(error);
-       this.doNotDisplayFailureMessage = false;
-     });
-   }
+  onUpdate() {
+    this.doNotDisplayFailureMessage = true;
+    this.assignedAttributes.forEach(value => {
+      if (!value.assetTypeClassId) {
+        value.assetTypeClassId = this.assetTypeClass.assetTypeClassId;
+      }
+    });
+    this.assetTypeClassService
+      .updateAssetTypeClass(this.assetTypeClass.assetTypeClassId, this.assetTypeClass, this.assignedAttributes)
+      .subscribe(value => {
+        if (value) {
+          this.router.navigate(['/asset-type-classes']);
+        } else {
+          this.doNotDisplayFailureMessage = false;
+        }
+      }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage = false;
+      });
+  }
 
-   cancel() {
-     this.router.navigate(['/asset-type-classes']);
-   }
+  cancel() {
+    this.router.navigate(['/asset-type-classes']);
+  }
 }

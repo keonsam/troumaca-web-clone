@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { CompleterService, CompleterData, CompleterItem } from "ng2-completer";
 import { OrganizationService } from "../organization.service";
 import { debounceTime, filter, map} from "rxjs/operators";
+import {SessionService} from "../../../session/session.service";
 
 @Component({
   selector: 'app-create-organization',
@@ -25,7 +26,8 @@ export class CreateOrganizationComponent implements OnInit {
   constructor(private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private organizationService: OrganizationService,
-              private router: Router) {
+              private router: Router,
+              private sessionService: SessionService) {
     this.organizationId = new FormControl('', [Validators.required]);
     this.requestAccess = new JoinOrganization();
 
@@ -77,6 +79,7 @@ export class CreateOrganizationComponent implements OnInit {
     this.organizationService.addOrganizationRequest(this.requestAccess)
       .subscribe( value => {
         if (value && value.accessRequestId) {
+          this.sessionService.loginEvent.next(true);
           this.router.navigate(['/lobby']);
         } else {
           this.doNotDisplayFailureMessage = false;

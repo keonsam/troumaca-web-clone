@@ -1,10 +1,9 @@
 import {NgModule} from '@angular/core';
 import { menuRepositoryProvider} from './menu/menu.repository.adapter.provider';
-import {assetPersonRepositoryProvider} from './party/party.repository.adapter.provider';
 import {securityRepositoryProvider} from './security/security.repository.provider';
 import {changePasswordRepositoryProvider} from './change-password/change.password.repository.adapter.provider';
 import {sessionRepositoryProvider} from './session/session.repository.adapter.provider';
-import {assetSiteRepositoryProvider, siteRepositoryProvider} from './site/site.repository.adapter.provider';
+import {siteRepositoryProvider} from './site/site.repository.adapter.provider';
 import {assetRepositoryProvider} from './assets/asset.repository.adapter.provider';
 import {assetTypeRepositoryProvider} from './asset-types/asset.repository.adapter.provider';
 import {attributeRepositoryProvider} from './attributes/attributes.repository.adapter.provider';
@@ -32,13 +31,11 @@ import { authGuardServiceProvider } from './auth-guard/auth.guard.repository.ada
     changePasswordRepositoryProvider,
     sessionRepositoryProvider,
     siteRepositoryProvider,
-    assetSiteRepositoryProvider,
     assetRepositoryProvider,
     assetTypeRepositoryProvider,
     attributeRepositoryProvider,
     assetTypeClassRepositoryProvider,
     unitOfMeasureRepositoryProvider,
-    assetPersonRepositoryProvider,
     shipmentRepositoryProvider,
     authenticationRepositoryProvider,
     accessRoleRepositoryProvider,

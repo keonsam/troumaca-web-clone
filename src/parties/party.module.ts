@@ -15,7 +15,6 @@ import {UserListComponent} from './users/user-list/user.list.component';
 import {UserTopMenuComponent} from './users/user-top-menu/user.top.menu.component';
 
 import {PartyEventService} from './party.event.service';
-import { ImageCropperModule } from 'ngx-image-cropper';
 import {Ng2CompleterModule} from 'ng2-completer';
 import { Select2Module } from 'ng2-select2';
 
@@ -41,7 +40,6 @@ import {authGuardProvider} from "../auth-guard/auth.guard.provider";
     PagingModule,
     MenuModule,
     Ng2CompleterModule,
-    ImageCropperModule,
     Select2Module,
     PartyRoutingModule,
     UserMeModule,

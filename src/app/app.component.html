@@ -1,37 +1,11 @@
 <div [ngClass]="{'all-wrapper': true, 'menu-side': true, 'with-pattern': isAuthPath}">
   <div [ngClass]="{'layout-w': !isAuthPath}">
-    <!--------------------
-    START - Mobile Menu
-    -------------------->
     <app-mobile-menu *ngIf="showMenu"></app-mobile-menu>
-    <!--------------------
-    END - Mobile Menu
-    -------------------->
-
-    <!--Might be able to move order down to the component-->
     <div [ngClass]="{'container-app': !isAuthPath}">
-
-      <!--------------------
-      START - Menu side compact
-      -------------------->
       <app-side-menu *ngIf="showMenu"></app-side-menu>
-      <!--------------------
-      END - Menu side compact
-      -------------------->
-
-      <!--Might be able to move order down to the component-->
       <div [ngClass]="{'container-content': !isAuthPath}">
-        <!--------------------
-        START - Content W
-        -------------------->
         <router-outlet></router-outlet>
       </div>
-      <!--------------------
-      End - Content W
-      -------------------->
     </div>
-
   </div>
-  <!--No idea what this is for-->
-  <!--<div class="display-type"></div>-->
 </div>

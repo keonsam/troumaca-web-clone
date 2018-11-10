@@ -1,22 +1,19 @@
 import {Observable} from 'rxjs';
-import {AttributeState} from './attribute.state';
-import {AttributeStates} from './attribute.states';
-import {DataTypeState} from './data.type.state';
-import {UnitOfMeasureState} from '../unit-of-measure/unit.of.measure.state';
+import {Attributes} from "../../attributes/attributes";
+import {DataType} from "../../attributes/data.type";
+import {Attribute} from "../../attributes/attribute";
 
 export abstract class AttributeClient {
 
-  abstract getDataTypes(): Observable<DataTypeState[]>;
+  abstract getDataTypes(): Observable<DataType[]>;
 
-  abstract getAttributesStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<AttributeStates>;
+  abstract getAttributesStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<Attributes>;
 
-  abstract getAttributeState(attributeId: string): Observable<AttributeState>;
+  abstract getAttribute(attributeId: string): Observable<Attribute>;
 
-  abstract findUnitOfMeasureIdState(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]>
+  abstract addAttribute(attributeState: Attribute): Observable<Attribute>;
 
-  abstract addAttribute(attributeState: AttributeState): Observable<AttributeState>;
-
-  abstract updateAttribute(attributeId: string, attributeState: AttributeState): Observable<number>;
+  abstract updateAttribute(attributeId: string, attributeState: Attribute): Observable<number>;
 
   abstract deleteAttribute(attributeId: string): Observable<number>;
 }

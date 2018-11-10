@@ -1,15 +1,14 @@
 import {AssetClient} from './asset.client';
 import {UUIDGenerator} from '../../uuid.generator';
 import {Observable} from 'rxjs';
-import { map } from "rxjs/operators";
+import { map } from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {AssetStates} from './asset.states';
-import {AssetKindStates} from './asset.kind.states';
-import {AssetState} from './asset.state';
-import {AssetTypeState} from '../asset-type/asset.type.state';
-import {UnitOfMeasureState} from '../unit-of-measure/unit.of.measure.state';
-import {UnionOfPhysicalSiteState} from '../site/union.of.physical.site.state';
-import {AssetPersonState} from './asset.person.state';
+import {Assets} from '../../assets/assets';
+import {Asset} from '../../assets/asset';
+import {AssetKinds} from '../../assets/asset.kinds';
+import {AssetType} from '../../asset-types/asset.type';
+import {Site} from '../../site/site';
+import {User} from '../../parties/user';
 
 export class AssetClientHttp extends AssetClient {
 
@@ -20,98 +19,48 @@ export class AssetClientHttp extends AssetClient {
   }
 
 
-  public getAssets(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetStates> {
+  public getAssets(pageNumber: number, pageSize: number, sortOrder: string): Observable<Assets> {
     const url = `${this.hostPort}/assets?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.get<AssetStates>(url, httpOptions).pipe(map(data => {
+    return this.http.get<Assets>(url, httpOptions).pipe(map(data => {
       return data;
     }));
   }
 
-  public getAssetState(assetId: string): Observable<AssetState> {
+  public getAsset(assetId: string): Observable<Asset> {
     const url = `${this.hostPort}/assets/${assetId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.http
-    .get<AssetState>(url, httpOptions)
+    .get<Asset>(url, httpOptions)
     .pipe(map(data => {
       return data;
     }));
   }
 
-  public getAssetKinds(): Observable<AssetKindStates> {
-    const url = `${this.hostPort}/asset-kinds`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.http.get<AssetKindStates>(url, httpOptions).pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetTypeState[]> {
-    const url = `${this.hostPort}/asset-types/find?q=${searchStr}&pageSize=${pageSize}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.http.get<AssetTypeState[]>(url, httpOptions).pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteState[]> {
-    const url = `${this.hostPort}/sites/find?q=${searchStr}&pageSize=${pageSize}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.http.get<UnionOfPhysicalSiteState[]>(url, httpOptions).pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasureState[]> {
-    const url = `${this.hostPort}/unit-of-measures/find?q=${searchStr}&pageSize=${pageSize}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.http.get<UnitOfMeasureState[]>(url, httpOptions).pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public findPersons(searchStr: string, pageSize: number): Observable<AssetPersonState[]> {
-    const url = `${this.hostPort}/users/find?q=${searchStr}&pageSize=${pageSize}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.http.get<AssetPersonState[]>(url, httpOptions).pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public addAsset(assetState: AssetState): Observable<AssetState> {
+  public addAsset(assetState: Asset): Observable<Asset> {
     const url = `${this.hostPort}/assets`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.http.post<AssetState>(url, assetState.toJson(), httpOptions).pipe(map(data => {
+    return this.http.post<Asset>(url, assetState.toJson(), httpOptions).pipe(map(data => {
       return data;
     }));
   }
 
-  public updateAsset(assetId: string, assetState: AssetState): Observable<number> {
+  public updateAsset(assetId: string, assetState: Asset): Observable<number> {
     const url = `${this.hostPort}/assets/${assetId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.http
-    .put<number>(url, assetState.toJson(), httpOptions)
-    .pipe(map(data => {
-      return data;
-    }));
+      .put<number>(url, assetState.toJson(), httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
   }
 
   public deleteAsset(assetId: string): Observable<number> {
@@ -120,18 +69,59 @@ export class AssetClientHttp extends AssetClient {
       headers: this.jsonHttpHeaders()
     };
     return this.http
-    .delete<number>(url, httpOptions)
-    .pipe(map(data => {
+      .delete<number>(url, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+  // OTHERS
+
+  public getAssetKinds(): Observable<AssetKinds> {
+    const url = `${this.hostPort}/asset-kinds`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.get<AssetKinds>(url, httpOptions).pipe(map(data => {
+      return data;
+    }));
+  }
+
+  public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetType[]> {
+    const url = `${this.hostPort}/asset-types/find?q=${searchStr}&pageSize=${pageSize}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.get<AssetType[]>(url, httpOptions).pipe(map(data => {
+      return data;
+    }));
+  }
+
+  public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<Site[]> {
+    const url = `${this.hostPort}/sites/find?q=${searchStr}&pageSize=${pageSize}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.get<Site[]>(url, httpOptions).pipe(map(data => {
+      return data;
+    }));
+  }
+
+  public findPersons(searchStr: string, pageSize: number): Observable<User[]> {
+    const url = `${this.hostPort}/users/find?q=${searchStr}&pageSize=${pageSize}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.http.get<User[]>(url, httpOptions).pipe(map(data => {
       return data;
     }));
   }
 
   public jsonHttpHeaders(): HttpHeaders {
-    const httpHeaders: HttpHeaders = new HttpHeaders({
+    return new HttpHeaders({
       'Content-Type':  'application/json',
       'correlationId': this.uuidGenerator.generateUUID()
     });
-    return httpHeaders;
   }
 
 }

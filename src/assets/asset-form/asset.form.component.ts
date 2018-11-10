@@ -15,31 +15,29 @@ import { map, filter, debounceTime } from 'rxjs/operators';
 
 export class AssetFormComponent implements OnInit {
 
-  private assetId: string;
-  private sub: any;
+  sub: any;
 
-  private _assetKindId: FormControl;
-  private _assetType: FormControl;
-  private _serialNumber: FormControl;
-  private _quantity: FormControl;
-  private _site: FormControl;
-  private _person: FormControl;
-  private _description: FormControl;
-  public unitOfMeasureId: string;
+  assetKindId: FormControl;
+  assetType: FormControl;
+  serialNumber: FormControl;
+  quantity: FormControl;
+  site: FormControl;
+  person: FormControl;
+  description: FormControl;
+  assetForm: FormGroup;
 
+  assetTypeDataService: CompleterData;
+  siteDataService: CompleterData;
+  personDataService: CompleterData;
 
-  private _assetForm: FormGroup;
-
-  private _assetKinds: AssetKind[];
-  private _assetTypeDataService: CompleterData;
-  private _siteDataService: CompleterData;
-  private _personDataService: CompleterData;
-
-  private pageSize: number;
   private asset: Asset;
-  public assetExist = false;
 
-  private _doNotDisplayFailureMessage: boolean;
+  unitOfMeasureId: string;
+  assetKinds: AssetKind[];
+  pageSize = 15;
+  assetExist = false;
+
+  doNotDisplayFailureMessage: boolean;
 
   constructor(private assetService: AssetService,
               private completerService: CompleterService,
@@ -65,22 +63,20 @@ export class AssetFormComponent implements OnInit {
       'description': this.description
     });
 
-    this.pageSize = 15;
-
     this.assetKinds = [];
 
     this.asset = new Asset();
 
-   this.assetForm
-    .valueChanges
-    .subscribe(value => {
-      this.asset.assetKindId = value.assetKindId;
-      this.asset.serialNumber = value.serialNumber;
-      this.asset.quantity = value.quantity;
-      this.asset.description = value.description;
-    }, error2 => {
-      console.log(error2);
-    });
+    this.assetForm
+      .valueChanges
+      .subscribe(value => {
+        this.asset.assetKindId = value.assetKindId;
+        this.asset.serialNumber = value.serialNumber;
+        this.asset.quantity = value.quantity;
+        this.asset.description = value.description;
+      }, error2 => {
+        console.log(error2);
+      });
 
     this.doNotDisplayFailureMessage = true;
   }
@@ -88,14 +84,14 @@ export class AssetFormComponent implements OnInit {
   ngOnInit(): void {
     const that = this;
     this.assetService
-    .getAssetKinds()
-    .subscribe(assetKinds => {
-      if (assetKinds) {
-        that.assetKinds = assetKinds.assetKinds;
-      }
-    }, onError => {
-      console.log(onError);
-    });
+      .getAssetKinds()
+      .subscribe(assetKinds => {
+        if (assetKinds) {
+          that.assetKinds = assetKinds.assetKinds;
+        }
+      }, onError => {
+        console.log(onError);
+      });
     if (this.route.snapshot && this.route.snapshot.data['asset']) {
       this.setInputValues(this.route.snapshot.data['asset']);
     }
@@ -104,13 +100,13 @@ export class AssetFormComponent implements OnInit {
 
   private setInputValues(asset: Asset) {
     this.assetKindId.setValue(asset.assetKindId);
-    this.assetType.setValue(asset.assetTypeName);
+    this.assetType.setValue(asset.assetType ? asset.assetType.name : '');
     this.serialNumber.setValue(asset.serialNumber);
     this.quantity.setValue(asset.quantity);
-    this.site.setValue(asset.siteName);
-    this.person.setValue(asset.personName);
+    this.site.setValue(asset.site ? asset.site.name : '');
+    this.person.setValue(asset.person ? asset.person.name : '');
     this.description.setValue(asset.description);
-    this.unitOfMeasureId = asset.unitOfMeasureName;
+    this.unitOfMeasureId = asset.unitOfMeasure ? asset.unitOfMeasure.name : '';
     this.assetExist = true;
     this.asset = asset;
   }
@@ -122,7 +118,7 @@ export class AssetFormComponent implements OnInit {
   }
 
   private populateAssetTypeDropDown() {
-    if (!this.asset.assetTypeName) {
+    if (!this.asset.assetType) {
       this.findAssetTypes('');
     }
     this.assetForm.get('assetType').valueChanges
@@ -134,7 +130,7 @@ export class AssetFormComponent implements OnInit {
       });
   }
 
-  findAssetTypes(value) {
+  private findAssetTypes(value) {
     this.assetService
       .findAssetTypes(value, this.pageSize) // send search request to the backend
       .pipe(map(value2 => { // convert results to dropdown data
@@ -153,7 +149,7 @@ export class AssetFormComponent implements OnInit {
   }
 
   private populateSiteDropDown() {
-    if (!this.asset.siteName) {
+    if (!this.asset.site) {
       this.findUnionOfPhysicalSites('');
     }
     this.assetForm.get('site').valueChanges
@@ -166,7 +162,7 @@ export class AssetFormComponent implements OnInit {
       });
   }
 
-  findUnionOfPhysicalSites(value) {
+  private findUnionOfPhysicalSites(value) {
     this.assetService
       .findUnionOfPhysicalSites(value, this.pageSize) // send search request to the backend
       .pipe(map(value2 => { // convert results to dropdown data
@@ -191,7 +187,7 @@ export class AssetFormComponent implements OnInit {
   }
 
   private populatePersonDropDown() {
-    if (!this.asset.personName) {
+    if (!this.asset.person) {
       this.findPersons('');
     }
     this.assetForm.get('person').valueChanges
@@ -203,7 +199,7 @@ export class AssetFormComponent implements OnInit {
       });
   }
 
-  findPersons(value) {
+  private findPersons(value) {
     this.assetService
       .findPersons(value, this.pageSize) // send search request to the backend
       .pipe(map(value2 => { // convert results to dropdown data
@@ -221,120 +217,16 @@ export class AssetFormComponent implements OnInit {
       });
   }
 
-  get assetForm(): FormGroup {
-    return this._assetForm;
-  }
-
-  set assetForm(value: FormGroup) {
-    this._assetForm = value;
-  }
-
-  get assetTypeDataService(): CompleterData {
-    return this._assetTypeDataService;
-  }
-
-  set assetTypeDataService(value: CompleterData) {
-    this._assetTypeDataService = value;
-  }
-
-  get siteDataService(): CompleterData {
-    return this._siteDataService;
-  }
-
-  set siteDataService(value: CompleterData) {
-    this._siteDataService = value;
-  }
-
-  get personDataService(): CompleterData {
-    return this._personDataService;
-  }
-
-  set personDataService(value: CompleterData) {
-    this._personDataService = value;
-  }
-
-  get assetKindId(): FormControl {
-    return this._assetKindId;
-  }
-
-  set assetKindId(value: FormControl) {
-    this._assetKindId = value;
-  }
-
-  get assetType(): FormControl {
-    return this._assetType;
-  }
-
-  set assetType(value: FormControl) {
-    this._assetType = value;
-  }
-
-  get serialNumber(): FormControl {
-    return this._serialNumber;
-  }
-
-  set serialNumber(value: FormControl) {
-    this._serialNumber = value;
-  }
-
-  get quantity(): FormControl {
-    return this._quantity;
-  }
-
-  set quantity(value: FormControl) {
-    this._quantity = value;
-  }
-
-  get site(): FormControl {
-    return this._site;
-  }
-
-  set site(value: FormControl) {
-    this._site = value;
-  }
-
-  get person(): FormControl {
-    return this._person;
-  }
-
-  set person(value: FormControl) {
-    this._person = value;
-  }
-
-  get description(): FormControl {
-    return this._description;
-  }
-
-  set description(value: FormControl) {
-    this._description = value;
-  }
-
-  get assetKinds(): AssetKind[] {
-    return this._assetKinds;
-  }
-
-  set assetKinds(value: AssetKind[]) {
-    this._assetKinds = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
-  }
-
   onAssetTypeSelect(selected: CompleterItem) {
-      this.asset.assetTypeId = selected.originalObject.assetTypeId;
+    this.asset.assetTypeId = selected.originalObject.assetTypeId;
   }
-  
+
   onPhysicalSiteSelect(selected: CompleterItem) {
-      this.asset.siteId = selected.originalObject.siteId;
+    this.asset.siteId = selected.originalObject.siteId;
   }
 
   onPersonSelect(selected: CompleterItem) {
-      this.asset.personId = selected.originalObject.partyId;
+    this.asset.personId = selected.originalObject.partyId;
   }
 
   setUnitOfMeasureId(unitOfMeasureId: string) {
@@ -355,7 +247,7 @@ export class AssetFormComponent implements OnInit {
 
     this.assetService.addAsset(this.asset)
       .subscribe(value => {
-        if (value.assetId) {
+        if (value && value.assetId) {
           this.router.navigate(['/assets']);
         } else {
           this.doNotDisplayFailureMessage = false;
@@ -364,21 +256,21 @@ export class AssetFormComponent implements OnInit {
         this.doNotDisplayFailureMessage = false;
       });
   }
-  
+
   onUpdate() {
     this.doNotDisplayFailureMessage = true;
     this.assetService
-    .updateAsset(this.asset.assetId, this.asset)
-    .subscribe(value => {
-      if (value) {
-        this.router.navigate(['/assets']);
-      } else {
+      .updateAsset(this.asset.assetId, this.asset)
+      .subscribe(value => {
+        if (value) {
+          this.router.navigate(['/assets']);
+        } else {
+          this.doNotDisplayFailureMessage = false;
+        }
+      }, error => {
+        console.log(error);
         this.doNotDisplayFailureMessage = false;
-      }
-    }, error => {
-      console.log(error);
-      this.doNotDisplayFailureMessage = false;
-    });
+      });
   }
 
   cancel() {
