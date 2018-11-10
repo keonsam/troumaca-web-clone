@@ -1,8 +1,7 @@
 import {SessionClient} from '../../client/session/session.client';
 import {Observable} from 'rxjs';
-import { map } from "rxjs/operators";
-import {mapObjectProps} from '../../mapper/object.property.mapper';
 import {SessionRepository} from '../../session/session.repository';
+import {map} from "rxjs/operators";
 
 export class SessionRepositoryAdapter extends SessionRepository {
 
@@ -10,16 +9,13 @@ export class SessionRepositoryAdapter extends SessionRepository {
     super();
   }
 
-  // getSession(): Observable<PartySession> {
-  //   return this.sessionClient.getSession()
-  //     .pipe(map(session => {
-  //       return mapObjectProps(session, new PartySession());
-  //     }));
-  // }
-
+  logout(): Observable<boolean> {
+    return this.sessionClient.logout();
+  }
 
   activeSessionExists(): Observable<boolean> {
-    return this.sessionClient.activeSessionExists();
+    return this.sessionClient.isValidSession()
+      .pipe( map( value => value.valid));
   }
 
 }

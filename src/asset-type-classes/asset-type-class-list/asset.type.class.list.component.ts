@@ -13,12 +13,12 @@ import {Sort} from '../../sort/sort';
 export class AssetTypeClassListComponent implements OnInit {
 
   private assetTypeClassId: string;
-  private _assetTypeClasses: AssetTypeClasses;
+  assetTypeClasses: AssetTypeClasses;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  private _routerLinkCreateAssetTypeClass = '/asset-type-classes/create';
-  private _assetTypeClassName: string;
+  routerLinkCreateAssetTypeClass = '/asset-type-classes/create';
+  assetTypeClassName: string;
 
  constructor(private assetTypeClassService: AssetTypeClassService,
              private zone: NgZone) {
@@ -45,30 +45,6 @@ export class AssetTypeClassListComponent implements OnInit {
     }, () => {
       console.log('complete');
     });
-  }
-
-  get assetTypeClassName(): string {
-    return this._assetTypeClassName;
-  }
-
-  set assetTypeClassName(value: string) {
-    this._assetTypeClassName = value;
-  }
-
-  get assetTypeClasses(): AssetTypeClasses {
-    return this._assetTypeClasses;
-  }
-
-  set assetTypeClasses(value: AssetTypeClasses) {
-    this._assetTypeClasses = value;
-  }
-
-  get routerLinkCreateAssetTypeClass(): string {
-    return this._routerLinkCreateAssetTypeClass;
-  }
-
-  set routerLinkCreateAssetTypeClass(value: string) {
-    this._routerLinkCreateAssetTypeClass = value;
   }
 
   onResize(event) {

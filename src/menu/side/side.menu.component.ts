@@ -3,6 +3,7 @@ import {PhotoService} from '../../photo/photo.service';
 import {UserService} from '../../parties/users/user.service';
 import {UserResponse} from '../../parties/user.response';
 import {Photo} from "../../photo/photo";
+import {SessionService} from "../../session/session.service";
 
 @Component({
   selector: 'app-side-menu',
@@ -18,7 +19,8 @@ export class SideMenuComponent implements OnInit {
   defaultUserImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
 
   constructor(private photoService: PhotoService,
-              private userService: UserService) {
+              private userService: UserService,
+              private sessionService: SessionService) {
     this.photo = new Photo();
   }
 
@@ -55,12 +57,12 @@ export class SideMenuComponent implements OnInit {
   }
 
   logOutEvent() {
-    // this.partyService.logOutUser()
-    //   .subscribe(next => {
-    //     if (next) {
-    //       this.eventService.sendSessionLogoutEvent({'logOutEvent': true});
-    //     }
-    //   });
+    this.sessionService.logout()
+      .subscribe( value => {
+        if (value) {
+          this.sessionService.logoutEvent.next(true);
+        }
+      });
   }
 
 }

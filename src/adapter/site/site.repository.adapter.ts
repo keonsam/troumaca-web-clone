@@ -1,13 +1,9 @@
-
 import {SiteClient} from '../../client/site/site.client';
 import {SiteRepository} from '../../site/site.repository';
-import {AssetSiteRepository} from '../../assets/asset.site.repository';
 
 import {Observable} from 'rxjs';
 import { map } from "rxjs/operators";
 import {mapObjectProps} from '../../mapper/object.property.mapper';
-import {AssetUnionOfPhysicalSites} from '../../assets/asset.union.of.physical.sites';
-import {UnionOfPhysicalSite} from '../../assets/asset.union.of.physical.site';
 import {Email} from '../../site/email';
 import {EmailState} from '../../client/site/email.state';
 import {Emails} from '../../site/emails';
@@ -26,7 +22,7 @@ import {StreetAddressState} from '../../client/site/street.address.state';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
 
-export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRepository {
+export class SiteRepositoryAdapter extends SiteRepository {
 
   constructor(private siteClient: SiteClient) {
     super();
@@ -145,18 +141,6 @@ export class SiteRepositoryAdapter extends SiteRepository implements AssetSiteRe
       phones.sort = mapObjectProps(values.sort, new Sort());
       return phones;
     }));
-  }
-
-  public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<AssetUnionOfPhysicalSites> {
-    return this.siteClient
-      .findUnionOfPhysicalSiteStates(searchStr, pageSize)
-      .pipe(map(values => {
-        const unionOfPhysicalSites: AssetUnionOfPhysicalSites = new AssetUnionOfPhysicalSites();
-        unionOfPhysicalSites.unionOfPhysicalSites =values.unionOfPhysicalSites.map( value => {
-          return mapObjectProps(value, new UnionOfPhysicalSite());
-        });
-        return unionOfPhysicalSites;
-      }));
   }
 
   public addPhone(phone: Phone): Observable<Phone> {

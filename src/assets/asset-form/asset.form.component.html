@@ -10,7 +10,7 @@
                 {{ assetExist ? "Edit" : "New" }} Asset Form
               </h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ assetExist ? "Update" : "Create" }} Asset.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ assetExist ? "update" : "create" }} asset.</div>
 
               <fieldset class="form-group">
                 <div class="form-group">
@@ -42,7 +42,7 @@
                                  id="asset-type"
                                  required>
                   </ng2-completer>
-                  <div [hidden]="assetType.valid || assetType.pristine" class="alert alert-danger">Please Select an Asset Type.</div>
+                  <div [hidden]="assetType.valid || assetType.pristine" class="alert alert-danger">Please select an asset type.</div>
                 </div>
               </fieldset>
 
@@ -56,7 +56,7 @@
               <fieldset *ngIf="isInventory()" class="form-group">
                 <div class="form-group">
                   <label for="quantity">Quantity</label><input id="quantity" class="form-control" formControlName="quantity" data-error="Your email address is invalid" placeholder="Enter Quantity" type="number">
-                  <div [hidden]="quantity.valid || quantity.pristine" class="alert alert-danger">Please enter an quantity.</div>
+                  <div [hidden]="quantity.valid || quantity.pristine" class="alert alert-danger">Please enter a quantity.</div>
                 </div>
               </fieldset>
 
@@ -112,8 +112,7 @@
               </fieldset>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [hidden]="assetExist" [disabled]="!assetForm.valid" type="submit" (click)="onCreate()">Create</button>
-                <button class="btn btn-primary" [hidden]="!assetExist" [disabled]="!assetForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="btn btn-primary" [disabled]="!assetForm.valid" type="submit" (click)=" assetExist ? onUpdate() : onCreate()">{{ assetExist ? "Update" : "Create"}}</button>
                 <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
               </div>
 

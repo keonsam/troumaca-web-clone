@@ -3,7 +3,6 @@ import {AttributeRepository} from './attribute.repository';
 import {Attribute} from './attribute';
 import {Attributes} from './attributes';
 import {DataType} from './data.type';
-import {UnitOfMeasure} from '../unit-of-measure/unit.of.measure';
 
 export class AttributeService {
 
@@ -20,10 +19,6 @@ export class AttributeService {
 
   public getAttributeById(attributeId: string): Observable<Attribute> {
     return this.attributeRepository.getAttribute(attributeId);
-  }
-
-  public findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]>{
-    return this.attributeRepository.findUnitOfMeasureId(searchStr, pageSize);
   }
 
   public addAttribute(attribute: Attribute): Observable<Attribute> {

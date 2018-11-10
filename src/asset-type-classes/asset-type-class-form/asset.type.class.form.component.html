@@ -9,21 +9,17 @@
                 {{assetTypeClassExist ? "Edit":"New"}} Asset Type Class Form
               </h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{assetTypeClassExist ? "Update":"Create"}} Asset Type Class.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{assetTypeClassExist ? "update":"create"}} asset type class.</div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Name" required type="text">
-                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Name" required type="text">
+                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="description">Description</label><input id="description" class="form-control" formControlName="description" placeholder="Description" type="text">
-                  <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="description">Description</label><input id="description" class="form-control" formControlName="description" placeholder="Description" type="text">
+                <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
+              </div>
 
               <div class="row">
                 <!-- START OF AVAILABLE ATTRIBUTES-->
@@ -50,7 +46,7 @@
                       <tbody>
                       <tr class="clickable-tr" role="row" *ngFor="let attribute of availableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAvailableDoubleClick(attribute.attributeId, attribute.name, attribute.dataTypeName)">
                         <td>{{attribute.name}}</td>
-                        <td>{{attribute.dataTypeName}}</td>
+                        <td>{{attribute.dataType?.name}}</td>
                         <td class="row-actions">
                           <a data-toggle="modal" data-target="#attributeModal1" (click)="onModalOpen('edit', attribute.attributeId)" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenDeleteModal(attribute.attributeId, attribute.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
                         </td>
@@ -87,19 +83,19 @@
                       </tr>
                       </tfoot>
                       <tbody>
-                      <tr class="clickable-tr" role="row" *ngFor="let attribute of getSlice(); let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedDoubleClick(attribute.attributeId)">
+                      <tr class="clickable-tr" role="row" *ngFor="let attribute of assignableAttributes.attributes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven" (dblclick)="onAssignedDoubleClick(attribute.attributeId)">
                         <td class="text-center">
-                          <input class="form-control" type="checkbox" (change)="attribute.required = attribute.required ? false: true" [checked]="attribute.required">
+                          <input class="form-control" type="checkbox" (change)="onChange(attribute.attributeId)" [checked]="getChecked(attribute.attributeId)">
                         </td>
-                        <td>{{attribute.attributeName}}</td>
-                        <td>{{attribute.dataTypeName}}</td>
+                        <td>{{attribute.name}}</td>
+                        <td>{{attribute.dataType?.name}}</td>
                       </tr>
-                      <tr *ngIf="getSlice().length <= 0" class="odd">
+                      <tr *ngIf="assignableAttributes.attributes.length <= 0" class="odd">
                         <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No Assigned Attributes</td>
                       </tr>
                       </tbody>
                     </table>
-                    <paging [page]="getAssignedPage" (requestPage)="onAssignedRequestPage($event)"></paging>
+                    <paging [page]="assignableAttributes.page" (requestPage)="onAssignedRequestPage($event)"></paging>
                   </div>
                 </div>
                 <!-- END OF ASSIGNED ATTRIBUTES -->
@@ -113,9 +109,7 @@
               </div>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary button1" [hidden]="assetTypeClassExist" [disabled]="!assetTypeClassForm.valid" type="submit" (click)="onCreate()">Create</button>
-                <button class="btn btn-primary button1" [hidden]="!assetTypeClassExist" [disabled]="!assetTypeClassForm.valid" type="submit" (click)="onUpdate()">Update</button>
-
+                <button class="btn btn-primary button1" [disabled]="!assetTypeClassForm.valid" type="submit" (click)=" assetTypeClassExist ? onUpdate(): onCreate()">{{assetTypeClassExist? "Update": "Create"}}</button>
                 <button class="btn btn-outline-danger" type="cancel" (click)="cancel()">Cancel</button>
               </div>
             </form>

@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Route } from '@angular/compiler/src/core';
 import {authRoutes} from "../app/auth.routes";
+import {SessionService} from "../session/session.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ import {authRoutes} from "../app/auth.routes";
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   constructor(
     protected authService: AuthGuardService,
+    protected sessionService: SessionService,
     protected router: Router,
   ) { }
 
@@ -45,6 +47,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
       .pipe( map(validSession => {
         if (!route) {
           if (!validSession.valid) {
+            this.sessionService.logoutEvent.next(true);
             this.router.navigate(['/home']);
           }
           return validSession.valid;
@@ -55,6 +58,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
           return !validSession.valid;
         } else {
           if (!validSession.valid) {
+            this.sessionService.logoutEvent.next(true);
             this.router.navigate(['/home']);
           }
           return validSession.valid;

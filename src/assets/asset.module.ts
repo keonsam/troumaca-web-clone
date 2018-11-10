@@ -10,12 +10,12 @@ import {AssetListComponent} from './asset-list/asset.list.component';
 import {AssetTopMenuComponent} from './asset-top-menu/asset.top.menu.component';
 import {Ng2CompleterModule} from 'ng2-completer';
 import {assetServiceProvider} from './asset.service.provider';
-import { AssetRoutingModule } from "./asset.routing.module";
-import { UnitOfMeasureModule } from "../unit-of-measure/unit.of.measure.module";
-import {assetResolveProvider } from "./asset.resolve.provider";
-import {AssetFormComponent} from "./asset-form/asset.form.component";
-import {DeleteModalModule} from "../delete-modal/delete.modal.module";
-import {authGuardProvider} from "../auth-guard/auth.guard.provider";
+import { AssetRoutingModule } from './asset.routing.module';
+import { UnitOfMeasureModule } from '../unit-of-measure/unit.of.measure.module';
+import {assetResolveProvider } from './asset.resolve.provider';
+import {AssetFormComponent} from './asset-form/asset.form.component';
+import {DeleteModalModule} from '../delete-modal/delete.modal.module';
+import {authGuardProvider} from '../auth-guard/auth.guard.provider';
 
 @NgModule({
   imports: [

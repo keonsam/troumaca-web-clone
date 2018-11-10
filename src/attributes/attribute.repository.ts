@@ -2,7 +2,6 @@ import {Observable} from 'rxjs';
 import {Attribute} from './attribute';
 import {Attributes} from './attributes';
 import {DataType} from './data.type';
-import {UnitOfMeasure} from '../unit-of-measure/unit.of.measure';
 
 export abstract class AttributeRepository {
 
@@ -11,8 +10,6 @@ export abstract class AttributeRepository {
   abstract getAttributes(pageNumber: number, pageSize: number, sortOrder: string): Observable<Attributes>;
 
   abstract getAttribute(attributeId: string): Observable<Attribute>;
-
-  abstract findUnitOfMeasureId(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]>;
 
   abstract addAttribute(attribute: Attribute): Observable<Attribute>;
 

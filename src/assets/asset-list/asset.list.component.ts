@@ -12,13 +12,13 @@ import {Sort} from '../../sort/sort';
 export class AssetListComponent implements OnInit {
 
 
-  private assetId: string;
-  private _assets: Assets;
+  assetId: string;
+  assets: Assets;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  private _routerLinkCreateAsset = '/assets/create';
-  private _assetName: string;
+  routerLinkCreateAsset = '/assets/create';
+  assetName: string;
 
   constructor(private assetService: AssetService) {
     const newAssets = new Assets();
@@ -30,42 +30,19 @@ export class AssetListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAssets();
-}
+  }
 
-  getAssets() {
+  private getAssets() {
     this.assetService.getAssets(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
-    .subscribe(next => {
-      this.assets = next;
-    }, error => {
-      console.log(error);
-    }, () => {
-      console.log('complete');
-    });
+      .subscribe(next => {
+        this.assets = next;
+      }, error => {
+        console.log(error);
+      }, () => {
+        console.log('complete');
+      });
   }
 
-  get assetName(): string {
-    return this._assetName;
-  }
-
-  set assetName(value: string) {
-    this._assetName = value;
-  }
-
-  get assets(): Assets {
-    return this._assets;
-  }
-
-  set assets(value: Assets) {
-    this._assets = value;
-  }
-
-  get routerLinkCreateAsset(): string {
-    return this._routerLinkCreateAsset;
-  }
-
-  set routerLinkCreateAsset(value: string) {
-    this._routerLinkCreateAsset = value;
-  }
 
   onOpenModal(assetId: string, assetName: string) {
     this.assetId = assetId;
@@ -90,10 +67,7 @@ export class AssetListComponent implements OnInit {
 
 
   onRequestPage(pageNumber: number) {
-   this.defaultPage = pageNumber;
-   this.getAssets();
+    this.defaultPage = pageNumber;
+    this.getAssets();
   }
 }
-/*   onResize(event) {
-    console.log("W:" + event.target.innerWidth + " H:" + event.target.innerHeight);
-  } */

@@ -17,6 +17,7 @@ export class PhotoComponent implements OnInit {
   @Input() organizationName: string;
   defaultUserImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
   defaultOrganizationImage = 'https://www.desktopbackground.org/p/2015/10/22/1030276_high-quality-nature-wallpapers-free-download-desktop-wallpapers_2560x1920_h.jpg';
+
   constructor(private photoService: PhotoService ) {
     this.photo = new Photo();
   }

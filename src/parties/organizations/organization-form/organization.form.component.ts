@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 
 import {Organization} from '../../organization';
 import {OrganizationService} from '../organization.service';
+import {SessionService} from "../../../session/session.service";
 
 @Component({
   selector: 'app-organization-form',
@@ -30,7 +31,8 @@ export class OrganizationFormComponent implements OnInit {
   constructor(private organizationService: OrganizationService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private sessionService: SessionService) {
 
    this.organization = new Organization();
 
@@ -112,6 +114,7 @@ export class OrganizationFormComponent implements OnInit {
       .subscribe(value => {
         if (value) {
           if (this.profile) {
+            this.sessionService.loginEvent.next(true);
             this.router.navigate(['/lobby']);
           } else {
             this.router.navigate(['/parties/organizations/listing']);

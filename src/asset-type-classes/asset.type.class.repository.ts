@@ -7,9 +7,6 @@ import {AssetTypeClassResponse} from './asset.type.class.response';
 
 export abstract class AssetTypeClassRepository {
 
-  abstract getAvailableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes>;
-
-  abstract getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]>;
 
   abstract getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassResponse>;
 
@@ -20,5 +17,13 @@ export abstract class AssetTypeClassRepository {
   abstract deleteAssetTypeClass(assetTypeClassId: string): Observable<number>;
 
   abstract updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute[]): Observable<number>;
+
+  // OTHERS
+
+  abstract getAvailableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes>;
+
+  abstract getAssignableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes>;
+
+  // abstract getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]>;
 
 }

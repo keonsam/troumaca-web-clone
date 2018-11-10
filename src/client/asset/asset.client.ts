@@ -1,24 +1,22 @@
 import {Observable} from 'rxjs';
-import {AssetStates} from './asset.states';
-import {AssetKindStates} from './asset.kind.states';
-import {AssetState} from './asset.state';
-import {AssetTypeState} from '../asset-type/asset.type.state';
-import {UnitOfMeasureState} from '../unit-of-measure/unit.of.measure.state';
-import {UnionOfPhysicalSiteState} from '../site/union.of.physical.site.state';
-import {AssetPersonState} from './asset.person.state';
+import {Assets} from "../../assets/assets";
+import {Asset} from "../../assets/asset";
+import {AssetKinds} from "../../assets/asset.kinds";
+import {Site} from "../../site/site";
+import {User} from "../../parties/user";
+import {AssetType} from "../../asset-types/asset.type";
 
 export abstract class AssetClient {
-  public abstract getAssets(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetStates>;
-  public abstract getAssetState(assetId: string): Observable<AssetState>;
-  public abstract getAssetKinds(): Observable<AssetKindStates>;
+  public abstract getAssets(pageNumber: number, pageSize: number, sortOrder: string): Observable<Assets>;
+  public abstract getAsset(assetId: string): Observable<Asset>;
+  public abstract getAssetKinds(): Observable<AssetKinds>;
 
-  public abstract findAssetTypes(searchStr: string, pageSize: number): Observable <AssetTypeState[]>;
-  public abstract findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable <UnionOfPhysicalSiteState[]>;
-  public abstract findUnitOfMeasures(searchStr: string, pageSize: number): Observable <UnitOfMeasureState[]>;
-  public abstract findPersons(searchStr: string, pageSize: number): Observable <AssetPersonState[]>;
+  public abstract findAssetTypes(searchStr: string, pageSize: number): Observable <AssetType[]>;
+  public abstract findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable <Site[]>;
+  public abstract findPersons(searchStr: string, pageSize: number): Observable <User[]>;
 
-  public abstract addAsset(assetState: AssetState): Observable<AssetState>;
-  public abstract updateAsset(assetId: string, assetState: AssetState): Observable<number>;
+  public abstract addAsset(assetState: Asset): Observable<Asset>;
+  public abstract updateAsset(assetId: string, assetState: Asset): Observable<number>;
   public abstract deleteAsset(assetId: string): Observable<number>;
 
 }

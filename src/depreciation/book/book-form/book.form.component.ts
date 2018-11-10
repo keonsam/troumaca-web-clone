@@ -150,7 +150,7 @@ export class BookFormComponent implements OnInit {
         return value2.map(v2 => {
           return {
             assetId: v2.assetId,
-            name: v2.assetTypeName
+            name: v2.assetType.name
           };
         })
       }))

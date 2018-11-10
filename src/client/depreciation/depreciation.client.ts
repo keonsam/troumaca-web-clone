@@ -1,13 +1,13 @@
-import {Observable} from "rxjs";
-import {DepreciationState} from "./depreciation.state";
-import {AssetState} from "../asset/asset.state";
-import {DepreciationStates} from "./depreciation.states";
-import {DepreciationMethod} from "../../depreciation/depreciation.method";
-import {DepreciationSystem} from "../../depreciation/depreciation.system";
-import {PropertyClass} from "../../depreciation/property.class";
+import {Observable} from 'rxjs';
+import {DepreciationState} from './depreciation.state';
+import {DepreciationStates} from './depreciation.states';
+import {DepreciationMethod} from '../../depreciation/depreciation.method';
+import {DepreciationSystem} from '../../depreciation/depreciation.system';
+import {PropertyClass} from '../../depreciation/property.class';
+import {Asset} from '../../assets/asset';
 
 export abstract class DepreciationClient {
-  public abstract findAssets(searchStr: string, pageSize: number): Observable<AssetState[]>;
+  public abstract findAssets(searchStr: string, pageSize: number): Observable<Asset[]>;
 
   public abstract getDepreciationArr(pageNumber: number, pageSize: number, sortOrder: string, type: string): Observable<DepreciationStates>;
 

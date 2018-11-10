@@ -4,13 +4,13 @@ import {Observable} from 'rxjs';
 import { map } from "rxjs/operators";
 import {AssetTypeState} from './asset.type.state';
 import {AssetTypeStates} from './asset.type.states';
-import {AssetTypeClassState} from '../asset-type-class/asset.type.class.state';
 import {ValueState} from './value.state';
 import {ValueStates} from './value.states';
 import {UnitOfMeasureState} from '../unit-of-measure/unit.of.measure.state';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {AssignedAttributeState} from '../asset-type-class/assigned.attribute.state';
 import {AssetTypeResponse} from '../../asset-types/asset.type.response';
+import {AssignedAttribute} from "../../asset-type-classes/assigned.attribute";
+import {AssetTypeClass} from "../../asset-type-classes/asset.type.class";
 
 export class AssetTypesClientHttp extends AssetTypesClient {
 
@@ -31,7 +31,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     }));
   }
 
-  public getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttributeState[]> {
+  public getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]> {
     const url = `${this.hostPort}/assigned-attributes/${assetTypeClassId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -68,24 +68,24 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     }));
   }
 
-  public getAssetTypeClassState(assetTypeClassId: string): Observable<AssetTypeClassState> {
+  public getAssetTypeClassState(assetTypeClassId: string): Observable<AssetTypeClass> {
     const url = `${this.hostPort}/asset-type-classes/${assetTypeClassId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-    .get<AssetTypeClassState>(url, httpOptions)
+    .get<AssetTypeClass>(url, httpOptions)
     .pipe(map(data => {
       return data;
     }));
   }
 
-  public findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClassState[]> {
+  public findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClass[]> {
     const url = `${this.hostPort}/asset-type-classes/find?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<AssetTypeClassState[]>(url, httpOptions).pipe(map(data => {
+    return this.httpClient.get<AssetTypeClass[]>(url, httpOptions).pipe(map(data => {
       return data;
     }));
   }

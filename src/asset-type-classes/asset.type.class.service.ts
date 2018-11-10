@@ -11,14 +11,6 @@ export class AssetTypeClassService {
   constructor(private assetTypeClassRepository: AssetTypeClassRepository) {
   }
 
-  public getAvailableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes> {
-    return this.assetTypeClassRepository.getAvailableAttributes(pageNumber, pageSize, sortOrder, assignedArray);
-  }
-
-  public getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]> {
-    return this.assetTypeClassRepository.getAssignedAttributes(assetTypeClassId);
-  }
-
   public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassResponse> {
     return this.assetTypeClassRepository.getAssetTypeClass(assetTypeClassId);
   }
@@ -38,4 +30,18 @@ export class AssetTypeClassService {
   public updateAssetTypeClass(assetTypeClassId: string, assetTypeClass: AssetTypeClass, assignedAttributes: AssignedAttribute[]): Observable<number> {
     return this.assetTypeClassRepository.updateAssetTypeClass(assetTypeClassId, assetTypeClass, assignedAttributes);
   }
+
+  // OTHERS
+
+  public getAvailableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes> {
+    return this.assetTypeClassRepository.getAvailableAttributes(pageNumber, pageSize, sortOrder, assignedArray);
+  }
+
+  public getAssignableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes> {
+    return this.assetTypeClassRepository.getAssignableAttributes(pageNumber, pageSize, sortOrder, assignedArray);
+  }
+
+  // public getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]> {
+  //   return this.assetTypeClassRepository.getAssignedAttributes(assetTypeClassId);
+  // }
 }

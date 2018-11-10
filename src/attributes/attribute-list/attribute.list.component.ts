@@ -11,13 +11,13 @@ import {Sort} from '../../sort/sort';
 })
 export class AttributeListComponent implements OnInit {
 
-  private attributeId: string;
-  private _attributes: Attributes;
+  attributeId: string;
+  attributes: Attributes;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  private _routerLinkCreateAttribute = '/attributes/create';
-  private _attributeName: string;
+  routerLinkCreateAttribute = '/attributes/create';
+  attributeName: string;
 
   constructor(private attributeService: AttributeService) {
 
@@ -31,41 +31,16 @@ export class AttributeListComponent implements OnInit {
     this.getAttributes();
   }
 
-  getAttributes () {
+  private getAttributes () {
     this.attributeService
     .getAttributes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.attributes = next;
     }, error => {
       console.log(error);
     }, () => {
       console.log('complete');
     });
-  }
-
-  get attributeName(): string {
-    return this._attributeName;
-  }
-
-  set attributeName(value: string) {
-    this._attributeName = value;
-  }
-
-  get attributes(): Attributes {
-    return this._attributes;
-  }
-
-  set attributes(value: Attributes) {
-    this._attributes = value;
-  }
-
-  get routerLinkCreateAttribute(): string {
-    return this._routerLinkCreateAttribute;
-  }
-
-  set routerLinkCreateAttribute(value: string) {
-    this._routerLinkCreateAttribute = value;
   }
 
   onOpenModal(attributeId: string, attributeName: string ) {

@@ -1,11 +1,12 @@
 import {AuthGuard} from './auth.guard';
 import {AuthGuardService} from './auth.guard.service';
 import {Router} from '@angular/router';
+import {SessionService} from "../session/session.service";
 
-export function authGuardProviderFactory (authGuardService: AuthGuardService, router: Router): AuthGuard {
+export function authGuardProviderFactory (authGuardService: AuthGuardService, sessionService: SessionService, router: Router): AuthGuard {
   let authGuard: AuthGuard;
   if (!authGuard) {
-    authGuard = new AuthGuard(authGuardService, router);
+    authGuard = new AuthGuard(authGuardService, sessionService, router);
 
   }
   return authGuard;
@@ -14,5 +15,5 @@ export function authGuardProviderFactory (authGuardService: AuthGuardService, ro
 export let authGuardProvider = {
   provide: AuthGuard,
   useFactory: authGuardProviderFactory,
-  deps: [AuthGuardService, Router]
+  deps: [AuthGuardService, SessionService, Router]
 };

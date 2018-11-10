@@ -1,6 +1,5 @@
 import {PartyClient} from '../../client/party/party.client';
 import {PartyRepository} from '../../parties/party.repository';
-import {AssetPersonRepository} from '../../assets/asset.person.repository';
 import {PartyRepositoryAdapter} from './party.repository.adapter';
 
 
@@ -14,12 +13,6 @@ export function partyRepositoryProviderFactory (partyClient: PartyClient): Party
 
 export let partyRepositoryProvider = {
   provide: PartyRepository,
-  useFactory: partyRepositoryProviderFactory,
-  deps: [PartyClient]
-};
-
-export let assetPersonRepositoryProvider = {
-  provide: AssetPersonRepository,
   useFactory: partyRepositoryProviderFactory,
   deps: [PartyClient]
 };

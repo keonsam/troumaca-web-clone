@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
 import { Credential } from '../credential';
+import {SessionService} from "../../session/session.service";
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
-              private router: Router) {
+              private router: Router,
+              private sessionService: SessionService) {
     this.credential = new Credential();
 
     this.username = new FormControl('', [
@@ -59,6 +61,7 @@ export class LoginComponent implements OnInit {
       .authenticate(this.credential)
       .subscribe(authenticatedCredential => {
         if (authenticatedCredential && authenticatedCredential.authenticateStatus === 'AccountActive') {
+          this.sessionService.loginEvent.next(true);
           this.router.navigate(['/lobby']);
         }else if (authenticatedCredential && authenticatedCredential.authenticateStatus === 'AccountConfirmed') {
           this.router.navigate(['/profile-organizations']);
