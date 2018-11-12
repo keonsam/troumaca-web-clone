@@ -10,19 +10,22 @@
       <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to register account. Please try again or contact support.</div>
 
       <div class="row">
-        <div class="col-sm-12">
+
+        <div class="col-sm-6">
           <div class="form-group">
             <label for="first-name">First Name</label><input id="first-name" class="form-control" formControlName="firstName" placeholder="Enter First Name" required="required" type="text">
             <div class="pre-icon os-icon os-icon-user-male-circle"></div>
           </div>
           <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">Invalid first name.</div>
         </div>
-        <div class="col-sm-12">
+
+        <div class="col-sm-6">
           <div class="form-group">
             <label for="last-name">Last Name</label><input id="last-name" class="form-control" formControlName="lastName" placeholder="Enter Last Name" required="required" type="text">
           </div>
           <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">Invalid last name.</div>
         </div>
+
       </div>
 
       <div class="form-group">

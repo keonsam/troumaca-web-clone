@@ -13,16 +13,16 @@ import {Router} from '@angular/router';
 })
 export class SiteWebFormComponent implements OnInit {
 
-  private _name: FormControl;
-  private _description: FormControl;
-  private _uniformResourceIdentifier: FormControl;
+  name: FormControl;
+  description: FormControl;
+  uniformResourceIdentifier: FormControl;
 
-  private _siteWebSiteForm: FormGroup;
+  siteWebSiteForm: FormGroup;
 
   private webSite: WebSite;
 
-  private _doNotDisplayFailureMessage: boolean;
-  public webSiteExist = false;
+  doNotDisplayFailureMessage: boolean;
+  webSiteExist = false;
 
   constructor(private siteService: SiteService,
               private formBuilder: FormBuilder,
@@ -66,46 +66,6 @@ export class SiteWebFormComponent implements OnInit {
     this.uniformResourceIdentifier.setValue(webSite.uniformResourceIdentifier);
     this.webSite = webSite;
     this.webSiteExist = true;
-  }
-
-  get name(): FormControl {
-    return this._name;
-  }
-
-  set name(value: FormControl) {
-    this._name = value;
-  }
-
-  get description(): FormControl {
-    return this._description;
-  }
-
-  set description(value: FormControl) {
-    this._description = value;
-  }
-
-  get uniformResourceIdentifier(): FormControl {
-    return this._uniformResourceIdentifier;
-  }
-
-  set uniformResourceIdentifier(value: FormControl) {
-    this._uniformResourceIdentifier = value
-  }
-
-  get siteWebSiteForm(): FormGroup {
-    return this._siteWebSiteForm;
-  }
-
-  set siteWebSiteForm(value: FormGroup) {
-    this._siteWebSiteForm = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
   }
 
   onCreate() {

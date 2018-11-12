@@ -30,6 +30,13 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                "type": "bundle",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,

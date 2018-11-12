@@ -12,12 +12,12 @@ import {Sort} from '../../sort/sort';
 export class SiteEmailListComponent implements OnInit {
 
   private emailId: string;
-  private _emails: Emails;
+  emails: Emails;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  private _routerLinkCreateEmail = '/sites/emails/create';
-  private _emailName: string;
+  routerLinkCreateEmail = '/sites/emails/create';
+  emailName: string;
 
   constructor(private siteService: SiteService) {
     const newEmails = new Emails();
@@ -31,31 +31,7 @@ export class SiteEmailListComponent implements OnInit {
     this.getEmails();
   }
 
-  get emailName(): string {
-    return this._emailName;
-  }
-
-  set emailName(value: string) {
-    this._emailName = value;
-  }
-
-  get emails(): Emails {
-    return this._emails;
-  }
-
-  set emails(value: Emails) {
-    this._emails = value;
-  }
-
-  get routerLinkCreateEmail(): string {
-    return this._routerLinkCreateEmail;
-  }
-
-  set routerLinkCreateEmail(value: string) {
-    this._routerLinkCreateEmail = value;
-  }
-
-  getEmails() {
+  private getEmails() {
     this.siteService.getEmails(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
       this.emails = next;

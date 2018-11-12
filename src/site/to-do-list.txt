@@ -1,4 +1,0 @@
-1. Area Code Type Ahead/Search
-2. Improve design so that the form actually looks like a typical format of a phone number
-3. Consider dropping the exchange filed from the form
-4. Rename virtual site modified date to removal date. Move the created and modified date up the the site object.

@@ -12,22 +12,20 @@ import {Router} from '@angular/router';
 })
 export class SitePostOfficeBoxFormComponent implements OnInit {
 
-  private siteId: string;
-  private sub: any;
-  private _name: FormControl;
-  private _description: FormControl;
-  private _postOfficeBoxNumber: FormControl;
-  private _city: FormControl;
-  private _stateOrProvince: FormControl;
-  private _postalCode: FormControl;
-  private _country: FormControl;
+  name: FormControl;
+  description: FormControl;
+  postOfficeBoxNumber: FormControl;
+  city: FormControl;
+  stateOrProvince: FormControl;
+  postalCode: FormControl;
+  country: FormControl;
 
 
-  private _sitePostOfficeBoxForm: FormGroup;
+  sitePostOfficeBoxForm: FormGroup;
 
   private postOfficeBox: PostOfficeBox;
 
-  private _doNotDisplayFailureMessage: boolean;
+  doNotDisplayFailureMessage: boolean;
   public postOfficeBoxExist = false;
 
   constructor(private siteService: SiteService,
@@ -89,78 +87,6 @@ export class SitePostOfficeBoxFormComponent implements OnInit {
     this.country.setValue(postOfficeBox.country);
     this.postOfficeBox = postOfficeBox;
     this.postOfficeBoxExist = true;
-  }
-
-  get name(): FormControl {
-    return this._name;
-  }
-
-  set name(value: FormControl) {
-    this._name = value;
-  }
-
-  get description(): FormControl {
-    return this._description;
-  }
-
-  set description(value: FormControl) {
-    this._description = value;
-  }
-
-  get postOfficeBoxNumber(): FormControl {
-    return this._postOfficeBoxNumber;
-  }
-
-  set postOfficeBoxNumber(value: FormControl) {
-    this._postOfficeBoxNumber = value
-  }
-
-  get city(): FormControl {
-    return this._city;
-  }
-
-  set city(value: FormControl) {
-    this._city = value;
-  }
-
-  get stateOrProvince(): FormControl {
-    return this._stateOrProvince;
-  }
-
-  set stateOrProvince(value: FormControl) {
-    this._stateOrProvince = value;
-  }
-
-  get postalCode(): FormControl {
-    return this._postalCode;
-  }
-
-  set postalCode(value: FormControl) {
-    this._postalCode = value;
-  }
-
-  get country(): FormControl {
-    return this._country;
-  }
-
-  set country(value: FormControl) {
-    this._country = value;
-  }
-
-  get sitePostOfficeBoxForm(): FormGroup {
-    return this._sitePostOfficeBoxForm;
-  }
-
-  set sitePostOfficeBoxForm(value: FormGroup) {
-    this._sitePostOfficeBoxForm = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
   }
 
   onCreate() {

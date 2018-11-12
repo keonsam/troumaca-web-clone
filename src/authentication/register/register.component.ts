@@ -161,6 +161,7 @@ export class RegisterComponent implements OnInit {
     this.authenticationService
     .addCredential(this.credential, this.user)
     .subscribe(confirmation => {
+      // TODO: remove this
       if (confirmation && confirmation.confirmationId) {
         this.router.navigate([`/authentication/confirmations/${confirmation.credentialId}/${confirmation.confirmationId}`]);
       } else {

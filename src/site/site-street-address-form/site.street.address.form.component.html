@@ -12,7 +12,7 @@
                {{streetAddressExist ? "Edit": "New"}} Street Address Form
               </h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{streetAddressExist ? "Update": "Create"}} Street Address.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{streetAddressExist ? "update": "create"}} street address.</div>
 
               <fieldset class="form-group">
                 <div class="form-group row">
@@ -35,79 +35,58 @@
                 </div>
               </fieldset>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="street-name">Name</label><input id="street-name" class="form-control" formControlName="name" placeholder="Enter Name" required type="text">
-                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="street-name">Name</label><input id="street-name" class="form-control" formControlName="name" placeholder="Enter Name" required type="text">
+                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="floor">Floor</label><input id="floor" class="form-control" formControlName="floor" placeholder="Enter Floor" required type="text">
-                  <div [hidden]="floor.valid || floor.pristine" class="alert alert-danger">Invalid floor.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="floor">Floor</label><input id="floor" class="form-control" formControlName="floor" placeholder="Enter Floor" required type="text">
+                <div [hidden]="floor.valid || floor.pristine" class="alert alert-danger">Invalid floor.</div>
+              </div>
 
-              <fieldset *ngIf="suiteOrApartment" class="form-group">
-                <div class="form-group">
-                  <label for="suite-or-apartment-number">{{suiteOrApartment.value}} Number</label><input id="suite-or-apartment-number" class="form-control" formControlName="suiteOrApartmentNumber" placeholder="Enter Suite or Apartment Number" required type="number">
-                  <div [hidden]="suiteOrApartmentNumber.valid || suiteOrApartmentNumber.pristine" class="alert alert-danger">Invalid {{suiteOrApartment.value}} number.</div>
-                </div>
-              </fieldset>
+              <div *ngIf="suiteOrApartment" class="form-group">
+                <label for="suite-or-apartment-number">{{suiteOrApartment.value}} Number</label><input id="suite-or-apartment-number" class="form-control" formControlName="suiteOrApartmentNumber" placeholder="Enter Suite or Apartment Number" required type="number">
+                <div [hidden]="suiteOrApartmentNumber.valid || suiteOrApartmentNumber.pristine" class="alert alert-danger">Invalid {{suiteOrApartment.value}} number.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="street-number">Street Number</label><input id="street-number" class="form-control" formControlName="streetNumber" placeholder="Enter Street number" type="number">
-                  <div [hidden]="streetNumber.valid || streetNumber.pristine" class="alert alert-danger">Invalid street number.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="street-number">Street Number</label><input id="street-number" class="form-control" formControlName="streetNumber" placeholder="Enter Street number" type="number">
+                <div [hidden]="streetNumber.valid || streetNumber.pristine" class="alert alert-danger">Invalid street number.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="street">Street</label><input id="street" class="form-control" formControlName="street" required placeholder="Enter Street">
-                  <div [hidden]="street.valid || street.pristine" class="alert alert-danger">The street is required.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="street">Street</label><input id="street" class="form-control" formControlName="street" required placeholder="Enter Street">
+                <div [hidden]="street.valid || street.pristine" class="alert alert-danger">The street is required.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="city">City</label><input id="city" class="form-control" formControlName="city" required placeholder="Enter City">
-                  <div [hidden]="city.valid || city.pristine" class="alert alert-danger">The city is required.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="city">City</label><input id="city" class="form-control" formControlName="city" required placeholder="Enter City">
+                <div [hidden]="city.valid || city.pristine" class="alert alert-danger">The city is required.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="state-or-province">State or Province</label><input id="state-or-province" class="form-control" formControlName="stateOrProvince" required placeholder="Enter State or Province">
-                  <div [hidden]="stateOrProvince.valid || stateOrProvince.pristine" class="alert alert-danger">The state or province is required.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="state-or-province">State or Province</label><input id="state-or-province" class="form-control" formControlName="stateOrProvince" required placeholder="Enter State or Province">
+                <div [hidden]="stateOrProvince.valid || stateOrProvince.pristine" class="alert alert-danger">The state or province is required.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="postal-code">Postal Code</label><input id="postal-code" class="form-control" formControlName="postalCode" required placeholder="Enter Postal Code">
-                  <div [hidden]="postalCode.valid || postalCode.pristine" class="alert alert-danger">The postal code  is required.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="postal-code">Postal Code</label><input id="postal-code" class="form-control" formControlName="postalCode" required placeholder="Enter Postal Code">
+                <div [hidden]="postalCode.valid || postalCode.pristine" class="alert alert-danger">The postal code  is required.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="country">Country</label><input id="country" class="form-control" formControlName="country" required placeholder="Enter Country">
-                  <div [hidden]="country.valid || country.pristine" class="alert alert-danger">The country is required.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="country">Country</label><input id="country" class="form-control" formControlName="country" required placeholder="Enter Country">
+                <div [hidden]="country.valid || country.pristine" class="alert alert-danger">The country is required.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="description">Description</label><textarea id="description" class="form-control" formControlName="description" placeholder="Enter A Description" rows="3"></textarea>
-                  <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="description">Description</label><textarea id="description" class="form-control" formControlName="description" placeholder="Enter A Description" rows="3"></textarea>
+                <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
+              </div>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [hidden]="streetAddressExist" [disabled]="!siteStreetAddressForm.valid" type="submit" (click)="onCreate()">Create</button>
-                <button class="btn btn-primary" [hidden]="!streetAddressExist" [disabled]="!siteStreetAddressForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="btn btn-primary" [disabled]="!siteStreetAddressForm.valid" type="submit" (click)=" streetAddressExist ? onUpdate() : onCreate()">{{ streetAddressExist ? "Update": "Create"}}</button>
                 <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
               </div>
 

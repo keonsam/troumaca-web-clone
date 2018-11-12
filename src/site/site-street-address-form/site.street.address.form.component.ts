@@ -12,24 +12,24 @@ import {Router} from '@angular/router';
 })
 export class SiteStreetAddressFormComponent implements OnInit {
 
-  private _name: FormControl;
-  private _suiteOrApartment: FormControl;
-  private _floor: FormControl;
-  private _suiteOrApartmentNumber: FormControl;
-  private _description: FormControl;
-  private _streetNumber: FormControl;
-  private _street: FormControl;
-  private _city: FormControl;
-  private _stateOrProvince: FormControl;
-  private _postalCode: FormControl;
-  private _country: FormControl;
+  name: FormControl;
+  suiteOrApartment: FormControl;
+  floor: FormControl;
+  suiteOrApartmentNumber: FormControl;
+  description: FormControl;
+  streetNumber: FormControl;
+  street: FormControl;
+  city: FormControl;
+  stateOrProvince: FormControl;
+  postalCode: FormControl;
+  country: FormControl;
 
-  private _siteStreetAddressForm: FormGroup;
+  siteStreetAddressForm: FormGroup;
 
   private streetAddress: StreetAddress;
 
-  private _doNotDisplayFailureMessage: boolean;
-  public streetAddressExist = false;
+  doNotDisplayFailureMessage: boolean;
+  streetAddressExist = false;
 
   constructor(private siteService: SiteService,
               private formBuilder: FormBuilder,
@@ -106,110 +106,6 @@ export class SiteStreetAddressFormComponent implements OnInit {
     this.country.setValue(streetAddress.country);
     this.streetAddress = streetAddress;
     this.streetAddressExist = true;
-  }
-
-  get name(): FormControl {
-    return this._name;
-  }
-
-  set name(value: FormControl) {
-    this._name = value;
-  }
-
-  get suiteOrApartment(): FormControl {
-    return this._suiteOrApartment;
-  }
-
-  set suiteOrApartment(value: FormControl) {
-    this._suiteOrApartment = value;
-  }
-
-  get floor(): FormControl {
-    return this._floor;
-  }
-
-  set floor(value: FormControl) {
-    this._floor = value;
-  }
-
-  get suiteOrApartmentNumber(): FormControl {
-    return this._suiteOrApartmentNumber;
-  }
-
-  set suiteOrApartmentNumber(value: FormControl) {
-    this._suiteOrApartmentNumber = value;
-  }
-
-  get description(): FormControl {
-    return this._description;
-  }
-
-  set description(value: FormControl) {
-    this._description = value;
-  }
-
-  get streetNumber(): FormControl {
-    return this._streetNumber;
-  }
-
-  set streetNumber(value: FormControl) {
-    this._streetNumber = value
-  }
-
-  get street(): FormControl {
-    return this._street;
-  }
-
-  set street(value: FormControl) {
-    this._street = value;
-  }
-
-  get city(): FormControl {
-    return this._city;
-  }
-
-  set city(value: FormControl) {
-    this._city = value;
-  }
-
-  get stateOrProvince(): FormControl {
-    return this._stateOrProvince;
-  }
-
-  set stateOrProvince(value: FormControl) {
-    this._stateOrProvince = value;
-  }
-
-  get postalCode(): FormControl {
-    return this._postalCode;
-  }
-
-  set postalCode(value: FormControl) {
-    this._postalCode = value;
-  }
-
-  get country(): FormControl {
-    return this._country;
-  }
-
-  set country(value: FormControl) {
-    this._country = value;
-  }
-
-  get siteStreetAddressForm(): FormGroup {
-    return this._siteStreetAddressForm;
-  }
-
-  set siteStreetAddressForm(value: FormGroup) {
-    this._siteStreetAddressForm = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
   }
 
   onCreate() {

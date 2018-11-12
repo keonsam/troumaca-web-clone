@@ -12,32 +12,25 @@
                 {{ webSiteExist ? "Edit":"New"}} Website Form
               </h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ webSiteExist ? "Update":"Create"}} Website.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ webSiteExist ? "update":"create"}} website.</div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Enter Name" required type="text">
-                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid web site name.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Enter Name" required type="text">
+                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid web site name.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="uniform-resource-identifier">Uniform Resource Identifier</label><input id="uniform-resource-identifier" class="form-control" formControlName="uniformResourceIdentifier" placeholder="Enter the URI" required type="text">
-                  <div [hidden]="uniformResourceIdentifier.valid || uniformResourceIdentifier.pristine" class="alert alert-danger">Invalid Uniform Resource Identifier.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="uniform-resource-identifier">Uniform Resource Identifier</label><input id="uniform-resource-identifier" class="form-control" formControlName="uniformResourceIdentifier" placeholder="Enter the URI" required type="text">
+                <div [hidden]="uniformResourceIdentifier.valid || uniformResourceIdentifier.pristine" class="alert alert-danger">Invalid Uniform Resource Identifier.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="description">Description</label><textarea id="description" class="form-control" formControlName="description" placeholder="Enter Description" rows="3"></textarea>
-                  <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="description">Description</label><textarea id="description" class="form-control" formControlName="description" placeholder="Enter Description" rows="3"></textarea>
+                <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
+              </div>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [hidden]="webSiteExist" [disabled]="!siteWebSiteForm.valid" type="submit" (click)="onCreate()">Create</button>
-                <button class="btn btn-primary" [hidden]="!webSiteExist" [disabled]="!siteWebSiteForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="btn btn-primary" [disabled]="!siteWebSiteForm.valid" type="submit" (click)=" webSiteExist ? onUpdate() : onCreate()">{{ webSiteExist ? "Update": "Create"}}</button>
                 <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
               </div>
 

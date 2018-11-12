@@ -6,5 +6,4 @@ export class AssetTypeClass {
   description: string;
   createdOn: Date;
   modifiedOn: Date;
-
 }

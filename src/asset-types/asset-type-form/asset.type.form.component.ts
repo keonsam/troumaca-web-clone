@@ -17,27 +17,26 @@ import {AssetTypeResponse} from "../asset.type.response";
 })
 export class AssetTypeFormComponent implements OnInit {
 
-  private _assetTypeClassId: FormControl;
-  private _name: FormControl;
-  private _description: FormControl;
-  private _modelNumber: FormControl;
-  private _materielCode: FormControl;
-  private _valuesForm: FormGroup;
-  public unitOfMeasureId: string;
-  public assetTypeExist = false;
+  assetTypeClassId: FormControl;
+  name: FormControl;
+  description: FormControl;
+  modelNumber: FormControl;
+  materialCode: FormControl;
+  valuesForm: FormGroup;
+  unitOfMeasureId: string;
+  assetTypeExist = false;
 
-  private _assetTypeClassIdDataService: CompleterData;
+  assetTypeClassIdDataService: CompleterData;
 
-  private _assetTypeForm: FormGroup;
+  assetTypeForm: FormGroup;
+
+  assignedAttributes: AssignedAttribute[];
+
+  doNotDisplayFailureMessage: boolean;
 
   private assetType: AssetType;
   private values: Value[];
-
-  private _assignedAttributes: AssignedAttribute[];
-
   private pageSize = 15;
-  private _doNotDisplayFailureMessage: boolean;
-  private _doNotDisplayFailureMessage2: boolean;
 
   constructor(private assetTypeService: AssetTypeService,
               private completerService: CompleterService,
@@ -78,7 +77,6 @@ export class AssetTypeFormComponent implements OnInit {
     this.valuesForm = new FormGroup({});
 
     this.doNotDisplayFailureMessage = true;
-    this.doNotDisplayFailureMessage2 = true;
 
   }
 
@@ -89,15 +87,15 @@ export class AssetTypeFormComponent implements OnInit {
     }
   }
 
-  setInputValues(assetTypeResponse?: AssetTypeResponse) {
-    this.assetTypeClassId.setValue(assetTypeResponse.assetType.assetTypeClassName);
+  private setInputValues(assetTypeResponse?: AssetTypeResponse) {
+    this.assetTypeClassId.setValue(assetTypeResponse.assetType.assetTypeClass ? assetTypeResponse.assetType.assetTypeClass.name : '');
     this.name.setValue(assetTypeResponse.assetType.name);
     this.description.setValue(assetTypeResponse.assetType.description);
     this.modelNumber.setValue(assetTypeResponse.assetType.modelNumber);
     this.materialCode.setValue(assetTypeResponse.assetType.materialCode);
     this.assetType = assetTypeResponse.assetType;
     this.values = assetTypeResponse.values;
-    this.unitOfMeasureId = assetTypeResponse.assetType.unitOfMeasureName;
+    this.unitOfMeasureId = assetTypeResponse.assetType.unitOfMeasure ? assetTypeResponse.assetType.unitOfMeasure.name : '';
     this.assetTypeExist = true;
 
     this.getAttributes();
@@ -115,7 +113,7 @@ export class AssetTypeFormComponent implements OnInit {
     this.findAssetTypeClassId('');
   }
 
-  findAssetTypeClassId(value) {
+  private findAssetTypeClassId(value) {
     this.assetTypeService
       .findAssetTypeClassId(value, this.pageSize) // send search request to the backend
       .pipe(map(value2 => { // convert results to dropdown data
@@ -131,94 +129,6 @@ export class AssetTypeFormComponent implements OnInit {
       }, error => {
         console.log('findAssetTypeClassId error - ' + error);
       });
-  }
-
-  get assetTypeClassId(): FormControl {
-    return this._assetTypeClassId;
-  }
-
-  set assetTypeClassId(value: FormControl) {
-    this._assetTypeClassId = value;
-  }
-
-  get name(): FormControl {
-    return this._name;
-  }
-
-  set name(value: FormControl) {
-    this._name = value;
-  }
-
-  get description(): FormControl {
-    return this._description;
-  }
-
-  set description(value: FormControl) {
-    this._description = value;
-  }
-
-  get modelNumber(): FormControl {
-    return this._modelNumber;
-  }
-
-  set modelNumber(value: FormControl) {
-    this._modelNumber = value;
-  }
-
-  get materialCode(): FormControl {
-    return this._materielCode;
-  }
-
-  set materialCode(value: FormControl) {
-    this._materielCode = value;
-  }
-
-  get assetTypeClassIdDataService(): CompleterData {
-    return this._assetTypeClassIdDataService;
-  }
-
-  set assetTypeClassIdDataService(value: CompleterData) {
-    this._assetTypeClassIdDataService = value;
-  }
-
-  get assetTypeForm(): FormGroup {
-    return this._assetTypeForm;
-  }
-
-  set assetTypeForm(value: FormGroup) {
-    this._assetTypeForm = value;
-  }
-
-  get assignedAttributes(): AssignedAttribute[] {
-    return this._assignedAttributes;
-  }
-
-  set assignedAttributes(value: AssignedAttribute[]) {
-    this._assignedAttributes = value;
-  }
-
-  get valuesForm(): FormGroup {
-    return this._valuesForm;
-  }
-
-  set valuesForm(value: FormGroup) {
-    this._valuesForm = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
-  }
-
-  get doNotDisplayFailureMessage2(): boolean {
-    return this._doNotDisplayFailureMessage2;
-  }
-
-  set doNotDisplayFailureMessage2(value: boolean) {
-    this._doNotDisplayFailureMessage2 = value;
   }
 
   onAssetTypeClassIdSelect(selected: CompleterItem) {
