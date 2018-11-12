@@ -1,44 +1,41 @@
 import {Observable} from 'rxjs';
-import {UnionOfPhysicalSiteStates} from './union.of.physical.site.states';
-import {EmailState} from './email.state';
-import {EmailStates} from './email.states';
-import {StreetAddressStates} from './street.address.states';
-import {PostOfficeBoxState} from './post.office.box.state';
-import {PostOfficeBoxStates} from './post.office.box.states';
-import {PhoneStates} from './phone.states';
-import {WebSiteStates} from './web.site.states';
-import {PhoneState} from './phone.state';
-import {StreetAddressState} from './street.address.state';
-import {WebSiteState} from './web.site.state';
+import {StreetAddress} from "../../site/street.address";
+import {PostOfficeBoxes} from "../../site/post.office.boxes";
+import {Emails} from "../../site/emails";
+import {WebSites} from "../../site/web.sites";
+import {Phones} from "../../site/phones";
+import {PostOfficeBox} from "../../site/post.office.box";
+import {Email} from "../../site/email";
+import {WebSite} from "../../site/web.site";
+import {Phone} from "../../site/phone";
+import {StreetAddresses} from "../../site/street.addresses";
 
 export abstract class SiteClient {
 
-  public abstract findUnionOfPhysicalSiteStates(searchStr: string, pageSize: number): Observable<UnionOfPhysicalSiteStates>;
+  public abstract getStreetAddressStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<StreetAddresses>;
+  public abstract getPostOfficeBoxStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<PostOfficeBoxes>;
+  public abstract getEmailStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<Emails>;
+  public abstract getWebSiteStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<WebSites>;
+  public abstract getPhoneStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<Phones>;
 
-  public abstract getStreetAddressStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<StreetAddressStates>;
-  public abstract getPostOfficeBoxStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<PostOfficeBoxStates>;
-  public abstract getEmailStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<EmailStates>;
-  public abstract getWebSiteStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<WebSiteStates>;
-  public abstract getPhoneStates(pageNumber: number, pageSize: number, sortOrder: string): Observable<PhoneStates>;
-
-  public abstract getStreetAddressState(siteId: string): Observable<StreetAddressState>;
-  public abstract getPostOfficeBoxState(siteId: string): Observable<PostOfficeBoxState>;
-  public abstract getEmailState(siteId: string): Observable<EmailState>;
-  public abstract getWebSiteState(siteId: string): Observable<WebSiteState>;
-  public abstract getPhoneState(siteId: string): Observable<PhoneState>;
+  public abstract getStreetAddressState(siteId: string): Observable<StreetAddress>;
+  public abstract getPostOfficeBoxState(siteId: string): Observable<PostOfficeBox>;
+  public abstract getEmailState(siteId: string): Observable<Email>;
+  public abstract getWebSiteState(siteId: string): Observable<WebSite>;
+  public abstract getPhoneState(siteId: string): Observable<Phone>;
 
 
-  public abstract addPhone(phoneState: PhoneState): Observable<PhoneState>;
-  public abstract addStreetAddress(streetAddressState: StreetAddressState): Observable<StreetAddressState>;
-  public abstract addPostOfficeBox(postOfficeBoxState: PostOfficeBoxState): Observable<PostOfficeBoxState>;
-  public abstract addEmail(emailstate: EmailState): Observable<EmailState>;
-  public abstract addWebSite(webSiteState: WebSiteState): Observable<WebSiteState>;
+  public abstract addPhone(phoneState: Phone): Observable<Phone>;
+  public abstract addStreetAddress(streetAddressState: StreetAddress): Observable<StreetAddress>;
+  public abstract addPostOfficeBox(postOfficeBoxState: PostOfficeBox): Observable<PostOfficeBox>;
+  public abstract addEmail(emailState: Email): Observable<Email>;
+  public abstract addWebSite(webSiteState: WebSite): Observable<WebSite>;
 
-  public abstract updateStreetAddress(siteId: string, streetAddressState: StreetAddressState): Observable<number>;
-  public abstract updatePostOfficeBox(siteId: string, postOfficeBoxState: PostOfficeBoxState): Observable<number>;
-  public abstract updateEmail(siteId: string, emailState: EmailState): Observable<number>;
-  public abstract updateWebSite(siteId: string, webSiteState: WebSiteState): Observable<number>;
-  public abstract updatePhone(siteId: string, phoneState: PhoneState): Observable<number>;
+  public abstract updateStreetAddress(siteId: string, streetAddressState: StreetAddress): Observable<number>;
+  public abstract updatePostOfficeBox(siteId: string, postOfficeBoxState: PostOfficeBox): Observable<number>;
+  public abstract updateEmail(siteId: string, emailState: Email): Observable<number>;
+  public abstract updateWebSite(siteId: string, webSiteState: WebSite): Observable<number>;
+  public abstract updatePhone(siteId: string, phoneState: Phone): Observable<number>;
 
   public abstract deleteStreetAddress(siteId: string): Observable<number>;
   public abstract deletePostOfficeBox(siteId: string): Observable<number>;

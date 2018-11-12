@@ -12,12 +12,12 @@ import {Sort} from '../../sort/sort';
 export class SitePhoneListComponent implements OnInit {
 
   private siteId: string;
-  private _phones: Phones;
+  phones: Phones;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  private _routerLinkCreatePhone = '/sites/phones/create';
-  private _phoneName: string;
+  routerLinkCreatePhone = '/sites/phones/create';
+  phoneName: string;
 
   constructor(private siteService: SiteService) {
     const newPhones = new Phones();
@@ -30,31 +30,7 @@ export class SitePhoneListComponent implements OnInit {
     this.getPhones();
   }
 
-  get phoneName(): string {
-    return this._phoneName;
-  }
-
-  set phoneName(value: string) {
-    this._phoneName = value;
-  }
-
-  get phones(): Phones {
-    return this._phones;
-  }
-
-  set phones(value: Phones) {
-    this._phones = value;
-  }
-
-  get routerLinkCreatePhone(): string {
-    return this._routerLinkCreatePhone;
-  }
-
-  set routerLinkCreatePhone(value: string) {
-    this._routerLinkCreatePhone = value;
-  }
-
-  getPhones() {
+  private getPhones() {
     this.siteService
     .getPhones(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {

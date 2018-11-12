@@ -178,11 +178,10 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   private jsonHttpHeaders(): HttpHeaders {
-    const httpHeaders: HttpHeaders = new HttpHeaders({
+    return new HttpHeaders({
       'Content-Type':  'application/json',
-      'correlationId': this.uuidGenerator.generateUUID()
+      'Correlation-Id': this.uuidGenerator.generateUUID()
     });
-    return httpHeaders;
   }
 
 }

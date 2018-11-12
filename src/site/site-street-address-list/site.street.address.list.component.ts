@@ -12,12 +12,12 @@ import {Sort} from '../../sort/sort';
 export class SiteStreetAddressListComponent implements OnInit {
 
   private streetAddressId: string;
-  private _streetAddresses: StreetAddresses;
+  streetAddresses: StreetAddresses;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  private _routerLinkCreateStreetAddress = '/sites/street-addresses/create';
-  private _streetAddressName: string;
+  routerLinkCreateStreetAddress = '/sites/street-addresses/create';
+  streetAddressName: string;
 
   constructor(private siteService: SiteService) {
     const newStreetAddresses = new StreetAddresses();
@@ -30,31 +30,7 @@ export class SiteStreetAddressListComponent implements OnInit {
     this.getStreetAddresses();
   }
 
-  get streetAddressName(): string {
-    return this._streetAddressName;
-  }
-
-  set streetAddressName(value: string) {
-    this._streetAddressName = value;
-  }
-
-  get streetAddresses(): StreetAddresses {
-    return this._streetAddresses;
-  }
-
-  set streetAddresses(value: StreetAddresses) {
-    this._streetAddresses = value;
-  }
-
-  get routerLinkCreateStreetAddress(): string {
-    return this._routerLinkCreateStreetAddress;
-  }
-
-  set routerLinkCreateStreetAddress(value: string) {
-    this._routerLinkCreateStreetAddress = value;
-  }
-
-  getStreetAddresses() {
+  private getStreetAddresses() {
   this.siteService
     .getStreetAddresses(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {

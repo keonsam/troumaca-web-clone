@@ -37,10 +37,10 @@
             <tbody>
               <tr role="row" *ngFor="let assetType of assetTypes.assetTypes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
                 <td>{{assetType.name}}</td>
-                <td>{{assetType.assetTypeClassName}}</td>
+                <td>{{assetType.assetTypeClass?.name}}</td>
                 <td>{{assetType.modelNumber}}</td>
                 <td>{{assetType.materialCode}}</td>
-                <td>{{assetType.unitOfMeasureName}}</td>
+                <td>{{assetType.unitOfMeasure?.name}}</td>
                 <td>{{assetType.description}}</td>
                 <td class="row-actions">
                  <a [routerLink]="['/asset-types', assetType.assetTypeId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(assetType.assetTypeId, assetType.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>

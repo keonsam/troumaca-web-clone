@@ -11,21 +11,21 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class SitePhoneFormComponent implements OnInit {
 
-  private _name: FormControl;
-  private _countryCode: FormControl;
-  private _areaCode: FormControl;
-  private _exchange: FormControl;
-  private _telephoneNumber: FormControl;
-  private _extension: FormControl;
-  private _description: FormControl;
-  private _removedOn: FormControl;
+  name: FormControl;
+  countryCode: FormControl;
+  areaCode: FormControl;
+  exchange: FormControl;
+  telephoneNumber: FormControl;
+  extension: FormControl;
+  description: FormControl;
+  removedOn: FormControl;
 
-  private _sitePhoneForm: FormGroup;
+  sitePhoneForm: FormGroup;
 
   private phone: Phone;
-  public phoneExist = false;
+  phoneExist = false;
 
-  private _doNotDisplayFailureMessage: boolean;
+  doNotDisplayFailureMessage: boolean;
 
   constructor(private siteService: SiteService,
               private formBuilder: FormBuilder,
@@ -101,87 +101,6 @@ export class SitePhoneFormComponent implements OnInit {
     this.removedOn.setValue(phone.removedOn);
     this.phone = phone;
     this.phoneExist = true;
-  }
-
-  // Field
-  get name(): FormControl {
-    return this._name;
-  }
-
-  set name(value: FormControl) {
-    this._name = value;
-  }
-
-  get countryCode(): FormControl {
-    return this._countryCode;
-  }
-
-  set countryCode(value: FormControl) {
-    this._countryCode = value;
-  }
-
-  get areaCode(): FormControl {
-    return this._areaCode;
-  }
-
-  set areaCode(value: FormControl) {
-    this._areaCode = value;
-  }
-
-  get exchange(): FormControl {
-    return this._exchange;
-  }
-
-  set exchange(value: FormControl) {
-    this._exchange = value;
-  }
-
-  get telephoneNumber(): FormControl {
-    return this._telephoneNumber;
-  }
-
-  set telephoneNumber(value: FormControl) {
-    this._telephoneNumber = value;
-  }
-
-  get extension(): FormControl {
-    return this._extension;
-  }
-
-  set extension(value: FormControl) {
-    this._extension = value;
-  }
-
-  get description(): FormControl {
-    return this._description;
-  }
-
-  set description(value: FormControl) {
-    this._description = value;
-  }
-
-  get removedOn(): FormControl {
-    return this._removedOn;
-  }
-
-  set removedOn(value: FormControl) {
-    this._removedOn = value;
-  }
-
-  get sitePhoneForm(): FormGroup {
-    return this._sitePhoneForm;
-  }
-
-  set sitePhoneForm(value: FormGroup) {
-    this._sitePhoneForm = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
   }
 
   onCreate() {

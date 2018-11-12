@@ -12,50 +12,26 @@ import {Sort} from '../../sort/sort';
 export class SiteWebListComponent implements OnInit {
 
   private webSiteId: string;
-  private _webSites: WebSites;
+  webSites: WebSites;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  private _routerLinkCreateWebSite = '/sites/web-sites/create';
-  private _webSiteName: string;
+  routerLinkCreateWebSite = '/sites/web-sites/create';
+  webSiteName: string;
 
   constructor(private siteService: SiteService) {
     const newWebSites = new WebSites();
     newWebSites.page = new Page(0, 0, 0);
     newWebSites.sort = new Sort();
     this.webSites = newWebSites;
-
   }
 
   ngOnInit(): void {
     this.getWebSites()
   }
 
-  get webSiteName(): string {
-    return this._webSiteName;
-  }
 
-  set webSiteName(value: string) {
-    this._webSiteName = value;
-  }
-
-  get webSites(): WebSites {
-    return this._webSites;
-  }
-
-  set webSites(value: WebSites) {
-    this._webSites = value;
-  }
-
-  get routerLinkCreateWebSite(): string {
-    return this._routerLinkCreateWebSite;
-  }
-
-  set routerLinkCreateWebSite(value: string) {
-    this._routerLinkCreateWebSite = value;
-  }
-
-  getWebSites() {
+  private getWebSites() {
     this.siteService.getWebSites(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
       this.webSites = next;

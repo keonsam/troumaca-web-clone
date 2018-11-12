@@ -12,17 +12,17 @@ import {Router} from '@angular/router';
 })
 export class SiteEmailFormComponent implements OnInit {
 
-  private _name: FormControl;
-  private _description: FormControl;
-  private _domainName: FormControl;
-  private _emailAddress: FormControl;
+  name: FormControl;
+  description: FormControl;
+  domainName: FormControl;
+  emailAddress: FormControl;
 
-  private _siteEmailForm: FormGroup;
+  siteEmailForm: FormGroup;
 
   private email: Email;
 
-  private _doNotDisplayFailureMessage: boolean;
-  public emailExist = false;
+  doNotDisplayFailureMessage: boolean;
+  emailExist = false;
 
   constructor(private siteService: SiteService,
               private formBuilder: FormBuilder,
@@ -70,54 +70,6 @@ export class SiteEmailFormComponent implements OnInit {
     this.emailAddress.setValue(email.emailAddress);
     this.email = email;
     this.emailExist = true;
-  }
-
-  get name(): FormControl {
-    return this._name;
-  }
-
-  set name(value: FormControl) {
-    this._name = value;
-  }
-
-  get description(): FormControl {
-    return this._description;
-  }
-
-  set description(value: FormControl) {
-    this._description = value;
-  }
-
-  get domainName(): FormControl {
-    return this._domainName;
-  }
-
-  set domainName(value: FormControl) {
-    this._domainName = value;
-  }
-
-  get emailAddress(): FormControl {
-    return this._emailAddress;
-  }
-
-  set emailAddress(value: FormControl) {
-    this._emailAddress = value
-  }
-
-  get siteEmailForm(): FormGroup {
-    return this._siteEmailForm;
-  }
-
-  set siteEmailForm(value: FormGroup) {
-    this._siteEmailForm = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
   }
 
   onCreate() {

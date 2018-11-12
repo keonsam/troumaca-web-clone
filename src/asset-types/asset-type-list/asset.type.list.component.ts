@@ -11,13 +11,14 @@ import {Sort} from '../../sort/sort';
 })
 export class AssetTypeListComponent implements OnInit {
 
-  private assetTypeId: string;
-  private _assetTypes: AssetTypes;
+  assetTypes: AssetTypes;
+  routerLinkCreateAssetType = '/asset-types/create';
+  assetTypeName: string;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  private _routerLinkCreateAssetType = '/asset-types/create';
-  private _assetTypeName: string;
+  private assetTypeId: string;
+
 
   constructor(private assetTypeService: AssetTypeService) {
 
@@ -31,31 +32,7 @@ export class AssetTypeListComponent implements OnInit {
     this.getAssetTypes();
   }
 
-  get assetTypeName(): string {
-    return this._assetTypeName;
-  }
-
-  set assetTypeName(value: string) {
-    this._assetTypeName = value;
-  }
-
-  get assetTypes(): AssetTypes {
-    return this._assetTypes;
-  }
-
-  set assetTypes(value: AssetTypes) {
-    this._assetTypes = value;
-  }
-
-  get routerLinkCreateAssetType(): string {
-    return this._routerLinkCreateAssetType;
-  }
-
-  set routerLinkCreateAssetType(value: string) {
-    this._routerLinkCreateAssetType = value;
-  }
-
-  getAssetTypes () {
+  private getAssetTypes () {
     this.assetTypeService
     .getAssetTypes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
