@@ -17,7 +17,6 @@ phases:
       - cp package.json dist
       - cp -r scripts dist
       - cp -r node_modules dist
-      - cp src/favicon.png dist
       - echo Build completed on `date`
 artifacts:
     files:
