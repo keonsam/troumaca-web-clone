@@ -9,7 +9,6 @@ import {Attributes} from '../../attributes/attributes';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
 import {AssignedAttribute} from '../assigned.attribute';
-import {AssetTypeClassResponse} from '../asset.type.class.response';
 import {AttributeService} from '../../attributes/attribute.service';
 
 @Component({
@@ -95,12 +94,12 @@ export class AssetTypeClassFormComponent implements OnInit {
     }
   }
 
-  private setInputValues(assetTypeClassResponse: AssetTypeClassResponse) {
-    this.name.setValue(assetTypeClassResponse.assetTypeClass.name);
-    this.description.setValue(assetTypeClassResponse.assetTypeClass.description);
-    this.assetTypeClass = assetTypeClassResponse.assetTypeClass;
-    this.assignedAttributes = assetTypeClassResponse.assignedAttributes;
-    this.assignedArray = this.assignedAttributes.map(x => x.attributeId);
+  private setInputValues(assetTypeClass: AssetTypeClass) {
+    this.name.setValue(assetTypeClass.name);
+    this.description.setValue(assetTypeClass.description);
+    this.assetTypeClass = assetTypeClass;
+    this.assignedAttributes = assetTypeClass.assignedAttributes;
+    this.assignedArray = assetTypeClass.assignedAttributes.map(x => x.attributeId);
     this.assetTypeClassExist = true;
   }
 

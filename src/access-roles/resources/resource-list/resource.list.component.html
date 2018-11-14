@@ -31,7 +31,7 @@
             <tbody>
               <tr role="row" *ngFor="let resource of resources.resources; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
                 <td>{{resource.name}}</td>
-                <td>{{resource.resourceTypeName}}</td>
+                <td>{{resource.resourceType?.name}}</td>
                 <td>{{resource.description}}</td>
                 <td class="row-actions">
                  <a [routerLink]="['/access-roles/resources', resource.resourceId, 'edit']"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(resource.resourceId, resource.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>

@@ -37,7 +37,7 @@
             <tbody>
             <tr role="row" *ngFor="let accessRole of accessRoles.accessRoles; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
               <td>{{accessRole.name}}</td>
-              <td>{{accessRole.accessRoleType.name}}</td>
+              <td>{{accessRole.accessRoleType?.name}}</td>
               <td>{{accessRole.prohibitionIndicator}}</td>
               <td>{{accessRole.effectiveDate}}</td>
               <td>{{accessRole.untilDate}}</td>

@@ -8,7 +8,6 @@ import {Value} from '../value';
 import {AssignedAttribute} from '../../asset-type-classes/assigned.attribute';
 import {ActivatedRoute, Router} from '@angular/router';
 import {map, filter, debounceTime } from "rxjs/operators";
-import {AssetTypeResponse} from "../asset.type.response";
 
 @Component({
   selector: 'app-asset-type-form',
@@ -87,15 +86,15 @@ export class AssetTypeFormComponent implements OnInit {
     }
   }
 
-  private setInputValues(assetTypeResponse?: AssetTypeResponse) {
-    this.assetTypeClassId.setValue(assetTypeResponse.assetType.assetTypeClass ? assetTypeResponse.assetType.assetTypeClass.name : '');
-    this.name.setValue(assetTypeResponse.assetType.name);
-    this.description.setValue(assetTypeResponse.assetType.description);
-    this.modelNumber.setValue(assetTypeResponse.assetType.modelNumber);
-    this.materialCode.setValue(assetTypeResponse.assetType.materialCode);
-    this.assetType = assetTypeResponse.assetType;
-    this.values = assetTypeResponse.values;
-    this.unitOfMeasureId = assetTypeResponse.assetType.unitOfMeasure ? assetTypeResponse.assetType.unitOfMeasure.name : '';
+  private setInputValues(assetType?: AssetType) {
+    this.assetTypeClassId.setValue(assetType.assetTypeClass ? assetType.assetTypeClass.name : '');
+    this.name.setValue(assetType.name);
+    this.description.setValue(assetType.description);
+    this.modelNumber.setValue(assetType.modelNumber);
+    this.materialCode.setValue(assetType.materialCode);
+    this.assetType = assetType;
+    this.values = assetType.values;
+    this.unitOfMeasureId = assetType.unitOfMeasure ? assetType.unitOfMeasure.name : '';
     this.assetTypeExist = true;
 
     this.getAttributes();

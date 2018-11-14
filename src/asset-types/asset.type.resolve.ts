@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { AssetTypeService } from "./asset.type.service";
-import { AssetTypeResponse} from "./asset.type.response";
+import {AssetType} from "./asset.type";
 
 @Injectable()
-export class AssetTypeResolve implements Resolve<AssetTypeResponse> {
+export class AssetTypeResolve implements Resolve<AssetType> {
   constructor(private assetTypeService: AssetTypeService) {}
 
   resolve(route: ActivatedRouteSnapshot) {

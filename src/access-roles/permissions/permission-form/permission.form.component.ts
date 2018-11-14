@@ -11,14 +11,15 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./permission.form.component.css']
 })
 export class PermissionFormComponent implements OnInit {
-  private _name: FormControl;
-  private _description: FormControl;
+  name: FormControl;
+  description: FormControl;
+
+  permissionForm: FormGroup;
+
+  doNotDisplayFailureMessage: boolean;
+  permissionExist= false;
+
   private permission: Permission;
-
-  private _permissionForm: FormGroup;
-
-  private _doNotDisplayFailureMessage: boolean;
-  public permissionExist= false;
 
   constructor(private accessRoleService: AccessRoleService,
               private formBuilder: FormBuilder,
@@ -58,38 +59,6 @@ export class PermissionFormComponent implements OnInit {
     this.description.setValue(permission.description);
     this.permissionExist = true;
     this.permission = permission;
-  }
-
-  get name(): FormControl {
-    return this._name;
-  }
-
-  set name(value: FormControl) {
-    this._name = value;
-  }
-
-  get description(): FormControl {
-    return this._description;
-  }
-
-  set description(value: FormControl) {
-    this._description = value;
-  }
-
-  get permissionForm(): FormGroup {
-    return this._permissionForm;
-  }
-
-  set permissionForm(value: FormGroup) {
-    this._permissionForm = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
   }
 
   onCreate() {

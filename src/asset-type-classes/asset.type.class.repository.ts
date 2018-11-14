@@ -3,12 +3,11 @@ import {Observable} from 'rxjs';
 import {AssetTypeClasses} from './asset.type.classes';
 import {Attributes} from '../attributes/attributes';
 import {AssignedAttribute} from './assigned.attribute';
-import {AssetTypeClassResponse} from './asset.type.class.response';
 
 export abstract class AssetTypeClassRepository {
 
 
-  abstract getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassResponse>;
+  abstract getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass>;
 
   abstract getAssetTypeClasses(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetTypeClasses>;
 
@@ -23,7 +22,5 @@ export abstract class AssetTypeClassRepository {
   abstract getAvailableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes>;
 
   abstract getAssignableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes>;
-
-  // abstract getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]>;
 
 }

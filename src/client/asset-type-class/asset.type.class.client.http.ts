@@ -3,7 +3,6 @@ import {UUIDGenerator} from '../../uuid.generator';
 import {Observable} from 'rxjs';
 import { map } from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {AssetTypeClassResponse} from '../../asset-type-classes/asset.type.class.response';
 import {Attributes} from '../../attributes/attributes';
 import {AssetTypeClasses} from '../../asset-type-classes/asset.type.classes';
 import {AssetTypeClass} from '../../asset-type-classes/asset.type.class';
@@ -18,13 +17,13 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
     super();
   }
 
-  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassResponse> {
+  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass> {
     const url = `${this.hostPort}/asset-type-classes/${assetTypeClassId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-      .get<AssetTypeClassResponse>(url, httpOptions)
+      .get<AssetTypeClass>(url, httpOptions)
       .pipe(map(data => {
         return data;
       }));
@@ -109,16 +108,6 @@ export class AssetTypeClassClientHttp extends AssetTypeClassClient {
       return data;
     }));
   }
-
-  // public getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttributeState[]> {
-  //   const url = `${this.hostPort}/assigned-attributes/${assetTypeClassId}`;
-  //   const httpOptions = {
-  //     headers: this.jsonHttpHeaders()
-  //   };
-  //   return this.httpClient.get<AssignedAttributeState[]>(url, httpOptions).pipe(map(data => {
-  //     return data;
-  //   }));
-  // }
 
 
   private jsonHttpHeaders(): HttpHeaders {

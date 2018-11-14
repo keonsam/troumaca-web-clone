@@ -11,7 +11,6 @@ import {AccessRoles} from './access.roles';
 import {AccessRoleType} from './access.role.type';
 import {AccessRoleTypes} from './access.role.types';
 import {Grant} from './grant';
-import {AccessRoleResponse} from './access.role.response';
 
 export abstract class AccessRoleRepository {
 
@@ -29,8 +28,7 @@ export abstract class AccessRoleRepository {
   // resources
   abstract getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[]): Observable<Permissions>;
 
-
-  abstract getResourcePermissionsByResourceId(resourceId: string): Observable<ResourcePermission[]>;
+  abstract getAssignablePermissions(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[]): Observable<Permissions>;
 
   abstract findResourceTypeId(searchStr: string, pageSize: number): Observable<ResourceType[]>;
 
@@ -55,25 +53,19 @@ export abstract class AccessRoleRepository {
 
   abstract deleteResourceType(resourceTypeId: string): Observable<number>;
 
-  //access-roles
-  abstract getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<Resources>;
-
-  abstract getAllResourcePermissions(): Observable<ResourcePermission[]>;
+  // access-roles
 
   abstract findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleType[]>;
 
   abstract getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoles>;
 
-  abstract getAccessRoleById(accessRoleId: string): Observable<AccessRoleResponse>;
+  abstract getAccessRoleById(accessRoleId: string): Observable<AccessRole>;
 
   abstract addAccessRole(accessRole: AccessRole, grants: Grant[]): Observable<AccessRole>;
 
   abstract updateAccessRole(accessRole: AccessRole, grants: Grant[]): Observable<number>;
 
   abstract deleteAccessRole(accessRoleId: string): Observable<number>;
-
-  //grants
-  abstract getGrantsByAccessRoleId(accessRoleId: string): Observable<Grant[]>;
 
     //access-role-types
   abstract getAccessRoleTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleTypes>;

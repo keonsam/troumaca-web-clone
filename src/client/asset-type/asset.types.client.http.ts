@@ -3,7 +3,6 @@ import {UUIDGenerator} from '../../uuid.generator';
 import {Observable} from 'rxjs';
 import { map } from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {AssetTypeResponse} from '../../asset-types/asset.type.response';
 import {AssignedAttribute} from '../../asset-type-classes/assigned.attribute';
 import {AssetTypeClass} from '../../asset-type-classes/asset.type.class';
 import {AssetTypes} from '../../asset-types/asset.types';
@@ -30,13 +29,13 @@ export class AssetTypesClientHttp extends AssetTypesClient {
   }
 
 
-  public getAssetTypeState(assetTypeId: string): Observable<AssetTypeResponse> {
+  public getAssetTypeState(assetTypeId: string): Observable<AssetType> {
     const url = `${this.hostPort}/asset-types/${assetTypeId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-      .get<AssetTypeResponse>(url, httpOptions)
+      .get<AssetType>(url, httpOptions)
       .pipe(map(data => {
         return data;
       }));
@@ -85,6 +84,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     }
     delete assetType.unitOfMeasure;
     delete assetType.assetTypeClass;
+    delete assetType.values;
     return this.httpClient
       .put<number>(url, {assetType, values}, httpOptions)
       .pipe(map(data => {

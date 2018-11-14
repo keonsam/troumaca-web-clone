@@ -1,87 +1,82 @@
 import {Observable} from 'rxjs';
-import {PermissionState} from './permission.state';
-import {PermissionStates} from './permission.states';
-import {ResourceState} from './resource.state';
-import {ResourceStates} from './resource.states';
-import {ResourceTypeState} from './resource.type.state';
-import {ResourceTypeStates} from './resource.type.states';
-import {ResourcePermissionState} from './resource.permission.state';
-import {AccessRoleState} from './access.role.state';
-import {AccessRoleStates} from './access.role.states';
-import {AccessRoleTypeState} from './access.role.type.state';
-import {AccessRoleTypeStates} from './access.role.type.states';
-import {GrantState} from './grant.state';
-import {AccessRoleResponse} from '../../access-roles/access.role.response';
+import {Permissions} from '../../access-roles/permissions';
+import {Permission} from '../../access-roles/permission';
+import {Resources} from '../../access-roles/resources';
+import {ResourceType} from '../../access-roles/resource.type';
+import {Resource} from '../../access-roles/resource';
+import {ResourcePermission} from '../../access-roles/resource.permission';
+import {ResourceTypes} from '../../access-roles/resource.types';
+import {AccessRoleTypes} from '../../access-roles/access.role.types';
+import {AccessRoleType} from '../../access-roles/access.role.type';
+import {AccessRoles} from '../../access-roles/access.roles';
+import {AccessRole} from '../../access-roles/access.role';
+import {Grant} from '../../access-roles/grant';
 
 export abstract class AccessRolesClient {
 
-  //permission
-  abstract getPermissions(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<PermissionStates>;
+  // permission
+  abstract getPermissions(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<Permissions>;
 
-  abstract getPermissionById(permissionId: string): Observable<PermissionState>;
+  abstract getPermissionById(permissionId: string): Observable<Permission>;
 
-  abstract addPermission(permissionState: PermissionState): Observable<PermissionState>;
+  abstract addPermission(permissionState: Permission): Observable<Permission>;
 
-  abstract updatePermission(permissionState: PermissionState): Observable<number>;
+  abstract updatePermission(permissionState: Permission): Observable<number>;
 
   abstract deletePermission(permissionId: string): Observable<number>;
 
   // resources
-  abstract getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[]): Observable<PermissionStates>;
+  abstract getPermissionsByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[]): Observable<Permissions>;
 
-  abstract getResourcePermissionsByResourceId(permissionId: string): Observable<ResourcePermissionState[]>;
+  abstract getAssignablePermissions(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[]): Observable<Permissions>;
 
-  abstract findResourceTypeId(searchStr: string, pageSize: number): Observable<ResourceTypeState[]>;
 
-  abstract getResources(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<ResourceStates>;
+  abstract findResourceTypeId(searchStr: string, pageSize: number): Observable<ResourceType[]>;
 
-  abstract getResourceById(resourceId: string): Observable<ResourceState>;
+  abstract getResources(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<Resources>;
 
-  abstract addResource(resourceState: ResourceState, resourcePermissionState: ResourcePermissionState[]): Observable<ResourceState>;
+  abstract getResourceById(resourceId: string): Observable<Resource>;
 
-  abstract updateResource(resourceState: ResourceState, resourcePermissionState: ResourcePermissionState[]): Observable<number>;
+  abstract addResource(resourceState: Resource, resourcePermission: ResourcePermission[]): Observable<Resource>;
+
+  abstract updateResource(resourceState: Resource, resourcePermission: ResourcePermission[]): Observable<number>;
 
   abstract deleteResource(resourceId: string): Observable<number>;
 
-  //resourceTypes
-  abstract getResourceTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<ResourceTypeStates>;
+  // resourceTypes
+  abstract getResourceTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<ResourceTypes>;
 
-  abstract getResourceTypeById(resourceTypeId: string): Observable<ResourceTypeState>;
+  abstract getResourceTypeById(resourceTypeId: string): Observable<ResourceType>;
 
-  abstract addResourceType(resourceTypeState: ResourceTypeState): Observable<ResourceTypeState>;
+  abstract addResourceType(resourceTypeState: ResourceType): Observable<ResourceType>;
 
-  abstract updateResourceType(resourceTypeState: ResourceTypeState): Observable<number>;
+  abstract updateResourceType(resourceTypeState: ResourceType): Observable<number>;
 
   abstract deleteResourceType(resourceTypeId: string): Observable<number>;
 
-  //access-roles
-  abstract getResourcesByArray(defaultPage: number, defaultPageSize: number, defaultSortOrder: string, assignedArray: string[], type: string): Observable<ResourceStates>;
+  // access-roles
 
-  abstract getAllResourcePermissions(): Observable<ResourcePermissionState[]>;
+  abstract findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleType[]>;
 
-  abstract findAccessRoleTypeId(searchStr: string, pageSize: number): Observable<AccessRoleTypeState[]>;
+  abstract getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoles>;
 
-  abstract getAccessRoles(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleStates>;
+  abstract getAccessRoleById(accessRoleId: string): Observable<AccessRole>;
 
-  abstract getAccessRoleById(accessRoleId: string): Observable<AccessRoleResponse>;
+  abstract addAccessRole(accessRoleState: AccessRole, grants: Grant[]): Observable<AccessRole>;
 
-  abstract addAccessRole(accessRoleState: AccessRoleState, grants: GrantState[]): Observable<AccessRoleState>;
-
-  abstract updateAccessRole(accessRoleState: AccessRoleState, grants: GrantState[]): Observable<number>;
+  abstract updateAccessRole(accessRoleState: AccessRole, grants: Grant[]): Observable<number>;
 
   abstract deleteAccessRole(accessRoleId: string): Observable<number>;
 
-  //grants
-  abstract getGrantsByAccessRoleId(accessRoleId: string): Observable<GrantState[]>;
+  // access-role-types
+  abstract getAccessRoleTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleTypes>;
 
-  //access-role-types
-  abstract getAccessRoleTypes(defaultPage: number, defaultPageSize: number, defaultSortOrder: string): Observable<AccessRoleTypeStates>;
+  abstract getAccessRoleTypeById(accessRoleTypeId: string): Observable<AccessRoleType>;
 
-  abstract getAccessRoleTypeById(accessRoleTypeId: string): Observable<AccessRoleTypeState>;
+  abstract addAccessRoleType(accessRoleTypeState: AccessRoleType): Observable<AccessRoleType>;
 
-  abstract addAccessRoleType(accessRoleTypeState: AccessRoleTypeState): Observable<AccessRoleTypeState>;
-
-  abstract updateAccessRoleType(accessRoleTypeState: AccessRoleTypeState): Observable<number>;
+  abstract updateAccessRoleType(accessRoleTypeState: AccessRoleType): Observable<number>;
 
   abstract deleteAccessRoleType(accessRoleTypeId: string): Observable<number>;
 }
+
