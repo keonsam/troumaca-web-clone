@@ -6,7 +6,6 @@ import {AssetTypeClasses} from '../../asset-type-classes/asset.type.classes';
 
 import {Attributes} from '../../attributes/attributes';
 import {AssignedAttribute} from '../../asset-type-classes/assigned.attribute';
-import {AssetTypeClassResponse} from '../../asset-type-classes/asset.type.class.response';
 
 export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
 
@@ -14,7 +13,7 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
     super();
   }
 
-  getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassResponse> {
+  getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass> {
     return this.assetTypeClassClient.getAssetTypeClass(assetTypeClassId);
   }
 
@@ -43,8 +42,4 @@ export class AssetTypeClassRepositoryAdapter extends AssetTypeClassRepository {
   getAssignableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes> {
     return this.assetTypeClassClient.getAssignableAttributes(pageNumber, pageSize, sortOrder, assignedArray);
   }
-
-  // public getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]> {
-  //   return this.assetTypeClassClient.getAssignedAttributes(assetTypeClassId);
-  // }
 }

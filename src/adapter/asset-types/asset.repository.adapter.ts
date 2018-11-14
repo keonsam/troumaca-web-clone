@@ -6,7 +6,6 @@ import {AssetTypes} from '../../asset-types/asset.types';
 import {AssetTypeClass} from '../../asset-type-classes/asset.type.class';
 import {Value} from '../../asset-types/value';
 import {AssignedAttribute} from '../../asset-type-classes/assigned.attribute';
-import {AssetTypeResponse} from '../../asset-types/asset.type.response';
 
 export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
 
@@ -22,7 +21,7 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
     return this.assetTypesClient.getAssignedAttributes(assetTypeClassId);
   }
 
-  public getAssetType(assetTypeId: string): Observable<AssetTypeResponse> {
+  public getAssetType(assetTypeId: string): Observable<AssetType> {
     return this.assetTypesClient.getAssetTypeState(assetTypeId);
   }
 

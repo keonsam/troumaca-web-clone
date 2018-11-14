@@ -18,26 +18,25 @@ import { map, filter, debounceTime } from 'rxjs/operators';
 })
 
 export class ResourceFormComponent implements OnInit {
-  private _name: FormControl;
-  private _resourceTypeId: FormControl;
-  private _description: FormControl;
-  private resource: Resource;
-  private _assignedArray: string[];
-  private _permissions: Permissions;
-  private _resourcePermissions: ResourcePermission[];
-  private _resourceTypeIdDataService: CompleterData;
-  private _resourceForm: FormGroup;
+  name: FormControl;
+  resourceTypeId: FormControl;
+  description: FormControl;
+  assignedArray: string[];
+  permissions: Permissions;
+  assignablePermissions: Permissions;
+  resourcePermissions: ResourcePermission[];
+  resourceTypeIdDataService: CompleterData;
+  resourceForm: FormGroup;
+  resourceExist = false;
+  doNotDisplayFailureMessage: boolean;
 
+  private pageSize = 15;
+  private resourceId: string;
+  private resource: Resource;
+  private assignedPageNumber = 1;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-
-  private pageSize = 15;
-  private _doNotDisplayFailureMessage: boolean;
-  private resourceId: string;
-  public resourceExist = false;
-  public assignedPageNumber = 1;
-  public getAssignedPage: Page;
 
   constructor(private accessRoleService: AccessRoleService,
               private completerService: CompleterService,
@@ -71,6 +70,7 @@ export class ResourceFormComponent implements OnInit {
     newPermissions.page = new Page();
     newPermissions.sort = new Sort();
     this.permissions = newPermissions;
+    this.assignablePermissions = newPermissions;
     this.resourcePermissions = [];
 
     this.assignedArray = [];
@@ -84,6 +84,7 @@ export class ResourceFormComponent implements OnInit {
       this.setInputValues(this.route.snapshot.data['resource']);
     } else {
       this.getPermissions();
+      this.getAssignablePermissions();
     }
 
     this.populateResourceTypeIdDropDown();
@@ -91,17 +92,29 @@ export class ResourceFormComponent implements OnInit {
 
   private setInputValues(resource: Resource) {
     this.name.setValue(resource.name);
-    this.resourceTypeId.setValue(resource.resourceTypeName);
+    this.resourceTypeId.setValue(resource.resourceType.name);
     this.description.setValue(resource.description);
     this.resource = resource;
+    this.resourcePermissions = resource.resourcePermissions;
+    this.assignedArray = resource.resourcePermissions.map(x => x.permissionId);
     this.resourceExist = true;
-    this.getResourcePermissions();
+    this.getPermissions();
+    this.getAssignablePermissions();
   }
 
   private getPermissions() {
     this.accessRoleService.getPermissionsByArray(this.defaultPage, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
       .subscribe(values => {
         this.permissions = values;
+      }, onError => {
+        console.log(onError);
+      });
+  };
+
+  private getAssignablePermissions() {
+    this.accessRoleService.getAssignablePermissions(this.assignedPageNumber, this.defaultPageSize, this.defaultSortOrder, this.assignedArray)
+      .subscribe(values => {
+        this.assignablePermissions = values;
       }, onError => {
         console.log(onError);
       });
@@ -138,106 +151,6 @@ export class ResourceFormComponent implements OnInit {
       });
   }
 
-  get name(): FormControl {
-    return this._name;
-  }
-
-  set name(value: FormControl) {
-    this._name = value;
-  }
-
-  get description(): FormControl {
-    return this._description;
-  }
-
-  set description(value: FormControl) {
-    this._description = value;
-  }
-
-  get resourceTypeId(): FormControl {
-    return this._resourceTypeId;
-  }
-
-  set resourceTypeId(value: FormControl) {
-    this._resourceTypeId = value;
-  }
-
-  get resourceTypeIdDataService(): CompleterData {
-    return this._resourceTypeIdDataService;
-  }
-
-  set resourceTypeIdDataService(value: CompleterData) {
-    this._resourceTypeIdDataService = value;
-  }
-
-  get assignedArray(): string[] {
-    return this._assignedArray;
-  }
-
-  set assignedArray(value: string[]) {
-    this._assignedArray = value;
-  }
-
-  get permissions(): Permissions {
-    return this._permissions;
-  }
-
-  set permissions(value: Permissions) {
-    this._permissions = value;
-  }
-
-  get resourcePermissions(): ResourcePermission[] {
-    return this._resourcePermissions;
-  }
-
-  set resourcePermissions(value: ResourcePermission[]) {
-    this._resourcePermissions = value;
-  }
-
-  get resourceForm(): FormGroup {
-    return this._resourceForm;
-  }
-
-  set resourceForm(value: FormGroup) {
-    this._resourceForm = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
-  }
-
-  getResourcePermissions() {
-    this.accessRoleService.getResourcePermissionsByResourceId(this.resource.resourceId)
-      .subscribe(values => {
-        this.resourcePermissions = values;
-        this.assignedArray = values.map(x => x.permissionId);
-        this.getPermissions();
-        this.setAssignedPage();
-      });
-  }
-
-  onPermissionDoubleClick(name: string, permissionId: string, description) {
-    this.resourcePermissions.push(new ResourcePermission(name, permissionId, description));
-    this.assignedArray.push(permissionId);
-    this.setAssignedPage();
-    this.getPermissions();
-  }
-
-  onResourceDoubleClick(permissionId: string) {
-    this.assignedArray = this.assignedArray.filter(val => val !== permissionId);
-    this.resourcePermissions = this.resourcePermissions.filter(val => val.permissionId !== permissionId);
-    this.setAssignedPage();
-    this.getPermissions();
-  }
-
-  onRequestPage(pageNumber: number) {
-    this.defaultPage = pageNumber;
-    this.getPermissions();
-  }
 
   onResourceTypeIdSelect(selected: CompleterItem) {
     if (selected) {
@@ -245,23 +158,23 @@ export class ResourceFormComponent implements OnInit {
     }
   }
 
-  private setAssignedPage() {
-    const page: Page = new Page();
-    page.number = this.assignedPageNumber;
-    page.size = this.defaultPageSize;
-    page.items = this.getAssignedPermissions().length;
-    page.totalItems = this.resourcePermissions.length;
-    this.getAssignedPage = page;
+  onPermissionDoubleClick(permissionId: string) {
+    this.resourcePermissions.push(new ResourcePermission(permissionId));
+    this.assignedArray.push(permissionId);
+    this.getPermissions();
+    this.getAssignablePermissions();
   }
 
-  getAssignedPermissions() {
-    if (this.assignedPageNumber < 2) {
-      return this.resourcePermissions.slice(0, 10);
-    }else {
-      const begin = (this.assignedPageNumber - 1) * this.defaultPageSize;
-      const end = (this.assignedPageNumber - 1) * this.defaultPageSize + 10;
-      return this.resourcePermissions.slice(begin, end);
-    }
+  onResourceDoubleClick(permissionId: string) {
+    this.assignedArray = this.assignedArray.filter(val => val !== permissionId);
+    this.resourcePermissions = this.resourcePermissions.filter(val => val.permissionId !== permissionId);
+    this.getPermissions();
+    this.getAssignablePermissions();
+  }
+
+  onRequestPage(pageNumber: number) {
+    this.defaultPage = pageNumber;
+    this.getPermissions();
   }
 
   onAssignedRequestPage(pageNumber: number) {

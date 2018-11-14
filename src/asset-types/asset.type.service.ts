@@ -5,7 +5,6 @@ import {AssetTypes} from './asset.types';
 import {Value} from './value';
 import {AssetTypeClass} from '../asset-type-classes/asset.type.class';
 import {AssignedAttribute} from '../asset-type-classes/assigned.attribute';
-import {AssetTypeResponse} from './asset.type.response';
 
 export class AssetTypeService {
   constructor(private assetTypeRepository: AssetTypeRepository) {
@@ -15,7 +14,7 @@ export class AssetTypeService {
     return this.assetTypeRepository.getAssetTypes(pageNumber, pageSize, sortOrder);
   }
 
-  public getAssetType(assetTypeId: string): Observable<AssetTypeResponse> {
+  public getAssetType(assetTypeId: string): Observable<AssetType> {
     return this.assetTypeRepository.getAssetType(assetTypeId);
   }
 

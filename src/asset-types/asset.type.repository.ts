@@ -4,11 +4,10 @@ import {AssetTypes} from './asset.types';
 import {Value} from './value';
 import {AssetTypeClass} from '../asset-type-classes/asset.type.class';
 import {AssignedAttribute} from '../asset-type-classes/assigned.attribute';
-import {AssetTypeResponse} from './asset.type.response';
 
 export abstract class AssetTypeRepository {
   abstract getAssetTypes(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetTypes>;
-  abstract getAssetType(assetTypeId: string): Observable<AssetTypeResponse>;
+  abstract getAssetType(assetTypeId: string): Observable<AssetType>;
   abstract findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClass[]>;
   abstract addAssetType(assetType: AssetType, values: Value[]): Observable<AssetType>;
   abstract deleteAssetType(assetTypeId: string): Observable<number>;

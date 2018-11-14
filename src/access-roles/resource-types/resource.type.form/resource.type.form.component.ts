@@ -11,14 +11,13 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./resource.type.form.component.css']
 })
 export class ResourceTypeFormComponent implements OnInit {
-  private _name: FormControl;
-  private _description: FormControl;
+  name: FormControl;
+  description: FormControl;
+  resourceTypeForm: FormGroup;
+  doNotDisplayFailureMessage: boolean;
+  resourceExist = false;
+
   private resourceType: ResourceType;
-
-  private _resourceTypeForm: FormGroup;
-
-  private _doNotDisplayFailureMessage: boolean;
-  public resourceExist = false;
 
   constructor(private accessRoleService: AccessRoleService,
               private formBuilder: FormBuilder,
@@ -58,38 +57,6 @@ export class ResourceTypeFormComponent implements OnInit {
     this.description.setValue(resourceType.description);
     this.resourceExist = true;
     this.resourceType = resourceType;
-  }
-
-  get name(): FormControl {
-    return this._name;
-  }
-
-  set name(value: FormControl) {
-    this._name = value;
-  }
-
-  get description(): FormControl {
-    return this._description;
-  }
-
-  set description(value: FormControl) {
-    this._description = value;
-  }
-
-  get resourceTypeForm(): FormGroup {
-    return this._resourceTypeForm;
-  }
-
-  set resourceTypeForm(value: FormGroup) {
-    this._resourceTypeForm = value;
-  }
-
-  get doNotDisplayFailureMessage(): boolean {
-    return this._doNotDisplayFailureMessage;
-  }
-
-  set doNotDisplayFailureMessage(value: boolean) {
-    this._doNotDisplayFailureMessage = value;
   }
 
   onCreate() {

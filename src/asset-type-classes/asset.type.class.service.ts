@@ -3,7 +3,6 @@ import {Observable} from 'rxjs';
 import {AssetTypeClass} from './asset.type.class';
 import {AssetTypeClasses} from './asset.type.classes';
 import {AssignedAttribute} from './assigned.attribute';
-import {AssetTypeClassResponse} from './asset.type.class.response';
 import {Attributes} from "../attributes/attributes";
 
 export class AssetTypeClassService {
@@ -11,7 +10,7 @@ export class AssetTypeClassService {
   constructor(private assetTypeClassRepository: AssetTypeClassRepository) {
   }
 
-  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClassResponse> {
+  public getAssetTypeClass(assetTypeClassId: string): Observable<AssetTypeClass> {
     return this.assetTypeClassRepository.getAssetTypeClass(assetTypeClassId);
   }
 
@@ -40,8 +39,4 @@ export class AssetTypeClassService {
   public getAssignableAttributes(pageNumber: number, pageSize: number, sortOrder: string, assignedArray: string[]): Observable<Attributes> {
     return this.assetTypeClassRepository.getAssignableAttributes(pageNumber, pageSize, sortOrder, assignedArray);
   }
-
-  // public getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]> {
-  //   return this.assetTypeClassRepository.getAssignedAttributes(assetTypeClassId);
-  // }
 }

@@ -10,9 +10,10 @@ import {Permissions} from '../../permissions';
   styleUrls: ['./permission.list.component.css']
 })
 export class PermissionListComponent implements OnInit {
+  permissions: Permissions;
+  permissionName: string;
+
   private permissionId: string;
-  private _permissions: Permissions;
-  private _permissionName: string;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
@@ -29,7 +30,7 @@ export class PermissionListComponent implements OnInit {
     this.getPermissions();
   }
 
-  getPermissions() {
+  private getPermissions() {
     this.accessRoleService.getPermissions(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
       .subscribe(next => {
         this.permissions = next;
@@ -38,22 +39,6 @@ export class PermissionListComponent implements OnInit {
       }, () => {
         console.log('complete');
       });
-  }
-
-  get permissionName(): string {
-    return this._permissionName;
-  }
-
-  set permissionName(value: string) {
-    this._permissionName = value;
-  }
-
-  get permissions(): Permissions {
-    return this._permissions;
-  }
-
-  set permissions(value: Permissions) {
-    this._permissions = value;
   }
 
   onOpenModal(permissionId: string, permissionName: string){

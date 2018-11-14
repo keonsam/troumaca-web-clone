@@ -12,8 +12,8 @@ import {Sort} from '../../sort/sort';
 export class AccessRoleListComponent implements OnInit {
 
   private accessRoleId: string;
-  private _accessRoles: AccessRoles;
-  private _accessRoleName: string;
+  accessRoles: AccessRoles;
+  accessRoleName: string;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
@@ -30,7 +30,7 @@ export class AccessRoleListComponent implements OnInit {
     this.getAccessRoles();
   }
 
-  getAccessRoles() {
+  private getAccessRoles() {
     this.accessRoleService.getAccessRoles(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
       .subscribe(next => {
         this.accessRoles = next;
@@ -39,22 +39,6 @@ export class AccessRoleListComponent implements OnInit {
       }, () => {
         console.log('complete');
       });
-  }
-
-  get accessRoleName(): string {
-    return this._accessRoleName;
-  }
-
-  set accessRoleName(value: string) {
-    this._accessRoleName = value;
-  }
-
-  get accessRoles(): AccessRoles {
-    return this._accessRoles;
-  }
-
-  set accessRoles(value: AccessRoles) {
-    this._accessRoles = value;
   }
 
   onOpenModal(accessRoleId: string, accessRoleName: string){

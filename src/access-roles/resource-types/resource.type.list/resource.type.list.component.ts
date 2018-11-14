@@ -10,9 +10,10 @@ import {ResourceTypes} from '../../resource.types';
   styleUrls: ['./resource.type.list.component.css']
 })
 export class ResourceTypeListComponent implements OnInit {
+  resourceTypes: ResourceTypes;
+  resourceTypeName: string;
+
   private resourceTypeId: string;
-  private _resourceTypes: ResourceTypes;
-  private _resourceTypeName: string;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
@@ -29,7 +30,7 @@ export class ResourceTypeListComponent implements OnInit {
     this.getResourceTypes();
   }
 
-  getResourceTypes() {
+  private getResourceTypes() {
     this.accessRoleService.getResourceTypes(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
       .subscribe(next => {
         this.resourceTypes = next;
@@ -38,22 +39,6 @@ export class ResourceTypeListComponent implements OnInit {
       }, () => {
         console.log('complete');
       });
-  }
-
-  get resourceTypeName(): string {
-    return this._resourceTypeName;
-  }
-
-  set resourceTypeName(value: string) {
-    this._resourceTypeName = value;
-  }
-
-  get resourceTypes(): ResourceTypes {
-    return this._resourceTypes;
-  }
-
-  set resourceTypes(value: ResourceTypes) {
-    this._resourceTypes = value;
   }
 
   onOpenModal(resourceTypeId: string, resourceTypeName: string){

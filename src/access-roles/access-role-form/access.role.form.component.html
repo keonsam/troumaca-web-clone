@@ -12,72 +12,65 @@
                 {{accessRoleExist ? "Edit":"New"}} Access Role Form
               </h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{accessRoleExist ? "Update":"Create"}} Access Role.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{accessRoleExist ? "update":"create"}} access role.</div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
-                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
+                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group" [class]="(accessRoleTypeId.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
-                  <label for="access-role-type">Access Role Type</label>
-                  <ng2-completer [datasource]="accessRoleTypeDataService"
-                                 [inputClass]="'form-control form-control-inline'"
-                                 [minSearchLength]="0"
-                                 [maxChars]="4"
-                                 [inputClass]="'form-control'"
-                                 [placeholder]="'Select an Access Role Type'"
-                                 [matchClass]="'match'"
-                                 formControlName="accessRoleTypeId"
-                                 [autofocus]="true"
-                                 [clearUnselected]="true"
-                                 [fillHighlighted]="false"
-                                 [openOnClick]="true"
-                                 [textSearching]="false"
-                                 (selected)="onAccessRoleTypeSelect($event)"
-                                 id="access-role-type"
-                                  required>
-                  </ng2-completer>
-                  <div [hidden]="accessRoleTypeId.valid || accessRoleTypeId.pristine" class="alert alert-danger">Select an Access Role Type.</div>
-                </div>
-              </fieldset>
+              <div class="form-group" [class]="(accessRoleTypeId.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
+                <label for="access-role-type">Access Role Type</label>
+                <ng2-completer [datasource]="accessRoleTypeDataService"
+                               [inputClass]="'form-control form-control-inline'"
+                               [minSearchLength]="0"
+                               [maxChars]="4"
+                               [inputClass]="'form-control'"
+                               [placeholder]="'Select An Access Role Type'"
+                               [matchClass]="'match'"
+                               formControlName="accessRoleTypeId"
+                               [autofocus]="true"
+                               [clearUnselected]="true"
+                               [fillHighlighted]="false"
+                               [openOnClick]="true"
+                               [textSearching]="false"
+                               (selected)="onAccessRoleTypeSelect($event)"
+                               id="access-role-type"
+                               required>
+                </ng2-completer>
+                <div [hidden]="accessRoleTypeId.valid || accessRoleTypeId.pristine" class="alert alert-danger">Select an access role type.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-check">
-                  <label for="prohibition-indicator" class="form-check-label"><input id="prohibition-indicator" class="form-check-input" formControlName="prohibitionIndicator" type="checkbox">Prohibition Indicator</label>
-                </div>
-              </fieldset>
+              <div class="form-check">
+                <label for="prohibition-indicator" class="form-check-label"><input id="prohibition-indicator" class="form-check-input" formControlName="prohibitionIndicator" type="checkbox">Prohibition Indicator</label>
+              </div>
 
               <div class="row">
                 <div class="col-sm-6">
-                  <fieldset class="form-group">
-                    <div class="form-group">
-                      <label for="effective-date"> Effective Date</label>
-                      <div class="date-input">
-                        <input id="effective-date" class="form-control" formControlName="effectiveDate" type="date">
-                      </div>
+                  <div class="form-group">
+                    <label for="effective-date"> Effective Date</label>
+                    <div class="date-input">
+                      <input id="effective-date" class="form-control" formControlName="effectiveDate" type="date" required>
                     </div>
-                  </fieldset>
+                    <div [hidden]="effectiveDate.valid || effectiveDate.pristine" class="alert alert-danger">Invalid effective date.</div>
+                  </div>
                 </div>
 
                 <div class="col-sm-6">
-                  <fieldset class="form-group">
-                    <div class="form-group">
-                      <label for="until-date">Until Date</label>
-                      <div class="date-input">
-                        <input id="until-date" class="form-control"  formControlName="untilDate" type="date">
-                      </div>
+                  <div class="form-group">
+                    <label for="until-date">Until Date</label>
+                    <div class="date-input">
+                      <input id="until-date" class="form-control"  formControlName="untilDate" type="date" required>
                     </div>
-                  </fieldset>
+                    <div [hidden]="untilDate.valid || untilDate.pristine" class="alert alert-danger">Invalid until date.</div>
+
+                  </div>
                 </div>
               </div>
 
                 <!-- start of  assigned Resources & Permissions -->
               <h6 class="text-center">
-                Resources & Permissions
+                Resources
               </h6>
               <div class="table-responsive table-section">
                 <table class="table table-striped table-lightfont table-full-width">
@@ -98,11 +91,11 @@
                   <tbody>
                   <tr role="row" *ngFor="let resource of resources.resources; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
                     <td>{{resource.name}}</td>
-                    <td>{{resource.resourceTypeName}}</td>
+                    <td>{{resource.resourceType?.name}}</td>
                     <td>
                       <ul id="resourceMenu">
                         <li *ngFor="let resourcePermission of resource.resourcePermissions">
-                          <label class="form-check-label"><input class="form-check-input" type="checkbox" (change)="onPermissionsChange($event, resource.resourceId, resourcePermission.resourcePermissionId)" [checked]="isChecked(resourcePermission.resourcePermissionId)">{{resourcePermission.permissionName}}</label>
+                          <label class="form-check-label"><input class="form-check-input" type="checkbox" (change)="onPermissionsChange($event,resourcePermission.resourcePermissionId)" [checked]="isChecked(resourcePermission.resourcePermissionId)">{{resourcePermission.permission?.name}}</label>
                         </li>
                       </ul>
                     </td>
@@ -116,16 +109,13 @@
               </div>
               <!-- end of Assigned Resources & Permissions-->
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="description">Description</label><input id="description" class="form-control" formControlName="description" placeholder="Description" type="text">
-                  <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="description">Description</label><input id="description" class="form-control" formControlName="description" placeholder="Description" type="text">
+                <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
+              </div>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [hidden]="accessRoleExist" [disabled]="!accessRoleForm.valid" type="submit" (click)="onCreate()">Create</button>
-                <button class="btn btn-primary" [hidden]="!accessRoleExist" [disabled]="!accessRoleForm.valid" type="submit"(click)="onUpdate()">Update</button>
+                <button class="btn btn-primary" [disabled]="!accessRoleForm.valid" type="submit" (click)="accessRoleExist ? onUpdate() : onCreate()">{{accessRoleExist ? "Update":"Create"}}</button>
                 <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
               </div>
 

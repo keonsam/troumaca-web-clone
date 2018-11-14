@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { AccessRoleService } from '../access.role.service';
-import {Resource} from '../resource';
+import {Resource} from "../resource";
 
 @Injectable()
 export class ResourceResolve implements Resolve<Resource> {
