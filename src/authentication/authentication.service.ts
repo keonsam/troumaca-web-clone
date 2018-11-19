@@ -5,14 +5,11 @@ import { ValidResponse} from './valid.response';
 import { Confirmation } from './confirmation';
 import {AuthenticatedCredential} from './authenticated.credential';
 import {User} from '../parties/user';
+import {ChangePassword} from "./change.password";
 
 export class AuthenticationService {
 
   constructor(private authenticationRepository: AuthenticationRepository) {
-  }
-
-  getCredential(credentialId: string): Observable<User> {
-    return this.authenticationRepository.getCredential(credentialId);
   }
 
   isValidUsername(username: string, partyId?: string): Observable<ValidResponse> {
@@ -44,8 +41,8 @@ export class AuthenticationService {
     return this.authenticationRepository.resendConfirmationCode(confirmationId, credentialId);
   }
 
-  updateCredential(credential: Credential, user: User): Observable<number> {
-    return this.authenticationRepository.updateCredential(credential, user);
+  changePassword(changePassword: ChangePassword): Observable<Confirmation> {
+    return this.authenticationRepository.changePassword(changePassword);
   }
 
 }
