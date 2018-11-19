@@ -9,6 +9,7 @@ import { ValidResponse } from '../../authentication/valid.response';
 import { Confirmation } from '../../authentication/confirmation';
 import { AuthenticatedCredential } from '../../authentication/authenticated.credential';
 import { User } from '../../parties/user';
+import {ChangePassword} from "../../authentication/change.password";
 
 export class AuthenticationClientHttp extends AuthenticationClient {
 
@@ -26,18 +27,6 @@ export class AuthenticationClientHttp extends AuthenticationClient {
       // an array of FP components
       // console.log(components)
     // });
-  }
-
-  getCredential(partyId: string): Observable<User> {
-    const url = `${this.hostPort}/authentication/credentials/${partyId}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient
-      .get<User>(url, httpOptions)
-      .pipe(map(data => {
-        return data;
-      }));
   }
 
   authenticate(credentialState: Credential): Observable<AuthenticatedCredential> {
@@ -158,20 +147,16 @@ export class AuthenticationClientHttp extends AuthenticationClient {
       }));
   }
 
-  updateCredential(credential: Credential, user: User): Observable<number> {
-    const url = `${this.hostPort}/authentication/credentials/${user.partyId}`;
+  changePassword(changePassword: ChangePassword): Observable<Confirmation> {
+    const url = `${this.hostPort}/authentication/change-password`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
 
-    const body = {
-      credential,
-      user
-    };
 
     return this.httpClient
-      .put<number>(url, body, httpOptions)
+      .post<Confirmation>(url, changePassword, httpOptions)
       .pipe(map(data => {
         return data;
       }));

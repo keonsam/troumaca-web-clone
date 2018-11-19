@@ -88,14 +88,9 @@ export class ConfirmationComponent implements OnInit {
       .verifyConfirmation(this.confirmation)
       .subscribe(confirmation => {
         if (confirmation && confirmation.status === 'Confirmed') {
-          this.message = 'Your account has been confirmed.\n' +
-            '      Please login.';
-          this.showSuccessMessage = true;
-          setTimeout(() => {
-            this.router.navigate(['/authentication/login']);
-          }, 1000);
+          this.router.navigate(['/authentication/login']);
         } else if (confirmation && confirmation.status === 'Expired') {
-          this.message = 'Confirmation code has been expired. \n' +
+          this.message = 'Confirmation code has expired. \n' +
             '      Please generate a new one below.';
           this.showErrorMessage = true;
         } else {

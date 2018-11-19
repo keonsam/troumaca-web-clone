@@ -22,7 +22,6 @@ export class RegisterComponent implements OnInit {
   private credential: Credential;
   private user: User;
   doNotDisplayFailureMessage: boolean;
-  userExist = false;
 
   constructor(private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
@@ -68,17 +67,6 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.route.snapshot && this.route.snapshot.data['user']) {
-      this.setInputValues(this.route.snapshot.data['user']);
-    }
-  }
-
-  private setInputValues(user: User) {
-    this.firstName.setValue(user.firstName);
-    this.lastName.setValue(user.lastName);
-    this.username.setValue(user.username);
-    this.user = user;
-    this.userExist = true;
   }
 
   usernameValidator(authenticationService: AuthenticationService) {
@@ -171,23 +159,6 @@ export class RegisterComponent implements OnInit {
         console.log(error);
         this.doNotDisplayFailureMessage = false;
     });
-  }
-
-  onUpdate() {
-    this.doNotDisplayFailureMessage = true;
-
-    this.authenticationService
-      .updateCredential(this.credential, this.user)
-      .subscribe(confirmation => {
-        if (confirmation) {
-          this.router.navigate(['/authentication/login']);
-        } else {
-          this.doNotDisplayFailureMessage = false;
-        }
-      }, error => {
-        console.log(error);
-        this.doNotDisplayFailureMessage = false;
-      });
   }
 
 }

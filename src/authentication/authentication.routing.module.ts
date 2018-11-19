@@ -5,7 +5,6 @@ import {LoginComponent} from "./login/login.component";
 import {ForgotPasswordComponent} from "./forgot-password/forgot.password.component";
 import {RegisterComponent} from "./register/register.component";
 import {ConfirmationComponent} from "./confirmation/confirmation.component";
-import {RegisterResolve} from "./register/register.resolve";
 
 export const routes: Routes = [
   { path: '', component: AuthenticationComponent, children: [
@@ -13,7 +12,6 @@ export const routes: Routes = [
       { path: 'login',  component: LoginComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'register/:credentialId', component: RegisterComponent, resolve : { user: RegisterResolve } },
       {path: 'confirmations/:credentialId/:confirmationId', component: ConfirmationComponent}
     ]}
 ];
