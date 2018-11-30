@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Organizations} from '../../../parties/organizations';
 import {Organization} from '../../../parties/organization';
 import {JoinOrganization} from '../../../parties/join.organization';
+import {ValidResponse} from "../../../authentication/valid.response";
 
 export class OrganizationRepositoryAdapter extends OrganizationRepository {
   constructor(private organizationClient: OrganizationClient) {
@@ -37,4 +38,11 @@ export class OrganizationRepositoryAdapter extends OrganizationRepository {
   public updateOrganization(organization: Organization): Observable<number> {
     return this.organizationClient.updateOrganization(organization);
   }
+
+  // VALIDATION
+
+  isValidUsername(username: string, partyId?: string): Observable<ValidResponse> {
+    return this.organizationClient.isValidUsername(username, partyId);
+  }
+
 }

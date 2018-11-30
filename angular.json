@@ -23,6 +23,7 @@
               "src/favicon.ico"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
@@ -32,10 +33,10 @@
             "production": {
               "budgets": [
                 {
-                "type": "bundle",
-                "maximumWarning": "2mb",
-                "maximumError": "5mb"
-              }
+                  "type": "bundle",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
               ],
               "optimization": true,
               "outputHashing": "all",
@@ -81,6 +82,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "assets": [

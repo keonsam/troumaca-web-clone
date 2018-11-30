@@ -3,12 +3,14 @@ import {CommonModule} from '@angular/common';
 import {OrganizationFormComponent} from './organization.form.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {organizationServiceProvider} from "../organization.service.provider";
+import {MaterialModule} from "../../../app/material.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule
   ],
   declarations: [
     OrganizationFormComponent,

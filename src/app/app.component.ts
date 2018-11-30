@@ -21,10 +21,12 @@ export class AppComponent implements OnInit {
               ) {
     this.activeSession = this.sessionService.activeSessionExists()
       .subscribe(value => {
-        if (value && this.router.url !== '/profile-organizations' && !this.showMenu) {
+        if (value) {
           const routerEvent = this.router.events.subscribe( event => {
             if (event instanceof NavigationEnd) {
-              this.showMenu = true;
+              if (event.url !== '/profile-organizations') {
+                this.showMenu = true;
+              }
               routerEvent.unsubscribe();
             }
           });
@@ -37,7 +39,9 @@ export class AppComponent implements OnInit {
         if (value) {
           const routerEvent = this.router.events.subscribe( event => {
             if (event instanceof NavigationEnd) {
-              this.showMenu = true;
+              if (event.url !== '/profile-organizations') {
+                this.showMenu = true;
+              }
               routerEvent.unsubscribe();
             }
           });
@@ -58,7 +62,7 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
         const url = this.calURL(event.url);
-        if (authRoutes.indexOf(url) > -1) {
+        if (authRoutes.indexOf(url) > -1 || url.indexOf('forgot-password') > -1) {
           this.isAuthPath = true;
           this.renderer.addClass(document.body, 'center-container');
         } else {
@@ -71,7 +75,7 @@ export class AppComponent implements OnInit {
 
   private calURL(url) {
     const matchRegex = /\/[a-z-]*\/[a-z-]*\//gi;
-    if (url.indexOf('confirmations') !== -1) {
+    if (url.indexOf('confirmations') !== -1 ) {
       return url.match(matchRegex)[0].slice(0, -1);
     }
     return url;

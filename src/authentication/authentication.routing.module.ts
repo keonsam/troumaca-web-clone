@@ -10,9 +10,11 @@ export const routes: Routes = [
   { path: '', component: AuthenticationComponent, children: [
       { path: '', redirectTo: '/authentication/login', pathMatch: 'full' },
       { path: 'login',  component: LoginComponent },
-      { path: 'forgot-password', component: ForgotPasswordComponent },
+      { path: 'forgot-password/username', component: ForgotPasswordComponent },
+      { path: 'forgot-password/change/:credentialId/:code', component: ForgotPasswordComponent },
       { path: 'register', component: RegisterComponent },
-      {path: 'confirmations/:credentialId/:confirmationId', component: ConfirmationComponent}
+      {path: 'confirmations/:credentialId/:confirmationId', component: ConfirmationComponent},
+      {path: 'forgot-password/confirmations/:credentialId/:confirmationId', component: ConfirmationComponent}
     ]}
 ];
 

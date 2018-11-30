@@ -5,6 +5,7 @@ import { Confirmation } from './confirmation';
 import {AuthenticatedCredential} from './authenticated.credential';
 import {User} from '../parties/user';
 import {ChangePassword} from "./change.password";
+import {ChangeResponse} from "./change.response";
 
 export abstract class AuthenticationRepository {
   abstract authenticate(credential: Credential): Observable<AuthenticatedCredential>;
@@ -14,6 +15,6 @@ export abstract class AuthenticationRepository {
   abstract addCredential(credential: Credential, user: User): Observable<Confirmation>;
   abstract verifyConfirmation(conformation: Confirmation): Observable<Confirmation>;
   abstract resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation>;
-  abstract changePassword(changePassword: ChangePassword): Observable<Confirmation>
+  abstract changePassword(changePassword: ChangePassword): Observable<ChangeResponse>
 
 }

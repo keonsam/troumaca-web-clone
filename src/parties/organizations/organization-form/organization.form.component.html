@@ -5,31 +5,135 @@
         <div class="element-wrapper">
           <div class="element-box">
             <form [formGroup]="organizationForm" id="formValidate">
-              <h5 class="form-header">
-                {{ organizationExist ? "Edit Organization Form" : "New Organization Form"}}
-              </h5>
+              <h5 class="form-header">Organization Form</h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{organizationExist ? "update":"create"}} organization.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{organizationExist ? "update":"create"}}</div>
 
-              <div class="form-group">
-                <label for="organization-name">Organization Name</label><input id="organization-name" class="form-control" formControlName="name" placeholder="Enter Organization Name" required="required" type="text">
-              </div>
-              <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Enter your organization name.</div>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput [formControl]="name">
+                <mat-error *ngIf="name.hasError('required')">
+                  Name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
 
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Purpose</mat-label>
+                <input matInput [formControl]="purpose">
+                <mat-error *ngIf="purpose.hasError('required')">
+                  Purpose is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
 
-              <div class="form-group">
-                <label for="organization-purpose">Organization Purpose</label><input id="organization-purpose" class="form-control" formControlName="purpose" placeholder="Enter Organization Purpose" required="required" type="text">
-              </div>
-              <div [hidden]="purpose.valid || purpose.pristine" class="alert alert-danger">Enter your organization purpose.</div>
+              <fieldset>
+                <legend><span>About</span></legend>
 
-              <div class="form-group">
-                <label for="description">Description</label><textarea id="description" class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
-              </div>
-              <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Email Address</mat-label>
+                  <input matInput [formControl]="email">
+                  <mat-error *ngIf="email.hasError('validateEmail') && !email.hasError('required')">
+                    Example: email@example.com
+                  </mat-error>
+                  <mat-error *ngIf="email.hasError('required')">
+                    Email Address is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Phone Number</mat-label>
+                  <input matInput [formControl]="number">
+                  <mat-error *ngIf="number.hasError('validateEmail') && !number.hasError('required')">
+                    Example: 15417543010
+                  </mat-error>
+                  <mat-error *ngIf="number.hasError('required')">
+                    Phone Number is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+
+              </fieldset>
+
+              <fieldset>
+                <legend><span>Address</span></legend>
+
+                <div class="row">
+
+                  <div class="col-sm-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Street Number</mat-label>
+                      <input matInput [formControl]="streetNumber">
+                      <mat-error *ngIf="streetNumber.hasError('required')">
+                        Street Number is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Street Name</mat-label>
+                      <input matInput [formControl]="streetName">
+                      <mat-error *ngIf="streetName.hasError('required')">
+                        Street Name is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>City</mat-label>
+                      <input matInput [formControl]="city">
+                      <mat-error *ngIf="city.hasError('required')">
+                        City is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>State/Province</mat-label>
+                      <input matInput [formControl]="stateOrProvince">
+                      <mat-error *ngIf="stateOrProvince.hasError('required')">
+                        State/Province is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+
+                <div class="row">
+
+                  <div class="col-sm-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Postal Code</mat-label>
+                      <input matInput [formControl]="postalCode">
+                      <mat-error *ngIf="postalCode.hasError('required')">
+                        Postal code is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Country</mat-label>
+                      <input matInput [formControl]="country">
+                      <mat-error *ngIf="country.hasError('required')">
+                        Country is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+              </fieldset>
+
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea matInput ></textarea>
+              </mat-form-field>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [hidden]="organizationExist" [disabled]="!organizationForm.valid" type="submit" (click)="onCreate()">Create</button>
-                <button class="btn btn-primary" [hidden]="!organizationExist" [disabled]="!organizationForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="btn btn-primary" [disabled]="!organizationForm.valid" type="submit" (click)="organizationExist ? onUpdate():onCreate()">{{ organizationExist ? "Update":"Create"}}</button>
                 <button class="btn btn-outline-danger right-button" [hidden]="profile" type="cancel" (click)="cancel()">Cancel</button>
               </div>
 

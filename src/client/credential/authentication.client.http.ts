@@ -10,6 +10,7 @@ import { Confirmation } from '../../authentication/confirmation';
 import { AuthenticatedCredential } from '../../authentication/authenticated.credential';
 import { User } from '../../parties/user';
 import {ChangePassword} from "../../authentication/change.password";
+import {ChangeResponse} from "../../authentication/change.response";
 
 export class AuthenticationClientHttp extends AuthenticationClient {
 
@@ -49,7 +50,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
   }
 
   forgotPassword(credential: Credential): Observable<Confirmation> {
-    const url = `${this.hostPort}/authentication/forgot-password`;
+    const url = `${this.hostPort}/authentication/confirmations/resend-by-username`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -147,7 +148,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
       }));
   }
 
-  changePassword(changePassword: ChangePassword): Observable<Confirmation> {
+  changePassword(changePassword: ChangePassword): Observable<ChangeResponse> {
     const url = `${this.hostPort}/authentication/change-password`;
 
     const httpOptions = {
@@ -156,7 +157,7 @@ export class AuthenticationClientHttp extends AuthenticationClient {
 
 
     return this.httpClient
-      .post<Confirmation>(url, changePassword, httpOptions)
+      .post<ChangeResponse>(url, changePassword, httpOptions)
       .pipe(map(data => {
         return data;
       }));

@@ -16,10 +16,11 @@ export class ConfirmationComponent implements OnInit {
   confirmationCode: FormControl;
   private confirmation: Confirmation;
   message: string;
-  username: string;
+  // username: string;
   showSuccessMessage = false;
   showErrorMessage = false;
-  sub: any;
+  private sub: any;
+  private redirectLink = '/authentication/login';
 
   constructor(private route: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -88,7 +89,10 @@ export class ConfirmationComponent implements OnInit {
       .verifyConfirmation(this.confirmation)
       .subscribe(confirmation => {
         if (confirmation && confirmation.status === 'Confirmed') {
-          this.router.navigate(['/authentication/login']);
+          if (this.router.url.indexOf('forgot-password') !== -1) {
+            this.redirectLink = `authentication/forgot-password/change/${confirmation.credentialId}/${confirmation.code}`;
+          }
+          this.router.navigate([this.redirectLink]);
         } else if (confirmation && confirmation.status === 'Expired') {
           this.message = 'Confirmation code has expired. \n' +
             '      Please generate a new one below.';

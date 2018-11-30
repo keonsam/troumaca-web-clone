@@ -1,9 +1,10 @@
 import { Component, OnInit} from '@angular/core';
 import {trigger, state, style, transition, animate} from '@angular/animations';
 import {PhotoService} from '../../photo/photo.service';
-import {UserService} from '../../parties/users/user.service';
-import {UserResponse} from '../../parties/user.response';
 import {Photo} from "../../photo/photo";
+import {User} from "../../parties/user";
+import {SessionService} from "../../session/session.service";
+import {UserService} from "../../parties/users/user.service";
 
 @Component({
   selector: 'app-mobile-menu',
@@ -25,16 +26,16 @@ import {Photo} from "../../photo/photo";
 
 export class MobileMenuComponent implements OnInit {
 
-  public imageStr: string;
   public name = '';
   public state: string;
   public popUpState: string;
-  private userResponse: UserResponse;
+  private user: User;
   photo: Photo;
   defaultUserImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
 
   constructor(private photoService: PhotoService,
-              private userService: UserService) {
+              private userService: UserService,
+              private sessionService: SessionService) {
     this.photo = new Photo();
     this.state = 'inactive';
     this.popUpState = 'hide';
@@ -73,21 +74,21 @@ export class MobileMenuComponent implements OnInit {
 
   getUserInformation() {
     this.userService.getUser('profile')
-      .subscribe( userRes => {
-        if (userRes.user.partyId) {
-          this.userResponse = userRes;
-          this.name = `${userRes.user.firstName} , ${userRes.user.lastName}`
+      .subscribe( user => {
+        if (user && user.partyId) {
+          this.user = user;
+          this.name = `${user.firstName} , ${user.lastName}`
         }
       })
   }
 
   logOutEvent() {
-    // this.partyService.logOutUser()
-    //   .subscribe(next => {
-    //     if (next) {
-    //       this.eventService.sendSessionLogoutEvent({'logOutEvent': true});
-    //     }
-    //   });
+    this.sessionService.logout()
+      .subscribe(next => {
+        if (next) {
+          this.sessionService.logoutEvent.next(true);
+        }
+      });
   }
 
 }

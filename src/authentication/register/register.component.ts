@@ -69,7 +69,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  usernameValidator(authenticationService: AuthenticationService) {
+  private usernameValidator(authenticationService: AuthenticationService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
@@ -99,14 +99,12 @@ export class RegisterComponent implements OnInit {
        }
 
       return isValidUsername ? null : {
-        validateEmail: {
-          valid: false
-        }
+        validateEmail: true
       };
     }
   }
 
-  passwordValidator(authenticationService: AuthenticationService) {
+  private passwordValidator(authenticationService: AuthenticationService) {
     let passwordControl = null;
     let isValidPassword = false;
     let valueChanges = null;
@@ -136,9 +134,7 @@ export class RegisterComponent implements OnInit {
       }
 
       return isValidPassword ? null : {
-        validateEmail: {
-          valid: false
-        }
+        password: true
       };
     }
   }

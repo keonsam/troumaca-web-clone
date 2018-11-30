@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {PhotoService} from '../../photo/photo.service';
 import {UserService} from '../../parties/users/user.service';
-import {UserResponse} from '../../parties/user.response';
 import {Photo} from "../../photo/photo";
 import {SessionService} from "../../session/session.service";
+import {User} from "../../parties/user";
 
 @Component({
   selector: 'app-side-menu',
@@ -13,7 +13,7 @@ import {SessionService} from "../../session/session.service";
 export class SideMenuComponent implements OnInit {
 
   public imageStr: string;
-  private userResponse: UserResponse;
+  private user: User;
   public name = '';
   photo: Photo;
   defaultUserImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
@@ -48,10 +48,10 @@ export class SideMenuComponent implements OnInit {
 
   getUserInformation() {
     this.userService.getUser('profile')
-      .subscribe( userRes => {
-        if (userRes.user.partyId) {
-          this.userResponse = userRes;
-          this.name = `${userRes.user.firstName} , ${userRes.user.lastName}`
+      .subscribe( user => {
+        if (user && user.partyId) {
+          this.user = user;
+          this.name = `${user.firstName} , ${user.lastName}`
         }
       })
   }

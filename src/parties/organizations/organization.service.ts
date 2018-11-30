@@ -3,6 +3,7 @@ import {Organizations} from "../organizations";
 import {OrganizationRepository} from "./organization.repository";
 import {Organization} from "../organization";
 import {JoinOrganization} from "../join.organization";
+import {ValidResponse} from "../../authentication/valid.response";
 
 export class OrganizationService {
   constructor(private organizationRepository: OrganizationRepository) {}
@@ -33,6 +34,13 @@ export class OrganizationService {
 
   public updateOrganization(organization: Organization): Observable<number> {
     return this.organizationRepository.updateOrganization(organization);
+  }
+
+  // Validation
+
+
+  isValidUsername(username: string, partyId?: string): Observable<ValidResponse> {
+    return this.organizationRepository.isValidUsername(username, partyId);
   }
 
 

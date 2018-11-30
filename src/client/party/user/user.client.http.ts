@@ -5,10 +5,10 @@ import {Observable} from 'rxjs';
 import { AccessRole } from '../../../access-roles/access.role';
 import {map} from 'rxjs/operators';
 import { Users } from '../../../parties/users';
-import {UserResponse} from '../../../parties/user.response';
 import { User } from '../../../parties/user';
 import { PartyAccessRole } from '../../../parties/party.access.role';
 import { Credential } from '../../../authentication/credential';
+import {ValidResponse} from "../../../authentication/valid.response";
 
 export class UserClientHttp implements UserClient {
 
@@ -38,7 +38,7 @@ export class UserClientHttp implements UserClient {
     }));
   }
 
-  public getUserState(partyId?: string): Observable<UserResponse> {
+  public getUserState(partyId?: string): Observable<User> {
     let url: string;
     if (partyId ===  'profile') {
       url = `${this.hostPort}/users/profile`;
@@ -49,7 +49,7 @@ export class UserClientHttp implements UserClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-      .get<UserResponse>(url, httpOptions)
+      .get<User>(url, httpOptions)
       .pipe(map(data => {
         return data;
       }));
@@ -101,27 +101,45 @@ export class UserClientHttp implements UserClient {
       }));
   }
 
-  public updateUserMe(userState: User, credentialState: Credential): Observable<number> {
-    const url = `${this.hostPort}/users/profile`;
-    const body = {
-      user: userState,
-      credential: credentialState,
-    };
+  // VALIDATION
+
+  isValidUsername(username: string, partyId?: string): Observable<ValidResponse> {
+    const url = `${this.hostPort}/authentication/validate-username`;
+
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
+    const query = {
+      username: username,
+      partyId: partyId
+    };
     return this.httpClient
-      .put<number>(url, body, httpOptions)
+      .post<ValidResponse>(url, query, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+  isValidPassword(password: string): Observable<ValidResponse> {
+    const url = `${this.hostPort}/authentication/validate-password`;
+
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+
+    const query = {password: password};
+
+    return this.httpClient
+      .post<ValidResponse>(url, query, httpOptions)
       .pipe(map(data => {
         return data;
       }));
   }
 
   private jsonHttpHeaders(): HttpHeaders {
-    const httpHeaders: HttpHeaders = new HttpHeaders({
+    return new HttpHeaders({
       'Content-Type':  'application/json',
       'correlationId': this.uuidGenerator.generateUUID()
     });
-    return httpHeaders;
   }
 }

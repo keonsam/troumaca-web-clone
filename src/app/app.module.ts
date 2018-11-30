@@ -20,6 +20,8 @@ import { FrontHomeModule } from '../front-home/front-home.module';
 import { ClientModule } from '../client/client.module';
 import { MenuModule } from '../menu/menu.module';
 import { authGuardProvider } from '../auth-guard/auth.guard.provider';
+import { MaterialModule } from "./material.module";
+import 'hammerjs';
 
 @NgModule({
   imports: [
@@ -35,7 +37,8 @@ import { authGuardProvider } from '../auth-guard/auth.guard.provider';
     SessionModule,
     ClientModule,
     FrontHomeModule,
-    MenuModule
+    MenuModule,
+    MaterialModule
   ],
   declarations: [
     AppComponent,

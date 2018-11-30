@@ -7,6 +7,7 @@ import { Confirmation } from "../../authentication/confirmation";
 import {AuthenticatedCredential} from "../../authentication/authenticated.credential";
 import {User} from "../../parties/user";
 import {ChangePassword} from "../../authentication/change.password";
+import {ChangeResponse} from "../../authentication/change.response";
 
 export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
 
@@ -42,7 +43,7 @@ export class AuthenticationRepositoryAdapter extends AuthenticationRepository {
     return this.authenticationClient.resendConfirmationCode(confirmationId, credentialId);
   }
 
-  changePassword(changePassword: ChangePassword): Observable<Confirmation> {
+  changePassword(changePassword: ChangePassword): Observable<ChangeResponse> {
     return this.authenticationClient.changePassword(changePassword);
   }
 
