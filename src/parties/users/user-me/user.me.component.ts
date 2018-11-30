@@ -5,9 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../../user';
 import { Credential} from '../../../authentication/credential';
 import { filter, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { AuthenticationService} from '../../../authentication/authentication.service';
 import {UserService} from '../user.service';
-import {UserResponse} from '../../user.response';
 
 @Component({
   selector: 'app-user-me',
@@ -32,7 +30,6 @@ export class UserMeComponent implements OnInit {
   requiredState = false;
 
   constructor(private userService: UserService,
-              private authService: AuthenticationService,
               private route: ActivatedRoute,
               private formBuilder: FormBuilder,
               private router: Router) {
@@ -43,7 +40,7 @@ export class UserMeComponent implements OnInit {
     this.firstName = new FormControl('', [Validators.required]);
     this.middleName = new FormControl('', [Validators.required]);
     this.lastName = new FormControl('', [Validators.required]);
-    this.username = new FormControl('', [Validators.required, this.usernameValidator(this.authService)]);
+    this.username = new FormControl('', [Validators.required, this.usernameValidator(this.userService)]);
     this.password = new FormControl('');
     this.confirmPassword = new FormControl('');
 
@@ -78,7 +75,7 @@ export class UserMeComponent implements OnInit {
       .subscribe(value => {
         if (value && !this.requiredState) {
           this.requiredState = true;
-          this.userMeForm.get('password').setValidators([Validators.required, this.passwordValidator(this.authService)]);
+          this.userMeForm.get('password').setValidators([Validators.required, this.passwordValidator(this.userService)]);
           this.userMeForm.get('confirmPassword').setValidators([Validators.required, this.confirmPasswordValidator(this.password)]);
           this.userMeForm.get('confirmPassword').updateValueAndValidity();
         } else if (!value) {
@@ -95,15 +92,15 @@ export class UserMeComponent implements OnInit {
     }
   }
 
-  private setInputValues(userResponse: UserResponse) {
-    this.firstName.setValue(userResponse.user.firstName);
-    this.middleName.setValue(userResponse.user.middleName);
-    this.lastName.setValue(userResponse.user.lastName);
-    this.username.setValue(userResponse.user.username);
-    this.user = userResponse.user;
+  private setInputValues(user: User) {
+    this.firstName.setValue(user.firstName);
+    this.middleName.setValue(user.middleName);
+    this.lastName.setValue(user.lastName);
+    this.username.setValue(user.username);
+    this.user = user;
   }
 
-  private usernameValidator(authService: AuthenticationService) {
+  private usernameValidator(userService: UserService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
@@ -115,7 +112,7 @@ export class UserMeComponent implements OnInit {
       filter(value => { // filter out empty values
         return !!(value);
       }), map((value: string) => {
-        return authService.isValidUsername(value, that.user.partyId);
+        return userService.isValidUsername(value, that.user.partyId);
       })).subscribe(value => {
         value.subscribe( otherValue => {
           isValidUsername = otherValue.valid;
@@ -142,7 +139,7 @@ export class UserMeComponent implements OnInit {
     }
   }
 
-  private passwordValidator(authService: AuthenticationService) {
+  private passwordValidator(userService: UserService) {
     let passwordControl = null;
     let isValidPassword = false;
     let valueChanges = null;
@@ -154,7 +151,7 @@ export class UserMeComponent implements OnInit {
       filter(value => { // filter out empty values
         return !!(value);
       }), map((value: string) => {
-        return authService.isValidPassword(value);
+        return userService.isValidPassword(value);
       })).subscribe(value => {
         value.subscribe( otherValue => {
           isValidPassword = otherValue.valid;
@@ -194,7 +191,7 @@ export class UserMeComponent implements OnInit {
   onUpdate() {
     this.doNotDisplayFailureMessage = true;
       this.userService
-      .updateUserMe(this.user, this.credential)
+      .updateUser(this.user, this.credential)
       .subscribe(value => {
         if (value) {
           this.router.navigate(['/lobby']);

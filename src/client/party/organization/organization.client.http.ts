@@ -6,6 +6,7 @@ import { Organizations } from '../../../parties/organizations';
 import {map} from 'rxjs/operators';
 import { Organization } from '../../../parties/organization';
 import { JoinOrganization } from '../../../parties/join.organization';
+import {ValidResponse} from "../../../authentication/valid.response";
 
 export class OrganizationClientHttp implements OrganizationClient {
   constructor(private uuidGenerator: UUIDGenerator,
@@ -61,7 +62,7 @@ export class OrganizationClientHttp implements OrganizationClient {
   public addOrganizationState(organizationState: Organization, profile?: boolean): Observable<Organization> {
     let url: string;
     if (profile) {
-      url = `${this.hostPort}/organizations/profiles`;
+      url = `${this.hostPort}/organizations/customer`;
     }else {
       url = `${this.hostPort}/organizations`;
     }
@@ -95,6 +96,25 @@ export class OrganizationClientHttp implements OrganizationClient {
     };
     return this.httpClient
       .put<number>(url, organizationState, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+  // VALIDATION
+
+  isValidUsername(username: string, partyId?: string): Observable<ValidResponse> {
+    const url = `${this.hostPort}/authentication/validate-username`;
+
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    const query = {
+      username: username,
+      partyId: partyId
+    };
+    return this.httpClient
+      .post<ValidResponse>(url, query, httpOptions)
       .pipe(map(data => {
         return data;
       }));

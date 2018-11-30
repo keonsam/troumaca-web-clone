@@ -7,8 +7,6 @@ import {User} from '../../user';
 import {PartyAccessRole} from '../../party.access.role';
 import {Select2OptionData} from 'ng2-select2';
 import { map, distinctUntilChanged, filter, debounceTime } from 'rxjs/operators';
-import {UserResponse} from '../../user.response';
-import { AuthenticationService } from '../../../authentication/authentication.service';
 import { UserService } from '../user.service';
 import { Credential } from '../../../authentication/credential';
 
@@ -42,7 +40,6 @@ export class UserFormComponent implements OnInit {
   userExist = false;
 
   constructor(private userService: UserService,
-              private authService: AuthenticationService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
@@ -54,7 +51,7 @@ export class UserFormComponent implements OnInit {
     this.firstName = new FormControl('', [Validators.required]);
     this.middleName = new FormControl('', [Validators.required]);
     this.lastName = new FormControl('', [Validators.required]);
-    this.username = new FormControl('', [Validators.required, this.usernameValidator(this.authService)]);
+    this.username = new FormControl('', [Validators.required, this.usernameValidator(this.userService)]);
     this.accessRole = new FormControl('', [Validators.required]);
 
     this.userForm = formBuilder.group({
@@ -101,15 +98,15 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  private setInputValues(userResponse: UserResponse) {
-    this.firstName.setValue(userResponse.user.firstName);
-    this.middleName.setValue(userResponse.user.middleName);
-    this.lastName.setValue(userResponse.user.lastName);
-    this.username.setValue(userResponse.user.username);
-    this.user = userResponse.user;
-    const values = userResponse.partyAccessRoles.map(value => value.accessRole.accessRoleId);
+  private setInputValues(user: User) {
+    this.firstName.setValue(user.firstName);
+    this.middleName.setValue(user.middleName);
+    this.lastName.setValue(user.lastName);
+    this.username.setValue(user.username);
+    this.user = user;
+    const values = user.partyAccessRoles.map(value => value.accessRole.accessRoleId);
     this.accessRole.setValue(values.join(','));
-    this.partyAccessRoles = userResponse.partyAccessRoles;
+    this.partyAccessRoles = user.partyAccessRoles;
     this.userExist = true;
     this.findAccessRole('', values);
   }
@@ -138,7 +135,7 @@ export class UserFormComponent implements OnInit {
       });
   }
 
-  private usernameValidator(authService: AuthenticationService) {
+  private usernameValidator(userService: UserService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
@@ -149,7 +146,7 @@ export class UserFormComponent implements OnInit {
       filter(value => { // filter out empty values
         return !!(value);
       }), map((value: string) => {
-        return authService.isValidUsername(value);
+        return userService.isValidUsername(value);
       })).subscribe(value => {
         value.subscribe( otherValue => {
           isValidUsername = otherValue;

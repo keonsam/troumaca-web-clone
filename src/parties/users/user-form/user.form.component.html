@@ -14,50 +14,39 @@
 
               <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ userExist ? "Update":"Create"}} User.</div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="first-name">First Name</label><input id="first-name" class="form-control" formControlName="firstName" placeholder="Enter First Name" required="required" type="text">
-                  <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">Invalid First Name.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="first-name">First Name</label><input id="first-name" class="form-control" formControlName="firstName" placeholder="Enter First Name" required="required" type="text">
+                <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">Invalid First Name.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="middle-name">Middle Name</label><input id="middle-name" class="form-control" formControlName="middleName" placeholder="Enter Middle Name" required="required" type="text">
-                  <div [hidden]="middleName.valid || middleName.pristine" class="alert alert-danger">Invalid Middle Name.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="middle-name">Middle Name</label><input id="middle-name" class="form-control" formControlName="middleName" placeholder="Enter Middle Name" required="required" type="text">
+                <div [hidden]="middleName.valid || middleName.pristine" class="alert alert-danger">Invalid Middle Name.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="last-name">Last Name</label><input id="last-name" class="form-control" formControlName="lastName" placeholder="Enter Last Name" required="required" type="text">
-                  <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">Invalid Last Name.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="last-name">Last Name</label><input id="last-name" class="form-control" formControlName="lastName" placeholder="Enter Last Name" required="required" type="text">
+                <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">Invalid Last Name.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="username">Username</label><input id="username" class="form-control" formControlName="username" placeholder="Enter Email or Phone Number" required="required" type="text">
-                  <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Email or Phone Number.</div>
-                </div>
-              </fieldset>
+              <div class="form-group">
+                <label for="username">Username</label><input id="username" class="form-control" formControlName="username" placeholder="Enter Email or Phone Number" required="required" type="text">
+                <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Email or Phone Number.</div>
+              </div>
 
-              <fieldset class="form-group">
-                <div class="form-group" [class]="(accessRole.valid) ? 'select2-valid':'select2-invalid'">
-                  <label for="access-role">Access Role</label>
-                  <select2 id="access-role"
-                           [data]="accessRoleData"
-                           [options]="options"
-                           [value]="value"
-                           (valueChanged)="changed($event)"
-                  ></select2>
-                  <div [hidden]="accessRole.valid || accessRole.pristine" class="alert alert-danger">Select Access Roles from the dropdown.</div>
-                </div>
-              </fieldset>
+              <div class="form-group" [class]="(accessRole.valid) ? 'select2-valid':'select2-invalid'">
+                <label for="access-role">Access Role</label>
+                <select2 id="access-role"
+                         [data]="accessRoleData"
+                         [options]="options"
+                         [value]="value"
+                         (valueChanged)="changed($event)"
+                ></select2>
+                <div [hidden]="accessRole.valid || accessRole.pristine" class="alert alert-danger">Select Access Roles from the dropdown.</div>
+              </div>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [hidden]="userExist" [disabled]="!userForm.valid" type="submit" (click)="onCreate()">Create</button>
-                <button class="btn btn-primary" [hidden]="!userExist" [disabled]="!userForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="btn btn-primary" [disabled]="!userForm.valid" type="submit" (click)="userExist ? onUpdate(): onCreate()">{{userExist ? "Update":"Create"}}</button>
                 <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
               </div>
 

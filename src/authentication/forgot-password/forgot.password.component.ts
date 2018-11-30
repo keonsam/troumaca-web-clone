@@ -3,9 +3,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {AuthenticationService} from '../authentication.service';
 import {Credential} from "../credential";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ValidResponse} from "../valid.response";
-import {Confirmation} from "../confirmation";
 import {ChangePassword} from "../change.password";
 
 @Component({
@@ -17,50 +16,66 @@ export class ForgotPasswordComponent implements OnInit {
 
   errorExists: boolean;
   username: FormControl;
-  confirmationCode: FormControl;
   password: FormControl;
-  forgotPasswordForm: FormGroup;
+  confirmPassword: FormControl;
+  usernameForm: FormGroup;
+  passwordForm: FormGroup;
   message = '';
+  formType2 = false;
+
   private credential: Credential;
-  private confirmation: Confirmation;
   private changePassword: ChangePassword;
+  private sub: any;
 
   constructor(private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
 
     this.credential = new Credential();
-    this.confirmation = new Confirmation();
     this.changePassword = new ChangePassword();
 
     this.username = new FormControl('', [Validators.required]);
-    this.confirmationCode = new FormControl({value: '', disabled: true}, [Validators.required,
-      Validators.minLength(6),
-      Validators.maxLength(6)]);
-    this.password = new FormControl({value: '', disabled: true}, [
+    this.password = new FormControl('', [
       Validators.required,
       this.passwordValidator(this.authenticationService)
     ]);
-    this.forgotPasswordForm = formBuilder.group({
+    this.confirmPassword = new FormControl('', [
+      Validators.required,
+      this.confirmEmailOrPhoneValidator(this.password)
+    ]);
+
+    this.usernameForm = formBuilder.group({
       'username': this.username,
-      'confirmationCode': this.confirmationCode,
-      'password': this.password
     });
 
-    this.forgotPasswordForm
+    this.passwordForm = formBuilder.group({
+      'password': this.password,
+      'confirmPassword': this.confirmPassword
+    });
+
+
+    this.usernameForm
       .valueChanges
-      .subscribe( value => {
+      .subscribe(value => {
         this.credential.username = value.username;
-        this.changePassword.username = value.username;
-        this.confirmation.code = value.confirmationCode;
-        this.changePassword.code = value.confirmationCode;
-        this.changePassword.password = value.password;
+      });
+
+    this.passwordForm
+      .valueChanges
+      .subscribe(value => {
         this.changePassword.newPassword = value.password;
       });
   }
 
   ngOnInit(): void {
-    console.log(this.password.status);
+    if (this.router.url.indexOf('change') !== -1) {
+      this.formType2 = true;
+      this.sub = this.route.params.subscribe(params => {
+        this.changePassword.credentialId = params['credentialId'];
+        this.changePassword.code = params['code'];
+      });
+    }
   }
 
   private passwordValidator(authenticationService: AuthenticationService) {
@@ -93,11 +108,17 @@ export class ForgotPasswordComponent implements OnInit {
       }
 
       return isValidPassword ? null : {
-        validateEmail: {
-          valid: false
-        }
+        password: true
       };
     }
+  }
+
+  private confirmEmailOrPhoneValidator(password: FormControl) {
+    return (c: FormControl) => {
+      return password.value === c.value ? null : {
+        confirmPassword: true
+      };
+    };
   }
 
   onForgotPassword() {
@@ -105,38 +126,14 @@ export class ForgotPasswordComponent implements OnInit {
     this.authenticationService.forgotPassword(this.credential)
       .subscribe( value => {
         if (value && value.confirmationId) {
-          this.confirmation.credentialId = value.credentialId;
-          this.confirmation.confirmationId = value.confirmationId;
-          this.changePassword.credentialId = value.credentialId;
-          this.confirmationCode.enable();
+          this.router.navigate([`/authentication/forgot-password/confirmations/${value.credentialId}/${value.confirmationId}`]);
         }else {
           this.message = 'Username does not exit. Please try again.';
           this.errorExists = true;
         }
       }, error => {
-        this.message = 'Username does not exit. Please try again.';
-        this.errorExists = true;
-      });
-  }
-
-  onConfirmationCode() {
-    this.errorExists = false;
-
-    this.authenticationService
-      .verifyConfirmation(this.confirmation)
-      .subscribe(confirmation => {
-        if (confirmation && confirmation.status === 'Confirmed') {
-          this.password.enable();
-        } else if (confirmation && confirmation.status === 'Expired') {
-          this.message = 'Confirmation code has expired. Please refresh and enter username again.';
-          this.errorExists = true;
-        } else {
-          this.message = 'Confirmation code does not match or an error has occurred. Please try again or generate a new one below.';
-          this.errorExists = true;
-        }
-      }, error => {
         console.log(error);
-        this.message = 'Confirmation code does not match or an error has occurred. Please try again or generate a new one below.';
+        this.message = 'Username does not exit. Please try again.';
         this.errorExists = true;
       });
   }
@@ -145,8 +142,8 @@ export class ForgotPasswordComponent implements OnInit {
     this.errorExists = false;
 
     this.authenticationService.changePassword(this.changePassword)
-      .subscribe(confirmation => {
-        if (confirmation && confirmation.credentialId) {
+      .subscribe(changeRes => {
+        if (changeRes && changeRes.changed) {
           this.router.navigate(['/authentication/login']);
         } else {
           this.message = 'Failed to change password. Please check your information and try again.';

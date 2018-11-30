@@ -2,10 +2,10 @@ import { UserRepository} from './user.repository';
 import {Observable} from 'rxjs';
 import {AccessRole} from '../../access-roles/access.role';
 import {Users} from '../users';
-import {UserResponse} from '../user.response';
 import {PartyAccessRole} from '../party.access.role';
 import {User} from '../user';
 import { Credential } from '../../authentication/credential';
+import {ValidResponse} from "../../authentication/valid.response";
 
 export class UserService {
   constructor(private userRepository: UserRepository) {}
@@ -18,7 +18,7 @@ export class UserService {
     return this.userRepository.getUsers(pageNumber, pageSize, sortOrder);
   }
 
-  public getUser(partyId?: string): Observable<UserResponse> {
+  public getUser(partyId?: string): Observable<User> {
     return this.userRepository.getUser(partyId);
   }
 
@@ -26,15 +26,21 @@ export class UserService {
     return this.userRepository.addUser(user, credential, partyAccessRoles);
   }
 
-  public updateUser(user: User, credential: Credential, partyAccessRoles: PartyAccessRole[]): Observable<number> {
+  public updateUser(user: User, credential: Credential, partyAccessRoles?: PartyAccessRole[]): Observable<number> {
     return this.userRepository.updateUser(user, credential, partyAccessRoles);
-  }
-
-  public updateUserMe(user: User, credential: Credential): Observable<number> {
-    return this.userRepository.updateUser(user, credential);
   }
 
   public deleteUser(partyId: string): Observable<number> {
     return this.userRepository.deleteUser(partyId);
+  }
+
+  // Validation
+
+  isValidUsername(username: string, partyId?: string): Observable<ValidResponse> {
+    return this.userRepository.isValidUsername(username, partyId);
+  }
+
+  isValidPassword(password: string): Observable<ValidResponse> {
+    return this.userRepository.isValidPassword(password);
   }
 }

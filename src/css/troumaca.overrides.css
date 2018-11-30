@@ -7,3 +7,25 @@
 .right-button {
   float: right;
 }
+
+.form-group {
+  min-height: 92px;
+}
+
+.helper-text {
+  height: 25px;
+  line-height: 1.2em;
+  font-size: 75%;
+  padding-top: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.auth-box-w form {
+  padding-left: 50px;
+  padding-right: 50px;
+}

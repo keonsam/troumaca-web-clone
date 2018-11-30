@@ -9,8 +9,8 @@
   </h4>
 
   <form [formGroup]="phoneVerificationForm" (ngSubmit)="onSubmit()">
-    <p class="form-desc">
-      Enter the confirmation code we sent to your username.
+    <p class="lead">
+      Enter the confirmation code we sent to {{username || 'your phone number or email address'}}.
     </p>
 
     <div *ngIf="showSuccessMessage" class="alert alert-success">
@@ -21,16 +21,9 @@
       <strong>Error!</strong> {{ message || ''}}.
     </div>
 
-    <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>Enter the 6-digit code</mat-label>
-      <input matInput [formControl]="confirmationCode">
-      <mat-error *ngIf="confirmationCode.errors && !confirmationCode.hasError('required')">
-        Must be six characters.
-      </mat-error>
-      <mat-error *ngIf="confirmationCode.hasError('required')">
-        Confirmation  is <strong>required</strong>
-      </mat-error>
-    </mat-form-field>
+    <div class="form-group">
+      <label for="confirmation-code">Enter Confirmation Code:</label><input id="confirmation-code" class="form-control" formControlName="confirmationCode" placeholder="Enter the 6-digit code" required type="text">
+    </div>
 
     <div class="buttons-w">
         <button class="btn btn-outline-secondary" routerLink="/authentication/register">Back</button>

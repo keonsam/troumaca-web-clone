@@ -1,7 +1,9 @@
   <div class="up-head-w" [ngStyle]="{'background-image': 'url(' + defaultOrganizationImage + ')'}">
     <div class="up-social">
-      <input #fileid type="file" (change)="onUpload($event)" accept="image/*"  hidden/>
+      <form>
+      <input #fileid type="file" name="image" (change)="onUpload($event)" accept="image/*"  hidden/>
       <a (click)="fileid.click()"><i class="os-icon os-icon-pencil-2"></i></a>
+      </form>
     </div>
     <div class="up-main-info">
       <div class="user-avatar-w">

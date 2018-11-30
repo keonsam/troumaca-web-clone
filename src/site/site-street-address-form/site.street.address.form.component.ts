@@ -74,7 +74,7 @@ export class SiteStreetAddressFormComponent implements OnInit {
        this.streetAddress.suiteOrApartmentNumber = value.suiteOrApartmentNumber;
        this.streetAddress.description = value.description;
        this.streetAddress.streetNumber = value.streetNumber;
-       this.streetAddress.street = value.street;
+       this.streetAddress.streetName = value.street;
        this.streetAddress.city = value.city;
        this.streetAddress.stateOrProvince = value.stateOrProvince;
        this.streetAddress.postalCode = value.postalCode;
@@ -99,7 +99,7 @@ export class SiteStreetAddressFormComponent implements OnInit {
     this.suiteOrApartmentNumber.setValue(streetAddress.suiteOrApartmentNumber);
     this.description.setValue(streetAddress.description);
     this.streetNumber.setValue(streetAddress.streetNumber);
-    this.street.setValue(streetAddress.street);
+    this.street.setValue(streetAddress.streetName);
     this.city.setValue(streetAddress.city);
     this.stateOrProvince.setValue(streetAddress.stateOrProvince);
     this.postalCode.setValue(streetAddress.postalCode);

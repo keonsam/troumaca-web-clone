@@ -14,3 +14,6 @@
 @import "css/breakdown-main-css/dark.color.scheme.css";
 @import "css/breakdown-main-css/responsive.styles.css";
 @import "css/troumaca.overrides.css";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

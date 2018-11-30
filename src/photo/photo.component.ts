@@ -2,6 +2,7 @@ import {Component, OnInit, Input} from '@angular/core';
 import {User} from '../parties/user';
 import {PhotoService } from './photo.service';
 import { Photo } from './photo';
+import {ImageSnippet} from "./image.snippet";
 
 @Component({
   selector: 'app-photo',
@@ -10,6 +11,7 @@ import { Photo } from './photo';
 })
 export class PhotoComponent implements OnInit {
   photo: Photo;
+  selectedFile: ImageSnippet;
   @Input() type = 'photo';
   @Input() user: User;
   @Input() firstName: string;
@@ -63,14 +65,19 @@ export class PhotoComponent implements OnInit {
   }
 
   onUpload(event: any): void {
-    const selectedFile = event.target.files[0];
-    const uploadData: FormData = new FormData();
-    uploadData.append('image', selectedFile, selectedFile.name);
-    if (this.photo.partyId) {
-      this.updateImage(uploadData);
-    } else {
-      this.addImage(uploadData);
-    }
+    const file: File = event.target.files[0];
+    const reader = new FileReader();
+    const uploadData = new FormData();
+    reader.addEventListener('load', (event: any) => {
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+      uploadData.append('image', this.selectedFile.file);
+      if (this.photo.partyId) {
+        this.updateImage(uploadData);
+      } else {
+        this.addImage(uploadData);
+      }
+    });
+    reader.readAsDataURL(file);
   }
 
 }

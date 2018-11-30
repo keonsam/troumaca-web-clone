@@ -2,6 +2,7 @@ import {Observable} from "rxjs";
 import {Organizations} from "../organizations";
 import {Organization} from "../organization";
 import {JoinOrganization} from "../join.organization";
+import {ValidResponse} from "../../authentication/valid.response";
 
 export abstract class OrganizationRepository {
 
@@ -18,4 +19,8 @@ export abstract class OrganizationRepository {
   abstract deleteOrganization(partyId: string): Observable<number>;
 
   abstract updateOrganization(organization: Organization): Observable<number>;
+
+  // VALIDATION
+
+  abstract isValidUsername(username: string, partyId?: string): Observable<ValidResponse>;
 }

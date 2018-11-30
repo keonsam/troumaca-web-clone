@@ -1,0 +1,58 @@
+<div [ngClass]="{'content-i': !profile }">
+  <div [ngClass]="{'content-box': !profile}">
+    <div [ngClass]="{'row': !profile}">
+      <div [ngClass]="{'col-sm-12': !profile}">
+        <div class="element-wrapper">
+          <div class="element-box">
+            <form [formGroup]="organizationForm" id="formValidate">
+              <h5 class="form-header">Organization Form</h5>
+
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{organizationExist ? "update":"create"}}</div>
+
+              <div class="form-group">
+                <label for="organization-name">Organization Name</label><input id="organization-name" class="form-control" formControlName="name" placeholder="Enter Organization Name" required="required" type="text">
+                <div class="helper-text"><span [hidden]="name.valid || name.pristine" class="text-danger">Example: Troumaka</span></div>
+              </div>
+
+
+              <div class="form-group">
+                <label for="organization-purpose">Organization Purpose</label><input id="organization-purpose" class="form-control" formControlName="purpose" placeholder="Enter Organization Purpose" required="required" type="text">
+                <div class="helper-text"><span [hidden]="purpose.valid || purpose.pristine" class="text-danger">Example: Asset Management Software</span></div>
+              </div>
+
+              <fieldset>
+                <legend><span>About</span></legend>
+
+                <div class="form-group">
+                  <label for="email">Email Address</label><input id="email" class="form-control" formControlName="email" placeholder="Enter Organization Email" required="required" type="text">
+                  <div class="helper-text"><span [hidden]="email.valid || email.pristine" class="text-danger">Example: email@example.com</span></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="phone-number">Phone Number</label><input id="phone-number" class="form-control" formControlName="number" placeholder="Enter Phone Number Without Formatting" required="required" type="number">
+                  <div class="helper-text"><span [hidden]="number.valid || number.pristine" class="text-danger">Example: 15417543010</span></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="address">Address</label><input id="address" class="form-control" formControlName="address" placeholder="Enter Organization Address" required="required" type="text" #search>
+                  <div class="helper-text"><span [hidden]="address.valid || address.pristine" class="text-danger">Example: 15417543010</span></div>
+                </div>
+
+              </fieldset>
+
+              <div class="form-group">
+                <label for="description">Description</label><textarea id="description" class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
+              </div>
+
+              <div class="form-buttons-w">
+                <button class="btn btn-primary" [disabled]="!organizationForm.valid" type="submit" (click)="organizationExist ? onUpdate():onCreate()">{{ organizationExist ? "Update":"Create"}}</button>
+                <button class="btn btn-outline-danger right-button" [hidden]="profile" type="cancel" (click)="cancel()">Cancel</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

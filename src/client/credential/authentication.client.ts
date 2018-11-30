@@ -5,6 +5,7 @@ import { User } from '../../parties/user';
 import { AuthenticatedCredential } from '../../authentication/authenticated.credential';
 import { Confirmation } from '../../authentication/confirmation';
 import {ChangePassword} from "../../authentication/change.password";
+import {ChangeResponse} from "../../authentication/change.response";
 
 export abstract class AuthenticationClient {
   abstract authenticate(credentialState: Credential): Observable<AuthenticatedCredential>;
@@ -14,5 +15,5 @@ export abstract class AuthenticationClient {
   abstract addCredential(credential: Credential, userState: User): Observable<Confirmation>;
   abstract verifyConfirmationState(conformationState: Confirmation): Observable<Confirmation>;
   abstract resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation>;
-  abstract changePassword(changePassword: ChangePassword): Observable<Confirmation>;
+  abstract changePassword(changePassword: ChangePassword): Observable<ChangeResponse>;
 }
