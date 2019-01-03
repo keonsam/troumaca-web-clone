@@ -15,10 +15,9 @@ export class ConfirmationComponent implements OnInit {
   phoneVerificationForm: FormGroup;
   confirmationCode: FormControl;
   private confirmation: Confirmation;
-  message: string;
-  // username: string;
-  showSuccessMessage = false;
-  showErrorMessage = false;
+  message= '';
+  doNotDisplaySuccessMessage = true;
+  doNotDisplayFailureMessage = true;
   private sub: any;
   private redirectLink = '/authentication/login';
 
@@ -54,36 +53,37 @@ export class ConfirmationComponent implements OnInit {
   }
 
   sendConfirmationCode() {
-    this.showSuccessMessage = false;
-    this.showErrorMessage = false;
+    this.doNotDisplaySuccessMessage = true;
+    this.doNotDisplayFailureMessage = true;
 
     this.authenticationService
       .resendConfirmationCode(this.confirmation.confirmationId, this.confirmation.credentialId)
       .subscribe(confirmation => {
         if (confirmation && confirmation.status === 'New') {
-          this.message = 'Confirmation code has been sent.\n' +
-            '      If you didn\'t get it in 5 minutes, Please try again.';
-          this.showSuccessMessage = true;
+          this.message = 'If you didn\'t get it in 5 minutes, please try again.';
+          this.doNotDisplaySuccessMessage = false;
           setTimeout(() => {
             this.router.navigate([`/authentication/confirmations/${confirmation.credentialId}/${confirmation.confirmationId}`]);
+            this.doNotDisplaySuccessMessage = true;
+            this.doNotDisplayFailureMessage = true;
           }, 2000);
         } else if (confirmation && confirmation.status === 'Confirmed') {
-          this.message = 'Username has already been confirmed, please log in.';
-          this.showErrorMessage = true;
+          this.message = 'Username confirmed, please log in.';
+          this.doNotDisplayFailureMessage = false;
         } else {
           this.message = 'Something went wrong, please try again.';
-          this.showErrorMessage = true;
+          this.doNotDisplayFailureMessage = false;
         }
       }, error => {
         console.log(error);
         this.message = 'Something went wrong, please try again.';
-        this.showErrorMessage = true;
+        this.doNotDisplayFailureMessage = false;
       });
   }
 
   onSubmit() {
-    this.showSuccessMessage = false;
-    this.showErrorMessage = false;
+    this.doNotDisplaySuccessMessage = true;
+    this.doNotDisplayFailureMessage = true;
 
     this.authenticationService
       .verifyConfirmation(this.confirmation)
@@ -91,22 +91,20 @@ export class ConfirmationComponent implements OnInit {
         if (confirmation && confirmation.status === 'Confirmed') {
           if (this.router.url.indexOf('forgot-password') !== -1) {
             this.redirectLink = `authentication/forgot-password/change/${confirmation.credentialId}/${confirmation.code}`;
+          }else {
+            this.router.navigate([this.redirectLink]);
           }
-          this.router.navigate([this.redirectLink]);
         } else if (confirmation && confirmation.status === 'Expired') {
-          this.message = 'Confirmation code has expired. \n' +
-            '      Please generate a new one below.';
-          this.showErrorMessage = true;
+          this.message = 'Expired, please generate a new one below.';
+          this.doNotDisplayFailureMessage = false;
         } else {
-          this.message = 'Confirmation code does not match or an error has occurred. \n' +
-            '      Please try again or generate a new one below.';
-          this.showErrorMessage = true;
+          this.message = 'Confirmation failed.';
+          this.doNotDisplayFailureMessage = false;
         }
       }, error => {
         console.log(error);
-        this.message = 'Confirmation code does not match or an error has occurred. \n' +
-          '      Please try again or generate a new one below.';
-        this.showErrorMessage = true;
+        this.message = 'Confirmation failed.';
+        this.doNotDisplayFailureMessage = false;
       });
   }
 

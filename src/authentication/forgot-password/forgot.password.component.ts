@@ -128,12 +128,12 @@ export class ForgotPasswordComponent implements OnInit {
         if (value && value.confirmationId) {
           this.router.navigate([`/authentication/forgot-password/confirmations/${value.credentialId}/${value.confirmationId}`]);
         }else {
-          this.message = 'Username does not exit. Please try again.';
+          this.message = 'Username does not exit, please try again.';
           this.errorExists = true;
         }
       }, error => {
         console.log(error);
-        this.message = 'Username does not exit. Please try again.';
+        this.message = 'Username does not exit, please try again.';
         this.errorExists = true;
       });
   }
@@ -146,12 +146,12 @@ export class ForgotPasswordComponent implements OnInit {
         if (changeRes && changeRes.changed) {
           this.router.navigate(['/authentication/login']);
         } else {
-          this.message = 'Failed to change password. Please check your information and try again.';
+          this.message = 'Password change failed.';
           this.errorExists = true;
         }
       }, error1 => {
         console.log(error1);
-        this.message = 'Failed to change password. Please check your information and try again.';
+        this.message = 'Password change failed.';
         this.errorExists = true;
       });
   }

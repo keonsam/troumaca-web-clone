@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AssetService} from '../asset.service';
-import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Asset} from '../asset';
-import {AssetKind} from '../asset.kind';
 import {Router, ActivatedRoute} from '@angular/router';
-import { map, filter, debounceTime } from 'rxjs/operators';
+import { filter, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-asset-form',
@@ -15,231 +13,272 @@ import { map, filter, debounceTime } from 'rxjs/operators';
 
 export class AssetFormComponent implements OnInit {
 
-  sub: any;
+  search: FormControl;
 
-  assetKindId: FormControl;
-  assetType: FormControl;
-  serialNumber: FormControl;
-  quantity: FormControl;
-  site: FormControl;
-  person: FormControl;
+  name: FormControl;
+  createdOn: FormControl;
+  destroyOn: FormControl;
+  expireOn: FormControl;
   description: FormControl;
+  discreteType: FormControl;
+  serialNumber: FormControl;
+  inventoryType: FormControl;
+  inventoryID: FormControl;
+  quantity: FormControl;
+  buildingNumber: FormControl;
+  lotNumber: FormControl;
+  numberOfShares: FormControl;
   assetForm: FormGroup;
 
-  assetTypeDataService: CompleterData;
-  siteDataService: CompleterData;
-  personDataService: CompleterData;
+  specificationName: FormControl;
+  specificationType: FormControl;
+  partOf: FormControl;
+  modelNumber: FormControl;
+  standardPrice: FormControl;
+  effectiveDate: FormControl;
+  description1: FormControl;
+  assetSpecificationForm: FormGroup;
+
+  brandName: FormControl;
+  abbreviation: FormControl;
+  description2: FormControl;
+  assetBrandForm: FormGroup;
+
+  characteristicsName: FormControl;
+  value: FormControl;
+  optional: FormControl;
+  effectiveDate1: FormControl;
+  untilDate: FormControl;
+  assetCharacteristicsForm: FormGroup;
 
   private asset: Asset;
+  assets: Asset[];
+  discreteTypes: string[];
+  inventoryTypes: string[];
+  specificationTypes: string[];
 
-  unitOfMeasureId: string;
-  assetKinds: AssetKind[];
-  pageSize = 15;
+  pageSize = 5;
   assetExist = false;
 
   doNotDisplayFailureMessage: boolean;
 
   constructor(private assetService: AssetService,
-              private completerService: CompleterService,
+              // private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
 
-    this.assetKindId = new FormControl('', [Validators.required]);
-    this.assetType = new FormControl('', [Validators.required]);
-    this.serialNumber = new FormControl('');
-    this.quantity = new FormControl('');
-    this.site = new FormControl('');
-    this.person = new FormControl('');
-    this.description = new FormControl('');
+    this.search = new FormControl('');
+
+    this.name = new FormControl('', [Validators.required]);
+    this.createdOn = new FormControl(new Date(), [Validators.required]);
+    this.destroyOn = new FormControl('', [Validators.required]);
+    this.expireOn = new FormControl('', [Validators.required]);
+    this.description = new FormControl('', [Validators.required]);
+    this.discreteType = new FormControl('', [Validators.required]);
+    this.serialNumber = new FormControl('', [Validators.required]);
+    this.inventoryType = new FormControl('', [Validators.required]);
+    this.inventoryID = new FormControl('', [Validators.required]);
+    this.quantity = new FormControl('', [Validators.required]);
+    this.buildingNumber = new FormControl('', [Validators.required]);
+    this.lotNumber = new FormControl('', [Validators.required]);
+    this.numberOfShares = new FormControl('', [Validators.required]);
+
+    this.specificationName = new FormControl('', [Validators.required]);
+    this.specificationType = new FormControl('', [Validators.required]);
+    this.partOf = new FormControl('', [Validators.required]);
+    this.modelNumber = new FormControl('', [Validators.required]);
+    this.standardPrice = new FormControl('', [Validators.required]);
+    this.effectiveDate = new FormControl(new Date(), [Validators.required]);
+    this.description1 = new FormControl('', [Validators.required]);
+
+    this.brandName = new FormControl('', [Validators.required]);
+    this.abbreviation = new FormControl('', [Validators.required]);
+    this.description2 = new FormControl('', [Validators.required]);
+
+    this.characteristicsName = new FormControl('', [Validators.required]);
+    this.value = new FormControl('', [Validators.required]);
+    this.optional = new FormControl('', [Validators.required]);
+    this.effectiveDate1 = new FormControl(new Date(), [Validators.required]);
+    this.untilDate = new FormControl('', [Validators.required]);
+
 
     this.assetForm = formBuilder.group({
-      'assetKindId': this.assetKindId,
-      'assetType': this.assetType,
+      'name': this.name,
+      'createdOn': this.createdOn,
+      'destroyOn': this.destroyOn,
+      'expireOn': this.expireOn,
+      'description': this.description,
+      'discreteType': this.discreteType,
       'serialNumber': this.serialNumber,
+      'inventoryType': this.inventoryType,
+      'inventoryID': this.inventoryID,
       'quantity': this.quantity,
-      'person': this.person,
-      'site': this.site,
-      'description': this.description
+      'buildingNumber': this.buildingNumber,
+      'lotNumber': this.lotNumber,
+      'numberOfShares': this.numberOfShares
     });
 
-    this.assetKinds = [];
+    this.assetSpecificationForm = formBuilder.group({
+      'specificationName': this.specificationName,
+      'specificationType': this.specificationType,
+      'partOf': this.partOf,
+      'modelNumber': this.modelNumber,
+      'standardPrice': this.standardPrice,
+      'effectiveDate': this.effectiveDate,
+      'description1': this.description1
+    });
+
+    this.assetBrandForm = formBuilder.group({
+      'brandName': this.brandName,
+      'abbreviation': this.abbreviation,
+      'description2': this.description2
+    });
+
+    this.assetCharacteristicsForm = formBuilder.group({
+      'characteristicsName': this.characteristicsName,
+      'value': this.value,
+      'optional': this.optional,
+      'effectiveDate1': this.effectiveDate1,
+      'untilDate': this.untilDate
+    });
 
     this.asset = new Asset();
 
     this.assetForm
       .valueChanges
       .subscribe(value => {
-        this.asset.assetKindId = value.assetKindId;
-        this.asset.serialNumber = value.serialNumber;
-        this.asset.quantity = value.quantity;
+        this.asset.name = value.name;
+        this.asset.createdOn = value.createdOn;
+        this.asset.destroyOn = value.destroyOn;
+        this.asset.expireOn = value.expireOn;
         this.asset.description = value.description;
+        this.asset.discreteItem.type = value.discreteType;
+        this.asset.discreteItem.serialNumber = value.serialNumber;
+        this.asset.inventoryItem.type = value.inventoryType;
+        this.asset.inventoryItem.inventoryID = value.inventoryID;
+        this.asset.inventoryItem.quantity = value.quantity;
+        this.asset.building.buildingNumber = value.buildingNumber;
+        this.asset.lot.lotNumber = value.lotNumber;
+        this.asset.lot.numberOfShares = value.numberOfShares;
       }, error2 => {
         console.log(error2);
+      });
+
+    this.assetSpecificationForm
+      .valueChanges
+      .subscribe( value => {
+        this.asset.specification.name = value.specificationName;
+        this.asset.specification.type = value.specificationType;
+        this.asset.specification.partOf = value.partOf;
+        this.asset.specification.modelNumber = value.modelNumber;
+        this.asset.specification.standardPrice = value.standardPrice;
+        this.asset.specification.effectiveDate = value.effectiveDate;
+        this.asset.specification.description = value.description1;
+      });
+
+    this.assetBrandForm
+      .valueChanges
+      .subscribe( value => {
+        this.asset.brand.name = value.brandName;
+        this.asset.brand.abbreviation = value.abbreviation;
+        this.asset.brand.description = value.description2;
+      });
+
+    this.assetCharacteristicsForm
+      .valueChanges
+      .subscribe( value => {
+        this.asset.characteristics.name = value.characteristicsName;
+        this.asset.characteristics.value = value.value;
+        this.asset.characteristics.optional = value.optional;
+        this.asset.characteristics.effectiveOn = value.effectiveDate1;
+        this.asset.characteristics.until = value.untilDate;
       });
 
     this.doNotDisplayFailureMessage = true;
   }
 
   ngOnInit(): void {
-    const that = this;
-    this.assetService
-      .getAssetKinds()
-      .subscribe(assetKinds => {
-        if (assetKinds) {
-          that.assetKinds = assetKinds.assetKinds;
-        }
-      }, onError => {
-        console.log(onError);
-      });
+    this.createAndPopulateDropDowns();
     if (this.route.snapshot && this.route.snapshot.data['asset']) {
       this.setInputValues(this.route.snapshot.data['asset']);
+      this.assetExist = true;
     }
-    this.createAndPopulateDropDowns();
-  }
-
-  private setInputValues(asset: Asset) {
-    this.assetKindId.setValue(asset.assetKindId);
-    this.assetType.setValue(asset.assetType ? asset.assetType.name : '');
-    this.serialNumber.setValue(asset.serialNumber);
-    this.quantity.setValue(asset.quantity);
-    this.site.setValue(asset.site ? asset.site.name : '');
-    this.person.setValue(asset.person ? asset.person.name : '');
-    this.description.setValue(asset.description);
-    this.unitOfMeasureId = asset.unitOfMeasure ? asset.unitOfMeasure.name : '';
-    this.assetExist = true;
-    this.asset = asset;
   }
 
   private createAndPopulateDropDowns() {
-    this.populateAssetTypeDropDown();
-    this.populateSiteDropDown();
-    this.populatePersonDropDown();
+    this.populateAssetsDropDown();
   }
 
-  private populateAssetTypeDropDown() {
-    if (!this.asset.assetType) {
-      this.findAssetTypes('');
-    }
-    this.assetForm.get('assetType').valueChanges
+  private populateAssetsDropDown() {
+    this.findAssets('');
+    this.search.valueChanges
       .pipe(debounceTime(1000), filter(value => { // filter out empty values
         return !!(value);
       }))
       .subscribe(value => {
-        this.findAssetTypes(value);
+        this.findAssets(value);
       });
   }
 
-  private findAssetTypes(value) {
+  private findAssets(value) {
     this.assetService
-      .findAssetTypes(value, this.pageSize) // send search request to the backend
-      .pipe(map(value2 => { // convert results to dropdown data
-        return value2.map(v2 => {
-          return {
-            assetTypeId: v2.assetTypeId,
-            name: v2.name
-          };
-        })
-      }))
+      .findAssets(value, this.pageSize) // send search request to the backend
+      // .pipe(map(value2 => { // convert results to dropdown data
+      //   return value2.map(v2 => {
+      //     return {
+      //       assetTypeId: v2.assetTypeId,
+      //       name: v2.name
+      //     };
+      //   })
+      // }))
       .subscribe(next => { // update the data
-        this.assetTypeDataService = this.completerService.local(next, 'name', 'name');
+        this.assets = next;
       }, error => {
-        console.log('findAssetTypes error - ' + error);
+        console.log('findAssets error - ' + error);
       });
   }
 
-  private populateSiteDropDown() {
-    if (!this.asset.site) {
-      this.findUnionOfPhysicalSites('');
-    }
-    this.assetForm.get('site').valueChanges
-      .pipe(debounceTime(1000), filter(value => { // filter out empty values
-        return !!(value);
-      }))
-      .subscribe(value => {
-        console.log('value: ' + value);
-        this.findUnionOfPhysicalSites(value);
-      });
+
+  private setInputValues(asset: Asset) {
+    this.name.setValue(asset.name);
+    this.createdOn.setValue(asset.createdOn);
+    this.destroyOn.setValue(asset.destroyOn);
+    this.expireOn.setValue(asset.expireOn);
+    this.description.setValue(asset.description);
+    this.discreteType.setValue(asset.discreteItem.type);
+    this.serialNumber.setValue(asset.discreteItem.serialNumber);
+    this.inventoryType.setValue(asset.inventoryItem.type);
+    this.inventoryID.setValue(asset.inventoryItem.inventoryID);
+    this.quantity.setValue(asset.inventoryItem.quantity);
+    this.buildingNumber.setValue(asset.building.buildingNumber);
+    this.lotNumber.setValue(asset.lot.lotNumber);
+    this.numberOfShares.setValue(asset.lot.numberOfShares);
+
+    this.specificationName.setValue(asset.specification.name);
+    this.specificationType.setValue(asset.specification.type);
+    this.partOf.setValue(asset.specification.partOf);
+    this.modelNumber.setValue(asset.specification.modelNumber);
+    this.standardPrice.setValue(asset.specification.standardPrice);
+    this.effectiveDate.setValue(asset.specification.effectiveDate);
+    this.description1.setValue(asset.specification.description);
+
+    this.brandName.setValue(asset.brand.name);
+    this.abbreviation.setValue(asset.brand.abbreviation);
+    this.description2.setValue(asset.brand.description);
+
+    this.characteristicsName.setValue(asset.characteristics.name);
+    this.value.setValue(asset.characteristics.value);
+    this.optional.setValue(asset.characteristics.optional);
+    this.effectiveDate1.setValue(asset.characteristics.effectiveOn);
+    this.untilDate.setValue(asset.characteristics.until);
+    this.asset = asset;
   }
 
-  private findUnionOfPhysicalSites(value) {
-    this.assetService
-      .findUnionOfPhysicalSites(value, this.pageSize) // send search request to the backend
-      .pipe(map(value2 => { // convert results to dropdown data
-        return value2.map(v2 => {
-          /*let name = '';
-          if (v2.postOfficeBoxNumber) {
-            name = v2.postOfficeBoxNumber;
-          } else {
-            name = v2.streetNumber + ' ' + v2.street;
-          }*/
-          return {
-            siteId: v2.siteId,
-            name: v2.name
-          };
-        })
-      }))
-      .subscribe(next => { // update the data
-        this.siteDataService = this.completerService.local(next, 'name', 'name');
-      }, error => {
-        console.log('findUnionOfPhysicalSites error - ' + error);
-      });
-  }
-
-  private populatePersonDropDown() {
-    if (!this.asset.person) {
-      this.findPersons('');
-    }
-    this.assetForm.get('person').valueChanges
-      .pipe(debounceTime(1000), filter(value => { // filter out empty values
-        return !!(value);
-      }))
-      .subscribe(value => {
-        this.findPersons(value);
-      });
-  }
-
-  private findPersons(value) {
-    this.assetService
-      .findPersons(value, this.pageSize) // send search request to the backend
-      .pipe(map(value2 => { // convert results to dropdown data
-        return value2.map(v2 => {
-          return {
-            partyId: v2.partyId,
-            name: v2.firstName
-          };
-        })
-      }))
-      .subscribe(next => { // update the data
-        this.personDataService = this.completerService.local(next, 'name', 'name');
-      }, error => {
-        console.log('findPersons error - ' + error);
-      });
-  }
-
-  onAssetTypeSelect(selected: CompleterItem) {
-    this.asset.assetTypeId = selected.originalObject.assetTypeId;
-  }
-
-  onPhysicalSiteSelect(selected: CompleterItem) {
-    this.asset.siteId = selected.originalObject.siteId;
-  }
-
-  onPersonSelect(selected: CompleterItem) {
-    this.asset.personId = selected.originalObject.partyId;
-  }
-
-  setUnitOfMeasureId(unitOfMeasureId: string) {
-    this.asset.unitOfMeasureId = unitOfMeasureId;
-  }
-
-
-  isDiscreteItem() {
-    return this.assetKindId.value === '4cf11077-c5e3-41f3-b40b-6e89dce6e9c8';
-  }
-
-  isInventory() {
-    return this.assetKindId.value === '65694257-0aa8-4fb6-abb7-e6c7b83cf4f2';
+  onSearchSelect(asset: Asset) {
+    delete asset['_id'];
+    delete asset['assetId'];
+    this.setInputValues(asset);
   }
 
   onCreate() {

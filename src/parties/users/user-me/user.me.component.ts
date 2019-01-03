@@ -20,14 +20,14 @@ export class UserMeComponent implements OnInit {
   username: FormControl;
   password: FormControl;
   confirmPassword: FormControl;
-
   userMeForm: FormGroup;
+
+  doNotDisplayFailureMessage: boolean;
+  errorMessage: string;
+  requiredState = false;
 
   private user: User;
   private credential: Credential;
-
-  doNotDisplayFailureMessage: boolean;
-  requiredState = false;
 
   constructor(private userService: UserService,
               private route: ActivatedRoute,
@@ -38,7 +38,7 @@ export class UserMeComponent implements OnInit {
     this.credential = new Credential();
 
     this.firstName = new FormControl('', [Validators.required]);
-    this.middleName = new FormControl('', [Validators.required]);
+    this.middleName = new FormControl('');
     this.lastName = new FormControl('', [Validators.required]);
     this.username = new FormControl('', [Validators.required, this.usernameValidator(this.userService)]);
     this.password = new FormControl('');
@@ -69,9 +69,7 @@ export class UserMeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.password
-      .valueChanges
-      .pipe(debounceTime(1000), distinctUntilChanged())
+    this.password.valueChanges.pipe(debounceTime(1000), distinctUntilChanged())
       .subscribe(value => {
         if (value && !this.requiredState) {
           this.requiredState = true;
@@ -86,18 +84,24 @@ export class UserMeComponent implements OnInit {
         }
     this.userMeForm.updateValueAndValidity();
     });
-    
-    if (this.route.snapshot && this.route.snapshot.data['userResponse']) {
-      this.setInputValues(this.route.snapshot.data['userResponse']);
-    }
+
+    this.getUserMe()
   }
 
-  private setInputValues(user: User) {
-    this.firstName.setValue(user.firstName);
-    this.middleName.setValue(user.middleName);
-    this.lastName.setValue(user.lastName);
-    this.username.setValue(user.username);
-    this.user = user;
+  private getUserMe() {
+    this.userService.getUser('profile')
+      .subscribe( userRes => {
+        if (userRes) {
+          this.firstName.setValue(userRes.firstName);
+          this.middleName.setValue(userRes.middleName);
+          this.lastName.setValue(userRes.lastName);
+          this.username.setValue(userRes.username);
+          this.user = userRes;
+        }
+      }, error => {
+        this.errorMessage = 'Failed to get profile, please refresh.';
+        this.doNotDisplayFailureMessage = false;
+      });
   }
 
   private usernameValidator(userService: UserService) {
@@ -132,9 +136,7 @@ export class UserMeComponent implements OnInit {
        }
 
       return isValidUsername ? null : {
-        validateEmail: {
-          valid: false
-        }
+        validateEmail: true
       };
     }
   }
@@ -171,9 +173,7 @@ export class UserMeComponent implements OnInit {
       }
 
       return isValidPassword ? null : {
-        validateEmail: {
-          valid: false
-        }
+        password: true
       };
     }
   }
@@ -181,9 +181,7 @@ export class UserMeComponent implements OnInit {
   private confirmPasswordValidator(password: FormControl) {
     return (c: FormControl) => {
       return password.value === c.value ? null : {
-        validateEmail: {
-          valid: false
-        }
+        password: true
       };
     };
   }
@@ -196,12 +194,18 @@ export class UserMeComponent implements OnInit {
         if (value) {
           this.router.navigate(['/lobby']);
         } else {
+          this.errorMessage = 'Failed to update profile, please try again';
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
         console.log(error);
+        this.errorMessage = 'Failed to update profile, please try again';
         this.doNotDisplayFailureMessage = false;
       });
+  }
+
+  cancel() {
+
   }
 
 }

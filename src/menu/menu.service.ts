@@ -1,7 +1,7 @@
 import {MenuRepository} from './menu.repository';
 import {Observable} from 'rxjs';
 import {MenuModel} from './menu.model';
-import {Injectable} from '@angular/core';
+import {App} from "../lobby/app";
 
 export class MenuService {
 
@@ -14,6 +14,10 @@ export class MenuService {
 
   public getMenu(isLoggedIn: boolean): Observable<MenuModel> {
     return this.menuRepository.getMenuModel(isLoggedIn);
+  }
+
+  getApps(): Observable<App[]> {
+    return this.menuRepository.getApps();
   }
 
 }

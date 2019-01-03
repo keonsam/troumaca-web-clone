@@ -153,21 +153,21 @@ export class TaxFormComponent implements OnInit {
   }
 
   findAssets(value) {
-    this.depreciationService
-      .findAssets(value, this.pageSize) // send search request to the backend
-      .pipe(map(value2 => { // convert results to dropdown data
-        return value2.map(v2 => {
-          return {
-            assetId: v2.assetId,
-            name: v2.assetType.name
-          };
-        })
-      }))
-      .subscribe(next => { // update the data
-        this.assetDataService = this.completerService.local(next, 'name', 'name');
-      }, error => {
-        console.log('findAssets error - ' + error);
-      });
+    // this.depreciationService
+    //   .findAssets(value, this.pageSize) // send search request to the backend
+    //   .pipe(map(value2 => { // convert results to dropdown data
+    //     return value2.map(v2 => {
+    //       return {
+    //         assetId: v2.assetId,
+    //         name: v2.assetType.name
+    //       };
+    //     })
+    //   }))
+    //   .subscribe(next => { // update the data
+    //     this.assetDataService = this.completerService.local(next, 'name', 'name');
+    //   }, error => {
+    //     console.log('findAssets error - ' + error);
+    //   });
   }
 
   get depreciationMethod(): DepreciationMethod[] {

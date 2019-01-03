@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {User} from '../parties/user';
+import {User} from '../user';
 import {PhotoService } from './photo.service';
 import { Photo } from './photo';
 import {ImageSnippet} from "./image.snippet";
@@ -17,8 +17,8 @@ export class PhotoComponent implements OnInit {
   @Input() firstName: string;
   @Input() lastName: string;
   @Input() organizationName: string;
-  defaultUserImage = 'https://designdroide.com/images/abstract-user-icon-4.svg';
-  defaultOrganizationImage = 'https://www.desktopbackground.org/p/2015/10/22/1030276_high-quality-nature-wallpapers-free-download-desktop-wallpapers_2560x1920_h.jpg';
+  defaultUserImage = 'https://source.unsplash.com/random/50x50';
+  defaultOrganizationImage = 'https://source.unsplash.com/random';
 
   constructor(private photoService: PhotoService ) {
     this.photo = new Photo();

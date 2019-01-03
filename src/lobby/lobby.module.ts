@@ -7,6 +7,8 @@ import {LobbyRoutingModule} from "./lobby.routing.module";
 import {BillingModalModule} from "../billing-details/billing-modal/billing-modal.module";
 import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 import {MenuModule} from "../menu/menu.module";
+import {MaterialModule} from "../app/material.module";
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
   imports: [
@@ -14,7 +16,9 @@ import {MenuModule} from "../menu/menu.module";
     RouterModule,
     LobbyRoutingModule,
     BillingModalModule,
-    MenuModule
+    MenuModule,
+    MaterialModule,
+    DragDropModule
   ],
   declarations: [
     LobbyComponent

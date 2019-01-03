@@ -1,42 +1,33 @@
-import {AssetKind} from "./asset.kind";
-import {AssetType} from "../asset-types/asset.type";
-import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
-import {User} from "../parties/user";
-import {Site} from "../site/site";
+import {DiscreteItem} from "./discrete.item";
+import {InventoryItem} from "./inventory.item";
+import {Building} from "./building";
+import {Lot} from "./lot";
+import {AssetSpecification} from "./asset.specification";
+import {AssetBrand} from "./asset.brand";
+import {AssetCharacteristics} from "./asset.characteristics";
 
 export class Asset {
   assetId: string;
-  tenantId: string;
-  assetKindId: string;
-  assetKind: AssetKind;
-  assetTypeId: string;
-  assetType: AssetType;
-  serialNumber: string;
-  quantity: string;
-  unitOfMeasureId: string;
-  unitOfMeasure: UnitOfMeasure;
-  description: string;
-  personId: string;
-  person: User;
-  siteId: string;
-  site: Site;
+  name: string;
   createdOn: string;
-  modifiedOn: string;
+  destroyOn: string;
+  expireOn: string;
+  description: string;
+  discreteItem: DiscreteItem;
+  inventoryItem: InventoryItem;
+  building: Building;
+  lot: Lot;
+  specification: AssetSpecification;
+  brand: AssetBrand;
+  characteristics: AssetCharacteristics;
 
-  toJson() {
-    return {
-      assetId: this.assetId,
-      tenantId: this.tenantId,
-      assetKindId: this.assetKindId,
-      assetTypeId: this.assetTypeId,
-      serialNumber: this.serialNumber,
-      quantity: this.quantity,
-      unitOfMeasureId: this.unitOfMeasureId,
-      description: this.description,
-      personId: this.personId,
-      siteId: this.siteId,
-      createdOn: this.createdOn,
-      modifiedOn: this.modifiedOn,
-    }
+  constructor() {
+    this.discreteItem = new DiscreteItem();
+    this.inventoryItem = new InventoryItem();
+    this.building = new Building();
+    this.lot = new Lot();
+    this.specification = new AssetSpecification();
+    this.brand = new AssetBrand();
+    this.characteristics = new AssetCharacteristics();
   }
 }

@@ -23,7 +23,7 @@ export const routes: Routes = [
       { path: 'users/create', component: UserFormComponent, data: {menuName: 'users-menu'} },
       { path: 'users/:partyId/edit', component: UserFormComponent,
         resolve: {userResponse: UserResolve}, data: {menuName: 'users-menu'} },
-      { path: 'user-profile', component: UserMeComponent, resolve: {userResponse: UserResolve}, data: {menuName: 'users-menu'}},
+      { path: 'user-profile', component: UserMeComponent, data: {menuName: 'users-menu'}},
     ]}
 ];
 

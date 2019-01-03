@@ -2,10 +2,15 @@ import {MenuClient} from './menu.client';
 import {Observable} from 'rxjs';
 import {MenuState} from './menu.state';
 import {UUIDGenerator} from '../../uuid.generator';
+import {App} from "../../lobby/app";
+import {map} from "rxjs/operators";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 export class MenuClientHttp extends MenuClient {
 
-  constructor(private uuidGenerator: UUIDGenerator) {
+  constructor(private uuidGenerator: UUIDGenerator,
+              private httpClient: HttpClient,
+              private hostPort: string) {
     super();
   }
 
@@ -23,5 +28,23 @@ export class MenuClientHttp extends MenuClient {
 
   getLeftMenuStateById(menuId: string): Observable<MenuState> {
     return undefined;
+  }
+
+  getApps(): Observable<App[]> {
+    const url = `${this.hostPort}/apps`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.get<App[]>(url, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+  private jsonHttpHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type':  'application/json',
+      'correlationId': this.uuidGenerator.generateUUID()
+    });
   }
 }

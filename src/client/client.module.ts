@@ -28,6 +28,7 @@ import { userClientProvider } from './party/user/user.client.provider';
 import { organizationClientProvider } from './party/organization/organization.client.provider';
 import { billingDetailsClientProvider } from './billing-details/billing-details.client.provider';
 import {lobbyClientProvider} from './lobby/lobby.client.provider';
+import {organizationCreateClientProvider} from "./organization-create/organization.create.client.provider";
 
 @NgModule({
   imports:      [
@@ -63,7 +64,8 @@ import {lobbyClientProvider} from './lobby/lobby.client.provider';
     userClientProvider,
     organizationClientProvider,
     billingDetailsClientProvider,
-    lobbyClientProvider
+    lobbyClientProvider,
+    organizationCreateClientProvider
   ]
 })
 export class ClientModule { }

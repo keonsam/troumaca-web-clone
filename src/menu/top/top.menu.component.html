@@ -1,42 +1,156 @@
-<div [ngClass]="{'top-menu-secondary': true, 'with-overflow': menuName === 'billings-menu'}">
-
-  <ul>
-    <li *ngFor="let menuItemModel of menuModel.menuItemModels" (click)="onSelected(menuItemModel)" routerLinkActive="active">
-      <a href="#" routerLink="{{menuItemModel.routeName}}">{{menuItemModel.name}}</a>
-    </li>
-  </ul>
+<div class="top-menu-secondary with-overflow">
+  <div class="logo-w menu-size">
+    <a class="logo" href="#" routerLink="/lobby"><img src="images/logo.png"><span>Troumaka</span></a>
+  </div>
   <div class="top-menu-controls">
 
-    <search [visible]="displaySearchBox"></search>
-
+    <div [ngClass]="{'messages-notifications': true, 'os-dropdown-trigger': true, 'os-dropdown-center': true, 'over': overClass2}" (mouseenter)="overClass2 = true" (mouseleave)="overClass2 = false">
+      <div class="os-icon os-icon-grid-circles"></div>
+      <div class="os-dropdown light app-dropdown">
+        <div class="row">
+          <div *ngFor="let app of apps" class="col-4 small-padding">
+            <a [routerLink]="app.route" class="element-box el-tablo centered no-left-right-padding" href>
+              <div class="icon-w">
+                <mat-icon [inline]="true" color="primary" class="lobby-icons">{{app.iconClass}}</mat-icon>
+              </div>
+              <div class="label">
+                {{ app.name }}
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--------------------
     START - Messages Link in secondary top menu
     -------------------->
-    <!-- why have this twice? -->
-    <!--<message></message> -->
-
+    <div [ngClass]="{'messages-notifications': true, 'os-dropdown-trigger': true, 'os-dropdown-center': true, 'over': overClass}" (mouseenter)="overClass = true" (mouseleave)="overClass = false">
+      <i class="os-icon os-icon-mail-14"></i>
+      <div class="new-messages-count">
+        12
+      </div>
+      <div class="os-dropdown light message-list">
+        <div class="icon-w">
+          <i class="os-icon os-icon-mail-14"></i>
+        </div>
+        <ul>
+          <li>
+            <a href="#">
+              <div class="user-avatar-w">
+                <img alt="" src="images/avatar1.jpg">
+              </div>
+              <div class="message-content">
+                <h6 class="message-from">
+                  John Mayers
+                </h6>
+                <h6 class="message-title">
+                  Account Update
+                </h6>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div class="user-avatar-w">
+                <img alt="" src="images/avatar2.jpg">
+              </div>
+              <div class="message-content">
+                <h6 class="message-from">
+                  Phil Jones
+                </h6>
+                <h6 class="message-title">
+                  Secutiry Updates
+                </h6>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div class="user-avatar-w">
+                <img alt="" src="images/avatar3.jpg">
+              </div>
+              <div class="message-content">
+                <h6 class="message-from">
+                  Bekky Simpson
+                </h6>
+                <h6 class="message-title">
+                  Vacation Rentals
+                </h6>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div class="user-avatar-w">
+                <img alt="" src="images/avatar4.jpg">
+              </div>
+              <div class="message-content">
+                <h6 class="message-from">
+                  Alice Priskon
+                </h6>
+                <h6 class="message-title">
+                  Payment Confirmation
+                </h6>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
     <!--------------------
     END - Messages Link in secondary top menu
-    -------------------->
-
-    <!--------------------
-    START - Settings Link in secondary top menu
-    -------------------->
-
-    <!--<setting></setting> --->
-
-    <!--------------------
-    END - Settings Link in secondary top menu
-    -------------------->
-
-    <!--------------------
-    START - User avatar and menu in secondary top menu
-    -------------------->
-
-    <!--<avatar-menu></avatar-menu> -->
-
+    --------------------><!--------------------
+    --------------------><!--------------------
+          START - User avatar and menu in secondary top menu
+          -------------------->
+    <div class="logged-user-w">
+      <div class="logged-user-i">
+        <div class="avatar-w">
+          <img alt="" src="images/avatar1.jpg">
+        </div>
+        <div class="logged-user-menu">
+          <div class="logged-user-avatar-info">
+            <div class="avatar-w">
+              <img alt="" src="images/avatar1.jpg">
+            </div>
+            <div class="logged-user-info-w">
+              <div class="logged-user-name">
+                Maria Gomez
+              </div>
+              <div class="logged-user-role">
+                Administrator
+              </div>
+            </div>
+          </div>
+          <div class="bg-icon">
+            <i class="os-icon os-icon-wallet-loaded"></i>
+          </div>
+          <ul>
+            <li>
+              <a><i class="os-icon os-icon-mail-01"></i><span>Incoming mail</span></a>
+            </li>
+            <li>
+              <a routerLink="/parties/user-profile"><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
+            </li>
+            <li>
+              <a routerLink="/billing-details"><i class="os-icon os-icon-coins-4"></i><span>Billing Details</span></a>
+            </li>
+            <li>
+              <a ><i class="os-icon os-icon-others-43"></i><span>Notifications</span></a>
+            </li>
+            <li>
+              <a ><i class="os-icon os-icon-others-43"></i><span>Session History</span></a>
+            </li>
+            <li>
+              <a (click)="logOutEvent()"><i class="os-icon os-icon-signs-11"></i><span>Logout</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <!--------------------
     END - User avatar and menu in secondary top menu
     -------------------->
   </div>
+
 </div>

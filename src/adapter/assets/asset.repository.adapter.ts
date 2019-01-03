@@ -3,10 +3,6 @@ import {AssetRepository} from '../../assets/asset.repository';
 import {AssetClient} from '../../client/asset/asset.client';
 import {Asset} from '../../assets/asset';
 import {Assets} from '../../assets/assets';
-import {AssetKinds} from '../../assets/asset.kinds';
-import {AssetType} from '../../asset-types/asset.type';
-import {Site} from "../../site/site";
-import {User} from "../../parties/user";
 
 export class AssetRepositoryAdapter extends AssetRepository {
 
@@ -22,20 +18,8 @@ export class AssetRepositoryAdapter extends AssetRepository {
     return this.assetClient.getAsset(assetId);
   }
 
-  public getAssetKinds(): Observable<AssetKinds> {
-    return this.assetClient.getAssetKinds();
-  }
-
-  public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetType[]> {
-    return this.assetClient.findAssetTypes(searchStr, pageSize);
-  }
-
-  public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<Site[]> {
-    return this.assetClient.findUnionOfPhysicalSites(searchStr, pageSize);
-  }
-
-  public findPersons(searchStr: string, pageSize: number): Observable<User[]> {
-    return this.assetClient.findPersons(searchStr, pageSize);
+  public findAssets(searchStr: string, pageSize: number): Observable<Asset[]> {
+    return this.assetClient.findAssets(searchStr, pageSize);
   }
 
   public addAsset(asset: Asset): Observable<Asset> {

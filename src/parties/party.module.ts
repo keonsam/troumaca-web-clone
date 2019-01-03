@@ -23,12 +23,16 @@ import {partyServiceProvider} from './party.service.provider';
 import { organizationResolveProvider } from './organizations/organization.resolve.provider';
 import { userResolveProvider } from './users/user.resolve.provider';
 import { userServiceProvider } from './users/user.service.provider';
-import {UserMeModule} from './users/user-me/user.me.module';
 import { organizationServiceProvider } from './organizations/organization.service.provider';
-import {OrganizationCompanyModule} from './organizations/organization-company/organization.company.module';
 import { OrganizationFormModule } from './organizations/organization-form/organization.form.module';
 import {DeleteModalModule} from '../delete-modal/delete.modal.module';
-import {authGuardProvider} from "../auth-guard/auth.guard.provider";
+import {authGuardProvider} from '../auth-guard/auth.guard.provider';
+import {MaterialModule} from '../app/material.module';
+import {ContactInfoComponent} from './contact-info/contact.info.component';
+import {OrganizationCompanyComponent} from './organizations/organization-company/organization.company.component';
+import {PhotoModule} from './photo/photo.module';
+import {AddressComponent} from './address/address.component';
+import {UserMeComponent} from "./users/user-me/user.me.component";
 
 @NgModule({
   imports: [
@@ -41,10 +45,10 @@ import {authGuardProvider} from "../auth-guard/auth.guard.provider";
     Ng2CompleterModule,
     Select2Module,
     PartyRoutingModule,
-    UserMeModule,
     OrganizationFormModule,
-    OrganizationCompanyModule,
-    DeleteModalModule
+    DeleteModalModule,
+    MaterialModule,
+    PhotoModule,
   ],
   declarations: [
     PartyComponent,
@@ -52,7 +56,11 @@ import {authGuardProvider} from "../auth-guard/auth.guard.provider";
     OrganizationTopMenuComponent,
     UserTopMenuComponent,
     UserFormComponent,
-    UserListComponent
+    UserListComponent,
+    ContactInfoComponent,
+    OrganizationCompanyComponent,
+    UserMeComponent,
+    AddressComponent
   ],
   providers: [partyServiceProvider, PartyEventService,
     organizationResolveProvider, userResolveProvider, userServiceProvider,

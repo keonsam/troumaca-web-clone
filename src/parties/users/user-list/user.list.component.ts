@@ -4,6 +4,7 @@ import {PartyEventService} from '../../party.event.service';
 import {Page} from '../../../page/page';
 import {Sort} from '../../../sort/sort';
 import { UserService } from '../user.service';
+import {PageEvent} from "@angular/material";
 
 @Component({
   selector: 'app-user-list',
@@ -12,14 +13,16 @@ import { UserService } from '../user.service';
 })
 export class UserListComponent implements OnInit {
 
-  private partyId: string;
   username: string;
   users: Users;
+  routerLinkCreateUser = '/parties/users/create';
+
+
+  private partyId: string;
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
   private menuName = 'users-menu';
-  routerLinkCreateUser = '/parties/users/create';
 
   constructor(private partyEventService: PartyEventService,
               private userService: UserService) {
@@ -71,9 +74,9 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  onRequestPage(pageNumber: number) {
-   this.defaultPage = pageNumber;
+  onRequestPage(pageEvent: PageEvent) {
+   this.defaultPage = pageEvent.pageIndex + 1;
+   this.defaultPageSize = pageEvent.pageSize;
    this.getUsers();
   }
-
 }

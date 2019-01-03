@@ -22,6 +22,7 @@ import { MenuModule } from '../menu/menu.module';
 import { authGuardProvider } from '../auth-guard/auth.guard.provider';
 import { MaterialModule } from "./material.module";
 import 'hammerjs';
+import {FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import 'hammerjs';
     ClientModule,
     FrontHomeModule,
     MenuModule,
-    MaterialModule
+    MaterialModule,
+    FlexLayoutModule
   ],
   declarations: [
     AppComponent,

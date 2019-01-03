@@ -4,5 +4,6 @@ export const authRoutes: string[] = [
   '/authentication/login',
   '/authentication/forgot-password',
   '/authentication/confirmations',
-  '/authentication/register'
+  '/authentication/register',
+  '/organizations'
 ];

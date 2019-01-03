@@ -16,40 +16,49 @@
           <table class="table table-striped table-lightfont table-full-width">
             <thead>
               <tr>
-                <th>Classification</th>
-                <th>Asset Type</th>
+                <th>Name</th>
+                <th>Created On</th>
+                <th>Destroy On</th>
+                <th>Expire On</th>
+                <th>Discrete / Inventory Type</th>
                 <th>Serial Number</th>
+                <th>Inventory ID</th>
                 <th>Quantity</th>
-                <th>Unit Of Measure</th>
-                <th>Assignee</th>
-                <th>Site</th>
-                <th>Description</th>
+                <th>Building Number</th>
+                <th>Lot Number</th>
+                <th>Number Of Shares</th>
                 <th class="text-center">Actions</th>
               </tr>
             </thead>
             <tfoot>
               <tr>
-                <th>Classification</th>
-                <th>Asset Type</th>
+                <th>Name</th>
+                <th>Created On</th>
+                <th>Destroy On</th>
+                <th>Expire On</th>
+                <th>Discrete / Inventory Type</th>
                 <th>Serial Number</th>
+                <th>Inventory ID</th>
                 <th>Quantity</th>
-                <th>Unit Of Measure</th>
-                <th>Assignee</th>
-                <th>Site</th>
-                <th>Description</th>
+                <th>Building Number</th>
+                <th>Lot Number</th>
+                <th>Number Of Shares</th>
                 <th class="text-center">Actions</th>
               </tr>
             </tfoot>
             <tbody>
               <tr role="row" *ngFor="let asset of assets.assets; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-                <td>{{asset.assetKind?.name}}</td>
-                <td>{{asset.assetType?.name}}</td>
-                <td>{{asset.serialNumber}}</td>
-                <td>{{asset.quantity}}</td>
-                <td>{{asset.unitOfMeasure?.name}}</td>
-                <td>{{asset.person?.name}}</td>
-                <td>{{asset.site?.name}}</td>
-                <td>{{asset.description}}</td>
+                <td>{{asset.name}}</td>
+                <td>{{asset.createdOn | date:'mediumDate' }}</td>
+                <td>{{asset.destroyOn | date:'mediumDate' }}</td>
+                <td>{{asset.expireOn | date:'mediumDate' }}</td>
+                <td>{{asset.discreteItem ? asset.discreteItem.type : asset.inventoryItem.type}}</td>
+                <td>{{asset.discreteItem?.serialNumber}}</td>
+                <td>{{asset.inventoryItem?.inventoryID}}</td>
+                <td>{{asset.inventoryItem?.quantity}}</td>
+                <td>{{asset.building?.buildingNumber}}</td>
+                <td>{{asset.lot?.lotNumber}}</td>
+                <td>{{asset.lot?.numberOfShares}}</td>
                 <td class="row-actions">
                   <a [routerLink]="['/assets', asset.assetId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(asset.assetId, asset.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
                 </td>

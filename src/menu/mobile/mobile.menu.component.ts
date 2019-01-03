@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import {trigger, state, style, transition, animate} from '@angular/animations';
-import {PhotoService} from '../../photo/photo.service';
-import {Photo} from "../../photo/photo";
+import {PhotoService} from '../../parties/photo/photo.service';
+import {Photo} from "../../parties/photo/photo";
 import {User} from "../../parties/user";
 import {SessionService} from "../../session/session.service";
 import {UserService} from "../../parties/users/user.service";

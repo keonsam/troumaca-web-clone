@@ -1,0 +1,110 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$my-mat-primary: (
+  50 : #e1effe,
+  100 : #b4d7fd,
+  200 : #82bdfc,
+  300 : #4fa3fa,
+  400 : #2a8ff9,
+  500 : #047bf8,
+  600 : #0373f7,
+  700 : #0368f6,
+  800 : #025ef5,
+  900 : #014bf3,
+  A100 : #ffffff,
+  A200 : #e6ecff,
+  A400 : #b3c6ff,
+  A700 : #9ab3ff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$my-mat-secondary: (
+  50 : #e3e4e8,
+  100 : #babcc5,
+  200 : #8c909e,
+  300 : #5e6477,
+  400 : #3c4259,
+  500 : #19213c,
+  600 : #161d36,
+  700 : #12182e,
+  800 : #0e1427,
+  900 : #080b1a,
+  A100 : #5a76ff,
+  A200 : #274bff,
+  A400 : #0029f3,
+  A700 : #0024da,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+
+$my-mat-warn: (
+  50 : #fceaea,
+  100 : #f8cbcb,
+  200 : #f3a9a9,
+  300 : #ee8686,
+  400 : #ea6c6c,
+  500 : #e65252,
+  600 : #e34b4b,
+  700 : #df4141,
+  800 : #db3838,
+  900 : #d52828,
+  A100 : #ffffff,
+  A200 : #ffe0e0,
+  A400 : #ffadad,
+  A700 : #ff9393,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$candy-app-primary: mat-palette($my-mat-primary, 500);
+$candy-app-accent:  mat-palette($my-mat-secondary, 500);
+$candy-app-warn:    mat-palette($my-mat-warn);
+
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+@include angular-material-theme($candy-app-theme);
+

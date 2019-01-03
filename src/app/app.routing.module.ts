@@ -7,7 +7,7 @@ import { AuthGuard } from '../auth-guard/auth.guard';
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: FrontHomeComponent, canActivate: [AuthGuard]},
-  { path: 'authentication', loadChildren: '../authentication/authentication.module#AuthenticationModule', canActivate: [AuthGuard]},
+  { path: 'authentication', loadChildren: '../authentication/authentication.module#AuthenticationModule'},
   { path: 'lobby', loadChildren: '../lobby/lobby.module#LobbyModule', canLoad: [AuthGuard]},
   { path: 'access-roles', loadChildren: '../access-roles/access.role.module#AccessRoleModule', canLoad: [AuthGuard] },
   { path: 'asset-type-classes', loadChildren: '../asset-type-classes/asset.type.class.module#AssetTypeClassModule', canLoad: [AuthGuard] },
@@ -17,9 +17,8 @@ const appRoutes: Routes = [
   { path: 'depreciation', loadChildren: '../depreciation/depreciation.module#DepreciationModule', canLoad: [AuthGuard] },
   { path: 'parties', loadChildren: '../parties/party.module#PartyModule', canLoad: [AuthGuard] },
   { path: 'sites', loadChildren: '../site/site.module#SiteModule', canLoad: [AuthGuard] },
-  { path: 'profile-organizations',
-    loadChildren: '../parties/organizations/create-organization/create.organization.module#CreateOrganizationModule',
-    canLoad: [AuthGuard]
+  { path: 'organizations',
+    loadChildren: '../organization-create/organization.create.module#OrganizationCreateModule'
   },
   { path: 'billing-details', loadChildren: '../billing-details/billing-details.module#BillingDetailsModule', canLoad: [AuthGuard]},
   { path: '**', component: PageNotFoundComponent, data : { displayMenu: false } },

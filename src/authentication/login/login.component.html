@@ -7,10 +7,6 @@
   </h4>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-    <div *ngIf="errorExists" class="alert alert-danger">
-      <strong>Error!</strong> Failed to login. Please check your credential and try again.
-    </div>
-
     <mat-form-field class="example-full-width" appearance="outline">
       <mat-label>Username</mat-label>
       <mat-icon matPrefix color="primary">email</mat-icon>
@@ -31,9 +27,11 @@
 
     <mat-checkbox color="primary" [formControl]="rememberMe">Remember Me</mat-checkbox>
 
+    <div class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Failed to login.</span></div>
+
     <div class="buttons-w">
-      <button [disabled]="!loginForm.valid" class="btn btn-primary">Login</button>
-      <a class="btn btn-link" id="forget-link" routerLink="/authentication/forgot-password/username">Forget Password</a>
+      <a mat-button color="accent" routerLink="/authentication/forgot-password/username">Forget Password</a>
+      <button class="right-button" mat-flat-button color="primary" [disabled]="!loginForm.valid">Login</button>
     </div>
   </form>
 </div>

@@ -16,6 +16,7 @@ import {assetResolveProvider } from './asset.resolve.provider';
 import {AssetFormComponent} from './asset-form/asset.form.component';
 import {DeleteModalModule} from '../delete-modal/delete.modal.module';
 import {authGuardProvider} from '../auth-guard/auth.guard.provider';
+import {MaterialModule} from "../app/material.module";
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import {authGuardProvider} from '../auth-guard/auth.guard.provider';
     PagingModule,
     AssetRoutingModule,
     UnitOfMeasureModule,
-    DeleteModalModule
+    DeleteModalModule,
+    MaterialModule
   ],
   declarations: [
     AssetComponent,

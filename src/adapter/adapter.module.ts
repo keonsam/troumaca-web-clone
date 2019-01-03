@@ -20,6 +20,7 @@ import { organizationRepositoryProvider } from './party/organization/organizatio
 import {billingDetailsRepositoryProvider} from './billing-details/billing-details.repository.adapter.provider';
 import {lobbyRepositoryProvider} from './lobby/lobby.repository.adapter.provider';
 import { authGuardServiceProvider } from './auth-guard/auth.guard.repository.adapter.provider';
+import {organizationCreateRepositoryProvider} from "./organization-create/organization.create.repository.adapter.provider";
 
 @NgModule({
   imports:      [],
@@ -46,7 +47,8 @@ import { authGuardServiceProvider } from './auth-guard/auth.guard.repository.ada
     organizationRepositoryProvider,
     billingDetailsRepositoryProvider,
     lobbyRepositoryProvider,
-    authGuardServiceProvider
+    authGuardServiceProvider,
+    organizationCreateRepositoryProvider
   ]
 })
 export class AdapterModule { }

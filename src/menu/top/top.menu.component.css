@@ -1,3 +1,31 @@
+.app-icon {
+  margin: 0px 1rem;
+  position: relative;
+  font-size: 24px;
+  color: #047bf8;
+}
+
+.app-dropdown {
+  width: 320px;
+}
+
+.small-padding {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.element-box {
+  box-shadow: none;
+}
+
+.icon-w {
+  font-size: 30px;
+}
+
+.no-left-right-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
 /*
 troumaca overrides etc.
 */
@@ -6,27 +34,18 @@ troumaca overrides etc.
   /*width: 100%;*/
 /*}*/
 
-.fancy-selector-w {
-  margin-left: 0;
-  border: 1px solid #047bf8;
+.logo-w {
+  display: block;
 }
 
-.fancy-selector-current {
-  background-color: white;
-  color: #3E4B5B;
-  z-index: 0;
-}
-
-.fs-selector-trigger {
-  background-color: white !important;
-  color: #3E4B5B !important;
-}
-
-
-.fancy-selector-current .fs-extra-info {
-  color: #3E4B5B !important;
-}
-
-.fancy-selector-current .fs-extra-info span {
-  color: #3E4B5B !important;
+@media (max-width: 767px) {
+  .top-menu-secondary.with-overflow .top-menu-controls {
+    display: flex;
+  }
+  .top-menu-secondary.with-overflow {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
 }

@@ -1,11 +1,6 @@
-<div [ngClass]="{'all-wrapper': true, 'menu-side': true, 'with-pattern': isAuthPath}">
+<div [ngClass]="{'all-wrapper': true, 'menu-side': true, 'with-pattern': isAuthPath, 'solid-bg-all': !isAuthPath}">
   <div [ngClass]="{'layout-w': !isAuthPath}">
-    <app-mobile-menu *ngIf="showMenu"></app-mobile-menu>
-    <div [ngClass]="{'container-app': !isAuthPath}">
-      <app-side-menu *ngIf="showMenu"></app-side-menu>
-      <div [ngClass]="{'container-content': !isAuthPath}">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
+    <top-menu *ngIf="showMenu"></top-menu>
+    <router-outlet></router-outlet>
   </div>
 </div>

@@ -34,20 +34,8 @@ export class AssetService {
 
   // others
 
-  public getAssetKinds(): Observable<AssetKinds> {
-    return this.assetRepository.getAssetKinds();
-  }
-
-  public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetType[]> {
-    return this.assetRepository.findAssetTypes(searchStr, pageSize);
-  }
-
-  public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<Site[]> {
-    return this.assetRepository.findUnionOfPhysicalSites(searchStr, pageSize);
-  }
-
-  public findPersons(searchStr: string, pageSize: number): Observable<User[]> {
-    return this.assetRepository.findPersons(searchStr, pageSize);
+  public findAssets(searchStr: string, pageSize: number): Observable<Asset[]> {
+    return this.assetRepository.findAssets(searchStr, pageSize);
   }
 
 }
