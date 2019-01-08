@@ -9,6 +9,14 @@ button[mat-flat-button].disabled, button[mat-flat-button]:disabled {
   color: white;
 }
 
+/deep/ .mat-tab-body-content {
+  overflow: hidden !important;
+}
+
+/*/deep/ .mat-form-field-appearance-outline .mat-form-field-outline-start {*/
+  /*border-radius: 24px;*/
+/*}*/
+
 #asset-search {
   width: 90%;
   margin: 0 auto;

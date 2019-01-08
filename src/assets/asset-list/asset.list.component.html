@@ -52,7 +52,7 @@
                 <td>{{asset.createdOn | date:'mediumDate' }}</td>
                 <td>{{asset.destroyOn | date:'mediumDate' }}</td>
                 <td>{{asset.expireOn | date:'mediumDate' }}</td>
-                <td>{{asset.discreteItem ? asset.discreteItem.type : asset.inventoryItem.type}}</td>
+                <td>{{asset.discreteItem?.type || asset.inventoryItem?.type}}</td>
                 <td>{{asset.discreteItem?.serialNumber}}</td>
                 <td>{{asset.inventoryItem?.inventoryID}}</td>
                 <td>{{asset.inventoryItem?.quantity}}</td>

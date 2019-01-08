@@ -7,6 +7,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from "@angular/material";
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [],
@@ -18,15 +19,20 @@ import {MatNativeDateModule} from "@angular/material";
     MatButtonModule,
     MatAutocompleteModule,
     MatDatepickerModule,
-    MatNativeDateModule],
-  exports: [MatInputModule,
+    MatNativeDateModule,
+    MatTabsModule
+  ],
+  exports: [
+    MatInputModule,
     MatIconModule,
     MatCheckboxModule,
     MatPaginatorModule,
     MatButtonModule,
     MatAutocompleteModule,
     MatDatepickerModule,
-    MatNativeDateModule],
+    MatNativeDateModule,
+    MatTabsModule
+  ],
   providers: [ MatDatepickerModule],
 })
 export class MaterialModule { }

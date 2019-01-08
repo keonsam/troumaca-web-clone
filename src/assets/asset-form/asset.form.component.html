@@ -5,13 +5,15 @@
       <div class="col-sm-12">
         <div class="element-wrapper">
           <h6 class="element-header">
-            {{ assetExist ? "Edit" : "New" }} Asset
+            {{ assetExist ? "Update" : "New" }} Asset
           </h6>
 
           <div class="element-box">
+
             <div id="asset-search">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Search Asset</mat-label>
+                <mat-icon matSuffix color="primary">search</mat-icon>
                 <input matInput [formControl]="search" [matAutocomplete]="auto">
                 <mat-autocomplete #auto="matAutocomplete">
                   <mat-option *ngFor="let asset of assets" [value]="asset.name" (onSelectionChange)="onSearchSelect(asset)">{{asset.name}}</mat-option>
@@ -81,324 +83,161 @@
                 <textarea matInput  [formControl]="description"></textarea>
               </mat-form-field>
 
-              <fieldset>
-                <legend><span>Discrete Item</span></legend>
+              <p class="form-desc">
+                Fill out one of the following tabs.
+              </p>
 
-                <div class="row">
+              <mat-tab-group>
 
-                  <div class="col-sm-6">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Type</mat-label>
-                      <input matInput [formControl]="discreteType" [matAutocomplete]="auto1">
-                      <mat-autocomplete #auto1="matAutocomplete">
-                        <mat-option *ngFor="let type of discreteTypes" [value]="type">{{type}}</mat-option>
-                      </mat-autocomplete>
-                      <mat-error *ngIf="discreteType.hasError('required')">
-                        Type is <strong>required</strong>
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
+                <mat-tab label="Discrete Item">
+                  <fieldset>
 
-                  <div class="col-sm-6">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Serial Number</mat-label>
-                      <input matInput [formControl]="serialNumber">
-                      <mat-error *ngIf="serialNumber.hasError('required')">
-                        Serial Number is <strong>required</strong>
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
+                    <div class="row">
 
-                </div>
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Type</mat-label>
+                          <input matInput [formControl]="discreteType" [matAutocomplete]="auto1">
+                          <mat-autocomplete #auto1="matAutocomplete">
+                            <mat-option *ngFor="let type of discreteTypes" [value]="type">{{type}}</mat-option>
+                          </mat-autocomplete>
+                          <mat-error *ngIf="discreteType.hasError('required')">
+                            Type is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
 
-              </fieldset>
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Serial Number</mat-label>
+                          <input matInput [formControl]="serialNumber">
+                          <mat-error *ngIf="serialNumber.hasError('required')">
+                            Serial Number is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
 
-              <fieldset>
-                <legend><span>Inventory Item</span></legend>
+                    </div>
 
-                <div class="row">
+                  </fieldset>
+                </mat-tab>
 
-                  <div class="col-sm-6">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Type</mat-label>
-                      <input matInput [formControl]="inventoryType" [matAutocomplete]="auto2">
-                      <mat-autocomplete #auto2="matAutocomplete">
-                        <mat-option *ngFor="let type of inventoryTypes" [value]="type">{{type}}</mat-option>
-                      </mat-autocomplete>
-                      <mat-error *ngIf="inventoryType.hasError('required')">
-                        Type is <strong>required</strong>
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
+                <mat-tab label="Inventory Item">
+                  <fieldset>
 
-                  <div class="col-sm-4">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Inventory ID</mat-label>
-                      <input matInput [formControl]="inventoryID">
-                      <mat-error *ngIf="inventoryID.hasError('required')">
-                        Inventory ID is <strong>required</strong>
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
+                    <div class="row">
 
-                  <div class="col-sm-2">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Quantity</mat-label>
-                      <input type="number" matInput [formControl]="quantity">
-                      <mat-error *ngIf="quantity.hasError('required')">
-                        Quantity is <strong>required</strong>
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Type</mat-label>
+                          <input matInput [formControl]="inventoryType" [matAutocomplete]="auto2">
+                          <mat-autocomplete #auto2="matAutocomplete">
+                            <mat-option *ngFor="let type of inventoryTypes" [value]="type">{{type}}</mat-option>
+                          </mat-autocomplete>
+                          <mat-error *ngIf="inventoryType.hasError('required')">
+                            Type is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
 
-                </div>
+                      <div class="col-sm-4">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Inventory ID</mat-label>
+                          <input matInput [formControl]="inventoryID">
+                          <mat-error *ngIf="inventoryID.hasError('required')">
+                            Inventory ID is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
 
-              </fieldset>
+                      <div class="col-sm-2">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Quantity</mat-label>
+                          <input type="number" matInput [formControl]="quantity">
+                          <mat-error *ngIf="quantity.hasError('required')">
+                            Quantity is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
 
-              <fieldset>
-                <legend><span>Building</span></legend>
+                    </div>
 
-                <mat-form-field class="example-full-width" appearance="outline">
-                  <mat-label>Building Number</mat-label>
-                  <input type="number" matInput [formControl]="buildingNumber">
-                  <mat-error *ngIf="buildingNumber.hasError('required')">
-                    Building Number is <strong>required</strong>
-                  </mat-error>
-                </mat-form-field>
-              </fieldset>
+                  </fieldset>
+                </mat-tab>
 
-              <fieldset>
-                <legend><span>Lot</span></legend>
 
-                <div class="row">
+                <mat-tab label="Building">
+                  <fieldset>
 
-                  <div class="col-sm-6">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Lot Number</mat-label>
-                      <input type="number" matInput [formControl]="lotNumber">
-                      <mat-error *ngIf="lotNumber.hasError('required')">
-                        Lot Number is <strong>required</strong>
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Building Number</mat-label>
+                          <input type="number" matInput [formControl]="buildingNumber">
+                          <mat-error *ngIf="buildingNumber.hasError('required')">
+                            Building Number is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
 
-                  <div class="col-sm-6">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Number Of Shares</mat-label>
-                      <input type="number" matInput [formControl]="numberOfShares">
-                      <mat-error *ngIf="numberOfShares.hasError('required')">
-                        Number Of Shares is <strong>required</strong>
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
-                </div>
 
-              </fieldset>
+                  </fieldset>
+
+                </mat-tab>
+
+                <mat-tab label="Lot">
+                  <fieldset>
+
+                    <div class="row">
+
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Lot Number</mat-label>
+                          <input type="number" matInput [formControl]="lotNumber">
+                          <mat-error *ngIf="lotNumber.hasError('required')">
+                            Lot Number is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Number Of Shares</mat-label>
+                          <input type="number" matInput [formControl]="numberOfShares">
+                          <mat-error *ngIf="numberOfShares.hasError('required')">
+                            Number Of Shares is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                  </fieldset>
+
+                </mat-tab>
+
+              </mat-tab-group>
+
+              <div class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{assetExist ? 'Update': 'New'}} asset failed.</span></div>
+
+              <div class="form-buttons-w">
+                <button mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
+                <button class="right-button" mat-flat-button color="primary" [disabled]="!assetForm.valid" type="submit" (click)=" assetExist ? onUpdate() : onCreate()">Confirm</button>
+              </div>
 
             </form>
           </div>
 
           <div class="element-box">
-            <form [formGroup]="assetSpecificationForm">
-              <h5 class="form-header">
-                Asset Specification
-              </h5>
-
-              <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Name</mat-label>
-                <input matInput [formControl]="specificationName">
-                <mat-error *ngIf="specificationName.hasError('required')">
-                  Name Of is <strong>required</strong>
-                </mat-error>
-              </mat-form-field>
-
-              <div class="row">
-
-                <div class="col-sm-6">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Type</mat-label>
-                    <input matInput [formControl]="specificationType" [matAutocomplete]="auto3">
-                    <mat-autocomplete #auto3="matAutocomplete">
-                      <mat-option *ngFor="let type of specificationTypes" [value]="type">{{type}}</mat-option>
-                    </mat-autocomplete>
-                    <mat-error *ngIf="specificationType.hasError('required')">
-                      Type is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-sm-6">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Part Of</mat-label>
-                    <input matInput [formControl]="partOf">
-                    <mat-error *ngIf="partOf.hasError('required')">
-                      Part Of is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-              </div>
-
-              <div class="row">
-
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Model Number</mat-label>
-                    <input matInput [formControl]="modelNumber">
-                    <mat-error *ngIf="modelNumber.hasError('required')">
-                      Model Number is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Standard Price</mat-label>
-                    <input type="number" matInput [formControl]="standardPrice">
-                    <mat-error *ngIf="standardPrice.hasError('required')">
-                      Standard Price is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Effective Date</mat-label>
-                    <input matInput [matDatepicker]="picker3" [formControl]="effectiveDate">
-                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-                    <mat-datepicker #picker3></mat-datepicker>
-                    <mat-error *ngIf="effectiveDate.hasError('required')">
-                      Effective Date is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-              </div>
-
-              <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Description</mat-label>
-                <textarea matInput  [formControl]="description1"></textarea>
-              </mat-form-field>
-
-            </form>
+            <app-asset-specification></app-asset-specification>
           </div>
 
           <div class="element-box">
-            <form [formGroup]="assetBrandForm">
-              <h5 class="form-header">
-                Asset Brand
-              </h5>
-
-              <div class="row">
-
-                <div class="col-sm-6">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Name</mat-label>
-                    <input matInput [formControl]="brandName">
-                    <mat-error *ngIf="brandName.hasError('required')">
-                      Name Of is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-sm-6">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Abbreviation</mat-label>
-                    <input matInput [formControl]="abbreviation">
-                    <mat-error *ngIf="abbreviation.hasError('required')">
-                      Abbreviation is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-
-              <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Description</mat-label>
-                <textarea matInput  [formControl]="description2"></textarea>
-              </mat-form-field>
-
-            </form>
+            <app-asset-brand></app-asset-brand>
           </div>
 
           <div class="element-box">
-            <form [formGroup]="assetCharacteristicsForm">
-              <h5 class="form-header">
-                Asset Characteristics
-              </h5>
-
-              <div class="row">
-                <div class="col-sm-6">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Name</mat-label>
-                    <input matInput [formControl]="characteristicsName">
-                    <mat-error *ngIf="characteristicsName.hasError('required')">
-                      Name Of is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-6">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Optional</mat-label>
-                    <input matInput [formControl]="optional">
-                    <mat-error *ngIf="optional.hasError('required')">
-                      Optional is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-
-
-
-
-
-
-
-              <div class="row">
-
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Value</mat-label>
-                    <input matInput [formControl]="value">
-                    <mat-error *ngIf="value.hasError('required')">
-                      Value is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Effective Date</mat-label>
-                    <input matInput [matDatepicker]="picker4" [formControl]="effectiveDate1">
-                    <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-                    <mat-datepicker #picker4></mat-datepicker>
-                    <mat-error *ngIf="effectiveDate1.hasError('required')">
-                      Effective Date is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Until Date</mat-label>
-                    <input matInput [matDatepicker]="picker5" [formControl]="untilDate">
-                    <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
-                    <mat-datepicker #picker5></mat-datepicker>
-                    <mat-error *ngIf="untilDate.hasError('required')">
-                      Until Date is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-              </div>
-
-            </form>
-          </div>
-
-          <div class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{assetExist ? 'Update': 'New'}} asset failed.</span></div>
-
-          <div class="form-buttons-w">
-            <button mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
-            <button class="right-button" mat-flat-button color="primary" [disabled]="!assetForm.valid" type="submit" (click)=" assetExist ? onUpdate() : onCreate()">Confirm</button>
+            <app-asset-characteristics></app-asset-characteristics>
           </div>
 
         </div>
