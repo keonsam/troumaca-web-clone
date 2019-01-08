@@ -97,6 +97,7 @@ export class CharacteristicsFormComponent implements OnInit {
   onCreate() {
     this.doNotDisplayFailureMessage = true;
 
+    this.assetCharacteristics.assetId = this.assetId;
     this.assetService.addAssetCharacteristics(this.assetCharacteristics)
       .subscribe(value => {
         if (value && value.assetId) {
@@ -110,9 +111,9 @@ export class CharacteristicsFormComponent implements OnInit {
   }
 
   onUpdate() {
-    this.doNotDisplayFailureMessage = true;
+    // this.doNotDisplayFailureMessage = true;
     // this.assetService
-    //   .updateAsset(this.asset.assetId, this.asset)
+    //   .updateAssetCharacteristics(this.assetCharacteristics.assetId, this.assetCharacteristics)
     //   .subscribe(value => {
     //     if (value) {
     //       this.router.navigate(['/assets']);

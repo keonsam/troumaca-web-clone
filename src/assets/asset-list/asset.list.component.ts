@@ -3,6 +3,7 @@ import {AssetService} from '../asset.service';
 import {Assets} from '../assets';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
+import {PageEvent} from "@angular/material";
 
 @Component({
   selector: 'asset-list',
@@ -66,8 +67,9 @@ export class AssetListComponent implements OnInit {
   }
 
 
-  onRequestPage(pageNumber: number) {
-    this.defaultPage = pageNumber;
+  onRequestPage(pageEvent: PageEvent) {
+    this.defaultPage = pageEvent.pageIndex + 1;
+    this.defaultPageSize = pageEvent.pageSize;
     this.getAssets();
   }
 }

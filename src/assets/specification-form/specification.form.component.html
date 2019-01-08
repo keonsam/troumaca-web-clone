@@ -80,7 +80,10 @@
     <textarea matInput  [formControl]="description"></textarea>
   </mat-form-field>
 
-  <div class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{assetSpecExist ? 'Update': 'New'}} asset characteristics failed.</span></div>
+  <div class="error-box-text">
+    <span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{assetSpecExist ? 'Update': 'New'}} asset characteristics failed.</span>
+    <span ngIf="showConfirmMessage">{{ assetSpecExist ? 'Updated': 'Created'}}, continue below.</span>
+  </div>
 
   <div class="form-buttons-w">
     <button mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>

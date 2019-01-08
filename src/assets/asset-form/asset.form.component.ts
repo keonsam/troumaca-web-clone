@@ -42,6 +42,7 @@ export class AssetFormComponent implements OnInit {
   pageSize = 5;
   assetExist = false;
   doNotDisplayFailureMessage = true;
+  showConfirmMessage = false;
 
   private asset: Asset;
   private oldAsset: Asset;
@@ -123,6 +124,7 @@ export class AssetFormComponent implements OnInit {
       this.setInputValues(asset);
       this.assetExist = true;
       this.asset = asset;
+      this.assetService.assetSpecificationState.next(asset.assetId);
     }
   }
 
@@ -194,11 +196,13 @@ export class AssetFormComponent implements OnInit {
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
+    this.showConfirmMessage = false;
 
     this.assetService.addAsset(this.asset)
       .subscribe(value => {
         if (value && value.assetId) {
           this.assetService.assetSpecificationState.next(value.assetId);
+          this.showConfirmMessage = true;
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -209,11 +213,13 @@ export class AssetFormComponent implements OnInit {
 
   onUpdate() {
     this.doNotDisplayFailureMessage = true;
+    this.showConfirmMessage = false;
     this.assetService
       .updateAsset(this.asset.assetId, this.asset)
       .subscribe(value => {
         if (value) {
-          this.router.navigate(['/assets']);
+          this.assetService.assetSpecificationState.next(this.asset.assetId);
+          this.showConfirmMessage = true;
         } else {
           this.doNotDisplayFailureMessage = false;
         }

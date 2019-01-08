@@ -55,6 +55,18 @@ export class AssetService {
     return this.assetRepository.updateAsset(assetId, asset);
   }
 
+  // public updateAssetSpec(assetId: string, asset: AssetSpecification): Observable<number> {
+  //   return this.assetRepository.updateAssetSpec(assetId, asset);
+  // }
+  //
+  // public updateAssetBrand(assetId: string, asset: AssetBrand): Observable<number> {
+  //   return this.assetRepository.updateAssetBrand(assetId, asset);
+  // }
+  //
+  // public updateAssetCharacteristics(assetId: string, asset: AssetCharacteristics): Observable<number> {
+  //   return this.assetRepository.updateAssetCharacteristics(assetId, asset);
+  // }
+
   public deleteAsset(assetId: string): Observable<number> {
     return this.assetRepository.deleteAsset(assetId);
   }
