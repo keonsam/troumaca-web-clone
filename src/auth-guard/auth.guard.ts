@@ -43,27 +43,28 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   }
 
   protected checkLogin(route?: ActivatedRouteSnapshot, state?: RouterStateSnapshot) {
-    return this.authService.isValidSession()
-      .pipe( map(validSession => {
-        if (!route) {
-          if (!validSession.valid) {
-            this.sessionService.logoutEvent.next(true);
-            this.router.navigate(['/home']);
-          }
-          return validSession.valid;
-        } else if (authRoutes.indexOf(this.calURL(state.url)) > -1) {
-          if (validSession.valid) {
-            this.router.navigate(['/lobby']);
-          }
-          return !validSession.valid;
-        } else {
-          if (!validSession.valid) {
-            this.sessionService.logoutEvent.next(true);
-            this.router.navigate(['/home']);
-          }
-          return validSession.valid;
-        }
-      }));
+    return true;
+    // return this.authService.isValidSession()
+    //   .pipe( map(validSession => {
+    //     if (!route) {
+    //       if (!validSession.valid) {
+    //         this.sessionService.logoutEvent.next(true);
+    //         this.router.navigate(['/home']);
+    //       }
+    //       return validSession.valid;
+    //     } else if (authRoutes.indexOf(this.calURL(state.url)) > -1) {
+    //       if (validSession.valid) {
+    //         this.router.navigate(['/lobby']);
+    //       }
+    //       return !validSession.valid;
+    //     } else {
+    //       if (!validSession.valid) {
+    //         this.sessionService.logoutEvent.next(true);
+    //         this.router.navigate(['/home']);
+    //       }
+    //       return validSession.valid;
+    //     }
+    //   }));
   }
 
   private calURL(url) {

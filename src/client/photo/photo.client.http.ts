@@ -3,7 +3,7 @@ import {UUIDGenerator} from '../../uuid.generator';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Photo} from "../../photo/photo";
+import {Photo} from "../../parties/photo/photo";
 
 export class PhotoClientHttp implements PhotoClient {
   constructor(private uuidGenerator: UUIDGenerator,

@@ -1,6 +1,6 @@
-import {PhotoRepository} from '../../photo/photo.repository';
+import {PhotoRepository} from '../../parties/photo/photo.repository';
 import {Observable} from 'rxjs';
-import {Photo} from '../../photo/photo';
+import {Photo} from '../../parties/photo/photo';
 import {PhotoClient} from '../../client/photo/photo.client';
 
 export class PhotoRepositoryAdapter extends PhotoRepository {

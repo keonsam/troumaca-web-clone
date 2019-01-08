@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {PhotoService} from '../../photo/photo.service';
+import {PhotoService} from '../../parties/photo/photo.service';
 import {UserService} from '../../parties/users/user.service';
-import {Photo} from "../../photo/photo";
+import {Photo} from "../../parties/photo/photo";
 import {SessionService} from "../../session/session.service";
 import {User} from "../../parties/user";
 

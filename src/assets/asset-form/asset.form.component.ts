@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AssetService} from '../asset.service';
-import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Asset} from '../asset';
-import {AssetKind} from '../asset.kind';
 import {Router, ActivatedRoute} from '@angular/router';
-import { map, filter, debounceTime } from 'rxjs/operators';
+import { filter, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-asset-form',
@@ -15,231 +13,183 @@ import { map, filter, debounceTime } from 'rxjs/operators';
 
 export class AssetFormComponent implements OnInit {
 
-  sub: any;
+  search: FormControl;
 
-  assetKindId: FormControl;
-  assetType: FormControl;
-  serialNumber: FormControl;
-  quantity: FormControl;
-  site: FormControl;
-  person: FormControl;
+  name: FormControl;
+  createdOn: FormControl;
+  destroyOn: FormControl;
+  expireOn: FormControl;
   description: FormControl;
+
+  discreteType: FormControl;
+  serialNumber: FormControl;
+
+  inventoryType: FormControl;
+  inventoryID: FormControl;
+  quantity: FormControl;
+
+  buildingNumber: FormControl;
+
+  lotNumber: FormControl;
+  numberOfShares: FormControl;
+
   assetForm: FormGroup;
 
-  assetTypeDataService: CompleterData;
-  siteDataService: CompleterData;
-  personDataService: CompleterData;
+  assets: Asset[];
+  discreteTypes: string[];
+  inventoryTypes: string[];
+
+  pageSize = 5;
+  assetExist = false;
+  doNotDisplayFailureMessage = true;
 
   private asset: Asset;
-
-  unitOfMeasureId: string;
-  assetKinds: AssetKind[];
-  pageSize = 15;
-  assetExist = false;
-
-  doNotDisplayFailureMessage: boolean;
+  private oldAsset: Asset;
 
   constructor(private assetService: AssetService,
-              private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
 
-    this.assetKindId = new FormControl('', [Validators.required]);
-    this.assetType = new FormControl('', [Validators.required]);
+    this.search = new FormControl('');
+
+    this.name = new FormControl('', [Validators.required]);
+    this.createdOn = new FormControl(new Date(), [Validators.required]);
+    this.destroyOn = new FormControl('', [Validators.required]);
+    this.expireOn = new FormControl('', [Validators.required]);
+    this.description = new FormControl('', [Validators.required]);
+
+    this.discreteType = new FormControl('');
     this.serialNumber = new FormControl('');
+
+    this.inventoryType = new FormControl('');
+    this.inventoryID = new FormControl('');
     this.quantity = new FormControl('');
-    this.site = new FormControl('');
-    this.person = new FormControl('');
-    this.description = new FormControl('');
+
+    this.buildingNumber = new FormControl('');
+
+    this.lotNumber = new FormControl('');
+    this.numberOfShares = new FormControl('');
+
 
     this.assetForm = formBuilder.group({
-      'assetKindId': this.assetKindId,
-      'assetType': this.assetType,
+      'name': this.name,
+      'createdOn': this.createdOn,
+      'destroyOn': this.destroyOn,
+      'expireOn': this.expireOn,
+      'description': this.description,
+      'discreteType': this.discreteType,
       'serialNumber': this.serialNumber,
+      'inventoryType': this.inventoryType,
+      'inventoryID': this.inventoryID,
       'quantity': this.quantity,
-      'person': this.person,
-      'site': this.site,
-      'description': this.description
+      'buildingNumber': this.buildingNumber,
+      'lotNumber': this.lotNumber,
+      'numberOfShares': this.numberOfShares
     });
 
-    this.assetKinds = [];
-
     this.asset = new Asset();
+    this.oldAsset = new Asset();
 
     this.assetForm
       .valueChanges
       .subscribe(value => {
-        this.asset.assetKindId = value.assetKindId;
-        this.asset.serialNumber = value.serialNumber;
-        this.asset.quantity = value.quantity;
+        this.asset.name = value.name;
+        this.asset.createdOn = value.createdOn;
+        this.asset.destroyOn = value.destroyOn;
+        this.asset.expireOn = value.expireOn;
         this.asset.description = value.description;
+
+        this.asset.discreteItem.type = value.discreteType;
+        this.asset.discreteItem.serialNumber = value.serialNumber;
+
+        this.asset.inventoryItem.type = value.inventoryType;
+        this.asset.inventoryItem.inventoryID = value.inventoryID;
+        this.asset.inventoryItem.quantity = value.quantity;
+
+        this.asset.building.buildingNumber = value.buildingNumber;
+
+        this.asset.lot.lotNumber = value.lotNumber;
+        this.asset.lot.numberOfShares = value.numberOfShares;
       }, error2 => {
         console.log(error2);
       });
-
-    this.doNotDisplayFailureMessage = true;
   }
 
   ngOnInit(): void {
-    const that = this;
-    this.assetService
-      .getAssetKinds()
-      .subscribe(assetKinds => {
-        if (assetKinds) {
-          that.assetKinds = assetKinds.assetKinds;
-        }
-      }, onError => {
-        console.log(onError);
-      });
-    if (this.route.snapshot && this.route.snapshot.data['asset']) {
-      this.setInputValues(this.route.snapshot.data['asset']);
-    }
     this.createAndPopulateDropDowns();
-  }
-
-  private setInputValues(asset: Asset) {
-    this.assetKindId.setValue(asset.assetKindId);
-    this.assetType.setValue(asset.assetType ? asset.assetType.name : '');
-    this.serialNumber.setValue(asset.serialNumber);
-    this.quantity.setValue(asset.quantity);
-    this.site.setValue(asset.site ? asset.site.name : '');
-    this.person.setValue(asset.person ? asset.person.name : '');
-    this.description.setValue(asset.description);
-    this.unitOfMeasureId = asset.unitOfMeasure ? asset.unitOfMeasure.name : '';
-    this.assetExist = true;
-    this.asset = asset;
+    if (this.route.snapshot && this.route.snapshot.data['asset']) {
+      const asset = this.route.snapshot.data['asset'];
+      this.setInputValues(asset);
+      this.assetExist = true;
+      this.asset = asset;
+    }
   }
 
   private createAndPopulateDropDowns() {
-    this.populateAssetTypeDropDown();
-    this.populateSiteDropDown();
-    this.populatePersonDropDown();
+    this.populateAssetsDropDown();
   }
 
-  private populateAssetTypeDropDown() {
-    if (!this.asset.assetType) {
-      this.findAssetTypes('');
-    }
-    this.assetForm.get('assetType').valueChanges
+  private populateAssetsDropDown() {
+    this.findAssets('');
+    this.search.valueChanges
       .pipe(debounceTime(1000), filter(value => { // filter out empty values
         return !!(value);
       }))
       .subscribe(value => {
-        this.findAssetTypes(value);
+        this.findAssets(value);
       });
   }
 
-  private findAssetTypes(value) {
+  private findAssets(value) {
     this.assetService
-      .findAssetTypes(value, this.pageSize) // send search request to the backend
-      .pipe(map(value2 => { // convert results to dropdown data
-        return value2.map(v2 => {
-          return {
-            assetTypeId: v2.assetTypeId,
-            name: v2.name
-          };
-        })
-      }))
+      .findAssets(value, this.pageSize) // send search request to the backend
+      // .pipe(map(value2 => { // convert results to dropdown data
+      //   return value2.map(v2 => {
+      //     return {
+      //       assetTypeId: v2.assetTypeId,
+      //       name: v2.name
+      //     };
+      //   })
+      // }))
       .subscribe(next => { // update the data
-        this.assetTypeDataService = this.completerService.local(next, 'name', 'name');
+        this.assets = next;
       }, error => {
-        console.log('findAssetTypes error - ' + error);
+        console.log('findAssets error - ' + error);
       });
   }
 
-  private populateSiteDropDown() {
-    if (!this.asset.site) {
-      this.findUnionOfPhysicalSites('');
-    }
-    this.assetForm.get('site').valueChanges
-      .pipe(debounceTime(1000), filter(value => { // filter out empty values
-        return !!(value);
-      }))
-      .subscribe(value => {
-        console.log('value: ' + value);
-        this.findUnionOfPhysicalSites(value);
+
+  private setInputValues(asset: Asset) {
+    this.name.setValue(asset.name);
+    this.createdOn.setValue(asset.createdOn);
+    this.destroyOn.setValue(asset.destroyOn);
+    this.expireOn.setValue(asset.expireOn);
+    this.description.setValue(asset.description);
+    this.discreteType.setValue(asset.discreteItem.type);
+    this.serialNumber.setValue(asset.discreteItem.serialNumber);
+    this.inventoryType.setValue(asset.inventoryItem.type);
+    this.inventoryID.setValue(asset.inventoryItem.inventoryID);
+    this.quantity.setValue(asset.inventoryItem.quantity);
+    this.buildingNumber.setValue(asset.building.buildingNumber);
+    this.lotNumber.setValue(asset.lot.lotNumber);
+    this.numberOfShares.setValue(asset.lot.numberOfShares);
+  }
+
+  private getAsset(assetId: string) {
+    this.assetService.getAssetById(assetId)
+      .subscribe(asset => {
+        if (asset && asset.assetId) {
+          this.asset = asset;
+          this.setInputValues(asset);
+        }
       });
   }
 
-  private findUnionOfPhysicalSites(value) {
-    this.assetService
-      .findUnionOfPhysicalSites(value, this.pageSize) // send search request to the backend
-      .pipe(map(value2 => { // convert results to dropdown data
-        return value2.map(v2 => {
-          /*let name = '';
-          if (v2.postOfficeBoxNumber) {
-            name = v2.postOfficeBoxNumber;
-          } else {
-            name = v2.streetNumber + ' ' + v2.street;
-          }*/
-          return {
-            siteId: v2.siteId,
-            name: v2.name
-          };
-        })
-      }))
-      .subscribe(next => { // update the data
-        this.siteDataService = this.completerService.local(next, 'name', 'name');
-      }, error => {
-        console.log('findUnionOfPhysicalSites error - ' + error);
-      });
-  }
-
-  private populatePersonDropDown() {
-    if (!this.asset.person) {
-      this.findPersons('');
-    }
-    this.assetForm.get('person').valueChanges
-      .pipe(debounceTime(1000), filter(value => { // filter out empty values
-        return !!(value);
-      }))
-      .subscribe(value => {
-        this.findPersons(value);
-      });
-  }
-
-  private findPersons(value) {
-    this.assetService
-      .findPersons(value, this.pageSize) // send search request to the backend
-      .pipe(map(value2 => { // convert results to dropdown data
-        return value2.map(v2 => {
-          return {
-            partyId: v2.partyId,
-            name: v2.firstName
-          };
-        })
-      }))
-      .subscribe(next => { // update the data
-        this.personDataService = this.completerService.local(next, 'name', 'name');
-      }, error => {
-        console.log('findPersons error - ' + error);
-      });
-  }
-
-  onAssetTypeSelect(selected: CompleterItem) {
-    this.asset.assetTypeId = selected.originalObject.assetTypeId;
-  }
-
-  onPhysicalSiteSelect(selected: CompleterItem) {
-    this.asset.siteId = selected.originalObject.siteId;
-  }
-
-  onPersonSelect(selected: CompleterItem) {
-    this.asset.personId = selected.originalObject.partyId;
-  }
-
-  setUnitOfMeasureId(unitOfMeasureId: string) {
-    this.asset.unitOfMeasureId = unitOfMeasureId;
-  }
-
-
-  isDiscreteItem() {
-    return this.assetKindId.value === '4cf11077-c5e3-41f3-b40b-6e89dce6e9c8';
-  }
-
-  isInventory() {
-    return this.assetKindId.value === '65694257-0aa8-4fb6-abb7-e6c7b83cf4f2';
+  onSearchSelect(asset: Asset) {
+    delete asset['_id'];
+    delete asset['assetId'];
+    this.setInputValues(asset);
   }
 
   onCreate() {
@@ -248,7 +198,7 @@ export class AssetFormComponent implements OnInit {
     this.assetService.addAsset(this.asset)
       .subscribe(value => {
         if (value && value.assetId) {
-          this.router.navigate(['/assets']);
+          this.assetService.assetSpecificationState.next(value.assetId);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -274,7 +224,12 @@ export class AssetFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/assets']);
+    if (this.assetExist) {
+      this.getAsset(this.asset.assetId)
+    }else {
+      this.asset = new Asset();
+      this.setInputValues(new Asset());
+    }
   }
 
 }

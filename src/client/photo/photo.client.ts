@@ -1,5 +1,5 @@
 import {Observable} from "rxjs";
-import {Photo} from "../../photo/photo";
+import {Photo} from "../../parties/photo/photo";
 
 export abstract class PhotoClient {
   abstract getPhotos(type?: string): Observable<Photo>;

@@ -13,8 +13,9 @@
   padding: 40px;
 }
 
-.btn-link {
+.front-buttons {
   font-size: 1.2rem;
+  font-weight: 400;
 }
 
 #login {

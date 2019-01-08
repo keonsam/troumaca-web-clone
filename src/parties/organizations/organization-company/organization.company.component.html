@@ -41,7 +41,7 @@
               <div class="timed-activities compact">
                 <div class="timed-activity">
                   <div class="ta-date">
-                    <span>No Data Found</span>
+                    <span>No Activity Found</span>
                   </div>
                 </div>
               <!--<div class="timed-activity">-->
@@ -68,7 +68,48 @@
 
 
       <div class="col-sm-7">
-        <app-organization-form [profile]="true" (organizationNameEvent)="setOrganization($event)"></app-organization-form>
+        <div class="element-wrapper">
+          <div class="element-box">
+
+            <h4 class="profile-header">Organization Profile</h4>
+            
+            <div class="card">
+              <form [formGroup]="organizationForm">
+                <h5 class="form-header">About</h5>
+
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Name</mat-label>
+                  <input matInput [formControl]="name">
+                  <mat-error *ngIf="name.hasError('required')">
+                    Name is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Purpose</mat-label>
+                  <textarea matInput  [formControl]="purpose"></textarea>
+                </mat-form-field>
+
+                <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{errorMessage}}</span></div>
+
+                <div class="form-buttons-w">
+                  <button mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
+                  <button class="right-button" mat-flat-button color="primary" [disabled]="!organizationForm.valid" type="submit" (click)="onUpdate()">Confirm</button>
+                </div>
+
+              </form>
+            </div>
+
+            <div class="card">
+              <app-contact-info type="organization"></app-contact-info>
+            </div>
+
+            <div class="card no-bottom-border">
+              <app-address type="organization"></app-address>
+            </div>
+
+          </div>
+        </div>
       </div>
 
     </div>

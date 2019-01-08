@@ -136,78 +136,104 @@
       <div class="col-sm-7">
         <div class="element-wrapper">
           <div class="element-box">
-            <form [formGroup]="userMeForm">
-              <div class="element-info">
-                <div class="element-info-with-icon">
-                  <div class="element-info-icon">
-                    <div class="os-icon os-icon-wallet-loaded"></div>
+
+            <h4 class="profile-header">User Profile</h4>
+
+            <div class="card">
+              <form [formGroup]="userMeForm">
+                <h5 class="form-header">Personal</h5>
+
+                <div class="row">
+                  <div class="col-sm-12 col-md-4">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>First Name</mat-label>
+                      <input matInput [formControl]="firstName">
+                      <mat-error *ngIf="firstName.hasError('required')">
+                        First name is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
                   </div>
-                  <div class="element-info-text">
-                    <h5 class="element-inner-header">
-                      Profile
-                    </h5>
+
+                  <div class="col-sm-12 col-md-4">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Middle Name</mat-label>
+                      <input matInput [formControl]="middleName">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-sm-12 col-md-4">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Last Name</mat-label>
+                      <input matInput [formControl]="lastName">
+                      <mat-error *ngIf="lastName.hasError('required')">
+                        Last name is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
                   </div>
                 </div>
-              </div>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to Update Your Profile.</div>
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Username</mat-label>
+                  <mat-icon matPrefix color="primary">email</mat-icon>
+                  <input matInput [formControl]="username">
+                  <mat-error *ngIf="username.hasError('validateEmail') && !username.hasError('required')">
+                    Must be a phone number or email address and not be taken.
+                  </mat-error>
+                  <mat-error *ngIf="username.hasError('required')">
+                    Username is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="username">Username</label><input id="username" class="form-control" formControlName="username" placeholder="Enter Email or Phone Number" required type="text">
-                  <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Email or Phone Number.</div>
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Password</mat-label>
+                      <mat-icon matPrefix color="primary">fingerprint</mat-icon>
+                      <input matInput [formControl]="password" type="password">
+                      <mat-error *ngIf="password.hasError('password') && !password.hasError('required')">
+                        At least eight characters: 1 upper case letter, numeric, and special character.
+                      </mat-error>
+                      <mat-error *ngIf="password.hasError('required')">
+                        Password is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Confirm Password</mat-label>
+                      <mat-icon matPrefix color="primary">fingerprint</mat-icon>
+                      <input matInput [formControl]="password" type="password">
+                      <mat-error *ngIf="password.hasError('password') && !password.hasError('required')">
+                        Must match your new password.
+                      </mat-error>
+                      <mat-error *ngIf="password.hasError('required')">
+                        Confirm password is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
                 </div>
-              </fieldset>
 
-              <div class="row">
-                <div class="col-sm-6">
-                  <fieldset class="form-group">
-                    <div class="form-group">
-                      <label for="new-password">New Password</label><input id="new-password" class="form-control" formControlName="password" placeholder="Enter New password" [required]="requiredState" type="password">
-                      <div [hidden]="password.valid || password.pristine" class="alert alert-danger">Invalid new Password.</div>
-                    </div>
-                  </fieldset>
+                <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{errorMessage}}</span></div>
+
+                <div class="form-buttons-w">
+                  <button mat-stroked-button color="warn"  type="button" (click)="cancel()">Cancel</button>
+                  <button class="right-button" mat-flat-button color="primary" [disabled]="!userMeForm.valid" type="submit" (click)="onUpdate()">Confirm</button>
                 </div>
 
-                <div class="col-sm-6">
-                  <fieldset class="form-group">
-                    <div class="form-group">
-                      <label for="confirm-password">Confirm Password</label><input id="confirm-password" class="form-control" formControlName="confirmPassword" placeholder="Enter Password Again" [required]="requiredState" type="password">
-                      <div [hidden]="confirmPassword.valid || confirmPassword.pristine" class="alert alert-danger">Re-enter your Password Again.</div>
-                    </div>
-                  </fieldset>
-                </div>
-              </div>
+              </form>
+            </div>
 
-              <legend><span>Personal Information</span></legend>
+            <div class="card">
+              <app-contact-info type="user"></app-contact-info>
+            </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="first-name">First Name</label><input id="first-name" class="form-control" formControlName="firstName" placeholder="Enter First Name" required="required" type="text">
-                  <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">Invalid First Name.</div>
-                </div>
-              </fieldset>
+            <div class="card no-bottom-border">
+              <app-address type="user"></app-address>
+            </div>
 
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="middle-name">Middle Name</label><input id="middle-name" class="form-control" formControlName="middleName" placeholder="Enter Middle Name" required="required" type="text">
-                  <div [hidden]="middleName.valid || middleName.pristine" class="alert alert-danger">Invalid Middle Name.</div>
-                </div>
-              </fieldset>
-
-              <fieldset class="form-group">
-                <div class="form-group">
-                  <label for="last-name">Last Name</label><input id="last-name" class="form-control" formControlName="lastName" placeholder="Enter Last Name" required="required" type="text">
-                  <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">Invalid Last Name.</div>
-                </div>
-              </fieldset>
-
-              <div class="form-buttons-w">
-                <button class="btn btn-primary" [disabled]="!userMeForm.valid" type="submit" (click)="onUpdate()">Update</button>
-              </div>
-
-            </form>
           </div>
+
         </div>
       </div>
 

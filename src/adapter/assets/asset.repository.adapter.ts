@@ -3,10 +3,9 @@ import {AssetRepository} from '../../assets/asset.repository';
 import {AssetClient} from '../../client/asset/asset.client';
 import {Asset} from '../../assets/asset';
 import {Assets} from '../../assets/assets';
-import {AssetKinds} from '../../assets/asset.kinds';
-import {AssetType} from '../../asset-types/asset.type';
-import {Site} from "../../site/site";
-import {User} from "../../parties/user";
+import {AssetSpecification} from "../../assets/asset.specification";
+import {AssetBrand} from "../../assets/asset.brand";
+import {AssetCharacteristics} from "../../assets/asset.characteristics";
 
 export class AssetRepositoryAdapter extends AssetRepository {
 
@@ -22,24 +21,36 @@ export class AssetRepositoryAdapter extends AssetRepository {
     return this.assetClient.getAsset(assetId);
   }
 
-  public getAssetKinds(): Observable<AssetKinds> {
-    return this.assetClient.getAssetKinds();
+  getAssetSpecById(assetId: string): Observable<AssetSpecification> {
+    return this.assetClient.getAssetSpecById(assetId);
   }
 
-  public findAssetTypes(searchStr: string, pageSize: number): Observable<AssetType[]> {
-    return this.assetClient.findAssetTypes(searchStr, pageSize);
+  getAssetBrandById(assetId: string): Observable<AssetBrand> {
+    return this.assetClient.getAssetBrandById(assetId);
   }
 
-  public findUnionOfPhysicalSites(searchStr: string, pageSize: number): Observable<Site[]> {
-    return this.assetClient.findUnionOfPhysicalSites(searchStr, pageSize);
+  getAssetCharacteristicsById(assetId: string): Observable<AssetCharacteristics> {
+    return this.assetClient.getAssetCharacteristicsById(assetId);
   }
 
-  public findPersons(searchStr: string, pageSize: number): Observable<User[]> {
-    return this.assetClient.findPersons(searchStr, pageSize);
+  public findAssets(searchStr: string, pageSize: number): Observable<Asset[]> {
+    return this.assetClient.findAssets(searchStr, pageSize);
   }
 
   public addAsset(asset: Asset): Observable<Asset> {
     return this.assetClient.addAsset(asset);
+  }
+
+  public addAssetSpec(assetModel: AssetSpecification): Observable<AssetSpecification> {
+    return this.assetClient.addAssetSpec(assetModel);
+  }
+
+  public addAssetBrand(assetModel: AssetBrand): Observable<AssetBrand> {
+    return this.assetClient.addAssetBrand(assetModel);
+  }
+
+  public addAssetCharacteristics(assetModel: AssetCharacteristics): Observable<AssetCharacteristics> {
+    return this.assetClient.addAssetCharacteristics(assetModel);
   }
 
   public updateAsset(assetId: string, asset: Asset): Observable<number> {

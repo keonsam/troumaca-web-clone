@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
         if (value) {
           const routerEvent = this.router.events.subscribe( event => {
             if (event instanceof NavigationEnd) {
-              if (event.url !== '/profile-organizations') {
+              if (authRoutes.indexOf(event.url) === -1) {
                 this.showMenu = true;
               }
               routerEvent.unsubscribe();
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
         if (value) {
           const routerEvent = this.router.events.subscribe( event => {
             if (event instanceof NavigationEnd) {
-              if (event.url !== '/profile-organizations') {
+              if (authRoutes.indexOf(event.url) === -1) {
                 this.showMenu = true;
               }
               routerEvent.unsubscribe();

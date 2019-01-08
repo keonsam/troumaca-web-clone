@@ -4,107 +4,242 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="element-wrapper">
+          <h6 class="element-header">
+            {{ assetExist ? "Update" : "New" }} Asset
+          </h6>
+
           <div class="element-box">
-            <form [formGroup]="assetForm" id="formValidate">
+
+            <div id="asset-search">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Search Asset</mat-label>
+                <mat-icon matSuffix color="primary">search</mat-icon>
+                <input matInput [formControl]="search" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let asset of assets" [value]="asset.name" (onSelectionChange)="onSearchSelect(asset)">{{asset.name}}</mat-option>
+                </mat-autocomplete>
+                <mat-hint>Search assets to create similar.</mat-hint>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <div class="element-box">
+            <form [formGroup]="assetForm">
               <h5 class="form-header">
-                {{ assetExist ? "Edit" : "New" }} Asset Form
+                Asset
               </h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ assetExist ? "update" : "create" }} asset.</div>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput [formControl]="name">
+                <mat-error *ngIf="name.hasError('required')">
+                  Name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
 
-              <div class="form-group">
-                <label for="asset-kind">Asset Kind</label><br/>
-                <select id="asset-kind" class="form-control" formControlName="assetKindId" name="assetKind" required>
-                  <option value="" disabled selected>Select an Asset Kind</option>
-                  <option *ngFor="let assetKind of assetKinds" [value]="assetKind.assetKindId">{{assetKind.name}}</option>
-                </select>
-                <div [hidden]="assetKindId.valid || assetKindId.pristine" class="alert alert-danger">Please select an asset kind.</div>
+              <div class="row">
+
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Created On</mat-label>
+                    <input matInput [matDatepicker]="picker" [formControl]="createdOn">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="createdOn.hasError('required')">
+                      Created On is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Destroy On</mat-label>
+                    <input matInput [matDatepicker]="picker1" [formControl]="destroyOn">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                    <mat-error *ngIf="destroyOn.hasError('required')">
+                      Destroy On is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Expire On</mat-label>
+                    <input matInput [matDatepicker]="picker2" [formControl]="expireOn">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                    <mat-error *ngIf="expireOn.hasError('required')">
+                      Expire On is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
               </div>
 
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea matInput  [formControl]="description"></textarea>
+              </mat-form-field>
 
-              <div class="form-group" [class]="(assetType.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
-                <label for="asset-type">Asset Type</label>
-                <ng2-completer [datasource]="assetTypeDataService"
-                               [minSearchLength]="0"
-                               [maxChars]="4"
-                               [inputClass]="'form-control'"
-                               [placeholder]="'Select an Asset Type'"
-                               [matchClass]="'match'"
-                               formControlName="assetType"
-                               [autofocus]="true"
-                               [clearUnselected]="true"
-                               [fillHighlighted]="false"
-                               [openOnClick]="true"
-                               [textSearching]="false"
-                               (selected)="onAssetTypeSelect($event)"
-                               id="asset-type"
-                               required>
-                </ng2-completer>
-                <div [hidden]="assetType.valid || assetType.pristine" class="alert alert-danger">Please select an asset type.</div>
-              </div>
+              <p class="form-desc">
+                Fill out one of the following tabs.
+              </p>
 
-              <div *ngIf="isDiscreteItem()" class="form-group">
-                <label for="serial-number">Serial Number</label><input id="serial-number" class="form-control" formControlName="serialNumber"  data-error="Your email address is invalid" placeholder="Enter Serial Number" type="text">
-                <div [hidden]="serialNumber.valid || serialNumber.pristine" class="alert alert-danger">Please enter a serial number.</div>
-              </div>
+              <mat-tab-group>
 
-              <div *ngIf="isInventory()" class="form-group">
-                <label for="quantity">Quantity</label><input id="quantity" class="form-control" formControlName="quantity" data-error="Your email address is invalid" placeholder="Enter Quantity" type="number">
-                <div [hidden]="quantity.valid || quantity.pristine" class="alert alert-danger">Please enter a quantity.</div>
-              </div>
+                <mat-tab label="Discrete Item">
+                  <fieldset>
 
-              <app-unit-of-measure *ngIf="isInventory()" (unitOfMeasureEvent)="setUnitOfMeasureId($event)" [initialUnitOfMeasureId]="unitOfMeasureId"></app-unit-of-measure>
+                    <div class="row">
 
-              <div class="form-group">
-                <label for="assignee">Assignee</label>
-                <ng2-completer [datasource]="personDataService"
-                               [minSearchLength]="0"
-                               [maxChars]="4"
-                               [inputClass]="'form-control'"
-                               [placeholder]="'Select a Person'"
-                               [matchClass]="'match'"
-                               formControlName="person"
-                               [autofocus]="true"
-                               [clearUnselected]="true"
-                               [fillHighlighted]="false"
-                               [openOnClick]="true"
-                               [textSearching]="false"
-                               id="assignee"
-                               (selected)="onPersonSelect($event)">
-                </ng2-completer>
-              </div>
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Type</mat-label>
+                          <input matInput [formControl]="discreteType" [matAutocomplete]="auto1">
+                          <mat-autocomplete #auto1="matAutocomplete">
+                            <mat-option *ngFor="let type of discreteTypes" [value]="type">{{type}}</mat-option>
+                          </mat-autocomplete>
+                          <mat-error *ngIf="discreteType.hasError('required')">
+                            Type is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
 
-              <div class="form-group">
-                <label for="site">Site</label>
-                <ng2-completer [datasource]="siteDataService"
-                               [minSearchLength]="0"
-                               [maxChars]="4"
-                               [inputClass]="'form-control'"
-                               [placeholder]="'Select a Site'"
-                               [matchClass]="'match'"
-                               formControlName="site"
-                               [autofocus]="true"
-                               [clearUnselected]="true"
-                               [fillHighlighted]="false"
-                               [openOnClick]="true"
-                               [textSearching]="false"
-                               id="site"
-                               (selected)="onPhysicalSiteSelect($event)">
-                </ng2-completer>
-              </div>
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Serial Number</mat-label>
+                          <input matInput [formControl]="serialNumber">
+                          <mat-error *ngIf="serialNumber.hasError('required')">
+                            Serial Number is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
 
-              <div class="form-group">
-                <label for="description">Description</label><textarea id="description" class="form-control" formControlName="description" placeholder="Description" rows="3"></textarea>
-                <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
-              </div>
+                    </div>
+
+                  </fieldset>
+                </mat-tab>
+
+                <mat-tab label="Inventory Item">
+                  <fieldset>
+
+                    <div class="row">
+
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Type</mat-label>
+                          <input matInput [formControl]="inventoryType" [matAutocomplete]="auto2">
+                          <mat-autocomplete #auto2="matAutocomplete">
+                            <mat-option *ngFor="let type of inventoryTypes" [value]="type">{{type}}</mat-option>
+                          </mat-autocomplete>
+                          <mat-error *ngIf="inventoryType.hasError('required')">
+                            Type is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Inventory ID</mat-label>
+                          <input matInput [formControl]="inventoryID">
+                          <mat-error *ngIf="inventoryID.hasError('required')">
+                            Inventory ID is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-sm-2">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Quantity</mat-label>
+                          <input type="number" matInput [formControl]="quantity">
+                          <mat-error *ngIf="quantity.hasError('required')">
+                            Quantity is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+
+                    </div>
+
+                  </fieldset>
+                </mat-tab>
+
+
+                <mat-tab label="Building">
+                  <fieldset>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Building Number</mat-label>
+                          <input type="number" matInput [formControl]="buildingNumber">
+                          <mat-error *ngIf="buildingNumber.hasError('required')">
+                            Building Number is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+
+                  </fieldset>
+
+                </mat-tab>
+
+                <mat-tab label="Lot">
+                  <fieldset>
+
+                    <div class="row">
+
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Lot Number</mat-label>
+                          <input type="number" matInput [formControl]="lotNumber">
+                          <mat-error *ngIf="lotNumber.hasError('required')">
+                            Lot Number is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Number Of Shares</mat-label>
+                          <input type="number" matInput [formControl]="numberOfShares">
+                          <mat-error *ngIf="numberOfShares.hasError('required')">
+                            Number Of Shares is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                  </fieldset>
+
+                </mat-tab>
+
+              </mat-tab-group>
+
+              <div class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{assetExist ? 'Update': 'New'}} asset failed.</span></div>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [disabled]="!assetForm.valid" type="submit" (click)=" assetExist ? onUpdate() : onCreate()">{{ assetExist ? "Update" : "Create"}}</button>
-                <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
+                <button mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
+                <button class="right-button" mat-flat-button color="primary" [disabled]="!assetForm.valid" type="submit" (click)=" assetExist ? onUpdate() : onCreate()">Confirm</button>
               </div>
 
             </form>
           </div>
+
+          <div class="element-box">
+            <app-asset-specification></app-asset-specification>
+          </div>
+
+          <div class="element-box">
+            <app-asset-brand></app-asset-brand>
+          </div>
+
+          <div class="element-box">
+            <app-asset-characteristics></app-asset-characteristics>
+          </div>
+
         </div>
       </div>
     </div>

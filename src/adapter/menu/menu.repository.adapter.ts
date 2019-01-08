@@ -8,6 +8,7 @@ import {MenuItemModel} from '../../menu/menu.item.model';
 
 import {MenuState} from '../../client/menus/menu.state';
 import {MenuItemState} from '../../client/menus/menu.item.state';
+import {App} from "../../lobby/app";
 
 export class MenuRepositoryAdapter implements MenuRepository {
 
@@ -37,6 +38,10 @@ export class MenuRepositoryAdapter implements MenuRepository {
         }
         return this.toMenuModel(menuState);
       }));
+  }
+
+  getApps(): Observable<App[]> {
+    return this.menuClient.getApps();
   }
 
   private toMenuModel(menuState: MenuState): MenuModel {

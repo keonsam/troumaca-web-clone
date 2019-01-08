@@ -16,6 +16,10 @@ import {assetResolveProvider } from './asset.resolve.provider';
 import {AssetFormComponent} from './asset-form/asset.form.component';
 import {DeleteModalModule} from '../delete-modal/delete.modal.module';
 import {authGuardProvider} from '../auth-guard/auth.guard.provider';
+import {MaterialModule} from "../app/material.module";
+import {SpecificationFormComponent} from "./specification-form/specification.form.component";
+import {BrandFormComponent} from "./brand-form/brand.form.component";
+import {CharacteristicsFormComponent} from "./characteristics-form/characteristics.form.component";
 
 @NgModule({
   imports: [
@@ -29,13 +33,17 @@ import {authGuardProvider} from '../auth-guard/auth.guard.provider';
     PagingModule,
     AssetRoutingModule,
     UnitOfMeasureModule,
-    DeleteModalModule
+    DeleteModalModule,
+    MaterialModule
   ],
   declarations: [
     AssetComponent,
     AssetFormComponent,
     AssetListComponent,
     AssetTopMenuComponent,
+    SpecificationFormComponent,
+    BrandFormComponent,
+    CharacteristicsFormComponent,
   ],
   providers: [assetServiceProvider, assetResolveProvider, authGuardProvider],
   exports: [

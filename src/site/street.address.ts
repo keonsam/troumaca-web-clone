@@ -6,7 +6,4 @@ export class StreetAddress extends PhysicalSite {
   suiteOrApartmentNumber: string;
   streetNumber: string;
   streetName: string;
-
-
-
 }

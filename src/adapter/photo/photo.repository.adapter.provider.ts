@@ -1,5 +1,5 @@
 import {PhotoClient} from '../../client/photo/photo.client';
-import {PhotoRepository} from "../../photo/photo.repository";
+import {PhotoRepository} from "../../parties/photo/photo.repository";
 import {PhotoRepositoryAdapter} from './photo.repository.adapter';
 
 

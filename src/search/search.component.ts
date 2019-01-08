@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'search',
@@ -7,41 +8,17 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class SearchComponent implements OnInit {
 
-  private _searchText: string;
-  private _visible: boolean;
+  search: FormControl;
+  searchForm: FormGroup;
 
-  constructor() {
-    this.visible = true;
+  constructor(private formBuilder: FormBuilder) {
+    this.search = new FormControl('');
+    this.searchForm = formBuilder.group({
+      search: this.search
+    });
   }
 
   ngOnInit(): void {
-  }
-
-  onEnter(value: string) {
-    this.searchText = value;
-    console.log(value);
-  }
-
-  onKeyUp(value: string) {
-    this.searchText = value;
-    console.log(value);
-  }
-
-  get searchText() {
-    return this._searchText;
-  }
-
-  set searchText(value) {
-    this._searchText = value;
-  }
-
-  get visible(): boolean {
-    return this._visible;
-  }
-
-  @Input()
-  set visible(value: boolean) {
-    this._visible = value;
   }
 
 }

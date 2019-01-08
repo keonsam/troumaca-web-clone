@@ -1,0 +1,90 @@
+<form [formGroup]="assetSpecificationForm">
+  <h5 class="form-header">
+    Asset Specification
+  </h5>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput [formControl]="name">
+    <mat-error *ngIf="name.hasError('required')">
+      Name Of is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <div class="row">
+
+    <div class="col-sm-6">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Type</mat-label>
+        <input matInput [formControl]="type" [matAutocomplete]="auto3">
+        <mat-autocomplete #auto3="matAutocomplete">
+          <mat-option *ngFor="let type of types" [value]="type">{{type}}</mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="type.hasError('required')">
+          Type is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-sm-6">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Part Of</mat-label>
+        <input matInput [formControl]="partOf">
+        <mat-error *ngIf="partOf.hasError('required')">
+          Part Of is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-sm-4">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Model Number</mat-label>
+        <input matInput [formControl]="modelNumber">
+        <mat-error *ngIf="modelNumber.hasError('required')">
+          Model Number is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-sm-4">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Standard Price</mat-label>
+        <mat-icon matPrefix color="primary">attach_money</mat-icon>
+        <input type="number" matInput [formControl]="standardPrice">
+        <mat-error *ngIf="standardPrice.hasError('required')">
+          Standard Price is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-sm-4">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Effective Date</mat-label>
+        <input matInput [matDatepicker]="picker3" [formControl]="effectiveDate">
+        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+        <mat-datepicker #picker3></mat-datepicker>
+        <mat-error *ngIf="effectiveDate.hasError('required')">
+          Effective Date is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Description</mat-label>
+    <textarea matInput  [formControl]="description"></textarea>
+  </mat-form-field>
+
+  <div class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{assetSpecExist ? 'Update': 'New'}} asset characteristics failed.</span></div>
+
+  <div class="form-buttons-w">
+    <button mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
+    <button class="right-button" mat-flat-button color="primary" [disabled]="!assetSpecificationForm.valid" type="submit" (click)=" assetSpecExist ? onUpdate() : onCreate()">Confirm</button>
+  </div>
+
+</form>

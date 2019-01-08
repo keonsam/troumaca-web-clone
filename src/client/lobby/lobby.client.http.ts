@@ -4,7 +4,6 @@ import {Observable} from "rxjs";
 import { map } from "rxjs/operators";
 import {LobbyClient} from "./lobby.client";
 import {App} from "../../lobby/app";
-import {Subscription} from "../../lobby/subscription";
 
 export class LobbyClientHttp extends LobbyClient {
   constructor(private uuidGenerator: UUIDGenerator,
@@ -14,7 +13,7 @@ export class LobbyClientHttp extends LobbyClient {
   }
 
   getApps(): Observable<App[]> {
-    const url = `${this.hostPort}/subscriptions/apps`;
+    const url = `${this.hostPort}/apps`;
       const httpOptions = {
         headers: this.jsonHttpHeaders()
       };
@@ -24,25 +23,11 @@ export class LobbyClientHttp extends LobbyClient {
         }));
   }
 
-  addSubscription(subscription: Subscription): Observable<Subscription> {
-    const url = `${this.hostPort}/subscriptions`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient.post<Subscription>(url, subscription, httpOptions)
-      .pipe(map(data => {
-        return data;
-      }));
-  }
-
-
   private jsonHttpHeaders(): HttpHeaders {
-    const httpHeaders: HttpHeaders = new HttpHeaders({
+    return new HttpHeaders({
       'Content-Type':  'application/json',
       'correlationId': this.uuidGenerator.generateUUID()
     });
-
-    return httpHeaders;
   }
 
 }

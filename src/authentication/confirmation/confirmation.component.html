@@ -1,4 +1,4 @@
-<div class="auth-box-w">
+<div class="auth-box-w wider">
 
   <div class="logo-w">
     <a routerLink="/home"><img alt="" src="/images/logo-big.png"></a>
@@ -10,16 +10,8 @@
 
   <form [formGroup]="phoneVerificationForm" (ngSubmit)="onSubmit()">
     <p class="form-desc">
-      Enter the confirmation code we sent to your username.
+      Enter the confirmation code sent to your username.
     </p>
-
-    <div *ngIf="showSuccessMessage" class="alert alert-success">
-      <strong>Success!</strong> {{ message || ''}}
-    </div>
-
-    <div *ngIf="showErrorMessage" class="alert alert-danger">
-      <strong>Error!</strong> {{ message || ''}}.
-    </div>
 
     <mat-form-field class="example-full-width" appearance="outline">
       <mat-label>Enter the 6-digit code</mat-label>
@@ -32,12 +24,13 @@
       </mat-error>
     </mat-form-field>
 
-    <div class="buttons-w">
-        <button class="btn btn-outline-secondary" routerLink="/authentication/register">Back</button>
-        <button [disabled]="!phoneVerificationForm.valid" id="button2" class="btn btn-primary" type="submit">Verify</button>
+    <div class="error-box-text">
+      <span [hidden]="doNotDisplayFailureMessage && doNotDisplaySuccessMessage" [ngClass]="{'text-danger': !doNotDisplayFailureMessage, 'text-success': !doNotDisplaySuccessMessage}">{{ message }}</span>
     </div>
-    <div class="sendCode">
-      <a href="#" (click)="sendConfirmationCode();false">Didn't get the text message?</a>
+
+    <div class="buttons-w">
+      <a mat-button color="accent" href (click)="sendConfirmationCode();false">Resend</a>
+      <button class="right-button" mat-flat-button color="primary" [disabled]="!phoneVerificationForm.valid" type="submit">Confirm</button>
     </div>
   </form>
 

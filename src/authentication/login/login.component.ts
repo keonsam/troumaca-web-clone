@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   password: FormControl;
   rememberMe: FormControl;
   private credential: Credential;
-  errorExists: boolean;
+  doNotDisplayFailureMessage = true;
 
   constructor(private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.errorExists = false;
+    this.doNotDisplayFailureMessage = true;
 
     this.authenticationService
       .authenticate(this.credential)
@@ -64,18 +64,18 @@ export class LoginComponent implements OnInit {
           this.sessionService.loginEvent.next(true);
           this.router.navigate(['/lobby']);
         }else if (authenticatedCredential && authenticatedCredential.authenticateStatus === 'CredentialConfirmed') {
-          this.router.navigate(['/profile-organizations']);
+          this.router.navigate(['/organizations']);
         }else if (authenticatedCredential && authenticatedCredential.authenticateStatus === 'CredentialUsernameNotConfirmed') {
           const credentialId = authenticatedCredential.credentialId;
           const confirmationId = authenticatedCredential.confirmationId;
           this.router.navigate([`/authentication/confirmations/${credentialId}/${confirmationId}`]);
         }else {
           console.log(authenticatedCredential);
-          this.errorExists = true;
+          this.doNotDisplayFailureMessage = false;
         }
       }, error => {
         console.log(error);
-        this.errorExists = true;
+        this.doNotDisplayFailureMessage = false;
       });
   }
 
