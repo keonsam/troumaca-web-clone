@@ -26,6 +26,7 @@ export class SpecificationFormComponent implements OnInit {
 
   doNotDisplayFailureMessage = true;
   assetSpecExist = false;
+  showConfirmMessage = false;
 
   private assetSpecification: AssetSpecification;
   private assetId: string;
@@ -82,6 +83,7 @@ export class SpecificationFormComponent implements OnInit {
       this.setInputValues(assetSpec);
       this.assetSpecExist = true;
       this.assetSpecification = assetSpec;
+      this.assetService.assetBrandState.next(this.assetId);
     } else {
       this.assetSpecificationForm.disable();
     }
@@ -109,11 +111,13 @@ export class SpecificationFormComponent implements OnInit {
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
+    this.showConfirmMessage = false;
     this.assetSpecification.assetId = this.assetId;
     this.assetService.addAssetSpec(this.assetSpecification)
       .subscribe(value => {
         if (value && value.assetId) {
           this.assetService.assetBrandState.next(this.assetId);
+          this.showConfirmMessage = true;
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -123,12 +127,14 @@ export class SpecificationFormComponent implements OnInit {
   }
 
   onUpdate() {
-    this.doNotDisplayFailureMessage = true;
+    // this.doNotDisplayFailureMessage = true;
+    // this.showConfirmMessage = false;
     // this.assetService
-    //   .updateAsset(this.asset.assetId, this.asset)
+    //   .updateAssetSpec(this.assetSpecification.assetId, this.assetSpecification)
     //   .subscribe(value => {
     //     if (value) {
-    //       this.router.navigate(['/assets']);
+    //       this.assetService.assetBrandState.next(this.assetId);
+    //       this.showConfirmMessage = true;
     //     } else {
     //       this.doNotDisplayFailureMessage = false;
     //     }

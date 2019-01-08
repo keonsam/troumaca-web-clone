@@ -20,6 +20,7 @@ export class BrandFormComponent implements OnInit {
 
   assetBrandExist = false;
   doNotDisplayFailureMessage = true;
+  showConfirmMessage = false;
 
   private assetBrand: AssetBrand;
   private assetId: string;
@@ -63,6 +64,7 @@ export class BrandFormComponent implements OnInit {
       this.setInputValues(assetBrand);
       this.assetBrandExist = true;
       this.assetBrand = assetBrand;
+      this.assetService.assetCharacteristicsState.next(this.assetId);
     }else {
       this.assetBrandForm.disable();
     }
@@ -86,12 +88,14 @@ export class BrandFormComponent implements OnInit {
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
+    this.showConfirmMessage = false;
 
     this.assetBrand.assetId = this.assetId;
     this.assetService.addAssetBrand(this.assetBrand)
       .subscribe(value => {
         if (value && value.assetId) {
           this.assetService.assetCharacteristicsState.next(this.assetId);
+          this.showConfirmMessage = true;
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -101,12 +105,15 @@ export class BrandFormComponent implements OnInit {
   }
 
   onUpdate() {
-    this.doNotDisplayFailureMessage = true;
+    // this.doNotDisplayFailureMessage = true;
+    // this.showConfirmMessage = false;
+    //
     // this.assetService
-    //   .updateAsset(this.asset.assetId, this.asset)
+    //   .updateAssetBrand(this.assetBrand.assetId, this.assetBrand)
     //   .subscribe(value => {
     //     if (value) {
-    //       this.router.navigate(['/assets']);
+    //       this.assetService.assetCharacteristicsState.next(this.assetId);
+    //       this.showConfirmMessage = true;
     //     } else {
     //       this.doNotDisplayFailureMessage = false;
     //     }

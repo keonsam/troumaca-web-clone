@@ -22,5 +22,8 @@ export abstract class AssetRepository {
   abstract addAssetCharacteristics(assetModel: AssetCharacteristics): Observable<AssetCharacteristics>;
 
   public abstract updateAsset(assetId: string, asset: Asset): Observable<number>;
+  // abstract updateAssetSpec(assetId: string, asset: AssetSpecification): Observable<number>;
+  // abstract updateAssetBrand(assetId: string, asset: AssetBrand): Observable<number>;
+  // abstract updateAssetCharacteristics(assetId: string, asset: AssetCharacteristics): Observable<number>;
   public abstract deleteAsset(assetId): Observable<number>;
 }

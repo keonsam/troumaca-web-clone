@@ -218,7 +218,10 @@
 
               </mat-tab-group>
 
-              <div class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{assetExist ? 'Update': 'New'}} asset failed.</span></div>
+              <div class="error-box-text">
+                <span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{assetExist ? 'Update': 'New'}} asset failed.</span>
+                <span ngIf="showConfirmMessage">{{assetExist ? 'Updated': 'Created'}}, continue below.</span>
+              </div>
 
               <div class="form-buttons-w">
                 <button mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>

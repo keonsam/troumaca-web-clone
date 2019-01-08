@@ -20,6 +20,9 @@ import {MaterialModule} from "../app/material.module";
 import {SpecificationFormComponent} from "./specification-form/specification.form.component";
 import {BrandFormComponent} from "./brand-form/brand.form.component";
 import {CharacteristicsFormComponent} from "./characteristics-form/characteristics.form.component";
+import {assetBrandResolveProvider} from "./asset.brand.resolve.provider";
+import {assetSpecificationResolveProvider} from "./asset.specification.resolve.provider";
+import {assetCharacteristicsResolveProvider} from "./asset.characteristics.resolve.provider";
 
 @NgModule({
   imports: [
@@ -45,7 +48,13 @@ import {CharacteristicsFormComponent} from "./characteristics-form/characteristi
     BrandFormComponent,
     CharacteristicsFormComponent,
   ],
-  providers: [assetServiceProvider, assetResolveProvider, authGuardProvider],
+  providers: [
+    assetServiceProvider,
+    assetResolveProvider,
+    assetBrandResolveProvider,
+    assetSpecificationResolveProvider,
+    assetCharacteristicsResolveProvider,
+    authGuardProvider],
   exports: [
     // AssetComponent,
     // AssetEditComponent,
