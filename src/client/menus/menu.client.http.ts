@@ -5,12 +5,13 @@ import {UUIDGenerator} from '../../uuid.generator';
 import {App} from "../../lobby/app";
 import {map} from "rxjs/operators";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {environment} from '../../environments/environment';
 
 export class MenuClientHttp extends MenuClient {
 
+  hostPort = environment.hostPort;
   constructor(private uuidGenerator: UUIDGenerator,
-              private httpClient: HttpClient,
-              private hostPort: string) {
+              private httpClient: HttpClient) {
     super();
   }
 

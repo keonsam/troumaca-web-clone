@@ -8,12 +8,13 @@ import {Asset} from '../../assets/asset';
 import {AssetSpecification} from "../../assets/asset.specification";
 import {AssetBrand} from "../../assets/asset.brand";
 import {AssetCharacteristics} from "../../assets/asset.characteristics";
+import {environment} from '../../environments/environment';
 
 export class AssetClientHttp extends AssetClient {
 
+  hostPort = environment.hostPort;
   constructor(private uuidGenerator: UUIDGenerator,
-              private http: HttpClient,
-              private hostPort: string) {
+              private http: HttpClient) {
     super();
   }
 

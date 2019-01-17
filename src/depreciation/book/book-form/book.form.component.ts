@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import { Depreciation } from "../../depreciation";
+import { Depreciation } from '../../depreciation';
 import {DepreciationService} from '../../depreciation.service';
-import {DepreciationMethod} from "../../depreciation.method";
-import { map, filter, debounceTime } from "rxjs/operators";
+import {DepreciationMethod} from '../../depreciation.method';
+import { map, filter, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-form',
@@ -27,7 +26,7 @@ export class BookFormComponent implements OnInit {
 
   private _depreciationForm: FormGroup;
 
-  private _assetDataService: CompleterData;
+  // private _assetDataService: CompleterData;
 
   private pageSize: number;
   private depreciation: Depreciation;
@@ -37,7 +36,7 @@ export class BookFormComponent implements OnInit {
   public depreciationExist = false;
 
   constructor(private depreciationService: DepreciationService,
-              private completerService: CompleterService,
+              // private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
@@ -241,13 +240,13 @@ export class BookFormComponent implements OnInit {
     this._depreciationForm = value;
   }
 
-  get assetDataService(): CompleterData {
-    return this._assetDataService;
-  }
-
-  set assetDataService(value: CompleterData) {
-    this._assetDataService = value;
-  }
+  // get assetDataService(): CompleterData {
+  //   return this._assetDataService;
+  // }
+  //
+  // set assetDataService(value: CompleterData) {
+  //   this._assetDataService = value;
+  // }
 
   get doNotDisplayFailureMessage(): boolean {
     return this._doNotDisplayFailureMessage;
@@ -257,9 +256,9 @@ export class BookFormComponent implements OnInit {
     this._doNotDisplayFailureMessage = value;
   }
 
-  onAssetSelect(selected: CompleterItem) {
-    this.depreciation.assetId = selected.originalObject.assetId;
-  }
+  // onAssetSelect(selected: CompleterItem) {
+  //   this.depreciation.assetId = selected.originalObject.assetId;
+  // }
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;

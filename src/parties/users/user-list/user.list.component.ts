@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Users} from '../../users';
-import {PartyEventService} from '../../party.event.service';
 import {Page} from '../../../page/page';
 import {Sort} from '../../../sort/sort';
 import { UserService } from '../user.service';
-import {PageEvent} from "@angular/material";
+import {PageEvent} from '@angular/material';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -22,10 +22,9 @@ export class UserListComponent implements OnInit {
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  private menuName = 'users-menu';
 
-  constructor(private partyEventService: PartyEventService,
-              private userService: UserService) {
+  constructor(private userService: UserService,
+              private route: ActivatedRoute) {
 
     const newUsers = new Users();
     newUsers.page = new Page(0, 0, 0);
@@ -35,8 +34,9 @@ export class UserListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.partyEventService.menuChangeEvent.emit(this.menuName);
-    this.getUsers();
+    if (this.route.snapshot && this.route.snapshot.data['users']) {
+      this.users = this.route.snapshot.data['users'];
+    }
   }
 
   private getUsers() {

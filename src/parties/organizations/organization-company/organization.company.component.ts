@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Organization} from "../../organization";
-import {Router} from "@angular/router";
-import {OrganizationService} from "../organization.service";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Organization} from '../../organization';
+import {ActivatedRoute, Router} from '@angular/router';
+import {OrganizationService} from '../organization.service';
+import {OrganizationCompany} from './organization.company';
 
 @Component({
   selector: 'app-organization-company',
@@ -14,14 +15,16 @@ export class OrganizationCompanyComponent implements OnInit {
   name: FormControl;
   purpose: FormControl;
   organizationForm: FormGroup;
-  errorMessage: string;
   doNotDisplayFailureMessage = true;
+  organizationCompany: OrganizationCompany;
 
   private organization: Organization;
 
   constructor(private formBuilder: FormBuilder,
               private organizationService: OrganizationService,
+              private route: ActivatedRoute,
               private router: Router) {
+    this.organizationCompany = new OrganizationCompany();
     this.organization = new Organization();
     this.purpose = new FormControl('');
     this.name = new FormControl('', [Validators.required]);
@@ -43,43 +46,47 @@ export class OrganizationCompanyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getOrganization();
+    if (this.route.snapshot && this.route.snapshot.data['organizationCompany']) {
+      this.organizationCompany = this.route.snapshot.data['organizationCompany'];
+      this.setInputValues(this.organizationCompany.organization);
+    }
   }
 
-  getOrganization() {
-    this.organizationService.getOrganization('company')
-      .subscribe( organization => {
-        if (organization && organization.partyId) {
-          this.name.setValue(organization.name);
-          this.purpose.setValue(organization.purpose);
-          this.organization = organization;
-        }
-      }, error => {
-        console.log(error);
-        this.errorMessage = 'Failed to get organization information. Please refresh.';
-        this.doNotDisplayFailureMessage = false;
-      });
+  private setInputValues(organization: Organization) {
+    this.name.setValue(organization.name);
+    this.purpose.setValue(organization.purpose);
+    this.organization = organization;
   }
+
+  // getOrganization() {
+  //   this.organizationService.getOrganization('company')
+  //     .subscribe(organization => {
+  //       if (organization && organization.partyId) {
+  //       }
+  //     }, error => {
+  //       console.log(error);
+  //       this.doNotDisplayFailureMessage = false;
+  //     });
+  // }
 
   onUpdate(): void {
     this.doNotDisplayFailureMessage = true;
     this.organizationService.updateOrganization(this.organization)
-      .subscribe( num => {
+      .subscribe(num => {
         if (num) {
           this.router.navigate(['/lobby']);
         } else {
-          this.errorMessage = 'Failed to save organization information. Please try again.';
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
         console.log(error);
-        this.errorMessage = 'Failed to save organization information. Please try again.';
         this.doNotDisplayFailureMessage = false;
       });
   }
 
   cancel(): void {
-    this.getOrganization();
+    this.router.navigate(['/lobby']);
+    // this.getOrganization();
   }
 
 }

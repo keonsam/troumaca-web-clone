@@ -5,9 +5,9 @@
   <div class="content-box">
 
     <div class="element-wrapper">
-      <h6 class="element-header">
+      <h5 class="element-header">
         Organization Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" [routerLink]="routerLinkCreateUser" href="#">New</a></object>
-      </h6>
+      </h5>
       <div class="element-box">
 
         <!--
@@ -23,7 +23,6 @@
             <tr>
               <th>Name</th>
               <th>Purpose</th>
-              <th>Description</th>
               <th class="text-center">Actions</th>
             </tr>
             </thead>
@@ -31,7 +30,6 @@
             <tr>
               <th>Name</th>
               <th>Purpose</th>
-              <th>Description</th>
               <th class="text-center">Actions</th>
             </tr>
             </tfoot>
@@ -39,7 +37,6 @@
             <tr role="row" *ngFor="let organization of organizations.organizations; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
               <td>{{organization.name}}</td>
               <td>{{organization.purpose}}</td>
-              <td>{{organization.description}}</td>
               <td class="row-actions">
                 <a [routerLink]="['/parties/organizations', organization.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(organization.partyId, organization.name)"><i class="os-icon os-icon-ui-15"></i></a>
               </td>

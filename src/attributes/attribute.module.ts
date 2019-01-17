@@ -8,21 +8,20 @@ import {AttributeListComponent} from './attribute-list/attribute.list.component'
 import {AttributeTopMenuComponent} from './attribute-top-menu/attribute.top.menu.component';
 import {SearchModule} from '../search/search.module';
 import {PagingModule} from '../paging/paging.module';
-import {Ng2CompleterModule} from 'ng2-completer';
 import {attributeServiceProvider} from './attribute.service.provider';
-import { AttributeRoutingModule } from "./attribute.routing.module";
-import { AttributeFormComponent } from "./attribute-form/attribute.form.component";
-import { attributeResolveProvider } from "./attribute.resolve.provider";
-import { UnitOfMeasureModule } from "../unit-of-measure/unit.of.measure.module";
-import {DeleteModalModule} from "../delete-modal/delete.modal.module";
-import {authGuardProvider} from "../auth-guard/auth.guard.provider";
+import { AttributeRoutingModule } from './attribute.routing.module';
+import { AttributeFormComponent } from './attribute-form/attribute.form.component';
+import { attributeResolveProvider } from './attribute.resolve.provider';
+import { UnitOfMeasureModule } from '../unit-of-measure/unit.of.measure.module';
+import {DeleteModalModule} from '../delete-modal/delete.modal.module';
+import {attributeRepositoryProvider} from '../adapter/attributes/attributes.repository.adapter.provider';
+import {attributeClientProvider} from '../client/attribute/attribute.client.provider';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    Ng2CompleterModule,
     ReactiveFormsModule,
     MenuModule,
     SearchModule,
@@ -37,7 +36,11 @@ import {authGuardProvider} from "../auth-guard/auth.guard.provider";
     AttributeListComponent,
     AttributeTopMenuComponent
   ],
-  providers: [attributeServiceProvider, attributeResolveProvider, authGuardProvider],
+  providers: [attributeServiceProvider,
+    attributeResolveProvider,
+    attributeRepositoryProvider,
+    attributeClientProvider,
+  ],
   exports: [
     AttributeFormComponent
   ]

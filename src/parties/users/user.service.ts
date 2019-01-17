@@ -2,10 +2,9 @@ import { UserRepository} from './user.repository';
 import {Observable} from 'rxjs';
 import {AccessRole} from '../../access-roles/access.role';
 import {Users} from '../users';
-import {PartyAccessRole} from '../party.access.role';
 import {User} from '../user';
 import { Credential } from '../../authentication/credential';
-import {ValidResponse} from "../../authentication/valid.response";
+import {ValidResponse} from '../../authentication/valid.response';
 
 export class UserService {
   constructor(private userRepository: UserRepository) {}
@@ -22,12 +21,16 @@ export class UserService {
     return this.userRepository.getUser(partyId);
   }
 
-  public addUser(user: User, credential: Credential, partyAccessRoles?: PartyAccessRole[]): Observable<User> {
+  public addUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<User> {
     return this.userRepository.addUser(user, credential, partyAccessRoles);
   }
 
-  public updateUser(user: User, credential: Credential, partyAccessRoles?: PartyAccessRole[]): Observable<number> {
+  public updateUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<number> {
     return this.userRepository.updateUser(user, credential, partyAccessRoles);
+  }
+
+  public updateUserMe(user: User, credential: Credential): Observable<number> {
+    return this.userRepository.updateUserMe(user, credential);
   }
 
   public deleteUser(partyId: string): Observable<number> {

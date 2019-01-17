@@ -10,20 +10,19 @@ import {AssetTypeClassTopMenuComponent} from './asset-type-class-top-menu/asset-
 import {assetTypeClassServiceProvider} from './asset.type.class.service.provider';
 import {PagingModule} from '../paging/paging.module';
 import {SearchModule} from '../search/search.module';
-import {Ng2CompleterModule} from 'ng2-completer';
 import { AssetTypeClassRoutingModule } from './asset.type.class.routing.module';
 import { assetTypeClassResolveProvider } from './asset.type.class.resolve.provider';
 import {DeleteModalModule} from '../delete-modal/delete.modal.module';
 import {attributeServiceProvider} from '../attributes/attribute.service.provider';
 import {AttributeModule} from '../attributes/attribute.module';
-import {authGuardProvider} from "../auth-guard/auth.guard.provider";
+import {assetTypeClassRepositoryProvider} from '../adapter/asset-type-classes/asset.type.classes.adapter.provider';
+import {assetTypeClassClientProvider} from '../client/asset-type-class/asset.type.class.client.provider';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    Ng2CompleterModule,
     ReactiveFormsModule,
     MenuModule,
     PagingModule,
@@ -38,7 +37,12 @@ import {authGuardProvider} from "../auth-guard/auth.guard.provider";
     AssetTypeClassFormComponent,
     AssetTypeClassTopMenuComponent,
   ],
-  providers: [assetTypeClassServiceProvider, assetTypeClassResolveProvider, attributeServiceProvider, authGuardProvider],
+  providers: [assetTypeClassServiceProvider,
+    assetTypeClassResolveProvider,
+    attributeServiceProvider,
+    assetTypeClassRepositoryProvider,
+    assetTypeClassClientProvider,
+  ],
   exports: []
 })
 export class AssetTypeClassModule {}

@@ -5,13 +5,13 @@ import { map } from 'rxjs/operators';
 
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ValidSession} from '../../session/valid.session';
+import {environment} from '../../environments/environment';
 
 export class SessionClientHttp extends SessionClient {
 
-
+  hostPort = environment.hostPort;
   constructor(private uuidGenerator: UUIDGenerator,
-              private httpClient: HttpClient,
-              private hostPort: string) {
+              private httpClient: HttpClient) {
     super();
   }
 

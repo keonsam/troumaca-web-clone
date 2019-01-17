@@ -4,11 +4,12 @@ import {Observable} from "rxjs";
 import { map } from "rxjs/operators";
 import {LobbyClient} from "./lobby.client";
 import {App} from "../../lobby/app";
+import {environment} from '../../environments/environment';
 
 export class LobbyClientHttp extends LobbyClient {
+  hostPort = environment.hostPort;
   constructor(private uuidGenerator: UUIDGenerator,
-              private httpClient: HttpClient,
-              private hostPort: string) {
+              private httpClient: HttpClient) {
     super();
   }
 

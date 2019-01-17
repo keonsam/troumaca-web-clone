@@ -3,33 +3,94 @@
     <div class="row">
       <div class="col-sm-5">
         <div class="user-profile compact">
-          <app-photo [type]="'organization'" [organizationName]="organizationName"></app-photo>
-          <!--<div class="up-contents">-->
-            <!--<div class="m-b">-->
-              <!--<div class="row m-b">-->
-                <!--<div class="col-sm-6 b-r b-b">-->
-                  <!--<div class="el-tablo centered padded-v">-->
-                    <!--<div class="value">-->
-                      <!--4-->
-                    <!--</div>-->
-                    <!--<div class="label">-->
-                      <!--Organizations-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-sm-6 b-b">-->
-                  <!--<div class="el-tablo centered padded-v">-->
-                    <!--<div class="value">-->
-                      <!--3-->
-                    <!--</div>-->
-                    <!--<div class="label">-->
-                      <!--Pending Requests-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
+          <app-photo [type]="'organization'" [organizationName]="organizationCompany.organization.name"></app-photo>
+          <div class="up-controls">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="value-pair">
+                  <div class="label">
+                    Status:
+                  </div>
+                  <div class="value badge badge-pill badge-success">
+                    Online
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="up-contents">
+            <div class="m-b">
+              <div class="row m-b">
+                <div class="col-sm-6 b-r b-b">
+                  <div class="el-tablo centered padded-v">
+                    <div class="value">
+                      25
+                    </div>
+                    <div class="label">
+                      Users
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 b-b">
+                  <div class="el-tablo centered padded-v">
+                    <div class="value">
+                      500
+                    </div>
+                    <div class="label">
+                      Assets
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="padded">
+                <div class="os-progress-bar primary">
+                  <div class="bar-labels">
+                    <div class="bar-label-left">
+                      <span>Profile Completion</span><span class="positive">+10</span>
+                    </div>
+                    <div class="bar-label-right">
+                      <span class="info">72/100</span>
+                    </div>
+                  </div>
+                  <div class="bar-level-1" style="width: 100%">
+                    <div class="bar-level-2" style="width: 80%">
+                      <div class="bar-level-3" style="width: 30%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="os-progress-bar primary">
+                  <div class="bar-labels">
+                    <div class="bar-label-left">
+                      <span>Status Unlocked</span><span class="positive">+5</span>
+                    </div>
+                    <div class="bar-label-right">
+                      <span class="info">45/100</span>
+                    </div>
+                  </div>
+                  <div class="bar-level-1" style="width: 100%">
+                    <div class="bar-level-2" style="width: 30%">
+                      <div class="bar-level-3" style="width: 10%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="os-progress-bar primary">
+                  <div class="bar-labels">
+                    <div class="bar-label-left">
+                      <span>Followers</span><span class="negative">-12</span>
+                    </div>
+                    <div class="bar-label-right">
+                      <span class="info">74/100</span>
+                    </div>
+                  </div>
+                  <div class="bar-level-1" style="width: 100%">
+                    <div class="bar-level-2" style="width: 80%">
+                      <div class="bar-level-3" style="width: 60%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- START OF USER ACTIVITY -->
@@ -41,23 +102,58 @@
               <div class="timed-activities compact">
                 <div class="timed-activity">
                   <div class="ta-date">
-                    <span>No Activity Found</span>
+                    <span>21st Jan, 2017</span>
+                  </div>
+                  <div class="ta-record-w">
+                    <div class="ta-record">
+                      <div class="ta-timestamp">
+                        <strong>11:55</strong> am
+                      </div>
+                      <div class="ta-activity">
+                        Created a post called <a href="#">Register new symbol</a> in Rogue
+                      </div>
+                    </div>
+                    <div class="ta-record">
+                      <div class="ta-timestamp">
+                        <strong>2:34</strong> pm
+                      </div>
+                      <div class="ta-activity">
+                        Commented on story <a href="#">How to be a leader</a> in <a href="#">Financial</a> category
+                      </div>
+                    </div>
+                    <div class="ta-record">
+                      <div class="ta-timestamp">
+                        <strong>7:12</strong> pm
+                      </div>
+                      <div class="ta-activity">
+                        Added <a href="#">John Silver</a> as a friend
+                      </div>
+                    </div>
                   </div>
                 </div>
-              <!--<div class="timed-activity">-->
-                <!--<div class="ta-date">-->
-                  <!--<span>Assets</span>-->
-                <!--</div>-->
-                <!--<div class="ta-record-w">-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="timed-activity">-->
-                <!--<div class="ta-date">-->
-                  <!--<span>Request Orders</span>-->
-                <!--</div>-->
-                <!--<div class="ta-record-w">-->
-                <!--</div>-->
-              <!--</div>-->
+                <div class="timed-activity">
+                  <div class="ta-date">
+                    <span>3rd Feb, 2017</span>
+                  </div>
+                  <div class="ta-record-w">
+                    <div class="ta-record">
+                      <div class="ta-timestamp">
+                        <strong>9:32</strong> pm
+                      </div>
+                      <div class="ta-activity">
+                        Added <a href="#">John Silver</a> as a friend
+                      </div>
+                    </div>
+                    <div class="ta-record">
+                      <div class="ta-timestamp">
+                        <strong>5:14</strong> pm
+                      </div>
+                      <div class="ta-activity">
+                        Commented on story <a href="#">How to be a leader</a> in <a href="#">Financial</a> category
+                      </div>
+                    </div>
+                  </div>
+                </div>
             </div>
           </div>
         </div>
@@ -69,46 +165,45 @@
 
       <div class="col-sm-7">
         <div class="element-wrapper">
+          <h5 class="element-header">
+            Organization Profile
+          </h5>
           <div class="element-box">
+            <form [formGroup]="organizationForm">
+              <h6 class="form-header">
+                Organization Info
+              </h6>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput [formControl]="name">
+                <mat-error *ngIf="name.hasError('required')">
+                  Name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
 
-            <h4 class="profile-header">Organization Profile</h4>
-            
-            <div class="card">
-              <form [formGroup]="organizationForm">
-                <h5 class="form-header">About</h5>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Purpose</mat-label>
+                <textarea matInput  [formControl]="purpose"></textarea>
+              </mat-form-field>
 
-                <mat-form-field class="example-full-width" appearance="outline">
-                  <mat-label>Name</mat-label>
-                  <input matInput [formControl]="name">
-                  <mat-error *ngIf="name.hasError('required')">
-                    Name is <strong>required</strong>
-                  </mat-error>
-                </mat-form-field>
+              <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Failed to update organization</span></div>
 
-                <mat-form-field class="example-full-width" appearance="outline">
-                  <mat-label>Purpose</mat-label>
-                  <textarea matInput  [formControl]="purpose"></textarea>
-                </mat-form-field>
+              <div class="form-buttons-w">
+                <button  mat-flat-button color="primary" [disabled]="!organizationForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="right-button-form" mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
+              </div>
 
-                <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{errorMessage}}</span></div>
-
-                <div class="form-buttons-w">
-                  <button mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
-                  <button class="right-button" mat-flat-button color="primary" [disabled]="!organizationForm.valid" type="submit" (click)="onUpdate()">Confirm</button>
-                </div>
-
-              </form>
-            </div>
-
-            <div class="card">
-              <app-contact-info type="organization"></app-contact-info>
-            </div>
-
-            <div class="card no-bottom-border">
-              <app-address type="organization"></app-address>
-            </div>
-
+            </form>
           </div>
+
+          <div class="element-box">
+            <app-contact-info type="organization"></app-contact-info>
+          </div>
+
+          <div class="element-box">
+            <app-address type="organization"></app-address>
+          </div>
+
         </div>
       </div>
 

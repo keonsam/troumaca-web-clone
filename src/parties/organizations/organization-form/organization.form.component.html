@@ -1,11 +1,15 @@
-<div [ngClass]="{'content-i': !profile }">
-  <div [ngClass]="{'content-box': !profile}">
-    <div [ngClass]="{'row': !profile}">
-      <div [ngClass]="{'col-sm-12': !profile}">
+<div class="content-i">
+  <div class="content-box">
+    <div class="row">
+      <div class="col-sm-12">
         <div class="element-wrapper">
+          <h5 class="element-header">
+            {{ update ? "Update":"New"}} Organization
+          </h5>
           <div class="element-box">
+
             <form [formGroup]="organizationForm" id="formValidate">
-              <h5 class="form-header">Organization Form</h5>
+              <h6 class="form-header">Organization Info</h6>
 
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Name</mat-label>
@@ -17,129 +21,18 @@
 
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Purpose</mat-label>
-                <input matInput [formControl]="purpose">
-                <mat-error *ngIf="purpose.hasError('required')">
-                  Purpose is <strong>required</strong>
-                </mat-error>
+                <textarea matInput  [formControl]="purpose"></textarea>
               </mat-form-field>
 
-              <!--<fieldset>-->
-                <!--<legend><span>About</span></legend>-->
-
-                <!--<mat-form-field class="example-full-width" appearance="outline">-->
-                  <!--<mat-label>Email Address</mat-label>-->
-                  <!--<mat-icon matPrefix color="primary">email</mat-icon>-->
-                  <!--<input matInput [formControl]="email">-->
-                  <!--<mat-error *ngIf="email.hasError('validateEmail') && !email.hasError('required')">-->
-                    <!--Example: email@example.com-->
-                  <!--</mat-error>-->
-                  <!--<mat-error *ngIf="email.hasError('required')">-->
-                    <!--Email Address is <strong>required</strong>-->
-                  <!--</mat-error>-->
-                <!--</mat-form-field>-->
-
-                <!--<mat-form-field class="example-full-width" appearance="outline">-->
-                  <!--<mat-label>Phone Number</mat-label>-->
-                  <!--<mat-icon matPrefix color="primary">phone</mat-icon>-->
-                  <!--<input matInput [formControl]="number">-->
-                  <!--<mat-error *ngIf="number.hasError('validateEmail') && !number.hasError('required')">-->
-                    <!--Example: 15417543010-->
-                  <!--</mat-error>-->
-                  <!--<mat-error *ngIf="number.hasError('required')">-->
-                    <!--Phone Number is <strong>required</strong>-->
-                  <!--</mat-error>-->
-                <!--</mat-form-field>-->
-
-              <!--</fieldset>-->
-
-              <!--<fieldset>-->
-                <!--<legend><span>Address</span></legend>-->
-
-                <!--<div class="row">-->
-
-                  <!--<div class="col-sm-12">-->
-                    <!--<mat-form-field class="example-full-width" appearance="outline">-->
-                      <!--<mat-label>Street Number</mat-label>-->
-                      <!--<input matInput [formControl]="streetNumber">-->
-                      <!--<mat-error *ngIf="streetNumber.hasError('required')">-->
-                        <!--Street Number is <strong>required</strong>-->
-                      <!--</mat-error>-->
-                    <!--</mat-form-field>-->
-                  <!--</div>-->
-
-                  <!--<div class="col-sm-12">-->
-                    <!--<mat-form-field class="example-full-width" appearance="outline">-->
-                      <!--<mat-label>Street Name</mat-label>-->
-                      <!--<input matInput [formControl]="streetName">-->
-                      <!--<mat-error *ngIf="streetName.hasError('required')">-->
-                        <!--Street Name is <strong>required</strong>-->
-                      <!--</mat-error>-->
-                    <!--</mat-form-field>-->
-                  <!--</div>-->
-
-                <!--</div>-->
-
-                <!--<div class="row">-->
-                  <!--<div class="col-sm-12">-->
-                    <!--<mat-form-field class="example-full-width" appearance="outline">-->
-                      <!--<mat-label>City</mat-label>-->
-                      <!--<input matInput [formControl]="city">-->
-                      <!--<mat-error *ngIf="city.hasError('required')">-->
-                        <!--City is <strong>required</strong>-->
-                      <!--</mat-error>-->
-                    <!--</mat-form-field>-->
-                  <!--</div>-->
-
-                  <!--<div class="col-sm-12">-->
-                    <!--<mat-form-field class="example-full-width" appearance="outline">-->
-                      <!--<mat-label>State/Province</mat-label>-->
-                      <!--<input matInput [formControl]="stateOrProvince">-->
-                      <!--<mat-error *ngIf="stateOrProvince.hasError('required')">-->
-                        <!--State/Province is <strong>required</strong>-->
-                      <!--</mat-error>-->
-                    <!--</mat-form-field>-->
-                  <!--</div>-->
-
-                <!--</div>-->
-
-                <!--<div class="row">-->
-
-                  <!--<div class="col-sm-12">-->
-                    <!--<mat-form-field class="example-full-width" appearance="outline">-->
-                      <!--<mat-label>Postal Code</mat-label>-->
-                      <!--<input matInput [formControl]="postalCode">-->
-                      <!--<mat-error *ngIf="postalCode.hasError('required')">-->
-                        <!--Postal code is <strong>required</strong>-->
-                      <!--</mat-error>-->
-                    <!--</mat-form-field>-->
-                  <!--</div>-->
-
-                  <!--<div class="col-sm-12">-->
-                    <!--<mat-form-field class="example-full-width" appearance="outline">-->
-                      <!--<mat-label>Country</mat-label>-->
-                      <!--<input matInput [formControl]="country">-->
-                      <!--<mat-error *ngIf="country.hasError('required')">-->
-                        <!--Country is <strong>required</strong>-->
-                      <!--</mat-error>-->
-                    <!--</mat-form-field>-->
-                  <!--</div>-->
-                <!--</div>-->
-
-              <!--</fieldset>-->
-
-              <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Description</mat-label>
-                <textarea matInput ></textarea>
-              </mat-form-field>
-
-              <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Organization {{organizationExist ? "update":"create"}} failed.</span></div>
+              <div class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Failed to {{update ? "update":"create new"}} organization.</span></div>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [disabled]="!organizationForm.valid" type="submit" (click)="organizationExist ? onUpdate():onCreate()">{{ organizationExist ? "Update":"Create"}}</button>
-                <button class="btn btn-outline-danger right-button" [hidden]="profile" type="cancel" (click)="cancel()">Cancel</button>
+                <button mat-flat-button color="primary" [disabled]="!organizationForm.valid" type="submit" (click)="update ? onUpdate():onCreate()">{{ update ? "Update":"Create"}}</button>
+                <button class="right-button-form" mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
               </div>
 
             </form>
+
           </div>
         </div>
       </div>

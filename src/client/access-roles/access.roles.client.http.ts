@@ -15,12 +15,13 @@ import {AccessRoleType} from '../../access-roles/access.role.type';
 import {AccessRoles} from '../../access-roles/access.roles';
 import {AccessRole} from '../../access-roles/access.role';
 import {Grant} from '../../access-roles/grant';
+import {environment} from '../../environments/environment';
 
 export class AccessRolesClientHttp extends AccessRolesClient {
 
+  hostPort = environment.hostPort;
   constructor(private httpClient: HttpClient,
-              private uuidGenerator: UUIDGenerator,
-              private hostPort: string) {
+              private uuidGenerator: UUIDGenerator) {
     super();
   }
 

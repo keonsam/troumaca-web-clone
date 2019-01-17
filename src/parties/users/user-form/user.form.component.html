@@ -1,53 +1,72 @@
 <div class="content-i">
-
-  <!-- <asset-top-menu></asset-top-menu> -->
-
   <div class="content-box">
     <div class="row">
       <div class="col-sm-12">
         <div class="element-wrapper">
+          <h5 class="element-header">
+            {{ update ? "Update":"New"}} User
+          </h5>
           <div class="element-box">
             <form [formGroup]="userForm" id="formValidate">
-              <h5 class="form-header">
-                {{ userExist ? "Edit":"New"}} User Form
-              </h5>
+              <h6 class="form-header">
+                {{ update ? "Edit":"New"}} User Form
+              </h6>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ userExist ? "Update":"Create"}} User.</div>
+              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ update ? "Update":"Create"}} User.</div>
 
-              <div class="form-group">
-                <label for="first-name">First Name</label><input id="first-name" class="form-control" formControlName="firstName" placeholder="Enter First Name" required="required" type="text">
-                <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">Invalid First Name.</div>
+              <div class="row">
+                <div class="col-sm-12 col-md-4">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input matInput [formControl]="firstName">
+                    <mat-error *ngIf="firstName.hasError('required')">
+                      First name is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm-12 col-md-4">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Middle Name</mat-label>
+                    <input matInput [formControl]="middleName">
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm-12 col-md-4">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput [formControl]="lastName">
+                    <mat-error *ngIf="lastName.hasError('required')">
+                      Last name is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
               </div>
 
-              <div class="form-group">
-                <label for="middle-name">Middle Name</label><input id="middle-name" class="form-control" formControlName="middleName" placeholder="Enter Middle Name" required="required" type="text">
-                <div [hidden]="middleName.valid || middleName.pristine" class="alert alert-danger">Invalid Middle Name.</div>
-              </div>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Username</mat-label>
+                <mat-icon matPrefix color="primary">email</mat-icon>
+                <input matInput [formControl]="username">
+                <mat-error *ngIf="username.hasError('validateEmail') && !username.hasError('required')">
+                  Must be a phone number or email address and not be taken.
+                </mat-error>
+                <mat-error *ngIf="username.hasError('required')">
+                  Username is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
 
-              <div class="form-group">
-                <label for="last-name">Last Name</label><input id="last-name" class="form-control" formControlName="lastName" placeholder="Enter Last Name" required="required" type="text">
-                <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">Invalid Last Name.</div>
-              </div>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Access Roles</mat-label>
+                <mat-select [formControl]="accessRole" multiple>
+                  <mat-option *ngFor="let accessRole of accessRoles" [value]="accessRole.accessRoleId">{{accessRole.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-              <div class="form-group">
-                <label for="username">Username</label><input id="username" class="form-control" formControlName="username" placeholder="Enter Email or Phone Number" required="required" type="text">
-                <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Invalid Email or Phone Number.</div>
-              </div>
-
-              <div class="form-group" [class]="(accessRole.valid) ? 'select2-valid':'select2-invalid'">
-                <label for="access-role">Access Role</label>
-                <select2 id="access-role"
-                         [data]="accessRoleData"
-                         [options]="options"
-                         [value]="value"
-                         (valueChanged)="changed($event)"
-                ></select2>
-                <div [hidden]="accessRole.valid || accessRole.pristine" class="alert alert-danger">Select Access Roles from the dropdown.</div>
-              </div>
+              <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Failed to {{update ? "update": "create"}} user</span></div>
 
               <div class="form-buttons-w">
-                <button class="btn btn-primary" [disabled]="!userForm.valid" type="submit" (click)="userExist ? onUpdate(): onCreate()">{{userExist ? "Update":"Create"}}</button>
-                <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
+                <button mat-flat-button color="primary" [disabled]="!userForm.valid" type="submit" (click)="update ? onUpdate(): onCreate()">{{update ? "Update":"Create"}}</button>
+                <button class="right-button-form" mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
               </div>
 
             </form>

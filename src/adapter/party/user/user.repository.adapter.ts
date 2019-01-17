@@ -4,7 +4,6 @@ import {AccessRole} from '../../../access-roles/access.role';
 import {Users} from '../../../parties/users';
 import {User} from '../../../parties/user';
 import { Credential} from '../../../authentication/credential';
-import {PartyAccessRole} from '../../../parties/party.access.role';
 import {UserClient} from '../../../client/party/user/user.client';
 import {ValidResponse} from "../../../authentication/valid.response";
 
@@ -25,12 +24,16 @@ export class UserRepositoryAdapter extends UserRepository {
     return this.userClient.getUserState(partyId);
   }
 
-  public addUser(user: User, credential: Credential, partyAccessRoles?: PartyAccessRole[]): Observable<User> {
+  public addUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<User> {
     return this.userClient.addUserState(user, credential, partyAccessRoles);
   }
 
-  public updateUser(user: User, credential: Credential, partyAccessRoles?: PartyAccessRole[]): Observable<number> {
+  public updateUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<number> {
     return this.userClient.updateUser(user, credential, partyAccessRoles);
+  }
+
+  updateUserMe(user: User, credential: Credential): Observable<number> {
+    return this.userClient.updateUserMe(user, credential);
   }
 
   public deleteUser(partyId: string): Observable<number> {

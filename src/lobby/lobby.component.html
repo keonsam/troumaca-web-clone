@@ -10,8 +10,8 @@
             <h6 class="element-header">
               Apps
             </h6>
-            <div cdkDropList class="row">
-              <div cdkDrag *ngFor="let app of apps" class="col-6 col-sm-4">
+            <div  class="row">
+              <div *ngFor="let app of apps" class="col-6 col-sm-4">
                 <a [routerLink]="app.route" class="element-box el-tablo centered" href>
                   <div class="icon-w">
                     <mat-icon color="primary" class="lobby-icons">{{app.iconClass}}</mat-icon>

@@ -4,97 +4,94 @@
       <div class="col-sm-5">
 
         <div class="user-profile compact">
-          <app-photo [type]="'user'" [firstName]="firstName.value" [lastName]="lastName.value"></app-photo>
-          <!--<div class="up-controls">-->
-            <!--<div class="row">-->
-              <!--<div class="col-sm-6">-->
-                <!--<div class="value-pair">-->
-                  <!--<div class="label">-->
-                    <!--Status:-->
-                  <!--</div>-->
-                  <!--<div class="value badge badge-pill badge-success">-->
-                    <!--Online-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="col-sm-6 text-right">-->
-                <!--<a class="btn btn-primary btn-sm" href=""><i class="os-icon os-icon-link-3"></i><span>Add to Friends</span></a>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="up-contents">-->
-            <!--<div class="m-b">-->
-              <!--<div class="row m-b">-->
-                <!--<div class="col-sm-6 b-r b-b">-->
-                  <!--<div class="el-tablo centered padded-v">-->
-                    <!--<div class="value">-->
-                      <!--25-->
-                    <!--</div>-->
-                    <!--<div class="label">-->
-                      <!--Products Sold-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-sm-6 b-b">-->
-                  <!--<div class="el-tablo centered padded-v">-->
-                    <!--<div class="value">-->
-                      <!--315-->
-                    <!--</div>-->
-                    <!--<div class="label">-->
-                      <!--Friends-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="padded">-->
-                <!--<div class="os-progress-bar primary">-->
-                  <!--<div class="bar-labels">-->
-                    <!--<div class="bar-label-left">-->
-                      <!--<span>Profile Completion</span><span class="positive">+10</span>-->
-                    <!--</div>-->
-                    <!--<div class="bar-label-right">-->
-                      <!--<span class="info">72/100</span>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                  <!--<div class="bar-level-1" style="width: 100%">-->
-                    <!--<div class="bar-level-2" style="width: 80%">-->
-                      <!--<div class="bar-level-3" style="width: 30%"></div>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="os-progress-bar primary">-->
-                  <!--<div class="bar-labels">-->
-                    <!--<div class="bar-label-left">-->
-                      <!--<span>Status Unlocked</span><span class="positive">+5</span>-->
-                    <!--</div>-->
-                    <!--<div class="bar-label-right">-->
-                      <!--<span class="info">45/100</span>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                  <!--<div class="bar-level-1" style="width: 100%">-->
-                    <!--<div class="bar-level-2" style="width: 30%">-->
-                      <!--<div class="bar-level-3" style="width: 10%"></div>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="os-progress-bar primary">-->
-                  <!--<div class="bar-labels">-->
-                    <!--<div class="bar-label-left">-->
-                      <!--<span>Followers</span><span class="negative">-12</span>-->
-                    <!--</div>-->
-                    <!--<div class="bar-label-right">-->
-                      <!--<span class="info">74/100</span>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                  <!--<div class="bar-level-1" style="width: 100%">-->
-                    <!--<div class="bar-level-2" style="width: 80%">-->
-                      <!--<div class="bar-level-3" style="width: 60%"></div>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
+          <app-photo [type]="'user'" [firstName]="user.firstName" [lastName]="user.lastName"></app-photo>
+          <div class="up-controls">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="value-pair">
+                  <div class="label">
+                    Status:
+                  </div>
+                  <div class="value badge badge-pill badge-success">
+                    Online
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="up-contents">
+            <div class="m-b">
+              <div class="row m-b">
+                <div class="col-sm-6 b-r b-b">
+                  <div class="el-tablo centered padded-v">
+                    <div class="value">
+                      25
+                    </div>
+                    <div class="label">
+                      Products Sold
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 b-b">
+                  <div class="el-tablo centered padded-v">
+                    <div class="value">
+                      315
+                    </div>
+                    <div class="label">
+                      Friends
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="padded">
+                <div class="os-progress-bar primary">
+                  <div class="bar-labels">
+                    <div class="bar-label-left">
+                      <span>Profile Completion</span><span class="positive">+10</span>
+                    </div>
+                    <div class="bar-label-right">
+                      <span class="info">72/100</span>
+                    </div>
+                  </div>
+                  <div class="bar-level-1" style="width: 100%">
+                    <div class="bar-level-2" style="width: 80%">
+                      <div class="bar-level-3" style="width: 30%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="os-progress-bar primary">
+                  <div class="bar-labels">
+                    <div class="bar-label-left">
+                      <span>Status Unlocked</span><span class="positive">+5</span>
+                    </div>
+                    <div class="bar-label-right">
+                      <span class="info">45/100</span>
+                    </div>
+                  </div>
+                  <div class="bar-level-1" style="width: 100%">
+                    <div class="bar-level-2" style="width: 30%">
+                      <div class="bar-level-3" style="width: 10%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="os-progress-bar primary">
+                  <div class="bar-labels">
+                    <div class="bar-label-left">
+                      <span>Followers</span><span class="negative">-12</span>
+                    </div>
+                    <div class="bar-label-right">
+                      <span class="info">74/100</span>
+                    </div>
+                  </div>
+                  <div class="bar-level-1" style="width: 100%">
+                    <div class="bar-level-2" style="width: 80%">
+                      <div class="bar-level-3" style="width: 60%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
         </div>
 
@@ -107,23 +104,58 @@
             <div class="timed-activities compact">
               <div class="timed-activity">
                 <div class="ta-date">
-                  <span>No Data Found</span>
+                  <span>21st Jan, 2017</span>
+                </div>
+                <div class="ta-record-w">
+                  <div class="ta-record">
+                    <div class="ta-timestamp">
+                      <strong>11:55</strong> am
+                    </div>
+                    <div class="ta-activity">
+                      Created a post called <a href="#">Register new symbol</a> in Rogue
+                    </div>
+                  </div>
+                  <div class="ta-record">
+                    <div class="ta-timestamp">
+                      <strong>2:34</strong> pm
+                    </div>
+                    <div class="ta-activity">
+                      Commented on story <a href="#">How to be a leader</a> in <a href="#">Financial</a> category
+                    </div>
+                  </div>
+                  <div class="ta-record">
+                    <div class="ta-timestamp">
+                      <strong>7:12</strong> pm
+                    </div>
+                    <div class="ta-activity">
+                      Added <a href="#">John Silver</a> as a friend
+                    </div>
+                  </div>
                 </div>
               </div>
-              <!--<div class="timed-activity">-->
-                <!--<div class="ta-date">-->
-                  <!--<span>Assigned Assets</span>-->
-                <!--</div>-->
-                <!--<div class="ta-record-w">-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="timed-activity">-->
-                <!--<div class="ta-date">-->
-                  <!--<span>Request Orders</span>-->
-                <!--</div>-->
-                <!--<div class="ta-record-w">-->
-                <!--</div>-->
-              <!--</div>-->
+              <div class="timed-activity">
+                <div class="ta-date">
+                  <span>3rd Feb, 2017</span>
+                </div>
+                <div class="ta-record-w">
+                  <div class="ta-record">
+                    <div class="ta-timestamp">
+                      <strong>9:32</strong> pm
+                    </div>
+                    <div class="ta-activity">
+                      Added <a href="#">John Silver</a> as a friend
+                    </div>
+                  </div>
+                  <div class="ta-record">
+                    <div class="ta-timestamp">
+                      <strong>5:14</strong> pm
+                    </div>
+                    <div class="ta-activity">
+                      Commented on story <a href="#">How to be a leader</a> in <a href="#">Financial</a> category
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -135,105 +167,100 @@
 
       <div class="col-sm-7">
         <div class="element-wrapper">
+          <h5 class="element-header">
+            User Profile
+          </h5>
           <div class="element-box">
+            <form [formGroup]="userMeForm">
+              <h6 class="form-header">Personal</h6>
 
-            <h4 class="profile-header">User Profile</h4>
-
-            <div class="card">
-              <form [formGroup]="userMeForm">
-                <h5 class="form-header">Personal</h5>
-
-                <div class="row">
-                  <div class="col-sm-12 col-md-4">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>First Name</mat-label>
-                      <input matInput [formControl]="firstName">
-                      <mat-error *ngIf="firstName.hasError('required')">
-                        First name is <strong>required</strong>
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
-
-                  <div class="col-sm-12 col-md-4">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Middle Name</mat-label>
-                      <input matInput [formControl]="middleName">
-                    </mat-form-field>
-                  </div>
-
-                  <div class="col-sm-12 col-md-4">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Last Name</mat-label>
-                      <input matInput [formControl]="lastName">
-                      <mat-error *ngIf="lastName.hasError('required')">
-                        Last name is <strong>required</strong>
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
+              <div class="row">
+                <div class="col-sm-12 col-md-4">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input matInput [formControl]="firstName">
+                    <mat-error *ngIf="firstName.hasError('required')">
+                      First name is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
                 </div>
 
-                <mat-form-field class="example-full-width" appearance="outline">
-                  <mat-label>Username</mat-label>
-                  <mat-icon matPrefix color="primary">email</mat-icon>
-                  <input matInput [formControl]="username">
-                  <mat-error *ngIf="username.hasError('validateEmail') && !username.hasError('required')">
-                    Must be a phone number or email address and not be taken.
-                  </mat-error>
-                  <mat-error *ngIf="username.hasError('required')">
-                    Username is <strong>required</strong>
-                  </mat-error>
-                </mat-form-field>
-
-                <div class="row">
-                  <div class="col-6">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Password</mat-label>
-                      <mat-icon matPrefix color="primary">fingerprint</mat-icon>
-                      <input matInput [formControl]="password" type="password">
-                      <mat-error *ngIf="password.hasError('password') && !password.hasError('required')">
-                        At least eight characters: 1 upper case letter, numeric, and special character.
-                      </mat-error>
-                      <mat-error *ngIf="password.hasError('required')">
-                        Password is <strong>required</strong>
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
-
-                  <div class="col-6">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Confirm Password</mat-label>
-                      <mat-icon matPrefix color="primary">fingerprint</mat-icon>
-                      <input matInput [formControl]="password" type="password">
-                      <mat-error *ngIf="password.hasError('password') && !password.hasError('required')">
-                        Must match your new password.
-                      </mat-error>
-                      <mat-error *ngIf="password.hasError('required')">
-                        Confirm password is <strong>required</strong>
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
+                <div class="col-sm-12 col-md-4">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Middle Name</mat-label>
+                    <input matInput [formControl]="middleName">
+                  </mat-form-field>
                 </div>
 
-                <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{errorMessage}}</span></div>
+                <div class="col-sm-12 col-md-4">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput [formControl]="lastName">
+                    <mat-error *ngIf="lastName.hasError('required')">
+                      Last name is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
 
-                <div class="form-buttons-w">
-                  <button mat-stroked-button color="warn"  type="button" (click)="cancel()">Cancel</button>
-                  <button class="right-button" mat-flat-button color="primary" [disabled]="!userMeForm.valid" type="submit" (click)="onUpdate()">Confirm</button>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Username</mat-label>
+                <mat-icon matPrefix color="primary">email</mat-icon>
+                <input matInput [formControl]="username">
+                <mat-error *ngIf="username.hasError('validateEmail') && !username.hasError('required')">
+                  Must be a phone number or email address and not be taken.
+                </mat-error>
+                <mat-error *ngIf="username.hasError('required')">
+                  Username is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <div class="row">
+                <div class="col-6">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <mat-icon matPrefix color="primary">fingerprint</mat-icon>
+                    <input matInput [formControl]="password" type="password">
+                    <mat-error *ngIf="password.hasError('password') && !password.hasError('required')">
+                      At least eight characters: 1 upper case letter, numeric, and special character.
+                    </mat-error>
+                    <mat-error *ngIf="password.hasError('required')">
+                      Password is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
                 </div>
 
-              </form>
-            </div>
+                <div class="col-6">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Confirm Password</mat-label>
+                    <mat-icon matPrefix color="primary">fingerprint</mat-icon>
+                    <input matInput [formControl]="password" type="password">
+                    <mat-error *ngIf="password.hasError('password') && !password.hasError('required')">
+                      Must match your new password.
+                    </mat-error>
+                    <mat-error *ngIf="password.hasError('required')">
+                      Confirm password is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
 
-            <div class="card">
-              <app-contact-info type="user"></app-contact-info>
-            </div>
+              <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{errorMessage}}</span></div>
 
-            <div class="card no-bottom-border">
-              <app-address type="user"></app-address>
-            </div>
+              <div class="form-buttons-w">
+                <button mat-flat-button color="primary" [disabled]="!userMeForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                <button class="right-button-form" mat-stroked-button color="warn"  type="button" (click)="cancel()">Cancel</button>
+              </div>
 
+            </form>
+          </div>
+          <div class="element-box">
+            <app-contact-info type="user"></app-contact-info>
           </div>
 
+          <div class="element-box">
+            <app-address type="user"></app-address>
+          </div>
         </div>
       </div>
 

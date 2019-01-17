@@ -8,12 +8,13 @@ import {Subscription} from '../../lobby/subscription';
 import {Billing} from '../../billing-details/billing';
 import {PaymentMethod} from '../../billing-details/billing-modal/payment.method';
 import {PaymentInformation} from '../../billing-details/billing-modal/payment.information';
+import {environment} from '../../environments/environment';
 
 export class BillingDetailsClientHttp extends BillingDetailsClient {
 
+  hostPort = environment.hostPort;
   constructor(private uuidGenerator: UUIDGenerator,
-              private httpClient: HttpClient,
-              private hostPort: string) {
+              private httpClient: HttpClient) {
     super();
   }
 

@@ -7,23 +7,33 @@ import {UserListComponent} from './users/user-list/user.list.component';
 import { UserFormComponent } from './users/user-form/user.form.component';
 import {UserMeComponent} from './users/user-me/user.me.component';
 import { OrganizationFormComponent } from './organizations/organization-form/organization.form.component';
-import {OrganizationResolve} from './organizations/organization.resolve';
+import {OrganizationResolve} from './organizations/organization-form/organization.resolve';
 import {UserResolve} from './users/user.resolve';
-import {AuthGuard} from "../auth-guard/auth.guard";
+import {AuthGuard} from '../auth-guard/auth.guard';
+import {OrganizationsResolve} from './organizations/organization-list/organizations.resolve';
+import {OrganizationCompanyResolve} from './organizations/organization-company/organization.company.resolve';
+import {ContactInfoResolve} from './contact-info/contact.info.resolve';
+import {AddressResolve} from './address/address.resolve';
+import {UsersResolve} from './users/user-list/users.resolve';
 
 export const routes: Routes = [
   { path: '', component: PartyComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
       { path: '', redirectTo: '/parties/organizations/listing', pathMatch: 'full' },
-      { path: 'organization-profile', component: OrganizationCompanyComponent, data: {menuName: 'organizations-menu'} },
-      { path: 'organizations/listing', component: OrganizationListComponent, data: {menuName: 'organizations-menu'} },
-      { path: 'organizations/create', component: OrganizationFormComponent, data: {menuName: 'organizations-menu'} },
-      { path: 'organizations/:partyId/edit', component: OrganizationFormComponent,
-        resolve: {organization: OrganizationResolve}, data: {menuName: 'organizations-menu'} },
-      { path: 'users/listing', component: UserListComponent, data: {menuName: 'users-menu'} },
-      { path: 'users/create', component: UserFormComponent, data: {menuName: 'users-menu'} },
-      { path: 'users/:partyId/edit', component: UserFormComponent,
-        resolve: {userResponse: UserResolve}, data: {menuName: 'users-menu'} },
-      { path: 'user-profile', component: UserMeComponent, data: {menuName: 'users-menu'}},
+      {
+        path: 'organization/profile', component: OrganizationCompanyComponent,
+        resolve: {
+          organizationCompany: OrganizationCompanyResolve,
+          contactInfo: ContactInfoResolve,
+          address: AddressResolve
+        }
+      },
+      { path: 'organizations/listing', component: OrganizationListComponent, resolve: {organizations: OrganizationsResolve} },
+      { path: 'organizations/create', component: OrganizationFormComponent },
+      { path: 'organizations/:partyId/edit', component: OrganizationFormComponent, resolve: {organization: OrganizationResolve} },
+      { path: 'users/listing', component: UserListComponent, resolve: { users: UsersResolve } },
+      { path: 'users/create', component: UserFormComponent },
+      { path: 'users/:partyId/edit', component: UserFormComponent, resolve: {user: UserResolve} },
+      { path: 'user/profile', component: UserMeComponent },
     ]}
 ];
 

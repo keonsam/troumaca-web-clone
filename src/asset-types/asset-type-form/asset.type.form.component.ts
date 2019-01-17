@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {AssetTypeService} from '../asset.type.service';
@@ -7,7 +6,7 @@ import {AssetType} from '../asset.type';
 import {Value} from '../value';
 import {AssignedAttribute} from '../../asset-type-classes/assigned.attribute';
 import {ActivatedRoute, Router} from '@angular/router';
-import {map, filter, debounceTime } from "rxjs/operators";
+import {map, filter, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-asset-type-form',
@@ -25,7 +24,7 @@ export class AssetTypeFormComponent implements OnInit {
   unitOfMeasureId: string;
   assetTypeExist = false;
 
-  assetTypeClassIdDataService: CompleterData;
+  // assetTypeClassIdDataService: CompleterData;
 
   assetTypeForm: FormGroup;
 
@@ -38,7 +37,7 @@ export class AssetTypeFormComponent implements OnInit {
   private pageSize = 15;
 
   constructor(private assetTypeService: AssetTypeService,
-              private completerService: CompleterService,
+              // private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
@@ -124,18 +123,18 @@ export class AssetTypeFormComponent implements OnInit {
         })
       }))
       .subscribe(next => { // update the data
-        this.assetTypeClassIdDataService = this.completerService.local(next, 'name', 'name');
+        // this.assetTypeClassIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
         console.log('findAssetTypeClassId error - ' + error);
       });
   }
 
-  onAssetTypeClassIdSelect(selected: CompleterItem) {
-    if (selected) {
-      this.assetType.assetTypeClassId = selected.originalObject.assetTypeClassId;
-    }
-    this.getAttributes();
-  }
+  // onAssetTypeClassIdSelect(selected: CompleterItem) {
+  //   if (selected) {
+  //     this.assetType.assetTypeClassId = selected.originalObject.assetTypeClassId;
+  //   }
+  //   this.getAttributes();
+  // }
 
   setUnitOfMeasureId(unitOfMeasureId: string) {
     this.assetType.unitOfMeasureId = unitOfMeasureId;

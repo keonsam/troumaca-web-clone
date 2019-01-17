@@ -8,6 +8,10 @@
   float: right;
 }
 
+.right-button-form {
+  margin-left: 2rem;
+}
+
 /*.form-group {
   min-height: 92px;
 }*/

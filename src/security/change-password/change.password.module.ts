@@ -5,6 +5,7 @@ import {ChangePasswordComponent} from './change.password.component';
 import {ChangePasswordService} from './change.password.service';
 import {ChangePasswordRepository} from './change.password.repository';
 import {RouterModule} from '@angular/router';
+import {changePasswordRepositoryProvider} from '../../adapter/change-password/change.password.repository.adapter.provider';
 
 @NgModule({
   imports: [
@@ -26,7 +27,10 @@ import {RouterModule} from '@angular/router';
       return changePasswordService;
     },
     deps: [ChangePasswordRepository]
-  }],
+  },
+    changePasswordRepositoryProvider,
+
+  ],
   exports: [
     ChangePasswordComponent
   ]

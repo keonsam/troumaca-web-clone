@@ -1,25 +1,19 @@
 import {Observable} from "rxjs";
 import { Organizations} from "../../../parties/organizations";
 import { Organization } from "../../../parties/organization";
-import { JoinOrganization } from "../../../parties/join.organization";
-import {ValidResponse} from "../../../authentication/valid.response";
+import {OrganizationCompany} from '../../../parties/organizations/organization-company/organization.company';
 
 export abstract class OrganizationClient {
-  public abstract findOrganizations(searchStr: string, pageSize: number): Observable<Organization[]>;
 
-  public abstract addOrganizationRequest(request: JoinOrganization): Observable<JoinOrganization>;
+  abstract getOrganizations(pageNumber: number, pageSize: number, sortOrder: string): Observable<Organizations>;
 
-  public abstract getOrganizations(pageNumber: number, pageSize: number, sortOrder: string): Observable<Organizations>;
+  abstract getOrganizationState(partyId?: string): Observable<Organization>;
+  
+  abstract getOrganizationCompany(): Observable<OrganizationCompany>;
 
-  public abstract getOrganizationState(partyId?: string): Observable<Organization>;
+  abstract addOrganizationState(organizationState: Organization, profile?: boolean): Observable<Organization>;
 
-  public abstract addOrganizationState(organizationState: Organization, profile?: boolean): Observable<Organization>;
+  abstract deleteOrganization(partyId: string): Observable<number>;
 
-  public abstract deleteOrganization(partyId: string): Observable<number>;
-
-  public abstract updateOrganization(organizationState: Organization): Observable<number>;
-
-  // VALIDATION
-  abstract isValidUsername(username: string, partyId?: string): Observable<ValidResponse>;
-
+  abstract updateOrganization(organizationState: Organization): Observable<number>;
 }

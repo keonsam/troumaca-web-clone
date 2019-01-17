@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {menuClientProvider} from './menus/menu.client.provider';
-import {authenticationClientProvider} from './credential/authentication.client.provider';
 import {reportClientProvider} from './report/report.client.provider';
 import {accountClientProvider} from './account/account.client.provider';
 import {partyClientProvider} from './party/party.client.provider';
@@ -39,33 +38,15 @@ import {organizationCreateClientProvider} from "./organization-create/organizati
   exports:      [],
   providers: [
     accountClientProvider,
-    authenticationClientProvider,
-    menuClientProvider,
     reportClientProvider,
-    partyClientProvider,
-    securityClientProvider,
     sessionClientProvider,
     activityClientProvider,
     workOrderClientProvider,
     requestClientProvider,
-    siteClientProvider,
-    assetClientProvider,
-    assetTypesClientProvider,
-    attributeClientProvider,
-    assetTypeClassClientProvider,
-    unitOfMeasureClientProvider,
     contractClientProvider,
     shipmentClientProvider,
     clientEventProvider,
     sessionInterceptorProvider,
-    accessRolesClientProvider,
-    depreciationClientProvider,
-    photoClientProvider,
-    userClientProvider,
-    organizationClientProvider,
-    billingDetailsClientProvider,
-    lobbyClientProvider,
-    organizationCreateClientProvider
   ]
 })
 export class ClientModule { }

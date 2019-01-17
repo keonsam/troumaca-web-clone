@@ -1,5 +1,5 @@
 <form [formGroup]="addressForm">
-  <h5 class="form-header">Address</h5>
+  <h6 class="form-header">Address</h6>
 
   <div class="row">
 
@@ -81,8 +81,8 @@
   <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{errorMessage}}</span></div>
 
   <div class="form-buttons-w">
-    <button mat-stroked-button color="warn"  type="button" (click)="cancel()">Cancel</button>
-    <button class="right-button" mat-flat-button color="primary" [disabled]="!addressForm.valid" type="submit" (click)="type2 ? onUpdate(): onCreate()">Confirm</button>
+    <button mat-flat-button color="primary" [disabled]="!addressForm.valid" type="submit" (click)="update ? onUpdate(): onCreate()">{{update ? "Update":"Add"}}</button>
+    <button class="right-button-form" mat-stroked-button color="warn"  type="button" (click)="cancel()">Cancel</button>
   </div>
 
 </form>

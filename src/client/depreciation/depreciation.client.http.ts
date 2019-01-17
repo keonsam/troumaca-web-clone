@@ -9,12 +9,13 @@ import {DepreciationMethod} from "../../depreciation/depreciation.method";
 import {DepreciationSystem} from "../../depreciation/depreciation.system";
 import {PropertyClass} from "../../depreciation/property.class";
 import {Asset} from "../../assets/asset";
+import {environment} from '../../environments/environment';
 
 export class DepreciationClientHttp extends DepreciationClient {
 
+  hostPort = environment.hostPort;
   constructor(private uuidGenerator: UUIDGenerator,
-              private http: HttpClient,
-              private hostPort: string) {
+              private http: HttpClient) {
     super();
   }
 

@@ -1,8 +1,7 @@
 import {Component, OnInit, EventEmitter, Output, Input} from '@angular/core';
-import {CompleterData, CompleterItem, CompleterService} from 'ng2-completer';
-import { UnitOfMeasureService } from "./unit.of.measure.service";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {filter, map, debounceTime} from "rxjs/operators";
+import { UnitOfMeasureService } from './unit.of.measure.service';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {filter, map, debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'app-unit-of-measure',
@@ -14,13 +13,13 @@ export class UnitOfMeasureComponent implements OnInit {
   @Output() unitOfMeasureEvent = new EventEmitter<string>();
   @Input() initialUnitOfMeasureId: string;
   unitOfMeasure: FormControl;
-  unitOfMeasureDataService: CompleterData;
+  // unitOfMeasureDataService: CompleterData;
   private pageSize: 15;
   unitOfMeasureForm: FormGroup;
 
 
   constructor(private unitOfMeasureService: UnitOfMeasureService,
-              private completerService: CompleterService,
+              // private completerService: CompleterService,
               private formBuilder: FormBuilder,
   ) {
 
@@ -62,14 +61,14 @@ export class UnitOfMeasureComponent implements OnInit {
         })
       }))
       .subscribe(next => { // update the data
-        this.unitOfMeasureDataService = this.completerService.local(next, 'name', 'name');
+        // this.unitOfMeasureDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
         console.log('finUnitOfMeasureId error - ' + error);
       });
   }
 
-  onUnitOfMeasureSelect(selected: CompleterItem) {
-    this.unitOfMeasureEvent.emit(selected.originalObject.unitOfMeasureId);
-  }
+  // onUnitOfMeasureSelect(selected: CompleterItem) {
+  //   this.unitOfMeasureEvent.emit(selected.originalObject.unitOfMeasureId);
+  // }
 
 }

@@ -224,8 +224,8 @@
               </div>
 
               <div class="form-buttons-w">
-                <button mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
-                <button class="right-button" mat-flat-button color="primary" [disabled]="!assetForm.valid" type="submit" (click)=" assetExist ? onUpdate() : onCreate()">Confirm</button>
+                <button mat-flat-button color="primary" [disabled]="!assetForm.valid" type="submit" (click)=" assetExist ? onUpdate() : onCreate()">Confirm</button>
+                <button class="right-button-form" mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
               </div>
 
             </form>

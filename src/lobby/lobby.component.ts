@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { App } from './app';
 import {LobbyService} from './lobby.service';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-lobby-home',
@@ -33,10 +32,6 @@ export class LobbyComponent implements OnInit {
           this.apps = apps;
         }
       });
-  }
-
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.apps, event.previousIndex, event.currentIndex);
   }
 
 }
