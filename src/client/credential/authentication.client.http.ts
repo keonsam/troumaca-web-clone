@@ -11,14 +11,15 @@ import { AuthenticatedCredential } from '../../authentication/authenticated.cred
 import { User } from '../../parties/user';
 import {ChangePassword} from "../../authentication/change.password";
 import {ChangeResponse} from "../../authentication/change.response";
+import {environment} from '../../environments/environment';
 
 export class AuthenticationClientHttp extends AuthenticationClient {
 
   // private fingerPrint:string = '';
 
+  hostPort = environment.hostPort;
   constructor(private uuidGenerator: UUIDGenerator,
-              private httpClient: HttpClient,
-              private hostPort: string) {
+              private httpClient: HttpClient) {
     super();
     // let that = this;
     // new Fingerprint2().get(function(result, components) {

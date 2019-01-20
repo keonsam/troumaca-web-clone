@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 
 import {Resource} from '../../resource';
 import {AccessRoleService} from '../../access.role.service';
@@ -25,7 +24,7 @@ export class ResourceFormComponent implements OnInit {
   permissions: Permissions;
   assignablePermissions: Permissions;
   resourcePermissions: ResourcePermission[];
-  resourceTypeIdDataService: CompleterData;
+  // resourceTypeIdDataService: CompleterData;
   resourceForm: FormGroup;
   resourceExist = false;
   doNotDisplayFailureMessage: boolean;
@@ -39,7 +38,7 @@ export class ResourceFormComponent implements OnInit {
   private defaultSortOrder = 'asc';
 
   constructor(private accessRoleService: AccessRoleService,
-              private completerService: CompleterService,
+              // private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
@@ -145,18 +144,18 @@ export class ResourceFormComponent implements OnInit {
         })
       }))
       .subscribe(next => { // update the data
-        this.resourceTypeIdDataService = this.completerService.local(next, 'name', 'name');
+        // this.resourceTypeIdDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
         console.log('findResourceTypeId error - ' + error);
       });
   }
 
 
-  onResourceTypeIdSelect(selected: CompleterItem) {
-    if (selected) {
-      this.resource.resourceTypeId = selected.originalObject.resourceTypeId;
-    }
-  }
+  // onResourceTypeIdSelect(selected: CompleterItem) {
+  //   if (selected) {
+  //     this.resource.resourceTypeId = selected.originalObject.resourceTypeId;
+  //   }
+  // }
 
   onPermissionDoubleClick(permissionId: string) {
     this.resourcePermissions.push(new ResourcePermission(permissionId));

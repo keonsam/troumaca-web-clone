@@ -12,28 +12,28 @@
 
               <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ depreciationExist ? "Update": "Create"}} Tax Depreciation</div>
 
-              <fieldset class="form-group">
-                <div class="form-group" [class]="(assetId.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">
-                  <label for="asset">Asset</label>
-                  <ng2-completer [datasource]="assetDataService"
-                                 [minSearchLength]="0"
-                                 [maxChars]="4"
-                                 [inputClass]="'form-control'"
-                                 [placeholder]="'Select available Asset'"
-                                 [matchClass]="'match'"
-                                 formControlName="assetId"
-                                 [autofocus]="true"
-                                 [clearUnselected]="true"
-                                 [fillHighlighted]="false"
-                                 [openOnClick]="true"
-                                 [textSearching]="false"
-                                 (selected)="onAssetSelect($event)"
-                                 id="asset"
-                                 required>
-                  </ng2-completer>
-                  <div [hidden]="assetId.valid || assetId.pristine" class="alert alert-danger">Please Select an Asset.</div>
-                </div>
-              </fieldset>
+              <!--<fieldset class="form-group">-->
+                <!--<div class="form-group" [class]="(assetId.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">-->
+                  <!--<label for="asset">Asset</label>-->
+                  <!--<ng2-completer [datasource]="assetDataService"-->
+                                 <!--[minSearchLength]="0"-->
+                                 <!--[maxChars]="4"-->
+                                 <!--[inputClass]="'form-control'"-->
+                                 <!--[placeholder]="'Select available Asset'"-->
+                                 <!--[matchClass]="'match'"-->
+                                 <!--formControlName="assetId"-->
+                                 <!--[autofocus]="true"-->
+                                 <!--[clearUnselected]="true"-->
+                                 <!--[fillHighlighted]="false"-->
+                                 <!--[openOnClick]="true"-->
+                                 <!--[textSearching]="false"-->
+                                 <!--(selected)="onAssetSelect($event)"-->
+                                 <!--id="asset"-->
+                                 <!--required>-->
+                  <!--</ng2-completer>-->
+                  <!--<div [hidden]="assetId.valid || assetId.pristine" class="alert alert-danger">Please Select an Asset.</div>-->
+                <!--</div>-->
+              <!--</fieldset>-->
 
               <fieldset class="form-group">
                 <div class="form-group">

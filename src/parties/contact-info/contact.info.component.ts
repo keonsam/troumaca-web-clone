@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from '@angular/router';
 import {ContactInfo} from "./contact.info";
 import {PartyService} from "../party.service";
 import {debounceTime, distinctUntilChanged, filter, map} from "rxjs/operators";
@@ -18,7 +18,7 @@ export class ContactInfoComponent implements OnInit {
   contactInfoForm: FormGroup;
   doNotDisplayFailureMessage = true;
   errorMessage: string;
-  type2 = false;
+  update = false;
 
   private contactInfo: ContactInfo;
 
@@ -26,6 +26,7 @@ export class ContactInfoComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private partyService: PartyService,
+              private route: ActivatedRoute,
               private router: Router) {
     this.contactInfo = new ContactInfo();
     this.email = new FormControl('', [Validators.required, Validators.email, this.usernameValidator(partyService)]);
@@ -44,19 +45,16 @@ export class ContactInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.partyService.getContactInfo(this.type)
-      .subscribe( contactInfo => {
-        if (contactInfo && contactInfo.partyId) {
-          this.email.setValue(contactInfo.email);
-          this.phone.setValue(contactInfo.phone);
-          this.contactInfo = contactInfo;
-          this.type2 = true;
-        }
-      }, error => {
-        console.log(error);
-        this.errorMessage = 'Failed to get contact info. Please refresh.';
-        this.doNotDisplayFailureMessage = false;
-      })
+    if (this.route.snapshot && this.route.snapshot.data['contactInfo']) {
+      this.setInputValues(this.route.snapshot.data['contactInfo']);
+      this.update = true;
+    }
+  }
+  
+  private setInputValues(contactInfo: ContactInfo) {
+    this.email.setValue(contactInfo.email);
+    this.phone.setValue(contactInfo.phone);
+    this.contactInfo = contactInfo;
   }
 
   private usernameValidator(partyService: PartyService) {
@@ -69,7 +67,7 @@ export class ContactInfoComponent implements OnInit {
         .pipe(debounceTime(1000), distinctUntilChanged(),  filter(value => { // filter out empty values
           return !!(value);
         }), map((value: string) => {
-          return partyService.isValidUsername(value);
+          return partyService.isValidUsername(value.toString());
         })).subscribe(value => {
         value.subscribe( (otherValue: ValidResponse) => {
           isValidUsername = otherValue.valid;
@@ -101,12 +99,12 @@ export class ContactInfoComponent implements OnInit {
         if (contactInfo) {
           this.router.navigate(['/lobby']);
         } else {
-          this.errorMessage = 'Failed to add contact info. Please try again';
+          this.errorMessage = 'Failed to add contact info.';
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
         console.log(error);
-        this.errorMessage = 'Failed to add contact info. Please try again';
+        this.errorMessage = 'Failed to add contact info.';
         this.doNotDisplayFailureMessage = false;
       });
   }
@@ -118,11 +116,11 @@ export class ContactInfoComponent implements OnInit {
         if (num) {
           this.router.navigate(['/lobby']);
         }else {
-          this.errorMessage = 'Failed to update contact info. Please try again';
+          this.errorMessage = 'Failed to update contact info.';
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
-        this.errorMessage = 'Failed to update contact info. Please try again';
+        this.errorMessage = 'Failed to update contact info.';
         this.doNotDisplayFailureMessage = false;
       });
   }

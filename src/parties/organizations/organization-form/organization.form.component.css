@@ -1,8 +1,12 @@
+.right-button-form {
+  margin-left: 2rem;
+}
 /*
   Troumaca overrides etc.
 */
 
-.example-full-width {
-  width: 60%;
-  display: block;
+.element-wrapper {
+  max-width: 850px;
+  margin-left: auto;
+  margin-right: auto;
 }

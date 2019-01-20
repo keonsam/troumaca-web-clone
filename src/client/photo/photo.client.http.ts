@@ -4,11 +4,12 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Photo} from "../../parties/photo/photo";
+import {environment} from '../../environments/environment';
 
 export class PhotoClientHttp implements PhotoClient {
+  hostPort = environment.hostPort;
   constructor(private uuidGenerator: UUIDGenerator,
-              private httpClient: HttpClient,
-              private hostPort: string) {
+              private httpClient: HttpClient) {
   }
 
   public getPhotos(type?: string): Observable<Photo> {

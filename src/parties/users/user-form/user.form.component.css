@@ -1,84 +1,12 @@
+.right-button-form {
+  margin-left: 2rem;
+}
 /*
   Troumaca overrides etc.
 */
 
-li {
-  float: left;
-}
-
-.outer {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.inner {
-  padding-right: 20px;
-}
-
-.btn-white, .all-wrapper .fc-button {
-  color: #333;
-  background-color: #fff;
-  border-color: rgba(0, 0, 0, 0.5);
-}
-
-.btn-white:hover, .all-wrapper .fc-button:hover {
-  color: #333;
-  background-color: #e6e5e5;
-  border-color: rgba(0, 0, 0, 0.5);
-}
-
-.btn-white:focus, .all-wrapper .fc-button:focus, .btn-white.focus, .all-wrapper .focus.fc-button {
-  -webkit-box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
-}
-
-.btn-white.disabled, .all-wrapper .disabled.fc-button, .btn-white:disabled, .all-wrapper .fc-button:disabled {
-  background-color: #fff;
-  border-color: rgba(0, 0, 0, 0.5);
-}
-
-.btn-white:active, .all-wrapper .fc-button:active, .btn-white.active, .all-wrapper .active.fc-button,
-.show > .btn-white.dropdown-toggle, .all-wrapper
-.show > .dropdown-toggle.fc-button {
-  color: #333;
-  background-color: #e6e5e5;
-  background-image: none;
-  border-color: rgba(0, 0, 0, 0.5);
-}
-
-.button1 {
-  margin-right: 1rem;
-}
-
-.ng-valid[required]:not(ng2-completer), .ng-valid.required:not(ng2-completer)  {
-  border-left: 5px solid #42A948; /* green */
-}
-
-.ng-invalid:not(form):not(ng2-completer)  {
-  border-left: 5px solid #a94442; /* red */
-}
-
-:host >>> .completer-dropdown {
-  max-height: 200px !important;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
-.ng2-completer-invalid /deep/ .completer-input {
-  border-left: 5px solid #a94442; /* red */
-}
-
-.ng2-completer-valid /deep/ .completer-input {
-  border-left: 5px solid #42A948; /* green */
-}
-
-.select2-invalid /deep/ .select2-selection--multiple {
-  border-left: 5px solid #a94442; /* red */
-}
-
-.select2-valid /deep/ .select2-selection--multiple {
-  border-left: 5px solid #42A948; /* green */
+.element-wrapper {
+  max-width: 850px;
+  margin-left: auto;
+  margin-right: auto;
 }

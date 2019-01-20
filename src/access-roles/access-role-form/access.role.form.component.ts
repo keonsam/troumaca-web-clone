@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AccessRole} from '../access.role';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -23,7 +22,7 @@ export class AccessRoleFormComponent implements OnInit {
   untilDate: FormControl;
   description: FormControl;
   accessRoleTypeId: FormControl;
-  accessRoleTypeDataService: CompleterData;
+  // accessRoleTypeDataService: CompleterData;
   accessRoleForm: FormGroup;
 
   doNotDisplayFailureMessage: boolean;
@@ -40,7 +39,7 @@ export class AccessRoleFormComponent implements OnInit {
   private pageSize = 15;
 
   constructor(private accessRoleService: AccessRoleService,
-              private completerService: CompleterService,
+              // private completerService: CompleterService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
@@ -136,7 +135,7 @@ export class AccessRoleFormComponent implements OnInit {
         })
       }))
       .subscribe(next => { // update the data
-        this.accessRoleTypeDataService = this.completerService.local(next, 'name', 'name');
+        // this.accessRoleTypeDataService = this.completerService.local(next, 'name', 'name');
       }, error => {
         console.log('findAccessRoleType error - ' + error);
       });
@@ -161,11 +160,11 @@ export class AccessRoleFormComponent implements OnInit {
     this.getResources();
   }
 
-  onAccessRoleTypeSelect(selected: CompleterItem) {
-    if (selected) {
-      this.accessRole.accessRoleTypeId = selected.originalObject.accessRoleTypeId;
-    }
-  }
+  // onAccessRoleTypeSelect(selected: CompleterItem) {
+  //   if (selected) {
+  //     this.accessRole.accessRoleTypeId = selected.originalObject.accessRoleTypeId;
+  //   }
+  // }
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;

@@ -7,6 +7,8 @@ import {SecurityRepository} from './security.repository';
 import {RouterModule} from '@angular/router';
 import {ChangePasswordModule} from './change-password/change.password.module';
 import {SessionModule} from './session/session.module';
+import {securityRepositoryProvider} from '../adapter/security/security.repository.provider';
+import {securityClientProvider} from '../client/security/security.client.provider';
 
 @NgModule({
   imports: [
@@ -30,7 +32,10 @@ import {SessionModule} from './session/session.module';
       return securityService;
     },
     deps: [SecurityRepository]
-  }],
+  },
+    securityRepositoryProvider,
+    securityClientProvider,
+  ],
   exports: [
     SecurityComponent
   ]

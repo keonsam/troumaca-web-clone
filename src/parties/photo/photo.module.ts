@@ -2,6 +2,8 @@ import { NgModule } from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {PhotoComponent} from "./photo.component";
 import {photoServiceProvider} from "./photo.service.provider";
+import {photoRepositoryProvider} from '../../adapter/photo/photo.repository.adapter.provider';
+import {photoClientProvider} from '../../client/photo/photo.client.provider';
 
 @NgModule({
   imports: [
@@ -10,7 +12,11 @@ import {photoServiceProvider} from "./photo.service.provider";
   declarations: [
     PhotoComponent
   ],
-  providers: [photoServiceProvider],
+  providers: [
+    photoServiceProvider,
+    photoRepositoryProvider,
+    photoClientProvider
+  ],
   exports: [
     PhotoComponent
   ]

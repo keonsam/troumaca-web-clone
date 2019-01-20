@@ -5,10 +5,10 @@ import { LobbyComponent } from './lobby.component';
 import { lobbyServiceProvider} from './lobby.service.provider';
 import {LobbyRoutingModule} from "./lobby.routing.module";
 import {BillingModalModule} from "../billing-details/billing-modal/billing-modal.module";
-import {authGuardProvider} from "../auth-guard/auth.guard.provider";
 import {MenuModule} from "../menu/menu.module";
 import {MaterialModule} from "../app/material.module";
-import {DragDropModule} from "@angular/cdk/drag-drop";
+import {lobbyRepositoryProvider} from '../adapter/lobby/lobby.repository.adapter.provider';
+import {lobbyClientProvider} from '../client/lobby/lobby.client.provider';
 
 @NgModule({
   imports: [
@@ -18,12 +18,15 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     BillingModalModule,
     MenuModule,
     MaterialModule,
-    DragDropModule
   ],
   declarations: [
     LobbyComponent
   ],
-  providers: [lobbyServiceProvider, authGuardProvider],
+  providers: [
+    lobbyServiceProvider,
+    lobbyRepositoryProvider,
+    lobbyClientProvider
+  ],
   exports: []
 })
 

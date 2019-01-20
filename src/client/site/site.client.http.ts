@@ -13,12 +13,13 @@ import {PostOfficeBox} from '../../site/post.office.box';
 import {Email} from '../../site/email';
 import {WebSite} from '../../site/web.site';
 import {Phone} from '../../site/phone';
+import {environment} from '../../environments/environment';
 
 export class SiteClientHttp extends SiteClient {
 
+  hostPort = environment.hostPort;
   constructor(private uuidGenerator: UUIDGenerator,
-              private httpClient: HttpClient,
-              private hostPort: string) {
+              private httpClient: HttpClient) {
     super();
   }
 

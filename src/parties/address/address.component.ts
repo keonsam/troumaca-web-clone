@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {PartyService} from "../party.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from '@angular/router';
 import {Address} from "./address";
 
 @Component({
@@ -23,7 +23,7 @@ export class AddressComponent implements OnInit {
 
   doNotDisplayFailureMessage = true;
   errorMessage: string;
-  type2 = false;
+  update = false;
 
   @Input() type: string;
 
@@ -31,6 +31,7 @@ export class AddressComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private partyService: PartyService,
+              private route: ActivatedRoute,
               private router: Router) {
     this.address = new Address();
     this.streetNumber = new FormControl('', [Validators.required]);
@@ -64,52 +65,69 @@ export class AddressComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.partyService.getAddress(this.type)
-      .subscribe( address => {
-        if (address && address.siteId) {
-          this.streetNumber.setValue(address.streetNumber);
-          this.streetName.setValue(address.streetName);
-          this.postCode.setValue(address.postCode);
-          this.stateOrProvince.setValue(address.stateOrProvince);
-          this.city.setValue(address.city);
-          this.country.setValue(address.country);
-          this.description.setValue(address.description);
-          this.address = address;
-          this.type2 = true;
-        }
-      }, error => {
-        console.log(error);
-        this.errorMessage = 'Failed to get address. Please refresh.';
-        this.doNotDisplayFailureMessage = false;
-      });
+    if (this.route.snapshot && this.route.snapshot.data['address']) {
+      this.setInputValues(this.route.snapshot.data['address']);
+      this.update = true;
+    }
+    // this.partyService.getAddress(this.type)
+    //   .subscribe( address => {
+    //     if (address && address.siteId) {
+    //       this.streetNumber.setValue(address.streetNumber);
+    //       this.streetName.setValue(address.streetName);
+    //       this.postCode.setValue(address.postCode);
+    //       this.stateOrProvince.setValue(address.stateOrProvince);
+    //       this.city.setValue(address.city);
+    //       this.country.setValue(address.country);
+    //       this.description.setValue(address.description);
+    //       this.address = address;
+    //       this.update = true;
+    //     }
+    //   }, error => {
+    //     console.log(error);
+    //     this.errorMessage = 'Failed to get address. Please refresh.';
+    //     this.doNotDisplayFailureMessage = false;
+    //   });
+  }
+
+  private setInputValues(address: Address) {
+    this.streetNumber.setValue(address.streetNumber);
+    this.streetName.setValue(address.streetName);
+    this.postCode.setValue(address.postCode);
+    this.stateOrProvince.setValue(address.stateOrProvince);
+    this.city.setValue(address.city);
+    this.country.setValue(address.country);
+    this.description.setValue(address.description);
+    this.address = address;
   }
 
   onCreate(): void {
+    this.doNotDisplayFailureMessage = true;
     this.partyService.addAddress(this.type, this.address)
       .subscribe( address => {
         if (address && address.siteId) {
           this.router.navigate(['/lobby']);
         } else {
-          this.errorMessage = 'Failed to add address. Try again.';
+          this.errorMessage = 'Failed to add address.';
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
-        this.errorMessage = 'Failed to add address. Try again.';
+        this.errorMessage = 'Failed to add address.';
         this.doNotDisplayFailureMessage = false;
       })
   }
 
   onUpdate(): void {
+    this.doNotDisplayFailureMessage = true;
     this.partyService.updateAddress(this.type, this.address)
       .subscribe( num => {
         if (num) {
           this.router.navigate(['/lobby']);
         } else {
-          this.errorMessage = 'Failed to update address. Try again.';
+          this.errorMessage = 'Failed to update address.';
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
-        this.errorMessage = 'Failed to update address. Try again.';
+        this.errorMessage = 'Failed to update address.';
         this.doNotDisplayFailureMessage = false;
       });
   }

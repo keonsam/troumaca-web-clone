@@ -1,10 +1,10 @@
 <div class="top-menu-secondary with-overflow">
   <div class="logo-w menu-size">
-    <a class="logo" href="#" routerLink="/lobby"><img src="images/logo.png"><span>Troumaka</span></a>
+    <a class="logo" href="#" routerLink="/lobby"><img src="images/logo.png"><span id="brand-name">Troumaka</span></a>
   </div>
   <div class="top-menu-controls">
 
-    <div [ngClass]="{'messages-notifications': true, 'os-dropdown-trigger': true, 'os-dropdown-center': true, 'over': overClass2}" (mouseenter)="overClass2 = true" (mouseleave)="overClass2 = false">
+    <div [ngClass]="{'messages-notifications': true, 'os-dropdown-trigger': true, 'os-dropdown-center': true, 'over': overClass}" (mouseenter)="overClass = true" (mouseleave)="overClass = false">
       <div class="os-icon os-icon-grid-circles"></div>
       <div class="os-dropdown light app-dropdown">
         <div class="row">
@@ -24,7 +24,7 @@
     <!--------------------
     START - Messages Link in secondary top menu
     -------------------->
-    <div [ngClass]="{'messages-notifications': true, 'os-dropdown-trigger': true, 'os-dropdown-center': true, 'over': overClass}" (mouseenter)="overClass = true" (mouseleave)="overClass = false">
+    <div [ngClass]="{'messages-notifications': true, 'os-dropdown-trigger': true, 'os-dropdown-center': true, 'over': overClass1}" (mouseenter)="overClass1 = true" (mouseleave)="overClass1 = false">
       <i class="os-icon os-icon-mail-14"></i>
       <div class="new-messages-count">
         12
@@ -103,6 +103,29 @@
     --------------------><!--------------------
           START - User avatar and menu in secondary top menu
           -------------------->
+    <div [ngClass]="{'top-icon top-settings': true, 'os-dropdown-trigger': true, 'os-dropdown-center': true, 'over': overClass2}" (mouseenter)="overClass2 = true" (mouseleave)="overClass2 = false">
+      <i class="os-icon os-icon-ui-46"></i>
+      <div class="os-dropdown">
+        <div class="icon-w">
+          <i class="os-icon os-icon-ui-46"></i>
+        </div>
+        <ul>
+          <li>
+            <a href="#"><i class="os-icon os-icon-ui-49"></i><span>Profile Settings</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="os-icon os-icon-grid-10"></i><span>Billing Info</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="os-icon os-icon-ui-44"></i><span>My Invoices</span></a>
+          </li>
+          <li>
+            <a href="#"><i class="os-icon os-icon-ui-15"></i><span>Deactivate Account</span></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <div class="logged-user-w">
       <div class="logged-user-i">
         <div class="avatar-w">
@@ -130,7 +153,7 @@
               <a><i class="os-icon os-icon-mail-01"></i><span>Incoming mail</span></a>
             </li>
             <li>
-              <a routerLink="/parties/user-profile"><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
+              <a routerLink="/parties/user/profile"><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
             </li>
             <li>
               <a routerLink="/billing-details"><i class="os-icon os-icon-coins-4"></i><span>Billing Details</span></a>

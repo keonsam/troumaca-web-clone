@@ -13,23 +13,19 @@ import {PageNotFoundModule} from './page-not-found/page.not.found.module';
 
 import {sessionInterceptorProvider} from '../client/session.interceptor.provider';
 import {AppRoutingModule} from './app.routing.module';
-import {Ng2CompleterModule} from 'ng2-completer';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SessionModule} from '../session/session.module';
 import { FrontHomeModule } from '../front-home/front-home.module';
 import { ClientModule } from '../client/client.module';
 import { MenuModule } from '../menu/menu.module';
-import { authGuardProvider } from '../auth-guard/auth.guard.provider';
-import { MaterialModule } from "./material.module";
+import { MaterialModule } from './material.module';
 import 'hammerjs';
-import {FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
-    Ng2CompleterModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -40,7 +36,6 @@ import {FlexLayoutModule } from "@angular/flex-layout";
     FrontHomeModule,
     MenuModule,
     MaterialModule,
-    FlexLayoutModule
   ],
   declarations: [
     AppComponent,
@@ -51,7 +46,6 @@ import {FlexLayoutModule } from "@angular/flex-layout";
     {provide: AppConfig, useClass: AppConfig},
     {provide: UUIDGenerator, useClass: UUIDGenerator},
     sessionInterceptorProvider,
-    authGuardProvider
   ],
   bootstrap: [AppComponent]
 })

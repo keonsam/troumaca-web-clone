@@ -1,12 +1,8 @@
 import { OrganizationResolve } from './organization.resolve';
-import {OrganizationService} from "./organization.service";
+import {OrganizationService} from '../organization.service';
 
 export function organizationResolveProviderFactory (organizationService: OrganizationService): OrganizationResolve {
-  let organizationResolve: OrganizationResolve;
-  if (!organizationResolve) {
-    organizationResolve = new OrganizationResolve(organizationService);
-  }
-  return organizationResolve;
+  return new OrganizationResolve(organizationService);
 }
 
 export let organizationResolveProvider = {

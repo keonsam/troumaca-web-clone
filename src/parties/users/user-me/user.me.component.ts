@@ -26,7 +26,7 @@ export class UserMeComponent implements OnInit {
   errorMessage: string;
   requiredState = false;
 
-  private user: User;
+  user: User;
   private credential: Credential;
 
   constructor(private userService: UserService,
@@ -85,24 +85,34 @@ export class UserMeComponent implements OnInit {
     this.userMeForm.updateValueAndValidity();
     });
 
-    this.getUserMe()
+    if (this.route.snapshot && this.route.snapshot.data['user']) {
+      this.setInputValues(this.route.snapshot.data['user']);
+    }
   }
 
-  private getUserMe() {
-    this.userService.getUser('profile')
-      .subscribe( userRes => {
-        if (userRes) {
-          this.firstName.setValue(userRes.firstName);
-          this.middleName.setValue(userRes.middleName);
-          this.lastName.setValue(userRes.lastName);
-          this.username.setValue(userRes.username);
-          this.user = userRes;
-        }
-      }, error => {
-        this.errorMessage = 'Failed to get profile, please refresh.';
-        this.doNotDisplayFailureMessage = false;
-      });
+  private setInputValues(user: User) {
+    this.firstName.setValue(user.firstName);
+    this.middleName.setValue(user.middleName);
+    this.lastName.setValue(user.lastName);
+    this.username.setValue(user.username);
+    this.user = user;
   }
+
+  // private getUserMe() {
+  //   this.userService.getUser('profile')
+  //     .subscribe( userRes => {
+  //       if (userRes) {
+  //         this.firstName.setValue(userRes.firstName);
+  //         this.middleName.setValue(userRes.middleName);
+  //         this.lastName.setValue(userRes.lastName);
+  //         this.username.setValue(userRes.username);
+  //         this.user = userRes;
+  //       }
+  //     }, error => {
+  //       this.errorMessage = 'Failed to get profile, please refresh.';
+  //       this.doNotDisplayFailureMessage = false;
+  //     });
+  // }
 
   private usernameValidator(userService: UserService) {
     let usernameControl = null;
@@ -189,7 +199,7 @@ export class UserMeComponent implements OnInit {
   onUpdate() {
     this.doNotDisplayFailureMessage = true;
       this.userService
-      .updateUser(this.user, this.credential)
+      .updateUserMe(this.user, this.credential)
       .subscribe(value => {
         if (value) {
           this.router.navigate(['/lobby']);

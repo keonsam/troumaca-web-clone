@@ -6,12 +6,13 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ValidResponse} from "../../authentication/valid.response";
 import {ContactInfo} from "../../parties/contact-info/contact.info";
 import {Address} from "../../parties/address/address";
+import {environment} from '../../environments/environment';
 
 export class PartyClientHttp implements PartyClient {
 
+  hostPort = environment.hostPort;
   constructor(private uuidGenerator: UUIDGenerator,
-              private httpClient: HttpClient,
-              private hostPort: string) {
+              private httpClient: HttpClient) {
   }
 
   isValidUsername(username: string, partyId?: string): Observable<ValidResponse> {

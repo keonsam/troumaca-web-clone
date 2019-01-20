@@ -5,7 +5,6 @@ import {AssetTypeComponent} from './asset.type.component';
 import {AssetTypeListComponent} from './asset-type-list/asset.type.list.component';
 import {RouterModule} from '@angular/router';
 import {MenuModule} from '../menu/menu.module';
-import {Ng2CompleterModule} from 'ng2-completer';
 import {AssetTypeTopMenuComponent} from './asset-type-top-menu/asset.type.top.menu.component';
 import {SearchModule} from '../search/search.module';
 import {PagingModule} from '../paging/paging.module';
@@ -15,7 +14,8 @@ import { UnitOfMeasureModule } from '../unit-of-measure/unit.of.measure.module';
 import { AssetTypeFormComponent } from './asset-type-form/asset.type.form.component';
 import { assetTypeResolveProvider } from './asset.type.resolve.provider';
 import {DeleteModalModule} from '../delete-modal/delete.modal.module';
-import {authGuardProvider} from "../auth-guard/auth.guard.provider";
+import {assetTypeRepositoryProvider} from '../adapter/asset-types/asset.repository.adapter.provider';
+import {assetTypesClientProvider} from '../client/asset-type/asset.types.client.provider';
 
 @NgModule({
   imports: [
@@ -24,7 +24,6 @@ import {authGuardProvider} from "../auth-guard/auth.guard.provider";
     FormsModule,
     ReactiveFormsModule,
     MenuModule,
-    Ng2CompleterModule,
     SearchModule,
     PagingModule,
     AssetTypeRoutingModule,
@@ -37,7 +36,11 @@ import {authGuardProvider} from "../auth-guard/auth.guard.provider";
     AssetTypeFormComponent,
     AssetTypeTopMenuComponent
   ],
-  providers: [assetTypeServiceProvider, assetTypeResolveProvider, authGuardProvider],
+  providers: [assetTypeServiceProvider,
+    assetTypeResolveProvider,
+    assetTypeRepositoryProvider,
+    assetTypesClientProvider,
+  ],
   exports: []
 })
 export class AssetTypesModule {}

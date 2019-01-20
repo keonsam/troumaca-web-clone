@@ -8,27 +8,26 @@ import {PagingModule} from '../paging/paging.module';
 import {SearchModule} from '../search/search.module';
 import {AssetListComponent} from './asset-list/asset.list.component';
 import {AssetTopMenuComponent} from './asset-top-menu/asset.top.menu.component';
-import {Ng2CompleterModule} from 'ng2-completer';
 import {assetServiceProvider} from './asset.service.provider';
 import { AssetRoutingModule } from './asset.routing.module';
 import { UnitOfMeasureModule } from '../unit-of-measure/unit.of.measure.module';
 import {assetResolveProvider } from './asset.resolve.provider';
 import {AssetFormComponent} from './asset-form/asset.form.component';
 import {DeleteModalModule} from '../delete-modal/delete.modal.module';
-import {authGuardProvider} from '../auth-guard/auth.guard.provider';
-import {MaterialModule} from "../app/material.module";
-import {SpecificationFormComponent} from "./specification-form/specification.form.component";
-import {BrandFormComponent} from "./brand-form/brand.form.component";
-import {CharacteristicsFormComponent} from "./characteristics-form/characteristics.form.component";
-import {assetBrandResolveProvider} from "./asset.brand.resolve.provider";
-import {assetSpecificationResolveProvider} from "./asset.specification.resolve.provider";
-import {assetCharacteristicsResolveProvider} from "./asset.characteristics.resolve.provider";
+import {MaterialModule} from '../app/material.module';
+import {SpecificationFormComponent} from './specification-form/specification.form.component';
+import {BrandFormComponent} from './brand-form/brand.form.component';
+import {CharacteristicsFormComponent} from './characteristics-form/characteristics.form.component';
+import {assetBrandResolveProvider} from './asset.brand.resolve.provider';
+import {assetSpecificationResolveProvider} from './asset.specification.resolve.provider';
+import {assetCharacteristicsResolveProvider} from './asset.characteristics.resolve.provider';
+import {assetRepositoryProvider} from '../adapter/assets/asset.repository.adapter.provider';
+import {assetClientProvider} from '../client/asset/asset.client.provider';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    Ng2CompleterModule,
     FormsModule,
     ReactiveFormsModule,
     MenuModule,
@@ -54,7 +53,9 @@ import {assetCharacteristicsResolveProvider} from "./asset.characteristics.resol
     assetBrandResolveProvider,
     assetSpecificationResolveProvider,
     assetCharacteristicsResolveProvider,
-    authGuardProvider],
+    assetRepositoryProvider,
+    assetClientProvider,
+  ],
   exports: [
     // AssetComponent,
     // AssetEditComponent,

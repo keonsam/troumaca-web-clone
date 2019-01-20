@@ -19,23 +19,24 @@ export class AppComponent implements OnInit {
               private renderer: Renderer2,
               private sessionService: SessionService
               ) {
-    this.activeSession = this.sessionService.activeSessionExists()
-      .subscribe(value => {
-        if (value) {
-          const routerEvent = this.router.events.subscribe( event => {
-            if (event instanceof NavigationEnd) {
-              if (authRoutes.indexOf(event.url) === -1) {
-                this.showMenu = true;
-              }
-              routerEvent.unsubscribe();
-            }
-          });
-        }
-        this.activeSession.unsubscribe();
-      });
+    // this.activeSession = this.sessionService.activeSessionExists()
+    //   .subscribe(value => {
+    //     if (value) {
+    //       const routerEvent = this.router.events.subscribe( event => {
+    //         if (event instanceof NavigationEnd) {
+    //           if (authRoutes.indexOf(event.url) === -1) {
+    //             this.showMenu = true;
+    //           }
+    //           routerEvent.unsubscribe();
+    //         }
+    //       });
+    //     }
+    //     this.activeSession.unsubscribe();
+    //   });
 
-    this.loginEvent = this.sessionService.loginEvent
+    this.sessionService.loginEvent
       .subscribe( value => {
+        console.log(value);
         if (value) {
           const routerEvent = this.router.events.subscribe( event => {
             if (event instanceof NavigationEnd) {
@@ -45,7 +46,6 @@ export class AppComponent implements OnInit {
               routerEvent.unsubscribe();
             }
           });
-          this.loginEvent.unsubscribe();
         }
       });
 

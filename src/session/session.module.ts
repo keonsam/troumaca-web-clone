@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {sessionServiceProvider} from './session.service.provider';
 
 @NgModule({
   imports: [
@@ -13,7 +12,6 @@ import {sessionServiceProvider} from './session.service.provider';
   ],
   declarations: [
   ],
-  providers: [sessionServiceProvider],
   exports: []
 })
 export class SessionModule {}

@@ -15,24 +15,32 @@ import {UserListComponent} from './users/user-list/user.list.component';
 import {UserTopMenuComponent} from './users/user-top-menu/user.top.menu.component';
 
 import {PartyEventService} from './party.event.service';
-import {Ng2CompleterModule} from 'ng2-completer';
-import { Select2Module } from 'ng2-select2';
 
 // providers
 import {partyServiceProvider} from './party.service.provider';
-import { organizationResolveProvider } from './organizations/organization.resolve.provider';
+import { organizationResolveProvider } from './organizations/organization-form/organization.resolve.provider';
 import { userResolveProvider } from './users/user.resolve.provider';
 import { userServiceProvider } from './users/user.service.provider';
 import { organizationServiceProvider } from './organizations/organization.service.provider';
-import { OrganizationFormModule } from './organizations/organization-form/organization.form.module';
 import {DeleteModalModule} from '../delete-modal/delete.modal.module';
-import {authGuardProvider} from '../auth-guard/auth.guard.provider';
 import {MaterialModule} from '../app/material.module';
 import {ContactInfoComponent} from './contact-info/contact.info.component';
 import {OrganizationCompanyComponent} from './organizations/organization-company/organization.company.component';
 import {PhotoModule} from './photo/photo.module';
 import {AddressComponent} from './address/address.component';
-import {UserMeComponent} from "./users/user-me/user.me.component";
+import {UserMeComponent} from './users/user-me/user.me.component';
+import {partyRepositoryProvider} from '../adapter/party/party.repository.adapter.provider';
+import {partyClientProvider} from '../client/party/party.client.provider';
+import {OrganizationFormComponent} from './organizations/organization-form/organization.form.component';
+import {userRepositoryProvider} from '../adapter/party/user/user.repository.adapter.provider';
+import {userClientProvider} from '../client/party/user/user.client.provider';
+import {organizationRepositoryProvider} from '../adapter/party/organization/organization.repository.adapter.provider';
+import {organizationClientProvider} from '../client/party/organization/organization.client.provider';
+import {organizationsResolveProvider} from './organizations/organization-list/organizations.resolve.provider';
+import {organizationCompanyResolveProvider} from './organizations/organization-company/organization.company.resolve.provider';
+import {addressResolveProvider} from './address/address.resolve.provider';
+import {contactInfoResolveProvider} from './contact-info/contact.info.resolve.provider';
+import {usersResolveProvider} from './users/user-list/users.resolve.provider';
 
 @NgModule({
   imports: [
@@ -42,10 +50,7 @@ import {UserMeComponent} from "./users/user-me/user.me.component";
     ReactiveFormsModule,
     PagingModule,
     MenuModule,
-    Ng2CompleterModule,
-    Select2Module,
     PartyRoutingModule,
-    OrganizationFormModule,
     DeleteModalModule,
     MaterialModule,
     PhotoModule,
@@ -59,12 +64,29 @@ import {UserMeComponent} from "./users/user-me/user.me.component";
     UserListComponent,
     ContactInfoComponent,
     OrganizationCompanyComponent,
+    OrganizationFormComponent,
     UserMeComponent,
     AddressComponent
   ],
-  providers: [partyServiceProvider, PartyEventService,
-    organizationResolveProvider, userResolveProvider, userServiceProvider,
-    organizationServiceProvider, authGuardProvider],
+  providers: [
+    partyServiceProvider,
+    PartyEventService,
+    userResolveProvider,
+    usersResolveProvider,
+    userServiceProvider,
+    userRepositoryProvider,
+    userClientProvider,
+    organizationServiceProvider,
+    organizationResolveProvider,
+    organizationsResolveProvider,
+    organizationCompanyResolveProvider,
+    organizationRepositoryProvider,
+    organizationClientProvider,
+    partyRepositoryProvider,
+    partyClientProvider,
+    addressResolveProvider,
+    contactInfoResolveProvider
+  ],
   exports: []
 })
 export class PartyModule {}

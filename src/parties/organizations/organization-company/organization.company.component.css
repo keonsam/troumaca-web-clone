@@ -1,26 +1,18 @@
-.profile-header {
-  margin-bottom: 1.5rem;
-  margin-top: .5rem;
-  text-align: center;
+
+.right-button-form {
+  margin-left: 2rem;
 }
 
-.profile-desc {
-  text-align: center;
-  margin: 5px 0 10px;
-}
+/*button[mat-flat-button].disabled, button[mat-flat-button]:disabled {*/
+  /*cursor: not-allowed;*/
+  /*opacity: .65;*/
+/*}*/
 
-
-
-button[mat-flat-button].disabled, button[mat-flat-button]:disabled {
-  cursor: not-allowed;
-  opacity: .65;
-}
-
-button[mat-flat-button].disabled, button[mat-flat-button]:disabled {
-  background-color: #047bf8;
-  border-color: #047bf8;
-  color: white;
-}
+/*button[mat-flat-button].disabled, button[mat-flat-button]:disabled {*/
+  /*background-color: #047bf8;*/
+  /*border-color: #047bf8;*/
+  /*color: white;*/
+/*}*/
 /*
   Troumaca overrides etc.
 */

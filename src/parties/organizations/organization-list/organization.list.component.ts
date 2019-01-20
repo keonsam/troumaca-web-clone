@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Organizations} from '../../organizations';
-import {PartyEventService} from '../../party.event.service';
 import {Page} from '../../../page/page';
 import {Sort} from '../../../sort/sort';
-import { OrganizationService } from "../organization.service";
+import { OrganizationService } from '../organization.service';
+import {PageEvent} from '@angular/material';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-organization-list',
@@ -18,11 +19,10 @@ export class OrganizationListComponent implements OnInit {
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  private menuName = 'organizations-menu';
   routerLinkCreateUser = '/parties/organizations/create';
 
-  constructor(private partyEventService: PartyEventService,
-              private organizationService: OrganizationService) {
+  constructor(private organizationService: OrganizationService,
+              private route: ActivatedRoute) {
 
     const newOrganizations = new Organizations();
     newOrganizations.page = new Page(0, 0, 0);
@@ -32,15 +32,15 @@ export class OrganizationListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.partyEventService.menuChangeEvent.emit(this.menuName);
-    this.getOrganizations();
+    if (this.route.snapshot && this.route.snapshot.data['organizations']) {
+      this.organizations = this.route.snapshot.data['organizations'];
+    }
   }
 
   private getOrganizations() {
     this.organizationService
     .getOrganizations(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      console.log(next);
       this.organizations = next;
     }, error => {
       console.log(error);
@@ -70,8 +70,9 @@ export class OrganizationListComponent implements OnInit {
     }
   }
 
-  onRequestPage(pageNumber: number) {
-   this.defaultPage = pageNumber;
+  onRequestPage(pageEvent: PageEvent) {
+    this.defaultPage = pageEvent.pageIndex + 1;
+    this.defaultPageSize = pageEvent.pageSize;
    this.getOrganizations();
   }
 

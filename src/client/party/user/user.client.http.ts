@@ -9,12 +9,13 @@ import { User } from '../../../parties/user';
 import { PartyAccessRole } from '../../../parties/party.access.role';
 import { Credential } from '../../../authentication/credential';
 import {ValidResponse} from "../../../authentication/valid.response";
+import {environment} from '../../../environments/environment';
 
 export class UserClientHttp implements UserClient {
 
+  hostPort = environment.hostPort;
   constructor(private uuidGenerator: UUIDGenerator,
-              private httpClient: HttpClient,
-              private hostPort: string) {
+              private httpClient: HttpClient) {
   }
 
   public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
@@ -55,7 +56,7 @@ export class UserClientHttp implements UserClient {
       }));
   }
 
-  public addUserState(userState: User, credentialState: Credential, partyAccessRoleStates: PartyAccessRole[]): Observable<User> {
+  public addUserState(userState: User, credentialState: Credential, partyAccessRoleStates: string[]): Observable<User> {
     const url = `${this.hostPort}/users`;
     const body = {
       user: userState,
@@ -84,8 +85,10 @@ export class UserClientHttp implements UserClient {
       }));
   }
 
-  public updateUser(userState: User, credentialState: Credential, partyAccessRoleStates: PartyAccessRole[]): Observable<number> {
+  public updateUser(userState: User, credentialState: Credential, partyAccessRoleStates: string[]): Observable<number> {
     const url = `${this.hostPort}/users/${userState.partyId}`;
+    userState.partyAccessRoles = undefined;
+    userState.username = undefined;
     const body = {
       user: userState,
       credential: credentialState,
@@ -100,6 +103,25 @@ export class UserClientHttp implements UserClient {
         return data;
       }));
   }
+
+  public updateUserMe(userState: User, credentialState: Credential): Observable<number> {
+    const url = `${this.hostPort}/users/profile`;
+    userState.partyAccessRoles = undefined;
+    userState.username = undefined;
+    const body = {
+      user: userState,
+      credential: credentialState,
+    };
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient
+      .put<number>(url, body, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
 
   // VALIDATION
 
