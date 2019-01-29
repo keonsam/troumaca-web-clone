@@ -1,12 +1,12 @@
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import {OrganizationService} from "../organization.service";
-import {OrganizationCompany} from './organization.company';
+import {OrganizationService} from '../organization.service';
+import {Organization} from '../../organization';
 
-export class OrganizationCompanyResolve implements Resolve<OrganizationCompany> {
+export class OrganizationCompanyResolve implements Resolve<Organization> {
   constructor(private organizationService: OrganizationService) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    return this.organizationService.getOrganizationCompany();
+    return this.organizationService.getOrganization('company');
   }
 
 }

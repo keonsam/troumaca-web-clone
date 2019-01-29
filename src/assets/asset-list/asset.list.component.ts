@@ -3,7 +3,7 @@ import {AssetService} from '../asset.service';
 import {Assets} from '../assets';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
-import {PageEvent} from "@angular/material";
+import {PageEvent} from '@angular/material';
 
 @Component({
   selector: 'asset-list',

@@ -3,16 +3,52 @@
   margin-left: 2rem;
 }
 
-/*button[mat-flat-button].disabled, button[mat-flat-button]:disabled {*/
-  /*cursor: not-allowed;*/
-  /*opacity: .65;*/
+/*.parent-slider {*/
+  /*height: 100%;*/
+  /*width: 200%;*/
+  /*display: flex;*/
 /*}*/
 
-/*button[mat-flat-button].disabled, button[mat-flat-button]:disabled {*/
-  /*background-color: #047bf8;*/
-  /*border-color: #047bf8;*/
-  /*color: white;*/
+/*.parent-slider div {*/
+  /*flex: 1;*/
 /*}*/
+
+/*.slider-container {*/
+  /*display: block;*/
+  /*overflow: hidden;*/
+/*}*/
+
+/*.card-front-elements {*/
+  /*border-bottom: 1px solid #dadce0;*/
+  /*padding: 20px 0;*/
+/*}*/
+
+/*.front-card-header {*/
+  /*letter-spacing: .07272727em;*/
+  /*text-transform: uppercase;*/
+  /*font-size: .6875rem;*/
+  /*font-weight: bold;*/
+  /*line-height: 1rem;*/
+  /*color: #5f6368;*/
+/*}*/
+
+/*.front-card-text {*/
+  /*letter-spacing: .00625em;*/
+  /*font-family: Roboto,Arial,sans-serif;*/
+  /*font-weight: 400;*/
+  /*line-height: 1.5rem;*/
+/*}*/
+
+
+/*.edit-icon {*/
+  /*display: inline;*/
+  /*!*float: right;*!*/
+/*}*/
+
+/*.blue-icon {*/
+  /*color: #047bf8;*/
+/*}*/
+
 /*
   Troumaca overrides etc.
 */

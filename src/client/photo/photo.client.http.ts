@@ -24,29 +24,34 @@ export class PhotoClientHttp implements PhotoClient {
       }));
   }
 
-  public addPhoto(photoState: FormData, type: string): Observable<Photo> {
-    const url = `${this.hostPort}/photos/user`;
+  public addPhoto(photoState: File, type: string): Observable<Photo> {
+    const url = `${this.hostPort}/photos/${type}`;
+    const formData = new FormData();
+
+    formData.append('image', photoState);
     const httpHeaders: HttpHeaders = new HttpHeaders({
       'Content-Type':  'multipart/form-data',
       'correlationId': this.uuidGenerator.generateUUID()
     });
     console.log(photoState);
     return this.httpClient
-      .post<Photo>(url, photoState, {headers: httpHeaders})
+      .post<Photo>(url, formData, {headers: httpHeaders})
       .pipe(map(data => {
         return data;
       }));
   }
 
-  public updatePhoto(photoState: FormData, type: string): Observable<Photo> {
-    const url = `${this.hostPort}/photos/user`;
+  public updatePhoto(photoState: File, type: string, photoId: string): Observable<Photo> {
+    const url = `${this.hostPort}/photos/${type}/${photoId}`;
+    const formData = new FormData();
+
+    formData.append('image', photoState);
     const httpHeaders: HttpHeaders = new HttpHeaders({
       'Content-Type':  'multipart/form-data',
       'correlationId': this.uuidGenerator.generateUUID()
     });
-    console.log(photoState);
     return this.httpClient
-      .put<Photo>(url, photoState, {headers: httpHeaders})
+      .put<Photo>(url, formData, {headers: httpHeaders})
       .pipe(map(data => {
         return data;
       }));

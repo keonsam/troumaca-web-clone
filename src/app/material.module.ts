@@ -7,8 +7,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material';
-import {MatTabsModule} from '@angular/material/tabs';
 import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [],
@@ -21,8 +21,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatTabsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
   ],
   exports: [
     MatInputModule,
@@ -33,8 +33,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatTabsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
   ],
   providers: [ MatDatepickerModule],
 })

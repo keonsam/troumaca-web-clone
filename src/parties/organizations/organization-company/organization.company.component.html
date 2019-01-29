@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-sm-5">
         <div class="user-profile compact">
-          <app-photo [type]="'organization'" [organizationName]="organizationCompany.organization.name"></app-photo>
+          <app-photo [type]="'organization'" [organizationName]="organization.name"></app-photo>
           <div class="up-controls">
             <div class="row">
               <div class="col-sm-6">
@@ -42,53 +42,53 @@
                   </div>
                 </div>
               </div>
-              <div class="padded">
-                <div class="os-progress-bar primary">
-                  <div class="bar-labels">
-                    <div class="bar-label-left">
-                      <span>Profile Completion</span><span class="positive">+10</span>
-                    </div>
-                    <div class="bar-label-right">
-                      <span class="info">72/100</span>
-                    </div>
-                  </div>
-                  <div class="bar-level-1" style="width: 100%">
-                    <div class="bar-level-2" style="width: 80%">
-                      <div class="bar-level-3" style="width: 30%"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="os-progress-bar primary">
-                  <div class="bar-labels">
-                    <div class="bar-label-left">
-                      <span>Status Unlocked</span><span class="positive">+5</span>
-                    </div>
-                    <div class="bar-label-right">
-                      <span class="info">45/100</span>
-                    </div>
-                  </div>
-                  <div class="bar-level-1" style="width: 100%">
-                    <div class="bar-level-2" style="width: 30%">
-                      <div class="bar-level-3" style="width: 10%"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="os-progress-bar primary">
-                  <div class="bar-labels">
-                    <div class="bar-label-left">
-                      <span>Followers</span><span class="negative">-12</span>
-                    </div>
-                    <div class="bar-label-right">
-                      <span class="info">74/100</span>
-                    </div>
-                  </div>
-                  <div class="bar-level-1" style="width: 100%">
-                    <div class="bar-level-2" style="width: 80%">
-                      <div class="bar-level-3" style="width: 60%"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <!--<div class="padded">-->
+                <!--<div class="os-progress-bar primary">-->
+                  <!--<div class="bar-labels">-->
+                    <!--<div class="bar-label-left">-->
+                      <!--<span>Profile Completion</span><span class="positive">+10</span>-->
+                    <!--</div>-->
+                    <!--<div class="bar-label-right">-->
+                      <!--<span class="info">72/100</span>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="bar-level-1" style="width: 100%">-->
+                    <!--<div class="bar-level-2" style="width: 80%">-->
+                      <!--<div class="bar-level-3" style="width: 30%"></div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="os-progress-bar primary">-->
+                  <!--<div class="bar-labels">-->
+                    <!--<div class="bar-label-left">-->
+                      <!--<span>Status Unlocked</span><span class="positive">+5</span>-->
+                    <!--</div>-->
+                    <!--<div class="bar-label-right">-->
+                      <!--<span class="info">45/100</span>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="bar-level-1" style="width: 100%">-->
+                    <!--<div class="bar-level-2" style="width: 30%">-->
+                      <!--<div class="bar-level-3" style="width: 10%"></div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="os-progress-bar primary">-->
+                  <!--<div class="bar-labels">-->
+                    <!--<div class="bar-label-left">-->
+                      <!--<span>Followers</span><span class="negative">-12</span>-->
+                    <!--</div>-->
+                    <!--<div class="bar-label-right">-->
+                      <!--<span class="info">74/100</span>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="bar-level-1" style="width: 100%">-->
+                    <!--<div class="bar-level-2" style="width: 80%">-->
+                      <!--<div class="bar-level-3" style="width: 60%"></div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
             </div>
           </div>
         </div>
@@ -170,28 +170,56 @@
           </h5>
           <div class="element-box">
             <form [formGroup]="organizationForm">
-              <h6 class="form-header">
-                Organization Info
-              </h6>
-              <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Name</mat-label>
-                <input matInput [formControl]="name">
-                <mat-error *ngIf="name.hasError('required')">
-                  Name is <strong>required</strong>
-                </mat-error>
-              </mat-form-field>
+              <h6 class="form-header">Organization Info<i *ngIf="activePane === 'left'" class="os-icon os-icon-pencil-2 float-right blue-icon" (click)="setActivePane('right')"></i></h6>
 
-              <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Purpose</mat-label>
-                <textarea matInput  [formControl]="purpose"></textarea>
-              </mat-form-field>
+              <div class="slider-container">
+                <div class="parent-slider" [@slide]="activePane">
+                  <div class="child-slider">
+                    <div class="card-front-elements">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <span class="front-card-header">Name</span>
+                        </div>
+                        <div class="col-sm-9">
+                          <span class="front-card-text">{{organization.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-front-elements">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <span class="front-card-header">Purpose</span>
+                        </div>
+                        <div class="col-sm-9">
+                          <span class="front-card-text">{{organization.purpose || 'null'}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="child-slider">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Name</mat-label>
+                      <input matInput [formControl]="name">
+                      <mat-error *ngIf="name.hasError('required')">
+                        Name is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
 
-              <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Failed to update organization</span></div>
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Purpose</mat-label>
+                      <textarea matInput  [formControl]="purpose"></textarea>
+                    </mat-form-field>
 
-              <div class="form-buttons-w">
-                <button  mat-flat-button color="primary" [disabled]="!organizationForm.valid" type="submit" (click)="onUpdate()">Update</button>
-                <button class="right-button-form" mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
+                    <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Failed to update organization</span></div>
+
+                    <div class="form-buttons-w">
+                      <button  mat-flat-button color="primary" [disabled]="!organizationForm.valid" type="submit" (click)="onUpdate()">Update</button>
+                      <button class="right-button-form" mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
+                    </div>
+                  </div>
+                </div>
               </div>
+
 
             </form>
           </div>

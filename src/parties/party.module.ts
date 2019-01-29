@@ -41,6 +41,7 @@ import {organizationCompanyResolveProvider} from './organizations/organization-c
 import {addressResolveProvider} from './address/address.resolve.provider';
 import {contactInfoResolveProvider} from './contact-info/contact.info.resolve.provider';
 import {usersResolveProvider} from './users/user-list/users.resolve.provider';
+import {userMeResolveProvider} from './users/user-me/user.me.resolve.provider';
 
 @NgModule({
   imports: [
@@ -73,6 +74,7 @@ import {usersResolveProvider} from './users/user-list/users.resolve.provider';
     PartyEventService,
     userResolveProvider,
     usersResolveProvider,
+    userMeResolveProvider,
     userServiceProvider,
     userRepositoryProvider,
     userClientProvider,

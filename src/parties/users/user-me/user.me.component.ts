@@ -6,11 +6,19 @@ import {User} from '../../user';
 import { Credential} from '../../../authentication/credential';
 import { filter, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import {UserService} from '../user.service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-user-me',
   templateUrl: './user.me.component.html',
-  styleUrls: ['./user.me.component.css']
+  styleUrls: ['./user.me.component.css'],
+  animations: [
+    trigger('slide', [
+      state('left', style({ transform: 'translateX(0)' })),
+      state('right', style({ transform: 'translateX(-50%)' })),
+      transition('* => *', animate(300))
+    ])
+  ]
 })
 export class UserMeComponent implements OnInit {
 
@@ -28,6 +36,7 @@ export class UserMeComponent implements OnInit {
 
   user: User;
   private credential: Credential;
+  activePane = 'left';
 
   constructor(private userService: UserService,
               private route: ActivatedRoute,
@@ -98,21 +107,16 @@ export class UserMeComponent implements OnInit {
     this.user = user;
   }
 
-  // private getUserMe() {
-  //   this.userService.getUser('profile')
-  //     .subscribe( userRes => {
-  //       if (userRes) {
-  //         this.firstName.setValue(userRes.firstName);
-  //         this.middleName.setValue(userRes.middleName);
-  //         this.lastName.setValue(userRes.lastName);
-  //         this.username.setValue(userRes.username);
-  //         this.user = userRes;
-  //       }
-  //     }, error => {
-  //       this.errorMessage = 'Failed to get profile, please refresh.';
-  //       this.doNotDisplayFailureMessage = false;
-  //     });
-  // }
+  private getUserMe() {
+    this.userService.getUser('profile')
+      .subscribe( value => {
+        this.setInputValues(value);
+        this.activePane = 'left';
+      }, error => {
+        this.errorMessage = 'Failed to get profile, please refresh.';
+        this.doNotDisplayFailureMessage = false;
+      });
+  }
 
   private usernameValidator(userService: UserService) {
     let usernameControl = null;
@@ -202,7 +206,7 @@ export class UserMeComponent implements OnInit {
       .updateUserMe(this.user, this.credential)
       .subscribe(value => {
         if (value) {
-          this.router.navigate(['/lobby']);
+          this.activePane = 'left';
         } else {
           this.errorMessage = 'Failed to update profile, please try again';
           this.doNotDisplayFailureMessage = false;
@@ -215,7 +219,11 @@ export class UserMeComponent implements OnInit {
   }
 
   cancel() {
+    this.getUserMe();
+  }
 
+  setActivePane(place: string) {
+    this.activePane = place;
   }
 
 }

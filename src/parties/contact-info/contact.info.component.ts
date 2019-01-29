@@ -1,15 +1,25 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, Input, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ContactInfo} from "./contact.info";
-import {PartyService} from "../party.service";
-import {debounceTime, distinctUntilChanged, filter, map} from "rxjs/operators";
-import {ValidResponse} from "../../authentication/valid.response";
+import {ContactInfo} from './contact.info';
+import {PartyService} from '../party.service';
+import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {ValidResponse} from '../../authentication/valid.response';
+import {
+  animate, state, style, transition, trigger
+} from '@angular/animations';
 
 @Component({
   selector: 'app-contact-info',
   templateUrl: './contact.info.component.html',
-  styleUrls: ['./contact.info.component.css']
+  styleUrls: ['./contact.info.component.css'],
+  animations: [
+    trigger('slide', [
+      state('left', style({ transform: 'translateX(0)' })),
+      state('right', style({ transform: 'translateX(-50%)' })),
+      transition('* => *', animate(300))
+    ])
+  ]
 })
 
 export class ContactInfoComponent implements OnInit {
@@ -20,14 +30,14 @@ export class ContactInfoComponent implements OnInit {
   errorMessage: string;
   update = false;
 
-  private contactInfo: ContactInfo;
+  contactInfo: ContactInfo;
 
   @Input() type: string;
+  activePane = 'left';
 
   constructor(private formBuilder: FormBuilder,
               private partyService: PartyService,
-              private route: ActivatedRoute,
-              private router: Router) {
+              private route: ActivatedRoute) {
     this.contactInfo = new ContactInfo();
     this.email = new FormControl('', [Validators.required, Validators.email, this.usernameValidator(partyService)]);
     this.phone = new FormControl('', [Validators.required, this.usernameValidator(partyService)]);
@@ -49,6 +59,14 @@ export class ContactInfoComponent implements OnInit {
       this.setInputValues(this.route.snapshot.data['contactInfo']);
       this.update = true;
     }
+  }
+
+  getContactInfo() {
+    this.partyService.getContactInfo(this.type)
+      .subscribe(value => {
+        this.setInputValues(value);
+        this.activePane = 'left';
+      });
   }
   
   private setInputValues(contactInfo: ContactInfo) {
@@ -97,7 +115,7 @@ export class ContactInfoComponent implements OnInit {
     this.partyService.addContactInfo(this.type, this.contactInfo)
       .subscribe(contactInfo => {
         if (contactInfo) {
-          this.router.navigate(['/lobby']);
+          this.activePane = 'left';
         } else {
           this.errorMessage = 'Failed to add contact info.';
           this.doNotDisplayFailureMessage = false;
@@ -114,7 +132,7 @@ export class ContactInfoComponent implements OnInit {
     this.partyService.updateContactInfo(this.type, this.contactInfo)
       .subscribe( num => {
         if (num) {
-          this.router.navigate(['/lobby']);
+          this.activePane = 'left';
         }else {
           this.errorMessage = 'Failed to update contact info.';
           this.doNotDisplayFailureMessage = false;
@@ -126,6 +144,15 @@ export class ContactInfoComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/lobby']);
+    if (this.update) {
+      this.getContactInfo();
+    }else {
+      this.setInputValues(new ContactInfo());
+      this.activePane = 'left';
+    }
+  }
+
+  setActivePane(place: string) {
+    this.activePane = place;
   }
 }

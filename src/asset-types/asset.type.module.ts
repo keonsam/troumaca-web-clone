@@ -16,6 +16,7 @@ import { assetTypeResolveProvider } from './asset.type.resolve.provider';
 import {DeleteModalModule} from '../delete-modal/delete.modal.module';
 import {assetTypeRepositoryProvider} from '../adapter/asset-types/asset.repository.adapter.provider';
 import {assetTypesClientProvider} from '../client/asset-type/asset.types.client.provider';
+import {AssetSpecificationFormModule} from '../assets/asset-specification/asset.specification.form.module';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import {assetTypesClientProvider} from '../client/asset-type/asset.types.client.
     PagingModule,
     AssetTypeRoutingModule,
     UnitOfMeasureModule,
-    DeleteModalModule
+    DeleteModalModule,
+    AssetSpecificationFormModule
   ],
   declarations: [
     AssetTypeComponent,

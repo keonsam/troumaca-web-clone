@@ -169,10 +169,9 @@ export class BillingDetailsClientHttp extends BillingDetailsClient {
   }
 
   private jsonHttpHeaders(): HttpHeaders {
-    const httpHeaders: HttpHeaders = new HttpHeaders({
+    return new HttpHeaders({
       'Content-Type':  'application/json',
       'correlationId': this.uuidGenerator.generateUUID()
     });
-    return httpHeaders;
   }
 }
