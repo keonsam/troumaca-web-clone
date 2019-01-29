@@ -13,6 +13,8 @@ const appRoutes: Routes = [
   { path: 'asset-type-classes', loadChildren: '../asset-type-classes/asset.type.class.module#AssetTypeClassModule', canLoad: [AuthGuard] },
   { path: 'asset-types', loadChildren: '../asset-types/asset.type.module#AssetTypesModule', canLoad: [AuthGuard] },
   { path: 'assets', loadChildren: '../assets/asset.module#AssetModule', canLoad: [AuthGuard] },
+  { path: 'brands', loadChildren: '../brands/brand.module#BrandModule', canLoad: [AuthGuard] },
+  { path: 'assetCharacteristics', loadChildren: '../asset-characteristics/asset.characteristic.module#AssetCharacteristicModule', canLoad: [AuthGuard] },
   { path: 'attributes', loadChildren: '../attributes/attribute.module#AttributeModule', canLoad: [AuthGuard] },
   { path: 'depreciation', loadChildren: '../depreciation/depreciation.module#DepreciationModule', canLoad: [AuthGuard] },
   { path: 'parties', loadChildren: '../parties/party.module#PartyModule', canLoad: [AuthGuard] },

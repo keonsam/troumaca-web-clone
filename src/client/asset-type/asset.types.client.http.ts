@@ -56,8 +56,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    delete assetType.unitOfMeasure;
-    delete assetType.assetTypeClass;
+
     return this.httpClient
       .post<AssetType>(url, {assetType, values}, httpOptions)
       .pipe(map(data => {
@@ -81,10 +80,8 @@ export class AssetTypesClientHttp extends AssetTypesClient {
     const url = `${this.hostPort}/asset-types/${assetTypeId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
-    }
-    delete assetType.unitOfMeasure;
-    delete assetType.assetTypeClass;
-    delete assetType.values;
+    };
+
     return this.httpClient
       .put<number>(url, {assetType, values}, httpOptions)
       .pipe(map(data => {

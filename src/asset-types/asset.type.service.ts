@@ -2,7 +2,6 @@ import {AssetTypeRepository} from './asset.type.repository';
 import {Observable} from 'rxjs';
 import {AssetType} from './asset.type';
 import {AssetTypes} from './asset.types';
-import {AssetTypeInstance} from './asset.type.instance';
 
 export class AssetTypeService {
   constructor(private assetTypeRepository: AssetTypeRepository) {
@@ -17,7 +16,7 @@ export class AssetTypeService {
   }
 
   addAssetType(assetType: AssetType): Observable<AssetType> {
-    return this.assetTypeRepository.addAssetType(assetType);
+    return this.assetTypeRepository.addAssetType(assetType, undefined);
   }
 
   deleteAssetType(assetTypeId: string): Observable<number> {
@@ -25,16 +24,16 @@ export class AssetTypeService {
   }
 
   updateAssetType(assetTypeId: string, assetType: AssetType): Observable<number> {
-    return this.assetTypeRepository.updateAssetType(assetTypeId, assetType);
+    return this.assetTypeRepository.updateAssetType(assetTypeId, assetType, undefined);
   }
 
   // OTHERS
 
-  findInstancesOf(searchStr: string, pageSize: number): Observable<AssetTypeInstance[]> {
-    return this.assetTypeRepository.findInstancesOf(searchStr, pageSize);
-  }
-
-  findSubTypes(searchStr: string, pageSize: number): Observable<AssetType[]> {
-    return this.assetTypeRepository.findSubTypes(searchStr, pageSize);
-  }
+  // findInstancesOf(searchStr: string, pageSize: number): Observable<AssetTypeInstance[]> {
+  //   return this.assetTypeRepository.findInstancesOf(searchStr, pageSize);
+  // }
+  //
+  // findSubTypes(searchStr: string, pageSize: number): Observable<AssetType[]> {
+  //   return this.assetTypeRepository.findSubTypes(searchStr, pageSize);
+  // }
 }

@@ -45,7 +45,7 @@
               <mat-hint>Select A Super Type. E.g Discrete Item.</mat-hint>
             </mat-form-field>
 
-            <app-asset-spec-form *ngIf="instanceOf.value === '2'" [parentForm]="" (onBrandSelect)="onBrandSelect($event)"></app-asset-spec-form>
+            <!--<app-asset-spec-form *ngIf="instanceOf.value === '2'" [parentForm]="" (onBrandSelect)="onBrandSelect($event)"></app-asset-spec-form>-->
 
             <div class="error-box-text">
               <span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{update ? 'Update': 'New'}} Asset Type failed.</span>

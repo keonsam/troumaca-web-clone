@@ -104,21 +104,21 @@ export class AssetTypeFormComponent implements OnInit {
   }
 
   private findInstances(value: string) {
-    this.assetTypeService
-      .findInstancesOf(value, this.pageSize) // send search request to the backend
-      .pipe(map(value2 => { // convert results to dropdown data
-        return value2.map(v2 => {
-          return {
-            instanceId: v2.instanceId,
-            name: v2.name
-          };
-        })
-      }))
-      .subscribe(next => { // update the data
-        this.instances = next;
-      }, error => {
-        console.log('findAssets error - ' + error);
-      });
+    // this.assetTypeService
+    //   .findInstancesOf(value, this.pageSize) // send search request to the backend
+    //   .pipe(map(value2 => { // convert results to dropdown data
+    //     return value2.map(v2 => {
+    //       return {
+    //         instanceId: v2.instanceId,
+    //         name: v2.name
+    //       };
+    //     })
+    //   }))
+    //   .subscribe(next => { // update the data
+    //     this.instances = next;
+    //   }, error => {
+    //     console.log('findAssets error - ' + error);
+    //   });
   }
 
   private populateSubTypeOfDropDown() {
@@ -133,21 +133,21 @@ export class AssetTypeFormComponent implements OnInit {
   }
 
   private findSubTypes(value: string) {
-    this.assetTypeService
-      .findSubTypes(value, this.pageSize) // send search request to the backend
-      .pipe(map(value2 => { // convert results to dropdown data
-        return value2.map(v2 => {
-          return {
-            assetTypeId: v2.assetTypeId,
-            name: v2.name
-          };
-        })
-      }))
-      .subscribe(next => { // update the data
-        this.assetTypes = next;
-      }, error => {
-        console.log('findAssets error - ' + error);
-      });
+    // this.assetTypeService
+    //   .findSubTypes(value, this.pageSize) // send search request to the backend
+    //   .pipe(map(value2 => { // convert results to dropdown data
+    //     return value2.map(v2 => {
+    //       return {
+    //         assetTypeId: v2.assetTypeId,
+    //         name: v2.name
+    //       };
+    //     })
+    //   }))
+    //   .subscribe(next => { // update the data
+    //     this.assetTypes = next;
+    //   }, error => {
+    //     console.log('findAssets error - ' + error);
+    //   });
   }
 
   private setInputValues(assetType?: AssetType) {
