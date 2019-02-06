@@ -17,6 +17,11 @@ import {DeleteModalModule} from '../delete-modal/delete.modal.module';
 import {assetTypeRepositoryProvider} from '../adapter/asset-types/asset.repository.adapter.provider';
 import {assetTypesClientProvider} from '../client/asset-type/asset.types.client.provider';
 import {AssetSpecificationFormModule} from '../assets/asset-specification/asset.specification.form.module';
+import {MaterialModule} from '../app/material.module';
+import {AssetCharacteristicSecModule} from '../asset-characteristics/asset-characteristic-sec/asset.characteristic.sec.module';
+import {AssetNameSecModule} from '../asset-name-types/asset-name-sec/asset.name.sec.module';
+import {AssetIdentifierSecModule} from '../asset-identifier-types/asset-identifier-sec/asset.identifier.sec.module';
+import {AssetRoleSecModule} from '../asset-role-types/asset-role-sec/asset.role.sec.module';
 
 @NgModule({
   imports: [
@@ -28,9 +33,14 @@ import {AssetSpecificationFormModule} from '../assets/asset-specification/asset.
     SearchModule,
     PagingModule,
     AssetTypeRoutingModule,
+    MaterialModule,
     UnitOfMeasureModule,
     DeleteModalModule,
-    AssetSpecificationFormModule
+    AssetSpecificationFormModule,
+    AssetCharacteristicSecModule,
+    AssetNameSecModule,
+    AssetIdentifierSecModule,
+    AssetRoleSecModule
   ],
   declarations: [
     AssetTypeComponent,

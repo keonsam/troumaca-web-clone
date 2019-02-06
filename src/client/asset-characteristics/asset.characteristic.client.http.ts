@@ -18,8 +18,18 @@ export class AssetCharacteristicClientHttp extends AssetCharacteristicClient {
     super();
   }
 
+  findAssetCharacteristics(searchStr: string, pageSize: number): Observable<AssetCharacteristic[]> {
+    const url = `${this.hostPort}/asset-characteristics/find?q=${searchStr}&pageSize=${pageSize}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.get<AssetCharacteristic[]>(url, httpOptions).pipe(map(data => {
+      return data;
+    }));
+  }
+
   getAssetCharacteristics(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetCharacteristics> {
-    const url = `${this.hostPort}/assetCharacteristics?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
+    const url = `${this.hostPort}/asset-characteristics?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -29,7 +39,7 @@ export class AssetCharacteristicClientHttp extends AssetCharacteristicClient {
   }
 
   getAssetCharacteristic(assetCharacteristicId: string): Observable<AssetCharacteristic> {
-    const url = `${this.hostPort}/assetCharacteristics/${assetCharacteristicId}`;
+    const url = `${this.hostPort}/asset-characteristics/${assetCharacteristicId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -39,7 +49,7 @@ export class AssetCharacteristicClientHttp extends AssetCharacteristicClient {
   }
 
   addAssetCharacteristic(assetCharacteristic: AssetCharacteristic): Observable<AssetCharacteristic> {
-    const url = `${this.hostPort}/assetCharacteristics`;
+    const url = `${this.hostPort}/asset-characteristics`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -49,7 +59,7 @@ export class AssetCharacteristicClientHttp extends AssetCharacteristicClient {
   }
 
   updateAssetCharacteristic(assetCharacteristic: AssetCharacteristic): Observable<number> {
-    const url = `${this.hostPort}/assetCharacteristics/${assetCharacteristic.assetCharacteristicId}`;
+    const url = `${this.hostPort}/asset-characteristics/${assetCharacteristic.assetCharacteristicId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -59,7 +69,7 @@ export class AssetCharacteristicClientHttp extends AssetCharacteristicClient {
   }
 
   deleteAssetCharacteristic(assetCharacteristicId: string): Observable<number> {
-    const url = `${this.hostPort}/assetCharacteristics/${assetCharacteristicId}`;
+    const url = `${this.hostPort}/asset-characteristics/${assetCharacteristicId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -71,7 +81,7 @@ export class AssetCharacteristicClientHttp extends AssetCharacteristicClient {
   // OTHERS
 
   getTypes(): Observable<Type[]> {
-    const url = `${this.hostPort}/assetCharacteristics/types`;
+    const url = `${this.hostPort}/asset-characteristics/types`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };

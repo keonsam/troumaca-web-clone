@@ -1,0 +1,48 @@
+<fieldset [formGroup]="parentForm">
+  <div class="flex-legend">
+    <legend><span>Asset Identifiers</span></legend><mat-icon *ngIf="activePane === 'left'" class="float-right" color="primary" (click)="activePane = 'right'">add</mat-icon>
+  </div>
+
+  <div class="slider-container">
+    <div class="parent-slider" [@slide]="activePane">
+      <div class="child-slider">
+        <div class="multi-fields" formArrayName="identifiers"
+             *ngFor="let item of parentForm.get('identifiers').controls; let i = index">
+          <div class="multi-field-labels"><span class="bigger">{{item.controls.name.value}}</span><span class="remove-link" (click)="onRemove(i)">Remove</span></div>
+          <div [formGroupName]="i">
+
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Identifier Value</mat-label>
+              <input matInput formControlName="identifierVal">
+            </mat-form-field>
+
+            <div class="row">
+
+              <div class="col-sm-6">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Effective Date</mat-label>
+                  <input matInput [matDatepicker]="effPicker" formControlName="effectiveDate">
+                  <mat-datepicker-toggle matSuffix [for]="effPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #effPicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="col-sm-6">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Until Date</mat-label>
+                  <input matInput [matDatepicker]="untilPicker" formControlName="untilDate">
+                  <mat-datepicker-toggle matSuffix [for]="untilPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #untilPicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="child-slider">
+        <app-asset-identifier-add (selectedChar)="onSelectedChar($event)" (previous)="activePane = 'left'" [selected]="selected"></app-asset-identifier-add>
+      </div>
+    </div>
+  </div>
+</fieldset>

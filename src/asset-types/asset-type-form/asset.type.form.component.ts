@@ -5,6 +5,11 @@ import {AssetTypeService} from '../asset.type.service';
 import {AssetType} from '../asset.type';
 import {ActivatedRoute, Router} from '@angular/router';
 import {map, filter, debounceTime } from 'rxjs/operators';
+import {AssetSpecification} from '../../assets/asset-specification/asset.specification';
+import {AssignedCharacteristic} from '../../asset-characteristics/assigned.characteristic';
+import {AssetName} from '../../asset-name-types/asset.name';
+import {AssetIdentifier} from '../../asset-identifier-types/asset.identifier';
+import {AssetRole} from '../../asset-role-types/asset.role';
 
 @Component({
   selector: 'app-asset-type-form',
@@ -13,12 +18,12 @@ import {map, filter, debounceTime } from 'rxjs/operators';
 })
 export class AssetTypeFormComponent implements OnInit {
 
-
+  instanceOf: FormControl;
+  parent: FormControl;
   name: FormControl;
   description: FormControl;
-  instanceOf: FormControl;
-  subTypeOf: FormControl;
 
+  brand: FormControl;
   modelNumber: FormControl;
   standardPrice: FormControl;
   effectiveDate: FormControl;
@@ -32,6 +37,10 @@ export class AssetTypeFormComponent implements OnInit {
 
   doNotDisplayFailureMessage: boolean;
   update: boolean;
+  assignedChars: AssignedCharacteristic[];
+  assetNames: AssetName[];
+  assetIdentifiers: AssetIdentifier[];
+  assetRoles: AssetRole[];
 
   private pageSize = 5;
 
@@ -40,11 +49,16 @@ export class AssetTypeFormComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router) {
 
+    const assetType = new AssetType();
+    assetType.specification = new AssetSpecification();
+    this.assetType = assetType;
+
+    this.instanceOf = new FormControl('7bc3fa8a-84b6-4088-91d4-8a1cc84e7cff', Validators.required);
+    this.parent = new FormControl('', Validators.required);
     this.name = new FormControl('', Validators.required);
     this.description = new FormControl('');
-    this.instanceOf = new FormControl('', Validators.required);
-    this.subTypeOf = new FormControl('', Validators.required);
 
+    this.brand = new FormControl('');
     this.modelNumber = new FormControl('');
     this.standardPrice = new FormControl('');
     this.effectiveDate = new FormControl('');
@@ -54,25 +68,32 @@ export class AssetTypeFormComponent implements OnInit {
       'name': this.name,
       'description': this.description,
       'instanceOf': this.instanceOf,
-      'subTypeOf': this.subTypeOf,
+      'parent': this.parent,
+      'brand': this.brand,
       'modelNumber': this.modelNumber,
       'standardPrice': this.standardPrice,
       'effectiveDate': this.effectiveDate,
-      'totalSV': this.totalSV
+      'totalSV': this.totalSV,
+      'characteristics': formBuilder.array([]),
+      'names': formBuilder.array([]),
+      'identifiers': formBuilder.array([]),
+      'roles': formBuilder.array([])
     });
-
-    this.assetType = new AssetType();
 
     this.assetTypeForm
       .valueChanges
       .subscribe(value => {
+        this.assetType.instanceId = value.instanceOf;
         this.assetType.name = value.name;
         this.assetType.description = value.description;
-        this.assetType.instanceOf = value.instanceOf;
-        this.assetType.modelNumber = value.modelNumber;
-        this.assetType.standardPrice = value.standardPrice;
-        this.assetType.effectiveDate = value.effectiveDate;
-        this.assetType.totalSV = value.totalSV;
+        this.assetType.specification.modelNumber = value.modelNumber;
+        this.assetType.specification.standardPrice = value.standardPrice;
+        this.assetType.specification.effectiveDate = value.effectiveDate;
+        this.assetType.specification.totalSV = value.totalSV;
+        this.assetType.assignedCharacteristics = value.characteristics;
+        this.assetType.assetNames = value.names;
+        this.assetType.identifiers = value.identifiers;
+        this.assetType.roles = value.roles;
       }, error2 => {
         console.log(error2);
       });
@@ -84,6 +105,7 @@ export class AssetTypeFormComponent implements OnInit {
     this.createAndPopulateDropDowns();
     if (this.route.snapshot && this.route.snapshot.data['assetType']) {
       this.setInputValues(this.route.snapshot.data['assetType']);
+      this.update = true;
     }
   }
 
@@ -104,62 +126,77 @@ export class AssetTypeFormComponent implements OnInit {
   }
 
   private findInstances(value: string) {
-    // this.assetTypeService
-    //   .findInstancesOf(value, this.pageSize) // send search request to the backend
-    //   .pipe(map(value2 => { // convert results to dropdown data
-    //     return value2.map(v2 => {
-    //       return {
-    //         instanceId: v2.instanceId,
-    //         name: v2.name
-    //       };
-    //     })
-    //   }))
-    //   .subscribe(next => { // update the data
-    //     this.instances = next;
-    //   }, error => {
-    //     console.log('findAssets error - ' + error);
-    //   });
+    this.assetTypeService
+      .findInstances(value, this.pageSize) // send search request to the backend
+      .pipe(map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => {
+          return {
+            instanceId: v2.instanceId,
+            name: v2.name
+          };
+        })
+      }))
+      .subscribe(next => { // update the data
+        this.instances = next;
+      }, error => {
+        console.log('findAssets error - ' + error);
+      });
   }
 
   private populateSubTypeOfDropDown() {
-    this.findSubTypes('');
-    this.subTypeOf.valueChanges
+    this.findAssetTypes('');
+    this.parent.valueChanges
       .pipe(debounceTime(1000), filter(value => { // filter out empty values
         return !!(value);
       }))
       .subscribe(value => {
-        this.findSubTypes(value);
+        this.findAssetTypes(value);
       });
   }
 
-  private findSubTypes(value: string) {
-    // this.assetTypeService
-    //   .findSubTypes(value, this.pageSize) // send search request to the backend
-    //   .pipe(map(value2 => { // convert results to dropdown data
-    //     return value2.map(v2 => {
-    //       return {
-    //         assetTypeId: v2.assetTypeId,
-    //         name: v2.name
-    //       };
-    //     })
-    //   }))
-    //   .subscribe(next => { // update the data
-    //     this.assetTypes = next;
-    //   }, error => {
-    //     console.log('findAssets error - ' + error);
-    //   });
+  private findAssetTypes(value: string) {
+    this.assetTypeService
+      .findAssetTypes(value, this.pageSize) // send search request to the backend
+      .pipe(map(value2 => { // convert results to dropdown data
+        return value2.map(v2 => {
+          return {
+            assetTypeId: v2.assetTypeId,
+            name: v2.name
+          };
+        })
+      }))
+      .subscribe(next => { // update the data
+        this.assetTypes = next;
+      }, error => {
+        console.log('findAssets error - ' + error);
+      });
   }
 
   private setInputValues(assetType?: AssetType) {
-    // this.assetTypeClassId.setValue(assetType.assetTypeClass ? assetType.assetTypeClass.name : '');
-    // this.name.setValue(assetType.name);
-    // this.description.setValue(assetType.description);
-    // this.modelNumber.setValue(assetType.modelNumber);
-    // this.materialCode.setValue(assetType.materialCode);
-    // this.assetType = assetType;
-    // this.values = assetType.values;
-    // this.unitOfMeasureId = assetType.unitOfMeasure ? assetType.unitOfMeasure.name : '';
-    // this.assetTypeExist = true;
+    this.instanceOf.setValue(assetType.instanceId);
+    this.parent.setValue(assetType.parentName);
+    this.name.setValue(assetType.name);
+    this.description.setValue(assetType.description);
+    if (assetType.specification) {
+      this.brand.setValue(assetType.specification.brand ? assetType.specification.brand.name : '' );
+      this.modelNumber.setValue(assetType.specification.modelNumber);
+      this.standardPrice.setValue(assetType.specification.standardPrice);
+      this.effectiveDate.setValue(assetType.specification.effectiveDate);
+      this.totalSV.setValue(assetType.specification.totalSV);
+    }
+    if (assetType.assignedCharacteristics && assetType.assignedCharacteristics.length > 0) {
+      this.assignedChars = assetType.assignedCharacteristics;
+    }
+    if (assetType.assetNames && assetType.assetNames.length > 0) {
+      this.assetNames = assetType.assetNames;
+    }
+    if (assetType.identifiers && assetType.identifiers.length > 0) {
+      this.assetIdentifiers = assetType.identifiers;
+    }
+    if (assetType.roles && assetType.roles.length > 0) {
+      this.assetRoles = assetType.roles;
+    }
+    this.assetType = assetType;
   }
 
   onCreate() {
@@ -199,4 +236,16 @@ export class AssetTypeFormComponent implements OnInit {
     this.router.navigate(['/asset-types']);
   }
 
+  onAssetTypeSelect(assetType: AssetType) {
+    if (!assetType.initialId) {
+      this.assetType.initialId = assetType.assetTypeId;
+    }else {
+      this.assetType.parentId = assetType.assetTypeId;
+      this.assetType.initialId = assetType.initialId;
+    }
+  }
+
+  onBrandSelect(brandId: string) {
+    this.assetType.specification.brandId = brandId;
+  }
 }

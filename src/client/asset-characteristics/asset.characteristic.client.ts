@@ -5,6 +5,7 @@ import {Type} from '../../asset-characteristics/type';
 import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
 
 export abstract class AssetCharacteristicClient {
+  abstract findAssetCharacteristics(searchStr: string, pageSize: number): Observable<AssetCharacteristic[]>;
   abstract getAssetCharacteristics(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetCharacteristics>;
   abstract getAssetCharacteristic(assetCharacteristicId: string): Observable<AssetCharacteristic>;
   abstract addAssetCharacteristic(assetCharacteristic: AssetCharacteristic): Observable<AssetCharacteristic>;

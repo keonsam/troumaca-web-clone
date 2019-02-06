@@ -20,6 +20,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
   description: FormControl;
 
   formula: FormControl;
+  calLevel: FormControl;
   maxValue: FormControl;
   minValue: FormControl;
 
@@ -41,7 +42,6 @@ export class AssetCharacteristicFormComponent implements OnInit {
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
-
     this.assetCharacteristic = new AssetCharacteristic();
 
     this.name = new FormControl('', Validators.required);
@@ -50,6 +50,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
     this.type = new FormControl('054b50c2-9e8a-4cfb-8bac-54af9ac53613');
     this.description = new FormControl('');
     this.formula = new FormControl('');
+    this.calLevel = new FormControl('');
     this.maxValue = new FormControl('');
     this.minValue = new FormControl('');
     this.catValue = new FormControl('');
@@ -63,6 +64,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
       'type': this.type,
       'description': this.description,
       'formula': this.formula,
+      'calLevel': this.calLevel,
       'maxValue': this.maxValue,
       'minValue': this.minValue,
       'catValue': this.catValue,
@@ -78,6 +80,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
         this.assetCharacteristic.typeId = value.type;
         this.assetCharacteristic.description = value.description;
         this.assetCharacteristic.formula = value.formula;
+        this.assetCharacteristic.calLevel = value.calLevel;
         this.assetCharacteristic.maxValue = value.maxValue;
         this.assetCharacteristic.minValue = value.minValue;
         this.assetCharacteristic.catValue = value.catValue;
@@ -145,7 +148,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
     this.name.setValue(assetCharacteristic.name);
     this.defaultValue.setValue(assetCharacteristic.defaultValue);
     this.type.setValue(assetCharacteristic.typeId);
-    this.unitOfMeasure.setValue(assetCharacteristic.unitOfMeasureId);
+    this.unitOfMeasure.setValue(assetCharacteristic.unitOfMeasure ? assetCharacteristic.unitOfMeasure.name : '');
     this.description.setValue(assetCharacteristic.description);
     this.formula.setValue(assetCharacteristic.formula);
     this.maxValue.setValue(assetCharacteristic.maxValue);
@@ -165,7 +168,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
     this.assetCharacteristicService.addAssetCharacteristic(this.assetCharacteristic)
       .subscribe(value => {
         if (value && value.assetCharacteristicId) {
-          this.router.navigate(['/assetCharacteristics'])
+          this.router.navigate(['/asset-characteristics'])
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -181,7 +184,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
     this.assetCharacteristicService.updateAssetCharacteristic(this.assetCharacteristic)
       .subscribe(value => {
         if (value) {
-          this.router.navigate(['/assetCharacteristics'])
+          this.router.navigate(['/asset-characteristics'])
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -192,6 +195,6 @@ export class AssetCharacteristicFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/assetCharacteristics']);
+    this.router.navigate(['/asset-characteristics']);
   }
 }

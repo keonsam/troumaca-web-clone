@@ -30,7 +30,6 @@ export class UserFormComponent implements OnInit {
   private partyAccessRoles: string[];
   private pageSize = 15;
 
-  value: string[];
   doNotDisplayFailureMessage: boolean;
   update = false;
 
@@ -89,12 +88,11 @@ export class UserFormComponent implements OnInit {
     this.user = user;
   }
 
-  private findAccessRole(value, defaultValues?: string[]) {
+  private findAccessRole(value) {
     this.userService
       .findAccessRole(value, this.pageSize) // send search request to the backend
       .subscribe(next => { // update the data
         this.accessRoles = next;
-        this.value = defaultValues;
       }, error => {
         console.log('findAccessRole error - ' + error);
       });

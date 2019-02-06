@@ -1,0 +1,13 @@
+<div [formGroup]="assetNameTypeForm">
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-icon matSuffix color="primary">add_circle_outline</mat-icon>
+    <mat-label>Select Name Types</mat-label>
+    <mat-select [formControl]="assetNameType" multiple>
+      <mat-option *ngFor="let assetNameType of assetNameTypes" [value]="assetNameType.assetNameTypeId">{{assetNameType.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div>
+  <button mat-stroked-button color="accent" type="button" (click)="onNoClick()">Back</button>
+  <button class="right-button-form" mat-flat-button color="primary" [disabled]="!assetNameTypeForm.valid" type="submit" (click)="onAdd()">Add</button>
+</div>

@@ -4,19 +4,16 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="element-wrapper">
-          <h5 class="element-header">
-            {{ update ? "Update" : "New" }} Asset
-          </h5>
 
           <div class="element-box">
             <form [formGroup]="assetForm">
-              <h6 class="form-header">
-                Asset
-              </h6>
+              <h5 class="form-header">
+                {{ update ? "Update" : "New" }} Asset
+              </h5>
 
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Search Asset Type</mat-label>
-                <mat-icon matSuffix color="primary" (click)="openAssetTypeDialog()">add_circle_outline</mat-icon>
+                <mat-icon matSuffix color="primary" >add_circle_outline</mat-icon>
                 <input matInput [formControl]="assetType" [matAutocomplete]="auto">
                 <mat-autocomplete #auto="matAutocomplete">
                   <mat-option *ngFor="let assetType of assetTypes" [value]="assetType.name" (onSelectionChange)="onAssetTypeSelect(assetType)">{{assetType.name}}</mat-option>
@@ -70,7 +67,7 @@
 
               <fieldset>
                 <legend><span>Asset Type Info</span></legend>
-                <div *ngIf="assetTypeSelected === 'Discrete Item'" id="discrete item" class="row">
+                <div *ngIf="assetTypeSelected === '2988337e-6f9f-4f96-a393-474161b2c1d9' || !assetTypeSelected" id="discrete item" class="row">
 
                   <div class="col-sm-12">
                     <mat-form-field class="example-full-width" appearance="outline">
@@ -83,7 +80,7 @@
                   </div>
 
                 </div>
-                <div *ngIf="assetTypeSelected === 'Inventory'" id="inventory" class="row">
+                <div *ngIf="assetTypeSelected === '3088337e-6f9f-4f96-a393-474161b2c1d9'" id="inventory" class="row">
                   <div class="col-sm-6">
                     <mat-form-field class="example-full-width" appearance="outline">
                       <mat-label>Inventory ID</mat-label>
@@ -105,7 +102,7 @@
                   </div>
 
                 </div>
-                <div *ngIf="assetTypeSelected === 'Building'" id="building" class="row">
+                <div *ngIf="assetTypeSelected === '6988337e-6f9f-4f96-a393-474161b2c1d9'" id="building" class="row">
                   <div class="col-sm-12">
                     <mat-form-field class="example-full-width" appearance="outline">
                       <mat-label>Building Identifier</mat-label>
@@ -116,7 +113,7 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <div *ngIf="assetTypeSelected === 'lot'" id="lot" class="row">
+                <div *ngIf="assetTypeSelected === '4188337e-6f9f-4f96-a393-474161b2c1d9'" id="lot" class="row">
 
                   <div class="col-sm-6">
                     <mat-form-field class="example-full-width" appearance="outline">
@@ -140,23 +137,15 @@
                 </div>
               </fieldset>
 
-              <!--<app-asset-spec-form [parentForm]="asset" (onBrandSelect)="onBrandSelect($event)"></app-asset-spec-form>-->
+              <app-asset-spec-form [parentForm]="assetForm" (onBrandSelect)="onBrandSelect($event)"></app-asset-spec-form>
 
-              <fieldset>
-                <legend><span>Asset Characteristics</span><button mat-icon-button class="float-right" color="primary"><mat-icon>add</mat-icon></button></legend>
-              </fieldset>
+              <app-asset-characteristic-sec [parentForm]="assetForm" [assignedChars]="assignedChars" [asset]="true"></app-asset-characteristic-sec>
 
-              <fieldset>
-                <legend><span>Other Names</span><button mat-icon-button class="float-right" color="primary"><mat-icon>add</mat-icon></button></legend>
-              </fieldset>
+              <app-asset-name-sec [parentForm]="assetForm" [assetNames]="assetNames"></app-asset-name-sec>
 
-              <fieldset>
-                <legend><span>Other Identifier</span><button mat-icon-button class="float-right" color="primary"><mat-icon>add</mat-icon></button></legend>
-              </fieldset>
+              <app-asset-identifier-sec [parentForm]="assetForm" [assetIdentifiers]="assetIdentifiers"></app-asset-identifier-sec>
 
-              <fieldset>
-                <legend><span>Asset Roles</span><button mat-icon-button class="float-right" color="primary"><mat-icon>add</mat-icon></button></legend>
-              </fieldset>
+              <app-asset-role-sec [parentForm]="assetForm" [assetRoles]="assetRoles"></app-asset-role-sec>
 
               <div class="error-box-text">
                 <span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{update ? 'Update': 'New'}} asset failed.</span>

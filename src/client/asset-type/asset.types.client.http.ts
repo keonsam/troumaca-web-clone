@@ -3,22 +3,31 @@ import {UUIDGenerator} from '../../uuid.generator';
 import {Observable} from 'rxjs';
 import { map } from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {AssignedAttribute} from '../../asset-type-classes/assigned.attribute';
-import {AssetTypeClass} from '../../asset-type-classes/asset.type.class';
 import {AssetTypes} from '../../asset-types/asset.types';
 import {AssetType} from '../../asset-types/asset.type';
-import {Value} from '../../asset-types/value';
+import {Instance} from '../../asset-types/instance';
+import {environment} from '../../environments/environment';
 
 export class AssetTypesClientHttp extends AssetTypesClient {
 
+  hostPort = environment.hostPort;
+
   constructor(private httpClient: HttpClient,
-              private uuidGenerator: UUIDGenerator,
-              private hostPort: string) {
+              private uuidGenerator: UUIDGenerator) {
     super();
   }
 
+  findAssetTypes(searchStr: string, pageSize: number): Observable<AssetType[]> {
+    const url = `${this.hostPort}/asset-types/find?q=${searchStr}&pageSize=${pageSize}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.get<AssetType[]>(url, httpOptions).pipe(map(data => {
+      return data;
+    }));
+  }
 
-  public getAssetTypes(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetTypes> {
+  getAssetTypes(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetTypes> {
     const url = `${this.hostPort}/asset-types?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -29,7 +38,7 @@ export class AssetTypesClientHttp extends AssetTypesClient {
   }
 
 
-  public getAssetTypeState(assetTypeId: string): Observable<AssetType> {
+  getAssetTypeState(assetTypeId: string): Observable<AssetType> {
     const url = `${this.hostPort}/asset-types/${assetTypeId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -41,30 +50,20 @@ export class AssetTypesClientHttp extends AssetTypesClient {
       }));
   }
 
-  public findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClass[]> {
-    const url = `${this.hostPort}/asset-type-classes/find?q=${searchStr}&pageSize=${pageSize}`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient.get<AssetTypeClass[]>(url, httpOptions).pipe(map(data => {
-      return data;
-    }));
-  }
-
-  public addAssetTypeState(assetType: AssetType, values: Value[]): Observable<AssetType> {
+  addAssetTypeState(assetType: AssetType): Observable<AssetType> {
     const url = `${this.hostPort}/asset-types`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
-      .post<AssetType>(url, {assetType, values}, httpOptions)
+      .post<AssetType>(url, assetType, httpOptions)
       .pipe(map(data => {
         return data;
       }));
   }
 
-  public deleteAssetType(assetTypeId: string): Observable<number> {
+  deleteAssetType(assetTypeId: string): Observable<number> {
     const url = `${this.hostPort}/asset-types/${assetTypeId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -76,14 +75,14 @@ export class AssetTypesClientHttp extends AssetTypesClient {
       }));
   }
 
-  public updateAssetType(assetTypeId: string, assetType: AssetType, values: Value[]): Observable<number> {
+  updateAssetType(assetTypeId: string, assetType: AssetType): Observable<number> {
     const url = `${this.hostPort}/asset-types/${assetTypeId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
 
     return this.httpClient
-      .put<number>(url, {assetType, values}, httpOptions)
+      .put<number>(url, assetType, httpOptions)
       .pipe(map(data => {
         return data;
       }));
@@ -91,16 +90,14 @@ export class AssetTypesClientHttp extends AssetTypesClient {
 
   // OTHERS
 
-  public getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]> {
-    const url = `${this.hostPort}/assigned-attributes/${assetTypeClassId}`;
+  findInstances(searchStr: string, pageSize: number): Observable<Instance[]> {
+    const url = `${this.hostPort}/asset-types/instances?q=${searchStr}&pageSize=${pageSize}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient
-      .get<any>(url, httpOptions)
-      .pipe(map(data => {
-        return data;
-      }));
+    return this.httpClient.get<Instance[]>(url, httpOptions).pipe(map(data => {
+      return data;
+    }));
   }
 
 

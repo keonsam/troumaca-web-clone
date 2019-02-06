@@ -4,7 +4,7 @@
 
     <div class="element-wrapper">
       <h6 class="element-header">
-        Asset Characteristics Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right"  href="#" routerLink="/assetCharacteristics/create" >New</a></object>
+        Asset Characteristics Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right"  href="#" routerLink="/asset-characteristics/create" >New</a></object>
       </h6>
       <div class="element-box">
 
@@ -33,9 +33,9 @@
             <tbody>
             <tr role="row" *ngFor="let assetCharacteristic of assetCharacteristics.assetCharacteristics; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
               <td>{{assetCharacteristic.name}}</td>
-              <th>{{assetCharacteristic.typeId}}</th>
+              <th>{{assetCharacteristic.type?.name}}</th>
               <th>{{assetCharacteristic.defaultValue}}</th>
-              <th>{{assetCharacteristic.unitOfMeasureId}}</th>
+              <th>{{assetCharacteristic.unitOfMeasure?.name}}</th>
               <td>{{assetCharacteristic.description}}</td>
               <td class="row-actions">
                 <a [routerLink]="['/assetCharacteristics', assetCharacteristic.assetCharacteristicId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(assetCharacteristic.assetCharacteristicId, assetCharacteristic.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>

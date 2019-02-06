@@ -1,0 +1,54 @@
+<fieldset [formGroup]="parentForm">
+  <div class="flex-legend">
+    <legend><span>Asset Characteristics</span></legend><mat-icon *ngIf="activePane === 'left'" class="float-right" color="primary" (click)="activePane = 'right'">add</mat-icon>
+  </div>
+
+  <div class="slider-container">
+    <div class="parent-slider" [@slide]="activePane">
+      <div class="child-slider">
+        <div class="multi-fields" formArrayName="characteristics"
+             *ngFor="let item of parentForm.get('characteristics').controls; let i = index">
+          <div class="multi-field-labels"><span class="bigger">{{item.controls.name.value}}</span><span class="remove-link" (click)="onRemove(i)">Remove</span></div>
+          <div [formGroupName]="i">
+            <div class="row">
+
+              <div class="col-sm-6">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Effective Date</mat-label>
+                  <input matInput [matDatepicker]="effPicker" formControlName="effectiveDate">
+                  <mat-datepicker-toggle matSuffix [for]="effPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #effPicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="col-sm-6">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Until Date</mat-label>
+                  <input matInput [matDatepicker]="untilPicker" formControlName="untilDate">
+                  <mat-datepicker-toggle matSuffix [for]="untilPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #untilPicker ></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <div *ngIf="!asset">
+              <mat-checkbox class="check-padding" color="primary" formControlName="optional">Optionality Indicator</mat-checkbox>
+            </div>
+
+            <div *ngIf="asset">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Characteristic Value</mat-label>
+                <input matInput formControlName="charVal">
+              </mat-form-field>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="child-slider">
+        <app-asset-characteristic-add (selectedChar)="onSelectedChar($event)" (previous)="activePane = 'left'" [selected]="selected"></app-asset-characteristic-add>
+      </div>
+    </div>
+  </div>
+</fieldset>

@@ -19,14 +19,7 @@
                 <th>Name</th>
                 <th>Created On</th>
                 <th>Destroy On</th>
-                <th>Expire On</th>
-                <th>Discrete / Inventory Type</th>
-                <th>Serial Number</th>
-                <th>Inventory ID</th>
-                <th>Quantity</th>
-                <th>Building Number</th>
-                <th>Lot Number</th>
-                <th>Number Of Shares</th>
+                <th>Description</th>
                 <th class="text-center">Actions</th>
               </tr>
             </thead>
@@ -35,14 +28,7 @@
                 <th>Name</th>
                 <th>Created On</th>
                 <th>Destroy On</th>
-                <th>Expire On</th>
-                <th>Discrete / Inventory Type</th>
-                <th>Serial Number</th>
-                <th>Inventory ID</th>
-                <th>Quantity</th>
-                <th>Building Number</th>
-                <th>Lot Number</th>
-                <th>Number Of Shares</th>
+                <th>Description</th>
                 <th class="text-center">Actions</th>
               </tr>
             </tfoot>
@@ -51,14 +37,7 @@
                 <td>{{asset.name}}</td>
                 <td>{{asset.createdOn | date:'mediumDate' }}</td>
                 <td>{{asset.destroyOn | date:'mediumDate' }}</td>
-                <td>{{asset.expireOn | date:'mediumDate' }}</td>
-                <td>{{asset.discreteItem?.type || asset.inventoryItem?.type}}</td>
-                <td>{{asset.discreteItem?.serialNumber}}</td>
-                <td>{{asset.inventoryItem?.inventoryID}}</td>
-                <td>{{asset.inventoryItem?.quantity}}</td>
-                <td>{{asset.building?.buildingNumber}}</td>
-                <td>{{asset.lot?.lotNumber}}</td>
-                <td>{{asset.lot?.numberOfShares}}</td>
+                <td>{{asset.description}}</td>
                 <td class="row-actions">
                   <a [routerLink]="['/assets', asset.assetId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(asset.assetId, asset.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
                 </td>

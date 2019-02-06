@@ -12,6 +12,10 @@ export class AssetCharacteristicRepositoryAdapter extends  AssetCharacteristicRe
     super();
   }
 
+  findAssetCharacteristics(searchStr: string, pageSize: number): Observable<AssetCharacteristic[]> {
+    return this.assetCharacteristicClient.findAssetCharacteristics(searchStr, pageSize);
+  }
+
   getAssetCharacteristics(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetCharacteristics> {
     return this.assetCharacteristicClient.getAssetCharacteristics(pageNumber, pageSize, sortOrder);
   }

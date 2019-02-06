@@ -7,7 +7,12 @@ import {UnitOfMeasure} from '../unit-of-measure/unit.of.measure';
 
 export class AssetCharacteristicService {
 
-  constructor(private assetCharacteristicRepository: AssetCharacteristicRepository) {}
+  constructor(private assetCharacteristicRepository: AssetCharacteristicRepository) {
+  }
+
+  findAssetCharacteristics(searchStr: string, pageSize: number): Observable<AssetCharacteristic[]> {
+    return this.assetCharacteristicRepository.findAssetCharacteristics(searchStr, pageSize);
+  }
 
   getAssetCharacteristics(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetCharacteristics> {
     return this.assetCharacteristicRepository.getAssetCharacteristics(pageNumber, pageSize, sortOrder);
@@ -28,9 +33,9 @@ export class AssetCharacteristicService {
   deleteAssetCharacteristic(assetCharacteristicId: string): Observable<number> {
     return this.assetCharacteristicRepository.deleteAssetCharacteristic(assetCharacteristicId);
   }
-  
+
   // OTHERS
-  
+
   getTypes(): Observable<Type[]> {
     return this.assetCharacteristicRepository.getTypes();
   }

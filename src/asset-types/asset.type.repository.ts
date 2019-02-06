@@ -1,19 +1,16 @@
 import {Observable} from 'rxjs';
 import {AssetType} from './asset.type';
 import {AssetTypes} from './asset.types';
-import {Value} from './value';
-import {AssetTypeClass} from '../asset-type-classes/asset.type.class';
-import {AssignedAttribute} from '../asset-type-classes/assigned.attribute';
+import {Instance} from './instance';
 
 export abstract class AssetTypeRepository {
+  abstract findAssetTypes(searchStr: string, pageSize: number): Observable<AssetType[]>;
   abstract getAssetTypes(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetTypes>;
   abstract getAssetType(assetTypeId: string): Observable<AssetType>;
-  abstract findAssetTypeClassId(searchStr: string, pageSize: number): Observable<AssetTypeClass[]>;
-  abstract addAssetType(assetType: AssetType, values: Value[]): Observable<AssetType>;
+  abstract addAssetType(assetType: AssetType): Observable<AssetType>;
   abstract deleteAssetType(assetTypeId: string): Observable<number>;
-  abstract updateAssetType(assetTypeId: string, assetType: AssetType, values: Value[]): Observable<number>;
+  abstract updateAssetType(assetTypeId: string, assetType: AssetType): Observable<number>;
 
   // OTHERS
-  abstract getAssignedAttributes(assetTypeClassId: string): Observable<AssignedAttribute[]>;
-
+  abstract findInstances(searchStr: string, pageSize: number): Observable<Instance[]>;
 }

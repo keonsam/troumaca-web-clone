@@ -1,0 +1,23 @@
+.remove-link {
+  margin-left: 30px;
+  color: #0a7cf8;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.flex-legend {
+  display: flex;
+}
+
+.multi-fields {
+  margin-bottom: 20px;
+}
+
+.bigger {
+  font-size: 0.99rem;
+
+}
+
+.multi-field-labels {
+  margin-bottom: 10px;
+}

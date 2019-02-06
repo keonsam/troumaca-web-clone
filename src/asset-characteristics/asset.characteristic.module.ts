@@ -24,7 +24,7 @@ import {assetCharacteristicResolveProvider} from './asset.characteristic.resolve
     PagingModule,
     DeleteModalModule,
     AssetCharacteristicRoutingModule,
-    MaterialModule
+    MaterialModule,
   ],
   declarations: [
     AssetCharacteristicComponent,
