@@ -30,7 +30,7 @@
     <div class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Failed to login.</span></div>
 
     <div class="buttons-w">
-      <a mat-button color="accent" routerLink="/authentication/forgot-password/username">Forget Password</a>
+      <a mat-button color="accent" [routerLink]="forgotPasswordRoute">Forget Password</a>
       <button class="right-button" mat-flat-button color="primary" [disabled]="!loginForm.valid">Login</button>
     </div>
   </form>

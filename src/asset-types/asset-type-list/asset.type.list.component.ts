@@ -3,6 +3,7 @@ import {AssetTypes} from '../asset.types';
 import {AssetTypeService} from '../asset.type.service';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
+import { ASSET_TYPE } from '../../app/routes';
 
 @Component({
   selector: 'asset-type-list',
@@ -12,7 +13,7 @@ import {Sort} from '../../sort/sort';
 export class AssetTypeListComponent implements OnInit {
 
   assetTypes: AssetTypes;
-  routerLinkCreateAssetType = '/asset-types/create';
+  routerLinkCreateAssetType = `${ASSET_TYPE}/create`;
   assetTypeName: string;
   private defaultPage = 1;
   private defaultPageSize = 10;

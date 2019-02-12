@@ -68,5 +68,6 @@ export class AssetNameSecComponent implements OnInit, OnChanges {
 
   onRemove(i: number) {
     this.names.removeAt(i);
+    this.selected = this.selected.filter((x, e) => e !== i);
   }
 }

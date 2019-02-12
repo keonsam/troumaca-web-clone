@@ -2,21 +2,3 @@
   Troumaca overrides etc.
 */
 
-#heading-message {
-  margin-bottom: 3rem;
-}
-
-#button2 {
-  float: right;
-}
-
-button[mat-flat-button].disabled, button[mat-flat-button]:disabled {
-  cursor: not-allowed;
-  opacity: .65;
-}
-
-button[mat-flat-button].disabled, button[mat-flat-button]:disabled {
-  background-color: #047bf8;
-  border-color: #047bf8;
-  color: white;
-}

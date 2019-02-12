@@ -20,7 +20,6 @@ import { ClientModule } from '../client/client.module';
 import { MenuModule } from '../menu/menu.module';
 import { MaterialModule } from './material.module';
 import 'hammerjs';
-
 @NgModule({
   imports: [
     BrowserAnimationsModule,

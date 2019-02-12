@@ -4,6 +4,7 @@ import {Assets} from '../assets';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
 import {PageEvent} from '@angular/material';
+import { ASSET } from '../../app/routes';
 
 @Component({
   selector: 'asset-list',
@@ -18,7 +19,7 @@ export class AssetListComponent implements OnInit {
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  routerLinkCreateAsset = '/assets/create';
+  routerLinkCreateAsset = `${ASSET}/create`;
   assetName: string;
 
   constructor(private assetService: AssetService) {

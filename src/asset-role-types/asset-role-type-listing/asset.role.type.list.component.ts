@@ -5,6 +5,7 @@ import {PageEvent} from '@angular/material';
 import {AssetRoleTypes} from '../asset.role.types';
 import {AssetRoleTypeService} from '../asset.role.type.service';
 import {ActivatedRoute} from '@angular/router';
+import {ASSET_ROLE_TYPE} from '../../app/routes';
 
 @Component({
   selector: 'app-asset-role-type-list',
@@ -20,6 +21,8 @@ export class AssetRoleTypeListComponent implements OnInit {
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
   assetRoleTypeName: string;
+
+  newRoute = `${ASSET_ROLE_TYPE}/create`;
 
   constructor(private assetRoleTypeService: AssetRoleTypeService,
               private route: ActivatedRoute) {

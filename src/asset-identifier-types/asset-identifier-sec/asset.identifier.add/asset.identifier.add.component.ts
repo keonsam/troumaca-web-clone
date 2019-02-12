@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { AssetIdentifierType} from '../../asset.identifier.type';
 import {AssetIdentifierTypeService} from '../../asset.identifier.type.service';
@@ -9,7 +9,7 @@ import {AssetIdentifierTypeService} from '../../asset.identifier.type.service';
   styleUrls: ['./asset.identifier.add.component.css']
 })
 
-export class AssetIdentifierAddComponent implements OnInit {
+export class AssetIdentifierAddComponent implements OnInit, OnChanges {
 
   assetIdentifierType: FormControl;
 
@@ -33,6 +33,10 @@ export class AssetIdentifierAddComponent implements OnInit {
     if (this.selected) {
       this.assetIdentifierType.setValue(this.selected);
     }
+  }
+
+  ngOnChanges(): void {
+    this.assetIdentifierType.setValue(this.selected);
   }
 
   private findAssetIdentifierTypes(value) {

@@ -1,0 +1,13 @@
+export const LOBBY = '/lobby';
+export const ASSET = '/assets';
+export const ASSET_TYPE = '/asset-types';
+export const ASSET_ROLE_TYPE = '/asset-role-types';
+export const ASSET_NAME_TYPE = '/asset-name-types';
+export const ASSET_IDENTIFIER_TYPE = '/asset-identifier-types';
+export const ASSET_CHARACTERISTICS = '/asset-characteristics';
+export const AUTHENTICATION = '/authentication';
+export const LOGIN = '/login';
+export const REGISTER = '/register';
+export const FORGOT_PASSWORD = '/forgot-password';
+export const CONFIRMATION = '/confirmations';
+export const ORGANIZATION = '/organizations';

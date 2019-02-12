@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AssetRoleType} from '../asset.role.type';
 import {AssetRoleTypeService} from '../asset.role.type.service';
+import {ASSET_ROLE_TYPE } from '../../app/routes';
 
 @Component({
   selector: 'app-asset-role-type-form',
@@ -64,7 +65,7 @@ export class AssetRoleTypeFormComponent implements OnInit {
     this.assetRoleTypeService.addAssetRoleType(this.assetRoleType)
       .subscribe( value => {
         if (value && value.assetRoleTypeId) {
-          this.router.navigate(['/asset-role-types']);
+          this.router.navigate([ASSET_ROLE_TYPE]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -80,7 +81,7 @@ export class AssetRoleTypeFormComponent implements OnInit {
     this.assetRoleTypeService.updateAssetRoleType(this.assetRoleType)
       .subscribe( value => {
         if (value) {
-          this.router.navigate(['/asset-role-types']);
+          this.router.navigate([ASSET_ROLE_TYPE]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -91,6 +92,6 @@ export class AssetRoleTypeFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/asset-role-types']);
+    this.router.navigate([ASSET_ROLE_TYPE]);
   }
 }

@@ -10,6 +10,7 @@ import {AssignedCharacteristic} from '../../asset-characteristics/assigned.chara
 import {AssetName} from '../../asset-name-types/asset.name';
 import {AssetIdentifier} from '../../asset-identifier-types/asset.identifier';
 import {AssetRole} from '../../asset-role-types/asset.role';
+import { ASSET_TYPE } from '../../app/routes';
 
 @Component({
   selector: 'app-asset-type-form',
@@ -205,7 +206,7 @@ export class AssetTypeFormComponent implements OnInit {
     .addAssetType(this.assetType)
     .subscribe(value => {
       if (value && value.assetTypeId) {
-        this.router.navigate(['/asset-types']);
+        this.router.navigate([ASSET_TYPE]);
       } else {
         this.doNotDisplayFailureMessage = false;
       }
@@ -222,7 +223,7 @@ export class AssetTypeFormComponent implements OnInit {
       .updateAssetType(this.assetType.assetTypeId, this.assetType)
       .subscribe(value => {
         if (value) {
-          this.router.navigate(['/asset-types']);
+          this.router.navigate([ASSET_TYPE]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -233,7 +234,7 @@ export class AssetTypeFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/asset-types']);
+    this.router.navigate([ASSET_TYPE]);
   }
 
   onAssetTypeSelect(assetType: AssetType) {

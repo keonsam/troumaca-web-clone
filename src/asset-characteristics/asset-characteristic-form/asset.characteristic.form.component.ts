@@ -5,6 +5,7 @@ import { AssetCharacteristic } from '../asset.characteristic';
 import { AssetCharacteristicService } from '../asset.characteristic.service';
 import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
 import {debounceTime, filter, map} from 'rxjs/operators';
+import {ASSET_CHARACTERISTICS} from '../../app/routes';
 
 @Component({
   selector: 'app-asset-characteristic-form',
@@ -168,7 +169,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
     this.assetCharacteristicService.addAssetCharacteristic(this.assetCharacteristic)
       .subscribe(value => {
         if (value && value.assetCharacteristicId) {
-          this.router.navigate(['/asset-characteristics'])
+          this.router.navigate([ASSET_CHARACTERISTICS])
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -184,7 +185,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
     this.assetCharacteristicService.updateAssetCharacteristic(this.assetCharacteristic)
       .subscribe(value => {
         if (value) {
-          this.router.navigate(['/asset-characteristics'])
+          this.router.navigate([ASSET_CHARACTERISTICS])
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -195,6 +196,6 @@ export class AssetCharacteristicFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/asset-characteristics']);
+    this.router.navigate([ASSET_CHARACTERISTICS]);
   }
 }

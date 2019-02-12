@@ -5,6 +5,7 @@ import {PageEvent} from '@angular/material';
 import {AssetCharacteristics} from '../asset.characteristics';
 import {AssetCharacteristicService} from '../asset.characteristic.service';
 import {ActivatedRoute} from '@angular/router';
+import {ASSET_CHARACTERISTICS} from '../../app/routes';
 
 @Component({
   selector: 'app-asset-characteristic-list',
@@ -20,6 +21,7 @@ export class AssetCharacteristicListComponent implements OnInit {
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
   assetCharacteristicName: string;
+  newRoute = `${ASSET_CHARACTERISTICS}/create`;
 
   constructor(private assetCharacteristicService: AssetCharacteristicService,
               private route: ActivatedRoute) {

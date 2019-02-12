@@ -7,7 +7,7 @@
     <div class="parent-slider" [@slide]="activePane">
       <div class="child-slider">
         <div class="multi-fields" formArrayName="characteristics"
-             *ngFor="let item of parentForm.get('characteristics').controls; let i = index">
+             *ngFor="let item of parentForm.get('characteristics').controls; let i = index" [ngClass]="{'multi-fields': true, 'no-border-bottom': i === parentForm.get('characteristics').controls.length - 1}">
           <div class="multi-field-labels"><span class="bigger">{{item.controls.name.value}}</span><span class="remove-link" (click)="onRemove(i)">Remove</span></div>
           <div [formGroupName]="i">
             <div class="row">

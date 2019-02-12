@@ -82,5 +82,6 @@ export class AssetCharacteristicSecComponent implements OnInit, OnChanges {
 
   onRemove(i: number) {
     this.characteristics.removeAt(i);
+    this.selected = this.selected.filter((x, e) => e !== i);
   }
 }

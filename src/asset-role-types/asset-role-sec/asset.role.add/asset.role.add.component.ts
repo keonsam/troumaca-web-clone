@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { AssetRoleType} from '../../asset.role.type';
 import {AssetRoleTypeService} from '../../asset.role.type.service';
@@ -9,7 +9,7 @@ import {AssetRoleTypeService} from '../../asset.role.type.service';
   styleUrls: ['./asset.role.add.component.css']
 })
 
-export class AssetRoleAddComponent implements OnInit {
+export class AssetRoleAddComponent implements OnInit, OnChanges {
 
   assetRoleType: FormControl;
 
@@ -33,6 +33,10 @@ export class AssetRoleAddComponent implements OnInit {
     if (this.selected) {
       this.assetRoleType.setValue(this.selected);
     }
+  }
+
+  ngOnChanges(): void {
+    this.assetRoleType.setValue(this.selected);
   }
 
   private findAssetRoleTypes(value) {

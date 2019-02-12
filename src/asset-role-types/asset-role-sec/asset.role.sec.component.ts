@@ -67,5 +67,6 @@ export class AssetRoleSecComponent implements OnInit, OnChanges {
 
   onRemove(i: number) {
     this.roles.removeAt(i);
+    this.selected = this.selected.filter((x, e) => e !== i);
   }
 }

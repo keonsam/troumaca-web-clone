@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef} from '@angular/material';
 import {AssetCharacteristicService} from '../../asset.characteristic.service';
@@ -10,7 +10,7 @@ import {AssetCharacteristic} from '../../asset.characteristic';
   styleUrls: ['./asset.characteristic.add.component.css']
 })
 
-export class AssetCharacteristicAddComponent implements OnInit {
+export class AssetCharacteristicAddComponent implements OnInit, OnChanges {
 
   assetCharacteristic: FormControl;
 
@@ -34,6 +34,10 @@ export class AssetCharacteristicAddComponent implements OnInit {
     if (this.selected) {
       this.assetCharacteristic.setValue(this.selected);
     }
+  }
+
+  ngOnChanges(): void {
+    this.assetCharacteristic.setValue(this.selected);
   }
 
   private findAssetCharacteristics(value) {

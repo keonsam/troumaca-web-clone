@@ -68,5 +68,6 @@ export class AssetIdentifierSecComponent implements OnInit, OnChanges {
 
   onRemove(i: number) {
     this.identifiers.removeAt(i);
+    this.selected = this.selected.filter((x, e) => e !== i);
   }
 }

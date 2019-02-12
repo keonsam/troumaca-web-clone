@@ -6,10 +6,11 @@ import {AssetNameTypeFormComponent} from './asset-name-type-form/asset.name.type
 import {AssetNameTypeResolve} from './asset.name.type.resolve';
 import {AssetNameTypeListComponent} from './asset-name-type-listing/asset.name.type.list.component';
 import {AssetNameTypesResolve} from './asset.name.types.resolve';
+import {ASSET_NAME_TYPE} from '../app/routes';
 
 export const routes: Routes = [
   { path: '', component: AssetNameTypeComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
-      { path: '', redirectTo: '/assetNameTypes/listing', pathMatch: 'full' },
+      { path: '', redirectTo: `${ASSET_NAME_TYPE}/listing`, pathMatch: 'full' },
       { path: 'listing', component: AssetNameTypeListComponent, resolve: { assetNameTypes: AssetNameTypesResolve } },
       { path: 'create', component: AssetNameTypeFormComponent },
       { path: ':assetNameTypeId/edit', component: AssetNameTypeFormComponent, resolve: {assetNameType: AssetNameTypeResolve} },

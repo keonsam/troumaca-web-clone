@@ -5,6 +5,7 @@ import {PageEvent} from '@angular/material';
 import {AssetIdentifierTypes} from '../asset.identifier.types';
 import {AssetIdentifierTypeService} from '../asset.identifier.type.service';
 import {ActivatedRoute} from '@angular/router';
+import {ASSET_IDENTIFIER_TYPE} from '../../app/routes';
 
 @Component({
   selector: 'app-asset-identifier-type-list',
@@ -20,6 +21,7 @@ export class AssetIdentifierTypeListComponent implements OnInit {
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
   assetIdentifierTypeName: string;
+  newRoute = `${ASSET_IDENTIFIER_TYPE}/create`;
 
   constructor(private assetIdentifierTypeService: AssetIdentifierTypeService,
               private route: ActivatedRoute) {

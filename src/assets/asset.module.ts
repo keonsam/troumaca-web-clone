@@ -55,11 +55,6 @@ import {AssetRoleSecModule} from '../asset-role-types/asset-role-sec/asset.role.
     assetClientProvider,
   ],
   exports: [
-    // AssetComponent,
-    // AssetEditComponent,
-    // AssetListComponent,
-    // AssetTopMenuComponent,
-    // AssetCreationComponent
   ]
 })
 export class AssetModule {}

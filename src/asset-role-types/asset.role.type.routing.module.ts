@@ -6,10 +6,11 @@ import {AssetRoleTypeFormComponent} from './asset-role-type-form/asset.role.type
 import {AssetRoleTypeResolve} from './asset.role.type.resolve';
 import {AssetRoleTypeListComponent} from './asset-role-type-listing/asset.role.type.list.component';
 import {AssetRoleTypesResolve} from './asset.role.types.resolve';
+import {ASSET_ROLE_TYPE} from '../app/routes';
 
 export const routes: Routes = [
   { path: '', component: AssetRoleTypeComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
-      { path: '', redirectTo: '/assetRoleTypes/listing', pathMatch: 'full' },
+      { path: '', redirectTo: `${ASSET_ROLE_TYPE}/listing`, pathMatch: 'full' },
       { path: 'listing', component: AssetRoleTypeListComponent, resolve: { assetRoleTypes: AssetRoleTypesResolve } },
       { path: 'create', component: AssetRoleTypeFormComponent },
       { path: ':assetRoleTypeId/edit', component: AssetRoleTypeFormComponent, resolve: {assetRoleType: AssetRoleTypeResolve} },
