@@ -46,35 +46,33 @@ export class PhotoComponent implements OnInit {
   }
 
 
-  private addImage(uploadData: FormData) {
-    this.photoService.addPhoto(uploadData, this.type)
+  private addImage(selectedFile: File) {
+    this.photoService.addPhoto(selectedFile, this.type)
       .subscribe(photo => {
-        if (photo) {
+        if (photo && photo.photoId) {
           this.photoService.photoData.next(photo);
         }
       });
   }
 
-  private updateImage(uploadData: FormData) {
-    this.photoService.updatePhoto(uploadData, this.type)
+  private updateImage(selectedFile: File) {
+    this.photoService.updatePhoto(selectedFile, this.type, this.photo.photoId)
       .subscribe(photo => {
-        if (photo && photo.partyId) {
+        if (photo && photo.photoId) {
           this.photoService.photoData.next(photo);
         }
       });
   }
 
-  onUpload(event: any): void {
-    const file: File = event.target.files[0];
+  onUpload(imageInput: any): void {
+    const file: File = imageInput.files[0];
     const reader = new FileReader();
-    const uploadData = new FormData();
     reader.addEventListener('load', (event: any) => {
       this.selectedFile = new ImageSnippet(event.target.result, file);
-      uploadData.append('image', this.selectedFile.file);
-      if (this.photo.partyId) {
-        this.updateImage(uploadData);
+      if (this.photo.photoId) {
+        this.updateImage(this.selectedFile.file);
       } else {
-        this.addImage(uploadData);
+        this.addImage(this.selectedFile.file);
       }
     });
     reader.readAsDataURL(file);

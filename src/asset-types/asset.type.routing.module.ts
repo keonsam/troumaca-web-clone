@@ -5,10 +5,11 @@ import {AssetTypeListComponent} from './asset-type-list/asset.type.list.componen
 import { AssetTypeFormComponent } from "./asset-type-form/asset.type.form.component";
 import {AssetTypeResolve} from "./asset.type.resolve";
 import {AuthGuard} from "../auth-guard/auth.guard";
+import {ASSET_TYPE} from '../app/routes';
 
 export const routes: Routes = [
   { path: '', component: AssetTypeComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
-      { path: '', redirectTo: '/asset-types/listing', pathMatch: 'full' },
+      { path: '', redirectTo: `${ASSET_TYPE}/listing`, pathMatch: 'full' },
       { path: 'listing', component: AssetTypeListComponent },
       { path: 'create', component: AssetTypeFormComponent },
       { path: ':assetTypeId/edit', component: AssetTypeFormComponent, resolve: {assetType: AssetTypeResolve} },

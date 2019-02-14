@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {AUTHENTICATION, LOGIN, REGISTER} from '../app/routes';
 
 @Component({
   selector: 'app-front-home',
@@ -8,6 +9,8 @@ import {Component, Input} from '@angular/core';
 export class FrontHomeComponent {
   private _title = 'app';
   private _isLoggedIn: boolean;
+  loginRoute = `${AUTHENTICATION}${LOGIN}`;
+  registerRoute = `${AUTHENTICATION}${REGISTER}`;
 
   constructor() {
   }

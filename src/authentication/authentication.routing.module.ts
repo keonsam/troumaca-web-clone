@@ -1,20 +1,22 @@
 import {Routes, RouterModule} from '@angular/router';
-import {NgModule} from "@angular/core";
-import {AuthenticationComponent} from "./authentication.component";
-import {LoginComponent} from "./login/login.component";
-import {ForgotPasswordComponent} from "./forgot-password/forgot.password.component";
-import {RegisterComponent} from "./register/register.component";
-import {ConfirmationComponent} from "./confirmation/confirmation.component";
+import {NgModule} from '@angular/core';
+import {AuthenticationComponent} from './authentication.component';
+import {LoginComponent} from './login/login.component';
+import {ForgotPasswordComponent} from './forgot-password/forgot.password.component';
+import {RegisterComponent} from './register/register.component';
+import {ConfirmationComponent} from './confirmation/confirmation.component';
+import { AUTHENTICATION} from '../app/routes';
+import { LOGIN } from '../app/routes';
 
 export const routes: Routes = [
   { path: '', component: AuthenticationComponent, children: [
-      { path: '', redirectTo: '/authentication/login', pathMatch: 'full' },
+      { path: '', redirectTo: `${AUTHENTICATION}${LOGIN}`, pathMatch: 'full' },
       { path: 'login',  component: LoginComponent },
       { path: 'forgot-password/username', component: ForgotPasswordComponent },
       { path: 'forgot-password/change/:credentialId/:code', component: ForgotPasswordComponent },
       { path: 'register', component: RegisterComponent },
-      {path: 'confirmations/:credentialId/:confirmationId', component: ConfirmationComponent},
-      {path: 'forgot-password/confirmations/:credentialId/:confirmationId', component: ConfirmationComponent}
+      { path: 'confirmations/:credentialId/:confirmationId', component: ConfirmationComponent},
+      { path: 'forgot-password/confirmations/:credentialId/:confirmationId', component: ConfirmationComponent}
     ]}
 ];
 

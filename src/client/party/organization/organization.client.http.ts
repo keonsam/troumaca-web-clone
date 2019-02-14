@@ -5,9 +5,7 @@ import {Observable} from 'rxjs';
 import { Organizations } from '../../../parties/organizations';
 import {map} from 'rxjs/operators';
 import { Organization } from '../../../parties/organization';
-import {ValidResponse} from "../../../authentication/valid.response";
 import {environment} from '../../../environments/environment';
-import {OrganizationCompany} from '../../../parties/organizations/organization-company/organization.company';
 
 export class OrganizationClientHttp implements OrganizationClient {
   hostPort = environment.hostPort;
@@ -33,18 +31,6 @@ export class OrganizationClientHttp implements OrganizationClient {
     };
     return this.httpClient
       .get<Organization>(url, httpOptions)
-      .pipe(map(data => {
-        return data;
-      }));
-  }
-
-  getOrganizationCompany(): Observable<OrganizationCompany> {
-    const url = `${this.hostPort}/organizations/company`;
-    const httpOptions = {
-      headers: this.jsonHttpHeaders()
-    };
-    return this.httpClient
-      .get<OrganizationCompany>(url, httpOptions)
       .pipe(map(data => {
         return data;
       }));

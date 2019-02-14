@@ -1,54 +1,14 @@
-.center-container  {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+/*TROUMACA OVERWRITES*/
 
-.right-button {
-  float: right;
-}
-
-.right-button-form {
-  margin-left: 2rem;
-}
-
-/*.form-group {
-  min-height: 92px;
-}*/
-
-.error-box-text {
-  height: 15px;
-  line-height: 1.2em;
-  font-size: 75%;
-  width: 100%;
-  margin-top: .25em;
-}
-
-.example-full-width {
-  width: 100%;
-  margin-bottom: 0.8rem;
-}
+/*html {*/
+  /*height: 100%;*/
+/*}*/
+/*body {*/
+  /*min-height: 100%;*/
+/*}*/
 
 .auth-box-w form {
   padding-left: 50px;
   padding-right: 50px;
 }
 
-html, body {
-  min-height: 100vh;
-}
-
-.card {
-  background-color: white;
-  border-bottom: 1px solid #047bf8;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  overflow: hidden;
-  width: 100%;
-  padding-bottom: 25px;
-  margin-top: 25px;
-}
-
-.no-bottom-border {
-  border-bottom: none;
-}

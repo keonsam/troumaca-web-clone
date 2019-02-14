@@ -8,7 +8,7 @@ export class UserResolve implements Resolve<User> {
   constructor(private userService: UserService) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    return this.userService.getUser(route.paramMap.get('partyId') || 'profile');
+    return this.userService.getUser(route.paramMap.get('partyId'));
   }
 
 }

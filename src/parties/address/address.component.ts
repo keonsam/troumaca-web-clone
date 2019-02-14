@@ -1,13 +1,21 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {PartyService} from "../party.service";
+import {Component, Input, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {PartyService} from '../party.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Address} from "./address";
+import {Address} from './address';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
-  styleUrls: ['./address.component.css']
+  styleUrls: ['./address.component.css'],
+  animations: [
+    trigger('slide', [
+      state('left', style({ transform: 'translateX(0)' })),
+      state('right', style({ transform: 'translateX(-50%)' })),
+      transition('* => *', animate(300))
+    ])
+  ]
 })
 
 export class AddressComponent implements OnInit {
@@ -26,8 +34,9 @@ export class AddressComponent implements OnInit {
   update = false;
 
   @Input() type: string;
+  activePane = 'left';
 
-  private address: Address;
+  address: Address;
 
   constructor(private formBuilder: FormBuilder,
               private partyService: PartyService,
@@ -69,24 +78,19 @@ export class AddressComponent implements OnInit {
       this.setInputValues(this.route.snapshot.data['address']);
       this.update = true;
     }
-    // this.partyService.getAddress(this.type)
-    //   .subscribe( address => {
-    //     if (address && address.siteId) {
-    //       this.streetNumber.setValue(address.streetNumber);
-    //       this.streetName.setValue(address.streetName);
-    //       this.postCode.setValue(address.postCode);
-    //       this.stateOrProvince.setValue(address.stateOrProvince);
-    //       this.city.setValue(address.city);
-    //       this.country.setValue(address.country);
-    //       this.description.setValue(address.description);
-    //       this.address = address;
-    //       this.update = true;
-    //     }
-    //   }, error => {
-    //     console.log(error);
-    //     this.errorMessage = 'Failed to get address. Please refresh.';
-    //     this.doNotDisplayFailureMessage = false;
-    //   });
+
+  }
+
+  private getAddress() {
+    this.partyService.getAddress(this.type)
+      .subscribe( address => {
+        this.setInputValues(address);
+        this.activePane = 'left';
+      }, error => {
+        console.log(error);
+        this.errorMessage = 'Failed to get address. Please refresh.';
+        this.doNotDisplayFailureMessage = false;
+      });
   }
 
   private setInputValues(address: Address) {
@@ -105,7 +109,7 @@ export class AddressComponent implements OnInit {
     this.partyService.addAddress(this.type, this.address)
       .subscribe( address => {
         if (address && address.siteId) {
-          this.router.navigate(['/lobby']);
+          this.activePane = 'left';
         } else {
           this.errorMessage = 'Failed to add address.';
           this.doNotDisplayFailureMessage = false;
@@ -121,7 +125,7 @@ export class AddressComponent implements OnInit {
     this.partyService.updateAddress(this.type, this.address)
       .subscribe( num => {
         if (num) {
-          this.router.navigate(['/lobby']);
+          this.activePane = 'left';
         } else {
           this.errorMessage = 'Failed to update address.';
           this.doNotDisplayFailureMessage = false;
@@ -133,7 +137,16 @@ export class AddressComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/lobby']);
+    if (this.update) {
+      this.getAddress();
+    }else {
+      this.setInputValues(new Address());
+      this.activePane = 'left';
+    }
+  }
+
+  setActivePane(place: string) {
+    this.activePane = place;
   }
 
 }

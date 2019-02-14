@@ -1,29 +1,19 @@
 import {Observable} from 'rxjs';
 import {Assets} from './assets';
 import {Asset} from './asset';
-import {AssetSpecification} from "./asset.specification";
-import {AssetBrand} from "./asset.brand";
-import {AssetCharacteristics} from "./asset.characteristics";
+import {AssetType} from '../asset-types/asset.type';
+import {Brand} from '../brands/brand';
 
 export abstract class AssetRepository {
 
-  public abstract getAssets(pageNumber: number, pageSize: number, sortOrder: string): Observable<Assets>;
+  abstract getAssets(pageNumber: number, pageSize: number, sortOrder: string): Observable<Assets>;
 
-  public abstract getAsset(attributeId: string): Observable<Asset>;
-  abstract getAssetSpecById(assetId: string): Observable<AssetSpecification>;
-  abstract getAssetBrandById(assetId: string): Observable<AssetBrand>;
-  abstract getAssetCharacteristicsById(assetId: string): Observable<AssetCharacteristics>;
+  abstract getAsset(attributeId: string): Observable<Asset>;
+  abstract addAsset(assetModel: Asset): Observable<Asset>;
+  abstract updateAsset(assetId: string, asset: Asset): Observable<number>;
+  abstract deleteAsset(assetId): Observable<number>;
 
-  public abstract findAssets(searchStr: string, pageSize: number): Observable<Asset[]>;
-
-  public abstract addAsset(assetModel: Asset): Observable<Asset>;
-  abstract addAssetSpec(assetModel: AssetSpecification): Observable<AssetSpecification>;
-  abstract addAssetBrand(assetModel: AssetBrand): Observable<AssetBrand>
-  abstract addAssetCharacteristics(assetModel: AssetCharacteristics): Observable<AssetCharacteristics>;
-
-  public abstract updateAsset(assetId: string, asset: Asset): Observable<number>;
-  // abstract updateAssetSpec(assetId: string, asset: AssetSpecification): Observable<number>;
-  // abstract updateAssetBrand(assetId: string, asset: AssetBrand): Observable<number>;
-  // abstract updateAssetCharacteristics(assetId: string, asset: AssetCharacteristics): Observable<number>;
-  public abstract deleteAsset(assetId): Observable<number>;
+  // OTHERS
+  abstract findAssetTypes(searchStr: string, pageSize: number): Observable<AssetType[]>;
+  abstract findBrands(searchStr: string, pageSize: number): Observable<Brand[]>;
 }

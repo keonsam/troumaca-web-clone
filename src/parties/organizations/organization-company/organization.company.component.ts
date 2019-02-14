@@ -1,14 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Organization} from '../../organization';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {OrganizationService} from '../organization.service';
-import {OrganizationCompany} from './organization.company';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-organization-company',
   templateUrl: './organization.company.component.html',
-  styleUrls: ['./organization.company.component.css']
+  styleUrls: ['./organization.company.component.css'],
+  animations: [
+    trigger('slide', [
+      state('left', style({ transform: 'translateX(0)' })),
+      state('right', style({ transform: 'translateX(-50%)' })),
+      transition('* => *', animate(300))
+    ])
+  ]
 })
 export class OrganizationCompanyComponent implements OnInit {
 
@@ -16,15 +23,13 @@ export class OrganizationCompanyComponent implements OnInit {
   purpose: FormControl;
   organizationForm: FormGroup;
   doNotDisplayFailureMessage = true;
-  organizationCompany: OrganizationCompany;
 
-  private organization: Organization;
+  organization: Organization;
+  activePane = 'left';
 
   constructor(private formBuilder: FormBuilder,
               private organizationService: OrganizationService,
-              private route: ActivatedRoute,
-              private router: Router) {
-    this.organizationCompany = new OrganizationCompany();
+              private route: ActivatedRoute) {
     this.organization = new Organization();
     this.purpose = new FormControl('');
     this.name = new FormControl('', [Validators.required]);
@@ -46,9 +51,8 @@ export class OrganizationCompanyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.route.snapshot && this.route.snapshot.data['organizationCompany']) {
-      this.organizationCompany = this.route.snapshot.data['organizationCompany'];
-      this.setInputValues(this.organizationCompany.organization);
+    if (this.route.snapshot && this.route.snapshot.data['organization']) {
+      this.setInputValues(this.route.snapshot.data['organization']);
     }
   }
 
@@ -58,23 +62,23 @@ export class OrganizationCompanyComponent implements OnInit {
     this.organization = organization;
   }
 
-  // getOrganization() {
-  //   this.organizationService.getOrganization('company')
-  //     .subscribe(organization => {
-  //       if (organization && organization.partyId) {
-  //       }
-  //     }, error => {
-  //       console.log(error);
-  //       this.doNotDisplayFailureMessage = false;
-  //     });
-  // }
+  getOrganization() {
+    this.organizationService.getOrganization('company')
+      .subscribe(value => {
+        this.setInputValues(value);
+        this.activePane = 'left';
+      }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage = false;
+      });
+  }
 
   onUpdate(): void {
     this.doNotDisplayFailureMessage = true;
     this.organizationService.updateOrganization(this.organization)
       .subscribe(num => {
         if (num) {
-          this.router.navigate(['/lobby']);
+          this.activePane = 'left';
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -85,8 +89,11 @@ export class OrganizationCompanyComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/lobby']);
-    // this.getOrganization();
+    this.getOrganization();
+  }
+
+  setActivePane(place: string) {
+    this.activePane = place;
   }
 
 }

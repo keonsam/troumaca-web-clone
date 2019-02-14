@@ -1,0 +1,162 @@
+<div class="content-i">
+
+  <div class="content-box">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="element-wrapper form-wrapper">
+          <div class="element-box">
+            <form [formGroup]="assetCharacteristicForm">
+              <h5 class="form-header">
+                {{ update ? "Update" : "New" }} Asset Characteristic
+              </h5>
+
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Type</mat-label>
+                <mat-select [formControl]="type">
+                  <mat-option *ngFor="let type of types" [value]="type.typeId">{{type.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput [formControl]="name">
+                <mat-error *ngIf="name.hasError('required')">
+                  Name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Default Value</mat-label>
+                <input matInput [formControl]="defaultValue">
+                <mat-error *ngIf="defaultValue.hasError('required')">
+                  Default Value is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea matInput  [formControl]="description"></textarea>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Unit Of Measure</mat-label>
+                <input matInput [formControl]="unitOfMeasure" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let unitOfMeasure of unitOfMeasures" [value]="unitOfMeasure.name" (onSelectionChange)="onUnitOfMeasureSelect(unitOfMeasure)">{{unitOfMeasure.name}}</mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="unitOfMeasure.hasError('required')">
+                  Unit Of Measure Of is <strong>required</strong>
+                </mat-error>
+                <mat-hint>Select A Unit Of Measure. E.g Each.</mat-hint>
+              </mat-form-field>
+
+              <fieldset *ngIf="type.value === '054b50c2-9e8a-4cfb-8bac-54af9ac53613'">
+                <legend><span>Continuous</span></legend>
+
+                <div class="row">
+
+                  <div class="col-sm-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Formula</mat-label>
+                      <input matInput [formControl]="formula">
+                      <mat-error *ngIf="formula.hasError('required')">
+                        Formula is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Calculation Level</mat-label>
+                      <input matInput [formControl]="calLevel">
+                      <mat-error *ngIf="calLevel.hasError('required')">
+                        Calculation Level is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+
+
+                <div class="row">
+
+                  <div class="col-sm-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Maximum Value</mat-label>
+                      <input matInput [formControl]="maxValue">
+                      <mat-error *ngIf="maxValue.hasError('required')">
+                        Maximum Value is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Minimum Value</mat-label>
+                      <input matInput [formControl]="minValue">
+                      <mat-error *ngIf="minValue.hasError('required')">
+                        Minimum Value is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <fieldset *ngIf="type.value === '2f062d58-f464-40a6-921a-a49528f205f6'">
+                <legend><span>Asset Category</span></legend>
+
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Category Value</mat-label>
+                  <input matInput [formControl]="catValue">
+                  <mat-error *ngIf="catValue.hasError('required')">
+                    Category Value is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <div class="row">
+
+                  <div class="col-sm-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Effective Date</mat-label>
+                      <input matInput [matDatepicker]="effPicker" [formControl]="effectiveDate">
+                      <mat-datepicker-toggle matSuffix [for]="effPicker" ></mat-datepicker-toggle>
+                      <mat-datepicker #effPicker ></mat-datepicker>
+                      <mat-error *ngIf="effectiveDate.hasError('required')">
+                        Effective Date is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Until Date</mat-label>
+                      <input matInput [matDatepicker]="untilPicker" [formControl]="untilDate">
+                      <mat-datepicker-toggle matSuffix [for]="untilPicker"></mat-datepicker-toggle>
+                      <mat-datepicker #untilPicker ></mat-datepicker>
+                      <mat-error *ngIf="untilDate.hasError('required')">
+                        Until Date is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+
+              </fieldset>
+
+              <div class="error-box-text">
+                <span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{update ? 'Update': 'New'}} Asset Characteristic failed.</span>
+              </div>
+
+              <div class="form-buttons-w">
+                <button mat-flat-button color="primary" [disabled]="!assetCharacteristicForm.valid" type="submit" (click)=" update ? onUpdate() : onCreate()">{{ update ? "Update":"Create"}}</button>
+                <button class="right-button-form" mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

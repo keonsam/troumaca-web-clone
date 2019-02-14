@@ -1,10 +1,25 @@
 <div class="sub-menu-i asset-top-menu">
   <ul class="sub-menu">
-    <li>
-      <a [routerLink]="['/assets/listing']">Listing</a>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/assets']" >Assets</a>
     </li>
-    <li>
-      <a [routerLink]="['/assets/create']">Create</a>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/asset-types']">Asset Types</a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/asset-characteristics']">Asset Characteristics</a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/asset-name-types']">Asset Name Types</a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/asset-identifier-types']">Asset Identifier Types</a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/asset-role-types']">Asset Role Types</a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/brands']">Brands</a>
     </li>
   </ul>
 </div>

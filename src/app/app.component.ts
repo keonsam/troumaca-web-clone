@@ -64,10 +64,10 @@ export class AppComponent implements OnInit {
         const url = this.calURL(event.url);
         if (authRoutes.indexOf(url) > -1 || url.indexOf('forgot-password') > -1) {
           this.isAuthPath = true;
-          this.renderer.addClass(document.body, 'center-container');
+          // this.renderer.addClass(document.body, 'center-container');
         } else {
           this.isAuthPath = false;
-          this.renderer.removeClass(document.body, 'center-container');
+          // this.renderer.removeClass(document.body, 'center-container');
         }
       }
     });

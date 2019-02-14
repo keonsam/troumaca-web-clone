@@ -1,0 +1,42 @@
+<div class="content-i">
+
+  <div class="content-box">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="element-wrapper form-wrapper">
+
+          <div class="element-box">
+            <form [formGroup]="assetRoleTypeForm">
+              <h5 class="form-header">
+                {{ update ? "Update" : "New" }} Asset Role Type
+              </h5>
+
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput [formControl]="name">
+                <mat-error *ngIf="name.hasError('required')">
+                  Name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea matInput  [formControl]="description"></textarea>
+              </mat-form-field>
+
+              <div class="error-box-text">
+                <span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{update ? 'Update': 'New'}} Asset Role Type failed.</span>
+              </div>
+
+              <div class="form-buttons-w">
+                <button mat-flat-button color="primary" [disabled]="!assetRoleTypeForm.valid" type="submit" (click)=" update ? onUpdate() : onCreate()">{{ update ? "Update":"Create"}}</button>
+                <button class="right-button-form" mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

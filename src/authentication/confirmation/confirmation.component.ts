@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
 import { Confirmation } from '../confirmation';
+import {AUTHENTICATION, CONFIRMATION, FORGOT_PASSWORD, LOGIN} from '../../app/routes';
 
 @Component({
   selector: 'app-confirmation',
@@ -19,7 +20,7 @@ export class ConfirmationComponent implements OnInit {
   doNotDisplaySuccessMessage = true;
   doNotDisplayFailureMessage = true;
   private sub: any;
-  private redirectLink = '/authentication/login';
+  private redirectLink = `${AUTHENTICATION}${LOGIN}`;
 
   constructor(private route: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -63,7 +64,7 @@ export class ConfirmationComponent implements OnInit {
           this.message = 'If you didn\'t get it in 5 minutes, please try again.';
           this.doNotDisplaySuccessMessage = false;
           setTimeout(() => {
-            this.router.navigate([`/authentication/confirmations/${confirmation.credentialId}/${confirmation.confirmationId}`]);
+            this.router.navigate([`${AUTHENTICATION}${CONFIRMATION}/${confirmation.credentialId}/${confirmation.confirmationId}`]);
             this.doNotDisplaySuccessMessage = true;
             this.doNotDisplayFailureMessage = true;
           }, 2000);
@@ -90,7 +91,7 @@ export class ConfirmationComponent implements OnInit {
       .subscribe(confirmation => {
         if (confirmation && confirmation.status === 'Confirmed') {
           if (this.router.url.indexOf('forgot-password') !== -1) {
-            this.redirectLink = `authentication/forgot-password/change/${confirmation.credentialId}/${confirmation.code}`;
+            this.redirectLink = `${AUTHENTICATION}${FORGOT_PASSWORD}/change/${confirmation.credentialId}/${confirmation.code}`;
           }else {
             this.router.navigate([this.redirectLink]);
           }

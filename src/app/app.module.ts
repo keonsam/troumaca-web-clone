@@ -20,6 +20,7 @@ import { ClientModule } from '../client/client.module';
 import { MenuModule } from '../menu/menu.module';
 import { MaterialModule } from './material.module';
 import 'hammerjs';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import 'hammerjs';
     FrontHomeModule,
     MenuModule,
     MaterialModule,
+    FlexLayoutModule
   ],
   declarations: [
     AppComponent,

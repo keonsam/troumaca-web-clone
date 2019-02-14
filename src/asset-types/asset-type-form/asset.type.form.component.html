@@ -1,89 +1,73 @@
-<div class="content-i asset-container">
-
+<div class="content-i">
   <div class="content-box">
     <div class="row">
       <div class="col-sm-12">
-        <div class="element-wrapper">
+        <div class="element-wrapper form-wrapper">
+
           <div class="element-box">
-            <form [formGroup]="assetTypeForm" id="formValidate">
+            <form [formGroup]="assetTypeForm">
               <h5 class="form-header">
-                {{ assetTypeExist ? "Edit" : "New" }} Asset Type Form
+                {{ update ? "Update" : "New" }} Asset Type
               </h5>
 
-              <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ assetTypeExist ? "update" : "create" }} asset type.</div>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Instance Of</mat-label>
+                <mat-select [formControl]="instanceOf">
+                  <mat-option *ngFor="let instance of instances" [value]="instance.instanceId">{{instance.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="instanceOf.hasError('required')">
+                  Instance of is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
 
-              <div class="form-group">
-                <label for="name">Name</label><input id="name" class="form-control" formControlName="name" placeholder="Name" required="required" type="text">
-                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Invalid name.</div>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Sub Type Of</mat-label>
+                <input matInput [formControl]="parent" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let assetType of assetTypes" [value]="assetType.name" (onSelectionChange)="onAssetTypeSelect(assetType)">{{assetType.name}}</mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="parent.hasError('required')">
+                  Sub type is <strong>required</strong>
+                </mat-error>
+                <mat-hint>E.g Discrete Item.</mat-hint>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput [formControl]="name">
+                <mat-error *ngIf="name.hasError('required')">
+                  Name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea matInput  [formControl]="description"></textarea>
+              </mat-form-field>
+
+              <app-asset-spec-form *ngIf="instanceOf.value === '8bc5fa8a-84b6-4088-91d4-8a1cc84e7cff'" [parentForm]="assetTypeForm" (onBrandSelect)="onBrandSelect($event)"></app-asset-spec-form>
+
+              <app-asset-characteristic-sec [parentForm]="assetTypeForm" [assignedChars]="assignedChars"></app-asset-characteristic-sec>
+
+              <app-asset-name-sec [parentForm]="assetTypeForm" [assetNames]="assetNames"></app-asset-name-sec>
+
+              <app-asset-identifier-sec [parentForm]="assetTypeForm" [assetIdentifiers]="assetIdentifiers"></app-asset-identifier-sec>
+
+              <app-asset-role-sec [parentForm]="assetTypeForm" [assetRoles]="assetRoles"></app-asset-role-sec>
+
+              <div class="error-box-text">
+                <span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{update ? 'Update': 'New'}} Asset Type failed.</span>
               </div>
-
-              <!--<div class="form-group" [class]="(assetTypeClassId.valid) ? 'ng2-completer-valid':'ng2-completer-invalid'">-->
-                <!--<label for="asset-type-class">Asset Type Class</label>-->
-                <!--<ng2-completer [datasource]="assetTypeClassIdDataService"-->
-                               <!--[inputClass]="'form-control form-control-inline'"-->
-                               <!--[minSearchLength]="0"-->
-                               <!--[maxChars]="4"-->
-                               <!--[inputClass]="'form-control'"-->
-                               <!--[placeholder]="'Select an Asset Type Class'"-->
-                               <!--[matchClass]="'match'"-->
-                               <!--formControlName="assetTypeClassId"-->
-                               <!--[autofocus]="true"-->
-                               <!--[clearUnselected]="true"-->
-                               <!--[fillHighlighted]="false"-->
-                               <!--[openOnClick]="true"-->
-                               <!--[textSearching]="false"-->
-                               <!--(selected)="onAssetTypeClassIdSelect($event)"-->
-                               <!--required-->
-                               <!--id="asset-type-class">-->
-                <!--</ng2-completer>-->
-                <!--<div [hidden]="assetTypeClassId.valid || assetTypeClassId.pristine" class="alert alert-danger">Select an asset type class.</div>-->
-              <!--</div>-->
-
-              <div class="form-group">
-                <label for="model-number">Model Number</label><input id="model-number" class="form-control" formControlName="modelNumber" placeholder="Model Number" type="text">
-                <div [hidden]="modelNumber.valid || modelNumber.pristine" class="alert alert-danger">Invalid model number.</div>
+              <div class="form-buttons-w">
+                <button mat-flat-button color="primary" [disabled]="!assetTypeForm.valid" type="submit" (click)=" update ? onUpdate() : onCreate()">{{ update ? "Update":"Create"}}</button>
+                <button class="right-button-form" mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
               </div>
-
-              <div class="form-group">
-                <label for="material-code">Material Code</label><input id="material-code" class="form-control" formControlName="materialCode" placeholder="Material Code" type="text">
-                <div [hidden]="materialCode.valid || materialCode.pristine" class="alert alert-danger">Invalid material code.</div>
-              </div>
-
-              <app-unit-of-measure (unitOfMeasureEvent)="setUnitOfMeasureId($event)" [initialUnitOfMeasureId]="unitOfMeasureId"></app-unit-of-measure>
-
-              <div [formGroup]="valuesForm" class="sub-form">
-                <div *ngFor="let assigned of assignedAttributes" class="form-group">
-                  <div *ngIf="assigned.dataTypeId == '61ae91b0-e01f-414b-98c6-2e5da6b12ff0'; else normalInput" class="form-check">
-                    <label [attr.for]="assigned.attribute?.name +'-check-box'" class="form-check-label"><input [id]="assigned.attribute?.name+'-check-box'" class="form-check-input" formControlName="{{assigned.attributeId}}"type="checkbox" [required]="assigned.required">{{assigned.attribute?.name}}</label>
-                    <div [hidden]="assigned.attributeId +'.valid' || assigned.attributeId +'.pristine'" class="alert alert-danger">Select {{assigned.attribute?.name}}.</div>
-                  </div>
-
-                  <ng-template #normalInput>
-                    <div class="form-group">
-                      <label [attr.for]="assigned.attribute?.name+'-input'">{{assigned.attribute?.name}}</label><input [id]="assigned.attribute?.name+'-input'" class="form-control" formControlName="{{assigned.attributeId}}" placeholder="Enter Value" [type]="onType(assigned.dataTypeId)" [required]="assigned.required">
-                      <div [hidden]="assigned.attributeId +'.valid' || assigned.attributeId +'.pristine'" class="alert alert-danger">Invalid {{assigned.attribute?.name}}.</div>
-                    </div>
-                  </ng-template>
-                </div>
-              </div>
-
-
-              <div class="form-group">
-                <label for="description">Description</label><input id="description" class="form-control" formControlName="description" placeholder="Description" type="text">
-                <div [hidden]="description.valid || description.pristine" class="alert alert-danger">Invalid description.</div>
-              </div>
-
             </form>
-
-            <div class="form-buttons-w">
-              <button class="btn btn-primary" [disabled]="!assetTypeForm.valid || !valuesForm.valid" (click)="assetTypeExist ?  onUpdate() : onCreate()" type="button">{{ assetTypeExist ? "Update": "Create"}}</button>
-              <button class="btn btn-outline-danger right-button" type="cancel" (click)="cancel()">Cancel</button>
-            </div>
-
           </div>
+
         </div>
       </div>
     </div>
-  </div>
 
+  </div>
 </div>

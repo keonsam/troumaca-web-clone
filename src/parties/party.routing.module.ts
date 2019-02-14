@@ -15,6 +15,7 @@ import {OrganizationCompanyResolve} from './organizations/organization-company/o
 import {ContactInfoResolve} from './contact-info/contact.info.resolve';
 import {AddressResolve} from './address/address.resolve';
 import {UsersResolve} from './users/user-list/users.resolve';
+import {UserMeResolve} from './users/user-me/user.me.resolve';
 
 export const routes: Routes = [
   { path: '', component: PartyComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
@@ -22,7 +23,7 @@ export const routes: Routes = [
       {
         path: 'organization/profile', component: OrganizationCompanyComponent,
         resolve: {
-          organizationCompany: OrganizationCompanyResolve,
+          organization: OrganizationCompanyResolve,
           contactInfo: ContactInfoResolve,
           address: AddressResolve
         }
@@ -33,7 +34,14 @@ export const routes: Routes = [
       { path: 'users/listing', component: UserListComponent, resolve: { users: UsersResolve } },
       { path: 'users/create', component: UserFormComponent },
       { path: 'users/:partyId/edit', component: UserFormComponent, resolve: {user: UserResolve} },
-      { path: 'user/profile', component: UserMeComponent },
+      {
+        path: 'user/profile', component: UserMeComponent,
+        resolve: {
+          user: UserMeResolve,
+          contactInfo: ContactInfoResolve,
+          address: AddressResolve
+        }
+      },
     ]}
 ];
 

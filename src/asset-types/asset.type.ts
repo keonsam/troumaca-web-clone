@@ -1,18 +1,23 @@
-import {AssetTypeClass} from "../asset-type-classes/asset.type.class";
-import {UnitOfMeasure} from "../unit-of-measure/unit.of.measure";
-import {Value} from "./value";
+import {AssetSpecification} from '../assets/asset-specification/asset.specification';
+import {AssignedCharacteristic} from '../asset-characteristics/assigned.characteristic';
+import {AssetName} from '../asset-name-types/asset.name';
+import {AssetIdentifier} from '../asset-identifier-types/asset.identifier';
+import {AssetRole} from '../asset-role-types/asset.role';
+import {Instance} from './instance';
 
 export class AssetType {
   assetTypeId: string;
-  assetTypeClassId: string;
-  unitOfMeasureId: string;
-  modelNumber: string;
-  description: string;
+  instanceId: string;
+  instance: Instance;
+  initialId: string;
+  parentId: string;
+  parentName: string;
   name: string;
-  materialCode: string;
-  unitOfMeasure: UnitOfMeasure;
-  assetTypeClass: AssetTypeClass;
-  values: Value[];
-  createdOn: Date;
-  modifiedOn: Date;
+  description: string;
+  specification: AssetSpecification;
+  assignedCharacteristics: AssignedCharacteristic[];
+  assetNames: AssetName[];
+  identifiers: AssetIdentifier[];
+  roles: AssetRole[];
 }
+

@@ -15,14 +15,13 @@ import {assetResolveProvider } from './asset.resolve.provider';
 import {AssetFormComponent} from './asset-form/asset.form.component';
 import {DeleteModalModule} from '../delete-modal/delete.modal.module';
 import {MaterialModule} from '../app/material.module';
-import {SpecificationFormComponent} from './specification-form/specification.form.component';
-import {BrandFormComponent} from './brand-form/brand.form.component';
-import {CharacteristicsFormComponent} from './characteristics-form/characteristics.form.component';
-import {assetBrandResolveProvider} from './asset.brand.resolve.provider';
-import {assetSpecificationResolveProvider} from './asset.specification.resolve.provider';
-import {assetCharacteristicsResolveProvider} from './asset.characteristics.resolve.provider';
 import {assetRepositoryProvider} from '../adapter/assets/asset.repository.adapter.provider';
 import {assetClientProvider} from '../client/asset/asset.client.provider';
+import {AssetSpecificationFormModule} from './asset-specification/asset.specification.form.module';
+import {AssetCharacteristicSecModule} from '../asset-characteristics/asset-characteristic-sec/asset.characteristic.sec.module';
+import {AssetNameSecModule} from '../asset-name-types/asset-name-sec/asset.name.sec.module';
+import {AssetIdentifierSecModule} from '../asset-identifier-types/asset-identifier-sec/asset.identifier.sec.module';
+import {AssetRoleSecModule} from '../asset-role-types/asset-role-sec/asset.role.sec.module';
 
 @NgModule({
   imports: [
@@ -36,32 +35,26 @@ import {assetClientProvider} from '../client/asset/asset.client.provider';
     AssetRoutingModule,
     UnitOfMeasureModule,
     DeleteModalModule,
-    MaterialModule
+    MaterialModule,
+    AssetSpecificationFormModule,
+    AssetCharacteristicSecModule,
+    AssetNameSecModule,
+    AssetIdentifierSecModule,
+    AssetRoleSecModule
   ],
   declarations: [
     AssetComponent,
     AssetFormComponent,
     AssetListComponent,
     AssetTopMenuComponent,
-    SpecificationFormComponent,
-    BrandFormComponent,
-    CharacteristicsFormComponent,
   ],
   providers: [
     assetServiceProvider,
     assetResolveProvider,
-    assetBrandResolveProvider,
-    assetSpecificationResolveProvider,
-    assetCharacteristicsResolveProvider,
     assetRepositoryProvider,
     assetClientProvider,
   ],
   exports: [
-    // AssetComponent,
-    // AssetEditComponent,
-    // AssetListComponent,
-    // AssetTopMenuComponent,
-    // AssetCreationComponent
   ]
 })
 export class AssetModule {}
