@@ -2,8 +2,27 @@
   Troumaca overrides etc.
 */
 
-/*.layout-w {*/
-  /*min-height: 768px;*/
-/*}*/
+.auth-height {
+  height: 100vh;
+}
 
+/* #1.  Screen size <= 1650px */
+@media (max-width: 1650px) {
+  .auth-height {
+    height: calc(100vh - 80px);
+  }
+}
 
+/* #2.  Screen size <= 1550px */
+@media (max-width: 1550px) {
+  .auth-height {
+    height: calc(100vh - 40px);
+  }
+}
+
+/* #6.  Screen size <= 1250px */
+@media (max-width: 1250px) {
+  .auth-height {
+    height: calc(100vh);
+  }
+}

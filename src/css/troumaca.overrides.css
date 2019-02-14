@@ -1,8 +1,11 @@
 /*TROUMACA OVERWRITES*/
 
-html, body {
-  min-height: 100vh;
-}
+/*html {*/
+  /*height: 100%;*/
+/*}*/
+/*body {*/
+  /*min-height: 100%;*/
+/*}*/
 
 .auth-box-w form {
   padding-left: 50px;

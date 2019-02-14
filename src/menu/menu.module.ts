@@ -3,8 +3,6 @@ import {CommonModule} from '@angular/common';
 import {MenuComponent} from './menu.component';
 import {RouterModule} from '@angular/router';
 import {TopMenuComponent} from './top/top.menu.component';
-import {MobileMenuComponent} from './mobile/mobile.menu.component';
-import {SideMenuComponent} from './side/side.menu.component';
 import {SearchModule} from '../search/search.module';
 import {userServiceProvider} from '../parties/users/user.service.provider';
 import {photoServiceProvider} from '../parties/photo/photo.service.provider';
@@ -23,9 +21,9 @@ import {menuClientProvider} from '../client/menus/menu.client.provider';
     MaterialModule
   ],
   declarations: [
-    MobileMenuComponent,
+    // MobileMenuComponent,
     TopMenuComponent,
-    SideMenuComponent,
+    // SideMenuComponent,
     MenuComponent
   ],
   providers: [menuServiceProvider,
@@ -37,9 +35,9 @@ import {menuClientProvider} from '../client/menus/menu.client.provider';
     menuClientProvider,
   ],
   exports: [
-    MobileMenuComponent,
+    // MobileMenuComponent,
     TopMenuComponent,
-    SideMenuComponent,
+    // SideMenuComponent,
     MenuComponent
   ]
 })

@@ -1,5 +1,6 @@
-<div [ngClass]="{'all-wrapper': true, 'menu-side': true, 'with-pattern': isAuthPath, 'solid-bg-all': !isAuthPath}">
-  <div [ngClass]="{'layout-w': !isAuthPath}">
+<div [ngClass]="{'all-wrapper': true, 'with-pattern': isAuthPath, 'auth-height': isAuthPath, 'solid-bg-all': !isAuthPath}">
+  <div fxLayout="column" [fxLayoutAlign]="isAuthPath ? 'center': 'start'"
+       [ngClass]="{'auth-height': isAuthPath}">
     <top-menu *ngIf="showMenu"></top-menu>
     <router-outlet></router-outlet>
   </div>
