@@ -5,7 +5,7 @@ import {PageEvent} from '@angular/material';
 import {AssetNameTypes} from '../asset.name.types';
 import {AssetNameTypeService} from '../asset.name.type.service';
 import {ActivatedRoute} from '@angular/router';
-import {ASSET_NAME_TYPE} from '../../app/routes';
+import {ASSET_NAME_TYPE, ASSET_SETTING} from '../../app/routes';
 
 @Component({
   selector: 'app-asset-name-type-list',
@@ -21,7 +21,9 @@ export class AssetNameTypeListComponent implements OnInit {
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
   assetNameTypeName: string;
-  newRoute = `${ASSET_NAME_TYPE}/create`;
+  routerLink = `/${ASSET_SETTING}/${ASSET_NAME_TYPE}`;
+  newLink = `${this.routerLink}/create`;
+
 
   constructor(private assetNameTypeService: AssetNameTypeService,
               private route: ActivatedRoute) {

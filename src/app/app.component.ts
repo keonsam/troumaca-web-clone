@@ -1,7 +1,7 @@
 import {Component, OnInit, Renderer2} from '@angular/core';
 import {NavigationEnd, NavigationStart, Router} from '@angular/router';
-import { authRoutes } from "./auth.routes";
-import {SessionService} from "../session/session.service";
+import { authRoutes } from './auth.routes';
+import {SessionService} from '../session/session.service';
 
 @Component({
   selector: 'app-component',
@@ -12,42 +12,26 @@ export class AppComponent implements OnInit {
 
   isAuthPath = false;
   showMenu = false;
-  activeSession: any;
-  loginEvent: any;
 
   constructor(private router: Router,
               private renderer: Renderer2,
               private sessionService: SessionService
               ) {
-    // this.activeSession = this.sessionService.activeSessionExists()
-    //   .subscribe(value => {
-    //     if (value) {
-    //       const routerEvent = this.router.events.subscribe( event => {
-    //         if (event instanceof NavigationEnd) {
-    //           if (authRoutes.indexOf(event.url) === -1) {
-    //             this.showMenu = true;
-    //           }
-    //           routerEvent.unsubscribe();
-    //         }
-    //       });
-    //     }
-    //     this.activeSession.unsubscribe();
-    //   });
 
-    this.sessionService.loginEvent
-      .subscribe( value => {
-        console.log(value);
-        if (value) {
-          const routerEvent = this.router.events.subscribe( event => {
-            if (event instanceof NavigationEnd) {
-              if (authRoutes.indexOf(event.url) === -1) {
-                this.showMenu = true;
-              }
-              routerEvent.unsubscribe();
-            }
-          });
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationStart) {
+        const url = this.calURL(event.url);
+        if (authRoutes.indexOf(url) > -1 || url.indexOf('forgot-password') > -1) {
+          this.isAuthPath = true;
+        } else {
+          this.isAuthPath = false;
         }
-      });
+      }
+
+      if (event instanceof NavigationEnd && !this.isAuthPath) {
+        this.showMenu = true;
+      }
+    });
 
     this.sessionService.logoutEvent
       .subscribe( value => {
@@ -59,18 +43,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationStart) {
-        const url = this.calURL(event.url);
-        if (authRoutes.indexOf(url) > -1 || url.indexOf('forgot-password') > -1) {
-          this.isAuthPath = true;
-          // this.renderer.addClass(document.body, 'center-container');
-        } else {
-          this.isAuthPath = false;
-          // this.renderer.removeClass(document.body, 'center-container');
-        }
-      }
-    });
   }
 
   private calURL(url) {

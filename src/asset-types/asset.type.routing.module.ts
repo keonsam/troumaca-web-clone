@@ -9,7 +9,7 @@ import {ASSET_TYPE} from '../app/routes';
 
 export const routes: Routes = [
   { path: '', component: AssetTypeComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
-      { path: '', redirectTo: `${ASSET_TYPE}/listing`, pathMatch: 'full' },
+      { path: '', redirectTo: `/${ASSET_TYPE}/listing`, pathMatch: 'full' },
       { path: 'listing', component: AssetTypeListComponent },
       { path: 'create', component: AssetTypeFormComponent },
       { path: ':assetTypeId/edit', component: AssetTypeFormComponent, resolve: {assetType: AssetTypeResolve} },

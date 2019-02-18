@@ -11,7 +11,7 @@ import {AssetNameTypeListComponent} from './asset-name-type-listing/asset.name.t
 import {assetNameTypeServiceProvider} from './asset.name.type.service.provider';
 import {assetNameTypeRepositoryProvider} from '../adapter/asset-name-types/asset.name.type.repository.adapter.provider';
 import {assetNameTypeClientProvider} from '../client/asset-name-types/asset.name.type.client.provider';
-import {AssetNameTypeRoutingModule} from './asset.name.type.routing.module';
+// import {AssetNameTypeRoutingModule} from './asset.name.type.routing.module';
 import {assetNameTypesResolveProvider} from './asset.name.types.resolve.provider';
 import {assetNameTypeResolveProvider} from './asset.name.type.resolve.provider';
 
@@ -23,7 +23,7 @@ import {assetNameTypeResolveProvider} from './asset.name.type.resolve.provider';
     ReactiveFormsModule,
     PagingModule,
     DeleteModalModule,
-    AssetNameTypeRoutingModule,
+    // AssetNameTypeRoutingModule,
     MaterialModule
   ],
   declarations: [
@@ -38,7 +38,10 @@ import {assetNameTypeResolveProvider} from './asset.name.type.resolve.provider';
     assetNameTypeRepositoryProvider,
     assetNameTypeClientProvider
   ],
-  exports: []
+  exports: [
+    AssetNameTypeFormComponent,
+    AssetNameTypeListComponent,
+  ]
 })
 
 export class AssetNameTypeModule { }

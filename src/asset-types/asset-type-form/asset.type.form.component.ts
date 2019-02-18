@@ -44,6 +44,7 @@ export class AssetTypeFormComponent implements OnInit {
   assetRoles: AssetRole[];
 
   private pageSize = 5;
+  private assetTypeLink = `/${ASSET_TYPE}`;
 
   constructor(private assetTypeService: AssetTypeService,
               private formBuilder: FormBuilder,
@@ -206,7 +207,7 @@ export class AssetTypeFormComponent implements OnInit {
     .addAssetType(this.assetType)
     .subscribe(value => {
       if (value && value.assetTypeId) {
-        this.router.navigate([ASSET_TYPE]);
+        this.router.navigate([this.assetTypeLink]);
       } else {
         this.doNotDisplayFailureMessage = false;
       }
@@ -223,7 +224,7 @@ export class AssetTypeFormComponent implements OnInit {
       .updateAssetType(this.assetType.assetTypeId, this.assetType)
       .subscribe(value => {
         if (value) {
-          this.router.navigate([ASSET_TYPE]);
+          this.router.navigate([this.assetTypeLink]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -234,7 +235,7 @@ export class AssetTypeFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([ASSET_TYPE]);
+    this.router.navigate([this.assetTypeLink]);
   }
 
   onAssetTypeSelect(assetType: AssetType) {

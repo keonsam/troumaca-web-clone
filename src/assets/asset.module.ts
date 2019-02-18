@@ -7,7 +7,6 @@ import {MenuModule} from '../menu/menu.module';
 import {PagingModule} from '../paging/paging.module';
 import {SearchModule} from '../search/search.module';
 import {AssetListComponent} from './asset-list/asset.list.component';
-import {AssetTopMenuComponent} from './asset-top-menu/asset.top.menu.component';
 import {assetServiceProvider} from './asset.service.provider';
 import { AssetRoutingModule } from './asset.routing.module';
 import { UnitOfMeasureModule } from '../unit-of-measure/unit.of.measure.module';
@@ -46,7 +45,6 @@ import {AssetRoleSecModule} from '../asset-role-types/asset-role-sec/asset.role.
     AssetComponent,
     AssetFormComponent,
     AssetListComponent,
-    AssetTopMenuComponent,
   ],
   providers: [
     assetServiceProvider,
@@ -54,7 +52,5 @@ import {AssetRoleSecModule} from '../asset-role-types/asset-role-sec/asset.role.
     assetRepositoryProvider,
     assetClientProvider,
   ],
-  exports: [
-  ]
 })
 export class AssetModule {}

@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { ValidResponse } from '../valid.response';
 import {debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import {User} from '../../parties/user';
-import {AUTHENTICATION, CONFIRMATION} from '../../app/routes';
+import {AUTHENTICATION, CONFIRMATION, HOME} from '../../app/routes';
 
 @Component({
   selector: 'app-register',
@@ -23,6 +23,7 @@ export class RegisterComponent implements OnInit {
   private credential: Credential;
   private user: User;
   doNotDisplayFailureMessage: boolean;
+  homeLink = `/${HOME}`;
 
   constructor(private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
@@ -148,7 +149,7 @@ export class RegisterComponent implements OnInit {
     .subscribe(confirmation => {
       // TODO: remove this
       if (confirmation && confirmation.confirmationId) {
-        this.router.navigate([`${AUTHENTICATION}${CONFIRMATION}/${confirmation.credentialId}/${confirmation.confirmationId}`]);
+        this.router.navigate([`/${AUTHENTICATION}/${CONFIRMATION}/${confirmation.credentialId}/${confirmation.confirmationId}`]);
       } else {
         this.doNotDisplayFailureMessage = false;
       }

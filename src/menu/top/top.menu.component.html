@@ -1,7 +1,13 @@
-<div class="top-menu-secondary with-overflow">
+<div class="top-menu-secondary color-scheme-dark with-overflow">
   <div class="logo-w menu-size">
-    <a class="logo" href="#" routerLink="/lobby"><img src="images/logo.png"><span id="brand-name">Troumaka</span></a>
+    <a class="logo" href="#" [routerLink]="lobbyLink"><img src="images/logo.png"><span class="logo-name">Troumaka</span></a>
   </div>
+  <ul >
+    <li *ngFor="let menu of menuList" routerLinkActive="active">
+      <a [routerLink]="menu.route">{{menu.name}}</a>
+    </li>
+  </ul>
+
   <div class="top-menu-controls">
 
     <div [ngClass]="{'messages-notifications': true, 'os-dropdown-trigger': true, 'os-dropdown-center': true, 'over': overClass}" (mouseenter)="overClass = true" (mouseleave)="overClass = false">
@@ -21,86 +27,8 @@
         </div>
       </div>
     </div>
+
     <!--------------------
-    START - Messages Link in secondary top menu
-    -------------------->
-    <!--<div [ngClass]="{'messages-notifications': true, 'os-dropdown-trigger': true, 'os-dropdown-center': true, 'over': overClass1}" (mouseenter)="overClass1 = true" (mouseleave)="overClass1 = false">-->
-      <!--<i class="os-icon os-icon-mail-14"></i>-->
-      <!--<div class="new-messages-count">-->
-        <!--12-->
-      <!--</div>-->
-      <!--<div class="os-dropdown light message-list">-->
-        <!--<div class="icon-w">-->
-          <!--<i class="os-icon os-icon-mail-14"></i>-->
-        <!--</div>-->
-        <!--<ul>-->
-          <!--<li>-->
-            <!--<a href="#">-->
-              <!--<div class="user-avatar-w">-->
-                <!--<img alt="" src="images/avatar1.jpg">-->
-              <!--</div>-->
-              <!--<div class="message-content">-->
-                <!--<h6 class="message-from">-->
-                  <!--John Mayers-->
-                <!--</h6>-->
-                <!--<h6 class="message-title">-->
-                  <!--Account Update-->
-                <!--</h6>-->
-              <!--</div>-->
-            <!--</a>-->
-          <!--</li>-->
-          <!--<li>-->
-            <!--<a href="#">-->
-              <!--<div class="user-avatar-w">-->
-                <!--<img alt="" src="images/avatar2.jpg">-->
-              <!--</div>-->
-              <!--<div class="message-content">-->
-                <!--<h6 class="message-from">-->
-                  <!--Phil Jones-->
-                <!--</h6>-->
-                <!--<h6 class="message-title">-->
-                  <!--Secutiry Updates-->
-                <!--</h6>-->
-              <!--</div>-->
-            <!--</a>-->
-          <!--</li>-->
-          <!--<li>-->
-            <!--<a href="#">-->
-              <!--<div class="user-avatar-w">-->
-                <!--<img alt="" src="images/avatar3.jpg">-->
-              <!--</div>-->
-              <!--<div class="message-content">-->
-                <!--<h6 class="message-from">-->
-                  <!--Bekky Simpson-->
-                <!--</h6>-->
-                <!--<h6 class="message-title">-->
-                  <!--Vacation Rentals-->
-                <!--</h6>-->
-              <!--</div>-->
-            <!--</a>-->
-          <!--</li>-->
-          <!--<li>-->
-            <!--<a href="#">-->
-              <!--<div class="user-avatar-w">-->
-                <!--<img alt="" src="images/avatar4.jpg">-->
-              <!--</div>-->
-              <!--<div class="message-content">-->
-                <!--<h6 class="message-from">-->
-                  <!--Alice Priskon-->
-                <!--</h6>-->
-                <!--<h6 class="message-title">-->
-                  <!--Payment Confirmation-->
-                <!--</h6>-->
-              <!--</div>-->
-            <!--</a>-->
-          <!--</li>-->
-        <!--</ul>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--------------------
-    END - Messages Link in secondary top menu
-    --------------------><!--------------------
-    --------------------><!--------------------
           START - User avatar and menu in secondary top menu
           -------------------->
     <div [ngClass]="{'top-icon top-settings': true, 'os-dropdown-trigger': true, 'os-dropdown-center': true, 'over': overClass2}" (mouseenter)="overClass2 = true" (mouseleave)="overClass2 = false">
@@ -176,4 +104,11 @@
     -------------------->
   </div>
 
+</div>
+<div class="top-menu-secondary color-scheme-dark with-overflow break-sub-menu">
+  <ul class="show-ul" fxLayoutAlign="space-around">
+    <li *ngFor="let menu of menuList" routerLinkActive="active">
+      <a [routerLink]="menu.route">{{menu.name}}</a>
+    </li>
+  </ul>
 </div>

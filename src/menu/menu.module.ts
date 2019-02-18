@@ -8,17 +8,19 @@ import {userServiceProvider} from '../parties/users/user.service.provider';
 import {photoServiceProvider} from '../parties/photo/photo.service.provider';
 import {billingDetailsServiceProvider} from '../billing-details/billing-details.service.provider';
 import { eventServiceProvider } from '../event/event.service.provider';
-import {menuServiceProvider} from "./menu.service.provider";
-import {MaterialModule} from "../app/material.module";
+import {menuServiceProvider} from './menu.service.provider';
+import {MaterialModule} from '../app/material.module';
 import {menuRepositoryProvider} from '../adapter/menu/menu.repository.adapter.provider';
 import {menuClientProvider} from '../client/menus/menu.client.provider';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     SearchModule,
-    MaterialModule
+    MaterialModule,
+    FlexLayoutModule
   ],
   declarations: [
     // MobileMenuComponent,

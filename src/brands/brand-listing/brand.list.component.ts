@@ -5,6 +5,7 @@ import {PageEvent} from '@angular/material';
 import {Brands} from '../brands';
 import {BrandService} from '../brand.service';
 import {ActivatedRoute} from '@angular/router';
+import {ASSET_SETTING, BRANDS} from '../../app/routes';
 
 @Component({
   selector: 'app-brand-list',
@@ -20,6 +21,8 @@ export class BrandListComponent implements OnInit {
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
   brandName: string;
+  routerLink = `/${ASSET_SETTING}/${BRANDS}`;
+  newLink = `${this.routerLink}/create`;
 
   constructor(private brandService: BrandService,
               private route: ActivatedRoute) {

@@ -11,7 +11,7 @@ import {BrandListComponent} from './brand-listing/brand.list.component';
 import {brandServiceProvider} from './brand.service.provider';
 import {brandRepositoryProvider} from '../adapter/brands/brand.repository.adapter.provider';
 import {brandClientProvider} from '../client/brands/brand.client.provider';
-import {BrandRoutingModule} from './brand.routing.module';
+// import {BrandRoutingModule} from './brand.routing.module';
 import {brandsResolveProvider} from './brands.resolve.provider';
 import {brandResolveProvider} from './brand.resolve.provider';
 
@@ -23,8 +23,8 @@ import {brandResolveProvider} from './brand.resolve.provider';
     ReactiveFormsModule,
     PagingModule,
     DeleteModalModule,
-    BrandRoutingModule,
-    MaterialModule
+    // BrandRoutingModule,
+    MaterialModule,
   ],
   declarations: [
     BrandComponent,
@@ -38,7 +38,10 @@ import {brandResolveProvider} from './brand.resolve.provider';
     brandRepositoryProvider,
     brandClientProvider
   ],
-  exports: []
+  exports: [
+    BrandFormComponent,
+    BrandListComponent,
+  ]
 })
 
 export class BrandModule { }

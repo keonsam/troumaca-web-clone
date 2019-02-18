@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AssetIdentifierType} from '../asset.identifier.type';
 import {AssetIdentifierTypeService} from '../asset.identifier.type.service';
-import {ASSET_IDENTIFIER_TYPE} from '../../app/routes';
+import {ASSET_IDENTIFIER_TYPE, ASSET_SETTING} from '../../app/routes';
 
 @Component({
   selector: 'app-asset-identifier-type-form',
@@ -20,6 +20,7 @@ export class AssetIdentifierTypeFormComponent implements OnInit {
   doNotDisplayFailureMessage = true;
 
   private assetIdentifierType: AssetIdentifierType;
+  private assetIdentifierTypeLink = `/${ASSET_SETTING}/${ASSET_IDENTIFIER_TYPE}/listing`;
 
   constructor(private assetIdentifierTypeService: AssetIdentifierTypeService,
               private formBuilder: FormBuilder,
@@ -65,7 +66,7 @@ export class AssetIdentifierTypeFormComponent implements OnInit {
     this.assetIdentifierTypeService.addAssetIdentifierType(this.assetIdentifierType)
       .subscribe( value => {
         if (value && value.assetIdentifierTypeId) {
-          this.router.navigate([ASSET_IDENTIFIER_TYPE]);
+          this.router.navigate([this.assetIdentifierTypeLink]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -81,7 +82,7 @@ export class AssetIdentifierTypeFormComponent implements OnInit {
     this.assetIdentifierTypeService.updateAssetIdentifierType(this.assetIdentifierType)
       .subscribe( value => {
         if (value) {
-          this.router.navigate([ASSET_IDENTIFIER_TYPE]);
+          this.router.navigate([this.assetIdentifierTypeLink]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -92,6 +93,6 @@ export class AssetIdentifierTypeFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([ASSET_IDENTIFIER_TYPE]);
+    this.router.navigate([this.assetIdentifierTypeLink]);
   }
 }
