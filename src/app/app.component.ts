@@ -2,7 +2,6 @@ import {Component, OnInit, Renderer2} from '@angular/core';
 import {NavigationEnd, NavigationStart, Router} from '@angular/router';
 import { authRoutes } from './auth.routes';
 import {SessionService} from '../session/session.service';
-import {HOME} from './routes';
 
 @Component({
   selector: 'app-component',
@@ -11,22 +10,24 @@ import {HOME} from './routes';
 })
 export class AppComponent implements OnInit {
 
-  isAuthPath = true;
-  homeLink = `/${HOME}`;
+  isAuthPath: boolean;
+  sub: any;
 
   constructor(private router: Router,
               private renderer: Renderer2,
               private sessionService: SessionService
               ) {
 
-    this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationEnd) {
+    this.sub = this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationStart) {
         const url = this.calURL(event.url);
         if (authRoutes.indexOf(url) > -1 || url.indexOf('forgot-password') > -1) {
           this.isAuthPath = true;
         } else {
           this.isAuthPath = false;
         }
+        this.sub.unsubscribe();
+        this.setRouter();
       }
     });
 
@@ -40,6 +41,20 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+
+  setRouter() {
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        const url = this.calURL(event.url);
+        if (authRoutes.indexOf(url) > -1 || url.indexOf('forgot-password') > -1) {
+          this.isAuthPath = true;
+        } else {
+          this.isAuthPath = false;
+        }
+      }
+    });
   }
 
   private calURL(url) {
