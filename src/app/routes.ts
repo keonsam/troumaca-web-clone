@@ -15,3 +15,6 @@ export const REGISTER = 'register';
 export const FORGOT_PASSWORD = 'forgot-password';
 export const CONFIRMATION = 'confirmations';
 export const ORGANIZATION = 'organizations';
+export const PARTY = 'parties';
+export const BILLING_DETAIL = 'billing-details';
+export const USER = 'users';

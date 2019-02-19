@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 import {User} from '../../user';
 import { Credential} from '../../../authentication/credential';
@@ -40,8 +40,7 @@ export class UserMeComponent implements OnInit {
 
   constructor(private userService: UserService,
               private route: ActivatedRoute,
-              private formBuilder: FormBuilder,
-              private router: Router) {
+              private formBuilder: FormBuilder) {
 
     this.user = new User();
     this.credential = new Credential();

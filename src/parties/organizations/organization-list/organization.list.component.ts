@@ -5,6 +5,7 @@ import {Sort} from '../../../sort/sort';
 import { OrganizationService } from '../organization.service';
 import {PageEvent} from '@angular/material';
 import {ActivatedRoute} from '@angular/router';
+import {ORGANIZATION, PARTY} from '../../../app/routes';
 
 @Component({
   selector: 'app-organization-list',
@@ -19,7 +20,7 @@ export class OrganizationListComponent implements OnInit {
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  routerLinkCreateUser = '/parties/organizations/create';
+  routerLinkCreateUser = `/${PARTY}/${ORGANIZATION}/create`;
 
   constructor(private organizationService: OrganizationService,
               private route: ActivatedRoute) {

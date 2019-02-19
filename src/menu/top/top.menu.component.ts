@@ -3,7 +3,7 @@ import {MenuService} from '../menu.service';
 import {SessionService} from '../../session/session.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {TopMenuNav} from '../top.menu.nav';
-import {LOBBY} from '../../app/routes';
+import {BILLING_DETAIL, LOBBY, ORGANIZATION, PARTY, USER} from '../../app/routes';
 
 @Component({
   selector: 'top-menu',
@@ -12,14 +12,16 @@ import {LOBBY} from '../../app/routes';
 })
 export class TopMenuComponent implements OnInit {
 
-  overClass = false;
-  // overClass1 = false;
   overClass2 = false;
   displaySearchBox: boolean;
   apps: any[];
   sub: any;
   menuList: TopMenuNav[];
   lobbyLink = `/${LOBBY}`;
+  comProLink = `/${PARTY}/${ORGANIZATION}/profile`;
+  billingLink = `/${BILLING_DETAIL}`;
+  userProfile = `/${PARTY}/${USER}/profile`;
+
 
   constructor(private menuService: MenuService,
               private sessionService: SessionService,
@@ -52,6 +54,10 @@ export class TopMenuComponent implements OnInit {
           this.sessionService.logoutEvent.next(true);
         }
       });
+  }
+
+  onDeactivate() {
+    console.log('function not implemented');
   }
 
 }

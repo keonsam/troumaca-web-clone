@@ -5,8 +5,7 @@ import {Router} from '@angular/router';
 
 import {Organization} from '../../organization';
 import {OrganizationService} from '../organization.service';
-import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
-import {ValidResponse} from '../../../authentication/valid.response';
+import {ORGANIZATION, PARTY} from '../../../app/routes';
 
 @Component({
   selector: 'app-organization-form',
@@ -24,6 +23,7 @@ export class OrganizationFormComponent implements OnInit {
 
   update = false;
   doNotDisplayFailureMessage: boolean;
+  private orgLink = `/${PARTY}/${ORGANIZATION}`;
 
 
   constructor(private organizationService: OrganizationService,
@@ -73,7 +73,7 @@ export class OrganizationFormComponent implements OnInit {
       .addOrganization(this.organization)
       .subscribe(value => {
         if (value && value.partyId) {
-          this.router.navigate(['/parties/organizations/listing']);
+          this.router.navigate([`${this.orgLink}/listing`]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -90,7 +90,7 @@ export class OrganizationFormComponent implements OnInit {
       .updateOrganization(this.organization)
       .subscribe(value => {
         if (value) {
-          this.router.navigate(['/parties/organizations/listing']);
+          this.router.navigate([`${this.orgLink}/listing`]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -101,7 +101,7 @@ export class OrganizationFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/parties/organizations/listing']);
+    this.router.navigate([`${this.orgLink}/listing`]);
   }
 
 }

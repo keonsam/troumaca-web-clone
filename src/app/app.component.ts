@@ -2,6 +2,7 @@ import {Component, OnInit, Renderer2} from '@angular/core';
 import {NavigationEnd, NavigationStart, Router} from '@angular/router';
 import { authRoutes } from './auth.routes';
 import {SessionService} from '../session/session.service';
+import {HOME} from './routes';
 
 @Component({
   selector: 'app-component',
@@ -10,8 +11,8 @@ import {SessionService} from '../session/session.service';
 })
 export class AppComponent implements OnInit {
 
-  isAuthPath = false;
-  showMenu = false;
+  isAuthPath = true;
+  homeLink = `/${HOME}`;
 
   constructor(private router: Router,
               private renderer: Renderer2,
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit {
               ) {
 
     this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationStart) {
+      if (event instanceof NavigationEnd) {
         const url = this.calURL(event.url);
         if (authRoutes.indexOf(url) > -1 || url.indexOf('forgot-password') > -1) {
           this.isAuthPath = true;
@@ -27,17 +28,13 @@ export class AppComponent implements OnInit {
           this.isAuthPath = false;
         }
       }
-
-      if (event instanceof NavigationEnd && !this.isAuthPath) {
-        this.showMenu = true;
-      }
     });
 
     this.sessionService.logoutEvent
       .subscribe( value => {
         if (value) {
-          this.showMenu = false;
           this.router.navigate(['/home']);
+          // this.isAuthPath = true;
         }
       });
   }

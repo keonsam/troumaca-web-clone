@@ -1,68 +1,63 @@
-  <div class="auth-box-w wider">
-    <div class="logo-w">
-      <a [routerLink]="homeLink"><img alt="" src="/images/logo-big.png"></a>
+<h4 class="auth-header">
+  Register
+</h4>
+<form [formGroup]="registrationForm">
+
+  <div class="row">
+
+    <div class="col-sm-6">
+      <mat-form-field class="example-full-width" appearance="outline">
+
+        <mat-label>First Name</mat-label>
+        <mat-icon matPrefix color="primary">person</mat-icon>
+        <input matInput [formControl]="firstName">
+        <mat-error *ngIf="firstName.hasError('required')">
+          First name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
     </div>
-    <h4 class="auth-header">
-      Register
-    </h4>
-    <form [formGroup]="registrationForm">
 
-      <div class="row">
-
-        <div class="col-sm-6">
-          <mat-form-field class="example-full-width" appearance="outline">
-
-            <mat-label>First Name</mat-label>
-            <mat-icon matPrefix color="primary">person</mat-icon>
-            <input matInput [formControl]="firstName">
-            <mat-error *ngIf="firstName.hasError('required')">
-              First name is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="col-sm-6">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Last Name</mat-label>
-            <input matInput [formControl]="lastName">
-            <mat-error *ngIf="lastName.hasError('required')">
-              Last name is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-      </div>
-
+    <div class="col-sm-6">
       <mat-form-field class="example-full-width" appearance="outline">
-        <mat-label>Username</mat-label>
-        <mat-icon matPrefix color="primary">email</mat-icon>
-        <input matInput [formControl]="username">
-        <mat-error *ngIf="username.hasError('validateEmail') && !username.hasError('required')">
-          Must be a phone number or email address and not be taken.
-        </mat-error>
-        <mat-error *ngIf="username.hasError('required')">
-          Username is <strong>required</strong>
+        <mat-label>Last Name</mat-label>
+        <input matInput [formControl]="lastName">
+        <mat-error *ngIf="lastName.hasError('required')">
+          Last name is <strong>required</strong>
         </mat-error>
       </mat-form-field>
+    </div>
 
-      <mat-form-field class="example-full-width" appearance="outline">
-        <mat-label>Password</mat-label>
-        <mat-icon matPrefix color="primary">fingerprint</mat-icon>
-        <input matInput [formControl]="password" type="password">
-        <mat-error *ngIf="password.hasError('password') && !password.hasError('required')">
-          At least eight characters: 1 upper case letter, numeric, and special character.
-        </mat-error>
-        <mat-error *ngIf="password.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-
-      <div class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Register failed, try again.</span></div>
-
-      <div class="buttons-w">
-        <!--<a mat-button color="primary" routerLink="/authentication/login">Login</a>-->
-        <button class="right-button" mat-flat-button color="primary" [disabled]="!registrationForm.valid" (click)="onCreate()">Register Now</button>
-      </div>
-
-    </form>
   </div>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Username</mat-label>
+    <mat-icon matPrefix color="primary">email</mat-icon>
+    <input matInput [formControl]="username">
+    <mat-error *ngIf="username.hasError('validateEmail') && !username.hasError('required')">
+      Must be a phone number or email address and not be taken.
+    </mat-error>
+    <mat-error *ngIf="username.hasError('required')">
+      Username is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Password</mat-label>
+    <mat-icon matPrefix color="primary">fingerprint</mat-icon>
+    <input matInput [formControl]="password" type="password">
+    <mat-error *ngIf="password.hasError('password') && !password.hasError('required')">
+      At least eight characters: 1 upper case letter, numeric, and special character.
+    </mat-error>
+    <mat-error *ngIf="password.hasError('required')">
+      Password is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <div class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Register failed, try again.</span></div>
+
+  <div class="buttons-w">
+    <!--<a mat-button color="primary" routerLink="/authentication/login">Login</a>-->
+    <button class="right-button" mat-flat-button color="primary" [disabled]="!registrationForm.valid" (click)="onCreate()">Register Now</button>
+  </div>
+
+</form>

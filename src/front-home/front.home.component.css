@@ -26,3 +26,17 @@
   float: right;
 }
 
+a[mat-button] {
+  text-decoration: none;
+}
+
+.auth-header {
+  text-align: center;
+  padding-left: 0px;
+}
+
+.auth-header:after {
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}

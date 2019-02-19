@@ -14,13 +14,17 @@
 }
 
 .icon-w {
-  font-size: 35px;
-  color: #0073ff;
-  /*margin-right: 30px;*/
+  padding: 10px;
 }
 
-.mat-icon.lobby-icons {
-  font-size: 36px;
+mat-icon {
+  font-size: 35px;
+}
+
+.label {
+  color: black;
+  font-size: 12px;
+  padding: 5px;
 }
 
 

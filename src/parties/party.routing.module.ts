@@ -16,26 +16,27 @@ import {ContactInfoResolve} from './contact-info/contact.info.resolve';
 import {AddressResolve} from './address/address.resolve';
 import {UsersResolve} from './users/user-list/users.resolve';
 import {UserMeResolve} from './users/user-me/user.me.resolve';
+import {ORGANIZATION, PARTY, USER} from '../app/routes';
 
 export const routes: Routes = [
   { path: '', component: PartyComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
-      { path: '', redirectTo: '/parties/organizations/listing', pathMatch: 'full' },
+      { path: '', redirectTo: `/${PARTY}/${ORGANIZATION}/listing`, pathMatch: 'full' },
       {
-        path: 'organization/profile', component: OrganizationCompanyComponent,
+        path: `${ORGANIZATION}/profile`, component: OrganizationCompanyComponent,
         resolve: {
           organization: OrganizationCompanyResolve,
           contactInfo: ContactInfoResolve,
           address: AddressResolve
         }
       },
-      { path: 'organizations/listing', component: OrganizationListComponent, resolve: {organizations: OrganizationsResolve} },
-      { path: 'organizations/create', component: OrganizationFormComponent },
-      { path: 'organizations/:partyId/edit', component: OrganizationFormComponent, resolve: {organization: OrganizationResolve} },
-      { path: 'users/listing', component: UserListComponent, resolve: { users: UsersResolve } },
-      { path: 'users/create', component: UserFormComponent },
-      { path: 'users/:partyId/edit', component: UserFormComponent, resolve: {user: UserResolve} },
+      { path: `${ORGANIZATION}/listing`, component: OrganizationListComponent, resolve: {organizations: OrganizationsResolve} },
+      { path: `${ORGANIZATION}/create`, component: OrganizationFormComponent },
+      { path: `${ORGANIZATION}/:partyId/edit`, component: OrganizationFormComponent, resolve: {organization: OrganizationResolve} },
+      { path: `${USER}/listing`, component: UserListComponent, resolve: { users: UsersResolve } },
+      { path: `${USER}/create`, component: UserFormComponent },
+      { path: `${USER}/:partyId/edit`, component: UserFormComponent, resolve: {user: UserResolve} },
       {
-        path: 'user/profile', component: UserMeComponent,
+        path: `${USER}/profile`, component: UserMeComponent,
         resolve: {
           user: UserMeResolve,
           contactInfo: ContactInfoResolve,

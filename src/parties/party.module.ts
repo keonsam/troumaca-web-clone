@@ -8,11 +8,9 @@ import {MenuModule} from '../menu/menu.module';
 import {PagingModule} from '../paging/paging.module';
 
 import {OrganizationListComponent} from './organizations/organization-list/organization.list.component';
-import {OrganizationTopMenuComponent} from './organizations/organization-top-menu/organization.top.menu.component';
 
 import { UserFormComponent } from './users/user-form/user.form.component';
 import {UserListComponent} from './users/user-list/user.list.component';
-import {UserTopMenuComponent} from './users/user-top-menu/user.top.menu.component';
 
 import {PartyEventService} from './party.event.service';
 
@@ -59,8 +57,6 @@ import {userMeResolveProvider} from './users/user-me/user.me.resolve.provider';
   declarations: [
     PartyComponent,
     OrganizationListComponent,
-    OrganizationTopMenuComponent,
-    UserTopMenuComponent,
     UserFormComponent,
     UserListComponent,
     ContactInfoComponent,

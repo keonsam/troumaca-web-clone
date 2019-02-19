@@ -1,56 +1,48 @@
-<div class="content-i">
+<div class="element-wrapper">
+  <h6 class="element-header">
+    Organization Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" [routerLink]="routerLinkCreateUser" href="#">New</a></object>
+  </h6>
+  <div class="element-box">
 
-  <!--<employee-top-menu></employee-top-menu>-->
+    <!--
+    Todo: Search is a great feature that we will have however we might just hold off doing it for the first
+    Todo: release
+    -->
 
-  <div class="content-box">
+    <!--<search></search>-->
 
-    <div class="element-wrapper">
-      <h5 class="element-header">
-        Organization Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" [routerLink]="routerLinkCreateUser" href="#">New</a></object>
-      </h5>
-      <div class="element-box">
-
-        <!--
-        Todo: Search is a great feature that we will have however we might just hold off doing it for the first
-        Todo: release
-        -->
-
-        <!--<search></search>-->
-
-        <div class="table-responsive table-section">
-          <table class="table table-striped table-lightfont table-full-width">
-            <thead>
-            <tr>
-              <th>Name</th>
-              <th>Purpose</th>
-              <th class="text-center">Actions</th>
-            </tr>
-            </thead>
-            <tfoot>
-            <tr>
-              <th>Name</th>
-              <th>Purpose</th>
-              <th class="text-center">Actions</th>
-            </tr>
-            </tfoot>
-            <tbody>
-            <tr role="row" *ngFor="let organization of organizations.organizations; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-              <td>{{organization.name}}</td>
-              <td>{{organization.purpose}}</td>
-              <td class="row-actions">
-                <a [routerLink]="['/parties/organizations', organization.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(organization.partyId, organization.name)"><i class="os-icon os-icon-ui-15"></i></a>
-              </td>
-            </tr>
-            <tr *ngIf="organizations.organizations.length < 1" class="odd">
-              <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
-            </tr>
-            </tbody>
-          </table>
-          <app-delete-modal [name]="organizationName" (delete)="onDelete($event)"></app-delete-modal>
-          <paging [page]="organizations.page" (requestPage)="onRequestPage($event)"></paging>
-        </div>
-
-      </div>
+    <div class="table-responsive table-section">
+      <table class="table table-striped table-lightfont table-full-width">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Purpose</th>
+          <th class="text-center">Actions</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+          <th>Name</th>
+          <th>Purpose</th>
+          <th class="text-center">Actions</th>
+        </tr>
+        </tfoot>
+        <tbody>
+        <tr role="row" *ngFor="let organization of organizations.organizations; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+          <td>{{organization.name}}</td>
+          <td>{{organization.purpose}}</td>
+          <td class="row-actions">
+            <a [routerLink]="['/parties/organizations', organization.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(organization.partyId, organization.name)"><i class="os-icon os-icon-ui-15"></i></a>
+          </td>
+        </tr>
+        <tr *ngIf="organizations.organizations.length < 1" class="odd">
+          <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+        </tr>
+        </tbody>
+      </table>
+      <app-delete-modal [name]="organizationName" (delete)="onDelete($event)"></app-delete-modal>
+      <paging [page]="organizations.page" (requestPage)="onRequestPage($event)"></paging>
     </div>
+
   </div>
 </div>

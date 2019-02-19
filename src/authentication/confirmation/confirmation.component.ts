@@ -93,9 +93,8 @@ export class ConfirmationComponent implements OnInit {
         if (confirmation && confirmation.status === 'Confirmed') {
           if (this.router.url.indexOf('forgot-password') !== -1) {
             this.redirectLink = `/${AUTHENTICATION}/${FORGOT_PASSWORD}/change/${confirmation.credentialId}/${confirmation.code}`;
-          }else {
-            this.router.navigate([this.redirectLink]);
           }
+          this.router.navigate([this.redirectLink]);
         } else if (confirmation && confirmation.status === 'Expired') {
           this.message = 'Expired, please generate a new one below.';
           this.doNotDisplayFailureMessage = false;

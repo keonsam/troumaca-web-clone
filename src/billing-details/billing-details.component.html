@@ -1,168 +1,140 @@
-<div class="content-w">
+<div class="content-i">
+  <div class="content-box">
+    <div class="element-wrapper compact pt-4">
+      <div class="element-actions">
+        <a class="btn btn-primary btn-sm" href data-target="#billingModal1" data-toggle="modal" (click)="onBillingModalOpen()"><i class="os-icon os-icon-ui-22"></i><span>Add Account</span></a>
+      </div>
+      <h6 class="element-header">
+        Financial Overview
+      </h6>
+      <div class="element-box-tp">
+        <div class="row">
 
-  <div class="content-i">
-    <div class="content-box">
-      <div class="element-wrapper compact pt-4">
-        <div class="element-actions">
-          <a class="btn btn-primary btn-sm" href data-target="#billingModal1" data-toggle="modal" (click)="onBillingModalOpen()"><i class="os-icon os-icon-ui-22"></i><span>Add Account</span></a>
-        </div>
-        <h6 class="element-header">
-          Financial Overview
-        </h6>
-        <div class="element-box-tp">
-          <div class="row">
-
-            <div class="col-lg-7 col-xxl-6">
-              <!--START - BALANCES-->
-              <div  class="element-balances">
-                <div *ngFor="let subscription of subscriptions" class="balance">
-                  <div class="balance-title">
-                    {{ subscription.name }}
-                  </div>
-                  <div class="balance-value">
-                    {{ subscription.cost }}
-                  </div>
-                  <div class="balance-link">
-                    <a class="btn btn-link btn-underlined" href (click)="onUnSubscribe(subscription.subscriptionId);false"><span>Unsubscribe</span></a>
-                  </div>
+          <div class="col-lg-7 col-xxl-6">
+            <!--START - BALANCES-->
+            <div  class="element-balances">
+              <div *ngFor="let subscription of subscriptions" class="balance">
+                <div class="balance-title">
+                  {{ subscription.name }}
                 </div>
-
-                <div *ngIf="subscriptions.length < 1" class="balance">
-                  <div class="balance-title">
-                    No Billing
-                  </div>
+                <div class="balance-value">
+                  {{ subscription.cost }}
                 </div>
-
-              </div>
-              <!--END - BALANCES-->
-            </div>
-
-            <div class="col-lg-5 col-xxl-6">
-              <!--START - MESSAGE ALERT-->
-              <div class="element-wrapper">
-                <h6 class="element-header">
-                  Payment Information
-                </h6>
-                <div class="element-box">
-                  <div class="table-responsive table-section">
-                    <table class="table table-striped table-lightfont table-full-width">
-                      <thead>
-                      <tr>
-                        <th>Method</th>
-                        <th>Name</th>
-                        <th>Ending</th>
-                        <th class="text-center">Actions</th>
-                      </tr>
-                      </thead>
-                      <tfoot>
-                      <tr>
-                        <th>Method</th>
-                        <th>Name</th>
-                        <th>Ending</th>
-                        <th class="text-center">Actions</th>
-                      </tr>
-                      </tfoot>
-                      <tbody>
-                      <tr role="row" *ngFor="let payInfo of paymentInformation; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-                        <td>{{payInfo.method}}</td>
-                        <td>{{payInfo.cardName}}</td>
-                        <td>{{payInfo.ending}}</td>
-                        <td class="row-actions">
-                          <a href="#" data-target="#billingModal1" data-toggle="modal" (click)="onBillingModalOpen(payInfo)"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(payInfo.paymentId, payInfo.cardName);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
-                        </td>
-                      </tr>
-                      <tr *ngIf="paymentInformation.length <= 0" class="odd">
-                        <td valign="top" align="" colspan="9" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                    <app-delete-modal [name]="cardName" (delete)="onDelete($event)"></app-delete-modal>
-                  </div>
-
+                <div class="balance-link">
+                  <a class="btn btn-link btn-underlined" href (click)="onUnSubscribe(subscription.subscriptionId);false"><span>Unsubscribe</span></a>
                 </div>
               </div>
-              <!--END - MESSAGE ALERT-->
-            </div>
 
+              <div *ngIf="subscriptions.length < 1" class="balance">
+                <div class="balance-title">
+                  No Billing
+                </div>
+              </div>
+
+            </div>
+            <!--END - BALANCES-->
           </div>
+
+          <div class="col-lg-5 col-xxl-6">
+            <!--START - MESSAGE ALERT-->
+            <div class="element-wrapper">
+              <h6 class="element-header">
+                Payment Information
+              </h6>
+              <div class="element-box">
+                <div class="table-responsive table-section">
+                  <table class="table table-striped table-lightfont table-full-width">
+                    <thead>
+                    <tr>
+                      <th>Method</th>
+                      <th>Name</th>
+                      <th>Ending</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                      <th>Method</th>
+                      <th>Name</th>
+                      <th>Ending</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr role="row" *ngFor="let payInfo of paymentInformation; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+                      <td>{{payInfo.method}}</td>
+                      <td>{{payInfo.cardName}}</td>
+                      <td>{{payInfo.ending}}</td>
+                      <td class="row-actions">
+                        <a href="#" data-target="#billingModal1" data-toggle="modal" (click)="onBillingModalOpen(payInfo)"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(payInfo.paymentId, payInfo.cardName);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+                      </td>
+                    </tr>
+                    <tr *ngIf="paymentInformation.length <= 0" class="odd">
+                      <td valign="top" align="" colspan="9" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <app-delete-modal [name]="cardName" (delete)="onDelete($event)"></app-delete-modal>
+                </div>
+
+              </div>
+            </div>
+            <!--END - MESSAGE ALERT-->
+          </div>
+
         </div>
       </div>
+    </div>
 
-      <!--START - Transactions Table-->
-      <div class="element-wrapper">
-        <h6 class="element-header">
-          Recent Transactions
-        </h6>
-        <div class="element-box-tp">
-          <div class="table-responsive">
-            <table class="table table-padded">
-              <thead>
-              <tr>
-                <th>
-                  Date
-                </th>
-                <th>
-                  Description
-                </th>
-                <th class="text-center">
-                  Subscription
-                </th>
-                <th class="text-right">
-                  Amount
-                </th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let billing of billings">
-                <td>
-                  <span>{{ billing.createdOn | date: 'fullDate' }}</span>
-                </td>
-                <td>
-                  <span>{{ billing.description }}</span>
-                </td>
-                <td class="text-center">
-                  <span>{{ billing.name }}</span>
-                </td>
-                <td *ngIf="billing.amount === 'Free'" class="text-right bolder nowrap">
-                  <span class="text-primary">{{ billing.amount }}</span>
-                </td>
-                <td *ngIf="billing.amount !== 'Free'" class="text-right bolder nowrap">
-                  <span class="text-danger">- {{ billing.amount }} USD</span>
-                </td>
-              </tr>
-              <tr *ngIf="billings.length < 1">
-                <td  valign="top" align="" colspan="4" class="text-center">No Data</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
+    <!--START - Transactions Table-->
+    <div class="element-wrapper">
+      <h6 class="element-header">
+        Recent Transactions
+      </h6>
+      <div class="element-box-tp">
+        <div class="table-responsive">
+          <table class="table table-padded">
+            <thead>
+            <tr>
+              <th>
+                Date
+              </th>
+              <th>
+                Description
+              </th>
+              <th class="text-center">
+                Subscription
+              </th>
+              <th class="text-right">
+                Amount
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let billing of billings">
+              <td>
+                <span>{{ billing.createdOn | date: 'fullDate' }}</span>
+              </td>
+              <td>
+                <span>{{ billing.description }}</span>
+              </td>
+              <td class="text-center">
+                <span>{{ billing.name }}</span>
+              </td>
+              <td *ngIf="billing.amount === 'Free'" class="text-right bolder nowrap">
+                <span class="text-primary">{{ billing.amount }}</span>
+              </td>
+              <td *ngIf="billing.amount !== 'Free'" class="text-right bolder nowrap">
+                <span class="text-danger">- {{ billing.amount }} USD</span>
+              </td>
+            </tr>
+            <tr *ngIf="billings.length < 1">
+              <td  valign="top" align="" colspan="4" class="text-center">No Data</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
-
-  <app-billing-modal></app-billing-modal>
-
-  <button hidden #openButton data-target="#primaryModal1" data-toggle="modal"></button>
-  <!--<div aria-hidden="true" aria-labelledby="primaryModalLabel" class="modal fade" id="primaryModal1" role="dialog" tabindex="-1">-->
-    <!--<div class="modal-dialog modal-sm" role="document">-->
-      <!--<div class="modal-content">-->
-        <!--<div class="modal-header">-->
-          <!--<h5 class="modal-title" id="primaryModalLabel">-->
-            <!--Primary Payment-->
-          <!--</h5>-->
-          <!--<button aria-label="Close" class="close" data-dismiss="modal" type="button" #closeButton><span aria-hidden="true"> ×</span></button>-->
-        <!--</div>-->
-        <!--<div class="modal-body">-->
-          <!--<div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ creditCard.cardName + ' ' + creditCard.ending}} primary. Please try again.</div>-->
-          <!--<p>This make <strong>{{ creditCard.cardName + ' ' + creditCard.ending}}</strong> your primary payment method?</p>-->
-        <!--</div>-->
-        <!--<div class="modal-footer">-->
-          <!--<button class="btn btn-primary" data-dismiss="modal" type="button" (click)="onMakePrimary()">Yes</button>-->
-          <!--<button class="btn btn-outline-danger right-button" type="button" data-dismiss="modal">Cancel</button>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-
 </div>

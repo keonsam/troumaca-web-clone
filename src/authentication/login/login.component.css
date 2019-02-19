@@ -4,6 +4,9 @@
   text-align: center;
 }
 
+a[mat-button] {
+  text-decoration: none;
+}
 /*
   Troumaca overrides etc.
 */
