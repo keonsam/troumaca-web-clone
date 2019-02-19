@@ -19,7 +19,7 @@ export class AssetListComponent implements OnInit {
   private defaultPage = 1;
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
-  routerLinkCreateAsset = `${ASSET}/create`;
+  routerLinkCreateAsset = `/${ASSET}/create`;
   assetName: string;
 
   constructor(private assetService: AssetService) {
@@ -40,8 +40,6 @@ export class AssetListComponent implements OnInit {
         this.assets = next;
       }, error => {
         console.log(error);
-      }, () => {
-        console.log('complete');
       });
   }
 
@@ -61,8 +59,6 @@ export class AssetListComponent implements OnInit {
           }
         }, error => {
           console.log(error);
-        }, () => {
-          console.log('complete');
         });
     }
   }

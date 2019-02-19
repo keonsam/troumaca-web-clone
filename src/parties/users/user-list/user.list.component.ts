@@ -5,6 +5,7 @@ import {Sort} from '../../../sort/sort';
 import { UserService } from '../user.service';
 import {PageEvent} from '@angular/material';
 import {ActivatedRoute} from '@angular/router';
+import {PARTY, USER} from '../../../app/routes';
 
 @Component({
   selector: 'app-user-list',
@@ -15,7 +16,7 @@ export class UserListComponent implements OnInit {
 
   username: string;
   users: Users;
-  routerLinkCreateUser = '/parties/users/create';
+  routerLinkCreateUser = `/${PARTY}/${USER}/create`;
 
 
   private partyId: string;

@@ -1,5 +1,5 @@
 <form [formGroup]="contactInfoForm">
-  <h6 class="form-header">Contact Info<i *ngIf="activePane === 'left'" class="os-icon os-icon-pencil-2 float-right blue-icon" (click)="setActivePane('right')"></i></h6>
+  <h5 class="form-header">Contact Info<i *ngIf="activePane === 'left'" class="os-icon os-icon-pencil-2 float-right blue-icon" (click)="setActivePane('right')"></i></h5>
 
   <div class="slider-container">
     <div class="parent-slider" [@slide]="activePane">

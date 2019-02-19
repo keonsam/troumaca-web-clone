@@ -8,6 +8,7 @@ import { map, distinctUntilChanged, filter, debounceTime } from 'rxjs/operators'
 import { UserService } from '../user.service';
 import { Credential } from '../../../authentication/credential';
 import {AccessRole} from '../../../access-roles/access.role';
+import { PARTY, USER} from '../../../app/routes';
 
 @Component({
   selector: 'app-user-form',
@@ -32,6 +33,7 @@ export class UserFormComponent implements OnInit {
 
   doNotDisplayFailureMessage: boolean;
   update = false;
+  private userLink = `/${PARTY}/${USER}`;
 
   constructor(private userService: UserService,
               private formBuilder: FormBuilder,
@@ -141,7 +143,7 @@ export class UserFormComponent implements OnInit {
       .addUser(this.user, this.credential, this.partyAccessRoles)
       .subscribe(value => {
         if (value && value.partyId) {
-          this.router.navigate(['/parties/users/listing']);
+          this.router.navigate([`${this.userLink}/listing`]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -157,7 +159,7 @@ export class UserFormComponent implements OnInit {
       .updateUser(this.user, this.credential, this.partyAccessRoles)
       .subscribe(value => {
         if (value) {
-          this.router.navigate(['/parties/users/listing']);
+          this.router.navigate([`${this.userLink}/listing`]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -168,7 +170,7 @@ export class UserFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/parties/users/listing']);
+    this.router.navigate([`${this.userLink}/listing`]);
   }
 
 }

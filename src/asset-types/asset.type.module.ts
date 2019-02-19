@@ -40,7 +40,7 @@ import {AssetRoleSecModule} from '../asset-role-types/asset-role-sec/asset.role.
     AssetCharacteristicSecModule,
     AssetNameSecModule,
     AssetIdentifierSecModule,
-    AssetRoleSecModule
+    AssetRoleSecModule,
   ],
   declarations: [
     AssetTypeComponent,

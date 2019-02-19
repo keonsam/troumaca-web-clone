@@ -1,62 +1,55 @@
-<div class="content-i">
+<div class="element-wrapper">
+  <h6 class="element-header">
+    User Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" [routerLink]="routerLinkCreateUser" href="#">New</a></object>
+  </h6>
+  <div class="element-box">
 
-  <!--<employee-top-menu></employee-top-menu>-->
+    <!--
+    Todo: Search is a great feature that we will have however we might just hold off doing it for the first
+    Todo: release
+    -->
 
-  <div class="content-box">
+    <!--<search></search>-->
 
-    <div class="element-wrapper">
-      <h6 class="element-header">
-        User Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" [routerLink]="routerLinkCreateUser" href="#">New</a></object>
-      </h6>
-      <div class="element-box">
-
-        <!--
-        Todo: Search is a great feature that we will have however we might just hold off doing it for the first
-        Todo: release
-        -->
-
-        <!--<search></search>-->
-
-        <div class="table-responsive table-section">
-          <table class="table table-striped table-lightfont table-full-width">
-            <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Middle Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-              <th class="text-center">Actions</th>
-            </tr>
-            </thead>
-            <tfoot>
-            <tr>
-              <th>First Name</th>
-              <th>Middle Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-              <th class="text-center">Actions</th>
-            </tr>
-            </tfoot>
-            <tbody>
-            <tr role="row" *ngFor="let user of users.users; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-              <td>{{user.firstName}}</td>
-              <td>{{user.middleName}}</td>
-              <td>{{user.lastName}}</td>
-              <td>{{user.username}}</td>
-              <td class="row-actions">
-                <a [routerLink]="['/parties/users', user.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(user.partyId, user.username)"><i class="os-icon os-icon-ui-15"></i></a>
-              </td>
-            </tr>
-            <tr *ngIf="users.users.length <= 0" class="odd">
-              <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
-            </tr>
-            </tbody>
-          </table>
-          <app-delete-modal [name]="username" (delete)="onDelete($event)"></app-delete-modal>
-          <paging [page]="users.page" (requestPage)="onRequestPage($event)"></paging>
-        </div>
-
-      </div>
+    <div class="table-responsive table-section">
+      <table class="table table-striped table-lightfont table-full-width">
+        <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Middle Name</th>
+          <th>Last Name</th>
+          <th>Username</th>
+          <th class="text-center">Actions</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+          <th>First Name</th>
+          <th>Middle Name</th>
+          <th>Last Name</th>
+          <th>Username</th>
+          <th class="text-center">Actions</th>
+        </tr>
+        </tfoot>
+        <tbody>
+        <tr role="row" *ngFor="let user of users.users; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+          <td>{{user.firstName}}</td>
+          <td>{{user.middleName}}</td>
+          <td>{{user.lastName}}</td>
+          <td>{{user.username}}</td>
+          <td class="row-actions">
+            <a [routerLink]="['/parties/users', user.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(user.partyId, user.username)"><i class="os-icon os-icon-ui-15"></i></a>
+          </td>
+        </tr>
+        <tr *ngIf="users.users.length <= 0" class="odd">
+          <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+        </tr>
+        </tbody>
+      </table>
+      <app-delete-modal [name]="username" (delete)="onDelete($event)"></app-delete-modal>
+      <paging [page]="users.page" (requestPage)="onRequestPage($event)"></paging>
     </div>
+
   </div>
 </div>
+

@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Brand} from '../brand';
 import {BrandService} from '../brand.service';
+import {ASSET_SETTING, BRANDS} from '../../app/routes';
 
 @Component({
   selector: 'app-brand-form',
@@ -20,6 +21,7 @@ export class BrandFormComponent implements OnInit {
   doNotDisplayFailureMessage = true;
 
   private brand: Brand;
+  private brandLink = `/${ASSET_SETTING}/${BRANDS}/listing`;
 
   constructor(private brandService: BrandService,
               private formBuilder: FormBuilder,
@@ -69,7 +71,7 @@ export class BrandFormComponent implements OnInit {
     this.brandService.addBrand(this.brand)
       .subscribe( value => {
         if (value && value.brandId) {
-          this.router.navigate(['/brands'])
+          this.router.navigate([this.brandLink])
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -85,7 +87,7 @@ export class BrandFormComponent implements OnInit {
     this.brandService.updateBrand(this.brand)
       .subscribe( value => {
         if (value) {
-          this.router.navigate(['/brands'])
+          this.router.navigate([this.brandLink])
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -96,6 +98,6 @@ export class BrandFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/brands']);
+    this.router.navigate([this.brandLink]);
   }
 }

@@ -38,7 +38,9 @@ export class AssetCharacteristicFormComponent implements OnInit {
   doNotDisplayFailureMessage = true;
 
   private assetCharacteristic: AssetCharacteristic;
+  private assetCharacteristicLink = `/${ASSET_CHARACTERISTICS}`;
   private pageSize = 5;
+
   constructor(private assetCharacteristicService: AssetCharacteristicService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -169,7 +171,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
     this.assetCharacteristicService.addAssetCharacteristic(this.assetCharacteristic)
       .subscribe(value => {
         if (value && value.assetCharacteristicId) {
-          this.router.navigate([ASSET_CHARACTERISTICS])
+          this.router.navigate([this.assetCharacteristicLink])
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -185,7 +187,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
     this.assetCharacteristicService.updateAssetCharacteristic(this.assetCharacteristic)
       .subscribe(value => {
         if (value) {
-          this.router.navigate([ASSET_CHARACTERISTICS])
+          this.router.navigate([this.assetCharacteristicLink])
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -196,6 +198,6 @@ export class AssetCharacteristicFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([ASSET_CHARACTERISTICS]);
+    this.router.navigate([this.assetCharacteristicLink]);
   }
 }

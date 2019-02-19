@@ -1,33 +1,30 @@
-<div class="content-w">
+<div class="content-i">
+  <div class="content-box">
 
-  <div class="content-i">
-    <div class="content-box">
+    <div class="row">
+      <div class="col-sm-12">
 
-      <div class="row">
-        <div class="col-sm-12">
-
-          <div *ngIf="apps.length > 0" class="element-wrapper pt-4">
-            <h6 class="element-header">
-              Apps
-            </h6>
-            <div  class="row">
-              <div *ngFor="let app of apps" class="col-6 col-sm-4">
-                <a [routerLink]="app.route" class="element-box el-tablo centered" href>
-                  <div class="icon-w">
-                    <mat-icon color="primary" class="lobby-icons">{{app.iconClass}}</mat-icon>
-                  </div>
-                  <div class="label">
-                    {{ app.name }}
-                  </div>
-                </a>
-              </div>
+        <div *ngIf="apps.length > 0" class="element-wrapper pt-4">
+          <h6 class="element-header">
+            Apps
+          </h6>
+          <div  class="row">
+            <div *ngFor="let app of apps" class="col-6 col-sm-4">
+              <a [routerLink]="app.route" class="element-box el-tablo centered" href>
+                <div class="icon-w">
+                  <mat-icon color="primary" >{{app.iconClass}}</mat-icon>
+                </div>
+                <div class="label">
+                  <span>{{ app.name }} </span>
+                </div>
+              </a>
             </div>
           </div>
-
         </div>
-      </div>
 
+      </div>
     </div>
+
   </div>
 </div>
 

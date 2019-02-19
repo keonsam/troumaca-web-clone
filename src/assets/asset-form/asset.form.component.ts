@@ -56,6 +56,7 @@ export class AssetFormComponent implements OnInit {
   assetRoles: AssetRole[];
 
   private asset: Asset;
+  private assetLink = `/${ASSET}`;
 
   constructor(private assetService: AssetService,
               private formBuilder: FormBuilder,
@@ -133,8 +134,6 @@ export class AssetFormComponent implements OnInit {
         this.asset.assetNames = value.names;
         this.asset.identifiers = value.identifiers;
         this.asset.roles = value.roles;
-      }, error2 => {
-        console.log(error2);
       });
   }
 
@@ -245,7 +244,7 @@ export class AssetFormComponent implements OnInit {
     this.assetService.addAsset(this.asset)
       .subscribe(value => {
         if (value && value.assetId) {
-          this.router.navigate([ASSET])
+          this.router.navigate([this.assetLink])
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -260,7 +259,7 @@ export class AssetFormComponent implements OnInit {
       .updateAsset(this.asset.assetId, this.asset)
       .subscribe(value => {
         if (value) {
-          this.router.navigate([ASSET])
+          this.router.navigate([this.assetLink])
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -271,7 +270,7 @@ export class AssetFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([ASSET]);
+    this.router.navigate([this.assetLink]);
   }
 
 }

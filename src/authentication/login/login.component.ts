@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
 import { Credential } from '../credential';
 import {SessionService} from '../../session/session.service';
-import {AUTHENTICATION, CONFIRMATION, FORGOT_PASSWORD, LOBBY, ORGANIZATION} from '../../app/routes';
+import {AUTHENTICATION, CONFIRMATION, FORGOT_PASSWORD, HOME, LOBBY, ORGANIZATION} from '../../app/routes';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit {
   rememberMe: FormControl;
   private credential: Credential;
   doNotDisplayFailureMessage = true;
-  forgotPasswordRoute = `${AUTHENTICATION}${FORGOT_PASSWORD}/username`;
+  forgotPasswordRoute = `/${AUTHENTICATION}/${FORGOT_PASSWORD}/username`;
+  homeLink = `/${HOME}`;
 
   constructor(private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
@@ -64,13 +65,13 @@ export class LoginComponent implements OnInit {
       .subscribe(authenticatedCredential => {
         if (authenticatedCredential && authenticatedCredential.authenticateStatus === 'CredentialActive') {
           this.sessionService.loginEvent.next(true);
-          this.router.navigate([LOBBY]);
+          this.router.navigate([`/${LOBBY}`]);
         }else if (authenticatedCredential && authenticatedCredential.authenticateStatus === 'CredentialConfirmed') {
-          this.router.navigate([ORGANIZATION]);
+          this.router.navigate([`/${ORGANIZATION}`]);
         }else if (authenticatedCredential && authenticatedCredential.authenticateStatus === 'CredentialUsernameNotConfirmed') {
           const credentialId = authenticatedCredential.credentialId;
           const confirmationId = authenticatedCredential.confirmationId;
-          this.router.navigate([`${AUTHENTICATION}${CONFIRMATION}/${credentialId}/${confirmationId}`]);
+          this.router.navigate([`/${AUTHENTICATION}/${CONFIRMATION}/${credentialId}/${confirmationId}`]);
         }else {
           console.log(authenticatedCredential);
           this.doNotDisplayFailureMessage = false;

@@ -1,5 +1,4 @@
 import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import { App } from './app';
 import {LobbyService} from './lobby.service';
 
 @Component({
@@ -10,7 +9,7 @@ import {LobbyService} from './lobby.service';
 
 export class LobbyComponent implements OnInit {
 
-  apps: App[];
+  apps: any[];
   @ViewChild('showModal') showModal: ElementRef;
   @ViewChild('closeButton') closeButton: ElementRef;
   doNotDisplayFailureMessage = true;

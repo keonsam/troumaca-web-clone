@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PartyService} from '../party.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Address} from './address';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
@@ -40,8 +40,7 @@ export class AddressComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private partyService: PartyService,
-              private route: ActivatedRoute,
-              private router: Router) {
+              private route: ActivatedRoute) {
     this.address = new Address();
     this.streetNumber = new FormControl('', [Validators.required]);
     this.streetName = new FormControl('', [Validators.required]);

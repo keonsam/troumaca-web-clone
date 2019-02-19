@@ -1,17 +1,13 @@
-import {UnitOfMeasureRepositoryAdapter} from './unit.of.measure.repository.adapter';
-import {UnitOfMeasureClient} from '../../client/unit-of-measure/unit.of.measure.client';
-import { UnitOfMeasureRepository} from "../../unit-of-measure/unit.of.measure.repository";
+import { UnitOfMeasureClient } from '../../client/unit-of-measure/unit.of.measure.client';
+import { UnitOfMeasureRepository} from '../../unit-of-measure/unit.of.measure.repository';
+import { UnitOfMeasureRepositoryAdapter } from './unit.of.measure.repository.adapter';
 
-export function unitOfMeasureRepositoryProviderFactory (unitOfMeasureClient: UnitOfMeasureClient): UnitOfMeasureRepository {
-  let unitOfMeasureRepository: UnitOfMeasureRepository;
-  if (!unitOfMeasureRepository) {
-    unitOfMeasureRepository = new UnitOfMeasureRepositoryAdapter(unitOfMeasureClient);
-  }
-  return unitOfMeasureRepository;
+export function unitOfMeasureRepositoryFactory (unitOfMeasureClient: UnitOfMeasureClient): UnitOfMeasureRepository {
+  return new UnitOfMeasureRepositoryAdapter(unitOfMeasureClient);
 }
 
 export let unitOfMeasureRepositoryProvider = {
   provide: UnitOfMeasureRepository,
-  useFactory: unitOfMeasureRepositoryProviderFactory,
+  useFactory: unitOfMeasureRepositoryFactory,
   deps: [UnitOfMeasureClient]
 };

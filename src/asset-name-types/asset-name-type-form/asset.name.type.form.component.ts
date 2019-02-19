@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AssetNameType} from '../asset.name.type';
 import {AssetNameTypeService} from '../asset.name.type.service';
-import {ASSET_NAME_TYPE} from '../../app/routes';
+import {ASSET_NAME_TYPE, ASSET_SETTING} from '../../app/routes';
 
 @Component({
   selector: 'app-asset-name-type-form',
@@ -20,6 +20,7 @@ export class AssetNameTypeFormComponent implements OnInit {
   doNotDisplayFailureMessage = true;
 
   private assetNameType: AssetNameType;
+  private assetNameTypeLink = `/${ASSET_SETTING}/${ASSET_NAME_TYPE}/listing`;
 
   constructor(private assetNameTypeService: AssetNameTypeService,
               private formBuilder: FormBuilder,
@@ -65,7 +66,7 @@ export class AssetNameTypeFormComponent implements OnInit {
     this.assetNameTypeService.addAssetNameType(this.assetNameType)
       .subscribe( value => {
         if (value && value.assetNameTypeId) {
-          this.router.navigate([ASSET_NAME_TYPE]);
+          this.router.navigate([this.assetNameTypeLink]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -81,7 +82,7 @@ export class AssetNameTypeFormComponent implements OnInit {
     this.assetNameTypeService.updateAssetNameType(this.assetNameType)
       .subscribe( value => {
         if (value) {
-          this.router.navigate([ASSET_NAME_TYPE]);
+          this.router.navigate([this.assetNameTypeLink]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -92,6 +93,6 @@ export class AssetNameTypeFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([ASSET_NAME_TYPE]);
+    this.router.navigate([this.assetNameTypeLink]);
   }
 }

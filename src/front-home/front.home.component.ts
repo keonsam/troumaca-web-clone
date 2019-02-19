@@ -9,8 +9,8 @@ import {AUTHENTICATION, LOGIN, REGISTER} from '../app/routes';
 export class FrontHomeComponent {
   private _title = 'app';
   private _isLoggedIn: boolean;
-  loginRoute = `${AUTHENTICATION}${LOGIN}`;
-  registerRoute = `${AUTHENTICATION}${REGISTER}`;
+  loginRoute = `/${AUTHENTICATION}/${LOGIN}`;
+  registerRoute = `/${AUTHENTICATION}/${REGISTER}`;
 
   constructor() {
   }

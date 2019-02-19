@@ -11,7 +11,7 @@ import {AssetIdentifierTypeListComponent} from './asset-identifier-type-listing/
 import {assetIdentifierTypeServiceProvider} from './asset.identifier.type.service.provider';
 import {assetIdentifierTypeRepositoryProvider} from '../adapter/asset-identifier-types/asset.identifier.type.repository.adapter.provider';
 import {assetIdentifierTypeClientProvider} from '../client/asset-identifier-types/asset.identifier.type.client.provider';
-import {AssetIdentifierTypeRoutingModule} from './asset.identifier.type.routing.module';
+// import {AssetIdentifierTypeRoutingModule} from './asset.identifier.type.routing.module';
 import {assetIdentifierTypesResolveProvider} from './asset.identifier.types.resolve.provider';
 import {assetIdentifierTypeResolveProvider} from './asset.identifier.type.resolve.provider';
 
@@ -23,7 +23,7 @@ import {assetIdentifierTypeResolveProvider} from './asset.identifier.type.resolv
     ReactiveFormsModule,
     PagingModule,
     DeleteModalModule,
-    AssetIdentifierTypeRoutingModule,
+    // AssetIdentifierTypeRoutingModule,
     MaterialModule
   ],
   declarations: [
@@ -38,7 +38,10 @@ import {assetIdentifierTypeResolveProvider} from './asset.identifier.type.resolv
     assetIdentifierTypeRepositoryProvider,
     assetIdentifierTypeClientProvider
   ],
-  exports: []
+  exports: [
+    AssetIdentifierTypeFormComponent,
+    AssetIdentifierTypeListComponent,
+  ]
 })
 
 export class AssetIdentifierTypeModule { }

@@ -11,7 +11,7 @@ import {AssetRoleTypeListComponent} from './asset-role-type-listing/asset.role.t
 import {assetRoleTypeServiceProvider} from './asset.role.type.service.provider';
 import {assetRoleTypeRepositoryProvider} from '../adapter/asset-role-types/asset.role.type.repository.adapter.provider';
 import {assetRoleTypeClientProvider} from '../client/asset-role-types/asset.role.type.client.provider';
-import {AssetRoleTypeRoutingModule} from './asset.role.type.routing.module';
+// import {AssetRoleTypeRoutingModule} from './asset.role.type.routing.module';
 import {assetRoleTypesResolveProvider} from './asset.role.types.resolve.provider';
 import {assetRoleTypeResolveProvider} from './asset.role.type.resolve.provider';
 
@@ -23,11 +23,15 @@ import {assetRoleTypeResolveProvider} from './asset.role.type.resolve.provider';
     ReactiveFormsModule,
     PagingModule,
     DeleteModalModule,
-    AssetRoleTypeRoutingModule,
+    // AssetRoleTypeRoutingModule,
     MaterialModule
   ],
   declarations: [
     AssetRoleTypeComponent,
+    AssetRoleTypeFormComponent,
+    AssetRoleTypeListComponent,
+  ],
+  exports: [
     AssetRoleTypeFormComponent,
     AssetRoleTypeListComponent,
   ],
@@ -38,7 +42,6 @@ import {assetRoleTypeResolveProvider} from './asset.role.type.resolve.provider';
     assetRoleTypeRepositoryProvider,
     assetRoleTypeClientProvider
   ],
-  exports: []
 })
 
 export class AssetRoleTypeModule { }

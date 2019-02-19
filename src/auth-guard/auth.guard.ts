@@ -58,7 +58,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
         if (!route) {
           if (!validSession.valid) {
             this.sessionService.logoutEvent.next(true);
-            this.router.navigate(['/home']);
+            // this.router.navigate(['/home']);
           }
           return validSession.valid;
         } else if (authRoutes.indexOf(this.calURL(state.url)) > -1) {
@@ -69,7 +69,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
         } else {
           if (!validSession.valid) {
             this.sessionService.logoutEvent.next(true);
-            this.router.navigate(['/home']);
+            // this.router.navigate(['/home']);
           }
           return validSession.valid;
         }

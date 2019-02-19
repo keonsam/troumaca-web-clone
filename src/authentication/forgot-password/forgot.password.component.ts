@@ -2,10 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {AuthenticationService} from '../authentication.service';
-import {Credential} from "../credential";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ValidResponse} from "../valid.response";
-import {ChangePassword} from "../change.password";
+import {Credential} from '../credential';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ValidResponse} from '../valid.response';
+import {ChangePassword} from '../change.password';
+import {AUTHENTICATION, CONFIRMATION, FORGOT_PASSWORD, HOME, LOGIN} from '../../app/routes';
 
 @Component({
   selector: 'app-forgot-password',
@@ -26,6 +27,7 @@ export class ForgotPasswordComponent implements OnInit {
   private credential: Credential;
   private changePassword: ChangePassword;
   private sub: any;
+  homeLink = `/${HOME}`;
 
   constructor(private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
@@ -126,7 +128,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.authenticationService.forgotPassword(this.credential)
       .subscribe( value => {
         if (value && value.confirmationId) {
-          this.router.navigate([`/authentication/forgot-password/confirmations/${value.credentialId}/${value.confirmationId}`]);
+          this.router.navigate([`/${AUTHENTICATION}/${FORGOT_PASSWORD}/${CONFIRMATION}/${value.credentialId}/${value.confirmationId}`]);
         }else {
           this.message = 'Username does not exit, please try again.';
           this.errorExists = true;
@@ -144,7 +146,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.authenticationService.changePassword(this.changePassword)
       .subscribe(changeRes => {
         if (changeRes && changeRes.changed) {
-          this.router.navigate(['/authentication/login']);
+          this.router.navigate([`/${AUTHENTICATION}/${LOGIN}`]);
         } else {
           this.message = 'Password change failed.';
           this.errorExists = true;

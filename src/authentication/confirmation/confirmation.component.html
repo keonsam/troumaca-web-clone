@@ -1,38 +1,30 @@
-<div class="auth-box-w wider">
+<h4 class="auth-header">
+  Confirmation
+</h4>
 
-  <div class="logo-w">
-    <a routerLink="/home"><img alt="" src="/images/logo-big.png"></a>
+<form [formGroup]="phoneVerificationForm" (ngSubmit)="onSubmit()">
+  <p class="form-desc">
+    Enter the confirmation code sent to your username.
+  </p>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Enter the 6-digit code</mat-label>
+    <input matInput [formControl]="confirmationCode">
+    <mat-error *ngIf="confirmationCode.errors && !confirmationCode.hasError('required')">
+      Must be six characters.
+    </mat-error>
+    <mat-error *ngIf="confirmationCode.hasError('required')">
+      Confirmation  is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <div class="error-box-text">
+    <span [hidden]="doNotDisplayFailureMessage && doNotDisplaySuccessMessage" [ngClass]="{'text-danger': !doNotDisplayFailureMessage, 'text-success': !doNotDisplaySuccessMessage}">{{ message }}</span>
   </div>
 
-  <h4 class="auth-header">
-    Confirmation
-  </h4>
-
-  <form [formGroup]="phoneVerificationForm" (ngSubmit)="onSubmit()">
-    <p class="form-desc">
-      Enter the confirmation code sent to your username.
-    </p>
-
-    <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>Enter the 6-digit code</mat-label>
-      <input matInput [formControl]="confirmationCode">
-      <mat-error *ngIf="confirmationCode.errors && !confirmationCode.hasError('required')">
-        Must be six characters.
-      </mat-error>
-      <mat-error *ngIf="confirmationCode.hasError('required')">
-        Confirmation  is <strong>required</strong>
-      </mat-error>
-    </mat-form-field>
-
-    <div class="error-box-text">
-      <span [hidden]="doNotDisplayFailureMessage && doNotDisplaySuccessMessage" [ngClass]="{'text-danger': !doNotDisplayFailureMessage, 'text-success': !doNotDisplaySuccessMessage}">{{ message }}</span>
-    </div>
-
-    <div class="buttons-w">
-      <a mat-button color="accent" href (click)="sendConfirmationCode();false">Resend</a>
-      <button class="right-button" mat-flat-button color="primary" [disabled]="!phoneVerificationForm.valid" type="submit">Confirm</button>
-    </div>
-  </form>
-
-</div>
+  <div class="buttons-w">
+    <button mat-button color="accent" (click)="sendConfirmationCode()">Resend</button>
+    <button class="right-button" mat-flat-button color="primary" [disabled]="!phoneVerificationForm.valid" type="submit">Confirm</button>
+  </div>
+</form>
 

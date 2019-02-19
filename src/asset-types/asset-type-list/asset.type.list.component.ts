@@ -13,7 +13,7 @@ import { ASSET_TYPE } from '../../app/routes';
 export class AssetTypeListComponent implements OnInit {
 
   assetTypes: AssetTypes;
-  routerLinkCreateAssetType = `${ASSET_TYPE}/create`;
+  routerLinkCreateAssetType = `/${ASSET_TYPE}/create`;
   assetTypeName: string;
   private defaultPage = 1;
   private defaultPageSize = 10;
