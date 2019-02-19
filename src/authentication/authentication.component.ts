@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {HOME} from '../app/routes';
 
 @Component({
   selector: 'authentication',
@@ -6,5 +7,5 @@ import {Component} from '@angular/core';
   styleUrls: ['./authentication.component.css']
 })
 export class AuthenticationComponent {
-
+  homeLink = `/${HOME}`;
 }
