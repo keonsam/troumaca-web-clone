@@ -7,6 +7,7 @@ import {AssetTypes} from '../../asset-types/asset.types';
 import {AssetType} from '../../asset-types/asset.type';
 import {Instance} from '../../asset-types/instance';
 import {environment} from '../../environments/environment';
+import {Brand} from '../../brands/brand';
 
 export class AssetTypesClientHttp extends AssetTypesClient {
 
@@ -96,6 +97,16 @@ export class AssetTypesClientHttp extends AssetTypesClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<Instance[]>(url, httpOptions).pipe(map(data => {
+      return data;
+    }));
+  }
+
+  findBrands(searchStr: string, pageSize: number): Observable<Brand[]> {
+    const url = `${this.hostPort}/brands/find?q=${searchStr}&pageSize=${pageSize}`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.get<Brand[]>(url, httpOptions).pipe(map(data => {
       return data;
     }));
   }

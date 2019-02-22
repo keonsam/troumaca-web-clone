@@ -4,5 +4,8 @@ export class AssignedCharacteristic {
   effectiveDate: Date;
   untilDate: Date;
   optional: boolean;
-  charVal: string;
+  unitOfMeasureId: string;
+  maxValue: string;
+  minValue: string;
+  value: string;
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AssetNameType} from '../asset.name.type';
@@ -21,7 +21,8 @@ export class AssetNameTypeFormComponent implements OnInit {
 
   private assetNameType: AssetNameType;
   private assetNameTypeLink = `/${ASSET_SETTING}/${ASSET_NAME_TYPE}/listing`;
-
+  @Input() trans: boolean;
+  @Output() panel: EventEmitter<string> = new EventEmitter();
   constructor(private assetNameTypeService: AssetNameTypeService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -66,7 +67,7 @@ export class AssetNameTypeFormComponent implements OnInit {
     this.assetNameTypeService.addAssetNameType(this.assetNameType)
       .subscribe( value => {
         if (value && value.assetNameTypeId) {
-          this.router.navigate([this.assetNameTypeLink]);
+          this.goRoute();
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -82,7 +83,7 @@ export class AssetNameTypeFormComponent implements OnInit {
     this.assetNameTypeService.updateAssetNameType(this.assetNameType)
       .subscribe( value => {
         if (value) {
-          this.router.navigate([this.assetNameTypeLink]);
+          this.goRoute();
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -93,6 +94,14 @@ export class AssetNameTypeFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([this.assetNameTypeLink]);
+    this.goRoute();
+  }
+
+  private goRoute() {
+    if (this.trans) {
+      this.panel.emit('home');
+    }else {
+      this.router.navigate([this.assetNameTypeLink]);
+    }
   }
 }

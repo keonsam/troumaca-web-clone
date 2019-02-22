@@ -21,7 +21,8 @@ export class AssetCharacteristicListComponent implements OnInit {
   private defaultPageSize = 10;
   private defaultSortOrder = 'asc';
   assetCharacteristicName: string;
-  newRoute = `/${ASSET_CHARACTERISTICS}/create`;
+  routerLink = `/${ASSET_CHARACTERISTICS}`;
+  newRoute = `/${this.routerLink}/create`;
 
   constructor(private assetCharacteristicService: AssetCharacteristicService,
               private route: ActivatedRoute) {

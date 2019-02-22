@@ -1,4 +1,4 @@
-import {Brand} from '../../brands/brand';
+import {Brand} from '../brands/brand';
 
 export class AssetSpecification {
   brandId: string;

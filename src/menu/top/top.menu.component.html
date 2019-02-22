@@ -54,19 +54,19 @@
     <div class="logged-user-w">
       <div class="logged-user-i">
         <div class="avatar-w">
-          <img alt="" src="images/avatar1.jpg">
+          <img alt="" [src]="userMenu.imageUrl || 'images/avatar1.jpg'">
         </div>
         <div class="logged-user-menu">
           <div class="logged-user-avatar-info">
             <div class="avatar-w">
-              <img alt="" src="images/avatar1.jpg">
+              <img alt="" [src]="userMenu.imageUrl || 'images/avatar1.jpg'">
             </div>
             <div class="logged-user-info-w">
               <div class="logged-user-name">
-                Maria Gomez
+                {{ userMenu.name }}
               </div>
               <div class="logged-user-role">
-                Administrator
+                {{ userMenu.role || "Administrator"}}
               </div>
             </div>
           </div>

@@ -2,13 +2,13 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AssetIdentifierTypeFormComponent} from './asset.identifier.type.form.component';
 import {MaterialModule} from '../../app/material.module';
-import {AssetIdentifierSecComponent} from './asset.identifier.sec.component';
 import {assetIdentifierTypeServiceProvider} from '../asset.identifier.type.service.provider';
 import {assetIdentifierTypeRepositoryProvider
 } from '../../adapter/asset-identifier-types/asset.identifier.type.repository.adapter.provider';
 import {assetIdentifierTypeClientProvider} from '../../client/asset-identifier-types/asset.identifier.type.client.provider';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import {assetIdentifierTypeResolveProvider} from '../asset.identifier.type.resolve.provider';
 
 @NgModule({
   imports: [
@@ -16,20 +16,20 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule,
-    FlexLayoutModule
+    MaterialModule
   ],
   declarations: [
-    AssetIdentifierSecComponent,
-  ],
-  exports: [
-    AssetIdentifierSecComponent
+    AssetIdentifierTypeFormComponent,
   ],
   providers: [
+    assetIdentifierTypeResolveProvider,
     assetIdentifierTypeServiceProvider,
     assetIdentifierTypeRepositoryProvider,
     assetIdentifierTypeClientProvider
+  ],
+  exports: [
+    AssetIdentifierTypeFormComponent,
   ]
 })
 
-export class AssetIdentifierSecModule { }
+export class AssetIdentifierTypeFormModule { }

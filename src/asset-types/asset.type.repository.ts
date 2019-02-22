@@ -2,6 +2,7 @@ import {Observable} from 'rxjs';
 import {AssetType} from './asset.type';
 import {AssetTypes} from './asset.types';
 import {Instance} from './instance';
+import {Brand} from '../brands/brand';
 
 export abstract class AssetTypeRepository {
   abstract findAssetTypes(searchStr: string, pageSize: number): Observable<AssetType[]>;
@@ -13,4 +14,5 @@ export abstract class AssetTypeRepository {
 
   // OTHERS
   abstract findInstances(searchStr: string, pageSize: number): Observable<Instance[]>;
+  abstract findBrands(searchStr: string, pageSize: number): Observable<Brand[]>;
 }

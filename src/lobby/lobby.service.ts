@@ -6,14 +6,9 @@ export class LobbyService {
 
   apps = [
     {
-      name: 'Assets',
-      route: `/${ASSET}`,
-      iconClass: 'desktop_mac'
-    },
-    {
-      name: 'Organization',
-      route: `/${PARTY}/${ORGANIZATION}/listing`,
-      iconClass: 'business'
+      name: 'Company',
+      route: `/${PARTY}/${ORGANIZATION}/profile`,
+      iconClass: 'business_center'
     },
     {
       name: 'People',
@@ -21,9 +16,14 @@ export class LobbyService {
       iconClass: 'group_add'
     },
     {
-      name: 'Company',
-      route: `/${PARTY}/${ORGANIZATION}/profile`,
-      iconClass: 'business_center'
+      name: 'Me',
+      route: `/${PARTY}/${USER}/profile`,
+      iconClass: 'business'
+    },
+    {
+      name: 'Assets',
+      route: `/${ASSET}`,
+      iconClass: 'desktop_mac'
     },
   ];
 

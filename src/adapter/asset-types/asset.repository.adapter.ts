@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {AssetType} from '../../asset-types/asset.type';
 import {AssetTypes} from '../../asset-types/asset.types';
 import {Instance} from '../../asset-types/instance';
+import {Brand} from '../../brands/brand';
 
 export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
 
@@ -39,6 +40,10 @@ export class AssetTypeRepositoryAdapter extends AssetTypeRepository {
   // OTHERS
   findInstances(searchStr: string, pageSize: number): Observable<Instance[]> {
     return this.assetTypesClient.findInstances(searchStr, pageSize);
+  }
+
+  findBrands(searchStr: string, pageSize: number): Observable<Brand[]> {
+    return this.assetTypesClient.findBrands(searchStr, pageSize);
   }
 
 }

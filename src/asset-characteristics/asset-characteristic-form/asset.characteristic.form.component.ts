@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import { AssetCharacteristic } from '../asset.characteristic';
@@ -6,11 +6,23 @@ import { AssetCharacteristicService } from '../asset.characteristic.service';
 import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
 import {debounceTime, filter, map} from 'rxjs/operators';
 import {ASSET_CHARACTERISTICS} from '../../app/routes';
+// import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-asset-characteristic-form',
   templateUrl: './asset.characteristic.form.component.html',
-  styleUrls: ['./asset.characteristic.form.component.css']
+  styleUrls: ['./asset.characteristic.form.component.css'],
+  // animations: [
+  //   trigger('slideInOut', [
+  //     transition(':enter', [
+  //       style({transform: 'translateY(-100%)'}),
+  //       animate('200ms ease-in', style({transform: 'translateY(0%)'}))
+  //     ]),
+  //     transition(':leave', [
+  //       animate('200ms ease-in', style({transform: 'translateY(-100%)'}))
+  //     ])
+  //   ])
+  // ]
 })
 export class AssetCharacteristicFormComponent implements OnInit {
 
@@ -40,6 +52,9 @@ export class AssetCharacteristicFormComponent implements OnInit {
   private assetCharacteristic: AssetCharacteristic;
   private assetCharacteristicLink = `/${ASSET_CHARACTERISTICS}`;
   private pageSize = 5;
+  activePane = 'left';
+  @Input() trans: boolean;
+  @Output() panel: EventEmitter<string> = new EventEmitter();
 
   constructor(private assetCharacteristicService: AssetCharacteristicService,
               private formBuilder: FormBuilder,
@@ -171,7 +186,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
     this.assetCharacteristicService.addAssetCharacteristic(this.assetCharacteristic)
       .subscribe(value => {
         if (value && value.assetCharacteristicId) {
-          this.router.navigate([this.assetCharacteristicLink])
+          this.goRoute();
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -187,7 +202,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
     this.assetCharacteristicService.updateAssetCharacteristic(this.assetCharacteristic)
       .subscribe(value => {
         if (value) {
-          this.router.navigate([this.assetCharacteristicLink])
+          this.goRoute();
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -198,6 +213,20 @@ export class AssetCharacteristicFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([this.assetCharacteristicLink]);
+    this.goRoute();
+  }
+
+  setPanel(event: boolean) {
+    if (event) {
+      this.activePane = 'left';
+    }
+  }
+
+  private goRoute() {
+    if (this.trans) {
+      this.panel.emit('home');
+    }else {
+      this.router.navigate([this.assetCharacteristicLink]);
+    }
   }
 }

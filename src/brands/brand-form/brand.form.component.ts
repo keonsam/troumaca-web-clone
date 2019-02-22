@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Brand} from '../brand';
@@ -22,6 +22,8 @@ export class BrandFormComponent implements OnInit {
 
   private brand: Brand;
   private brandLink = `/${ASSET_SETTING}/${BRANDS}/listing`;
+  @Input() trans: boolean;
+  @Output() panel: EventEmitter<string> = new EventEmitter();
 
   constructor(private brandService: BrandService,
               private formBuilder: FormBuilder,
@@ -69,9 +71,9 @@ export class BrandFormComponent implements OnInit {
     this.doNotDisplayFailureMessage = true;
 
     this.brandService.addBrand(this.brand)
-      .subscribe( value => {
+      .subscribe(value => {
         if (value && value.brandId) {
-          this.router.navigate([this.brandLink])
+          this.goRoute();
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -85,9 +87,9 @@ export class BrandFormComponent implements OnInit {
     this.doNotDisplayFailureMessage = true;
 
     this.brandService.updateBrand(this.brand)
-      .subscribe( value => {
+      .subscribe(value => {
         if (value) {
-          this.router.navigate([this.brandLink])
+          this.goRoute();
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -98,6 +100,14 @@ export class BrandFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([this.brandLink]);
+    this.goRoute();
+  }
+
+  private goRoute() {
+    if (this.trans) {
+      this.panel.emit('home');
+    } else {
+      this.router.navigate([this.brandLink]);
+    }
   }
 }

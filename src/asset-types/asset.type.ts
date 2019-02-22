@@ -1,4 +1,4 @@
-import {AssetSpecification} from '../assets/asset-specification/asset.specification';
+import {AssetSpecification} from './asset.specification';
 import {AssignedCharacteristic} from '../asset-characteristics/assigned.characteristic';
 import {AssetName} from '../asset-name-types/asset.name';
 import {AssetIdentifier} from '../asset-identifier-types/asset.identifier';

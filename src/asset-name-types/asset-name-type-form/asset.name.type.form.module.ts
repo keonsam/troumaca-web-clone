@@ -2,12 +2,12 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AssetNameTypeFormComponent} from './asset.name.type.form.component';
 import {MaterialModule} from '../../app/material.module';
-import {AssetNameSecComponent} from './asset.name.sec.component';
 import {assetNameTypeServiceProvider} from '../asset.name.type.service.provider';
 import {assetNameTypeRepositoryProvider} from '../../adapter/asset-name-types/asset.name.type.repository.adapter.provider';
 import {assetNameTypeClientProvider} from '../../client/asset-name-types/asset.name.type.client.provider';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import {assetNameTypeResolveProvider} from '../asset.name.type.resolve.provider';
 
 @NgModule({
   imports: [
@@ -15,20 +15,20 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule,
-    FlexLayoutModule
+    MaterialModule
   ],
   declarations: [
-    AssetNameSecComponent,
-  ],
-  exports: [
-    AssetNameSecComponent
+    AssetNameTypeFormComponent,
   ],
   providers: [
+    assetNameTypeResolveProvider,
     assetNameTypeServiceProvider,
     assetNameTypeRepositoryProvider,
     assetNameTypeClientProvider
+  ],
+  exports: [
+    AssetNameTypeFormComponent,
   ]
 })
 
-export class AssetNameSecModule { }
+export class AssetNameTypeFormModule { }

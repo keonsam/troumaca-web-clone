@@ -1,21 +1,34 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {AssetTypeService} from '../asset.type.service';
 import {AssetType} from '../asset.type';
 import {ActivatedRoute, Router} from '@angular/router';
 import {map, filter, debounceTime } from 'rxjs/operators';
-import {AssetSpecification} from '../../assets/asset-specification/asset.specification';
+import {AssetSpecification} from '../asset.specification';
 import {AssignedCharacteristic} from '../../asset-characteristics/assigned.characteristic';
 import {AssetName} from '../../asset-name-types/asset.name';
 import {AssetIdentifier} from '../../asset-identifier-types/asset.identifier';
 import {AssetRole} from '../../asset-role-types/asset.role';
 import { ASSET_TYPE } from '../../app/routes';
+// import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Brand} from '../../brands/brand';
 
 @Component({
   selector: 'app-asset-type-form',
   templateUrl: './asset.type.form.component.html',
   styleUrls: ['./asset.type.form.component.css']
+  // animations: [
+  //   trigger('slideInOut', [
+  //     transition(':enter', [
+  //       style({transform: 'translateY(-100%)'}),
+  //       animate('200ms ease-in', style({transform: 'translateY(0%)'}))
+  //     ]),
+  //     transition(':leave', [
+  //       animate('200ms ease-in', style({transform: 'translateY(-100%)'}))
+  //     ])
+  //   ])
+  // ]
 })
 export class AssetTypeFormComponent implements OnInit {
 
@@ -42,9 +55,13 @@ export class AssetTypeFormComponent implements OnInit {
   assetNames: AssetName[];
   assetIdentifiers: AssetIdentifier[];
   assetRoles: AssetRole[];
+  brands: Brand[];
 
   private pageSize = 5;
   private assetTypeLink = `/${ASSET_TYPE}`;
+  activePane = 'home';
+  @Input() trans: boolean;
+  @Output() panel: EventEmitter<string> = new EventEmitter();
 
   constructor(private assetTypeService: AssetTypeService,
               private formBuilder: FormBuilder,
@@ -55,7 +72,7 @@ export class AssetTypeFormComponent implements OnInit {
     assetType.specification = new AssetSpecification();
     this.assetType = assetType;
 
-    this.instanceOf = new FormControl('7bc3fa8a-84b6-4088-91d4-8a1cc84e7cff', Validators.required);
+    this.instanceOf = new FormControl('8bc5fa8a-84b6-4088-91d4-8a1cc84e7cff', Validators.required);
     this.parent = new FormControl('', Validators.required);
     this.name = new FormControl('', Validators.required);
     this.description = new FormControl('');
@@ -114,6 +131,7 @@ export class AssetTypeFormComponent implements OnInit {
   private createAndPopulateDropDowns() {
     this.populateInstanceOfDropDown();
     this.populateSubTypeOfDropDown();
+    this.populateBrandsDropDown();
   }
 
   private populateInstanceOfDropDown() {
@@ -174,13 +192,34 @@ export class AssetTypeFormComponent implements OnInit {
       });
   }
 
+  private populateBrandsDropDown() {
+    this.findBrands('');
+    this.brand.valueChanges
+      .pipe(debounceTime(1000), filter(value => { // filter out empty values
+        return !!(value);
+      }))
+      .subscribe(value => {
+        this.findBrands(value);
+      });
+  }
+
+  private findBrands(value) {
+    this.assetTypeService
+      .findBrands(value, this.pageSize) // send search request to the backend
+      .subscribe(next => { // update the data
+        this.brands = next;
+      }, error => {
+        console.log('findAssets error - ' + error);
+      });
+  }
+
   private setInputValues(assetType?: AssetType) {
     this.instanceOf.setValue(assetType.instanceId);
     this.parent.setValue(assetType.parentName);
     this.name.setValue(assetType.name);
     this.description.setValue(assetType.description);
     if (assetType.specification) {
-      this.brand.setValue(assetType.specification.brand ? assetType.specification.brand.name : '' );
+      this.brand.setValue(assetType.specification.brand ? assetType.specification.brand.name : '');
       this.modelNumber.setValue(assetType.specification.modelNumber);
       this.standardPrice.setValue(assetType.specification.standardPrice);
       this.effectiveDate.setValue(assetType.specification.effectiveDate);
@@ -204,17 +243,17 @@ export class AssetTypeFormComponent implements OnInit {
   onCreate() {
     this.doNotDisplayFailureMessage = true;
     this.assetTypeService
-    .addAssetType(this.assetType)
-    .subscribe(value => {
-      if (value && value.assetTypeId) {
-        this.router.navigate([this.assetTypeLink]);
-      } else {
+      .addAssetType(this.assetType)
+      .subscribe(value => {
+        if (value && value.assetTypeId) {
+          this.goRoute();
+        } else {
+          this.doNotDisplayFailureMessage = false;
+        }
+      }, error => {
+        console.log(error);
         this.doNotDisplayFailureMessage = false;
-      }
-    }, error => {
-      console.log(error);
-      this.doNotDisplayFailureMessage = false;
-    });
+      });
   }
 
   onUpdate() {
@@ -224,7 +263,7 @@ export class AssetTypeFormComponent implements OnInit {
       .updateAssetType(this.assetType.assetTypeId, this.assetType)
       .subscribe(value => {
         if (value) {
-          this.router.navigate([this.assetTypeLink]);
+          this.goRoute();
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -235,13 +274,13 @@ export class AssetTypeFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([this.assetTypeLink]);
+    this.goRoute();
   }
 
   onAssetTypeSelect(assetType: AssetType) {
     if (!assetType.initialId) {
       this.assetType.initialId = assetType.assetTypeId;
-    }else {
+    } else {
       this.assetType.parentId = assetType.assetTypeId;
       this.assetType.initialId = assetType.initialId;
     }
@@ -249,5 +288,19 @@ export class AssetTypeFormComponent implements OnInit {
 
   onBrandSelect(brandId: string) {
     this.assetType.specification.brandId = brandId;
+  }
+
+  setPanel(event: string) {
+    if (event) {
+      this.activePane = event;
+    }
+  }
+
+  private goRoute() {
+    if (this.trans) {
+      this.panel.emit('home');
+    } else {
+      this.router.navigate([this.assetTypeLink]);
+    }
   }
 }
