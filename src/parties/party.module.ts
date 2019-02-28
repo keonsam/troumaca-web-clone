@@ -14,6 +14,7 @@ import {partyRepositoryProvider} from '../adapter/party/party.repository.adapter
 import {partyClientProvider} from '../client/party/party.client.provider';
 import {addressResolveProvider} from './address/address.resolve.provider';
 import {contactInfoResolveProvider} from './contact-info/contact.info.resolve.provider';
+import {PartyComponent} from './party.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import {contactInfoResolveProvider} from './contact-info/contact.info.resolve.pr
   ],
   declarations: [
     ContactInfoComponent,
-    AddressComponent
+    AddressComponent,
+    PartyComponent
   ],
   providers: [
     partyServiceProvider,

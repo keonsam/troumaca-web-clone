@@ -44,7 +44,6 @@ export class AssetCharacteristicSecComponent implements OnInit {
     this.ids.valueChanges
       .pipe(debounceTime(1000))
       .subscribe(value => {
-        console.log(value);
         this.findChars(value);
       });
   }
@@ -53,7 +52,6 @@ export class AssetCharacteristicSecComponent implements OnInit {
     this.assetCharacteristicService
       .findAssetCharacteristics(value, this.pageSize) // send search request to the backend
       .subscribe(next => { // update the data
-        console.log(next);
         this.chars = next;
       }, error => {
         console.log('findAssets error - ' + error);
