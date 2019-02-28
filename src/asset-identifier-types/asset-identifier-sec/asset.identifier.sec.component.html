@@ -22,7 +22,7 @@
 
   <ul>
     <li formArrayName="identifiers"
-         *ngFor="let item of parentForm.get('identifiers').controls; let i = index" [ngClass]="{'multi-fields': true, 'no-border-bottom': i === parentForm.get('identifiers').controls.length - 1}">
+         *ngFor="let item of parentForm.get('identifiers')['controls']; let i = index" [ngClass]="{'multi-fields': true, 'no-border-bottom': i === parentForm.get('identifiers')['controls'].length - 1}">
       <div [formGroupName]="i">
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start" class="search-width">
           <div fxFlex="1 1 auto">

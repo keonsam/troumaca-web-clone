@@ -1,52 +1,52 @@
-import {Routes, RouterModule} from '@angular/router';
-import {NgModule} from '@angular/core';
-import {PartyComponent} from './party.component';
-import {OrganizationCompanyComponent} from './organizations/organization-company/organization.company.component';
-import {OrganizationListComponent} from './organizations/organization-list/organization.list.component';
-import {UserListComponent} from './users/user-list/user.list.component';
-import { UserFormComponent } from './users/user-form/user.form.component';
-import {UserMeComponent} from './users/user-me/user.me.component';
-import { OrganizationFormComponent } from './organizations/organization-form/organization.form.component';
-import {OrganizationResolve} from './organizations/organization-form/organization.resolve';
-import {UserResolve} from './users/user.resolve';
-import {AuthGuard} from '../auth-guard/auth.guard';
-import {OrganizationsResolve} from './organizations/organization-list/organizations.resolve';
-import {CompanyResolve} from './organizations/organization-company/organization.company.resolve';
-import {ContactInfoResolve} from './contact-info/contact.info.resolve';
-import {AddressResolve} from './address/address.resolve';
-import {UsersResolve} from './users/user-list/users.resolve';
-import {UserMeResolve} from './users/user-me/user.me.resolve';
-import {ORGANIZATION, PARTY, USER} from '../app/routes';
-
-export const routes: Routes = [
-  { path: '', component: PartyComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
-      { path: '', redirectTo: `/${PARTY}/${ORGANIZATION}/listing`, pathMatch: 'full' },
-      {
-        path: `${ORGANIZATION}/profile`, component: OrganizationCompanyComponent,
-        resolve: {
-          company: CompanyResolve
-        }
-      },
-      { path: `${ORGANIZATION}/listing`, component: OrganizationListComponent, resolve: {organizations: OrganizationsResolve} },
-      { path: `${ORGANIZATION}/create`, component: OrganizationFormComponent },
-      { path: `${ORGANIZATION}/:partyId/edit`, component: OrganizationFormComponent, resolve: {organization: OrganizationResolve} },
-      { path: `${USER}/listing`, component: UserListComponent, resolve: { users: UsersResolve } },
-      { path: `${USER}/create`, component: UserFormComponent },
-      { path: `${USER}/:partyId/edit`, component: UserFormComponent, resolve: {user: UserResolve} },
-      {
-        path: `${USER}/profile`, component: UserMeComponent,
-        resolve: {
-          user: UserMeResolve,
-          contactInfo: ContactInfoResolve,
-          address: AddressResolve
-        }
-      },
-    ]}
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-
-export class PartyRoutingModule { }
+// import {Routes, RouterModule} from '@angular/router';
+// import {NgModule} from '@angular/core';
+// import {PartyComponent} from './party.component';
+// import {OrganizationCompanyComponent} from './organizations/organization-company/organization.company.component';
+// import {OrganizationListComponent} from './organizations/organization-list/organization.list.component';
+// import {UserListComponent} from './users/user-list/user.list.component';
+// import { UserFormComponent } from './users/user-form/user.form.component';
+// import {UserMeComponent} from './users/user-me/user.me.component';
+// import { OrganizationFormComponent } from './organizations/organization-form/organization.form.component';
+// import {OrganizationResolve} from './organizations/organization-form/organization.resolve';
+// import {UserResolve} from './users/user.resolve';
+// import {AuthGuard} from '../auth-guard/auth.guard';
+// import {OrganizationsResolve} from './organizations/organization-list/organizations.resolve';
+// import {CompanyResolve} from './organizations/organization-company/organization.company.resolve';
+// import {ContactInfoResolve} from './contact-info/contact.info.resolve';
+// import {AddressResolve} from './address/address.resolve';
+// import {UsersResolve} from './users/user-list/users.resolve';
+// import {UserMeResolve} from './users/user-me/user.me.resolve';
+// import {ORGANIZATION, PARTY, USER} from '../app/routes';
+//
+// export const routes: Routes = [
+//   { path: '', component: PartyComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
+//       { path: '', redirectTo: `/${PARTY}/${ORGANIZATION}/listing`, pathMatch: 'full' },
+//       {
+//         path: `${ORGANIZATION}/profile`, component: OrganizationCompanyComponent,
+//         resolve: {
+//           company: CompanyResolve
+//         }
+//       },
+//       { path: `${ORGANIZATION}/listing`, component: OrganizationListComponent, resolve: {organizations: OrganizationsResolve} },
+//       { path: `${ORGANIZATION}/create`, component: OrganizationFormComponent },
+//       { path: `${ORGANIZATION}/:partyId/edit`, component: OrganizationFormComponent, resolve: {organization: OrganizationResolve} },
+//       { path: `${USER}/listing`, component: UserListComponent, resolve: { users: UsersResolve } },
+//       { path: `${USER}/create`, component: UserFormComponent },
+//       { path: `${USER}/:partyId/edit`, component: UserFormComponent, resolve: {user: UserResolve} },
+//       {
+//         path: `${USER}/profile`, component: UserMeComponent,
+//         resolve: {
+//           user: UserMeResolve,
+//           contactInfo: ContactInfoResolve,
+//           address: AddressResolve
+//         }
+//       },
+//     ]}
+// ];
+//
+// @NgModule({
+//   imports: [RouterModule.forChild(routes)],
+//   exports: [RouterModule]
+// })
+//
+// export class PartyRoutingModule { }

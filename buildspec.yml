@@ -4,6 +4,7 @@ phases:
   install:
     commands:
       - echo Installing source NPM dependencies...
+      - npm i npm@latest -g
       - npm install -g @angular/cli
       - npm install
   build:

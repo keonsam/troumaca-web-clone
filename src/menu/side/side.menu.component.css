@@ -1,26 +1,26 @@
-/*troumaca overrides etc.*/
+/*!*troumaca overrides etc.*!*/
 
-.desktop-menu {
-  display: block;
-  order: 1;
-  width: 90px;
-  height: 100%;
-}
+/*.desktop-menu {*/
+  /*display: block;*/
+  /*order: 1;*/
+  /*width: 90px;*/
+  /*height: 100%;*/
+/*}*/
 
-.menu-and-user {
-  height: 90px;
-}
+/*.menu-and-user {*/
+  /*height: 90px;*/
+/*}*/
 
-.menu-side-compact-w {
-  display: block;
-}
+/*.menu-side-compact-w {*/
+  /*display: block;*/
+/*}*/
 
-.menu-activated-on-hover {
-}
+/*.menu-activated-on-hover {*/
+/*}*/
 
-/*Media query*/
-@media only screen and (max-width: 750px) {
-  .desktop-menu {
-    display: none;
-  }
-}
+/*!*Media query*!*/
+/*@media only screen and (max-width: 750px) {*/
+  /*.desktop-menu {*/
+    /*display: none;*/
+  /*}*/
+/*}*/
