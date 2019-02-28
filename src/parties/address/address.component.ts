@@ -36,11 +36,10 @@ export class AddressComponent implements OnInit {
   @Input() type: string;
   activePane = 'left';
 
-  address: Address;
+  @Input() address: Address;
 
   constructor(private formBuilder: FormBuilder,
-              private partyService: PartyService,
-              private route: ActivatedRoute) {
+              private partyService: PartyService) {
     this.address = new Address();
     this.streetNumber = new FormControl('', [Validators.required]);
     this.streetName = new FormControl('', [Validators.required]);
@@ -73,11 +72,12 @@ export class AddressComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.route.snapshot && this.route.snapshot.data['address']) {
-      this.setInputValues(this.route.snapshot.data['address']);
+    if (this.address) {
+      this.setInputValues(this.address);
       this.update = true;
+    } else {
+      this.address = new Address();
     }
-
   }
 
   private getAddress() {
@@ -101,22 +101,6 @@ export class AddressComponent implements OnInit {
     this.country.setValue(address.country);
     this.description.setValue(address.description);
     this.address = address;
-  }
-
-  onCreate(): void {
-    this.doNotDisplayFailureMessage = true;
-    this.partyService.addAddress(this.type, this.address)
-      .subscribe( address => {
-        if (address && address.siteId) {
-          this.activePane = 'left';
-        } else {
-          this.errorMessage = 'Failed to add address.';
-          this.doNotDisplayFailureMessage = false;
-        }
-      }, error => {
-        this.errorMessage = 'Failed to add address.';
-        this.doNotDisplayFailureMessage = false;
-      })
   }
 
   onUpdate(): void {

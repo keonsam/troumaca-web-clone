@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-
-import { Organization} from '../parties/organization';
-import {OrganizationCreateService} from './organization.create.service';
-import {SessionService} from '../session/session.service';
+import { Organization} from '../../organization';
+import {SessionService} from '../../../session/session.service';
+import {OrganizationService} from '../organization.service';
 
 @Component({
   selector: 'app-organization-create',
@@ -22,7 +21,7 @@ export class OrganizationCreateComponent implements OnInit {
   private organization: Organization;
 
   constructor(private formBuilder: FormBuilder,
-              private organizationCreateService: OrganizationCreateService,
+              private organizationService: OrganizationService,
               private sessionService: SessionService,
               private router: Router) {
 
@@ -52,11 +51,10 @@ export class OrganizationCreateComponent implements OnInit {
   onCreate() {
     this.doNotDisplayFailureMessage = true;
 
-    this.organizationCreateService
+    this.organizationService
       .createOrganization(this.organization)
       .subscribe(value => {
         if (value && value.partyId) {
-          this.sessionService.loginEvent.next(true);
           this.router.navigate(['/lobby']);
         } else {
           this.doNotDisplayFailureMessage = false;

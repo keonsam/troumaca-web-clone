@@ -40,9 +40,7 @@ export class AssetRoleSecComponent implements OnInit, OnChanges {
   private populateIdDropDown() {
     this.findIds('');
     this.ids.valueChanges
-      .pipe(debounceTime(1000), filter(value => { // filter out empty values
-        return !!(value);
-      }))
+      .pipe(debounceTime(1000))
       .subscribe(value => {
         this.findIds(value);
       });
@@ -76,8 +74,8 @@ export class AssetRoleSecComponent implements OnInit, OnChanges {
   onSelect(id: AssetRoleType) {
     this.roles = this.parentForm.get('roles') as FormArray;
     if (this.selected.indexOf(id.assetRoleTypeId) < 0) {
-      this.roles.push(this.createItem(id));
-      this.selected.push(id.assetRoleTypeId);
+      this.roles.insert(0, this.createItem(id));
+      this.selected.unshift(id.assetRoleTypeId);
       this.ids.setValue('');
     }
   }

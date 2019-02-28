@@ -6,6 +6,7 @@ import { Organizations } from '../../../parties/organizations';
 import {map} from 'rxjs/operators';
 import { Organization } from '../../../parties/organization';
 import {environment} from '../../../environments/environment';
+import {CompanyInfo} from '../../../parties/organizations/organization-company/company.info';
 
 export class OrganizationClientHttp implements OrganizationClient {
   hostPort = environment.hostPort;
@@ -69,6 +70,32 @@ export class OrganizationClientHttp implements OrganizationClient {
     };
     return this.httpClient
       .put<number>(url, organizationState, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+  getCompany(): Observable<CompanyInfo> {
+    const url = `${this.hostPort}/company`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient
+      .get<CompanyInfo>(url, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+  createOrganization(organization: Organization): Observable<Organization> {
+    const url = `${this.hostPort}/company`;
+
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+
+    return this.httpClient
+      .post<Organization>(url, organization, httpOptions)
       .pipe(map(data => {
         return data;
       }));

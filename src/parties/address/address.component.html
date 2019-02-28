@@ -10,7 +10,7 @@
               <span class="front-card-header">Street Number</span>
             </div>
             <div class="col-sm-9">
-              <span class="front-card-text">{{address.streetNumber || 'null'}}</span>
+              <span class="front-card-text">{{address?.streetNumber}}</span>
             </div>
           </div>
         </div>
@@ -20,7 +20,7 @@
               <span class="front-card-header">Street Name</span>
             </div>
             <div class="col-sm-9">
-              <span class="front-card-text">{{address.streetName || 'null'}}</span>
+              <span class="front-card-text">{{address?.streetName}}</span>
             </div>
           </div>
         </div>
@@ -30,7 +30,7 @@
               <span class="front-card-header">Postal Code</span>
             </div>
             <div class="col-sm-9">
-              <span class="front-card-text">{{address.postCode || 'null'}}</span>
+              <span class="front-card-text">{{address?.postCode}}</span>
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@
               <span class="front-card-header">State / Province</span>
             </div>
             <div class="col-sm-9">
-              <span class="front-card-text">{{address.stateOrProvince || 'null'}}</span>
+              <span class="front-card-text">{{address?.stateOrProvince}}</span>
             </div>
           </div>
         </div>
@@ -50,7 +50,7 @@
               <span class="front-card-header">City</span>
             </div>
             <div class="col-sm-9">
-              <span class="front-card-text">{{address.city || 'null'}}</span>
+              <span class="front-card-text">{{address?.city}}</span>
             </div>
           </div>
         </div>
@@ -60,7 +60,7 @@
               <span class="front-card-header">Country</span>
             </div>
             <div class="col-sm-9">
-              <span class="front-card-text">{{address.country || 'null'}}</span>
+              <span class="front-card-text">{{address?.country}}</span>
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@
               <span class="front-card-header">Description</span>
             </div>
             <div class="col-sm-9">
-              <span class="front-card-text">{{address.description || 'null'}}</span>
+              <span class="front-card-text">{{address?.description}}</span>
             </div>
           </div>
         </div>
@@ -156,7 +156,7 @@
         <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{errorMessage}}</span></div>
 
         <div class="form-buttons-w">
-          <button mat-flat-button color="primary" [disabled]="!addressForm.valid" type="submit" (click)="update ? onUpdate(): onCreate()">{{update ? "Update":"Add"}}</button>
+          <button mat-flat-button color="primary" [disabled]="!addressForm.valid" type="submit" (click)="onUpdate()">Update</button>
           <button class="right-button-form" mat-stroked-button color="warn"  type="button" (click)="cancel()">Cancel</button>
         </div>
       </div>

@@ -52,27 +52,44 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   protected checkLogin(route?: ActivatedRouteSnapshot, state?: RouterStateSnapshot) {
     return this.authService.isValidSession()
       .pipe( map(validSession => {
-        if (!this.sessionService.loginEvent.value && validSession.valid) {
-          this.sessionService.loginEvent.next(true);
-        }
         if (!route) {
           if (!validSession.valid) {
             this.sessionService.logoutEvent.next(true);
             // this.router.navigate(['/home']);
           }
           return validSession.valid;
-        } else if (authRoutes.indexOf(this.calURL(state.url)) > -1) {
-          if (validSession.valid) {
-            this.router.navigate(['/lobby']);
+        } else if (!validSession.valid) {
+          if (authRoutes.indexOf(this.calURL(state.url)) < 0) {
+            this.router.navigate(['/home']);
           }
-          return !validSession.valid;
-        } else {
-          if (!validSession.valid) {
-            this.sessionService.logoutEvent.next(true);
-            // this.router.navigate(['/home']);
+          return true;
+        }else {
+          if (!validSession.ownerPartyId && state.url !== '/organizations/create') {
+            this.router.navigate(['/organizations/create']);
+          }else if (validSession.ownerPartyId && state.url === '/organizations/create') {
+            this.router.navigate(['lobby']);
           }
-          return validSession.valid;
+          return true;
         }
+        // } else if (authRoutes.indexOf(this.calURL(state.url)) > -1) {
+        //   if (validSession.valid && validSession.ownerPartyId) {
+        //     this.router.navigate(['/lobby']);
+        //   }else if (validSession.valid && !validSession.ownerPartyId) {
+        //     this.router.navigate(['/organizations']);
+        //   }
+        //   return !validSession.valid;
+        // } else {
+        //   if (!validSession.valid) {
+        //     this.sessionService.logoutEvent.next(true);
+        //     // this.router.navigate(['/home']);
+        //   }
+        //   if (validSession.ownerPartyId && state.url === '/organizations') {
+        //     this.router.navigate(['/lobby']);
+        //   }else if (!validSession.ownerPartyId && state.url !== '/organizations') {
+        //     this.router.navigate(['/organizations']);
+        //   }
+        //   return validSession.valid;
+        // }
       }));
   }
 

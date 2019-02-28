@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
-import {PageEvent} from '@angular/material';
+import {MatDialog, PageEvent} from '@angular/material';
 import {AssetCharacteristics} from '../asset.characteristics';
 import {AssetCharacteristicService} from '../asset.characteristic.service';
 import {ActivatedRoute} from '@angular/router';
 import {ASSET_CHARACTERISTICS} from '../../app/routes';
+import {DeleteModalComponent} from '../../delete-modal/delete.modal.component';
 
 @Component({
   selector: 'app-asset-characteristic-list',
@@ -25,13 +26,13 @@ export class AssetCharacteristicListComponent implements OnInit {
   newRoute = `/${this.routerLink}/create`;
 
   constructor(private assetCharacteristicService: AssetCharacteristicService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public dialog: MatDialog) {
     const assetCharacteristics = new AssetCharacteristics();
     assetCharacteristics.page = new Page(0, 0, 0);
     assetCharacteristics.sort = new Sort();
     this.assetCharacteristics = assetCharacteristics;
   }
-
 
   ngOnInit(): void {
     if (this.route.snapshot && this.route.snapshot.data['assetCharacteristics']) {
@@ -54,6 +55,17 @@ export class AssetCharacteristicListComponent implements OnInit {
   onOpenModal(assetCharacteristicId: string, assetCharacteristicName: string) {
     this.assetCharacteristicId = assetCharacteristicId;
     this.assetCharacteristicName = assetCharacteristicName;
+    const dialogRef = this.dialog.open(DeleteModalComponent, {
+      maxWidth: '300px',
+      data: {name: this.assetCharacteristicName}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) {
+        this.onDelete(result);
+      }
+    });
   }
 
   onDelete(deleted: boolean) {

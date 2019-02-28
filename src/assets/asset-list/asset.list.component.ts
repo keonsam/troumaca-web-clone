@@ -3,8 +3,9 @@ import {AssetService} from '../asset.service';
 import {Assets} from '../assets';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
-import {PageEvent} from '@angular/material';
+import {MatDialog, PageEvent} from '@angular/material';
 import { ASSET } from '../../app/routes';
+import {DeleteModalComponent} from '../../delete-modal/delete.modal.component';
 
 @Component({
   selector: 'asset-list',
@@ -22,7 +23,8 @@ export class AssetListComponent implements OnInit {
   routerLinkCreateAsset = `/${ASSET}/create`;
   assetName: string;
 
-  constructor(private assetService: AssetService) {
+  constructor(private assetService: AssetService,
+              public dialog: MatDialog) {
     const newAssets = new Assets();
     newAssets.page = new Page(0, 0, 0);
     newAssets.sort = new Sort();
@@ -47,6 +49,17 @@ export class AssetListComponent implements OnInit {
   onOpenModal(assetId: string, assetName: string) {
     this.assetId = assetId;
     this.assetName = assetName;
+    const dialogRef = this.dialog.open(DeleteModalComponent, {
+      maxWidth: '300px',
+      data: {name: this.assetName}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) {
+        this.onDelete(result);
+      }
+    });
   }
 
   onDelete(deleted: boolean) {

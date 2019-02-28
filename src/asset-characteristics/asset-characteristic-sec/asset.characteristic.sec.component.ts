@@ -42,10 +42,9 @@ export class AssetCharacteristicSecComponent implements OnInit {
   private populateCharsDropDown() {
     this.findChars('');
     this.ids.valueChanges
-      .pipe(debounceTime(1000), filter(value => { // filter out empty values
-        return !!(value);
-      }))
+      .pipe(debounceTime(1000))
       .subscribe(value => {
+        console.log(value);
         this.findChars(value);
       });
   }
@@ -54,6 +53,7 @@ export class AssetCharacteristicSecComponent implements OnInit {
     this.assetCharacteristicService
       .findAssetCharacteristics(value, this.pageSize) // send search request to the backend
       .subscribe(next => { // update the data
+        console.log(next);
         this.chars = next;
       }, error => {
         console.log('findAssets error - ' + error);
@@ -74,10 +74,17 @@ export class AssetCharacteristicSecComponent implements OnInit {
   onCharSelect(char: AssetCharacteristic) {
     this.characteristics = this.parentForm.get('characteristics') as FormArray;
     if (this.selected.indexOf(char.assetCharacteristicId) < 0) {
-      this.characteristics.push(this.createItem(char));
-      this.selected.push(char.assetCharacteristicId);
-      this.ids.setValue('');
+      this.characteristics.insert(0, this.createItem(char));
+      this.selected.unshift(char.assetCharacteristicId);
     }
+    this.reset();
+  }
+
+  private reset() {
+    // setTimeout(() => {
+    //   this.ids.setValue('');
+    //   this.findChars('');
+    // }, 500);
   }
 
   private setAssigned(assigned: AssignedCharacteristic[]) {

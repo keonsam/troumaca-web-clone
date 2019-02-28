@@ -33,15 +33,14 @@
           <td>{{asset.destroyOn | date:'mediumDate' }}</td>
           <td>{{asset.description}}</td>
           <td class="row-actions">
-            <a [routerLink]="['/assets', asset.assetId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(asset.assetId, asset.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+            <a [routerLink]="['/assets', asset.assetId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" (click)="onOpenModal(asset.assetId, asset.name);false;" href><i class="os-icon os-icon-ui-15"></i></a>
           </td>
         </tr>
         <tr *ngIf="assets.assets.length <= 0" class="odd">
-          <td valign="top" align="" colspan="9" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+          <td valign="top" align="" colspan="5" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
         </tr>
         </tbody>
       </table>
-      <app-delete-modal [name]="assetName" (delete)="onDelete($event)"></app-delete-modal>
       <paging [page]="assets.page" (requestPage)="onRequestPage($event)"></paging>
     </div>
 

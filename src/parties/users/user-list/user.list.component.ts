@@ -3,9 +3,10 @@ import {Users} from '../../users';
 import {Page} from '../../../page/page';
 import {Sort} from '../../../sort/sort';
 import { UserService } from '../user.service';
-import {PageEvent} from '@angular/material';
+import {MatDialog, PageEvent} from '@angular/material';
 import {ActivatedRoute} from '@angular/router';
-import {PARTY, USER} from '../../../app/routes';
+import {USER} from '../../../app/routes';
+import {DeleteModalComponent} from '../../../delete-modal/delete.modal.component';
 
 @Component({
   selector: 'app-user-list',
@@ -16,7 +17,8 @@ export class UserListComponent implements OnInit {
 
   username: string;
   users: Users;
-  routerLinkCreateUser = `/${PARTY}/${USER}/create`;
+  link = `/${USER}`;
+  routerLinkCreateUser = `/${this.link}/create`;
 
 
   private partyId: string;
@@ -25,7 +27,8 @@ export class UserListComponent implements OnInit {
   private defaultSortOrder = 'asc';
 
   constructor(private userService: UserService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public dialog: MatDialog) {
 
     const newUsers = new Users();
     newUsers.page = new Page(0, 0, 0);
@@ -44,9 +47,7 @@ export class UserListComponent implements OnInit {
     this.userService
     .getUsers(this.defaultPage, this.defaultPageSize, this.defaultSortOrder)
     .subscribe(next => {
-      if (next && next.users.length > 0) {
-        this.users = next;
-      }
+      this.users = next;
     }, error => {
       console.log(error);
     }, () => {
@@ -57,6 +58,17 @@ export class UserListComponent implements OnInit {
   onOpenModal(partyId: string, username: string) {
     this.partyId = partyId;
     this.username = username;
+    const dialogRef = this.dialog.open(DeleteModalComponent, {
+      maxWidth: '300px',
+      data: {name: this.username}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) {
+        this.onDelete(result);
+      }
+    });
   }
 
   onDelete(deleted: boolean) {

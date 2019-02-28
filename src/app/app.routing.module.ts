@@ -12,8 +12,7 @@ import {
   BILLING_DETAIL,
   HOME,
   LOBBY,
-  ORGANIZATION,
-  PARTY
+  ORGANIZATION, USER
 } from './routes';
 
 const appRoutes: Routes = [
@@ -29,9 +28,14 @@ const appRoutes: Routes = [
   },
   { path: ASSET_SETTING, loadChildren: '../asset-settings/asset.setting.module#AssetSettingModule', canLoad: [AuthGuard] },
   { path: ORGANIZATION,
-    loadChildren: '../organization-create/organization.create.module#OrganizationCreateModule'
+    loadChildren: '../parties/organizations/organization.module#OrganizationModule',
+    canLoad: [AuthGuard]
   },
-  { path: PARTY, loadChildren: '../parties/party.module#PartyModule', canLoad: [AuthGuard] },
+  { path: USER,
+    loadChildren: '../parties/users/user.module#UserModule',
+    canLoad: [AuthGuard]
+  },
+  // { path: PARTY, loadChildren: '../parties/party.module#PartyModule', canLoad: [AuthGuard] },
   { path: BILLING_DETAIL, loadChildren: '../billing-details/billing-details.module#BillingDetailsModule', canLoad: [AuthGuard]},
   { path: '**', component: PageNotFoundComponent, data : { displayMenu: false } },
 ];

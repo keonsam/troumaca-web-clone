@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
-import {PageEvent} from '@angular/material';
+import {MatDialog, PageEvent} from '@angular/material';
 import {UnitOfMeasures} from '../unit.of.measures';
 import {UnitOfMeasureService} from '../unit.of.measure.service';
 import {ActivatedRoute} from '@angular/router';
 import {ASSET_SETTING, UNIT_OF_MEASURE} from '../../app/routes';
+import {DeleteModalComponent} from '../../delete-modal/delete.modal.component';
 
 @Component({
   selector: 'app-asset-role-type-list',
@@ -26,7 +27,8 @@ export class UnitOfMeasureListComponent implements OnInit {
   newLink = `${this.routerLink}/create`;
 
   constructor(private unitOfMeasureService: UnitOfMeasureService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public dialog: MatDialog) {
     const unitOfMeasures = new UnitOfMeasures();
     unitOfMeasures.page = new Page(0, 0, 0);
     unitOfMeasures.sort = new Sort();
@@ -55,6 +57,17 @@ export class UnitOfMeasureListComponent implements OnInit {
   onOpenModal(unitOfMeasureId: string, unitOfMeasureName: string) {
     this.unitOfMeasureId = unitOfMeasureId;
     this.unitOfMeasureName = unitOfMeasureName;
+    const dialogRef = this.dialog.open(DeleteModalComponent, {
+      maxWidth: '300px',
+      data: {name: this.unitOfMeasureName}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) {
+        this.onDelete(result);
+      }
+    });
   }
 
   onDelete(deleted: boolean) {

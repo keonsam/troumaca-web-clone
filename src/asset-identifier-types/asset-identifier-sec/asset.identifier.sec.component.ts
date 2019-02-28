@@ -40,9 +40,7 @@ export class AssetIdentifierSecComponent implements OnInit, OnChanges {
   private populateIdDropDown() {
     this.findIds('');
     this.ids.valueChanges
-      .pipe(debounceTime(1000), filter(value => { // filter out empty values
-        return !!(value);
-      }))
+      .pipe(debounceTime(1000))
       .subscribe(value => {
         this.findIds(value);
       });
@@ -75,8 +73,8 @@ export class AssetIdentifierSecComponent implements OnInit, OnChanges {
   onIdSelect(id: AssetIdentifierType) {
     this.identifiers = this.parentForm.get('identifiers') as FormArray;
     if (this.selected.indexOf(id.assetIdentifierTypeId) < 0) {
-      this.identifiers.push(this.createItem(id));
-      this.selected.push(id.assetIdentifierTypeId);
+      this.identifiers.insert(0, this.createItem(id));
+      this.selected.unshift(id.assetIdentifierTypeId);
       this.ids.setValue('');
     }
   }

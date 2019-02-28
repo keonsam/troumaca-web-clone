@@ -1,11 +1,11 @@
 import {UUIDGenerator} from '../../uuid.generator';
 import {PartyClient} from './party.client';
 import {Observable} from 'rxjs';
-import { map } from "rxjs/operators";
+import { map } from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ValidResponse} from "../../authentication/valid.response";
-import {ContactInfo} from "../../parties/contact-info/contact.info";
-import {Address} from "../../parties/address/address";
+import {ValidResponse} from '../../authentication/valid.response';
+import {ContactInfo} from '../../parties/contact-info/contact.info';
+import {Address} from '../../parties/address/address';
 import {environment} from '../../environments/environment';
 
 export class PartyClientHttp implements PartyClient {
@@ -60,13 +60,13 @@ export class PartyClientHttp implements PartyClient {
   }
 
   updateContactInfo(type: string, contactInfo: ContactInfo): Observable<number> {
-    const url = `${this.hostPort}/parties/contact-info/${contactInfo.contactInfoId}`;
+    const url = `${this.hostPort}/parties/contact-info/${type}`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-      .put<number>(url, {type, contactInfo}, httpOptions)
+      .put<number>(url, contactInfo, httpOptions)
       .pipe(map(data => {
         return data;
       }));
@@ -101,23 +101,23 @@ export class PartyClientHttp implements PartyClient {
   }
 
   updateAddress(type: string, address: Address): Observable<number> {
-    const url = `${this.hostPort}/parties/address/${address.siteId}`;
+    const url = `${this.hostPort}/parties/address/${type}`;
 
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient
-      .put<number>(url, {type, address}, httpOptions)
+      .put<number>(url, address, httpOptions)
       .pipe(map(data => {
         return data;
       }));
   }
 
   private jsonHttpHeaders(): HttpHeaders {
-  return new HttpHeaders({
-    'Content-Type':  'application/json',
-    'correlationId': this.uuidGenerator.generateUUID()
-  });
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'correlationId': this.uuidGenerator.generateUUID()
+    });
   }
 
 }

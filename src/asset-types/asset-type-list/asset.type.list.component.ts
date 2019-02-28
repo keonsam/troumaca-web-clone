@@ -4,6 +4,8 @@ import {AssetTypeService} from '../asset.type.service';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
 import { ASSET_TYPE } from '../../app/routes';
+import {MatDialog, PageEvent} from '@angular/material';
+import {DeleteModalComponent} from '../../delete-modal/delete.modal.component';
 
 @Component({
   selector: 'asset-type-list',
@@ -21,7 +23,8 @@ export class AssetTypeListComponent implements OnInit {
   private assetTypeId: string;
 
 
-  constructor(private assetTypeService: AssetTypeService) {
+  constructor(private assetTypeService: AssetTypeService,
+              public dialog: MatDialog) {
 
      const newAssetTypes = new AssetTypes();
      newAssetTypes.page = new Page(0, 0, 0);
@@ -48,6 +51,17 @@ export class AssetTypeListComponent implements OnInit {
   onOpenModal(assetTypeId: string, assetTypeName: string) {
     this.assetTypeId = assetTypeId;
     this.assetTypeName = assetTypeName;
+    const dialogRef = this.dialog.open(DeleteModalComponent, {
+      maxWidth: '300px',
+      data: {name: this.assetTypeName}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) {
+        this.onDelete(result);
+      }
+    });
   }
 
   onDelete(deleted: boolean) {
@@ -66,8 +80,9 @@ export class AssetTypeListComponent implements OnInit {
     }
   }
 
-  onRequestPage(pageNumber: number) {
-   this.defaultPage = pageNumber;
+  onRequestPage(pageEvent: PageEvent) {
+    this.defaultPage = pageEvent.pageIndex + 1;
+    this.defaultPageSize = pageEvent.pageSize;
    this.getAssetTypes();
   }
 

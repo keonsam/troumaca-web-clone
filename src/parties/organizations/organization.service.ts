@@ -1,7 +1,8 @@
-import {Observable} from "rxjs";
-import {Organizations} from "../organizations";
-import {OrganizationRepository} from "./organization.repository";
-import {Organization} from "../organization";
+import {Observable} from 'rxjs';
+import {Organizations} from '../organizations';
+import {OrganizationRepository} from './organization.repository';
+import {Organization} from '../organization';
+import {CompanyInfo} from './organization-company/company.info';
 
 export class OrganizationService {
   constructor(private organizationRepository: OrganizationRepository) {
@@ -11,7 +12,7 @@ export class OrganizationService {
     return this.organizationRepository.getOrganizations(pageNumber, pageSize, sortOrder);
   }
 
-  getOrganization(partyId?: string): Observable<Organization> {
+  getOrganization(partyId: string): Observable<Organization> {
     return this.organizationRepository.getOrganization(partyId);
   }
 
@@ -27,5 +28,12 @@ export class OrganizationService {
     return this.organizationRepository.updateOrganization(organization);
   }
 
+  getCompany(): Observable<CompanyInfo> {
+    return this.organizationRepository.getCompany();
+  }
+
+  createOrganization(organization: Organization): Observable<Organization> {
+    return this.organizationRepository.createOrganization(organization);
+  }
 
 }

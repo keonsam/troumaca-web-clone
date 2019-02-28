@@ -11,7 +11,7 @@ import {OrganizationResolve} from './organizations/organization-form/organizatio
 import {UserResolve} from './users/user.resolve';
 import {AuthGuard} from '../auth-guard/auth.guard';
 import {OrganizationsResolve} from './organizations/organization-list/organizations.resolve';
-import {OrganizationCompanyResolve} from './organizations/organization-company/organization.company.resolve';
+import {CompanyResolve} from './organizations/organization-company/organization.company.resolve';
 import {ContactInfoResolve} from './contact-info/contact.info.resolve';
 import {AddressResolve} from './address/address.resolve';
 import {UsersResolve} from './users/user-list/users.resolve';
@@ -24,9 +24,7 @@ export const routes: Routes = [
       {
         path: `${ORGANIZATION}/profile`, component: OrganizationCompanyComponent,
         resolve: {
-          organization: OrganizationCompanyResolve,
-          contactInfo: ContactInfoResolve,
-          address: AddressResolve
+          company: CompanyResolve
         }
       },
       { path: `${ORGANIZATION}/listing`, component: OrganizationListComponent, resolve: {organizations: OrganizationsResolve} },

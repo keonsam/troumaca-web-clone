@@ -1,6 +1,7 @@
 import {Observable} from "rxjs";
 import {Organizations} from "../organizations";
 import {Organization} from "../organization";
+import {CompanyInfo} from './organization-company/company.info';
 
 export abstract class OrganizationRepository {
 
@@ -14,4 +15,7 @@ export abstract class OrganizationRepository {
 
   abstract updateOrganization(organization: Organization): Observable<number>;
 
+  abstract getCompany(): Observable<CompanyInfo>;
+
+  abstract createOrganization(organization: Organization): Observable<Organization>;
 }

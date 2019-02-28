@@ -1,5 +1,5 @@
 import {Component, OnInit, Renderer2} from '@angular/core';
-import {NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import { authRoutes } from './auth.routes';
 import {SessionService} from '../session/session.service';
 
@@ -41,7 +41,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
   }
 
 

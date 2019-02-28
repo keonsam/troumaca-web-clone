@@ -1,19 +1,8 @@
-<div aria-labelledby="DeleteModalLabel" class="modal fade bd-example-modal-sm" id="DeleteModal1" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="DeleteModalLabel">
-          Delete {{name}}
-        </h5>
-        <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
-      </div>
-      <div class="modal-body">
-        <p>Are you sure you want to delete {{name}}?</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
-        <button class="btn btn-danger" type="button" data-dismiss="modal" (click)="onDelete()"> Delete</button>
-      </div>
-    </div>
-  </div>
+<h1 mat-dialog-title>Delete {{data.name}}</h1>
+<div mat-dialog-content>
+  <p>Are you sure you want to delete {{data.name}}?</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button color="warn" [mat-dialog-close]="true">Delete</button>
 </div>

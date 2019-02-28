@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
-import {PageEvent} from '@angular/material';
+import {MatDialog, PageEvent} from '@angular/material';
 import {Brands} from '../brands';
 import {BrandService} from '../brand.service';
 import {ActivatedRoute} from '@angular/router';
 import {ASSET_SETTING, BRANDS} from '../../app/routes';
+import {DeleteModalComponent} from '../../delete-modal/delete.modal.component';
 
 @Component({
   selector: 'app-brand-list',
@@ -25,7 +26,8 @@ export class BrandListComponent implements OnInit {
   newLink = `${this.routerLink}/create`;
 
   constructor(private brandService: BrandService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public dialog: MatDialog) {
     const brands = new Brands();
     brands.page = new Page(0, 0, 0);
     brands.sort = new Sort();
@@ -54,6 +56,17 @@ export class BrandListComponent implements OnInit {
   onOpenModal(brandId: string, brandName: string) {
     this.brandId = brandId;
     this.brandName = brandName;
+    const dialogRef = this.dialog.open(DeleteModalComponent, {
+      maxWidth: '300px',
+      data: {name: this.brandName}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) {
+        this.onDelete(result);
+      }
+    });
   }
 
   onDelete(deleted: boolean) {

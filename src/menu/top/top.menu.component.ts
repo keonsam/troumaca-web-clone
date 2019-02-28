@@ -3,7 +3,7 @@ import {MenuService} from '../menu.service';
 import {SessionService} from '../../session/session.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {TopMenuNav} from '../top.menu.nav';
-import {BILLING_DETAIL, LOBBY, ORGANIZATION, PARTY, USER} from '../../app/routes';
+import {BILLING_DETAIL, LOBBY, ORGANIZATION, USER} from '../../app/routes';
 import {UserMenu} from '../user.menu';
 
 @Component({
@@ -19,9 +19,9 @@ export class TopMenuComponent implements OnInit {
   sub: any;
   menuList: TopMenuNav[];
   lobbyLink = `/${LOBBY}`;
-  comProLink = `/${PARTY}/${ORGANIZATION}/profile`;
+  comProLink = `/${ORGANIZATION}/profile`;
   billingLink = `/${BILLING_DETAIL}`;
-  userProfile = `/${PARTY}/${USER}/profile`;
+  userProfile = `/${USER}/profile`;
   userMenu: UserMenu;
 
   constructor(private menuService: MenuService,

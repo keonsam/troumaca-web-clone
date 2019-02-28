@@ -1,4 +1,9 @@
-import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {Component, Inject} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+
+export interface DialogData {
+  name: string;
+}
 
 @Component({
   selector: 'app-delete-modal',
@@ -7,10 +12,9 @@ import {Component, EventEmitter, Input, Output} from "@angular/core";
 })
 
 export class DeleteModalComponent {
- @Input() name: string;
- @Output() delete = new EventEmitter<boolean>();
+  constructor(
+    public dialogRef: MatDialogRef<DeleteModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
 
- onDelete() {
-   this.delete.emit(true);
- }
+  }
 }

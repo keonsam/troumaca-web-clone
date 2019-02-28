@@ -1,4 +1,5 @@
 export class  ValidSession {
-    valid: boolean;
-    partyId: string;
+  valid: boolean;
+  partyId: string;
+  ownerPartyId: string;
 }

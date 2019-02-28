@@ -21,6 +21,7 @@ import { MenuModule } from '../menu/menu.module';
 import { MaterialModule } from './material.module';
 import 'hammerjs';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     {provide: APP_BASE_HREF, useValue: '/'},
     {provide: AppConfig, useClass: AppConfig},
     {provide: UUIDGenerator, useClass: UUIDGenerator},
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
     sessionInterceptorProvider,
   ],
   bootstrap: [AppComponent]

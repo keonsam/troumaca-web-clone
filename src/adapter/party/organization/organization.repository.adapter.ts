@@ -3,6 +3,7 @@ import {OrganizationClient} from '../../../client/party/organization/organizatio
 import {Observable} from 'rxjs';
 import {Organizations} from '../../../parties/organizations';
 import {Organization} from '../../../parties/organization';
+import {CompanyInfo} from '../../../parties/organizations/organization-company/company.info';
 
 export class OrganizationRepositoryAdapter extends OrganizationRepository {
   constructor(private organizationClient: OrganizationClient) {
@@ -29,4 +30,11 @@ export class OrganizationRepositoryAdapter extends OrganizationRepository {
     return this.organizationClient.updateOrganization(organization);
   }
 
+  getCompany(): Observable<CompanyInfo> {
+    return this.organizationClient.getCompany();
+  }
+
+  createOrganization(organization: Organization): Observable<Organization> {
+    return this.organizationClient.createOrganization(organization);
+  }
 }
