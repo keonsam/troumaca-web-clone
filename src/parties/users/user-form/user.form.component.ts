@@ -8,7 +8,7 @@ import { map, distinctUntilChanged, filter, debounceTime } from 'rxjs/operators'
 import { UserService } from '../user.service';
 import { Credential } from '../../../authentication/credential';
 import {AccessRole} from '../../../access-roles/access.role';
-import { PARTY, USER} from '../../../app/routes';
+import { USER} from '../../../app/routes';
 
 @Component({
   selector: 'app-user-form',
@@ -33,7 +33,7 @@ export class UserFormComponent implements OnInit {
 
   doNotDisplayFailureMessage: boolean;
   update = false;
-  private userLink = `/${PARTY}/${USER}`;
+  private userLink = `/${USER}`;
 
   constructor(private userService: UserService,
               private formBuilder: FormBuilder,
@@ -47,8 +47,8 @@ export class UserFormComponent implements OnInit {
     this.firstName = new FormControl('', [Validators.required]);
     this.middleName = new FormControl('');
     this.lastName = new FormControl('', [Validators.required]);
-    this.username = new FormControl('', [Validators.required, this.usernameValidator(this.userService)]);
-    this.accessRole = new FormControl('', [Validators.required]);
+    this.username = new FormControl('', [this.usernameValidator(this.userService)]);
+    this.accessRole = new FormControl('');
 
     this.userForm = formBuilder.group({
       'firstName': this.firstName,
@@ -86,7 +86,7 @@ export class UserFormComponent implements OnInit {
     this.middleName.setValue(user.middleName);
     this.lastName.setValue(user.lastName);
     this.username.setValue(user.username);
-    this.accessRole.setValue(user.partyAccessRoles.map(value => value.accessRole.accessRoleId));
+    // this.accessRole.setValue(user.partyAccessRoles.map(value => value.accessRole.accessRoleId));
     this.user = user;
   }
 
@@ -122,6 +122,9 @@ export class UserFormComponent implements OnInit {
     };
 
     return (control: FormControl) => {
+      if (!control.value) {
+        return null;
+      }
        if (!usernameControl) {
          usernameControl = control;
        }

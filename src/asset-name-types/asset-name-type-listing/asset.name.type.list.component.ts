@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
-import {PageEvent} from '@angular/material';
+import {MatDialog, PageEvent} from '@angular/material';
 import {AssetNameTypes} from '../asset.name.types';
 import {AssetNameTypeService} from '../asset.name.type.service';
 import {ActivatedRoute} from '@angular/router';
 import {ASSET_NAME_TYPE, ASSET_SETTING} from '../../app/routes';
+import {DeleteModalComponent} from '../../delete-modal/delete.modal.component';
 
 @Component({
   selector: 'app-asset-name-type-list',
@@ -26,7 +27,8 @@ export class AssetNameTypeListComponent implements OnInit {
 
 
   constructor(private assetNameTypeService: AssetNameTypeService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public dialog: MatDialog) {
     const assetNameTypes = new AssetNameTypes();
     assetNameTypes.page = new Page(0, 0, 0);
     assetNameTypes.sort = new Sort();
@@ -55,6 +57,17 @@ export class AssetNameTypeListComponent implements OnInit {
   onOpenModal(assetNameTypeId: string, assetNameTypeName: string) {
     this.assetNameTypeId = assetNameTypeId;
     this.assetNameTypeName = assetNameTypeName;
+    const dialogRef = this.dialog.open(DeleteModalComponent, {
+      maxWidth: '300px',
+      data: {name: this.assetNameTypeName}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) {
+        this.onDelete(result);
+      }
+    });
   }
 
   onDelete(deleted: boolean) {

@@ -6,6 +6,7 @@ import {App} from "../../lobby/app";
 import {map} from "rxjs/operators";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from '../../environments/environment';
+import {UserMenu} from '../../menu/user.menu';
 
 export class MenuClientHttp extends MenuClient {
 
@@ -15,20 +16,8 @@ export class MenuClientHttp extends MenuClient {
     super();
   }
 
-  getMenuByName(menuName: string): Observable<MenuState> {
-    return undefined;
-  }
-
   getTopMenuState(isLoggedIn: boolean): Observable<MenuState> {
     throw undefined;
-  }
-
-  getLeftMenuStateByName(menuName: string): Observable<MenuState> {
-    return undefined;
-  }
-
-  getLeftMenuStateById(menuId: string): Observable<MenuState> {
-    return undefined;
   }
 
   getApps(): Observable<App[]> {
@@ -37,6 +26,17 @@ export class MenuClientHttp extends MenuClient {
       headers: this.jsonHttpHeaders()
     };
     return this.httpClient.get<App[]>(url, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+  getUserMenu(): Observable<UserMenu> {
+    const url = `${this.hostPort}/users-menu`;
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient.get<UserMenu>(url, httpOptions)
       .pipe(map(data => {
         return data;
       }));

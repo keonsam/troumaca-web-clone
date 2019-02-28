@@ -1,5 +1,5 @@
 import {Component, OnInit, Renderer2} from '@angular/core';
-import {NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import { authRoutes } from './auth.routes';
 import {SessionService} from '../session/session.service';
 
@@ -10,7 +10,7 @@ import {SessionService} from '../session/session.service';
 })
 export class AppComponent implements OnInit {
 
-  isAuthPath: boolean;
+  isAuthPath: string;
   sub: any;
 
   constructor(private router: Router,
@@ -19,12 +19,12 @@ export class AppComponent implements OnInit {
               ) {
 
     this.sub = this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationStart) {
+      if (event instanceof NavigationEnd) {
         const url = this.calURL(event.url);
         if (authRoutes.indexOf(url) > -1 || url.indexOf('forgot-password') > -1) {
-          this.isAuthPath = true;
+          this.isAuthPath = 'auth';
         } else {
-          this.isAuthPath = false;
+          this.isAuthPath = 'app';
         }
         this.sub.unsubscribe();
         this.setRouter();
@@ -49,9 +49,9 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         const url = this.calURL(event.url);
         if (authRoutes.indexOf(url) > -1 || url.indexOf('forgot-password') > -1) {
-          this.isAuthPath = true;
+          this.isAuthPath = 'auth';
         } else {
-          this.isAuthPath = false;
+          this.isAuthPath = 'app';
         }
       }
     });

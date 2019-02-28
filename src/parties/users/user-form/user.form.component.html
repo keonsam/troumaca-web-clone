@@ -4,7 +4,7 @@
       <div class="element-box">
         <form [formGroup]="userForm" id="formValidate">
           <h5 class="form-header">
-            {{ update ? "Edit":"New"}} User Form
+            {{ update ? "Edit":"New"}} People Form
           </h5>
 
           <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ update ? "Update":"Create"}} User.</div>
@@ -57,7 +57,7 @@
             </mat-select>
           </mat-form-field>
 
-          <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Failed to {{update ? "update": "create"}} user</span></div>
+          <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Failed to {{update ? "update": "create"}} people</span></div>
 
           <div class="form-buttons-w">
             <button mat-flat-button color="primary" [disabled]="!userForm.valid" type="submit" (click)="update ? onUpdate(): onCreate()">{{update ? "Update":"Create"}}</button>

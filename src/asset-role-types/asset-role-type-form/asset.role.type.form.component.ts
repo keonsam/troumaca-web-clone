@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AssetRoleType} from '../asset.role.type';
@@ -21,7 +21,8 @@ export class AssetRoleTypeFormComponent implements OnInit {
 
   private assetRoleType: AssetRoleType;
   private assetRoleTypeLink = `/${ASSET_SETTING}/${ASSET_ROLE_TYPE}/listing`;
-
+  @Input() trans: boolean;
+  @Output() panel: EventEmitter<string> = new EventEmitter();
   constructor(private assetRoleTypeService: AssetRoleTypeService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -66,7 +67,7 @@ export class AssetRoleTypeFormComponent implements OnInit {
     this.assetRoleTypeService.addAssetRoleType(this.assetRoleType)
       .subscribe( value => {
         if (value && value.assetRoleTypeId) {
-          this.router.navigate([this.assetRoleTypeLink]);
+          this.goRoute();
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -82,7 +83,7 @@ export class AssetRoleTypeFormComponent implements OnInit {
     this.assetRoleTypeService.updateAssetRoleType(this.assetRoleType)
       .subscribe( value => {
         if (value) {
-          this.router.navigate([this.assetRoleTypeLink]);
+          this.goRoute();
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -93,6 +94,14 @@ export class AssetRoleTypeFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([this.assetRoleTypeLink]);
+    this.goRoute();
+  }
+
+  private goRoute() {
+    if (this.trans) {
+      this.panel.emit('home');
+    }else {
+      this.router.navigate([this.assetRoleTypeLink]);
+    }
   }
 }

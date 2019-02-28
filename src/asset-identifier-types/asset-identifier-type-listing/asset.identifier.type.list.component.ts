@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Page} from '../../page/page';
 import {Sort} from '../../sort/sort';
-import {PageEvent} from '@angular/material';
+import {MatDialog, PageEvent} from '@angular/material';
 import {AssetIdentifierTypes} from '../asset.identifier.types';
 import {AssetIdentifierTypeService} from '../asset.identifier.type.service';
 import {ActivatedRoute} from '@angular/router';
 import {ASSET_IDENTIFIER_TYPE, ASSET_SETTING} from '../../app/routes';
+import {DeleteModalComponent} from '../../delete-modal/delete.modal.component';
 
 @Component({
   selector: 'app-asset-identifier-type-list',
@@ -25,7 +26,8 @@ export class AssetIdentifierTypeListComponent implements OnInit {
   newRoute = `${this.routerLink}/create`;
 
   constructor(private assetIdentifierTypeService: AssetIdentifierTypeService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public dialog: MatDialog) {
     const assetIdentifierTypes = new AssetIdentifierTypes();
     assetIdentifierTypes.page = new Page(0, 0, 0);
     assetIdentifierTypes.sort = new Sort();
@@ -54,6 +56,17 @@ export class AssetIdentifierTypeListComponent implements OnInit {
   onOpenModal(assetIdentifierTypeId: string, assetIdentifierTypeName: string) {
     this.assetIdentifierTypeId = assetIdentifierTypeId;
     this.assetIdentifierTypeName = assetIdentifierTypeName;
+    const dialogRef = this.dialog.open(DeleteModalComponent, {
+      maxWidth: '300px',
+      data: {name: this.assetIdentifierTypeName}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) {
+        this.onDelete(result);
+      }
+    });
   }
 
   onDelete(deleted: boolean) {

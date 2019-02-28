@@ -6,38 +6,43 @@ import {User} from '../../../parties/user';
 import { Credential} from '../../../authentication/credential';
 import {UserClient} from '../../../client/party/user/user.client';
 import {ValidResponse} from "../../../authentication/valid.response";
+import {UserMe} from '../../../parties/users/user-me/user.me';
 
 export class UserRepositoryAdapter extends UserRepository {
   constructor(private userClient: UserClient) {
     super();
   }
 
-  public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
+  findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
     return this.userClient.findAccessRole(searchStr, pageSize);
   }
 
-  public getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<Users> {
+  getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<Users> {
     return this.userClient.getUsers(pageNumber, pageSize, sortOrder);
   }
 
-  public getUser(partyId?: string): Observable<User> {
+  getUser(partyId?: string): Observable<User> {
     return this.userClient.getUserState(partyId);
   }
 
-  public addUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<User> {
+  addUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<User> {
     return this.userClient.addUserState(user, credential, partyAccessRoles);
   }
 
-  public updateUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<number> {
+  updateUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<number> {
     return this.userClient.updateUser(user, credential, partyAccessRoles);
+  }
+
+  deleteUser(partyId: string): Observable<number> {
+    return this.userClient.deleteUser(partyId);
+  }
+
+  getUserMe(): Observable<UserMe> {
+    return this.userClient.getUserMe();
   }
 
   updateUserMe(user: User, credential: Credential): Observable<number> {
     return this.userClient.updateUserMe(user, credential);
-  }
-
-  public deleteUser(partyId: string): Observable<number> {
-    return this.userClient.deleteUser(partyId);
   }
 
   // VALIDATION

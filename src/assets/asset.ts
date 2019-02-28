@@ -2,8 +2,6 @@ import {DiscreteItem} from './discrete.item';
 import {InventoryItem} from './inventory.item';
 import {Building} from './building';
 import {Lot} from './lot';
-import {AssetSpecification} from './asset-specification/asset.specification';
-import {AssignedCharacteristic} from '../asset-characteristics/assigned.characteristic';
 import {AssetName} from '../asset-name-types/asset.name';
 import {AssetIdentifier} from '../asset-identifier-types/asset.identifier';
 import {AssetRole} from '../asset-role-types/asset.role';
@@ -23,8 +21,6 @@ export class Asset {
   building: Building;
   lot: Lot;
 
-  specification: AssetSpecification;
-  assignedCharacteristics: AssignedCharacteristic[];
   assetNames: AssetName[];
   identifiers: AssetIdentifier[];
   roles: AssetRole[];
@@ -34,6 +30,5 @@ export class Asset {
     this.inventoryItem = new InventoryItem();
     this.building = new Building();
     this.lot = new Lot();
-    this.specification = new AssetSpecification();
   }
 }

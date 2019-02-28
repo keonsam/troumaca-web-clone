@@ -25,15 +25,14 @@
           <td>{{assetRoleType.name}}</td>
           <td>{{assetRoleType.description}}</td>
           <td class="row-actions">
-            <a [routerLink]="[routerLink, assetRoleType.assetRoleTypeId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(assetRoleType.assetRoleTypeId, assetRoleType.role);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+            <a [routerLink]="[routerLink, assetRoleType.assetRoleTypeId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" (click)="onOpenModal(assetRoleType.assetRoleTypeId, assetRoleType.role);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
           </td>
         </tr>
         <tr *ngIf="assetRoleTypes.assetRoleTypes.length <= 0" class="odd">
-          <td valign="top" align="" colspan="9" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+          <td valign="top" align="" colspan="3" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
         </tr>
         </tbody>
       </table>
-      <app-delete-modal [name]="assetRoleTypeName" (delete)="onDelete($event)"></app-delete-modal>
       <paging [page]="assetRoleTypes.page" (requestPage)="onRequestPage($event)"></paging>
     </div>
 

@@ -30,7 +30,7 @@ export class ContactInfoComponent implements OnInit {
   errorMessage: string;
   update = false;
 
-  contactInfo: ContactInfo;
+  @Input() contactInfo: ContactInfo;
 
   @Input() type: string;
   activePane = 'left';
@@ -55,9 +55,11 @@ export class ContactInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.route.snapshot && this.route.snapshot.data['contactInfo']) {
-      this.setInputValues(this.route.snapshot.data['contactInfo']);
+    if (this.contactInfo) {
+      this.setInputValues(this.contactInfo);
       this.update = true;
+    } else {
+      this.contactInfo = new ContactInfo();
     }
   }
 
@@ -108,23 +110,6 @@ export class ContactInfoComponent implements OnInit {
         validateEmail: true
       };
     }
-  }
-
-  onCreate(): void {
-    this.doNotDisplayFailureMessage = true;
-    this.partyService.addContactInfo(this.type, this.contactInfo)
-      .subscribe(contactInfo => {
-        if (contactInfo) {
-          this.activePane = 'left';
-        } else {
-          this.errorMessage = 'Failed to add contact info.';
-          this.doNotDisplayFailureMessage = false;
-        }
-      }, error => {
-        console.log(error);
-        this.errorMessage = 'Failed to add contact info.';
-        this.doNotDisplayFailureMessage = false;
-      });
   }
 
   onUpdate(): void {

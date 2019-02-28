@@ -1,69 +1,88 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AssetName} from '../asset.name';
+import {AssetNameTypeService} from '../asset.name.type.service';
+import {AssetNameType} from '../asset.name.type';
+import {debounceTime, filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-asset-name-sec',
   templateUrl: './asset.name.sec.component.html',
   styleUrls: ['./asset.name.sec.component.css'],
-  animations: [
-    trigger('slide', [
-      state('left', style({ transform: 'translateX(0)' })),
-      state('right', style({ transform: 'translateX(-50%)' })),
-      transition('* => *', animate(300))
-    ])
-  ]
 })
 
 export class AssetNameSecComponent implements OnInit, OnChanges {
 
+  ids: FormControl;
+  types: AssetNameType[];
   @Input() parentForm: FormGroup;
   names: FormArray;
-  activePane = 'left';
   @Input() assetNames: AssetName[];
 
   private selected: string[];
+  private pageSize = 5;
+  @Output() panel: EventEmitter<string> = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,
+              private assetNameTypeService: AssetNameTypeService) {
+    this.types = [];
+    this.selected = [];
+    this.ids = new FormControl('');
   }
 
   ngOnInit(): void {
+    this.populateIdDropDown();
     if (this.assetNames) {
-      this.onSelectedChar(this.assetNames, true);
+      this.setAssigned(this.assetNames);
     }
+  }
+
+  private populateIdDropDown() {
+    this.findIds('');
+    this.ids.valueChanges
+      .pipe(debounceTime(1000))
+      .subscribe(value => {
+        this.findIds(value);
+      });
+  }
+
+  private findIds(value) {
+    this.assetNameTypeService
+      .findAssetNameTypes(value, this.pageSize) // send search request to the backend
+      .subscribe(next => { // update the data
+        this.types = next;
+      }, error => {
+        console.log('findAssets error - ' + error);
+      });
   }
 
   ngOnChanges(): void {
     if (this.assetNames) {
-      this.onSelectedChar(this.assetNames, true);
+      this.setAssigned(this.assetNames);
     }
   }
 
-  createItem(x: AssetName, update: boolean): FormGroup {
+  createItem(x: any): FormGroup {
     return this.formBuilder.group({
       assetNameTypeId: x.assetNameTypeId,
       name: x.name,
-      nameVal: x.nameVal,
-      description: update ? x.description : '',
-      effectiveDate: x.effectiveDate,
-      untilDate: x.untilDate,
+      value: x.value,
     });
   }
 
-  onSelectedChar(assetNames: any[], update?: boolean) {
-    if (assetNames && assetNames.length > 0) {
-      if (!this.names) {
-        this.names = this.parentForm.get('names') as FormArray;
-      }
-      let newAssetNames = assetNames;
-      if (this.selected) {
-        newAssetNames = assetNames.filter( x => this.selected.indexOf(x.assetNameTypeId) === -1);
-      }
-      newAssetNames.forEach(x => this.names.push(this.createItem(x, update)));
-      this.selected = assetNames.map(x => x.assetNameTypeId);
+  onSelect(id: AssetNameType) {
+    this.names = this.parentForm.get('names') as FormArray;
+    if (this.selected.indexOf(id.assetNameTypeId) < 0) {
+      this.names.insert(0, this.createItem(id));
+      this.selected.unshift(id.assetNameTypeId);
+      this.ids.setValue('');
     }
-    this.activePane = 'left';
+  }
+
+  private setAssigned(assigned: AssetName[]) {
+    this.selected = assigned.map(x => x.assetNameTypeId);
+    this.names = this.parentForm.get('names') as FormArray;
+    assigned.forEach(x => this.names.push(this.createItem(x)));
   }
 
   onRemove(i: number) {

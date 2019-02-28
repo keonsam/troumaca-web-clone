@@ -5,36 +5,41 @@ import {Users} from '../users';
 import {User} from '../user';
 import { Credential } from '../../authentication/credential';
 import {ValidResponse} from '../../authentication/valid.response';
+import {UserMe} from './user-me/user.me';
 
 export class UserService {
   constructor(private userRepository: UserRepository) {}
 
-  public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
+  findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
     return this.userRepository.findAccessRole(searchStr, pageSize);
   }
 
-  public getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<Users> {
+  getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<Users> {
     return this.userRepository.getUsers(pageNumber, pageSize, sortOrder);
   }
 
-  public getUser(partyId?: string): Observable<User> {
+  getUser(partyId?: string): Observable<User> {
     return this.userRepository.getUser(partyId);
   }
 
-  public addUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<User> {
+  addUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<User> {
     return this.userRepository.addUser(user, credential, partyAccessRoles);
   }
 
-  public updateUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<number> {
+  updateUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<number> {
     return this.userRepository.updateUser(user, credential, partyAccessRoles);
   }
 
-  public updateUserMe(user: User, credential: Credential): Observable<number> {
-    return this.userRepository.updateUserMe(user, credential);
+  deleteUser(partyId: string): Observable<number> {
+    return this.userRepository.deleteUser(partyId);
+  }
+  
+  getUserMe(): Observable<UserMe> {
+    return this.userRepository.getUserMe();
   }
 
-  public deleteUser(partyId: string): Observable<number> {
-    return this.userRepository.deleteUser(partyId);
+  updateUserMe(user: User, credential: Credential): Observable<number> {
+    return this.userRepository.updateUserMe(user, credential);
   }
 
   // Validation

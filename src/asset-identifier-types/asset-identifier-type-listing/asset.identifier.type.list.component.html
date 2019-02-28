@@ -25,15 +25,14 @@
           <td>{{assetIdentifierType.name}}</td>
           <td>{{assetIdentifierType.description}}</td>
           <td class="row-actions">
-            <a [routerLink]="[ routerLink, assetIdentifierType.assetIdentifierTypeId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(assetIdentifierType.assetIdentifierTypeId, assetIdentifierType.identifier);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
+            <a [routerLink]="[ routerLink, assetIdentifierType.assetIdentifierTypeId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" (click)="onOpenModal(assetIdentifierType.assetIdentifierTypeId, assetIdentifierType.identifier);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
           </td>
         </tr>
         <tr *ngIf="assetIdentifierTypes.assetIdentifierTypes.length <= 0" class="odd">
-          <td valign="top" align="" colspan="9" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+          <td valign="top" align="" colspan="3" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
         </tr>
         </tbody>
       </table>
-      <app-delete-modal [name]="assetIdentifierTypeName" (delete)="onDelete($event)"></app-delete-modal>
       <paging [page]="assetIdentifierTypes.page" (requestPage)="onRequestPage($event)"></paging>
     </div>
 

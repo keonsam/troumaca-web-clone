@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UnitOfMeasure} from '../unit.of.measure';
@@ -6,7 +6,7 @@ import {UnitOfMeasureService} from '../unit.of.measure.service';
 import {ASSET_SETTING, UNIT_OF_MEASURE} from '../../app/routes';
 
 @Component({
-  selector: 'app-asset-role-type-form',
+  selector: 'app-unit-of-measure-form',
   templateUrl: './unit.of.measure.form.component.html',
   styleUrls: ['./unit.of.measure.form.component.css']
 })
@@ -21,6 +21,8 @@ export class UnitOfMeasureFormComponent implements OnInit {
 
   private unitOfMeasure: UnitOfMeasure;
   private unitOfMeasureLink = `/${ASSET_SETTING}/${UNIT_OF_MEASURE}/listing`;
+  @Input() trans: boolean;
+  @Output() left: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private unitOfMeasureService: UnitOfMeasureService,
               private formBuilder: FormBuilder,
@@ -66,7 +68,11 @@ export class UnitOfMeasureFormComponent implements OnInit {
     this.unitOfMeasureService.addUnitOfMeasure(this.unitOfMeasure)
       .subscribe( value => {
         if (value && value.unitOfMeasureId) {
-          this.router.navigate([this.unitOfMeasureLink]);
+          if (this.trans) {
+            this.left.emit(true);
+          }else {
+            this.router.navigate([this.unitOfMeasureLink]);
+          }
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -82,7 +88,11 @@ export class UnitOfMeasureFormComponent implements OnInit {
     this.unitOfMeasureService.updateUnitOfMeasure(this.unitOfMeasure)
       .subscribe( value => {
         if (value) {
-          this.router.navigate([this.unitOfMeasureLink]);
+          if (this.trans) {
+            this.left.emit(true);
+          }else {
+            this.router.navigate([this.unitOfMeasureLink]);
+          }
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -93,6 +103,11 @@ export class UnitOfMeasureFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([this.unitOfMeasureLink]);
+    if (this.trans) {
+      this.left.emit(true);
+    }else {
+      this.router.navigate([this.unitOfMeasureLink]);
+    }
   }
+
 }

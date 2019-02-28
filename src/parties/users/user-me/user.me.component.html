@@ -11,7 +11,7 @@
                 Status:
               </div>
               <div class="value badge badge-pill badge-success">
-                Online
+                {{ user.status || "Unknown"}}
               </div>
             </div>
           </div>
@@ -23,71 +23,24 @@
             <div class="col-sm-6 b-r b-b">
               <div class="el-tablo centered padded-v">
                 <div class="value">
-                  25
+                  {{ userMe.assignedAssets}}
                 </div>
                 <div class="label">
-                  Products Sold
+                  Assigned Assets
                 </div>
               </div>
             </div>
             <div class="col-sm-6 b-b">
               <div class="el-tablo centered padded-v">
                 <div class="value">
-                  315
+                  {{ userMe.work }}
                 </div>
                 <div class="label">
-                  Friends
+                  Work
                 </div>
               </div>
             </div>
           </div>
-          <!--<div class="padded">-->
-          <!--<div class="os-progress-bar primary">-->
-          <!--<div class="bar-labels">-->
-          <!--<div class="bar-label-left">-->
-          <!--<span>Profile Completion</span><span class="positive">+10</span>-->
-          <!--</div>-->
-          <!--<div class="bar-label-right">-->
-          <!--<span class="info">72/100</span>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<div class="bar-level-1" style="width: 100%">-->
-          <!--<div class="bar-level-2" style="width: 80%">-->
-          <!--<div class="bar-level-3" style="width: 30%"></div>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<div class="os-progress-bar primary">-->
-          <!--<div class="bar-labels">-->
-          <!--<div class="bar-label-left">-->
-          <!--<span>Status Unlocked</span><span class="positive">+5</span>-->
-          <!--</div>-->
-          <!--<div class="bar-label-right">-->
-          <!--<span class="info">45/100</span>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<div class="bar-level-1" style="width: 100%">-->
-          <!--<div class="bar-level-2" style="width: 30%">-->
-          <!--<div class="bar-level-3" style="width: 10%"></div>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<div class="os-progress-bar primary">-->
-          <!--<div class="bar-labels">-->
-          <!--<div class="bar-label-left">-->
-          <!--<span>Followers</span><span class="negative">-12</span>-->
-          <!--</div>-->
-          <!--<div class="bar-label-right">-->
-          <!--<span class="info">74/100</span>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<div class="bar-level-1" style="width: 100%">-->
-          <!--<div class="bar-level-2" style="width: 80%">-->
-          <!--<div class="bar-level-3" style="width: 60%"></div>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--</div>-->
         </div>
       </div>
 
@@ -97,59 +50,20 @@
     <div class="element-wrapper">
       <div class="element-box">
         <h6 class="element-header">
-          Activities
+          User Activities
         </h6>
         <div class="timed-activities compact">
-          <div class="timed-activity">
+          <div class="timed-activity" *ngFor="let act of userMe.activities">
             <div class="ta-date">
-              <span>21st Jan, 2017</span>
+              <span>{{act.date | date:'mediumDate'}}</span>
             </div>
             <div class="ta-record-w">
-              <div class="ta-record">
+              <div class="ta-record" *ngFor="let acts of act.acts">
                 <div class="ta-timestamp">
-                  <strong>11:55</strong> am
+                  <strong>{{ acts.date | date:'shortTime' }}</strong>
                 </div>
                 <div class="ta-activity">
-                  Created a post called <a href="#">Register new symbol</a> in Rogue
-                </div>
-              </div>
-              <div class="ta-record">
-                <div class="ta-timestamp">
-                  <strong>2:34</strong> pm
-                </div>
-                <div class="ta-activity">
-                  Commented on story <a href="#">How to be a leader</a> in <a href="#">Financial</a> category
-                </div>
-              </div>
-              <div class="ta-record">
-                <div class="ta-timestamp">
-                  <strong>7:12</strong> pm
-                </div>
-                <div class="ta-activity">
-                  Added <a href="#">John Silver</a> as a friend
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="timed-activity">
-            <div class="ta-date">
-              <span>3rd Feb, 2017</span>
-            </div>
-            <div class="ta-record-w">
-              <div class="ta-record">
-                <div class="ta-timestamp">
-                  <strong>9:32</strong> pm
-                </div>
-                <div class="ta-activity">
-                  Added <a href="#">John Silver</a> as a friend
-                </div>
-              </div>
-              <div class="ta-record">
-                <div class="ta-timestamp">
-                  <strong>5:14</strong> pm
-                </div>
-                <div class="ta-activity">
-                  Commented on story <a href="#">How to be a leader</a> in <a href="#">Financial</a> category
+                  {{ acts.description }}
                 </div>
               </div>
             </div>
@@ -188,7 +102,7 @@
                       <span class="front-card-header">Middle Name</span>
                     </div>
                     <div class="col-sm-9">
-                      <span class="front-card-text">{{user.middleName || 'null'}}</span>
+                      <span class="front-card-text">{{user.middleName}}</span>
                     </div>
                   </div>
                 </div>
@@ -299,11 +213,11 @@
       </div>
 
       <div class="element-box">
-        <app-contact-info type="user"></app-contact-info>
+        <app-contact-info type="user" [contactInfo]="userMe.user.contactInfo"></app-contact-info>
       </div>
 
       <div class="element-box">
-        <app-address type="user"></app-address>
+        <app-address type="user" [address]="userMe.user.address"></app-address>
       </div>
 
     </div>

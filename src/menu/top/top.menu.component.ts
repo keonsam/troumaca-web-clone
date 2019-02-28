@@ -3,7 +3,8 @@ import {MenuService} from '../menu.service';
 import {SessionService} from '../../session/session.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {TopMenuNav} from '../top.menu.nav';
-import {BILLING_DETAIL, LOBBY, ORGANIZATION, PARTY, USER} from '../../app/routes';
+import {BILLING_DETAIL, LOBBY, ORGANIZATION, USER} from '../../app/routes';
+import {UserMenu} from '../user.menu';
 
 @Component({
   selector: 'top-menu',
@@ -18,10 +19,10 @@ export class TopMenuComponent implements OnInit {
   sub: any;
   menuList: TopMenuNav[];
   lobbyLink = `/${LOBBY}`;
-  comProLink = `/${PARTY}/${ORGANIZATION}/profile`;
+  comProLink = `/${ORGANIZATION}/profile`;
   billingLink = `/${BILLING_DETAIL}`;
-  userProfile = `/${PARTY}/${USER}/profile`;
-
+  userProfile = `/${USER}/profile`;
+  userMenu: UserMenu;
 
   constructor(private menuService: MenuService,
               private sessionService: SessionService,
@@ -29,6 +30,7 @@ export class TopMenuComponent implements OnInit {
     this.apps = [];
     this.displaySearchBox = true;
     this.menuList = [];
+    this.userMenu = new UserMenu();
 
     this.router.events.subscribe( (event: any) => {
       if (event instanceof NavigationEnd) {
@@ -41,10 +43,18 @@ export class TopMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUserMenu();
     this.menuService.getApps()
       .subscribe( apps => {
         this.apps = apps;
       });
+  }
+
+  private getUserMenu() {
+    this.menuService.getUserMenu()
+      .subscribe( userMenu => {
+        this.userMenu = userMenu;
+      })
   }
 
   logOutEvent() {

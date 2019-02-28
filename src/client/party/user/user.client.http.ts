@@ -6,19 +6,20 @@ import { AccessRole } from '../../../access-roles/access.role';
 import {map} from 'rxjs/operators';
 import { Users } from '../../../parties/users';
 import { User } from '../../../parties/user';
-import { PartyAccessRole } from '../../../parties/party.access.role';
 import { Credential } from '../../../authentication/credential';
-import {ValidResponse} from "../../../authentication/valid.response";
+import {ValidResponse} from '../../../authentication/valid.response';
 import {environment} from '../../../environments/environment';
+import {UserMe} from '../../../parties/users/user-me/user.me';
 
 export class UserClientHttp implements UserClient {
 
   hostPort = environment.hostPort;
+
   constructor(private uuidGenerator: UUIDGenerator,
               private httpClient: HttpClient) {
   }
 
-  public findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
+  findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
     const url = `${this.hostPort}/access-roles/find?q=${searchStr}&pageSize=${pageSize}`;
 
     const httpOptions = {
@@ -29,7 +30,7 @@ export class UserClientHttp implements UserClient {
     }));
   }
 
-  public getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<Users> {
+  getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<Users> {
     const url = `${this.hostPort}/users?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -39,13 +40,8 @@ export class UserClientHttp implements UserClient {
     }));
   }
 
-  public getUserState(partyId?: string): Observable<User> {
-    let url: string;
-    if (partyId ===  'profile') {
-      url = `${this.hostPort}/users/profile`;
-    } else {
-      url = `${this.hostPort}/users/${partyId}`;
-    }
+  getUserState(partyId?: string): Observable<User> {
+    const url = `${this.hostPort}/users/${partyId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
@@ -56,7 +52,7 @@ export class UserClientHttp implements UserClient {
       }));
   }
 
-  public addUserState(userState: User, credentialState: Credential, partyAccessRoleStates: string[]): Observable<User> {
+  addUserState(userState: User, credentialState: Credential, partyAccessRoleStates: string[]): Observable<User> {
     const url = `${this.hostPort}/users`;
     const body = {
       user: userState,
@@ -73,7 +69,7 @@ export class UserClientHttp implements UserClient {
       }));
   }
 
-  public deleteUser(partyId: string): Observable<number> {
+  deleteUser(partyId: string): Observable<number> {
     const url = `${this.hostPort}/users/${partyId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
@@ -85,7 +81,7 @@ export class UserClientHttp implements UserClient {
       }));
   }
 
-  public updateUser(userState: User, credentialState: Credential, partyAccessRoleStates: string[]): Observable<number> {
+  updateUser(userState: User, credentialState: Credential, partyAccessRoleStates: string[]): Observable<number> {
     const url = `${this.hostPort}/users/${userState.partyId}`;
     userState.partyAccessRoles = undefined;
     userState.username = undefined;
@@ -104,9 +100,21 @@ export class UserClientHttp implements UserClient {
       }));
   }
 
-  public updateUserMe(userState: User, credentialState: Credential): Observable<number> {
-    const url = `${this.hostPort}/users/profile`;
-    userState.partyAccessRoles = undefined;
+  getUserMe(): Observable<UserMe> {
+    const url = `${this.hostPort}/users-me`;
+
+    const httpOptions = {
+      headers: this.jsonHttpHeaders()
+    };
+    return this.httpClient
+      .get<UserMe>(url, httpOptions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+  updateUserMe(userState: User, credentialState: Credential): Observable<number> {
+    const url = `${this.hostPort}/users-me`;
     userState.username = undefined;
     const body = {
       user: userState,
@@ -160,7 +168,7 @@ export class UserClientHttp implements UserClient {
 
   private jsonHttpHeaders(): HttpHeaders {
     return new HttpHeaders({
-      'Content-Type':  'application/json',
+      'Content-Type': 'application/json',
       'correlationId': this.uuidGenerator.generateUUID()
     });
   }

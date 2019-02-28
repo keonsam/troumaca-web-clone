@@ -1,29 +1,29 @@
 import {Observable, of} from 'rxjs';
 import { LobbyRepository } from './lobby.repository';
-import {ASSET, ORGANIZATION, PARTY, USER} from '../app/routes';
+import {ASSET, ORGANIZATION, USER} from '../app/routes';
 
 export class LobbyService {
 
   apps = [
     {
-      name: 'Assets',
-      route: `/${ASSET}`,
-      iconClass: 'desktop_mac'
-    },
-    {
-      name: 'Organization',
-      route: `/${PARTY}/${ORGANIZATION}/listing`,
-      iconClass: 'business'
+      name: 'Company',
+      route: `/${ORGANIZATION}/profile`,
+      iconClass: 'business_center'
     },
     {
       name: 'People',
-      route: `/${PARTY}/${USER}/listing`,
+      route: `/${USER}/listing`,
       iconClass: 'group_add'
     },
     {
-      name: 'Company',
-      route: `/${PARTY}/${ORGANIZATION}/profile`,
-      iconClass: 'business_center'
+      name: 'Me',
+      route: `/${USER}/profile`,
+      iconClass: 'business'
+    },
+    {
+      name: 'Assets',
+      route: `/${ASSET}`,
+      iconClass: 'desktop_mac'
     },
   ];
 

@@ -1,22 +1,22 @@
-.remove-link {
-  margin-left: 30px;
-  color: #0a7cf8;
-  text-decoration: underline;
-  cursor: pointer;
+ul {
+  list-style-type: none;
+  padding: 0;
 }
 
-.flex-legend {
-  display: flex;
+li {
+  padding: 25px 0;
 }
 
-.multi-fields {
-  margin-bottom: 20px;
+li:not(:last-child) {
+  border-bottom: 1px solid lightgrey;
 }
 
-.bigger {
-  font-size: 0.99rem;
+.search-width {
+  width: calc(100% - 30px);
+  padding-left: 30px;
 }
 
-.multi-field-labels {
-  margin-bottom: 10px;
+button[mat-icon-button] {
+  margin-top: 10px;
 }
+

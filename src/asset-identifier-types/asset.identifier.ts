@@ -1,7 +1,7 @@
 export class AssetIdentifier {
   assetIdentifierTypeId: string;
   name: string;
-  identifierVal: string;
+  value: string;
   effectiveDate: string;
   untilDate: string;
 }

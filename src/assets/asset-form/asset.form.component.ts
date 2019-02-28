@@ -5,16 +5,27 @@ import {Asset} from '../asset';
 import {Router, ActivatedRoute} from '@angular/router';
 import {filter, debounceTime } from 'rxjs/operators';
 import {AssetType} from '../../asset-types/asset.type';
-import {AssignedCharacteristic} from '../../asset-characteristics/assigned.characteristic';
 import {AssetName} from '../../asset-name-types/asset.name';
 import {AssetIdentifier} from '../../asset-identifier-types/asset.identifier';
 import {AssetRole} from '../../asset-role-types/asset.role';
 import {ASSET} from '../../app/routes';
+// import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-asset-form',
   templateUrl: './asset.form.component.html',
   styleUrls: ['./asset.form.component.css']
+  // animations: [
+  //   trigger('slideInOut', [
+  //     transition(':enter', [
+  //       style({transform: 'translateY(-100%)'}),
+  //       animate('200ms ease-in', style({transform: 'translateY(0%)'}))
+  //     ]),
+  //     transition(':leave', [
+  //       animate('200ms ease-in', style({transform: 'translateY(-100%)'}))
+  //     ])
+  //   ])
+  // ]
 })
 
 export class AssetFormComponent implements OnInit {
@@ -33,30 +44,22 @@ export class AssetFormComponent implements OnInit {
   lotNumber: FormControl;
   numberOfShares: FormControl;
 
-  modelNumber: FormControl;
-  standardPrice: FormControl;
-  effectiveDate: FormControl;
-  totalSV: FormControl;
-
   assetForm: FormGroup;
 
   assetTypes: AssetType[];
   assetTypeSelected: string;
 
-  brand: FormControl;
-  brands: any[];
-
   pageSize = 5;
   update = false;
   doNotDisplayFailureMessage = true;
 
-  assignedChars: AssignedCharacteristic[];
   assetNames: AssetName[];
   assetIdentifiers: AssetIdentifier[];
   assetRoles: AssetRole[];
 
   private asset: Asset;
   private assetLink = `/${ASSET}`;
+  activePane = 'home';
 
   constructor(private assetService: AssetService,
               private formBuilder: FormBuilder,
@@ -67,8 +70,6 @@ export class AssetFormComponent implements OnInit {
 
 
     this.assetType = new FormControl('', [Validators.required]);
-
-    this.brand = new FormControl('');
 
     this.name = new FormControl('', [Validators.required]);
     this.createdOn = new FormControl('', [Validators.required]);
@@ -82,11 +83,6 @@ export class AssetFormComponent implements OnInit {
     this.lotNumber = new FormControl('');
     this.numberOfShares = new FormControl('');
 
-    this.modelNumber = new FormControl('');
-    this.standardPrice = new FormControl('');
-    this.effectiveDate = new FormControl('');
-    this.totalSV = new FormControl('');
-
     this.assetForm = formBuilder.group({
       'name': this.name,
       'createdOn': this.createdOn,
@@ -98,12 +94,6 @@ export class AssetFormComponent implements OnInit {
       'buildingNumber': this.buildingNumber,
       'lotNumber': this.lotNumber,
       'numberOfShares': this.numberOfShares,
-      'brand': this.brand,
-      'modelNumber': this.modelNumber,
-      'standardPrice': this.standardPrice,
-      'effectiveDate': this.effectiveDate,
-      'totalSV': this.totalSV,
-      'characteristics': formBuilder.array([]),
       'names': formBuilder.array([]),
       'identifiers': formBuilder.array([]),
       'roles': formBuilder.array([])
@@ -125,12 +115,6 @@ export class AssetFormComponent implements OnInit {
         this.asset.lot.lotNumber = value.lotNumber;
         this.asset.lot.numberOfShares = value.numberOfShares;
 
-        this.asset.specification.modelNumber = value.modelNumber;
-        this.asset.specification.standardPrice = value.standardPrice;
-        this.asset.specification.effectiveDate = value.effectiveDate;
-        this.asset.specification.totalSV = value.totalSV;
-
-        this.asset.assignedCharacteristics = value.characteristics;
         this.asset.assetNames = value.names;
         this.asset.identifiers = value.identifiers;
         this.asset.roles = value.roles;
@@ -138,17 +122,13 @@ export class AssetFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.createAndPopulateDropDowns();
+    this.populateAssetTypesDropDown();
     if (this.route.snapshot && this.route.snapshot.data['asset']) {
       const asset = this.route.snapshot.data['asset'];
       this.setInputValues(asset);
       this.update = true;
       this.asset = asset;
     }
-  }
-
-  private createAndPopulateDropDowns() {
-    this.populateAssetTypesDropDown();
   }
 
   private populateAssetTypesDropDown() {
@@ -185,16 +165,6 @@ export class AssetFormComponent implements OnInit {
     this.buildingNumber.setValue(asset.building.buildingNumber);
     this.lotNumber.setValue(asset.lot.lotNumber);
     this.numberOfShares.setValue(asset.lot.numberOfShares);
-    if (asset.specification) {
-      this.brand.setValue(asset.specification.brand ? asset.specification.brand.name : '' );
-      this.modelNumber.setValue(asset.specification.modelNumber);
-      this.standardPrice.setValue(asset.specification.standardPrice);
-      this.effectiveDate.setValue(asset.specification.effectiveDate);
-      this.totalSV.setValue(asset.specification.totalSV);
-    }
-    if (asset.assignedCharacteristics && asset.assignedCharacteristics.length > 0) {
-      this.assignedChars = asset.assignedCharacteristics;
-    }
     if (asset.assetNames && asset.assetNames.length > 0) {
       this.assetNames = asset.assetNames;
     }
@@ -213,16 +183,6 @@ export class AssetFormComponent implements OnInit {
     } else {
       this.assetTypeSelected = assetType.initialId;
     }
-    if (assetType.specification && !this.update) {
-      this.brand.setValue(assetType.specification.brand ? assetType.specification.brand.name : '' );
-      this.modelNumber.setValue(assetType.specification.modelNumber);
-      this.standardPrice.setValue(assetType.specification.standardPrice);
-      this.effectiveDate.setValue(assetType.specification.effectiveDate);
-      this.totalSV.setValue(assetType.specification.totalSV);
-    }
-    if (assetType.assignedCharacteristics && assetType.assignedCharacteristics.length > 0 && !this.update) {
-      this.assignedChars = assetType.assignedCharacteristics;
-    }
     if (assetType.assetNames && assetType.assetNames.length > 0 && !this.update) {
       this.assetNames = assetType.assetNames;
     }
@@ -232,10 +192,6 @@ export class AssetFormComponent implements OnInit {
     if (assetType.roles && assetType.roles.length > 0 && !this.update) {
       this.assetRoles = assetType.roles;
     }
-  }
-
-  onBrandSelect(brandId: string) {
-    this.asset.specification.brandId = brandId;
   }
 
   onCreate() {
@@ -271,6 +227,12 @@ export class AssetFormComponent implements OnInit {
 
   cancel() {
     this.router.navigate([this.assetLink]);
+  }
+
+  setPanel(event: string) {
+    if (event) {
+      this.activePane = event;
+    }
   }
 
 }

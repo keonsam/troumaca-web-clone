@@ -9,6 +9,7 @@ import {MenuItemModel} from '../../menu/menu.item.model';
 import {MenuState} from '../../client/menus/menu.state';
 import {MenuItemState} from '../../client/menus/menu.item.state';
 import {App} from "../../lobby/app";
+import {UserMenu} from '../../menu/user.menu';
 
 export class MenuRepositoryAdapter implements MenuRepository {
 
@@ -28,20 +29,12 @@ export class MenuRepositoryAdapter implements MenuRepository {
       }));
   }
 
-
-  getMenuModelByName(menuName: string): Observable<MenuModel> {
-    return this.menuClient
-      .getMenuByName(menuName)
-      .pipe(map(menuState => {
-        if (menuState == null) {
-          return new MenuModel();
-        }
-        return this.toMenuModel(menuState);
-      }));
-  }
-
   getApps(): Observable<App[]> {
     return this.menuClient.getApps();
+  }
+
+  getUserMenu(): Observable<UserMenu> {
+    return this.menuClient.getUserMenu();
   }
 
   private toMenuModel(menuState: MenuState): MenuModel {

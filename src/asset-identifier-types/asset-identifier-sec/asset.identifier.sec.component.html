@@ -1,48 +1,46 @@
 <fieldset [formGroup]="parentForm">
-  <div class="flex-legend">
-    <legend><span>Asset Identifiers</span></legend><mat-icon *ngIf="activePane === 'left'" class="float-right" color="primary" (click)="activePane = 'right'">add</mat-icon>
+
+  <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start" class="search-width">
+    <div fxFlex="1 1 auto">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Search Identifiers</mat-label>
+        <input matInput [formControl]="ids" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let identifier of assetIds" [value]="identifier.name" (onSelectionChange)="onIdSelect(identifier)">{{identifier.name}}</mat-option>
+        </mat-autocomplete>
+        <mat-hint>Select Identifier</mat-hint>
+      </mat-form-field>
+    </div>
+    <div fxFlex="0 0 auto">
+      <button mat-icon-button
+              matTooltip="Create new"
+              (click)="panel.emit('id')"
+      ><mat-icon color="primary">add_circle_outline</mat-icon></button>
+    </div>
   </div>
 
-  <div class="slider-container">
-    <div class="parent-slider" [@slide]="activePane">
-      <div class="child-slider">
-        <div formArrayName="identifiers"
-             *ngFor="let item of parentForm.get('identifiers').controls; let i = index" [ngClass]="{'multi-fields': true, 'no-border-bottom': i === parentForm.get('identifiers').controls.length - 1}">
-          <div class="multi-field-labels"><span class="bigger">{{item.controls.name.value}}</span><span class="remove-link" (click)="onRemove(i)">Remove</span></div>
-          <div [formGroupName]="i">
 
+  <ul>
+    <li formArrayName="identifiers"
+         *ngFor="let item of parentForm.get('identifiers').controls; let i = index" [ngClass]="{'multi-fields': true, 'no-border-bottom': i === parentForm.get('identifiers').controls.length - 1}">
+      <div [formGroupName]="i">
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start" class="search-width">
+          <div fxFlex="1 1 auto">
             <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Identifier Value</mat-label>
-              <input matInput formControlName="identifierVal">
+              <mat-label>{{item.controls.name.value | titlecase}} Value</mat-label>
+              <input matInput formControlName="value">
             </mat-form-field>
-
-            <div class="row">
-
-              <div class="col-sm-6">
-                <mat-form-field class="example-full-width" appearance="outline">
-                  <mat-label>Effective Date</mat-label>
-                  <input matInput [matDatepicker]="effPicker" formControlName="effectiveDate">
-                  <mat-datepicker-toggle matSuffix [for]="effPicker"></mat-datepicker-toggle>
-                  <mat-datepicker #effPicker></mat-datepicker>
-                </mat-form-field>
-              </div>
-
-              <div class="col-sm-6">
-                <mat-form-field class="example-full-width" appearance="outline">
-                  <mat-label>Until Date</mat-label>
-                  <input matInput [matDatepicker]="untilPicker" formControlName="untilDate">
-                  <mat-datepicker-toggle matSuffix [for]="untilPicker"></mat-datepicker-toggle>
-                  <mat-datepicker #untilPicker></mat-datepicker>
-                </mat-form-field>
-              </div>
-
-            </div>
+          </div>
+          <div fxFlex="0 0 auto">
+            <button mat-icon-button
+                    matTooltip="Remove Item"
+                    color="warn"
+                    (click)="onRemove(i)"
+            ><mat-icon>cancel</mat-icon></button>
           </div>
         </div>
       </div>
-      <div class="child-slider">
-        <app-asset-identifier-add (selectedChar)="onSelectedChar($event)" (previous)="activePane = 'left'" [selected]="selected"></app-asset-identifier-add>
-      </div>
-    </div>
-  </div>
+    </li>
+  </ul>
+
 </fieldset>

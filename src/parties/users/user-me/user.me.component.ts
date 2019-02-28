@@ -7,6 +7,7 @@ import { Credential} from '../../../authentication/credential';
 import { filter, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import {UserService} from '../user.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {UserMe} from './user.me';
 
 @Component({
   selector: 'app-user-me',
@@ -37,6 +38,7 @@ export class UserMeComponent implements OnInit {
   user: User;
   private credential: Credential;
   activePane = 'left';
+  userMe: UserMe;
 
   constructor(private userService: UserService,
               private route: ActivatedRoute,
@@ -93,8 +95,9 @@ export class UserMeComponent implements OnInit {
     this.userMeForm.updateValueAndValidity();
     });
 
-    if (this.route.snapshot && this.route.snapshot.data['user']) {
-      this.setInputValues(this.route.snapshot.data['user']);
+    if (this.route.snapshot && this.route.snapshot.data['userMe']) {
+      this.userMe = this.route.snapshot.data['userMe'];
+      this.setInputValues(this.userMe.user);
     }
   }
 
@@ -107,9 +110,10 @@ export class UserMeComponent implements OnInit {
   }
 
   private getUserMe() {
-    this.userService.getUser('profile')
+    this.userService.getUserMe()
       .subscribe( value => {
-        this.setInputValues(value);
+        this.userMe = value
+        this.setInputValues(value.user);
         this.activePane = 'left';
       }, error => {
         this.errorMessage = 'Failed to get profile, please refresh.';

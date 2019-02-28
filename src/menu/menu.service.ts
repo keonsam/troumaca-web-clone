@@ -3,6 +3,7 @@ import {Observable, of} from 'rxjs';
 import {MenuModel} from './menu.model';
 import {ASSET, ASSET_CHARACTERISTICS, ASSET_SETTING, ASSET_TYPE} from '../app/routes';
 import {TopMenuNav} from './top.menu.nav';
+import {UserMenu} from './user.menu';
 
 export class MenuService {
 
@@ -39,16 +40,13 @@ export class MenuService {
   constructor(private menuRepository: MenuRepository) {
   }
 
+
   public getTopMenu(url: string): Observable<TopMenuNav[]> {
     if (url.indexOf('asset') > -1 || url.indexOf('brand') > -1) {
       return of(this.assetMenu);
     } else {
       return of([]);
     }
-  }
-
-  public getMenuByName(menuName: string): Observable<MenuModel> {
-    return this.menuRepository.getMenuModelByName(menuName);
   }
 
   public getMenu(isLoggedIn: boolean): Observable<MenuModel> {
@@ -58,6 +56,10 @@ export class MenuService {
   getApps(): Observable<any[]> {
     return of(this.apps);
     // return this.menuRepository.getApps();
+  }
+
+  getUserMenu(): Observable<UserMenu> {
+    return this.menuRepository.getUserMenu();
   }
 
 }

@@ -4,10 +4,11 @@ import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../../app/material.module';
 import {AssetIdentifierSecComponent} from './asset.identifier.sec.component';
-import {AssetIdentifierAddComponent} from './asset.identifier.add/asset.identifier.add.component';
 import {assetIdentifierTypeServiceProvider} from '../asset.identifier.type.service.provider';
-import {assetIdentifierTypeRepositoryProvider} from '../../adapter/asset-identifier-types/asset.identifier.type.repository.adapter.provider';
+import {assetIdentifierTypeRepositoryProvider
+} from '../../adapter/asset-identifier-types/asset.identifier.type.repository.adapter.provider';
 import {assetIdentifierTypeClientProvider} from '../../client/asset-identifier-types/asset.identifier.type.client.provider';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   imports: [
@@ -16,10 +17,10 @@ import {assetIdentifierTypeClientProvider} from '../../client/asset-identifier-t
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    FlexLayoutModule
   ],
   declarations: [
     AssetIdentifierSecComponent,
-    AssetIdentifierAddComponent
   ],
   exports: [
     AssetIdentifierSecComponent

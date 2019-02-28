@@ -1,68 +1,89 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AssetRole} from '../asset.role';
+import {AssetRoleTypeService} from '../asset.role.type.service';
+import {AssetRoleType} from '../asset.role.type';
+import {debounceTime, filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-asset-role-sec',
   templateUrl: './asset.role.sec.component.html',
-  styleUrls: ['./asset.role.sec.component.css'],
-  animations: [
-    trigger('slide', [
-      state('left', style({ transform: 'translateX(0)' })),
-      state('right', style({ transform: 'translateX(-50%)' })),
-      transition('* => *', animate(300))
-    ])
-  ]
+  styleUrls: ['./asset.role.sec.component.css']
 })
 
 export class AssetRoleSecComponent implements OnInit, OnChanges {
 
+  ids: FormControl;
+  types: AssetRoleType[];
   @Input() parentForm: FormGroup;
   roles: FormArray;
-  activePane = 'left';
   @Input() assetRoles: AssetRole[];
 
   private selected: string[];
+  private pageSize = 5;
+  @Output() panel: EventEmitter<string> = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,
+              private assetRoleTypeService: AssetRoleTypeService) {
+    this.types = [];
+    this.selected = [];
+    this.ids = new FormControl('');
   }
 
   ngOnInit(): void {
+    this.populateIdDropDown();
     if (this.assetRoles) {
-      this.onSelectedChar(this.assetRoles);
+      this.setAssigned(this.assetRoles);
     }
+  }
+
+  private populateIdDropDown() {
+    this.findIds('');
+    this.ids.valueChanges
+      .pipe(debounceTime(1000))
+      .subscribe(value => {
+        this.findIds(value);
+      });
+  }
+
+  private findIds(value) {
+    this.assetRoleTypeService
+      .findAssetRoleTypes(value, this.pageSize) // send search request to the backend
+      .subscribe(next => { // update the data
+        this.types = next;
+      }, error => {
+        console.log('findAssets error - ' + error);
+      });
   }
 
   ngOnChanges(): void {
     if (this.assetRoles) {
-      this.onSelectedChar(this.assetRoles);
+      this.setAssigned(this.assetRoles);
     }
   }
 
-  createItem(x: AssetRole): FormGroup {
+  private createItem(x: any): FormGroup {
     return this.formBuilder.group({
       assetRoleTypeId: x.assetRoleTypeId,
       name: x.name,
+      value: x.value,
       sequenceNum: x.sequenceNum,
-      effectiveDate: x.effectiveDate,
-      untilDate: x.untilDate,
     });
   }
 
-  onSelectedChar(assetRoles: any[]) {
-    if (assetRoles && assetRoles.length > 0) {
-      if (!this.roles) {
-        this.roles = this.parentForm.get('roles') as FormArray;
-      }
-      let newAssetRoles = assetRoles;
-      if (this.selected) {
-        newAssetRoles = assetRoles.filter( x => this.selected.indexOf(x.assetRoleTypeId) === -1);
-      }
-      newAssetRoles.forEach(x => this.roles.push(this.createItem(x)));
-      this.selected = assetRoles.map(x => x.assetRoleTypeId);
+  onSelect(id: AssetRoleType) {
+    this.roles = this.parentForm.get('roles') as FormArray;
+    if (this.selected.indexOf(id.assetRoleTypeId) < 0) {
+      this.roles.insert(0, this.createItem(id));
+      this.selected.unshift(id.assetRoleTypeId);
+      this.ids.setValue('');
     }
-    this.activePane = 'left';
+  }
+
+  private setAssigned(assigned: AssetRole[]) {
+    this.selected = assigned.map(x => x.assetRoleTypeId);
+    this.roles = this.parentForm.get('roles') as FormArray;
+    assigned.forEach(x => this.roles.push(this.createItem(x)));
   }
 
   onRemove(i: number) {

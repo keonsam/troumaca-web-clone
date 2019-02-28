@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AssetIdentifierType} from '../asset.identifier.type';
@@ -21,6 +21,8 @@ export class AssetIdentifierTypeFormComponent implements OnInit {
 
   private assetIdentifierType: AssetIdentifierType;
   private assetIdentifierTypeLink = `/${ASSET_SETTING}/${ASSET_IDENTIFIER_TYPE}/listing`;
+  @Input() trans: boolean;
+  @Output() panel: EventEmitter<string> = new EventEmitter();
 
   constructor(private assetIdentifierTypeService: AssetIdentifierTypeService,
               private formBuilder: FormBuilder,
@@ -66,7 +68,7 @@ export class AssetIdentifierTypeFormComponent implements OnInit {
     this.assetIdentifierTypeService.addAssetIdentifierType(this.assetIdentifierType)
       .subscribe( value => {
         if (value && value.assetIdentifierTypeId) {
-          this.router.navigate([this.assetIdentifierTypeLink]);
+          this.goRoute();
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -82,7 +84,7 @@ export class AssetIdentifierTypeFormComponent implements OnInit {
     this.assetIdentifierTypeService.updateAssetIdentifierType(this.assetIdentifierType)
       .subscribe( value => {
         if (value) {
-          this.router.navigate([this.assetIdentifierTypeLink]);
+          this.goRoute();
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -93,6 +95,14 @@ export class AssetIdentifierTypeFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([this.assetIdentifierTypeLink]);
+    this.goRoute();
+  }
+
+  private goRoute() {
+    if (this.trans) {
+      this.panel.emit('home');
+    }else {
+      this.router.navigate([this.assetIdentifierTypeLink]);
+    }
   }
 }

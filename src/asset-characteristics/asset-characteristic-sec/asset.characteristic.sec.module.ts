@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {AssetCharacteristicAddComponent} from './asset-characteristic-add/asset.characteristic.add.component';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -8,6 +7,7 @@ import {assetCharacteristicServiceProvider} from '../asset.characteristic.servic
 import {assetCharacteristicRepositoryProvider} from '../../adapter/asset.characteristics/asset.characteristic.repository.adapter.provider';
 import {assetCharacteristicClientProvider} from '../../client/asset-characteristics/asset.characteristic.client.provider';
 import {AssetCharacteristicSecComponent} from './asset.characteristic.sec.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   imports: [
@@ -16,10 +16,10 @@ import {AssetCharacteristicSecComponent} from './asset.characteristic.sec.compon
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    FlexLayoutModule
   ],
   declarations: [
     AssetCharacteristicSecComponent,
-    AssetCharacteristicAddComponent
   ],
   exports: [
     AssetCharacteristicSecComponent

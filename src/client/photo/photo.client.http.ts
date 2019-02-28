@@ -28,12 +28,11 @@ export class PhotoClientHttp implements PhotoClient {
     const url = `${this.hostPort}/photos/${type}`;
     const formData = new FormData();
 
-    formData.append('image', photoState);
+    formData.append('image', photoState, photoState.name);
     const httpHeaders: HttpHeaders = new HttpHeaders({
       'Content-Type':  'multipart/form-data',
       'correlationId': this.uuidGenerator.generateUUID()
     });
-    console.log(photoState);
     return this.httpClient
       .post<Photo>(url, formData, {headers: httpHeaders})
       .pipe(map(data => {

@@ -1,69 +1,88 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AssetIdentifier} from '../asset.identifier';
+import {AssetIdentifierTypeService} from '../asset.identifier.type.service';
+import {debounceTime, filter} from 'rxjs/operators';
+import {AssetIdentifierType} from '../asset.identifier.type';
 
 @Component({
   selector: 'app-asset-identifier-sec',
   templateUrl: './asset.identifier.sec.component.html',
   styleUrls: ['./asset.identifier.sec.component.css'],
-  animations: [
-    trigger('slide', [
-      state('left', style({ transform: 'translateX(0)' })),
-      state('right', style({ transform: 'translateX(-50%)' })),
-      transition('* => *', animate(300))
-    ])
-  ]
 })
 
 export class AssetIdentifierSecComponent implements OnInit, OnChanges {
 
+  ids: FormControl;
   @Input() parentForm: FormGroup;
+  assetIds: AssetIdentifierType[];
   identifiers: FormArray;
-  activePane = 'left';
   @Input() assetIdentifiers: AssetIdentifier[];
 
   private selected: string[];
+  private pageSize = 5;
+  @Output() panel: EventEmitter<string> = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,
+              private assetIdentifierTypeService: AssetIdentifierTypeService) {
+    this.assetIds = [];
+    this.selected = [];
+    this.ids = new FormControl('');
   }
 
   ngOnInit(): void {
+    this.populateIdDropDown();
     if (this.assetIdentifiers) {
-      this.onSelectedChar(this.assetIdentifiers);
+      this.setAssigned(this.assetIdentifiers);
     }
+  }
+
+  private populateIdDropDown() {
+    this.findIds('');
+    this.ids.valueChanges
+      .pipe(debounceTime(1000))
+      .subscribe(value => {
+        this.findIds(value);
+      });
+  }
+
+  private findIds(value) {
+    this.assetIdentifierTypeService
+      .findAssetIdentifierTypes(value, this.pageSize) // send search request to the backend
+      .subscribe(next => { // update the data
+        this.assetIds = next;
+      }, error => {
+        console.log('findAssets error - ' + error);
+      });
   }
 
   ngOnChanges(): void {
     if (this.assetIdentifiers) {
-      this.onSelectedChar(this.assetIdentifiers);
+      this.setAssigned(this.assetIdentifiers);
     }
   }
 
-  createItem(x: AssetIdentifier): FormGroup {
+  createItem(x: any): FormGroup {
     return this.formBuilder.group({
       assetIdentifierTypeId: x.assetIdentifierTypeId,
       name: x.name,
-      identifierVal: x.identifierVal,
-      effectiveDate: x.effectiveDate,
-      untilDate: x.untilDate,
+      value: x.value,
     });
   }
 
-  onSelectedChar(assetIdentifiers: any[]) {
-    if (assetIdentifiers && assetIdentifiers.length > 0) {
-      if (!this.identifiers) {
-        this.identifiers = this.parentForm.get('identifiers') as FormArray;
-      }
-      let newAssetIdentifiers = assetIdentifiers;
-      if (this.selected) {
-        newAssetIdentifiers = assetIdentifiers.filter( x => this.selected.indexOf(x.assetIdentifierTypeId) === -1);
-      }
-      newAssetIdentifiers.forEach(x => this.identifiers.push(this.createItem(x)));
+  onIdSelect(id: AssetIdentifierType) {
+    this.identifiers = this.parentForm.get('identifiers') as FormArray;
+    if (this.selected.indexOf(id.assetIdentifierTypeId) < 0) {
+      this.identifiers.insert(0, this.createItem(id));
+      this.selected.unshift(id.assetIdentifierTypeId);
+      this.ids.setValue('');
     }
-    this.selected = assetIdentifiers.map(x => x.assetIdentifierTypeId);
+  }
 
-    this.activePane = 'left';
+  private setAssigned(assigned: AssetIdentifier[]) {
+    this.selected = assigned.map(x => x.assetIdentifierTypeId);
+    this.identifiers = this.parentForm.get('identifiers') as FormArray;
+    assigned.forEach(x => this.identifiers.push(this.createItem(x)));
   }
 
   onRemove(i: number) {

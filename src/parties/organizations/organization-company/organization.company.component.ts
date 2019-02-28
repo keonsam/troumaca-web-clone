@@ -4,6 +4,7 @@ import {Organization} from '../../organization';
 import {ActivatedRoute} from '@angular/router';
 import {OrganizationService} from '../organization.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {CompanyInfo} from './company.info';
 
 @Component({
   selector: 'app-organization-company',
@@ -25,6 +26,7 @@ export class OrganizationCompanyComponent implements OnInit {
   doNotDisplayFailureMessage = true;
 
   organization: Organization;
+  company: CompanyInfo;
   activePane = 'left';
 
   constructor(private formBuilder: FormBuilder,
@@ -51,8 +53,9 @@ export class OrganizationCompanyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.route.snapshot && this.route.snapshot.data['organization']) {
-      this.setInputValues(this.route.snapshot.data['organization']);
+    if (this.route.snapshot && this.route.snapshot.data['company']) {
+      this.company = this.route.snapshot.data['company'];
+      this.setInputValues(this.company.organization);
     }
   }
 
@@ -63,9 +66,10 @@ export class OrganizationCompanyComponent implements OnInit {
   }
 
   getOrganization() {
-    this.organizationService.getOrganization('company')
+    this.organizationService.getCompany()
       .subscribe(value => {
-        this.setInputValues(value);
+        this.company = value;
+        this.setInputValues(value.organization);
         this.activePane = 'left';
       }, error => {
         console.log(error);

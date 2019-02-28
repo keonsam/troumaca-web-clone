@@ -1,6 +1,6 @@
 <div class="element-wrapper">
   <h6 class="element-header">
-    User Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" [routerLink]="routerLinkCreateUser" href="#">New</a></object>
+    People Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" [routerLink]="routerLinkCreateUser" href="#">New</a></object>
   </h6>
   <div class="element-box">
 
@@ -38,15 +38,14 @@
           <td>{{user.lastName}}</td>
           <td>{{user.username}}</td>
           <td class="row-actions">
-            <a [routerLink]="['/parties/users', user.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a data-target="#DeleteModal1" data-toggle="modal" class="danger" (click)="onOpenModal(user.partyId, user.username)"><i class="os-icon os-icon-ui-15"></i></a>
+            <a [routerLink]="[link, user.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" (click)="onOpenModal(user.partyId, user.username)"><i class="os-icon os-icon-ui-15"></i></a>
           </td>
         </tr>
         <tr *ngIf="users.users.length <= 0" class="odd">
-          <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+          <td valign="top" align="" colspan="5" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
         </tr>
         </tbody>
       </table>
-      <app-delete-modal [name]="username" (delete)="onDelete($event)"></app-delete-modal>
       <paging [page]="users.page" (requestPage)="onRequestPage($event)"></paging>
     </div>
 
