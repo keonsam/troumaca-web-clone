@@ -18,9 +18,9 @@ export class SessionInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({
-      withCredentials: true
-    });
+    // req = req.clone({
+    //   withCredentials: true
+    // });
     return next.handle(req).pipe(catchError( x => this.handleError(x)));
   }
 
