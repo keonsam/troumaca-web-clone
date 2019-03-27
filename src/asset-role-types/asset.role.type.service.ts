@@ -1,34 +1,117 @@
 import {AssetRoleType} from './asset.role.type';
 import {Observable} from 'rxjs';
 import {AssetRoleTypes} from './asset.role.types';
-import {AssetRoleTypeRepository} from './asset.role.type.repository';
+import gql from 'graphql-tag';
+import {map} from 'rxjs/operators';
+import {Apollo} from 'apollo-angular';
 
 export class AssetRoleTypeService {
 
-  constructor(private assetRoleTypeRepository: AssetRoleTypeRepository) {}
+  constructor(private apollo: Apollo) {}
 
   findAssetRoleTypes(searchStr: string, pageSize: number): Observable<AssetRoleType[]> {
-    return this.assetRoleTypeRepository.findAssetRoleTypes(searchStr, pageSize);
+    return this.apollo.query( {
+      query: gql`
+        query findAssetRoleTypes($searchStr: String!, $pageSize: Int!) {
+          findAssetRoleTypes(searchStr: $searchStr, pageSize: $pageSize) {
+            assetRoleTypeId
+            name
+          }
+        }
+      `,
+      variables: {
+        searchStr,
+        pageSize
+      }
+    }).pipe(map( (res: any) => res.data.findAssetRoleTypes));
   }
 
   getAssetRoleTypes(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetRoleTypes> {
-    return this.assetRoleTypeRepository.getAssetRoleTypes(pageNumber, pageSize, sortOrder);
+    return this.apollo.query( {
+      query: gql`
+        query getAssetRoleTypes($pageNumber: Int!, $pageSize: Int!, $sortOrder: String!) {
+          getAssetRoleTypes(pageNumber: $pageNumber, pageSize: $pageSize, sortOrder: $sortOrder) {
+            assetRoleTypes {
+              assetRoleTypeId
+              name
+              description
+            }
+            page {
+              number
+              size
+              items
+              totalItems
+            }
+          }
+        }
+      `,
+      variables: {
+        pageNumber,
+        pageSize,
+        sortOrder
+      }
+    }).pipe(map( (res: any) => res.data.getAssetRoleTypes));
   }
 
   getAssetRoleType(assetRoleTypeId: string): Observable<AssetRoleType> {
-    return this.assetRoleTypeRepository.getAssetRoleType(assetRoleTypeId);
+    return this.apollo.query( {
+      query: gql`
+        query getAssetRoleType($assetRoleTypeId: ID!) {
+          getAssetRoleType(assetRoleTypeId: $assetRoleTypeId) {
+            assetRoleTypeId
+            name
+            description
+          }
+        }
+      `,
+      variables: {
+        assetRoleTypeId: assetRoleTypeId
+      }
+    }).pipe(map( (res: any) => res.data.getAssetRoleType));
   }
 
   addAssetRoleType(assetRoleType: AssetRoleType): Observable<AssetRoleType> {
-    return this.assetRoleTypeRepository.addAssetRoleType(assetRoleType);
+    return this.apollo.mutate( {
+      mutation: gql`
+        mutation addAssetRoleType($name: String!, $description: String!) {
+          addAssetRoleType(name: $name, description: $description) {
+            assetRoleTypeId
+          }
+        }
+      `,
+      variables: {
+        name: assetRoleType.name,
+        description: assetRoleType.description || ''
+      }
+    }).pipe(map( (res: any) => res.data.addAssetRoleType));
   }
 
   updateAssetRoleType(assetRoleType: AssetRoleType): Observable<number> {
-    return this.assetRoleTypeRepository.updateAssetRoleType(assetRoleType);
+    return this.apollo.mutate( {
+      mutation: gql`
+        mutation updateAssetRoleType($assetRoleTypeId: ID!, $name: String!, $description: String!) {
+          updateAssetRoleType(assetRoleTypeId: $assetRoleTypeId, name: $name, description: $description)
+        }
+      `,
+      variables: {
+        assetRoleTypeId: assetRoleType.assetRoleTypeId,
+        name: assetRoleType.name,
+        description: assetRoleType.description || ''
+      }
+    }).pipe(map( (res: any) => res.data.updateAssetRoleType));
   }
 
   deleteAssetRoleType(assetRoleTypeId: string): Observable<number> {
-    return this.assetRoleTypeRepository.deleteAssetRoleType(assetRoleTypeId);
+    return this.apollo.mutate( {
+      mutation: gql`
+        mutation deleteAssetRoleType($assetRoleTypeId: ID!) {
+          deleteAssetRoleType(assetRoleTypeId: $assetRoleTypeId)
+        }
+      `,
+      variables: {
+        assetRoleTypeId: assetRoleTypeId,
+      }
+    }).pipe(map( (res: any) => res.data.deleteAssetRoleType));
   }
 
 }

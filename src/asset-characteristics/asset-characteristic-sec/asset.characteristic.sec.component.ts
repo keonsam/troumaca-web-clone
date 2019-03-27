@@ -65,7 +65,7 @@ export class AssetCharacteristicSecComponent implements OnInit {
       value: x.value || x.defaultValue,
       min: x.minValue,
       max: x.maxValue,
-      unit: x.unitOfMeasureId
+      unit: x.unitOfMeasurementId
     });
   }
 

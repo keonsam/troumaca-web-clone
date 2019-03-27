@@ -48,8 +48,6 @@ export class AssetRoleTypeListComponent implements OnInit {
         this.assetRoleTypes = next;
       }, error => {
         console.log(error);
-      }, () => {
-        console.log('complete');
       });
   }
 
@@ -63,7 +61,6 @@ export class AssetRoleTypeListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       if (result) {
         this.onDelete(result);
       }
@@ -80,12 +77,9 @@ export class AssetRoleTypeListComponent implements OnInit {
           }
         }, error => {
           console.log(error);
-        }, () => {
-          console.log('complete');
         });
     }
   }
-
 
   onRequestPage(pageEvent: PageEvent) {
     this.defaultPage = pageEvent.pageIndex + 1;

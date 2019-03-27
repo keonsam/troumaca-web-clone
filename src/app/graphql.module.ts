@@ -5,10 +5,21 @@ import {InMemoryCache} from 'apollo-cache-inmemory';
 import {environment} from '../environments/environment';
 
 const uri = `${environment.hostPort}/graphql`; // <-- add the URL of the GraphQL server here
+const defaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'ignore',
+  },
+  query: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
+  },
+};
 export function createApollo(httpLink: HttpLink) {
   return {
     link: httpLink.create({uri}),
     cache: new InMemoryCache(),
+    defaultOptions: defaultOptions
   };
 }
 

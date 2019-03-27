@@ -150,7 +150,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
       .pipe(map(value2 => { // convert results to dropdown data
         return value2.map(v2 => {
           return {
-            unitOfMeasureId: v2.unitOfMeasureId,
+            unitOfMeasureId: v2.unitOfMeasurementId,
             name: v2.name
           };
         })
@@ -177,7 +177,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
   }
 
   onUnitOfMeasureSelect(unitOfMeasure: UnitOfMeasure) {
-    this.assetCharacteristic.unitOfMeasureId = unitOfMeasure.unitOfMeasureId;
+    this.assetCharacteristic.unitOfMeasurementId = unitOfMeasure.unitOfMeasurementId;
   }
 
   onCreate() {

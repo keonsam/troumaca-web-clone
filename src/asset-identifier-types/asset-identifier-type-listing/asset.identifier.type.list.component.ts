@@ -47,8 +47,6 @@ export class AssetIdentifierTypeListComponent implements OnInit {
         this.assetIdentifierTypes = next;
       }, error => {
         console.log(error);
-      }, () => {
-        console.log('complete');
       });
   }
 
@@ -62,7 +60,6 @@ export class AssetIdentifierTypeListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       if (result) {
         this.onDelete(result);
       }
@@ -79,8 +76,6 @@ export class AssetIdentifierTypeListComponent implements OnInit {
           }
         }, error => {
           console.log(error);
-        }, () => {
-          console.log('complete');
         });
     }
   }
