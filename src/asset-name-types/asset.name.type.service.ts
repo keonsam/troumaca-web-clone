@@ -1,34 +1,126 @@
 import {AssetNameType} from './asset.name.type';
 import {Observable} from 'rxjs';
 import {AssetNameTypes} from './asset.name.types';
-import {AssetNameTypeRepository} from './asset.name.type.repository';
+import {Apollo} from 'apollo-angular';
+import {map} from 'rxjs/operators';
+import gql from 'graphql-tag';
+
 
 export class AssetNameTypeService {
 
-  constructor(private assetNameTypeRepository: AssetNameTypeRepository) {}
+  constructor(private apollo: Apollo) {}
 
   findAssetNameTypes(searchStr: string, pageSize: number): Observable<AssetNameType[]> {
-    return this.assetNameTypeRepository.findAssetNameTypes(searchStr, pageSize);
+    return this.apollo.query<any>( {
+      query: gql`
+        query findAssetNameTypes($searchStr: String!, $pageSize: Int!) {
+          findAssetNameTypes(searchStr: $searchStr, pageSize: $pageSize) {
+            assetNameTypeId
+            name
+          }
+        }
+      `,
+      variables: {
+        searchStr,
+        pageSize
+      }
+    }).pipe(map( res => res.data.findAssetNameTypes));
   }
 
   getAssetNameTypes(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetNameTypes> {
-    return this.assetNameTypeRepository.getAssetNameTypes(pageNumber, pageSize, sortOrder);
+    return this.apollo.query<any>( {
+      query: gql`
+        query getAssetNameTypes($pageNumber: Int!, $pageSize: Int!, $sortOrder: String!) {
+          getAssetNameTypes(pageNumber: $pageNumber, pageSize: $pageSize, sortOrder: $sortOrder) {
+            assetNameTypes {
+              assetNameTypeId
+              name
+              description
+          }
+            page {
+              number
+              size
+              items
+              totalItems
+            }
+          }
+        }
+      `,
+      variables: {
+        pageNumber,
+        pageSize,
+        sortOrder
+      }
+    }).pipe(map( res => res.data.getAssetNameTypes));
   }
 
   getAssetNameType(assetNameTypeId: string): Observable<AssetNameType> {
-    return this.assetNameTypeRepository.getAssetNameType(assetNameTypeId);
+    return this.apollo.query<any>( {
+      query: gql`
+        query getAssetNameType($assetNameTypeId: ID!) {
+          getAssetNameType(assetNameTypeId: $assetNameTypeId) {
+            assetNameTypeId
+            name
+            description
+          }
+        }
+      `,
+      variables: {
+        assetNameTypeId: assetNameTypeId
+      }
+    }).pipe(map( res => res.data.getAssetNameType));
   }
 
   addAssetNameType(assetNameType: AssetNameType): Observable<AssetNameType> {
-    return this.assetNameTypeRepository.addAssetNameType(assetNameType);
+    return this.apollo.mutate( {
+      mutation: gql`
+        mutation addAssetNameType($name: String!, $description: String!) {
+          addAssetNameType(name: $name, description: $description) {
+            assetNameTypeId
+          }
+        }
+      `,
+      variables: {
+        name: assetNameType.name,
+        description: assetNameType.description || ''
+      }
+    }).pipe(map( res => res.data.addAssetNameType));
   }
 
   updateAssetNameType(assetNameType: AssetNameType): Observable<number> {
-    return this.assetNameTypeRepository.updateAssetNameType(assetNameType);
+    return this.apollo.mutate( {
+      mutation: gql`
+        mutation updateAssetNameType($assetNameTypeId: ID!, $name: String!, $description: String!) {
+          updateAssetNameType(assetNameTypeId: $assetNameTypeId, name: $name, description: $description) {
+            updateAssetNameType
+          }
+        }
+      `,
+      variables: {
+        assetNameTypeId: assetNameType.assetNameTypeId,
+        name: assetNameType.name,
+        description: assetNameType.description || ''
+      }
+    }).pipe(map( res => {
+      return res.data.updateAssetNameType;
+    }));
   }
 
   deleteAssetNameType(assetNameTypeId: string): Observable<number> {
-    return this.assetNameTypeRepository.deleteAssetNameType(assetNameTypeId);
+    return this.apollo.mutate<any>({
+      mutation: gql`
+        mutation deleteAssetNameType($assetNameTypeId: ID!) {
+          deleteAssetNameType(assetNameTypeId: $assetNameTypeId) {
+            deleteAssetNameType
+          }
+        }
+      `,
+      variables: {
+        assetNameTypeId: assetNameTypeId,
+      }
+    }).pipe(map( res => {
+      return res.data.updateAssetNameType;
+    }));
   }
 
 }

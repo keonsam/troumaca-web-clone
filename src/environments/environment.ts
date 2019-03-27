@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  hostPort: 'http://localhost:3000/graphql'
+  hostPort: 'http://localhost:3000'
 };
