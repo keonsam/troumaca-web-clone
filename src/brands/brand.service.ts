@@ -73,7 +73,7 @@ export class BrandService {
     return this.apollo.mutate( {
       mutation: gql`
         mutation addBrand($name: String!, $abbreviation: String!, $description: String!) {
-          addBrand(name: $name, abbreviation: $abbreviation, description: $description) {
+          addBrand(brand: {name: $name, abbreviation: $abbreviation, description: $description}) {
             brandId
           }
         }
@@ -90,7 +90,7 @@ export class BrandService {
     return this.apollo.mutate( {
       mutation: gql`
         mutation updateBrand($brandId: ID!, $name: String!, $abbreviation: String!, $description: String!) {
-          updateBrand(brandId: $brandId, name: $name, abbreviation: $abbreviation, description: $description)
+          updateBrand(brandId: $brandId, brand: {name: $name, abbreviation: $abbreviation, description: $description})
         }
       `,
       variables: {

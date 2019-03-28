@@ -1,13 +1,13 @@
 import {UnitOfMeasureService} from './unit.of.measure.service';
-import {UnitOfMeasureRepository} from './unit.of.measure.repository';
+import {Apollo} from 'apollo-angular';
 
-export function unitOfMeasureServiceProviderFactory (unitOfMeasureRepository: UnitOfMeasureRepository): UnitOfMeasureService {
-  return new UnitOfMeasureService(unitOfMeasureRepository);
+export function unitOfMeasureServiceProviderFactory (apollo: Apollo): UnitOfMeasureService {
+  return new UnitOfMeasureService(apollo);
 }
 
 export let unitOfMeasureServiceProvider = {
   provide: UnitOfMeasureService,
   useFactory: unitOfMeasureServiceProviderFactory,
   useClass: UnitOfMeasureService,
-  deps: [UnitOfMeasureRepository]
+  deps: [Apollo]
 };

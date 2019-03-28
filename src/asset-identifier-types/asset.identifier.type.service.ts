@@ -74,7 +74,7 @@ export class AssetIdentifierTypeService {
     return this.apollo.mutate( {
       mutation: gql`
         mutation addAssetIdentifierType($name: String!, $description: String!) {
-          addAssetIdentifierType(name: $name, description: $description) {
+          addAssetIdentifierType(assetIdentifierType: {name: $name, description: $description}) {
             assetIdentifierTypeId
           }
         }
@@ -90,7 +90,9 @@ export class AssetIdentifierTypeService {
     return this.apollo.mutate( {
       mutation: gql`
         mutation updateAssetIdentifierType($assetIdentifierTypeId: ID!, $name: String!, $description: String!) {
-          updateAssetIdentifierType(assetIdentifierTypeId: $assetIdentifierTypeId, name: $name, description: $description)
+          updateAssetIdentifierType(assetIdentifierTypeId: $assetIdentifierTypeId,
+            assetIdentifierType: {name: $name, description: $description}
+          )
         }
       `,
       variables: {

@@ -1,47 +1,244 @@
 import {AssetCharacteristic} from './asset.characteristic';
 import {Observable} from 'rxjs';
 import {AssetCharacteristics} from './asset.characteristics';
-import {AssetCharacteristicRepository} from './asset.characteristic.repository';
-import {Type} from './type';
 import {UnitOfMeasure} from '../unit-of-measure/unit.of.measure';
+import {Apollo} from 'apollo-angular';
+import {AssetCharacteristicType} from './asset.characteristic.type';
+import gql from 'graphql-tag';
+import {map} from 'rxjs/operators';
 
 export class AssetCharacteristicService {
 
-  constructor(private assetCharacteristicRepository: AssetCharacteristicRepository) {
+  constructor(private apollo: Apollo) {
   }
 
   findAssetCharacteristics(searchStr: string, pageSize: number): Observable<AssetCharacteristic[]> {
-    return this.assetCharacteristicRepository.findAssetCharacteristics(searchStr, pageSize);
+    return this.apollo.query( {
+      query: gql`
+        query findAssetCharacteristics($searchStr: String!, $pageSize: Int!) {
+          findAssetCharacteristics(searchStr: $searchStr, pageSize: $pageSize) {
+            assetCharacteristicId
+            name
+          }
+        }
+      `,
+      variables: {
+        searchStr,
+        pageSize
+      }
+    }).pipe(map( (res: any) => res.data.findAssetCharacteristics));
   }
 
   getAssetCharacteristics(pageNumber: number, pageSize: number, sortOrder: string): Observable<AssetCharacteristics> {
-    return this.assetCharacteristicRepository.getAssetCharacteristics(pageNumber, pageSize, sortOrder);
+    return this.apollo.query( {
+      query: gql`
+        query getAssetCharacteristics($pageNumber: Int!, $pageSize: Int!, $sortOrder: String!) {
+          getAssetCharacteristics(pageNumber: $pageNumber, pageSize: $pageSize, sortOrder: $sortOrder) {
+            assetCharacteristics {
+              assetCharacteristicId
+              name
+              assetCharacteristicType
+              defaultValue
+              description
+              unitOfMeasurement
+            }
+            page {
+              number
+              size
+              items
+              totalItems
+            }
+          }
+        }
+      `,
+      variables: {
+        pageNumber,
+        pageSize,
+        sortOrder
+      }
+    }).pipe(map( (res: any) => res.data.getAssetCharacteristics));
   }
 
   getAssetCharacteristic(assetCharacteristicId: string): Observable<AssetCharacteristic> {
-    return this.assetCharacteristicRepository.getAssetCharacteristic(assetCharacteristicId);
+    return this.apollo.query( {
+      query: gql`
+        query getAssetCharacteristic($assetCharacteristicId: ID!) {
+          getAssetCharacteristic(assetCharacteristicId: $assetCharacteristicId) {
+            assetCharacteristicId
+            name
+            assetCharacteristicTypeId
+            defaultValue
+            description
+            unitOfMeasurementId
+            unitOfMeasurement
+            formula
+            calculationLevel
+            maximumValue
+            minimumValue
+            categoryValue
+            effectiveDate
+            untilDate
+          }
+        }
+      `,
+      variables: {
+        assetCharacteristicId: assetCharacteristicId
+      }
+    }).pipe(map( (res: any) => res.data.getAssetCharacteristic));
   }
 
   addAssetCharacteristic(assetCharacteristic: AssetCharacteristic): Observable<AssetCharacteristic> {
-    return this.assetCharacteristicRepository.addAssetCharacteristic(assetCharacteristic);
+    return this.apollo.mutate( {
+      mutation: gql`
+        mutation addAssetCharacteristic(
+        $assetCharacteristicTypeId: ID!,
+        $name: String!,
+        $defaultValue: String,
+        $description: String!,
+        $unitOfMeasurementId: String,
+        $formula: String,
+        $calculationLevel: String,
+        $maximumValue: String,
+        $minimumValue: String,
+        $categoryValue: String,
+        $effectiveDate: String,
+        $untilDate: String
+        ) {
+          addAssetCharacteristic(
+            assetCharacteristic: {
+              assetCharacteristicTypeId: $assetCharacteristicTypeId,
+              name: $name,
+              defaultValue: $defaultValue,
+              description: $description,
+              unitOfMeasurementId: $unitOfMeasurementId,
+              formula: $formula,
+              calculationLevel: $calculationLevel,
+              maximumValue: $maximumValue,
+              minimumValue: $minimumValue,
+              categoryValue: $categoryValue,
+              effectiveDate: $effectiveDate,
+              untilDate: $untilDate
+            }
+          ) {
+            assetCharacteristicId
+          }
+        }
+      `,
+      variables: {
+        assetCharacteristicTypeId: assetCharacteristic.assetCharacteristicTypeId,
+        name: assetCharacteristic.name,
+        defaultValue: assetCharacteristic.defaultValue,
+        description: assetCharacteristic.description || '',
+        unitOfMeasurementId: assetCharacteristic.unitOfMeasurementId,
+        formula: assetCharacteristic.formula,
+        calculationLevel: assetCharacteristic.calculationLevel,
+        maximumValue: assetCharacteristic.maximumValue,
+        minimumValue: assetCharacteristic.minimumValue,
+        categoryValue: assetCharacteristic.categoryValue,
+        effectiveDate: assetCharacteristic.effectiveDate,
+        untilDate: assetCharacteristic.untilDate
+      }
+    }).pipe(map( (res: any) => res.data.addAssetCharacteristic));
   }
 
   updateAssetCharacteristic(assetCharacteristic: AssetCharacteristic): Observable<number> {
-    return this.assetCharacteristicRepository.updateAssetCharacteristic(assetCharacteristic);
+    return this.apollo.mutate( {
+      mutation: gql`
+        mutation updateAssetCharacteristic(
+        $assetCharacteristicId: ID!,
+        $assetCharacteristicTypeId: ID!
+        $name: String!
+        $defaultValue: String
+        $description: String!
+        $unitOfMeasurementId: String
+        $formula: String
+        $calculationLevel: String
+        $maximumValue: String
+        $minimumValue: String
+        $categoryValue: String
+        $effectiveDate: String
+        $untilDate: String
+        ) {
+          updateAssetCharacteristic(
+            assetCharacteristicId: $assetCharacteristicId,
+            assetCharacteristic: {
+              assetCharacteristicTypeId: $assetCharacteristicTypeId,
+              name: $name,
+              defaultValue: $defaultValue,
+              description: $description,
+              unitOfMeasurementId: $unitOfMeasurementId,
+              formula: $formula,
+              calculationLevel: $calculationLevel,
+              maximumValue: $maximumValue,
+              minimumValue: $minimumValue,
+              categoryValue: $categoryValue,
+              effectiveDate: $effectiveDate,
+              untilDate: $untilDate
+            }
+          )
+        }
+      `,
+      variables: {
+        assetCharacteristicId: assetCharacteristic.assetCharacteristicId,
+        assetCharacteristicTypeId: assetCharacteristic.assetCharacteristicTypeId,
+        name: assetCharacteristic.name,
+        defaultValue: assetCharacteristic.defaultValue,
+        description: assetCharacteristic.description || '',
+        unitOfMeasurementId: assetCharacteristic.unitOfMeasurementId,
+        formula: assetCharacteristic.formula,
+        calculationLevel: assetCharacteristic.calculationLevel,
+        maximumValue: assetCharacteristic.maximumValue,
+        minimumValue: assetCharacteristic.minimumValue,
+        categoryValue: assetCharacteristic.categoryValue,
+        effectiveDate: assetCharacteristic.effectiveDate,
+        untilDate: assetCharacteristic.untilDate
+      }
+    }).pipe(map( (res: any) => res.data.updateAssetCharacteristic));
   }
 
   deleteAssetCharacteristic(assetCharacteristicId: string): Observable<number> {
-    return this.assetCharacteristicRepository.deleteAssetCharacteristic(assetCharacteristicId);
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation deleteAssetCharacteristic($assetCharacteristicId: ID!) {
+          deleteAssetCharacteristic(assetCharacteristicId: $assetCharacteristicId)
+        }
+      `,
+      variables: {
+        assetCharacteristicId: assetCharacteristicId,
+      }
+    }).pipe(map( (res: any) => res.data.deleteAssetCharacteristic));
   }
 
   // OTHERS
 
-  getTypes(): Observable<Type[]> {
-    return this.assetCharacteristicRepository.getTypes();
+  getTypes(): Observable<AssetCharacteristicType[]> {
+    return this.apollo.query( {
+      query: gql`
+        query {
+          getAssetCharacteristicTypes {
+            assetCharacteristicTypeId
+            name
+          }
+        }
+      `,
+    }).pipe(map( (res: any) => res.data.getAssetCharacteristicTypes));
   }
 
   findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
-    return this.assetCharacteristicRepository.findUnitOfMeasures(searchStr, pageSize);
+    return this.apollo.query( {
+      query: gql`
+        query findUnitOfMeasurements($searchStr: String!, $pageSize: Int!) {
+          findUnitOfMeasurements(searchStr: $searchStr, pageSize: $pageSize) {
+            unitOfMeasurementId
+            name
+          }
+        }
+      `,
+      variables: {
+        searchStr,
+        pageSize
+      }
+    }).pipe(map( (res: any) => res.data.findUnitOfMeasurements));
   }
 
 }

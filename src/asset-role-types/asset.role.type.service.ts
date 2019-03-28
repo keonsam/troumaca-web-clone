@@ -74,7 +74,7 @@ export class AssetRoleTypeService {
     return this.apollo.mutate( {
       mutation: gql`
         mutation addAssetRoleType($name: String!, $description: String!) {
-          addAssetRoleType(name: $name, description: $description) {
+          addAssetRoleType(assetRoleType: {name: $name, description: $description}) {
             assetRoleTypeId
           }
         }
@@ -90,7 +90,7 @@ export class AssetRoleTypeService {
     return this.apollo.mutate( {
       mutation: gql`
         mutation updateAssetRoleType($assetRoleTypeId: ID!, $name: String!, $description: String!) {
-          updateAssetRoleType(assetRoleTypeId: $assetRoleTypeId, name: $name, description: $description)
+          updateAssetRoleType(assetRoleTypeId: $assetRoleTypeId, assetRoleType: {name: $name, description: $description})
         }
       `,
       variables: {

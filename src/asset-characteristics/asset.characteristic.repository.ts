@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs';
 import { AssetCharacteristics} from './asset.characteristics';
 import { AssetCharacteristic} from './asset.characteristic';
-import {Type} from './type';
+import {Kind} from './kind';
 import {UnitOfMeasure} from '../unit-of-measure/unit.of.measure';
 
 export abstract class AssetCharacteristicRepository {
@@ -13,6 +13,6 @@ export abstract class AssetCharacteristicRepository {
   abstract deleteAssetCharacteristic(brandId: string): Observable<number>;
 
   // OTHERS
-  abstract getTypes(): Observable<Type[]>
+  abstract getTypes(): Observable<Kind[]>
   abstract findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]>;
 }

@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 import {AssetCharacteristics} from '../../asset-characteristics/asset.characteristics';
 import {AssetCharacteristic} from '../../asset-characteristics/asset.characteristic';
 import {map} from 'rxjs/operators';
-import {Type} from '../../asset-characteristics/type';
+import {Kind} from '../../asset-characteristics/kind';
 import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
 
 export class AssetCharacteristicClientHttp extends AssetCharacteristicClient {
@@ -80,12 +80,12 @@ export class AssetCharacteristicClientHttp extends AssetCharacteristicClient {
 
   // OTHERS
 
-  getTypes(): Observable<Type[]> {
+  getTypes(): Observable<Kind[]> {
     const url = `${this.hostPort}/asset-characteristics/types`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };
-    return this.httpClient.get<Type[]>(url, httpOptions).pipe(map(data => {
+    return this.httpClient.get<Kind[]>(url, httpOptions).pipe(map(data => {
       return data;
     }));
   }

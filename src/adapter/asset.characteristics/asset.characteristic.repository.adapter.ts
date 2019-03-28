@@ -3,7 +3,7 @@ import { AssetCharacteristicClient} from '../../client/asset-characteristics/ass
 import {Observable} from 'rxjs';
 import {AssetCharacteristics} from '../../asset-characteristics/asset.characteristics';
 import {AssetCharacteristic} from '../../asset-characteristics/asset.characteristic';
-import {Type} from '../../asset-characteristics/type';
+import {Kind} from '../../asset-characteristics/kind';
 import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
 
 export class AssetCharacteristicRepositoryAdapter extends  AssetCharacteristicRepository {
@@ -38,7 +38,7 @@ export class AssetCharacteristicRepositoryAdapter extends  AssetCharacteristicRe
 
   // OTHER
 
-  getTypes(): Observable<Type[]> {
+  getTypes(): Observable<Kind[]> {
     return this.assetCharacteristicClient.getTypes();
   }
 
