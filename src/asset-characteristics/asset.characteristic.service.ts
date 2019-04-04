@@ -37,10 +37,8 @@ export class AssetCharacteristicService {
             assetCharacteristics {
               assetCharacteristicId
               name
-              assetCharacteristicType
               defaultValue
               description
-              unitOfMeasurement
             }
             page {
               number
@@ -138,7 +136,10 @@ export class AssetCharacteristicService {
         effectiveDate: assetCharacteristic.effectiveDate,
         untilDate: assetCharacteristic.untilDate
       }
-    }).pipe(map( (res: any) => res.data.addAssetCharacteristic));
+    }).pipe(map( (res: any) => {
+      console.log(res);
+      return res.data.addAssetCharacteristic
+    }));
   }
 
   updateAssetCharacteristic(assetCharacteristic: AssetCharacteristic): Observable<number> {
@@ -214,7 +215,7 @@ export class AssetCharacteristicService {
   getTypes(): Observable<AssetCharacteristicType[]> {
     return this.apollo.query( {
       query: gql`
-        query {
+        query getAssetCharacteristicTypes {
           getAssetCharacteristicTypes {
             assetCharacteristicTypeId
             name

@@ -5,4 +5,10 @@ export class AssetName {
   description: string;
   effectiveDate: string;
   untilDate: string;
+
+  constructor(assetNameTypeId?: string, value?: string) {
+    this.assetNameTypeId = assetNameTypeId;
+    this.value = value;
+  }
+
 }

@@ -1,10 +1,10 @@
 import {AssetTypeService} from './asset.type.service';
-import {AssetTypeRepository} from './asset.type.repository';
+import {Apollo} from 'apollo-angular';
 
-export function assetTypeServiceProviderFactory (assetTypeRepository: AssetTypeRepository): AssetTypeService {
+export function assetTypeServiceProviderFactory (apollo: Apollo): AssetTypeService {
   let assetTypeService: AssetTypeService;
   if (!assetTypeService) {
-    assetTypeService = new AssetTypeService(assetTypeRepository);
+    assetTypeService = new AssetTypeService(apollo);
   }
   return assetTypeService;
 }
@@ -13,5 +13,5 @@ export let assetTypeServiceProvider = {
   provide: AssetTypeService,
   useFactory: assetTypeServiceProviderFactory,
   useClass: AssetTypeService,
-  deps: [AssetTypeRepository]
+  deps: [Apollo]
 };

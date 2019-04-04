@@ -5,6 +5,6 @@ export class AssetSpecification {
   modelNumber: string;
   standardPrice: string;
   effectiveDate: string;
-  totalSV: string;
+  totalSalesValue: string;
   brand: Brand;
 }

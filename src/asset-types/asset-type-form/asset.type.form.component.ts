@@ -108,7 +108,7 @@ export class AssetTypeFormComponent implements OnInit {
         this.assetType.specification.modelNumber = value.modelNumber;
         this.assetType.specification.standardPrice = value.standardPrice;
         this.assetType.specification.effectiveDate = value.effectiveDate;
-        this.assetType.specification.totalSV = value.totalSV;
+        this.assetType.specification.totalSalesValue = value.totalSV;
         this.assetType.assignedCharacteristics = value.characteristics;
         this.assetType.assetNames = value.names;
         this.assetType.identifiers = value.identifiers;
@@ -223,7 +223,7 @@ export class AssetTypeFormComponent implements OnInit {
       this.modelNumber.setValue(assetType.specification.modelNumber);
       this.standardPrice.setValue(assetType.specification.standardPrice);
       this.effectiveDate.setValue(assetType.specification.effectiveDate);
-      this.totalSV.setValue(assetType.specification.totalSV);
+      this.totalSV.setValue(assetType.specification.totalSalesValue);
     }
     if (assetType.assignedCharacteristics && assetType.assignedCharacteristics.length > 0) {
       this.assignedChars = assetType.assignedCharacteristics;

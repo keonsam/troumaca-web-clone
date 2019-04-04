@@ -126,6 +126,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
   private getTypes() {
     this.assetCharacteristicService.getTypes()
       .subscribe(value => {
+        console.log(value);
         if (value && value.length) {
           this.types = value;
         }

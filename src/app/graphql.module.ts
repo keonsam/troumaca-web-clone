@@ -3,6 +3,8 @@ import {ApolloModule, APOLLO_OPTIONS} from 'apollo-angular';
 import {HttpLinkModule, HttpLink} from 'apollo-angular-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {environment} from '../environments/environment';
+import {HttpHeaders} from '@angular/common/http';
+import {UUIDGenerator} from '../uuid.generator';
 
 const uri = `${environment.hostPort}/graphql`; // <-- add the URL of the GraphQL server here
 const defaultOptions = {
@@ -15,9 +17,20 @@ const defaultOptions = {
     errorPolicy: 'all',
   },
 };
+
+// make static in the future;
+const uuidGenerator = new UUIDGenerator();
+
 export function createApollo(httpLink: HttpLink) {
   return {
-    link: httpLink.create({uri}),
+    link: httpLink.create({
+      uri,
+      withCredentials: true,
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'correlationId': uuidGenerator.generateUUID()
+      })
+    }),
     cache: new InMemoryCache(),
     defaultOptions: defaultOptions
   };

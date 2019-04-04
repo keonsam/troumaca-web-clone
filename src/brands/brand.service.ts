@@ -34,6 +34,7 @@ export class BrandService {
             brands {
               brandId
               name
+              abbreviation
               description
             }
             page {
@@ -60,6 +61,7 @@ export class BrandService {
           getBrand(brandId: $brandId) {
             brandId
             name
+            abbreviation
             description
           }
         }
