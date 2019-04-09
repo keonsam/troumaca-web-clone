@@ -74,7 +74,7 @@ export class AssetNameTypeService {
   addAssetNameType(assetNameType: AssetNameType): Observable<AssetNameType> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation addAssetNameType($name: String!, $description: String!) {
+        mutation addAssetNameType($name: String!, $description: String) {
           addAssetNameType(assetNameType: {name: $name, description: $description}) {
             assetNameTypeId
           }
@@ -82,22 +82,25 @@ export class AssetNameTypeService {
       `,
       variables: {
         name: assetNameType.name,
-        description: assetNameType.description || ''
+        description: assetNameType.description
       }
-    }).pipe(map( (res: any) => res.data.addAssetNameType));
+    }).pipe(map( (res: any) => {
+      console.log(res);
+      return res.data.addAssetNameType;
+    }));
   }
 
   updateAssetNameType(assetNameType: AssetNameType): Observable<number> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation updateAssetNameType($assetNameTypeId: ID!, $name: String!, $description: String!) {
+        mutation updateAssetNameType($assetNameTypeId: ID!, $name: String!, $description: String) {
           updateAssetNameType(assetNameTypeId: $assetNameTypeId, assetNameType: {name: $name, description: $description})
         }
       `,
       variables: {
         assetNameTypeId: assetNameType.assetNameTypeId,
         name: assetNameType.name,
-        description: assetNameType.description || ''
+        description: assetNameType.description
       }
     }).pipe(map( (res: any) => res.data.updateAssetNameType));
   }

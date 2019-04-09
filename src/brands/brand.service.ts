@@ -74,7 +74,7 @@ export class BrandService {
   addBrand(brand: Brand): Observable<Brand> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation addBrand($name: String!, $abbreviation: String!, $description: String!) {
+        mutation addBrand($name: String!, $abbreviation: String, $description: String) {
           addBrand(brand: {name: $name, abbreviation: $abbreviation, description: $description}) {
             brandId
           }
@@ -82,8 +82,8 @@ export class BrandService {
       `,
       variables: {
         name: brand.name,
-        abbreviation: brand.abbreviation || '',
-        description: brand.description || ''
+        abbreviation: brand.abbreviation,
+        description: brand.description
       }
     }).pipe(map( (res: any) => res.data.addBrand));
   }
@@ -91,15 +91,15 @@ export class BrandService {
   updateBrand(brand: Brand): Observable<number> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation updateBrand($brandId: ID!, $name: String!, $abbreviation: String!, $description: String!) {
+        mutation updateBrand($brandId: ID!, $name: String!, $abbreviation: String, $description: String) {
           updateBrand(brandId: $brandId, brand: {name: $name, abbreviation: $abbreviation, description: $description})
         }
       `,
       variables: {
         brandId: brand.brandId,
         name: brand.name,
-        abbreviation: brand.abbreviation || '',
-        description: brand.description || ''
+        abbreviation: brand.abbreviation,
+        description: brand.description
       }
     }).pipe(map( (res: any) => res.data.updateBrand));
   }

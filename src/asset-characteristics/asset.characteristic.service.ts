@@ -65,10 +65,15 @@ export class AssetCharacteristicService {
             assetCharacteristicId
             name
             assetCharacteristicTypeId
+            assetCharacteristicType {
+              name
+            }
             defaultValue
             description
             unitOfMeasurementId
-            unitOfMeasurement
+            unitOfMeasurement {
+              name
+            }
             formula
             calculationLevel
             maximumValue
@@ -86,14 +91,15 @@ export class AssetCharacteristicService {
   }
 
   addAssetCharacteristic(assetCharacteristic: AssetCharacteristic): Observable<AssetCharacteristic> {
-    return this.apollo.mutate( {
+    console.log(assetCharacteristic);
+    return this.apollo.mutate({
       mutation: gql`
         mutation addAssetCharacteristic(
-        $assetCharacteristicTypeId: ID!,
         $name: String!,
+        $assetCharacteristicTypeId: ID!,
         $defaultValue: String,
-        $description: String!,
-        $unitOfMeasurementId: String,
+        $description: String,
+        $unitOfMeasurementId: ID,
         $formula: String,
         $calculationLevel: String,
         $maximumValue: String,
@@ -104,8 +110,8 @@ export class AssetCharacteristicService {
         ) {
           addAssetCharacteristic(
             assetCharacteristic: {
-              assetCharacteristicTypeId: $assetCharacteristicTypeId,
               name: $name,
+              assetCharacteristicTypeId: $assetCharacteristicTypeId,
               defaultValue: $defaultValue,
               description: $description,
               unitOfMeasurementId: $unitOfMeasurementId,
@@ -126,7 +132,7 @@ export class AssetCharacteristicService {
         assetCharacteristicTypeId: assetCharacteristic.assetCharacteristicTypeId,
         name: assetCharacteristic.name,
         defaultValue: assetCharacteristic.defaultValue,
-        description: assetCharacteristic.description || '',
+        description: assetCharacteristic.description,
         unitOfMeasurementId: assetCharacteristic.unitOfMeasurementId,
         formula: assetCharacteristic.formula,
         calculationLevel: assetCharacteristic.calculationLevel,
@@ -138,7 +144,7 @@ export class AssetCharacteristicService {
       }
     }).pipe(map( (res: any) => {
       console.log(res);
-      return res.data.addAssetCharacteristic
+      return res.data.addAssetCharacteristic;
     }));
   }
 

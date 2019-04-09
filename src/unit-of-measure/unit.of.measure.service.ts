@@ -73,7 +73,7 @@ export class UnitOfMeasureService {
   addUnitOfMeasure(unitOfMeasure: UnitOfMeasure): Observable<UnitOfMeasure> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation addUnitOfMeasurement($name: String!, $description: String!) {
+        mutation addUnitOfMeasurement($name: String!, $description: String) {
           addUnitOfMeasurement(unitOfMeasurement: {name: $name, description: $description}) {
             unitOfMeasurementId
           }
@@ -81,7 +81,7 @@ export class UnitOfMeasureService {
       `,
       variables: {
         name: unitOfMeasure.name,
-        description: unitOfMeasure.description || ''
+        description: unitOfMeasure.description
       }
     }).pipe(map( (res: any) => res.data.addUnitOfMeasurement));
   }
@@ -89,14 +89,14 @@ export class UnitOfMeasureService {
   updateUnitOfMeasure(unitOfMeasure: UnitOfMeasure): Observable<number> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation updateUnitOfMeasurement($unitOfMeasurementId: ID!, $name: String!, $description: String!) {
+        mutation updateUnitOfMeasurement($unitOfMeasurementId: ID!, $name: String!, $description: String) {
           updateUnitOfMeasurement(unitOfMeasurementId: $unitOfMeasurementId, unitOfMeasurement: {name: $name, description: $description})
         }
       `,
       variables: {
         unitOfMeasurementId: unitOfMeasure.unitOfMeasurementId,
         name: unitOfMeasure.name,
-        description: unitOfMeasure.description || ''
+        description: unitOfMeasure.description
       }
     }).pipe(map( (res: any) => res.data.updateUnitOfMeasurement));
   }

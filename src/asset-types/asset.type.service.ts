@@ -1,7 +1,6 @@
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {AssetType} from './asset.type';
 import {AssetTypes} from './asset.types';
-import {Instance} from './instance';
 import {Brand} from '../brands/brand';
 import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
@@ -10,8 +9,10 @@ import {AssignedCharacteristic} from '../asset-characteristics/assigned.characte
 import {AssetName} from '../asset-name-types/asset.name';
 import {AssetIdentifier} from '../asset-identifier-types/asset.identifier';
 import {AssetRole} from '../asset-role-types/asset.role';
+import {Instance} from './instance';
 
 export class AssetTypeService {
+
   constructor(private apollo: Apollo) {
   }
 
@@ -63,10 +64,16 @@ export class AssetTypeService {
     return this.apollo.query( {
       query: gql`
         query getAssetType($assetTypeId: ID!) {
-          getAssetType(assetTypeId: $assetTypeId) {
+          getAssetType(
+            assetTypeId: $assetTypeId
+          ) {
             assetTypeId
             instanceId
-            parentId
+            subTypeOfId
+            subTypeOf {
+              name
+            }
+            initialId
             name
             description
             specification {
@@ -79,38 +86,6 @@ export class AssetTypeService {
                 name
               }
             }
-            assignedCharacteristics {
-              assetCharacteristicId
-              assetCharacteristic {
-                assetCharacteristicId
-                name
-              }
-              value
-            }
-            assetNames {
-              assetNameTypeId
-              assetNameType {
-                assetNameTypeId
-                name
-              }
-              value
-            }
-            identifiers {
-              assetIdentifierTypeId
-              assetIdentifierType {
-                assetIdentifierTypeId
-                name
-              }
-              value
-            }
-            roles {
-              assetRoleTypeId
-              assetRoleType {
-                assetRoleTypeId
-                name
-              }
-              value
-            }
           }
         }
       `,
@@ -121,28 +96,27 @@ export class AssetTypeService {
   }
 
   addAssetType(assetType: AssetType): Observable<AssetType> {
+    console.log(assetType);
     return this.apollo.mutate( {
       mutation: gql`
         mutation addAssetType(
-        $instanceId: ID!,
-        $parentId: ID!,
-        $name: String!,
-        $description: String!,
-        $brandId: ID,
-        $modelNumber: String,
-        $standardPrice: String,
-        $effectiveDate: String,
-        $totalSalesValue: String,
-        $assignedCharacteristics: [AssignedCharacteristicInput],
-        $assetNames: [AssetNameInput]
-        $identifiers: [AssetIdentifierInput]
-        $roles: [AssetRoleInput]
+          $subTypeOfId: ID!
+          $instanceId: ID!
+          $initialId: ID!
+          $name: String!
+          $description: String,
+          $brandId: ID,
+          $modelNumber: String,
+          $standardPrice: String,
+          $effectiveDate: String,
+          $totalSalesValue: String,
         ) {
           addAssetType(
             assetType: {
+              subTypeOfId: $subTypeOfId,
               instanceId: $instanceId,
-              parentId: $parentId,
-              name: $name,
+              initialId: $initialId,
+              name: $name
               description: $description,
               specification: {
                 brandId: $brandId,
@@ -151,62 +125,29 @@ export class AssetTypeService {
                 effectiveDate: $effectiveDate
                 totalSalesValue: $totalSalesValue
               },
-              assignedCharacteristics: $assignedCharacteristics,
-              assetNames: $assetNames
-              identifiers: $identifiers
-              roles: $roles
             }
-          )
-        }
-        type AssignedCharacteristicInput {
-          assetCharacteristicId: ID
-          value: String
-        }
-        type AssignedCharacteristicInput {
-          assetCharacteristicId: ID
-          value: String
-        }
-        type AssetNameInput {
-          assetNameTypeId: ID
-          value: String
-        }
-        type AssetIdentifierInput {
-          assetIdentifierTypeId: ID
-          value: String
-        }
-        type AssetRoleInput {
-          assetRoleTypeId: ID
-          value: String
+          ) {
+            assetTypeId
+            name
+          }
         }
       `,
       variables: {
+        subTypeOfId: assetType.subTypeOfId,
+        instanceId: assetType.instanceId,
+        initialId: assetType.initialId,
         name: assetType.name,
-        description: assetType.description || '',
-        $instanceId: assetType.instanceId,
-        $parentId: assetType.parentId,
-        $brandId: assetType.specification.brandId,
-        $modelNumber: assetType.specification.modelNumber,
-        $standardPrice: assetType.specification.standardPrice,
-        $effectiveDate: assetType.specification.effectiveDate,
-        $totalSalesValue: assetType.specification.totalSalesValue,
-        $assignedCharacteristics: assetType.assignedCharacteristics.map(x => {
-            return new AssignedCharacteristic(x.assetCharacteristicId, x.value);
-          }
-        ),
-        $assetNames: assetType.assetNames.map(x => {
-            return new AssetName(x.assetNameTypeId, x.value);
-          }
-        ),
-        $identifiers: assetType.identifiers.map(x => {
-            return new AssetIdentifier(x.assetIdentifierTypeId, x.value);
-          }
-        ),
-        $roles: assetType.roles.map(x => {
-            return new AssetRole(x.assetRoleTypeId, x.value);
-          }
-        ),
+        description: assetType.description,
+        brandId: assetType.specification.brandId,
+        modelNumber: assetType.specification.modelNumber,
+        standardPrice: assetType.specification.standardPrice,
+        effectiveDate: assetType.specification.effectiveDate,
+        totalSalesValue: assetType.specification.totalSalesValue
       }
-    }).pipe(map( (res: any) => res.data.addAssetType));
+    }).pipe(map( (res: any) => {
+      console.log(res);
+      return res.data.addAssetType
+    }));
   }
 
   updateAssetType(assetTypeId: string, assetType: AssetType): Observable<number> {
@@ -214,26 +155,24 @@ export class AssetTypeService {
       mutation: gql`
         mutation updateAssetType(
         $assetTypeId: ID!,
-        $instanceId: ID!,
-        $parentId: ID!,
-        $name: String!,
-        $description: String!,
+        $subTypeOfId: ID!
+        $instanceId: ID!
+        $initialId: ID!
+        $name: String!
+        $description: String,
         $brandId: ID,
         $modelNumber: String,
         $standardPrice: String,
         $effectiveDate: String,
         $totalSalesValue: String,
-        $assignedCharacteristics: [AssignedCharacteristicInput],
-        $assetNames: [AssetNameInput]
-        $identifiers: [AssetIdentifierInput]
-        $roles: [AssetRoleInput]
         ) {
           updateAssetType(
           assetTypeId: $assetTypeId,
             assetType: {
+              subTypeOfId: $subTypeOfId,
               instanceId: $instanceId,
-              parentId: $parentId,
-              name: $name,
+              initialId: $initialId,
+              name: $name
               description: $description,
               specification: {
                 brandId: $brandId,
@@ -242,61 +181,22 @@ export class AssetTypeService {
                 effectiveDate: $effectiveDate
                 totalSalesValue: $totalSalesValue
               },
-              assignedCharacteristics: $assignedCharacteristics,
-              assetNames: $assetNames
-              identifiers: $identifiers
-              roles: $roles
             }
           )
-        }
-        type AssignedCharacteristicInput {
-          assetCharacteristicId: ID
-          value: String
-        }
-        type AssignedCharacteristicInput {
-          assetCharacteristicId: ID
-          value: String
-        }
-        type AssetNameInput {
-          assetNameTypeId: ID
-          value: String
-        }
-        type AssetIdentifierInput {
-          assetIdentifierTypeId: ID
-          value: String
-        }
-        type AssetRoleInput {
-          assetRoleTypeId: ID
-          value: String
         }
       `,
       variables: {
         assetTypeId: assetTypeId,
+        subTypeOfId: assetType.subTypeOfId,
+        instanceId: assetType.instanceId,
+        initialId: assetType.initialId,
         name: assetType.name,
-        description: assetType.description || '',
-        $instanceId: assetType.instanceId,
-        $parentId: assetType.parentId,
-        $brandId: assetType.specification.brandId,
-        $modelNumber: assetType.specification.modelNumber,
-        $standardPrice: assetType.specification.standardPrice,
-        $effectiveDate: assetType.specification.effectiveDate,
-        $totalSalesValue: assetType.specification.totalSalesValue,
-        $assignedCharacteristics: assetType.assignedCharacteristics.map(x => {
-            return new AssignedCharacteristic(x.assetCharacteristicId, x.value);
-          }
-        ),
-        $assetNames: assetType.assetNames.map(x => {
-            return new AssetName(x.assetNameTypeId, x.value);
-          }
-        ),
-        $identifiers: assetType.identifiers.map(x => {
-            return new AssetIdentifier(x.assetIdentifierTypeId, x.value);
-          }
-        ),
-        $roles: assetType.roles.map(x => {
-            return new AssetRole(x.assetRoleTypeId, x.value);
-          }
-        ),
+        description: assetType.description,
+        brandId: assetType.specification.brandId,
+        modelNumber: assetType.specification.modelNumber,
+        standardPrice: assetType.specification.standardPrice,
+        effectiveDate: assetType.specification.effectiveDate,
+        totalSalesValue: assetType.specification.totalSalesValue
       }
     }).pipe(map( (res: any) => res.data.updateAssetType));
   }
@@ -316,9 +216,17 @@ export class AssetTypeService {
 
   // OTHERS
 
-  findInstances(searchStr: string, pageSize: number): Observable<Instance[]> {
-    return undefined;
-    // return this.assetTypeRepository.findInstances(searchStr, pageSize);
+  getInstances(): Observable<Instance[]> {
+    return of([
+      {
+        instanceId: '7bc3fa8a-84b6-4088-91d4-8a1cc84e7cff',
+        name: 'Other Asset Type'
+      },
+      {
+        instanceId: '8bc5fa8a-84b6-4088-91d4-8a1cc84e7cff',
+        name: 'Asset Specification'
+      },
+    ]);
   }
 
   findBrands(searchStr: string, pageSize: number): Observable<Brand[]> {

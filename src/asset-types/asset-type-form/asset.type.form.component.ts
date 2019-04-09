@@ -4,35 +4,24 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AssetTypeService} from '../asset.type.service';
 import {AssetType} from '../asset.type';
 import {ActivatedRoute, Router} from '@angular/router';
-import {map, filter, debounceTime } from 'rxjs/operators';
+import {filter, debounceTime } from 'rxjs/operators';
 import {AssetSpecification} from '../asset.specification';
 import {AssignedCharacteristic} from '../../asset-characteristics/assigned.characteristic';
 import {AssetName} from '../../asset-name-types/asset.name';
 import {AssetIdentifier} from '../../asset-identifier-types/asset.identifier';
 import {AssetRole} from '../../asset-role-types/asset.role';
 import { ASSET_TYPE } from '../../app/routes';
-// import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Brand} from '../../brands/brand';
+import {Instance} from '../instance';
 
 @Component({
   selector: 'app-asset-type-form',
   templateUrl: './asset.type.form.component.html',
   styleUrls: ['./asset.type.form.component.css']
-  // animations: [
-  //   trigger('slideInOut', [
-  //     transition(':enter', [
-  //       style({transform: 'translateY(-100%)'}),
-  //       animate('200ms ease-in', style({transform: 'translateY(0%)'}))
-  //     ]),
-  //     transition(':leave', [
-  //       animate('200ms ease-in', style({transform: 'translateY(-100%)'}))
-  //     ])
-  //   ])
-  // ]
 })
 export class AssetTypeFormComponent implements OnInit {
 
-  instanceOf: FormControl;
+  instanceId: FormControl;
   parent: FormControl;
   name: FormControl;
   description: FormControl;
@@ -45,9 +34,9 @@ export class AssetTypeFormComponent implements OnInit {
 
   assetTypeForm: FormGroup;
 
+  instances: Instance[];
   assetType: AssetType;
-  instances: any[];
-  assetTypes: any[];
+  assetTypes: AssetType[];
 
   doNotDisplayFailureMessage: boolean;
   update: boolean;
@@ -63,6 +52,7 @@ export class AssetTypeFormComponent implements OnInit {
   @Input() trans: boolean;
   @Output() panel: EventEmitter<string> = new EventEmitter();
 
+
   constructor(private assetTypeService: AssetTypeService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -72,7 +62,7 @@ export class AssetTypeFormComponent implements OnInit {
     assetType.specification = new AssetSpecification();
     this.assetType = assetType;
 
-    this.instanceOf = new FormControl('8bc5fa8a-84b6-4088-91d4-8a1cc84e7cff', Validators.required);
+    this.instanceId = new FormControl('', Validators.required);
     this.parent = new FormControl('', Validators.required);
     this.name = new FormControl('', Validators.required);
     this.description = new FormControl('');
@@ -86,7 +76,7 @@ export class AssetTypeFormComponent implements OnInit {
     this.assetTypeForm = formBuilder.group({
       'name': this.name,
       'description': this.description,
-      'instanceOf': this.instanceOf,
+      'instanceId': this.instanceId,
       'parent': this.parent,
       'brand': this.brand,
       'modelNumber': this.modelNumber,
@@ -102,7 +92,7 @@ export class AssetTypeFormComponent implements OnInit {
     this.assetTypeForm
       .valueChanges
       .subscribe(value => {
-        this.assetType.instanceId = value.instanceOf;
+        this.assetType.instanceId = value.instanceId;
         this.assetType.name = value.name;
         this.assetType.description = value.description;
         this.assetType.specification.modelNumber = value.modelNumber;
@@ -129,34 +119,15 @@ export class AssetTypeFormComponent implements OnInit {
   }
 
   private createAndPopulateDropDowns() {
-    this.populateInstanceOfDropDown();
     this.populateSubTypeOfDropDown();
     this.populateBrandsDropDown();
+    this.getInstances();
   }
 
-  private populateInstanceOfDropDown() {
-    this.findInstances('');
-    this.instanceOf.valueChanges
-      .pipe(debounceTime(1000), filter(value => { // filter out empty values
-        return !!(value);
-      }))
-      .subscribe(value => {
-        this.findInstances(value);
-      });
-  }
-
-  private findInstances(value: string) {
+  private getInstances() {
     this.assetTypeService
-      .findInstances(value, this.pageSize) // send search request to the backend
-      .pipe(map(value2 => { // convert results to dropdown data
-        return value2.map(v2 => {
-          return {
-            instanceId: v2.instanceId,
-            name: v2.name
-          };
-        })
-      }))
-      .subscribe(next => { // update the data
+      .getInstances()
+      .subscribe(next => {
         this.instances = next;
       }, error => {
         console.log('findAssets error - ' + error);
@@ -177,14 +148,6 @@ export class AssetTypeFormComponent implements OnInit {
   private findAssetTypes(value: string) {
     this.assetTypeService
       .findAssetTypes(value, this.pageSize) // send search request to the backend
-      .pipe(map(value2 => { // convert results to dropdown data
-        return value2.map(v2 => {
-          return {
-            assetTypeId: v2.assetTypeId,
-            name: v2.name
-          };
-        })
-      }))
       .subscribe(next => { // update the data
         this.assetTypes = next;
       }, error => {
@@ -214,8 +177,8 @@ export class AssetTypeFormComponent implements OnInit {
   }
 
   private setInputValues(assetType?: AssetType) {
-    this.instanceOf.setValue(assetType.instanceId);
-    this.parent.setValue(assetType.parentName);
+    this.instanceId.setValue( assetType.instanceId);
+    this.parent.setValue(assetType.subTypeOf ? assetType.subTypeOf.name : '');
     this.name.setValue(assetType.name);
     this.description.setValue(assetType.description);
     if (assetType.specification) {
@@ -278,11 +241,11 @@ export class AssetTypeFormComponent implements OnInit {
   }
 
   onAssetTypeSelect(assetType: AssetType) {
-    if (!assetType.initialId) {
-      this.assetType.initialId = assetType.assetTypeId;
-    } else {
-      this.assetType.parentId = assetType.assetTypeId;
+    this.assetType.subTypeOfId = assetType.assetTypeId;
+    if (assetType.initialId) {
       this.assetType.initialId = assetType.initialId;
+    } else {
+      this.assetType.initialId = assetType.assetTypeId;
     }
   }
 

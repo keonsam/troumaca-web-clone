@@ -73,7 +73,7 @@ export class AssetRoleTypeService {
   addAssetRoleType(assetRoleType: AssetRoleType): Observable<AssetRoleType> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation addAssetRoleType($name: String!, $description: String!) {
+        mutation addAssetRoleType($name: String!, $description: String) {
           addAssetRoleType(assetRoleType: {name: $name, description: $description}) {
             assetRoleTypeId
           }
@@ -81,7 +81,7 @@ export class AssetRoleTypeService {
       `,
       variables: {
         name: assetRoleType.name,
-        description: assetRoleType.description || ''
+        description: assetRoleType.description
       }
     }).pipe(map( (res: any) => res.data.addAssetRoleType));
   }
@@ -89,14 +89,14 @@ export class AssetRoleTypeService {
   updateAssetRoleType(assetRoleType: AssetRoleType): Observable<number> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation updateAssetRoleType($assetRoleTypeId: ID!, $name: String!, $description: String!) {
+        mutation updateAssetRoleType($assetRoleTypeId: ID!, $name: String!, $description: String) {
           updateAssetRoleType(assetRoleTypeId: $assetRoleTypeId, assetRoleType: {name: $name, description: $description})
         }
       `,
       variables: {
         assetRoleTypeId: assetRoleType.assetRoleTypeId,
         name: assetRoleType.name,
-        description: assetRoleType.description || ''
+        description: assetRoleType.description
       }
     }).pipe(map( (res: any) => res.data.updateAssetRoleType));
   }

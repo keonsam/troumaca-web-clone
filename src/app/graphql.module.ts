@@ -28,7 +28,7 @@ export function createApollo(httpLink: HttpLink) {
       withCredentials: true,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'correlationId': uuidGenerator.generateUUID()
+        'Correlation-ID': uuidGenerator.generateUUID()
       })
     }),
     cache: new InMemoryCache(),

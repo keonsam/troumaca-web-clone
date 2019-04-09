@@ -112,6 +112,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
     this.createAndPopulateDropDowns();
     if (this.route.snapshot && this.route.snapshot.data['assetCharacteristic']) {
       const assetCharacteristic = this.route.snapshot.data['assetCharacteristic'];
+      console.log(assetCharacteristic);
       this.setInputValues(assetCharacteristic);
       this.update = true;
       this.assetCharacteristic = assetCharacteristic;
@@ -126,7 +127,6 @@ export class AssetCharacteristicFormComponent implements OnInit {
   private getTypes() {
     this.assetCharacteristicService.getTypes()
       .subscribe(value => {
-        console.log(value);
         if (value && value.length) {
           this.types = value;
         }
