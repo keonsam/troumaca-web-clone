@@ -4,8 +4,11 @@ import {AssetIdentifierTypes} from './asset.identifier.types';
 import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {map} from 'rxjs/operators';
+import {UUIDGenerator} from '../uuid.generator';
 
 export class AssetIdentifierTypeService {
+
+  uuid = new UUIDGenerator();
 
   constructor(private apollo: Apollo) {}
 
@@ -73,15 +76,25 @@ export class AssetIdentifierTypeService {
   addAssetIdentifierType(assetIdentifierType: AssetIdentifierType): Observable<AssetIdentifierType> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation addAssetIdentifierType($name: String!, $description: String) {
-          addAssetIdentifierType(assetIdentifierType: {name: $name, description: $description}) {
+        mutation addAssetIdentifierType(
+          $name: String!,
+          $description: String
+          $version: String!
+        ) {
+          addAssetIdentifierType(
+            assetIdentifierType:{
+              name: $name,
+              description: $description
+              version: $version
+            }) {
             assetIdentifierTypeId
           }
         }
       `,
       variables: {
         name: assetIdentifierType.name,
-        description: assetIdentifierType.description
+        description: assetIdentifierType.description,
+        version: this.uuid.generateUUID()
       }
     }).pipe(map( (res: any) => res.data.addAssetIdentifierType));
   }
@@ -89,16 +102,27 @@ export class AssetIdentifierTypeService {
   updateAssetIdentifierType(assetIdentifierType: AssetIdentifierType): Observable<number> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation updateAssetIdentifierType($assetIdentifierTypeId: ID!, $name: String!, $description: String) {
-          updateAssetIdentifierType(assetIdentifierTypeId: $assetIdentifierTypeId,
-            assetIdentifierType: {name: $name, description: $description}
+        mutation updateAssetIdentifierType(
+          $assetIdentifierTypeId: ID!,
+          $name: String!,
+          $description: String,
+          $version: String
+        ) {
+          updateAssetIdentifierType(
+            assetIdentifierTypeId: $assetIdentifierTypeId,
+            assetIdentifierType:{
+              name: $name,
+              description: $description,
+              version: $version
+            }
           )
         }
       `,
       variables: {
         assetIdentifierTypeId: assetIdentifierType.assetIdentifierTypeId,
         name: assetIdentifierType.name,
-        description: assetIdentifierType.description
+        description: assetIdentifierType.description,
+        version: assetIdentifierType.version
       }
     }).pipe(map( (res: any) => res.data.updateAssetIdentifierType));
   }

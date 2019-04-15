@@ -17,6 +17,7 @@ export class AssetType {
   initialId: string;
   name: string;
   description: string;
+  version: string;
   specification: AssetSpecification;
   assignedCharacteristics: AssignedCharacteristic[];
   assetNames: AssetName[];

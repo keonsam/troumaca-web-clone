@@ -10,9 +10,11 @@ import {AssetName} from '../asset-name-types/asset.name';
 import {AssetIdentifier} from '../asset-identifier-types/asset.identifier';
 import {AssetRole} from '../asset-role-types/asset.role';
 import {Instance} from './instance';
+import {UUIDGenerator} from '../uuid.generator';
 
 export class AssetTypeService {
 
+  uuid = new UUIDGenerator();
   constructor(private apollo: Apollo) {
   }
 
@@ -110,6 +112,7 @@ export class AssetTypeService {
           $standardPrice: String,
           $effectiveDate: String,
           $totalSalesValue: String,
+          $version: String
         ) {
           addAssetType(
             assetType: {
@@ -118,6 +121,7 @@ export class AssetTypeService {
               initialId: $initialId,
               name: $name
               description: $description,
+              version: $version,
               specification: {
                 brandId: $brandId,
                 modelNumber: $modelNumber,
@@ -142,10 +146,10 @@ export class AssetTypeService {
         modelNumber: assetType.specification.modelNumber,
         standardPrice: assetType.specification.standardPrice,
         effectiveDate: assetType.specification.effectiveDate,
-        totalSalesValue: assetType.specification.totalSalesValue
+        totalSalesValue: assetType.specification.totalSalesValue,
+        version: this.uuid.generateUUID()
       }
     }).pipe(map( (res: any) => {
-      console.log(res);
       return res.data.addAssetType
     }));
   }
@@ -154,17 +158,18 @@ export class AssetTypeService {
     return this.apollo.mutate( {
       mutation: gql`
         mutation updateAssetType(
-        $assetTypeId: ID!,
-        $subTypeOfId: ID!
-        $instanceId: ID!
-        $initialId: ID!
-        $name: String!
-        $description: String,
-        $brandId: ID,
-        $modelNumber: String,
-        $standardPrice: String,
-        $effectiveDate: String,
-        $totalSalesValue: String,
+          $assetTypeId: ID!,
+          $subTypeOfId: ID!
+          $instanceId: ID!
+          $initialId: ID!
+          $name: String!
+          $description: String,
+          $brandId: ID,
+          $modelNumber: String,
+          $standardPrice: String,
+          $effectiveDate: String,
+          $totalSalesValue: String,
+          $version: String!
         ) {
           updateAssetType(
           assetTypeId: $assetTypeId,
@@ -174,6 +179,7 @@ export class AssetTypeService {
               initialId: $initialId,
               name: $name
               description: $description,
+              version: $version,
               specification: {
                 brandId: $brandId,
                 modelNumber: $modelNumber,
@@ -192,6 +198,7 @@ export class AssetTypeService {
         initialId: assetType.initialId,
         name: assetType.name,
         description: assetType.description,
+        version: assetType.version,
         brandId: assetType.specification.brandId,
         modelNumber: assetType.specification.modelNumber,
         standardPrice: assetType.specification.standardPrice,

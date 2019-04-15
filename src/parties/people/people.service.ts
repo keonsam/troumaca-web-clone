@@ -1,28 +1,26 @@
-import { UserRepository} from './user.repository';
 import {Observable} from 'rxjs';
 import {AccessRole} from '../../access-roles/access.role';
-import {Users} from '../users';
-import {User} from '../user';
 import { Credential } from '../../authentication/credential';
 import {ValidResponse} from '../../authentication/valid.response';
-import {UserMe} from './user-me/user.me';
 import gql from 'graphql-tag';
 import {map} from 'rxjs/operators';
 import {Apollo} from 'apollo-angular';
 import {UUIDGenerator} from '../../uuid.generator';
+import { Person } from './people-form/person';
+import { Persons } from './people-list/persons';
 
-export class UserService {
+export class PeopleService {
 
   uuid = new UUIDGenerator();
 
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo) { }
 
   findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
     return undefined;
-    // return this.userRepository.findAccessRole(searchStr, pageSize);
+    // return this.personRepository.findAccessRole(searchStr, pageSize);
   }
 
-  getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<Users> {
+  getPersons(pageNumber: number, pageSize: number, sortOrder: string): Observable<Persons> {
     return this.apollo.query({
       query: gql`
         query getPersons($pageNumber: Int!, $pageSize: Int!, $sortOrder: String!) {
@@ -49,7 +47,7 @@ export class UserService {
     }).pipe(map((res: any) => res.data.getPersons));
   }
 
-  getUser(partyId?: string): Observable<User> {
+  getPerson(partyId?: string): Observable<Person> {
     return this.apollo.query({
       query: gql`
         query getPerson($partyId: ID!) {
@@ -67,16 +65,16 @@ export class UserService {
     }).pipe(map((res: any) => res.data.getPerson));
   }
 
-  addUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<User> {
+  addPerson(person: Person, credential: Credential, partyAccessRoles: string[]): Observable<Person> {
     return this.apollo.mutate({
       mutation: gql`
         mutation addPerson(
-          $firstName: String!
-          $middleName: String
-          $lastName: String!
-          $version: String!
-          $partyAccessRoles: [String]
-          $username: String
+        $firstName: String!
+        $middleName: String
+        $lastName: String!
+        $version: String!
+        $partyAccessRoles: [String]
+        $username: String
         ) {
           addPerson(
             person: {
@@ -99,9 +97,9 @@ export class UserService {
         }
       `,
       variables: {
-        firstName: user.firstName,
-        middleName: user.middleName,
-        lastName: user.lastName,
+        firstName: person.firstName,
+        middleName: person.middleName,
+        lastName: person.lastName,
         partyAccessRoles: partyAccessRoles,
         username: credential.username,
         version: this.uuid.generateUUID()
@@ -109,7 +107,7 @@ export class UserService {
     }).pipe(map((res: any) => res.data.addPerson));
   }
 
-  updateUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<number> {
+  updatePerson(person: Person, credential: Credential, partyAccessRoles: string[]): Observable<number> {
     return this.apollo.mutate({
       mutation: gql`
         mutation updatePerson(
@@ -141,18 +139,18 @@ export class UserService {
         }
       `,
       variables: {
-        partyId: user.partyId,
-        firstName: user.firstName,
-        middleName: user.middleName,
-        lastName: user.lastName,
+        partyId: person.partyId,
+        firstName: person.firstName,
+        middleName: person.middleName,
+        lastName: person.lastName,
         partyAccessRoles: partyAccessRoles,
         username: credential.username,
-        version: user.version
+        version: person.version
       }
     }).pipe(map((res: any) => res.data.updatePerson));
   }
 
-  deleteUser(partyId: string): Observable<number> {
+  deletePerson(partyId: string): Observable<number> {
     return this.apollo.mutate({
       mutation: gql`
         mutation deletePerson($partyId: ID!) {
@@ -164,26 +162,11 @@ export class UserService {
       }
     }).pipe(map((res: any) => res.data.deletePerson));
   }
-  
-  getUserMe(): Observable<UserMe> {
-    return undefined;
-    // return this.userRepository.getUserMe();
-  }
-
-  updateUserMe(user: User, credential: Credential): Observable<number> {
-    return undefined;
-    // return this.userRepository.updateUserMe(user, credential);
-  }
 
   // Validation
 
   isValidUsername(username: string, partyId?: string): Observable<ValidResponse> {
     return undefined;
-    // return this.userRepository.isValidUsername(username, partyId);
-  }
-
-  isValidPassword(password: string): Observable<ValidResponse> {
-    return undefined;
-    // return this.userRepository.isValidPassword(password);
+    // return this.personRepository.isValidUsername(username, partyId);
   }
 }

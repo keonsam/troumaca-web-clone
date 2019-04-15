@@ -17,4 +17,5 @@ export const CONFIRMATION = 'confirmations';
 export const ORGANIZATION = 'organizations';
 export const PARTY = 'parties';
 export const BILLING_DETAIL = 'billing-details';
-export const USER = 'people';
+export const USER = 'users';
+export const PEOPLE = 'people';

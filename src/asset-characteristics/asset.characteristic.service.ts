@@ -6,8 +6,11 @@ import {Apollo} from 'apollo-angular';
 import {AssetCharacteristicType} from './asset.characteristic.type';
 import gql from 'graphql-tag';
 import {map} from 'rxjs/operators';
+import {UUIDGenerator} from '../uuid.generator';
 
 export class AssetCharacteristicService {
+
+  uuid = new UUIDGenerator();
 
   constructor(private apollo: Apollo) {
   }
@@ -91,7 +94,6 @@ export class AssetCharacteristicService {
   }
 
   addAssetCharacteristic(assetCharacteristic: AssetCharacteristic): Observable<AssetCharacteristic> {
-    console.log(assetCharacteristic);
     return this.apollo.mutate({
       mutation: gql`
         mutation addAssetCharacteristic(
@@ -107,6 +109,7 @@ export class AssetCharacteristicService {
         $categoryValue: String,
         $effectiveDate: String,
         $untilDate: String
+        $version: String!
         ) {
           addAssetCharacteristic(
             assetCharacteristic: {
@@ -121,7 +124,8 @@ export class AssetCharacteristicService {
               minimumValue: $minimumValue,
               categoryValue: $categoryValue,
               effectiveDate: $effectiveDate,
-              untilDate: $untilDate
+              untilDate: $untilDate,
+              version: $version
             }
           ) {
             assetCharacteristicId
@@ -140,7 +144,8 @@ export class AssetCharacteristicService {
         minimumValue: assetCharacteristic.minimumValue,
         categoryValue: assetCharacteristic.categoryValue,
         effectiveDate: assetCharacteristic.effectiveDate,
-        untilDate: assetCharacteristic.untilDate
+        untilDate: assetCharacteristic.untilDate,
+        version: this.uuid.generateUUID()
       }
     }).pipe(map( (res: any) => {
       console.log(res);
@@ -164,7 +169,8 @@ export class AssetCharacteristicService {
         $minimumValue: String
         $categoryValue: String
         $effectiveDate: String
-        $untilDate: String
+        $untilDate: String,
+        $version: String!
         ) {
           updateAssetCharacteristic(
             assetCharacteristicId: $assetCharacteristicId,
@@ -180,7 +186,8 @@ export class AssetCharacteristicService {
               minimumValue: $minimumValue,
               categoryValue: $categoryValue,
               effectiveDate: $effectiveDate,
-              untilDate: $untilDate
+              untilDate: $untilDate,
+              version: $version
             }
           )
         }
@@ -198,7 +205,8 @@ export class AssetCharacteristicService {
         minimumValue: assetCharacteristic.minimumValue,
         categoryValue: assetCharacteristic.categoryValue,
         effectiveDate: assetCharacteristic.effectiveDate,
-        untilDate: assetCharacteristic.untilDate
+        untilDate: assetCharacteristic.untilDate,
+        version: assetCharacteristic.version
       }
     }).pipe(map( (res: any) => res.data.updateAssetCharacteristic));
   }

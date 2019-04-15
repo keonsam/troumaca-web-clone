@@ -1,10 +1,10 @@
 import {AssetService} from './asset.service';
-import {AssetRepository} from './asset.repository';
+import {Apollo} from 'apollo-angular';
 
-export function assetServiceProviderFactory (assetRepository: AssetRepository): AssetService {
+export function assetServiceProviderFactory (apollo: Apollo): AssetService {
   let assetService: AssetService;
   if (!assetService) {
-    assetService = new AssetService(assetRepository);
+    assetService = new AssetService(apollo);
   }
   return assetService;
 }
@@ -13,5 +13,5 @@ export let assetServiceProvider = {
   provide: AssetService,
   useFactory: assetServiceProviderFactory,
   useClass: AssetService,
-  deps: [AssetRepository]
+  deps: [Apollo]
 };

@@ -4,9 +4,11 @@ import {Brands} from './brands';
 import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {map} from 'rxjs/operators';
+import {UUIDGenerator} from '../uuid.generator';
 
 export class BrandService {
 
+  uuid = new UUIDGenerator();
   constructor(private apollo: Apollo) {}
 
   findBrands(searchStr: string, pageSize: number): Observable<Brand[]> {
@@ -74,8 +76,19 @@ export class BrandService {
   addBrand(brand: Brand): Observable<Brand> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation addBrand($name: String!, $abbreviation: String, $description: String) {
-          addBrand(brand: {name: $name, abbreviation: $abbreviation, description: $description}) {
+        mutation addBrand(
+          $name: String!,
+          $abbreviation: String,
+          $description: String,
+          $version: String!
+        ) {
+          addBrand(
+            brand: {
+              name: $name,
+              abbreviation: $abbreviation,
+              description: $description,
+              version: $version
+            }) {
             brandId
           }
         }
@@ -83,7 +96,8 @@ export class BrandService {
       variables: {
         name: brand.name,
         abbreviation: brand.abbreviation,
-        description: brand.description
+        description: brand.description,
+        version: this.uuid.generateUUID()
       }
     }).pipe(map( (res: any) => res.data.addBrand));
   }
@@ -91,15 +105,29 @@ export class BrandService {
   updateBrand(brand: Brand): Observable<number> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation updateBrand($brandId: ID!, $name: String!, $abbreviation: String, $description: String) {
-          updateBrand(brandId: $brandId, brand: {name: $name, abbreviation: $abbreviation, description: $description})
+        mutation updateBrand(
+        $brandId: ID!,
+        $name: String!,
+        $abbreviation: String,
+        $description: String,
+        $version: String
+        ) {
+          updateBrand(
+            brandId: $brandId,
+            brand: {
+              name: $name,
+              abbreviation: $abbreviation,
+              description: $description,
+              version: $version
+            })
         }
       `,
       variables: {
         brandId: brand.brandId,
         name: brand.name,
         abbreviation: brand.abbreviation,
-        description: brand.description
+        description: brand.description,
+        version: brand.version
       }
     }).pipe(map( (res: any) => res.data.updateBrand));
   }

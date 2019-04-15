@@ -5,12 +5,9 @@ import {RouterModule} from '@angular/router';
 
 // providers
 import { MaterialModule } from '../../app/material.module';
-import {UserFormComponent} from './user-form/user.form.component';
-import {UserListComponent} from './user-list/user.list.component';
 import {UserMeComponent} from './user-me/user.me.component';
 import {userServiceProvider} from './user.service.provider';
 import {userMeResolveProvider} from './user-me/user.me.resolve.provider';
-import {usersResolveProvider} from './user-list/users.resolve.provider';
 import {userResolveProvider} from './user.resolve.provider';
 import {userRepositoryProvider} from '../../adapter/party/user/user.repository.adapter.provider';
 import {userClientProvider} from '../../client/party/user/user.client.provider';
@@ -36,14 +33,11 @@ import {PhotoModule} from '../photo/photo.module';
   ],
   declarations: [
     UserComponent,
-    UserFormComponent,
-    UserListComponent,
     UserMeComponent
   ],
   providers: [
     userServiceProvider,
     userMeResolveProvider,
-    usersResolveProvider,
     userResolveProvider,
     userRepositoryProvider,
     userClientProvider

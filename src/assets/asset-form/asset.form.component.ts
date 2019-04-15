@@ -5,27 +5,12 @@ import {Asset} from '../asset';
 import {Router, ActivatedRoute} from '@angular/router';
 import {filter, debounceTime } from 'rxjs/operators';
 import {AssetType} from '../../asset-types/asset.type';
-import {AssetName} from '../../asset-name-types/asset.name';
-import {AssetIdentifier} from '../../asset-identifier-types/asset.identifier';
-import {AssetRole} from '../../asset-role-types/asset.role';
 import {ASSET} from '../../app/routes';
-// import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-asset-form',
   templateUrl: './asset.form.component.html',
   styleUrls: ['./asset.form.component.css']
-  // animations: [
-  //   trigger('slideInOut', [
-  //     transition(':enter', [
-  //       style({transform: 'translateY(-100%)'}),
-  //       animate('200ms ease-in', style({transform: 'translateY(0%)'}))
-  //     ]),
-  //     transition(':leave', [
-  //       animate('200ms ease-in', style({transform: 'translateY(-100%)'}))
-  //     ])
-  //   ])
-  // ]
 })
 
 export class AssetFormComponent implements OnInit {
@@ -53,10 +38,6 @@ export class AssetFormComponent implements OnInit {
   update = false;
   doNotDisplayFailureMessage = true;
 
-  assetNames: AssetName[];
-  assetIdentifiers: AssetIdentifier[];
-  assetRoles: AssetRole[];
-
   private asset: Asset;
   private assetLink = `/${ASSET}`;
   activePane = 'home';
@@ -72,8 +53,8 @@ export class AssetFormComponent implements OnInit {
     this.assetType = new FormControl('', [Validators.required]);
 
     this.name = new FormControl('', [Validators.required]);
-    this.createdOn = new FormControl('', [Validators.required]);
-    this.destroyOn = new FormControl('', [Validators.required]);
+    this.createdOn = new FormControl('');
+    this.destroyOn = new FormControl('');
     this.description = new FormControl('');
 
     this.serialNumber = new FormControl('');
@@ -94,9 +75,6 @@ export class AssetFormComponent implements OnInit {
       'buildingNumber': this.buildingNumber,
       'lotNumber': this.lotNumber,
       'numberOfShares': this.numberOfShares,
-      'names': formBuilder.array([]),
-      'identifiers': formBuilder.array([]),
-      'roles': formBuilder.array([])
     });
 
 
@@ -114,10 +92,6 @@ export class AssetFormComponent implements OnInit {
         this.asset.building.buildingNumber = value.buildingNumber;
         this.asset.lot.lotNumber = value.lotNumber;
         this.asset.lot.numberOfShares = value.numberOfShares;
-
-        this.asset.assetNames = value.names;
-        this.asset.identifiers = value.identifiers;
-        this.asset.roles = value.roles;
       });
   }
 
@@ -155,7 +129,7 @@ export class AssetFormComponent implements OnInit {
   private setInputValues(asset: Asset) {
     this.name.setValue(asset.name);
     this.assetType.setValue(asset.assetType ? asset.assetType.name : '');
-    this.assetTypeSelected = asset.assetType ? asset.assetType.initialId ? asset.assetType.initialId : asset.assetType.assetTypeId : '';
+    this.assetTypeSelected = asset.assetType.initialId ? asset.assetType.initialId : asset.assetType.assetTypeId;
     this.createdOn.setValue(asset.createdOn);
     this.destroyOn.setValue(asset.destroyOn);
     this.description.setValue(asset.description);
@@ -165,15 +139,6 @@ export class AssetFormComponent implements OnInit {
     this.buildingNumber.setValue(asset.building.buildingNumber);
     this.lotNumber.setValue(asset.lot.lotNumber);
     this.numberOfShares.setValue(asset.lot.numberOfShares);
-    if (asset.assetNames && asset.assetNames.length > 0) {
-      this.assetNames = asset.assetNames;
-    }
-    if (asset.identifiers && asset.identifiers.length > 0) {
-      this.assetIdentifiers = asset.identifiers;
-    }
-    if (asset.roles && asset.roles.length > 0) {
-      this.assetRoles = asset.roles;
-    }
   }
 
   onAssetTypeSelect(assetType: AssetType) {
@@ -182,15 +147,6 @@ export class AssetFormComponent implements OnInit {
       this.assetTypeSelected = assetType.assetTypeId;
     } else {
       this.assetTypeSelected = assetType.initialId;
-    }
-    if (assetType.assetNames && assetType.assetNames.length > 0 && !this.update) {
-      this.assetNames = assetType.assetNames;
-    }
-    if (assetType.identifiers && assetType.identifiers.length > 0 && !this.update) {
-      this.assetIdentifiers = assetType.identifiers;
-    }
-    if (assetType.roles && assetType.roles.length > 0 && !this.update) {
-      this.assetRoles = assetType.roles;
     }
   }
 

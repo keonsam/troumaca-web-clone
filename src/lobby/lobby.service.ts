@@ -1,6 +1,6 @@
 import {Observable, of} from 'rxjs';
 import { LobbyRepository } from './lobby.repository';
-import {ASSET, ORGANIZATION, USER} from '../app/routes';
+import {ASSET, ORGANIZATION, PEOPLE, USER} from '../app/routes';
 
 export class LobbyService {
 
@@ -12,7 +12,7 @@ export class LobbyService {
     },
     {
       name: 'People',
-      route: `/${USER}/listing`,
+      route: `/${PEOPLE}/listing`,
       iconClass: 'group_add'
     },
     {

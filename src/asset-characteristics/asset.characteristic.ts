@@ -17,4 +17,5 @@ export class AssetCharacteristic {
   categoryValue: string;
   effectiveDate: string;
   untilDate: string;
+  version: string;
 }

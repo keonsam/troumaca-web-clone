@@ -18,7 +18,7 @@
           <th>First Name</th>
           <th>Middle Name</th>
           <th>Last Name</th>
-          <th>Username</th>
+<!--          <th>Username</th>-->
           <th class="text-center">Actions</th>
         </tr>
         </thead>
@@ -32,16 +32,16 @@
         </tr>
         </tfoot>
         <tbody>
-        <tr role="row" *ngFor="let user of users.users; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
+        <tr role="row" *ngFor="let user of users.persons; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
           <td>{{user.firstName}}</td>
           <td>{{user.middleName}}</td>
           <td>{{user.lastName}}</td>
-          <td>{{user.username}}</td>
+<!--          <td>{{user.username}}</td>-->
           <td class="row-actions">
             <a [routerLink]="[link, user.partyId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" (click)="onOpenModal(user.partyId, user.username)"><i class="os-icon os-icon-ui-15"></i></a>
           </td>
         </tr>
-        <tr *ngIf="users.users.length <= 0" class="odd">
+        <tr *ngIf="users.persons.length <= 0" class="odd">
           <td valign="top" align="" colspan="5" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
         </tr>
         </tbody>

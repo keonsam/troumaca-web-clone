@@ -12,7 +12,7 @@ import {
   BILLING_DETAIL,
   HOME,
   LOBBY,
-  ORGANIZATION, USER
+  ORGANIZATION, PEOPLE, USER
 } from './routes';
 
 const appRoutes: Routes = [
@@ -33,6 +33,10 @@ const appRoutes: Routes = [
   },
   { path: USER,
     loadChildren: '../parties/users/user.module#UserModule',
+    canLoad: [AuthGuard]
+  },
+  { path: PEOPLE,
+    loadChildren: '../parties/people/people.module#PeopleModule',
     canLoad: [AuthGuard]
   },
   // { path: PARTY, loadChildren: '../parties/party.module#PartyModule', canLoad: [AuthGuard] },

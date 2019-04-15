@@ -4,9 +4,11 @@ import { UnitOfMeasures} from './unit.of.measures';
 import gql from 'graphql-tag';
 import {map} from 'rxjs/operators';
 import {Apollo} from 'apollo-angular';
+import {UUIDGenerator} from '../uuid.generator';
 
 export class UnitOfMeasureService {
 
+  uuid = new UUIDGenerator();
   constructor(private apollo: Apollo) {}
 
   findUnitOfMeasures(searchStr: string, pageSize: number): Observable<UnitOfMeasure[]> {
@@ -73,15 +75,25 @@ export class UnitOfMeasureService {
   addUnitOfMeasure(unitOfMeasure: UnitOfMeasure): Observable<UnitOfMeasure> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation addUnitOfMeasurement($name: String!, $description: String) {
-          addUnitOfMeasurement(unitOfMeasurement: {name: $name, description: $description}) {
+        mutation addUnitOfMeasurement(
+          $name: String!,
+          $description: String,
+          $version: String!
+        ) {
+          addUnitOfMeasurement(
+            unitOfMeasurement: {
+              name: $name,
+              description: $description
+              version: $version
+            }) {
             unitOfMeasurementId
           }
         }
       `,
       variables: {
         name: unitOfMeasure.name,
-        description: unitOfMeasure.description
+        description: unitOfMeasure.description,
+        version: this.uuid.generateUUID()
       }
     }).pipe(map( (res: any) => res.data.addUnitOfMeasurement));
   }
@@ -89,14 +101,27 @@ export class UnitOfMeasureService {
   updateUnitOfMeasure(unitOfMeasure: UnitOfMeasure): Observable<number> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation updateUnitOfMeasurement($unitOfMeasurementId: ID!, $name: String!, $description: String) {
-          updateUnitOfMeasurement(unitOfMeasurementId: $unitOfMeasurementId, unitOfMeasurement: {name: $name, description: $description})
+        mutation updateUnitOfMeasurement(
+        $unitOfMeasurementId: ID!,
+        $name: String!,
+        $description: String,
+        $version: String!
+        ) {
+          updateUnitOfMeasurement(
+            unitOfMeasurementId: $unitOfMeasurementId,
+            unitOfMeasurement: {
+              name: $name,
+              description: $description,
+              version: $version
+            }
+          )
         }
       `,
       variables: {
         unitOfMeasurementId: unitOfMeasure.unitOfMeasurementId,
         name: unitOfMeasure.name,
-        description: unitOfMeasure.description
+        description: unitOfMeasure.description,
+        version: unitOfMeasure.version
       }
     }).pipe(map( (res: any) => res.data.updateUnitOfMeasurement));
   }

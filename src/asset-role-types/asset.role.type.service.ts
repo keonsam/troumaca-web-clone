@@ -4,8 +4,11 @@ import {AssetRoleTypes} from './asset.role.types';
 import gql from 'graphql-tag';
 import {map} from 'rxjs/operators';
 import {Apollo} from 'apollo-angular';
+import {UUIDGenerator} from '../uuid.generator';
 
 export class AssetRoleTypeService {
+
+  uuid = new UUIDGenerator();
 
   constructor(private apollo: Apollo) {}
 
@@ -73,15 +76,24 @@ export class AssetRoleTypeService {
   addAssetRoleType(assetRoleType: AssetRoleType): Observable<AssetRoleType> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation addAssetRoleType($name: String!, $description: String) {
-          addAssetRoleType(assetRoleType: {name: $name, description: $description}) {
+        mutation addAssetRoleType(
+          $name: String!,
+          $description: String,
+          $version: String!
+        ) {
+          addAssetRoleType(assetRoleType: {
+            name: $name,
+            description: $description,
+            version: $version
+          }) {
             assetRoleTypeId
           }
         }
       `,
       variables: {
         name: assetRoleType.name,
-        description: assetRoleType.description
+        description: assetRoleType.description,
+        version: this.uuid.generateUUID()
       }
     }).pipe(map( (res: any) => res.data.addAssetRoleType));
   }
@@ -89,14 +101,26 @@ export class AssetRoleTypeService {
   updateAssetRoleType(assetRoleType: AssetRoleType): Observable<number> {
     return this.apollo.mutate( {
       mutation: gql`
-        mutation updateAssetRoleType($assetRoleTypeId: ID!, $name: String!, $description: String) {
-          updateAssetRoleType(assetRoleTypeId: $assetRoleTypeId, assetRoleType: {name: $name, description: $description})
+        mutation updateAssetRoleType(
+          $assetRoleTypeId: ID!,
+          $name: String!,
+          $description: String
+          $version: String!
+        ) {
+          updateAssetRoleType(
+            assetRoleTypeId: $assetRoleTypeId,
+            assetRoleType: {
+              name: $name,
+              description: $description
+              version: $version
+            })
         }
       `,
       variables: {
         assetRoleTypeId: assetRoleType.assetRoleTypeId,
         name: assetRoleType.name,
-        description: assetRoleType.description
+        description: assetRoleType.description,
+        version: assetRoleType.version
       }
     }).pipe(map( (res: any) => res.data.updateAssetRoleType));
   }
