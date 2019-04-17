@@ -145,8 +145,6 @@ export class AssetService {
   }
 
   updateAsset(assetId: string, asset: Asset): Observable<number> {
-    console.log(assetId);
-    console.log(asset);
     return this.apollo.mutate({
       mutation: gql`
         mutation updateAsset(

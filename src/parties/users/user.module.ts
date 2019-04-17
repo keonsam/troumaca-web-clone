@@ -8,7 +8,6 @@ import { MaterialModule } from '../../app/material.module';
 import {UserMeComponent} from './user-me/user.me.component';
 import {userServiceProvider} from './user.service.provider';
 import {userMeResolveProvider} from './user-me/user.me.resolve.provider';
-import {userResolveProvider} from './user.resolve.provider';
 import {userRepositoryProvider} from '../../adapter/party/user/user.repository.adapter.provider';
 import {userClientProvider} from '../../client/party/user/user.client.provider';
 import {DeleteModalModule} from '../../delete-modal/delete.modal.module';
@@ -38,7 +37,6 @@ import {PhotoModule} from '../photo/photo.module';
   providers: [
     userServiceProvider,
     userMeResolveProvider,
-    userResolveProvider,
     userRepositoryProvider,
     userClientProvider
   ],

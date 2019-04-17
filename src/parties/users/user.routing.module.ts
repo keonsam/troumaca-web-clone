@@ -4,7 +4,6 @@ import { USER} from '../../app/routes';
 import { AuthGuard } from '../../auth-guard/auth.guard';
 import {UserMeComponent} from './user-me/user.me.component';
 import {UserComponent} from './user.component';
-import {UserResolve} from './user.resolve';
 import {UserMeResolve} from './user-me/user.me.resolve';
 
 export const routes: Routes = [

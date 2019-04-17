@@ -1,178 +1,72 @@
-import { UserRepository} from './user.repository';
 import {Observable} from 'rxjs';
-import {AccessRole} from '../../access-roles/access.role';
-import {Users} from '../users';
 import {User} from '../user';
 import { Credential } from '../../authentication/credential';
 import {ValidResponse} from '../../authentication/valid.response';
 import {UserMe} from './user-me/user.me';
-import gql from 'graphql-tag';
-import {map} from 'rxjs/operators';
 import {Apollo} from 'apollo-angular';
 import {UUIDGenerator} from '../../uuid.generator';
+import gql from 'graphql-tag';
+import {map} from 'rxjs/operators';
 
 export class UserService {
 
   uuid = new UUIDGenerator();
 
-  constructor(private apollo: Apollo) {}
-
-  findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
-    return undefined;
-    // return this.userRepository.findAccessRole(searchStr, pageSize);
+  constructor(private apollo: Apollo) {
   }
 
-  getUsers(pageNumber: number, pageSize: number, sortOrder: string): Observable<Users> {
+  getUserMe(): Observable<UserMe> {
     return this.apollo.query({
       query: gql`
-        query getPersons($pageNumber: Int!, $pageSize: Int!, $sortOrder: String!) {
-          getPersons(pageNumber: $pageNumber, pageSize: $pageSize, sortOrder: $sortOrder) {
-            persons {
-              firstName
-              middleName
-              lastName
-            }
-            page {
-              number
-              size
-              items
-              totalItems
-            }
-          }
-        }
-      `,
-      variables: {
-        pageNumber,
-        pageSize,
-        sortOrder
-      }
-    }).pipe(map((res: any) => res.data.getPersons));
-  }
-
-  getUser(partyId?: string): Observable<User> {
-    return this.apollo.query({
-      query: gql`
-        query getPerson($partyId: ID!) {
-          getPerson(partyId: $partyId) {
+        query getUser {
+          getUser {
             partyId
             firstName
             middleName
             lastName
+            username
+            version
           }
         }
       `,
-      variables: {
-        partyId: partyId
-      }
-    }).pipe(map((res: any) => res.data.getPerson));
+    }).pipe(map((res: any) => res.data.getUser));
   }
 
-  addUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<User> {
+  updateUserMe(user: User, credential: Credential): Observable<number> {
     return this.apollo.mutate({
       mutation: gql`
-        mutation addPerson(
-          $firstName: String!
-          $middleName: String
-          $lastName: String!
-          $version: String!
-          $partyAccessRoles: [String]
-          $username: String
-        ) {
-          addPerson(
-            person: {
-              firstName: $firstName
-              middleName: $middleName
-              lastName: $lastName
-              version: $version
-            }
-            credential: {
-              username: $username,
-              version: $version
-            }
-            partyAccessRoles: {
-              accessRoleId: $partyAccessRoles
-              version: $version
-            }
-          ) {
-            partyId
-          }
-        }
-      `,
-      variables: {
-        firstName: user.firstName,
-        middleName: user.middleName,
-        lastName: user.lastName,
-        partyAccessRoles: partyAccessRoles,
-        username: credential.username,
-        version: this.uuid.generateUUID()
-      }
-    }).pipe(map((res: any) => res.data.addPerson));
-  }
-
-  updateUser(user: User, credential: Credential, partyAccessRoles: string[]): Observable<number> {
-    return this.apollo.mutate({
-      mutation: gql`
-        mutation updatePerson(
-        $partyId: ID!
+        mutation updateUser(
         $firstName: String!
         $middleName: String
         $lastName: String!
         $version: String!
-        $partyAccessRoles: [String]
-        $username: String
+        $username: String!
+        $password: String
         ) {
-          updatePerson(
-            partyId: $partyId,
-            person: {
-              firstName: $firstName
-              middleName: $middleName
-              lastName: $lastName
-              version: $version
-            }
+          updateUser(
+            user: {
+              firstName: $firstName,
+              middleName: $middleName,
+              lastName: $lastName,
+              version: $version,
+            },
             credential: {
               username: $username,
-              version: $version
-            }
-            partyAccessRoles: {
-              accessRoleId: $partyAccessRoles
-              version: $version
+              password: $password,
+              version: $version,
             }
           )
         }
       `,
       variables: {
-        partyId: user.partyId,
         firstName: user.firstName,
         middleName: user.middleName,
         lastName: user.lastName,
-        partyAccessRoles: partyAccessRoles,
+        version: user.version,
         username: credential.username,
-        version: user.version
+        password: credential.password
       }
-    }).pipe(map((res: any) => res.data.updatePerson));
-  }
-
-  deleteUser(partyId: string): Observable<number> {
-    return this.apollo.mutate({
-      mutation: gql`
-        mutation deletePerson($partyId: ID!) {
-          deletePerson(partyId: $partyId)
-        }
-      `,
-      variables: {
-        partyId: partyId,
-      }
-    }).pipe(map((res: any) => res.data.deletePerson));
-  }
-  
-  getUserMe(): Observable<UserMe> {
-    return undefined;
-    // return this.userRepository.getUserMe();
-  }
-
-  updateUserMe(user: User, credential: Credential): Observable<number> {
-    return undefined;
-    // return this.userRepository.updateUserMe(user, credential);
+    }).pipe(map((res: any) => res.data.updateUser));
   }
 
   // Validation

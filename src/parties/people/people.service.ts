@@ -16,8 +16,20 @@ export class PeopleService {
   constructor(private apollo: Apollo) { }
 
   findAccessRole(searchStr: string, pageSize: number): Observable<AccessRole[]> {
-    return undefined;
-    // return this.personRepository.findAccessRole(searchStr, pageSize);
+    return this.apollo.query( {
+      query: gql`
+        query findAccessRoles($searchStr: String!, $pageSize: Int!) {
+          findAccessRoles(searchStr: $searchStr, pageSize: $pageSize) {
+            accessRoleId
+            name
+          }
+        }
+      `,
+      variables: {
+        searchStr,
+        pageSize
+      }
+    }).pipe(map( (res: any) => res.data.findAccessRoles));
   }
 
   getPersons(pageNumber: number, pageSize: number, sortOrder: string): Observable<Persons> {

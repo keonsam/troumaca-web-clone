@@ -1,10 +1,10 @@
 import { OrganizationService } from "./organization.service";
-import { OrganizationRepository } from "./organization.repository";
+import {Apollo} from 'apollo-angular';
 
-export function organizationServiceProviderFactory (organizationRepository: OrganizationRepository): OrganizationService {
+export function organizationServiceProviderFactory (apollo: Apollo): OrganizationService {
   let organizationService: OrganizationService;
   if (!organizationService) {
-    organizationService = new OrganizationService(organizationRepository);
+    organizationService = new OrganizationService(apollo);
   }
   return organizationService;
 }
@@ -13,5 +13,5 @@ export let organizationServiceProvider = {
   provide: OrganizationService,
   useFactory: organizationServiceProviderFactory,
   useClass: OrganizationService,
-  deps: [OrganizationRepository]
+  deps: [Apollo]
 };

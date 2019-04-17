@@ -9,4 +9,5 @@ export class Organization extends Party {
   address: Address;
   imgUrl: string;
   status: string;
+  version: string;
 }
