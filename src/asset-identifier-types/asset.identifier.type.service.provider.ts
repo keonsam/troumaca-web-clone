@@ -1,13 +1,13 @@
 import {AssetIdentifierTypeService} from './asset.identifier.type.service';
-import {AssetIdentifierTypeRepository} from './asset.identifier.type.repository';
+import {Apollo} from 'apollo-angular';
 
-export function assetIdentifierTypeServiceProviderFactory (assetIdentifierTypeRepository: AssetIdentifierTypeRepository): AssetIdentifierTypeService {
-  return new AssetIdentifierTypeService(assetIdentifierTypeRepository);
+export function assetIdentifierTypeServiceProviderFactory (apollo: Apollo): AssetIdentifierTypeService {
+  return new AssetIdentifierTypeService(apollo);
 }
 
 export let assetIdentifierTypeServiceProvider = {
   provide: AssetIdentifierTypeService,
   useFactory: assetIdentifierTypeServiceProviderFactory,
   useClass: AssetIdentifierTypeService,
-  deps: [AssetIdentifierTypeRepository]
+  deps: [Apollo]
 };

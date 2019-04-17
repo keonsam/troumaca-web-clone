@@ -1,5 +1,6 @@
 export class UnitOfMeasure {
-  unitOfMeasureId: string;
+  unitOfMeasurementId: string;
   name: string;
   description: string;
+  version: string;
 }

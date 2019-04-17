@@ -1,13 +1,13 @@
 import {AssetCharacteristicService} from './asset.characteristic.service';
-import {AssetCharacteristicRepository} from './asset.characteristic.repository';
+import {Apollo} from 'apollo-angular';
 
-export function assetCharacteristicServiceProviderFactory (assetCharacteristicRepository: AssetCharacteristicRepository): AssetCharacteristicService {
-  return new AssetCharacteristicService(assetCharacteristicRepository);
+export function assetCharacteristicServiceProviderFactory (apollo: Apollo): AssetCharacteristicService {
+  return new AssetCharacteristicService(apollo);
 }
 
 export let assetCharacteristicServiceProvider = {
   provide: AssetCharacteristicService,
   useFactory: assetCharacteristicServiceProviderFactory,
   useClass: AssetCharacteristicService,
-  deps: [AssetCharacteristicRepository]
+  deps: [Apollo]
 };

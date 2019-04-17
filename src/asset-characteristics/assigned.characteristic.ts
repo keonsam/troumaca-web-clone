@@ -8,4 +8,9 @@ export class AssignedCharacteristic {
   maxValue: string;
   minValue: string;
   value: string;
+  constructor(assetCharacteristicId?: string, value?: string) {
+    this.assetCharacteristicId = assetCharacteristicId;
+    this.value = value;
+  }
+
 }

@@ -3,4 +3,5 @@ export class Brand {
   name: string;
   abbreviation: string;
   description: string;
+  version: string;
 }

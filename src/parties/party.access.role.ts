@@ -12,7 +12,7 @@ export class PartyAccessRole {
 
 
   constructor(accessRoleId?: string) {
-    this.accessRole = new AccessRole();
+    // this.accessRole = new AccessRole();
     this.accessRoleId = accessRoleId;
   }
 }

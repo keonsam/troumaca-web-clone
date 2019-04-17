@@ -12,6 +12,7 @@ export class User extends Party {
   contactInfo: ContactInfo;
   partyAccessRoles: PartyAccessRole[];
   status: string;
+  version: String;
 
   get name(): string {
     return `${this.lastName || ''}, ${this.firstName || ''}`;

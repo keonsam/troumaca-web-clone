@@ -11,8 +11,8 @@
         <thead>
         <tr>
           <th>Name</th>
-          <th>Created On</th>
-          <th>Destroy On</th>
+<!--          <th>Created On</th>-->
+<!--          <th>Destroy On</th>-->
           <th>Description</th>
           <th class="text-center">Actions</th>
         </tr>
@@ -20,8 +20,8 @@
         <tfoot>
         <tr>
           <th>Name</th>
-          <th>Created On</th>
-          <th>Destroy On</th>
+<!--          <th>Created On</th>-->
+<!--          <th>Destroy On</th>-->
           <th>Description</th>
           <th class="text-center">Actions</th>
         </tr>
@@ -29,8 +29,8 @@
         <tbody>
         <tr role="row" *ngFor="let asset of assets.assets; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
           <td>{{asset.name}}</td>
-          <td>{{asset.createdOn | date:'mediumDate' }}</td>
-          <td>{{asset.destroyOn | date:'mediumDate' }}</td>
+<!--          <td>{{asset.createdOn | date:'mediumDate' }}</td>-->
+<!--          <td>{{asset.destroyOn | date:'mediumDate' }}</td>-->
           <td>{{asset.description}}</td>
           <td class="row-actions">
             <a [routerLink]="['/assets', asset.assetId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" (click)="onOpenModal(asset.assetId, asset.name);false;" href><i class="os-icon os-icon-ui-15"></i></a>

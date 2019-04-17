@@ -22,6 +22,7 @@ import { MaterialModule } from './material.module';
 import 'hammerjs';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import {MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material';
     FrontHomeModule,
     MenuModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    GraphQLModule
   ],
   declarations: [
     AppComponent,

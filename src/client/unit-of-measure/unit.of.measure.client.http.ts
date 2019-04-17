@@ -56,7 +56,7 @@ export class UnitOfMeasureClientHttp extends UnitOfMeasureClient {
   }
 
   updateUnitOfMeasure(unitOfMeasure: UnitOfMeasure): Observable<number> {
-    const url = `${this.hostPort}/unit-of-measures/${unitOfMeasure.unitOfMeasureId}`;
+    const url = `${this.hostPort}/unit-of-measures/${unitOfMeasure.unitOfMeasurementId}`;
     const httpOptions = {
       headers: this.jsonHttpHeaders()
     };

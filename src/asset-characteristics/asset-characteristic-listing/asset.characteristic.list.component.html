@@ -9,9 +9,9 @@
         <thead>
         <tr>
           <th>Name</th>
-          <th>Type</th>
+<!--          <th>Kind</th>-->
           <th>Default Value</th>
-          <th>Unit Of Measure</th>
+<!--          <th>Unit Of Measure</th>-->
           <th>Description</th>
           <th class="text-center">Actions</th>
         </tr>
@@ -19,9 +19,9 @@
         <tfoot>
         <tr>
           <th>Name</th>
-          <th>Type</th>
+<!--          <th>Kind</th>-->
           <th>Default Value</th>
-          <th>Unit Of Measure</th>
+<!--          <th>Unit Of Measure</th>-->
           <th>Description</th>
           <th class="text-center">Actions</th>
         </tr>
@@ -29,16 +29,16 @@
         <tbody>
         <tr role="row" *ngFor="let assetCharacteristic of assetCharacteristics.assetCharacteristics; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
           <td>{{assetCharacteristic.name}}</td>
-          <th>{{assetCharacteristic.type?.name}}</th>
+<!--          <th>{{assetCharacteristic.assetCharacteristicType?.name}}</th>-->
           <th>{{assetCharacteristic.defaultValue}}</th>
-          <th>{{assetCharacteristic.unitOfMeasure?.name}}</th>
+<!--          <th>{{assetCharacteristic.unitOfMeasurement?.name}}</th>-->
           <td>{{assetCharacteristic.description}}</td>
           <td class="row-actions">
             <a [routerLink]="[routerLink, assetCharacteristic.assetCharacteristicId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" (click)="onOpenModal(assetCharacteristic.assetCharacteristicId, assetCharacteristic.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
           </td>
         </tr>
         <tr *ngIf="assetCharacteristics.assetCharacteristics.length <= 0" class="odd">
-          <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
+          <td valign="top" align="" colspan="4" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
         </tr>
         </tbody>
       </table>

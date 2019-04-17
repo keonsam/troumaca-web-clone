@@ -3,17 +3,21 @@ import {AssignedCharacteristic} from '../asset-characteristics/assigned.characte
 import {AssetName} from '../asset-name-types/asset.name';
 import {AssetIdentifier} from '../asset-identifier-types/asset.identifier';
 import {AssetRole} from '../asset-role-types/asset.role';
-import {Instance} from './instance';
+
+
+interface SubType {
+  name: string;
+}
 
 export class AssetType {
   assetTypeId: string;
   instanceId: string;
-  instance: Instance;
+  subTypeOfId: string;
+  subTypeOf: SubType;
   initialId: string;
-  parentId: string;
-  parentName: string;
   name: string;
   description: string;
+  version: string;
   specification: AssetSpecification;
   assignedCharacteristics: AssignedCharacteristic[];
   assetNames: AssetName[];

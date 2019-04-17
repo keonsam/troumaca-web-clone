@@ -4,8 +4,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { AssetCharacteristic } from '../asset.characteristic';
 import { AssetCharacteristicService } from '../asset.characteristic.service';
 import {UnitOfMeasure} from '../../unit-of-measure/unit.of.measure';
-import {debounceTime, filter, map} from 'rxjs/operators';
+import {debounceTime, filter} from 'rxjs/operators';
 import {ASSET_CHARACTERISTICS} from '../../app/routes';
+import {AssetCharacteristicType} from '../asset.characteristic.type';
 // import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
@@ -43,8 +44,8 @@ export class AssetCharacteristicFormComponent implements OnInit {
 
   assetCharacteristicForm: FormGroup;
 
-  unitOfMeasures: any[];
-  types: any[];
+  unitOfMeasures: UnitOfMeasure[];
+  types: AssetCharacteristicType[];
 
   update = false;
   doNotDisplayFailureMessage = true;
@@ -94,14 +95,14 @@ export class AssetCharacteristicFormComponent implements OnInit {
       .valueChanges
       .subscribe(value => {
         this.assetCharacteristic.name = value.name;
+        this.assetCharacteristic.assetCharacteristicTypeId = value.type;
         this.assetCharacteristic.defaultValue = value.defaultValue;
-        this.assetCharacteristic.typeId = value.type;
         this.assetCharacteristic.description = value.description;
         this.assetCharacteristic.formula = value.formula;
-        this.assetCharacteristic.calLevel = value.calLevel;
-        this.assetCharacteristic.maxValue = value.maxValue;
-        this.assetCharacteristic.minValue = value.minValue;
-        this.assetCharacteristic.catValue = value.catValue;
+        this.assetCharacteristic.calculationLevel = value.calLevel;
+        this.assetCharacteristic.maximumValue = value.maxValue;
+        this.assetCharacteristic.minimumValue = value.minValue;
+        this.assetCharacteristic.categoryValue = value.catValue;
         this.assetCharacteristic.effectiveDate = value.effectiveDate;
         this.assetCharacteristic.untilDate = value.untilDate;
       });
@@ -111,6 +112,7 @@ export class AssetCharacteristicFormComponent implements OnInit {
     this.createAndPopulateDropDowns();
     if (this.route.snapshot && this.route.snapshot.data['assetCharacteristic']) {
       const assetCharacteristic = this.route.snapshot.data['assetCharacteristic'];
+      console.log(assetCharacteristic);
       this.setInputValues(assetCharacteristic);
       this.update = true;
       this.assetCharacteristic = assetCharacteristic;
@@ -147,14 +149,6 @@ export class AssetCharacteristicFormComponent implements OnInit {
   private findUnitOfMeasures(value) {
     this.assetCharacteristicService
       .findUnitOfMeasures(value, this.pageSize) // send search request to the backend
-      .pipe(map(value2 => { // convert results to dropdown data
-        return value2.map(v2 => {
-          return {
-            unitOfMeasureId: v2.unitOfMeasureId,
-            name: v2.name
-          };
-        })
-      }))
       .subscribe(next => { // update the data
         this.unitOfMeasures = next;
       }, error => {
@@ -163,21 +157,22 @@ export class AssetCharacteristicFormComponent implements OnInit {
   }
 
   private setInputValues(assetCharacteristic: AssetCharacteristic) {
+    this.type.setValue(assetCharacteristic.assetCharacteristicTypeId);
     this.name.setValue(assetCharacteristic.name);
     this.defaultValue.setValue(assetCharacteristic.defaultValue);
-    this.type.setValue(assetCharacteristic.typeId);
-    this.unitOfMeasure.setValue(assetCharacteristic.unitOfMeasure ? assetCharacteristic.unitOfMeasure.name : '');
+    this.unitOfMeasure.setValue(assetCharacteristic.unitOfMeasurement.name);
     this.description.setValue(assetCharacteristic.description);
     this.formula.setValue(assetCharacteristic.formula);
-    this.maxValue.setValue(assetCharacteristic.maxValue);
-    this.minValue.setValue(assetCharacteristic.minValue);
-    this.catValue.setValue(assetCharacteristic.catValue);
+    this.calLevel.setValue(assetCharacteristic.calculationLevel);
+    this.maxValue.setValue(assetCharacteristic.maximumValue);
+    this.minValue.setValue(assetCharacteristic.minimumValue);
+    this.catValue.setValue(assetCharacteristic.categoryValue);
     this.effectiveDate.setValue(assetCharacteristic.effectiveDate);
     this.untilDate.setValue(assetCharacteristic.untilDate);
   }
 
   onUnitOfMeasureSelect(unitOfMeasure: UnitOfMeasure) {
-    this.assetCharacteristic.unitOfMeasureId = unitOfMeasure.unitOfMeasureId;
+    this.assetCharacteristic.unitOfMeasurementId = unitOfMeasure.unitOfMeasurementId;
   }
 
   onCreate() {

@@ -1,13 +1,13 @@
 import {BrandService} from './brand.service';
-import {BrandRepository} from './brand.repository';
+import {Apollo} from 'apollo-angular';
 
-export function brandServiceProviderFactory (brandRepository: BrandRepository): BrandService {
-  return new BrandService(brandRepository);
+export function brandServiceProviderFactory (apollo: Apollo): BrandService {
+  return new BrandService(apollo);
 }
 
 export let brandServiceProvider = {
   provide: BrandService,
   useFactory: brandServiceProviderFactory,
   useClass: BrandService,
-  deps: [BrandRepository]
+  deps: [Apollo]
 };

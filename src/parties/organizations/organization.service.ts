@@ -3,37 +3,102 @@ import {Organizations} from '../organizations';
 import {OrganizationRepository} from './organization.repository';
 import {Organization} from '../organization';
 import {CompanyInfo} from './organization-company/company.info';
+import gql from 'graphql-tag';
+import {map} from 'rxjs/operators';
+import {UUIDGenerator} from '../../uuid.generator';
+import {Apollo} from 'apollo-angular';
 
 export class OrganizationService {
-  constructor(private organizationRepository: OrganizationRepository) {
+  uuid = new UUIDGenerator();
+
+  constructor(private apollo: Apollo) {
   }
 
   getOrganizations(pageNumber: number, pageSize: number, sortOrder: string): Observable<Organizations> {
-    return this.organizationRepository.getOrganizations(pageNumber, pageSize, sortOrder);
+    return undefined;
+    // return this.organizationRepository.getOrganizations(pageNumber, pageSize, sortOrder);
   }
 
   getOrganization(partyId: string): Observable<Organization> {
-    return this.organizationRepository.getOrganization(partyId);
+    return undefined;
+    // return this.organizationRepository.getOrganization(partyId);
   }
 
   addOrganization(organization: Organization): Observable<Organization> {
-    return this.organizationRepository.addOrganization(organization);
+    return undefined;
+    // return this.organizationRepository.addOrganization(organization);
   }
 
   deleteOrganization(partyId: string): Observable<number> {
-    return this.organizationRepository.deleteOrganization(partyId);
+    return undefined;
+    // return this.organizationRepository.deleteOrganization(partyId);
   }
 
   updateOrganization(organization: Organization): Observable<number> {
-    return this.organizationRepository.updateOrganization(organization);
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation updateCompany(
+        $name: String!
+        $purpose: String!
+        $version: String!
+        ) {
+          updateCompany(
+            company: {
+              name: $name,
+              purpose: $purpose,
+              version: $version
+            }
+          )
+        }
+      `,
+      variables: {
+        name: organization.name,
+        purpose: organization.purpose,
+        version: organization.version
+      }
+    }).pipe(map((res: any) => res.data.updateCompany));
   }
 
   getCompany(): Observable<CompanyInfo> {
-    return this.organizationRepository.getCompany();
+    return this.apollo.query({
+      query: gql`
+        query getCompany {
+          getCompany {
+            partyId
+            name
+            purpose
+            version
+          }
+        }
+      `,
+    }).pipe(map((res: any) => res.data.getCompany));
   }
 
   createOrganization(organization: Organization): Observable<Organization> {
-    return this.organizationRepository.createOrganization(organization);
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation addCompany(
+        $name: String!
+        $purpose: String!
+        $version: String!
+        ) {
+          addCompany(
+            company: {
+              name: $name,
+              purpose: $purpose,
+              version: $version
+            }
+          ) {
+            partyId
+          }
+        }
+      `,
+      variables: {
+        name: organization.name,
+        purpose: organization.purpose,
+        version: this.uuid.generateUUID()
+      }
+    }).pipe(map((res: any) => res.data.addCompany));
   }
 
 }

@@ -3,54 +3,55 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
 
-import {User} from '../../user';
+import { Person } from './person';
 import { map, distinctUntilChanged, filter, debounceTime } from 'rxjs/operators';
-import { UserService } from '../user.service';
 import { Credential } from '../../../authentication/credential';
 import {AccessRole} from '../../../access-roles/access.role';
-import { USER} from '../../../app/routes';
+import { PEOPLE } from '../../../app/routes';
+import { PeopleService } from '../people.service';
 
 @Component({
-  selector: 'app-user-form',
-  templateUrl: './user.form.component.html',
-  styleUrls: ['./user.form.component.css']
+  selector: 'app-people-form',
+  templateUrl: './people.form.component.html',
+  styleUrls: ['./people.form.component.css']
 })
-export class UserFormComponent implements OnInit {
+export class PeopleFormComponent implements OnInit {
 
   firstName: FormControl;
   middleName: FormControl;
   lastName: FormControl;
   username: FormControl;
   accessRole: FormControl;
-  userForm: FormGroup;
+  peopleForm: FormGroup;
 
   accessRoles: AccessRole[];
 
-  private user: User;
+  private people: Person;
   private credential: Credential;
   private partyAccessRoles: string[];
   private pageSize = 15;
 
   doNotDisplayFailureMessage: boolean;
   update = false;
-  private userLink = `/${USER}`;
+  private peopleLink = `/${PEOPLE}`;
 
-  constructor(private userService: UserService,
+  constructor(private peopleService: PeopleService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
 
-    this.user = new User();
+    this.people = new Person();
     this.credential = new Credential();
     this.partyAccessRoles = [];
 
     this.firstName = new FormControl('', [Validators.required]);
     this.middleName = new FormControl('');
     this.lastName = new FormControl('', [Validators.required]);
-    this.username = new FormControl('', [this.usernameValidator(this.userService)]);
+    this.username = new FormControl('');
+    // this.username = new FormControl('', [this.usernameValidator(this.peopleService)]);
     this.accessRole = new FormControl('');
 
-    this.userForm = formBuilder.group({
+    this.peopleForm = formBuilder.group({
       'firstName': this.firstName,
       'middleName': this.middleName,
       'lastName': this.lastName,
@@ -58,12 +59,12 @@ export class UserFormComponent implements OnInit {
       'accessRole': this.accessRole
     });
 
-    this.userForm
+    this.peopleForm
       .valueChanges
       .subscribe(value => {
-        this.user.firstName = value.firstName;
-        this.user.middleName = value.middleName;
-        this.user.lastName = value.lastName;
+        this.people.firstName = value.firstName;
+        this.people.middleName = value.middleName;
+        this.people.lastName = value.lastName;
         this.credential.username = value.username;
         this.partyAccessRoles = value.accessRole;
       }, error2 => {
@@ -75,23 +76,23 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.findAccessRole('');
-    if (this.route.snapshot && this.route.snapshot.data['user']) {
-      this.setInputValues(this.route.snapshot.data['user']);
+    if (this.route.snapshot && this.route.snapshot.data['people']) {
+      this.setInputValues(this.route.snapshot.data['people']);
       this.update = true;
     }
   }
 
-  private setInputValues(user: User) {
-    this.firstName.setValue(user.firstName);
-    this.middleName.setValue(user.middleName);
-    this.lastName.setValue(user.lastName);
-    this.username.setValue(user.username);
-    // this.accessRole.setValue(user.partyAccessRoles.map(value => value.accessRole.accessRoleId));
-    this.user = user;
+  private setInputValues(people: Person) {
+    this.firstName.setValue(people.firstName);
+    this.middleName.setValue(people.middleName);
+    this.lastName.setValue(people.lastName);
+    // this.username.setValue(people.username);
+    // this.accessRole.setValue(people.partyAccessRoles.map(value => value.accessRole.accessRoleId));
+    this.people = people;
   }
 
   private findAccessRole(value) {
-    this.userService
+    this.peopleService
       .findAccessRole(value, this.pageSize) // send search request to the backend
       .subscribe(next => { // update the data
         this.accessRoles = next;
@@ -100,7 +101,7 @@ export class UserFormComponent implements OnInit {
       });
   }
 
-  private usernameValidator(userService: UserService) {
+  private usernameValidator(peopleService: PeopleService) {
     let usernameControl = null;
     let isValidUsername = false;
     let valueChanges = null;
@@ -112,7 +113,7 @@ export class UserFormComponent implements OnInit {
       filter(value => { // filter out empty values
         return !!(value);
       }), map((value: string) => {
-        return userService.isValidUsername(value, that.user.partyId);
+        return peopleService.isValidUsername(value, that.people.partyId);
       })).subscribe(value => {
         value.subscribe( otherValue => {
           isValidUsername = otherValue.valid;
@@ -142,11 +143,11 @@ export class UserFormComponent implements OnInit {
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
-    this.userService
-      .addUser(this.user, this.credential, this.partyAccessRoles)
+    this.peopleService
+      .addPerson(this.people, this.credential, this.partyAccessRoles)
       .subscribe(value => {
         if (value && value.partyId) {
-          this.router.navigate([`${this.userLink}/listing`]);
+          this.router.navigate([`${this.peopleLink}/listing`]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -158,11 +159,11 @@ export class UserFormComponent implements OnInit {
 
   onUpdate() {
     this.doNotDisplayFailureMessage = true;
-      this.userService
-      .updateUser(this.user, this.credential, this.partyAccessRoles)
+      this.peopleService
+      .updatePerson(this.people, this.credential, this.partyAccessRoles)
       .subscribe(value => {
         if (value) {
-          this.router.navigate([`${this.userLink}/listing`]);
+          this.router.navigate([`${this.peopleLink}/listing`]);
         } else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -173,7 +174,7 @@ export class UserFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([`${this.userLink}/listing`]);
+    this.router.navigate([`${this.peopleLink}/listing`]);
   }
 
 }

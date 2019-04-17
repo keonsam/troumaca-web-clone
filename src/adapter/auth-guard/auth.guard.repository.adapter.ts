@@ -1,16 +1,27 @@
 import { AuthGuardService} from '../../auth-guard/auth.guard.service';
-import { SessionClient } from '../../client/session/session.client';
 import { Observable } from 'rxjs';
 import {ValidSession} from '../../session/valid.session';
+import {Apollo} from 'apollo-angular';
+import gql from 'graphql-tag';
+import {map} from 'rxjs/operators';
 
 export class AuthGuardRepositoryAdapter extends AuthGuardService {
 
-  constructor(private sessionClient: SessionClient) {
+  constructor(private apollo: Apollo) {
     super();
   }
 
   isValidSession(): Observable<ValidSession> {
-    return this.sessionClient.isValidSession();
+    return this.apollo.query({
+      query: gql`
+        query isValidSession {
+          isValidSession {
+            valid
+            partyId
+            ownerPartyId
+          }
+        }
+      `,
+    }).pipe(map((res: any) => res.data.isValidSession));
   }
-  
 }

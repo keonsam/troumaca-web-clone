@@ -2,12 +2,12 @@
   <div class="col-sm-12">
     <div class="element-wrapper form-wrapper">
       <div class="element-box">
-        <form [formGroup]="userForm" id="formValidate">
+        <form [formGroup]="peopleForm" id="formValidate">
           <h5 class="form-header">
             {{ update ? "Edit":"New"}} People Form
           </h5>
 
-          <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ update ? "Update":"Create"}} User.</div>
+          <div [hidden]="doNotDisplayFailureMessage" class="alert alert-danger">Failed to {{ update ? "Update":"Create"}} People.</div>
 
           <div class="row">
             <div class="col-sm-12 col-md-4">
@@ -39,14 +39,14 @@
           </div>
 
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Username</mat-label>
+            <mat-label>Peoplename</mat-label>
             <mat-icon matPrefix color="primary">email</mat-icon>
             <input matInput [formControl]="username">
             <mat-error *ngIf="username.hasError('validateEmail') && !username.hasError('required')">
               Must be a phone number or email address and not be taken.
             </mat-error>
             <mat-error *ngIf="username.hasError('required')">
-              Username is <strong>required</strong>
+              Peoplename is <strong>required</strong>
             </mat-error>
           </mat-form-field>
 
@@ -60,7 +60,7 @@
           <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Failed to {{update ? "update": "create"}} people</span></div>
 
           <div class="form-buttons-w">
-            <button mat-flat-button color="primary" [disabled]="!userForm.valid" type="submit" (click)="update ? onUpdate(): onCreate()">{{update ? "Update":"Create"}}</button>
+            <button mat-flat-button color="primary" [disabled]="!peopleForm.valid" type="submit" (click)="update ? onUpdate(): onCreate()">{{update ? "Update":"Create"}}</button>
             <button class="right-button-form" mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
           </div>
 

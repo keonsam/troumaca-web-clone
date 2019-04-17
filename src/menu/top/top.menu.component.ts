@@ -43,11 +43,11 @@ export class TopMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUserMenu();
-    this.menuService.getApps()
-      .subscribe( apps => {
-        this.apps = apps;
-      });
+    // this.getUserMenu();
+    // this.menuService.getApps()
+    //   .subscribe( apps => {
+    //     this.apps = apps;
+    //   });
   }
 
   private getUserMenu() {

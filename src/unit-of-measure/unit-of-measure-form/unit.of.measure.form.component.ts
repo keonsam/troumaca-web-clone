@@ -67,7 +67,7 @@ export class UnitOfMeasureFormComponent implements OnInit {
 
     this.unitOfMeasureService.addUnitOfMeasure(this.unitOfMeasure)
       .subscribe( value => {
-        if (value && value.unitOfMeasureId) {
+        if (value && value.unitOfMeasurementId) {
           if (this.trans) {
             this.left.emit(true);
           }else {

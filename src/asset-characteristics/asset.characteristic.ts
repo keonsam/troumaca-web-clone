@@ -1,20 +1,21 @@
-import {Type} from './type';
 import {UnitOfMeasure} from '../unit-of-measure/unit.of.measure';
+import { AssetCharacteristicType } from './asset.characteristic.type';
 
 export class AssetCharacteristic {
   assetCharacteristicId: string;
-  typeId: string;
-  type: Type;
+  assetCharacteristicTypeId: string;
+  assetCharacteristicType: AssetCharacteristicType;
   name: string;
   defaultValue: string;
   description: string;
-  unitOfMeasureId: string;
-  unitOfMeasure: UnitOfMeasure;
-  maxValue: string;
-  minValue: string;
+  unitOfMeasurementId: string;
+  unitOfMeasurement: UnitOfMeasure;
   formula: string;
-  calLevel: string;
-  catValue: string;
+  calculationLevel: string;
+  maximumValue: string;
+  minimumValue: string;
+  categoryValue: string;
   effectiveDate: string;
   untilDate: string;
+  version: string;
 }

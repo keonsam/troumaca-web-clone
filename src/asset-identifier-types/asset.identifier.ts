@@ -4,4 +4,8 @@ export class AssetIdentifier {
   value: string;
   effectiveDate: string;
   untilDate: string;
+  constructor(assetIdentifierTypeId?: string, value?: string) {
+    this.assetIdentifierTypeId = assetIdentifierTypeId;
+    this.value = value;
+  }
 }

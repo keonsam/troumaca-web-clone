@@ -7,6 +7,6 @@ export class UnitOfMeasureResolve implements Resolve<UnitOfMeasure> {
   constructor(private unitOfMeasureService: UnitOfMeasureService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<UnitOfMeasure> {
-    return this.unitOfMeasureService.getUnitOfMeasure(route.paramMap.get('unitOfMeasureId'));
+    return this.unitOfMeasureService.getUnitOfMeasure(route.paramMap.get('unitOfMeasurementId'));
   }
 }
