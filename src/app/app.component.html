@@ -1,9 +1,1 @@
-<div [ngClass]="{'all-wrapper': true, 'with-pattern': isAuthPath === 'auth', 'solid-bg-all': isAuthPath === 'app'}"
-     fxLayout="row wrap" [fxLayoutAlign]="isAuthPath === 'auth' ? 'center center': 'start start'"
->
-  <top-menu fxFlex="0 0 100%" *ngIf="isAuthPath === 'app'"></top-menu>
-
-  <div [fxFlex]="isAuthPath === 'auth' ? '1 1 auto': '0 0 100%'" [ngClass]="{'content-w': isAuthPath === 'app', 'auth-box-w': isAuthPath === 'auth', 'wider': isAuthPath === 'auth' }">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+<router-outlet></router-outlet>

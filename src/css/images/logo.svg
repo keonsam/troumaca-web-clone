@@ -1,0 +1,17 @@
+<svg width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="63" height="63">
+<circle cx="31.5001" cy="31.4999" r="31.4999" transform="rotate(-180 31.5001 31.4999)" fill="#C4C4C4"/>
+</mask>
+<g mask="url(#mask0)">
+<circle cx="31.5001" cy="31.4999" r="31.4999" transform="rotate(-180 31.5001 31.4999)" fill="white"/>
+<g style="mix-blend-mode:multiply">
+<circle cx="48.4027" cy="40.1048" r="27.8121" transform="rotate(-180 48.4027 40.1048)" fill="#26DDDB"/>
+</g>
+<g style="mix-blend-mode:color-dodge">
+<circle cx="32.4217" cy="3.14385" r="27.8121" transform="rotate(-180 32.4217 3.14385)" fill="#FF5E5B"/>
+</g>
+<g style="mix-blend-mode:multiply">
+<ellipse cx="12.6002" cy="41.6414" rx="28.5804" ry="29.3487" transform="rotate(-180 12.6002 41.6414)" fill="#23C7EF"/>
+</g>
+</g>
+</svg>

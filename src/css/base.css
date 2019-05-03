@@ -1,0 +1,22 @@
+html {
+  height: 100%;
+
+}
+
+body {
+  min-height: 100%;
+}
+
+html, body {
+  width: 100%;
+  margin: 0;
+}
+
+.body {
+  background: #F5F5F5;
+  color: #000000;
+  font-family: 'Comfortaa', cursive;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 0.01em;
+}

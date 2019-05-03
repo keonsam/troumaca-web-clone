@@ -19,7 +19,6 @@
             "assets": [
               "src/images",
               "src/css",
-              "src/jscripts",
               "src/favicon.ico"
             ],
             "styles": [
@@ -87,7 +86,6 @@
             "assets": [
               "src/images",
               "src/css",
-              "src/jscripts",
               "src/favicon.ico"
             ]
           }

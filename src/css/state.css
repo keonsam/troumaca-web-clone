@@ -1,0 +1,10 @@
+button[mat-flat-button].button--primary[disabled] {
+  background: #004777;
+  opacity: 0.3;
+  color: #FFFFFF;
+}
+
+button[mat-flat-button].button--primary {
+  background: #004777;
+}
+

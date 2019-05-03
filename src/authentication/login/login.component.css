@@ -1,13 +1,68 @@
-.link-below-button {
-  margin-top: 2rem;
-  padding-top: 0.7rem;
-  text-align: center;
+/* container */
+.container {
+  padding: 124px 93px;
 }
 
-a[mat-button] {
+.title--login {
+  margin-bottom: 76px;
+  margin-top: 0;
+}
+
+.button--big--login {
+  margin-top: 32px;
+}
+
+.icon--google {
+  margin-right: 14px;
+  width: 16px;
+  height: 21px;
+}
+
+.or {
+  margin: 23px 0 10px;
+  text-align: center;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 14px;
+}
+
+.forget {
+  font-size: 13px;
+  line-height: 14px;
+  color: #24CCEA;
+  padding-left: 6px;
   text-decoration: none;
 }
-/*
-  Troumaca overrides etc.
-*/
 
+/* ending */
+.ending {
+  margin-top: 24px;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 14px;
+}
+
+.ending__link {
+  color: #24CCEA;
+  text-decoration: none;
+  display: inline;
+}
+
+/* media queries */
+@media only screen and (max-width: 599px) {
+  .container {
+    padding: 84px 52px 78px;
+  }
+}
+
+::ng-deep .backdrop {
+  background: #004777;
+  opacity: 0.9 !important;
+}
+
+::ng-deep .modal > .mat-dialog-container {
+  width: 717px;
+  height: 400px;
+  background: #F5F5F5;
+  border-radius: 9px;
+}

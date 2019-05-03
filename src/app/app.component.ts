@@ -18,26 +18,26 @@ export class AppComponent implements OnInit {
               private sessionService: SessionService
               ) {
 
-    this.sub = this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationEnd) {
-        const url = this.calURL(event.url);
-        if (authRoutes.indexOf(url) > -1 || url.indexOf('forgot-password') > -1) {
-          this.isAuthPath = 'auth';
-        } else {
-          this.isAuthPath = 'app';
-        }
-        this.sub.unsubscribe();
-        this.setRouter();
-      }
-    });
+    // this.sub = this.router.events.subscribe((event: any) => {
+    //   if (event instanceof NavigationEnd) {
+    //     const url = this.calURL(event.url);
+    //     if (authRoutes.indexOf(url) > -1 || url.indexOf('forgot-password') > -1) {
+    //       this.isAuthPath = 'auth';
+    //     } else {
+    //       this.isAuthPath = 'app';
+    //     }
+    //     this.sub.unsubscribe();
+    //     this.setRouter();
+    //   }
+    // });
 
-    this.sessionService.logoutEvent
-      .subscribe( value => {
-        if (value) {
-          this.router.navigate(['/home']);
-          // this.isAuthPath = true;
-        }
-      });
+    // this.sessionService.logoutEvent
+    //   .subscribe( value => {
+    //     if (value) {
+    //       this.router.navigate(['/home']);
+    //       // this.isAuthPath = true;
+    //     }
+    //   });
   }
 
   ngOnInit(): void {
@@ -45,23 +45,23 @@ export class AppComponent implements OnInit {
 
 
   setRouter() {
-    this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationEnd) {
-        const url = this.calURL(event.url);
-        if (authRoutes.indexOf(url) > -1 || url.indexOf('forgot-password') > -1) {
-          this.isAuthPath = 'auth';
-        } else {
-          this.isAuthPath = 'app';
-        }
-      }
-    });
+    // this.router.events.subscribe((event: any) => {
+    //   if (event instanceof NavigationEnd) {
+    //     const url = this.calURL(event.url);
+    //     if (authRoutes.indexOf(url) > -1 || url.indexOf('forgot-password') > -1) {
+    //       this.isAuthPath = 'auth';
+    //     } else {
+    //       this.isAuthPath = 'app';
+    //     }
+    //   }
+    // });
   }
 
   private calURL(url) {
-    const matchRegex = /\/[a-z-]*\/[a-z-]*\//gi;
-    if (url.indexOf('confirmations') !== -1 ) {
-      return url.match(matchRegex)[0].slice(0, -1);
-    }
-    return url;
+    // const matchRegex = /\/[a-z-]*\/[a-z-]*\//gi;
+    // if (url.indexOf('confirmations') !== -1 ) {
+    //   return url.match(matchRegex)[0].slice(0, -1);
+    // }
+    // return url;
   }
 }

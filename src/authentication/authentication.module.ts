@@ -12,6 +12,10 @@ import { AuthenticationRoutingModule } from './authentication.routing.module';
 import {MaterialModule} from '../app/material.module';
 import {authenticationRepositoryProvider} from '../adapter/authentication/authentication.repository.adapter.provider';
 import {authenticationClientProvider} from '../client/credential/authentication.client.provider';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {DialogModule} from '../dialog/dialog.module';
+import {SignUpModalComponent} from './sign-up-modal/sign.up.modal.component';
+import {AccountTypeComponent} from './sign-up-modal/account-type/account.type.component';
 
 @NgModule({
   imports: [
@@ -20,7 +24,9 @@ import {authenticationClientProvider} from '../client/credential/authentication.
     FormsModule,
     ReactiveFormsModule,
     AuthenticationRoutingModule,
-    MaterialModule
+    MaterialModule,
+    FlexLayoutModule,
+    DialogModule
   ],
   declarations: [
     AuthenticationComponent,
@@ -28,6 +34,11 @@ import {authenticationClientProvider} from '../client/credential/authentication.
     RegisterComponent,
     ForgotPasswordComponent,
     ConfirmationComponent,
+    SignUpModalComponent,
+    AccountTypeComponent
+  ],
+  entryComponents: [
+    SignUpModalComponent
   ],
   providers: [
     authenticationServiceProvider,

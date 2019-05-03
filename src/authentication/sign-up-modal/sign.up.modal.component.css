@@ -1,0 +1,28 @@
+.modal__close {
+  width: 20px;
+  height: 41px;
+  font-size: 36px;
+  line-height: 40px;
+  color: #2C4948;
+  transform: rotate(-45deg);
+  border: none;
+  background: none;
+}
+
+.modal__close:focus {
+  outline: none;
+}
+
+.title--account {
+  font-family: 'Comfortaa', cursive;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 27px;
+  letter-spacing: 0.02em;
+
+  color: #2C4948;
+  margin-top: 7px;
+  margin-left: 23px;
+  margin-bottom: 0;
+}

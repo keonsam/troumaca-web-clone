@@ -1,32 +1,31 @@
-<h4 class="auth-header">
-  Login
-</h4>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<div class="container">
+  <h2 class="title title--login">
+    Login
+  </h2>
+  <button mat-flat-button class="button button--big button--big--google"><i class="fab fa-google icon--google"></i>Login with Google</button>
+  <div class="or">or</div>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<!--    fix at a later date-->
+      <mat-form-field class="input-field" floatLabel="always" appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput [formControl]="username" required>
+        <mat-error *ngIf="username.hasError('required')">
+          Username is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
 
-  <mat-form-field class="example-full-width" appearance="outline">
-    <mat-label>Username</mat-label>
-    <mat-icon matPrefix color="primary">email</mat-icon>
-    <input matInput [formControl]="username">
-    <mat-error *ngIf="username.hasError('required')">
-      Username is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
+      <mat-form-field class="input-field" floatLabel="always" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput [formControl]="password" [type]="hide ? 'password' : 'text'" required>
+        <mat-icon *ngIf="password.value" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-error *ngIf="password.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
 
-  <mat-form-field class="example-full-width" appearance="outline">
-    <mat-label>Password</mat-label>
-    <mat-icon matPrefix color="primary">fingerprint</mat-icon>
-    <input matInput [formControl]="password" type="password">
-    <mat-error *ngIf="password.hasError('required')">
-      Password is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
+    <a class="forget" href="">Forget Password?</a>
+    <button mat-flat-button class="button button--primary button--big button--big--login" type="submit" [disabled]="!loginForm.valid">Login</button>
+  </form>
+  <div class="ending">don't have any account? <a class="ending__link" href (click)="openSignUp();false">Sign up now</a></div>
+</div>
 
-  <mat-checkbox color="primary" [formControl]="rememberMe">Remember Me</mat-checkbox>
-
-  <div class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">Failed to login.</span></div>
-
-  <div class="buttons-w">
-    <a mat-button color="accent" [routerLink]="forgotPasswordRoute">Forget Password</a>
-    <button class="right-button" mat-flat-button color="primary" [disabled]="!loginForm.valid">Login</button>
-  </div>
-</form>

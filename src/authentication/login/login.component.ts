@@ -5,6 +5,8 @@ import {AuthenticationService} from '../authentication.service';
 import { Credential } from '../credential';
 import {SessionService} from '../../session/session.service';
 import {AUTHENTICATION, CONFIRMATION, FORGOT_PASSWORD, HOME, LOBBY, ORGANIZATION} from '../../app/routes';
+import {MatDialog} from '@angular/material';
+import {SignUpModalComponent} from '../sign-up-modal/sign.up.modal.component';
 
 @Component({
   selector: 'app-login',
@@ -19,10 +21,12 @@ export class LoginComponent implements OnInit {
   rememberMe: FormControl;
   private credential: Credential;
   doNotDisplayFailureMessage = true;
-  forgotPasswordRoute = `/${AUTHENTICATION}/${FORGOT_PASSWORD}/username`;
-  homeLink = `/${HOME}`;
+  // forgotPasswordRoute = `/${AUTHENTICATION}/${FORGOT_PASSWORD}/username`;
+  // homeLink = `/${HOME}`;
+  hide = true;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(public dialog: MatDialog,
+              private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private router: Router,
               private sessionService: SessionService) {
@@ -73,7 +77,6 @@ export class LoginComponent implements OnInit {
           const confirmationId = authenticatedCredential.confirmationId;
           this.router.navigate([`/${AUTHENTICATION}/${CONFIRMATION}/${credentialId}/${confirmationId}`]);
         }else {
-          console.log(authenticatedCredential);
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
@@ -82,4 +85,17 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  openSignUp() {
+    const dialogRef = this.dialog.open(SignUpModalComponent, {
+      hasBackdrop: true,
+      backdropClass: 'backdrop',
+      closeOnNavigation: false,
+      disableClose: false,
+      panelClass: 'modal',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 }
