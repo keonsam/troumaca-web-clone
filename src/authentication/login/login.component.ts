@@ -4,9 +4,11 @@ import {Router} from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
 import { Credential } from '../credential';
 import {SessionService} from '../../session/session.service';
-import {AUTHENTICATION, CONFIRMATION, FORGOT_PASSWORD, HOME, LOBBY, ORGANIZATION} from '../../app/routes';
+import {AUTHENTICATION, CONFIRMATION, FORGOT_PASSWORD, HOME, LOBBY, ORGANIZATION, REGISTER} from '../../app/routes';
 import {MatDialog} from '@angular/material';
+import {AccountTypeModalComponent} from '../account-type-modal/account.type.modal.component';
 import {SignUpModalComponent} from '../sign-up-modal/sign.up.modal.component';
+import {ConfirmationModalComponent} from '../confirmation-modal/confirmation.modal.component';
 
 @Component({
   selector: 'app-login',
@@ -21,9 +23,11 @@ export class LoginComponent implements OnInit {
   rememberMe: FormControl;
   private credential: Credential;
   doNotDisplayFailureMessage = true;
+  error: string;
   // forgotPasswordRoute = `/${AUTHENTICATION}/${FORGOT_PASSWORD}/username`;
   // homeLink = `/${HOME}`;
   hide = true;
+  accountType: string;
 
   constructor(public dialog: MatDialog,
               private formBuilder: FormBuilder,
@@ -63,7 +67,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.doNotDisplayFailureMessage = true;
-
     this.authenticationService
       .authenticate(this.credential)
       .subscribe(authenticatedCredential => {
@@ -85,17 +88,53 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  openSignUp() {
-    const dialogRef = this.dialog.open(SignUpModalComponent, {
+  openAccountType() {
+    const dialogRef = this.dialog.open(AccountTypeModalComponent, {
+      data: { accountType: this.accountType},
       hasBackdrop: true,
       backdropClass: 'backdrop',
       closeOnNavigation: false,
-      disableClose: false,
+      disableClose: true,
       panelClass: 'modal',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    // dialogRef.afterClosed().subscribe(result => {
+    // });
+
+    dialogRef.componentInstance.onNext.subscribe((result: string) => {
+      this.accountType = result;
+      this.openSignUp();
+      dialogRef.close();
     });
+  }
+
+  private openSignUp() {
+    const dialogRef = this.dialog.open(SignUpModalComponent, {
+      data: { accountType: this.accountType},
+      hasBackdrop: true,
+      backdropClass: 'backdrop',
+      closeOnNavigation: false,
+      disableClose: true,
+      panelClass: 'modal',
+    });
+
+    dialogRef.componentInstance.onNext.subscribe((result: string) => {
+      // this.openConfirmation();
+      dialogRef.close();
+    });
+
+    dialogRef.componentInstance.onPrevious.subscribe( (result: string) => {
+      this.openAccountType();
+      dialogRef.close();
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
+  hideError(event: boolean) {
+    if (event) {
+      this.doNotDisplayFailureMessage = true;
+    }
   }
 }

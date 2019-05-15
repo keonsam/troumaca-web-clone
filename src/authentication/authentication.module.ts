@@ -6,7 +6,6 @@ import {RouterModule} from '@angular/router';
 import {AuthenticationComponent} from './authentication.component';
 import {RegisterComponent} from './register/register.component';
 import {ForgotPasswordComponent} from './forgot-password/forgot.password.component';
-import {ConfirmationComponent} from './confirmation/confirmation.component';
 import {authenticationServiceProvider} from './authenticate.service.provider';
 import { AuthenticationRoutingModule } from './authentication.routing.module';
 import {MaterialModule} from '../app/material.module';
@@ -14,8 +13,10 @@ import {authenticationRepositoryProvider} from '../adapter/authentication/authen
 import {authenticationClientProvider} from '../client/credential/authentication.client.provider';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {DialogModule} from '../dialog/dialog.module';
+import {AccountTypeModalComponent} from './account-type-modal/account.type.modal.component';
 import {SignUpModalComponent} from './sign-up-modal/sign.up.modal.component';
-import {AccountTypeComponent} from './sign-up-modal/account-type/account.type.component';
+import {ConfirmationModalComponent} from './confirmation-modal/confirmation.modal.component';
+import {PopUpModule} from '../pop-up/pop-up.module';
 
 @NgModule({
   imports: [
@@ -26,19 +27,22 @@ import {AccountTypeComponent} from './sign-up-modal/account-type/account.type.co
     AuthenticationRoutingModule,
     MaterialModule,
     FlexLayoutModule,
-    DialogModule
+    DialogModule,
+    PopUpModule
   ],
   declarations: [
     AuthenticationComponent,
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
-    ConfirmationComponent,
+    AccountTypeModalComponent,
     SignUpModalComponent,
-    AccountTypeComponent
+    ConfirmationModalComponent
   ],
   entryComponents: [
-    SignUpModalComponent
+    AccountTypeModalComponent,
+    SignUpModalComponent,
+    ConfirmationModalComponent
   ],
   providers: [
     authenticationServiceProvider,

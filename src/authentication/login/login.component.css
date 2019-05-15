@@ -1,10 +1,25 @@
-/* container */
-.container {
-  padding: 124px 93px;
+:host {
+  display: block;
+  width: 826px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  margin-top: 52px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
 }
 
+/* container */
+
+.img-sec {
+  background: url("../../css/images/login.png");
+}
+
+
+/* elements */
 .title--login {
-  margin-bottom: 76px;
+  margin-bottom: 48px;
+  margin-left: 6px;
   margin-top: 0;
 }
 
@@ -12,19 +27,18 @@
   margin-top: 32px;
 }
 
-.icon--google {
-  margin-right: 14px;
-  width: 16px;
-  height: 21px;
+.or {
+  border-bottom: 1px solid #F5F5F5;
+  line-height: 0.1em;
+  margin-top: 17px;
+  margin-bottom: 17px;
 }
 
-.or {
-  margin: 23px 0 10px;
-  text-align: center;
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 14px;
+.or__text {
+  background:#fff;
+  padding: 0 13px;
 }
+
 
 .forget {
   font-size: 13px;
@@ -34,35 +48,54 @@
   text-decoration: none;
 }
 
-/* ending */
-.ending {
-  margin-top: 24px;
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 14px;
+.img-sec__text {
+  font-size: 14px;
+  line-height: 16px;
+  color: #FFFFFF;
+  opacity: 0.5;
+  margin-top: 104px;
+  margin-left: 68px;
+  margin-right: 70px;
 }
 
-.ending__link {
-  color: #24CCEA;
-  text-decoration: none;
-  display: inline;
-}
-
-/* media queries */
-@media only screen and (max-width: 599px) {
-  .container {
-    padding: 84px 52px 78px;
-  }
-}
+/* modal */
 
 ::ng-deep .backdrop {
   background: #004777;
-  opacity: 0.9 !important;
+  opacity: 0.9;
 }
 
 ::ng-deep .modal > .mat-dialog-container {
   width: 717px;
-  height: 400px;
+  min-height: 400px;
+  height: auto;
   background: #F5F5F5;
   border-radius: 9px;
+  padding: 0;
 }
+
+::ng-deep .modal.modal-verify > .mat-dialog-container {
+  background: #FFFFFF;
+}
+
+/* media queries */
+@media only screen and (max-width: 599px) {
+  :host {
+    width: 100%;
+    min-height: 100vh;
+    margin-top: 0;
+  }
+
+  ::ng-deep .backdrop {
+    background: none;
+    opacity: 0.9 !important;
+  }
+
+  ::ng-deep .modal > .mat-dialog-container {
+    width: 100vh;
+    min-height: 100vh;
+    border-radius: 0;
+  }
+}
+
+

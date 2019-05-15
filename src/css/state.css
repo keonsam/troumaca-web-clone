@@ -1,3 +1,11 @@
+button[mat-flat-button] {
+  font-family: 'Comfortaa', cursive;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 20px;
+  letter-spacing: 0.01em;
+}
+
 button[mat-flat-button].button--primary[disabled] {
   background: #004777;
   opacity: 0.3;
@@ -8,3 +16,21 @@ button[mat-flat-button].button--primary {
   background: #004777;
 }
 
+button[mat-flat-button].button--primary--small {
+  width: 145px;
+}
+
+button[mat-flat-button].button--big {
+  width: 100%;
+  line-height: 20px;
+}
+
+button[mat-flat-button].button--big--google {
+  background: #DB4437;
+}
+
+.icon--google {
+  margin-right: 14px;
+  width: 16px;
+  height: 21px;
+}

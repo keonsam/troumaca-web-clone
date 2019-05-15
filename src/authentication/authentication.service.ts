@@ -3,9 +3,8 @@ import { Credential } from './credential';
 import { ValidResponse} from './valid.response';
 import { Confirmation } from './confirmation';
 import {AuthenticatedCredential} from './authenticated.credential';
-import {User} from '../parties/user';
-import {ChangePassword} from "./change.password";
-import {ChangeResponse} from "./change.response";
+import {ChangePassword} from './change.password';
+import {ChangeResponse} from './change.response';
 import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {map} from 'rxjs/operators';
@@ -29,8 +28,13 @@ export class AuthenticationService {
   `;
 
   register = gql`
-    mutation register($username: String!, $password: String!, $firstName: String!, $lastName: String!) {
-      register(username: $username, password: $password, firstName: $firstName, lastName: $lastName) {
+    mutation register(
+      $username: String!,
+      $companyName: String, $accountType: String!, $usernameType: String!, $password: String!, $confirmedPassword: String!) {
+      register(
+        username: $username,
+        companyName: $companyName,
+        accountType: $accountType, usernameType: $usernameType, password: $password, confirmedPassword:$confirmedPassword) {
         confirmationId
         credentialId
       }
@@ -78,14 +82,16 @@ export class AuthenticationService {
     }));
   }
 
-  addCredential(credential: Credential, user: User): Observable<Confirmation> {
+  addCredential(credential: Credential): Observable<Confirmation> {
     return this.apollo.mutate( {
       mutation: this.register,
       variables: {
         username: credential.username,
+        companyName: credential.companyName,
+        accountType: credential.accountType,
+        usernameType: credential.usernameType,
         password: credential.password,
-        firstName: user.firstName,
-        lastName: user.lastName
+        confirmedPassword: credential.confirmedPassword
       }
     }).pipe(map( res => {
       return res.data.register;

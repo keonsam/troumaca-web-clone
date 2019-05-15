@@ -1,5 +1,24 @@
+.title--account {
+  font-family: 'Comfortaa', cursive;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 27px;
+  letter-spacing: 0.02em;
+
+  color: #2C4948;
+  margin: 1px 0 0 0;
+}
+
 .mat-dialog-content {
   padding: 0;
+  max-height: none;
+  height: auto;
+  overflow: hidden;
+}
+
+.content {
+  margin: 40px 1px 20px 55px;
 }
 
 .img {
@@ -7,10 +26,10 @@
   height: 180px;
 }
 
-.content {
-  margin-top: 51px;
-  margin-left: 78px;
-  margin-right: 7px;
+/* ul card */
+
+ul {
+  padding: 0;
 }
 
 .card {
@@ -18,11 +37,12 @@
   height: 144px;
   background: #FFFFFF;
   border-radius: 8px;
-  padding-top: 11px;
-  padding-left: 17px;
   list-style: none;
 }
 
+.card__content {
+  margin: 11px 13px 27px 17px;
+}
 .card.selected {
   background: #004777;
   color: #FFFFFF;
@@ -30,7 +50,6 @@
 
 .card__icon--check {
   display: block;
-  float: right;
   font-size: 17px;
   color: #23C7EF;
   opacity: 0.8;
@@ -64,3 +83,10 @@
   opacity: 0.7;
 }
 
+/* media queries */
+@media only screen and (max-width: 599px) {
+  .content {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
