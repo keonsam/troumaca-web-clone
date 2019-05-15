@@ -1,0 +1,22 @@
+<div class="modal-panel">
+  <div fxLayoutAlign="space-between">
+    <div fxLayout="row no-wrap" fxLayoutGap="13px">
+      <span (click)="onPrevious.emit(data['accountType'])"><i class="fas fa-arrow-left panel__back" ></i></span>
+      <h2 mat-dialog-title class="title title--bold">Sign Up</h2>
+    </div>
+
+    <button mat-dialog-close fxFlexAlign="flex-start" class="modal__close">+</button>
+  </div>
+  <div mat-dialog-content
+       class="content">
+    <button mat-flat-button class="button button--big button--big--google"><i class="fab fa-google icon--google"></i>Sign Up with Google</button>
+    <div class="or">or use</div>
+    <div fxLayout="row no-wrap" fxLayoutAlign="space-between">
+      <button mat-flat-button class="button button--username" (click)="onSelect('email')" [class.selected]="selectedType === 'email'" ><i class="fas fa-envelope username__icon"></i>Email</button>
+      <button mat-flat-button class="button button--username" (click)="onSelect('mobile')" [class.selected]="selectedType === 'mobile'"><i class="fas fa-mobile-alt username__icon"></i>Mobile</button>
+    </div>
+  </div>
+    <div mat-dialog-actions fxLayoutAlign="flex-end">
+    <button [disabled]="!selectedType" mat-flat-button class="button button--primary button--primary--small" (click)="onSubmit()">Next</button>
+  </div>
+</div>

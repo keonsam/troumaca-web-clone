@@ -19,11 +19,14 @@
             "assets": [
               "src/images",
               "src/css",
-              "src/jscripts",
               "src/favicon.ico"
             ],
             "styles": [
               "src/css/troumaca-theme.scss",
+              "src/css/base.css",
+              "src/css/layout.css",
+              "src/css/modules.css",
+              "src/css/state.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -87,7 +90,6 @@
             "assets": [
               "src/images",
               "src/css",
-              "src/jscripts",
               "src/favicon.ico"
             ]
           }

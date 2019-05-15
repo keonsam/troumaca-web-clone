@@ -26,7 +26,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatSelectModule,
     MatDialogModule,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   exports: [
     MatInputModule,
@@ -40,7 +40,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatSelectModule,
     MatDialogModule,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   providers: [ MatDatepickerModule],
 })

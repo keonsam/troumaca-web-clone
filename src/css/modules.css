@@ -1,0 +1,103 @@
+/* auth box */
+.title {
+  font-size: 24px;
+  line-height: 27px;
+  font-weight: bold;
+}
+
+/* Input */
+
+.input-field {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.8rem;
+}
+
+/* button */
+button[mat-flat-button].button {
+  border: 1px solid #EFEFF8;
+  box-sizing: border-box;
+  border-radius: 28px;
+  color: var(--button-clr-white, #FFFFFF);
+  height: 51px;
+  font-size: 18px;
+}
+
+
+/* container */
+.form-sec {
+  position: relative;
+  width: calc(100% - 414px);
+  padding: 56px 69px 39px;
+}
+
+.img-sec {
+  width: 414px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  height: auto;
+}
+
+/* or */
+.or {
+  margin: 23px 0 10px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 14px;
+}
+
+/* modal */
+.modal-panel {
+  padding: 30px 30px 40px 47px;
+  position: relative;
+}
+
+.modal__close {
+  width: 20px;
+  height: 41px;
+  font-size: 36px;
+  line-height: 40px;
+  color: #2C4948;
+  transform: rotate(-45deg);
+  border: none;
+  background: none;
+}
+
+.modal__close:focus {
+  outline: none;
+}
+
+.panel__back {
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 28px;
+  color: #1CADD7;
+}
+
+/* ending */
+.ending {
+  margin-top: 24px;
+  font-size: 13px;
+  line-height: 14px;
+  text-align: center;
+}
+
+.ending__link {
+  color: #24CCEA;
+  text-decoration: none;
+  display: inline;
+}
+
+/* media queries */
+@media only screen and (max-width: 599px) {
+  .form-sec {
+    margin-top: 116px;
+    width: auto;
+    padding-left: 52px;
+    padding-right: 52px;
+  }
+
+  .modal-panel {
+    padding: 53px 24px 40px;
+  }
+}

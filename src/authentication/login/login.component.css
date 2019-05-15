@@ -1,13 +1,101 @@
-.link-below-button {
-  margin-top: 2rem;
-  padding-top: 0.7rem;
-  text-align: center;
+:host {
+  display: block;
+  width: 826px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  margin-top: 52px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
 }
 
-a[mat-button] {
+/* container */
+
+.img-sec {
+  background: url("../../css/images/login.png");
+}
+
+
+/* elements */
+.title--login {
+  margin-bottom: 48px;
+  margin-left: 6px;
+  margin-top: 0;
+}
+
+.button--big--login {
+  margin-top: 32px;
+}
+
+.or {
+  border-bottom: 1px solid #F5F5F5;
+  line-height: 0.1em;
+  margin-top: 17px;
+  margin-bottom: 17px;
+}
+
+.or__text {
+  background:#fff;
+  padding: 0 13px;
+}
+
+
+.forget {
+  font-size: 13px;
+  line-height: 14px;
+  color: #24CCEA;
+  padding-left: 6px;
   text-decoration: none;
 }
-/*
-  Troumaca overrides etc.
-*/
+
+.img-sec__text {
+  font-size: 14px;
+  line-height: 16px;
+  color: #FFFFFF;
+  opacity: 0.5;
+  margin-top: 104px;
+  margin-left: 68px;
+  margin-right: 70px;
+}
+
+/* modal */
+
+::ng-deep .backdrop {
+  background: #004777;
+  opacity: 0.9;
+}
+
+::ng-deep .modal > .mat-dialog-container {
+  width: 717px;
+  min-height: 400px;
+  height: auto;
+  background: #F5F5F5;
+  border-radius: 9px;
+  padding: 0;
+}
+
+::ng-deep .modal.modal-verify > .mat-dialog-container {
+  background: #FFFFFF;
+}
+
+/* media queries */
+@media only screen and (max-width: 599px) {
+  :host {
+    width: 100%;
+    min-height: 100vh;
+    margin-top: 0;
+  }
+
+  ::ng-deep .backdrop {
+    background: none;
+    opacity: 0.9 !important;
+  }
+
+  ::ng-deep .modal > .mat-dialog-container {
+    width: 100vh;
+    min-height: 100vh;
+    border-radius: 0;
+  }
+}
+
 

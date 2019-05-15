@@ -1,4 +1,93 @@
-/*
-  Troumaca overrides etc.
-*/
+:host {
+  display: block;
+  width: 826px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  margin-top: 52px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+}
 
+.img-sec1 {
+  background: url("../../css/images/register-personal.png");
+}
+
+.img-sec2 {
+  background-image: url("../../css/images/register-corporate.png");
+  background-size: cover
+}
+
+.img-sec-header {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 27px;
+  letter-spacing: -0.06em;
+
+  color: #FFFFFF;
+  margin-left: 57px;
+  margin-top: 50px;
+}
+
+.img-sec__text {
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+  letter-spacing: 0.01em;
+
+  color: #FFFFFF;
+  margin-left: 57px;
+  margin-top: 11px;
+  opacity: 0.4;
+}
+
+.title--sign-up {
+  margin-bottom: 45px;
+}
+
+.black-text {
+  color: #000000;
+}
+
+/* modal */
+
+::ng-deep .backdrop {
+  background: #004777;
+  opacity: 0.9;
+}
+
+::ng-deep .modal > .mat-dialog-container {
+  width: 717px;
+  min-height: 400px;
+  height: auto;
+  background: #F5F5F5;
+  border-radius: 9px;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+::ng-deep .modal.modal-verify > .mat-dialog-container {
+  background-color: #FFFFFF;
+  background-image: url("../../css/images/verification.png");
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+/* media queries */
+@media only screen and (max-width: 599px) {
+  :host {
+    width: 100%;
+    min-height: 100vh;
+    margin-top: 0;
+  }
+
+  ::ng-deep .backdrop {
+    background: none;
+    opacity: 0.9 !important;
+  }
+
+  ::ng-deep .modal > .mat-dialog-container {
+    width: 100vh;
+    min-height: 100vh;
+    border-radius: 0;
+  }
+}

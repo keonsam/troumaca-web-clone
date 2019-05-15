@@ -6,7 +6,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { ValidResponse } from '../valid.response';
 import {debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import {User} from '../../parties/user';
-import {AUTHENTICATION, CONFIRMATION, HOME} from '../../app/routes';
+import {AUTHENTICATION, CONFIRMATION, HOME, LOGIN} from '../../app/routes';
+import {ConfirmationModalComponent} from '../confirmation-modal/confirmation.modal.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-register',
@@ -16,21 +18,37 @@ import {AUTHENTICATION, CONFIRMATION, HOME} from '../../app/routes';
 export class RegisterComponent implements OnInit {
 
   registrationForm: FormGroup;
-  firstName: FormControl;
-  lastName: FormControl;
+  // firstName: FormControl;
+  // lastName: FormControl;
+  companyName: FormControl;
   username: FormControl;
   password: FormControl;
+  confirmPass: FormControl;
   private credential: Credential;
   private user: User;
   doNotDisplayFailureMessage: boolean;
   homeLink = `/${HOME}`;
+  loginRoute = `/${AUTHENTICATION}/${LOGIN}`;
+  secondImg = false;
+  email = false;
+  error: string;
 
-  constructor(private authenticationService: AuthenticationService,
+  constructor(public dialog: MatDialog,
+              private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
-
     this.credential = new Credential();
+    this.route.params.subscribe( params => {
+      this.credential.accountType = params.account;
+      this.credential.usernameType = params.username;
+      if (params.account === 'corporate') {
+        this.secondImg = true;
+      }
+      if (params.username === 'email') {
+        this.email = true;
+      }
+    });
     this.user = new User();
 
     this.username = new FormControl('', [
@@ -38,37 +56,51 @@ export class RegisterComponent implements OnInit {
       this.usernameValidator(authenticationService)
     ]);
 
-    this.firstName = new FormControl( '', [Validators.required]);
+    if (this.secondImg) {
+      this.companyName = new FormControl( '', [Validators.required]);
+    } else {
+      this.companyName = new FormControl( '');
+    }
 
-    this.lastName = new FormControl( '', [Validators.required]);
+    // this.firstName = new FormControl( '', [Validators.required]);
+    //
+    // this.lastName = new FormControl( '', [Validators.required]);
 
     this.password = new FormControl('', [
       Validators.required,
       this.passwordValidator(this.authenticationService)
     ]);
 
+    this.confirmPass = new FormControl( '', [Validators.required, this.checkPasswords.bind(this)]);
+
 
     this.registrationForm = formBuilder.group({
       'username': this.username,
-      'firstName': this.firstName,
-      'lastName': this.lastName,
+      'companyName': this.companyName,
+      // 'firstName': this.firstName,
+      // 'lastName': this.lastName,
       'password': this.password,
+      'confirmPass': this.confirmPass
     });
 
     this.registrationForm
       .valueChanges
       .subscribe(value => {
         this.credential.username = value.username;
+        this.credential.companyName = value.companyName;
         this.credential.password = value.password;
-        this.user.firstName = value.firstName;
-        this.user.lastName = value.lastName;
+        this.credential.confirmedPassword = value.confirmPass;
+        // this.user.firstName = value.firstName;
+        // this.user.lastName = value.lastName;
       });
 
     this.doNotDisplayFailureMessage = true;
-
   }
 
   ngOnInit(): void {
+    if (localStorage.getItem('verification')) {
+      this.openConfirmation();
+    }
   }
 
   private usernameValidator(authenticationService: AuthenticationService) {
@@ -141,13 +173,27 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  private checkPasswords(group: FormGroup) {
+    const pass = this.password.value;
+    const confirmPass = group.value;
+
+    return pass === confirmPass ? null : { password: true }
+  }
+
   onCreate() {
     this.doNotDisplayFailureMessage = true;
     this.authenticationService
-    .addCredential(this.credential, this.user)
+    .addCredential(this.credential)
     .subscribe(confirmation => {
       if (confirmation && confirmation.confirmationId) {
-        this.router.navigate([`/${AUTHENTICATION}/${CONFIRMATION}/${confirmation.credentialId}/${confirmation.confirmationId}`]);
+        localStorage.setItem('verification', JSON.stringify({
+          usernameType: this.credential.usernameType,
+          username: this.credential.username,
+          credentialId: confirmation.credentialId,
+          confirmationId: confirmation.confirmationId
+        }));
+        this.openConfirmation();
+        // this.router.navigate([`/${AUTHENTICATION}/${CONFIRMATION}/${confirmation.credentialId}/${confirmation.confirmationId}`]);
       } else {
         this.doNotDisplayFailureMessage = false;
       }
@@ -155,6 +201,29 @@ export class RegisterComponent implements OnInit {
         console.log(error);
         this.doNotDisplayFailureMessage = false;
     });
+  }
+
+  openConfirmation() {
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      hasBackdrop: true,
+      backdropClass: 'backdrop',
+      closeOnNavigation: false,
+      disableClose: true,
+      panelClass: ['modal', 'modal-verify'],
+    });
+
+    // dialogRef.componentInstance.onNext.subscribe((result: string) => {
+    //   this.openSignUp()
+    // });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
+  hideError(event: boolean) {
+    if (event) {
+      this.doNotDisplayFailureMessage = true;
+    }
   }
 
 }

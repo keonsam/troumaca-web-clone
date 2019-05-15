@@ -1,42 +1,50 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
+// import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
 import { Confirmation } from '../confirmation';
 import {AUTHENTICATION, CONFIRMATION, FORGOT_PASSWORD, HOME, LOGIN} from '../../app/routes';
+import {MatDialogRef} from '@angular/material';
 
 @Component({
-  selector: 'app-confirmation',
-  templateUrl: './confirmation.component.html',
-  styleUrls: ['./confirmation.component.css']
+  selector: 'app-confirmation-modal',
+  templateUrl: './confirmation.modal.component.html',
+  styleUrls: ['./confirmation.modal.component.css']
 })
-export class ConfirmationComponent implements OnInit {
+export class ConfirmationModalComponent implements OnInit {
 
-  phoneVerificationForm: FormGroup;
+  confirmationForm: FormGroup;
   confirmationCode: FormControl;
   private confirmation: Confirmation;
   message= '';
   doNotDisplaySuccessMessage = true;
   doNotDisplayFailureMessage = true;
-  private sub: any;
+  // private sub: any;
   private redirectLink = `/${AUTHENTICATION}/${LOGIN}`;
-  homeLink = `/${HOME}`;
+  data: any;
+  // error: string;
+  success = 'Code Accepted!';
 
-  constructor(private route: ActivatedRoute,
+  constructor(public dialogRef: MatDialogRef<ConfirmationModalComponent>,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private router: Router) {
-
+    this.confirmation = new Confirmation();
+    this.data = JSON.parse(localStorage.getItem('verification'));
+    if (this.data) {
+      this.confirmation.credentialId = this.data.credentialId;
+      this.confirmation.confirmationId = this.data.confirmationId;
+    }
     this.confirmationCode = new FormControl('', [Validators.required,
       Validators.minLength(6),
       Validators.maxLength(6)]);
 
-    this.phoneVerificationForm = formBuilder.group({
+    this.confirmationForm = formBuilder.group({
       'confirmationCode': this.confirmationCode,
     });
 
-    this.phoneVerificationForm
+    this.confirmationForm
       .valueChanges
       .subscribe(value => {
         this.confirmation.code = value.confirmationCode;
@@ -44,14 +52,13 @@ export class ConfirmationComponent implements OnInit {
         console.log(error2);
       });
 
-    this.confirmation = new Confirmation();
   }
 
   ngOnInit(): void {
-    this.sub = this.route.params.subscribe(params => {
-      this.confirmation.credentialId = params['credentialId'];
-      this.confirmation.confirmationId = params['confirmationId'];
-    });
+    // this.sub = this.route.params.subscribe(params => {
+    //   this.confirmation.credentialId = params['credentialId'];
+    //   this.confirmation.confirmationId = params['confirmationId'];
+    // });
   }
 
   sendConfirmationCode() {
@@ -91,10 +98,15 @@ export class ConfirmationComponent implements OnInit {
       .verifyConfirmation(this.confirmation)
       .subscribe(confirmation => {
         if (confirmation && confirmation.status === 'Confirmed') {
-          if (this.router.url.indexOf('forgot-password') !== -1) {
-            this.redirectLink = `/${AUTHENTICATION}/${FORGOT_PASSWORD}/change/${confirmation.credentialId}/${confirmation.code}`;
-          }
-          this.router.navigate([this.redirectLink]);
+          localStorage.removeItem('verification');
+          this.doNotDisplaySuccessMessage = false;
+          // if (this.router.url.indexOf('forgot-password') !== -1) {
+          //   this.redirectLink = `/${AUTHENTICATION}/${FORGOT_PASSWORD}/change/${confirmation.credentialId}/${confirmation.code}`;
+          // }
+          setTimeout( () => {
+            this.dialogRef.close();
+            this.router.navigate([this.redirectLink]);
+          }, 1000);
         } else if (confirmation && confirmation.status === 'Expired') {
           this.message = 'Expired, please generate a new one below.';
           this.doNotDisplayFailureMessage = false;
@@ -109,4 +121,9 @@ export class ConfirmationComponent implements OnInit {
       });
   }
 
+  hideError(event: boolean) {
+    if (event) {
+      this.doNotDisplayFailureMessage = true;
+    }
+  }
 }

@@ -1,1 +1,24 @@
+/*:host {*/
+/*  display: block;*/
+/*  min-height: 100vh;*/
+/*  width: 100%;*/
+/*}*/
 
+/* Header */
+
+.header {
+  padding-top: 52px;
+}
+.auth__brand {
+  font-size: 17px;
+  margin-left: 8px;
+}
+
+@media only screen and (max-width: 599px) {
+  .header {
+    padding-top: 29px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

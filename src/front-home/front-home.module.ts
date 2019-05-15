@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {FrontHomeComponent} from '../front-home/front.home.component';
 import {MaterialModule} from "../app/material.module";
+import {StepperComponent} from './onboarding/stepper.component';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import {MaterialModule} from "../app/material.module";
   ],
   declarations: [
     FrontHomeComponent,
+    StepperComponent
   ],
   providers: [],
   exports: [
