@@ -24,6 +24,9 @@
 .img {
   width: 183px;
   height: 180px;
+  background-image: url("../../css/images/account-type.svg");
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* ul card */
@@ -85,8 +88,21 @@ ul {
 
 /* media queries */
 @media only screen and (max-width: 599px) {
+  .img {
+    width: 100%;
+  }
+
+  .title--account {
+    width: 177px;
+  }
+
   .content {
     margin-left: 0;
     margin-right: 0;
+  }
+
+  .modal-panel {
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }

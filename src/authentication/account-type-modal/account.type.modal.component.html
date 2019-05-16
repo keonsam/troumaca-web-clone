@@ -1,6 +1,6 @@
 <div class="modal-panel">
   <div fxLayoutAlign="space-between">
-    <h2 mat-dialog-title class="title title--account">Choose your Account type.</h2>
+    <h2 mat-dialog-title class="title title--account" fxFlexAlign="center">Choose your Account type.</h2>
     <button mat-dialog-close fxFlexAlign="flex-start" class="modal__close">+</button>
   </div>
   <div mat-dialog-content
@@ -9,10 +9,9 @@
        fxLayoutAlign="space-between"
        fxLayoutGap.xs="45px"
        class="content">
-    <div class="img" fxFlexAlign.xs="center">
-      <img src="../../css/images/account-type.svg" alt="simple img"/>
+    <div class="img">
     </div>
-    <ul fxLayout="row no-wrap" fxLayoutGap="6px" fxFlexAlign.xs="center">
+    <ul fxLayout="row no-wrap" fxLayoutGap="6px" fxFlexAlign.xs="center" >
       <li class="card" (click)="onSelect('personal')" [class.selected]="selectedType === 'personal'">
         <div class="card__content">
           <div fxLayoutAlign="flex-end" *ngIf="selectedType === 'personal'"><i class="fas fa-check card__icon--check"></i></div>

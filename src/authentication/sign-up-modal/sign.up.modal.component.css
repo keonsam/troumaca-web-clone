@@ -6,6 +6,7 @@
   line-height: 27px;
   letter-spacing: 0.01em;
   color: #000000;
+  margin: 0;
 }
 
 .mat-dialog-content {
@@ -25,13 +26,13 @@ button[mat-flat-button].button--username {
   color: #004777;
 }
 
-button[mat-flat-button].button--username.selected {
-  background: #004777;
-  color: #FFFFFF;
-}
+/*button[mat-flat-button].button--username.selected {*/
+/*  background: #004777;*/
+/*  color: #FFFFFF;*/
+/*}*/
 
 .content {
-  margin-top: 60px;
+  margin-top: 66px;
   width: 275px;
   margin-left: auto;
   margin-right: auto;
@@ -45,8 +46,18 @@ button[mat-flat-button].button--username.selected {
   background: #FFFFFF;
 }
 
-.form {
-  margin-top: 28px;
+.button--big--google {
+  margin-bottom: 23px;
+}
+
+/* media queries */
+@media only screen and (max-width: 599px) {
+  .content {
+    margin-top: 105px;
+    width: 275px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 

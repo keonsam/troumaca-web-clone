@@ -15,7 +15,6 @@
 
 .img-sec2 {
   background-image: url("../../css/images/register-corporate.png");
-  background-size: cover
 }
 
 .img-sec-header {
@@ -60,7 +59,7 @@
   width: 717px;
   min-height: 400px;
   height: auto;
-  background: #F5F5F5;
+  background-color: #F5F5F5;
   border-radius: 9px;
   padding: 0;
   overflow-x: hidden;
@@ -72,7 +71,14 @@
   background-repeat: no-repeat;
   background-position: bottom;
 }
+
 /* media queries */
+@media only screen and (max-width: 959px) {
+  :host {
+    width: 412px;;
+  }
+}
+
 @media only screen and (max-width: 599px) {
   :host {
     width: 100%;

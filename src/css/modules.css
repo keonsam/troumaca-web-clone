@@ -28,7 +28,7 @@ button[mat-flat-button].button {
 .form-sec {
   position: relative;
   width: calc(100% - 414px);
-  padding: 56px 69px 39px;
+  padding: 56px 66px 39px;
 }
 
 .img-sec {
@@ -36,11 +36,11 @@ button[mat-flat-button].button {
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
   height: auto;
+  background-size: cover;
 }
 
 /* or */
 .or {
-  margin: 23px 0 10px;
   text-align: center;
   font-size: 13px;
   line-height: 14px;
@@ -48,19 +48,20 @@ button[mat-flat-button].button {
 
 /* modal */
 .modal-panel {
-  padding: 30px 30px 40px 47px;
+  padding: 25px 30px 40px 47px;
   position: relative;
 }
 
 .modal__close {
-  width: 20px;
-  height: 41px;
+  /*width: 20px;*/
+  /*height: 41px;*/
   font-size: 36px;
   line-height: 40px;
   color: #2C4948;
   transform: rotate(-45deg);
   border: none;
   background: none;
+  cursor: pointer;
 }
 
 .modal__close:focus {
@@ -89,15 +90,22 @@ button[mat-flat-button].button {
 }
 
 /* media queries */
+@media only screen and (max-width: 959px) {
+  .form-sec {
+    width: 100%;
+  }
+}
+
 @media only screen and (max-width: 599px) {
   .form-sec {
+    min-height: calc(100vh - 116px);
     margin-top: 116px;
-    width: auto;
+    width: 100%;
     padding-left: 52px;
     padding-right: 52px;
   }
 
   .modal-panel {
-    padding: 53px 24px 40px;
+    padding: 55px 24px 40px;
   }
 }
