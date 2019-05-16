@@ -1,6 +1,6 @@
 <div class="modal-panel">
   <div fxLayoutAlign="space-between">
-    <h2 mat-dialog-title class="title title--bold">Verification Code</h2>
+    <h2 mat-dialog-title class="title title--bold" fxFlexAlign="center">Verification Code</h2>
     <button mat-dialog-close fxFlexAlign="flex-start" class="modal__close">+</button>
   </div>
   <div mat-dialog-content
@@ -23,13 +23,13 @@
           Code  is <strong>required</strong>
         </mat-error>
       </mat-form-field>
-      <span class="resend-code">Resend code in 60 sec.</span>
+      <a class="resend-code" href (click)="sendConfirmationCode();false">Resend code in 60 sec.</a>
 
     </form>
   </div>
-  <div mat-dialog-actions fxLayoutAlign="flex-end">
-    <button [disabled]="!confirmationForm.valid" mat-flat-button class="button button--primary button--primary--small" (click)="onSubmit()">Next</button>
-  </div>
+<!--  <div mat-dialog-actions fxLayoutAlign="flex-end">-->
+<!--    <button [disabled]="!confirmationForm.valid" mat-flat-button class="button button&#45;&#45;primary button&#45;&#45;primary&#45;&#45;small" (click)="onSubmit()">Next</button>-->
+<!--  </div>-->
   <app-error [hidden]="doNotDisplayFailureMessage" [errorMessage]="message" (onHide)="hideError($event)"></app-error>
   <app-success [hidden]="doNotDisplaySuccessMessage" [successMessage]="success"></app-success>
 </div>

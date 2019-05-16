@@ -17,17 +17,17 @@ export class SignUpModalComponent {
   constructor(public dialogRef: MatDialogRef<SignUpModalComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private router: Router) {
-
   }
 
   onSelect(type: string) {
     this.selectedType = type;
+    this.router.navigate([`${AUTHENTICATION}/${REGISTER}/${this.data.accountType}/${type}`]);
+    this.dialogRef.close();
   }
 
-  onSubmit() {
-    this.dialogRef.close();
-    this.router.navigate([`${AUTHENTICATION}/${REGISTER}/${this.data.accountType}/${this.selectedType}`]);
-  }
+  // onSubmit() {
+  //   this.dialogRef.close();
+  // }
 
 }
 

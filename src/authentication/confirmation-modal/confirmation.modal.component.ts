@@ -17,7 +17,7 @@ export class ConfirmationModalComponent implements OnInit {
   confirmationForm: FormGroup;
   confirmationCode: FormControl;
   private confirmation: Confirmation;
-  message= '';
+  message= 'Incorrect Code';
   doNotDisplaySuccessMessage = true;
   doNotDisplayFailureMessage = true;
   // private sub: any;
@@ -48,6 +48,9 @@ export class ConfirmationModalComponent implements OnInit {
       .valueChanges
       .subscribe(value => {
         this.confirmation.code = value.confirmationCode;
+        if (value.confirmationCode.length === 6) {
+          this.onSubmit();
+        }
       }, error2 => {
         console.log(error2);
       });
@@ -62,32 +65,33 @@ export class ConfirmationModalComponent implements OnInit {
   }
 
   sendConfirmationCode() {
-    this.doNotDisplaySuccessMessage = true;
-    this.doNotDisplayFailureMessage = true;
-
-    this.authenticationService
-      .resendConfirmationCode(this.confirmation.confirmationId, this.confirmation.credentialId)
-      .subscribe(confirmation => {
-        if (confirmation && confirmation.status === 'New') {
-          this.message = 'If you didn\'t get it in 5 minutes, please try again.';
-          this.doNotDisplaySuccessMessage = false;
-          setTimeout(() => {
-            this.router.navigate([`/${AUTHENTICATION}/${CONFIRMATION}/${confirmation.credentialId}/${confirmation.confirmationId}`]);
-            this.doNotDisplaySuccessMessage = true;
-            this.doNotDisplayFailureMessage = true;
-          }, 2000);
-        } else if (confirmation && confirmation.status === 'Confirmed') {
-          this.message = 'Username confirmed, please log in.';
-          this.doNotDisplayFailureMessage = false;
-        } else {
-          this.message = 'Something went wrong, please try again.';
-          this.doNotDisplayFailureMessage = false;
-        }
-      }, error => {
-        console.log(error);
-        this.message = 'Something went wrong, please try again.';
-        this.doNotDisplayFailureMessage = false;
-      });
+    console.log('not implemented');
+    // this.doNotDisplaySuccessMessage = true;
+    // this.doNotDisplayFailureMessage = true;
+    //
+    // this.authenticationService
+    //   .resendConfirmationCode(this.confirmation.confirmationId, this.confirmation.credentialId)
+    //   .subscribe(confirmation => {
+    //     if (confirmation && confirmation.status === 'New') {
+    //       this.message = 'If you didn\'t get it in 5 minutes, please try again.';
+    //       this.doNotDisplaySuccessMessage = false;
+    //       setTimeout(() => {
+    //         this.router.navigate([`/${AUTHENTICATION}/${CONFIRMATION}/${confirmation.credentialId}/${confirmation.confirmationId}`]);
+    //         this.doNotDisplaySuccessMessage = true;
+    //         this.doNotDisplayFailureMessage = true;
+    //       }, 2000);
+    //     } else if (confirmation && confirmation.status === 'Confirmed') {
+    //       this.message = 'Username confirmed, please log in.';
+    //       this.doNotDisplayFailureMessage = false;
+    //     } else {
+    //       this.message = 'Something went wrong, please try again.';
+    //       this.doNotDisplayFailureMessage = false;
+    //     }
+    //   }, error => {
+    //     console.log(error);
+    //     this.message = 'Something went wrong, please try again.';
+    //     this.doNotDisplayFailureMessage = false;
+    //   });
   }
 
   onSubmit() {
@@ -111,12 +115,12 @@ export class ConfirmationModalComponent implements OnInit {
           this.message = 'Expired, please generate a new one below.';
           this.doNotDisplayFailureMessage = false;
         } else {
-          this.message = 'Confirmation failed.';
+          this.message = 'Incorrect Code';
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
         console.log(error);
-        this.message = 'Confirmation failed.';
+        this.message = 'Incorrect Code';
         this.doNotDisplayFailureMessage = false;
       });
   }

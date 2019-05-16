@@ -52,7 +52,7 @@
     <app-error [hidden]="doNotDisplayFailureMessage" [errorMessage]="error" (onHide)="hideError($event)"></app-error>
   </div>
 
-  <div [ngClass]="{'img-sec': true, 'img-sec1': !secondImg, 'img-sec2': secondImg}" fxHide.xs>
+  <div [ngClass]="{'img-sec': true, 'img-sec1': !secondImg, 'img-sec2': secondImg}" fxHide.lt-md>
     <h2 [ngClass]="{'img-sec-header': true, 'black-text': !secondImg}">Manage Assets <br>
       {{ secondImg ? 'across your organization.': 'anyway you want.'}}</h2>
     <p [ngClass]="{'img-sec__text': true, 'black-text': !secondImg}" >{{ secondImg ? 'Makes asset management a breeze for all levels.': 'Use Troumaka for anything from collection of personal assets, complex company and asset management.'}}</p>

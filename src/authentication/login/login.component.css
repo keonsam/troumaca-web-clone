@@ -12,26 +12,28 @@
 /* container */
 
 .img-sec {
-  background: url("../../css/images/login.png");
+  background-image: url("../../css/images/login.png");
 }
 
 
 /* elements */
 .title--login {
-  margin-bottom: 48px;
+  margin-bottom: 80px;
   margin-left: 6px;
   margin-top: 0;
 }
 
+.button--big--google {
+  margin-bottom: 25px;
+}
+
 .button--big--login {
-  margin-top: 32px;
+  margin-top: 29px;
 }
 
 .or {
   border-bottom: 1px solid #F5F5F5;
   line-height: 0.1em;
-  margin-top: 17px;
-  margin-bottom: 17px;
 }
 
 .or__text {
@@ -39,6 +41,9 @@
   padding: 0 13px;
 }
 
+.form {
+  margin-top: 25px;
+}
 
 .forget {
   font-size: 13px;
@@ -74,11 +79,13 @@
   padding: 0;
 }
 
-::ng-deep .modal.modal-verify > .mat-dialog-container {
-  background: #FFFFFF;
-}
-
 /* media queries */
+
+@media only screen and (max-width: 959px) {
+  :host {
+    width: 412px;;
+  }
+}
 @media only screen and (max-width: 599px) {
   :host {
     width: 100%;

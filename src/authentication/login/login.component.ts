@@ -4,11 +4,10 @@ import {Router} from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
 import { Credential } from '../credential';
 import {SessionService} from '../../session/session.service';
-import {AUTHENTICATION, CONFIRMATION, FORGOT_PASSWORD, HOME, LOBBY, ORGANIZATION, REGISTER} from '../../app/routes';
+import {AUTHENTICATION, CONFIRMATION, LOBBY, ORGANIZATION} from '../../app/routes';
 import {MatDialog} from '@angular/material';
 import {AccountTypeModalComponent} from '../account-type-modal/account.type.modal.component';
 import {SignUpModalComponent} from '../sign-up-modal/sign.up.modal.component';
-import {ConfirmationModalComponent} from '../confirmation-modal/confirmation.modal.component';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +22,7 @@ export class LoginComponent implements OnInit {
   rememberMe: FormControl;
   private credential: Credential;
   doNotDisplayFailureMessage = true;
-  error: string;
+  error= 'Failed to Login';
   // forgotPasswordRoute = `/${AUTHENTICATION}/${FORGOT_PASSWORD}/username`;
   // homeLink = `/${HOME}`;
   hide = true;
@@ -136,5 +135,9 @@ export class LoginComponent implements OnInit {
     if (event) {
       this.doNotDisplayFailureMessage = true;
     }
+  }
+
+  openForget() {
+    console.log('not implemented');
   }
 }

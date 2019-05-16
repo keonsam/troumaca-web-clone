@@ -5,7 +5,7 @@
     </h2>
     <button mat-flat-button class="button button--big button--big--google"><i class="fab fa-google icon--google"></i>Login with Google</button>
     <div class="or"><span class="or__text">or</span></div>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
       <mat-form-field class="input-field" floatLabel="always" appearance="fill">
         <mat-label>Email or Mobile Number</mat-label>
         <input matInput [formControl]="username" required>
@@ -23,13 +23,13 @@
         </mat-error>
       </mat-form-field>
 
-      <a class="forget" href="">Forget Password?</a>
+      <a class="forget" href (click)="openForget();false">Forget Password?</a>
       <button mat-flat-button class="button button--primary button--big button--big--login" type="submit" [disabled]="!loginForm.valid">Login</button>
     </form>
     <div class="ending">Don't have any account? <a class="ending__link" href (click)="openAccountType();false">Sign up now</a></div>
     <app-error [hidden]="doNotDisplayFailureMessage" [errorMessage]="error" (onHide)="hideError($event)"></app-error>
   </div>
-  <div class="img-sec" fxHide.xs>
+  <div class="img-sec" fxHide.lt-md>
     <p class="img-sec__text">Troumaka keeps your asset data safe with 128 bit encryption.</p>
   </div>
 </div>
