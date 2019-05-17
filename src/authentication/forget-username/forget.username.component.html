@@ -1,0 +1,29 @@
+<div class="modal-panel">
+  <div fxLayoutAlign="space-between">
+    <h2 mat-dialog-title class="title title--bold" fxFlexAlign="center">Forgot Password</h2>
+    <button mat-dialog-close fxFlexAlign="flex-start" class="modal__close">+</button>
+  </div>
+  <div mat-dialog-content
+       class="content">
+    <p class="confirm-desc">
+      To recover your password, please input the <br>
+      email you used for registering to Troumaka.
+    </p>
+    <form [formGroup]="forgetUsernameForm" class="form">
+
+      <mat-form-field class="input-field" appearance="fill">
+        <mat-label>Email or Mobile Number</mat-label>
+        <input matInput [formControl]="username" required>
+        <mat-error *ngIf="username.hasError('required')">
+          Username is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+    </form>
+  </div>
+    <div mat-dialog-actions fxLayoutAlign="flex-end">
+      <button [disabled]="!forgetUsernameForm.valid" mat-flat-button class="button button--primary button--primary--medium" (click)="onSubmit()">Recover Password</button>
+    </div>
+  <app-error [hidden]="doNotDisplayFailureMessage" [errorMessage]="message" (onHide)="hideError($event)"></app-error>
+</div>
+

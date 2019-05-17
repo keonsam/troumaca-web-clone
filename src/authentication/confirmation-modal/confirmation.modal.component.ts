@@ -4,7 +4,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
 import { Confirmation } from '../confirmation';
-import {AUTHENTICATION, CONFIRMATION, FORGOT_PASSWORD, HOME, LOGIN} from '../../app/routes';
+import {AUTHENTICATION, LOGIN} from '../../app/routes';
 import {MatDialogRef} from '@angular/material';
 
 @Component({
@@ -20,11 +20,11 @@ export class ConfirmationModalComponent implements OnInit {
   message= 'Incorrect Code';
   doNotDisplaySuccessMessage = true;
   doNotDisplayFailureMessage = true;
-  // private sub: any;
   private redirectLink = `/${AUTHENTICATION}/${LOGIN}`;
   data: any;
-  // error: string;
   success = 'Code Accepted!';
+  onPrevious: EventEmitter<boolean> = new EventEmitter();
+  onNext: EventEmitter<boolean> = new EventEmitter();
 
   constructor(public dialogRef: MatDialogRef<ConfirmationModalComponent>,
               private formBuilder: FormBuilder,
@@ -101,16 +101,26 @@ export class ConfirmationModalComponent implements OnInit {
     this.authenticationService
       .verifyConfirmation(this.confirmation)
       .subscribe(confirmation => {
+        console.log(confirmation);
         if (confirmation && confirmation.status === 'Confirmed') {
           localStorage.removeItem('verification');
           this.doNotDisplaySuccessMessage = false;
-          // if (this.router.url.indexOf('forgot-password') !== -1) {
-          //   this.redirectLink = `/${AUTHENTICATION}/${FORGOT_PASSWORD}/change/${confirmation.credentialId}/${confirmation.code}`;
-          // }
-          setTimeout( () => {
-            this.dialogRef.close();
-            this.router.navigate([this.redirectLink]);
-          }, 1000);
+          if (this.data.forgetPassword) {
+            localStorage.setItem('changePassword', JSON.stringify({
+              username: this.data.username,
+              credentialId: this.data.credentialId,
+              code: confirmation.code
+            }));
+            setTimeout( () => {
+              this.onNext.emit(true);
+              // this.router.navigate([this.redirectLink]);
+            }, 1000);
+          }else {
+            setTimeout( () => {
+              this.dialogRef.close();
+              this.router.navigate([this.redirectLink]);
+            }, 1000);
+          }
         } else if (confirmation && confirmation.status === 'Expired') {
           this.message = 'Expired, please generate a new one below.';
           this.doNotDisplayFailureMessage = false;

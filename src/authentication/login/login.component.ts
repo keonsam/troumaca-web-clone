@@ -8,6 +8,10 @@ import {AUTHENTICATION, CONFIRMATION, LOBBY, ORGANIZATION} from '../../app/route
 import {MatDialog} from '@angular/material';
 import {AccountTypeModalComponent} from '../account-type-modal/account.type.modal.component';
 import {SignUpModalComponent} from '../sign-up-modal/sign.up.modal.component';
+import {ForgetUsernameComponent} from '../forget-username/forget.username.component';
+import {ConfirmationModalComponent} from '../confirmation-modal/confirmation.modal.component';
+import {ForgetPasswordComponent} from '../forget-password/forget.password.component';
+import {ForgetSavedComponent} from '../forget-saved/forget.saved.component';
 
 @Component({
   selector: 'app-login',
@@ -62,6 +66,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (localStorage.getItem('verification')) {
+      this.openConfirmation();
+    }
   }
 
   onSubmit() {
@@ -138,6 +145,67 @@ export class LoginComponent implements OnInit {
   }
 
   openForget() {
-    console.log('not implemented');
+    const dialogRef = this.dialog.open(ForgetUsernameComponent, {
+      hasBackdrop: true,
+      backdropClass: 'backdrop',
+      closeOnNavigation: false,
+      disableClose: false,
+      panelClass: ['modal', 'modal-white'],
+    });
+
+    dialogRef.componentInstance.onNext.subscribe((result: boolean) => {
+      if (result) {
+        this.openConfirmation();
+        dialogRef.close();
+      }
+    });
+  }
+
+  private openConfirmation() {
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      hasBackdrop: true,
+      backdropClass: 'backdrop',
+      closeOnNavigation: false,
+      disableClose: true,
+      panelClass: ['modal', 'modal-white', 'modal-verify'],
+    });
+
+    dialogRef.componentInstance.onPrevious.subscribe((result: boolean) => {
+      if (result) {
+        this.openForget();
+        dialogRef.close();
+      }
+    });
+    dialogRef.componentInstance.onNext.subscribe((result: string) => {
+      this.openPassword();
+      dialogRef.close();
+    });
+  }
+
+  private openPassword() {
+    const dialogRef = this.dialog.open(ForgetPasswordComponent, {
+      hasBackdrop: true,
+      backdropClass: 'backdrop',
+      closeOnNavigation: false,
+      disableClose: true,
+      panelClass: ['modal', 'modal-white'],
+    });
+
+    dialogRef.componentInstance.onNext.subscribe((result: string) => {
+      if (result) {
+        this.openSaved();
+        dialogRef.close();
+      }
+    });
+  }
+
+  private openSaved() {
+    this.dialog.open(ForgetSavedComponent, {
+      hasBackdrop: true,
+      backdropClass: 'backdrop',
+      closeOnNavigation: false,
+      disableClose: false,
+      panelClass: ['modal', 'modal-white'],
+    });
   }
 }

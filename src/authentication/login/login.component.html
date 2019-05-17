@@ -6,7 +6,7 @@
     <button mat-flat-button class="button button--big button--big--google"><i class="fab fa-google icon--google"></i>Login with Google</button>
     <div class="or"><span class="or__text">or</span></div>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
-      <mat-form-field class="input-field" floatLabel="always" appearance="fill">
+      <mat-form-field class="input-field" appearance="fill">
         <mat-label>Email or Mobile Number</mat-label>
         <input matInput [formControl]="username" required>
         <mat-error *ngIf="username.hasError('required')">
@@ -14,7 +14,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="input-field" floatLabel="always" appearance="fill">
+      <mat-form-field class="input-field" appearance="fill">
         <mat-label>Password</mat-label>
         <input matInput [formControl]="password" [type]="hide ? 'password' : 'text'" required>
 <!--        <mat-icon *ngIf="password.value" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>-->

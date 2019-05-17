@@ -75,6 +75,18 @@ button[mat-flat-button].button {
   color: #1CADD7;
 }
 
+/* title */
+.title--bold {
+  font-family: 'Comfortaa', cursive;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 27px;
+  letter-spacing: 0.01em;
+  color: #000000;
+  margin: 1px 0 0 0 !important;
+}
+
 /* ending */
 .ending {
   margin-top: 24px;
@@ -88,6 +100,17 @@ button[mat-flat-button].button {
   text-decoration: none;
   display: inline;
 }
+
+/* form */
+.form {
+  width: 270px;
+  margin: 0 auto;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: #F0F7FB;
+}
+
 
 /* media queries */
 @media only screen and (max-width: 959px) {
@@ -107,5 +130,10 @@ button[mat-flat-button].button {
 
   .modal-panel {
     padding: 55px 24px 40px;
+  }
+
+  .form {
+    width: 100%;
+    margin: 0 auto;
   }
 }

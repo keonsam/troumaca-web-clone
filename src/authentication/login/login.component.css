@@ -63,6 +63,10 @@
   margin-right: 70px;
 }
 
+/*input[matInput] .mat-form-field-flex {*/
+/*  background-color: #F0F7FB;*/
+/*}*/
+
 /* modal */
 
 ::ng-deep .backdrop {
@@ -74,11 +78,23 @@
   width: 717px;
   min-height: 400px;
   height: auto;
-  background: #F5F5F5;
+  background-color: #F5F5F5;
   border-radius: 9px;
   padding: 0;
+  overflow-x: hidden;
 }
 
+
+::ng-deep .modal.modal-white > .mat-dialog-container {
+  background-color: #FFFFFF;
+}
+
+::ng-deep .modal.modal-verify > .mat-dialog-container {
+  background-color: #FFFFFF;
+  background-image: url("../../css/images/verification.png");
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
 /* media queries */
 
 @media only screen and (max-width: 959px) {
