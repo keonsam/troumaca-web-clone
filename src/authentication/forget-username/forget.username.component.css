@@ -1,0 +1,30 @@
+.mat-dialog-content {
+  padding: 0;
+  max-height: none;
+  height: auto;
+  overflow: hidden;
+}
+
+.content {
+  margin: 44px 0 130px 5px;
+}
+
+.confirm-desc {
+  margin-top: 0;
+  margin-bottom: 40px;
+  font-size: 13px;
+  line-height: 140%;
+}
+
+
+/*!* media queries *!*/
+@media only screen and (max-width: 599px) {
+  .modal-panel {
+    min-height: 100%;
+    padding-bottom: 0;
+  }
+
+  .content {
+    margin: 34px 0 0;
+  }
+}

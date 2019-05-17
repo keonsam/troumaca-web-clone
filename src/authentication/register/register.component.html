@@ -5,7 +5,7 @@
     </h2>
     <form [formGroup]="registrationForm">
 
-      <mat-form-field class="input-field" floatLabel="always" appearance="fill">
+      <mat-form-field class="input-field" appearance="fill">
         <mat-label>{{ email ? 'Email': 'Mobile Number'}}</mat-label>
         <input matInput [formControl]="username" required>
         <mat-error *ngIf="username.hasError('validateEmail') && !username.hasError('required')">
@@ -16,7 +16,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field *ngIf="secondImg" class="input-field" floatLabel="always" appearance="fill">
+      <mat-form-field *ngIf="secondImg" class="input-field" appearance="fill">
         <mat-label>Company Name</mat-label>
         <input matInput [formControl]="companyName">
         <mat-error *ngIf="companyName.hasError('required')">
@@ -24,7 +24,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="input-field" floatLabel="always" appearance="fill">
+      <mat-form-field class="input-field" appearance="fill">
         <mat-label>Create Password</mat-label>
         <input matInput [formControl]="password" type="password">
         <mat-error *ngIf="password.hasError('password') && !password.hasError('required')">
@@ -35,7 +35,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="input-field" floatLabel="always" appearance="fill">
+      <mat-form-field class="input-field" appearance="fill">
         <mat-label>Retype Password</mat-label>
         <input matInput [formControl]="confirmPass" type="password">
         <mat-error *ngIf="confirmPass.hasError('password') && !confirmPass.hasError('required')">

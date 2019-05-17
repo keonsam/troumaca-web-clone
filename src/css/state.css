@@ -1,9 +1,11 @@
 button[mat-flat-button] {
   font-family: 'Comfortaa', cursive;
   font-style: normal;
-  font-weight: normal;
+  font-weight: bold;
   line-height: 20px;
   letter-spacing: 0.01em;
+  border-radius: 28px;
+  font-size: 18px;
 }
 
 button[mat-flat-button].button--primary[disabled] {
@@ -16,6 +18,10 @@ button[mat-flat-button].button--primary {
   background: #004777;
 }
 
+button[mat-flat-button].button--primary--medium {
+  width: 243px;
+}
+
 button[mat-flat-button].button--primary--small {
   width: 145px;
 }
@@ -26,6 +32,7 @@ button[mat-flat-button].button--big {
 }
 
 button[mat-flat-button].button--big--google {
+  font-weight: normal;
   background: #DB4437;
 }
 
@@ -33,4 +40,10 @@ button[mat-flat-button].button--big--google {
   margin-right: 14px;
   width: 16px;
   height: 21px;
+}
+
+@media only screen and (max-width: 599px) {
+  button[mat-flat-button].button--primary--medium {
+    width: 100%;
+  }
 }

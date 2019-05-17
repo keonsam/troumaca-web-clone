@@ -11,58 +11,18 @@ import {map} from 'rxjs/operators';
 
 export class AuthenticationService {
 
-  validateUsername = gql`
-    mutation validateUsername($username: String!) {
-      validateUsername(username: $username) {
-        valid
-      }
-    }
-  `;
-
-  validatePassword = gql`
-    mutation validatePassword($password: String!) {
-      validatePassword(password: $password) {
-        valid
-      }
-    }
-  `;
-
-  register = gql`
-    mutation register(
-      $username: String!,
-      $companyName: String, $accountType: String!, $usernameType: String!, $password: String!, $confirmedPassword: String!) {
-      register(
-        username: $username,
-        companyName: $companyName,
-        accountType: $accountType, usernameType: $usernameType, password: $password, confirmedPassword:$confirmedPassword) {
-        confirmationId
-        credentialId
-      }
-    }
-  `;
-
-  confirmation = gql`
-    mutation confirmation($confirmationId: ID!, $credentialId: ID!, $code: String!) {
-      confirmation(confirmationId: $confirmationId, credentialId: $credentialId, code: $code) {
-        status
-      }
-    }
-  `;
-
-  login = gql`
-    mutation login($username: String!, $password: String!) {
-      login(username: $username, password: $password) {
-        authenticateStatus
-      }
-    }
-  `;
-
   constructor(private apollo: Apollo) {
   }
 
   isValidUsername(username: string): Observable<ValidResponse> {
     return this.apollo.mutate( {
-      mutation: this.validateUsername,
+      mutation: gql`
+        mutation validateUsername($username: String!) {
+          validateUsername(username: $username) {
+            valid
+          }
+        }
+      `,
       variables: {
         username
       }
@@ -73,7 +33,13 @@ export class AuthenticationService {
 
   isValidPassword(password: string): Observable<ValidResponse> {
     return this.apollo.mutate( {
-      mutation: this.validatePassword,
+      mutation: gql`
+        mutation validatePassword($password: String!) {
+          validatePassword(password: $password) {
+            valid
+          }
+        }
+      `,
       variables: {
         password
       }
@@ -84,7 +50,19 @@ export class AuthenticationService {
 
   addCredential(credential: Credential): Observable<Confirmation> {
     return this.apollo.mutate( {
-      mutation: this.register,
+      mutation: gql`
+        mutation register(
+          $username: String!,
+          $companyName: String, $accountType: String!, $usernameType: String!, $password: String!, $confirmedPassword: String!) {
+          register(
+            username: $username,
+            companyName: $companyName,
+            accountType: $accountType, usernameType: $usernameType, password: $password, confirmedPassword:$confirmedPassword) {
+            confirmationId
+            credentialId
+          }
+        }
+      `,
       variables: {
         username: credential.username,
         companyName: credential.companyName,
@@ -100,7 +78,14 @@ export class AuthenticationService {
 
   verifyConfirmation(confirmation: Confirmation): Observable<Confirmation> {
     return this.apollo.mutate( {
-      mutation: this.confirmation,
+      mutation: gql`
+        mutation confirmation($confirmationId: ID!, $credentialId: ID!, $code: String!) {
+          confirmation(confirmationId: $confirmationId, credentialId: $credentialId, code: $code) {
+            status
+            code
+          }
+        }
+      `,
       variables: {
         confirmationId: confirmation.confirmationId,
         credentialId: confirmation.credentialId,
@@ -111,9 +96,20 @@ export class AuthenticationService {
     }));
   }
 
+  resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation> {
+    return undefined;
+    // return this.authenticationRepository.resendConfirmationCode(confirmationId, credentialId);
+  }
+
   authenticate(credential: Credential): Observable<AuthenticatedCredential> {
     return this.apollo.mutate( {
-      mutation: this.login,
+      mutation: gql`
+        mutation login($username: String!, $password: String!) {
+          login(username: $username, password: $password) {
+            authenticateStatus
+          }
+        }
+      `,
       variables: {
         username: credential.username,
         password: credential.password,
@@ -123,19 +119,47 @@ export class AuthenticationService {
     }));
   }
 
-  forgotPassword(credential: Credential): Observable<Confirmation> {
-    return undefined;
-    // return this.authenticationRepository.forgotPassword(credential);
+  forgotPassword(username: string): Observable<Confirmation> {
+    return this.apollo.mutate( {
+      mutation: gql`
+        mutation forgetPassword($username: String!) {
+          forgetPassword(username: $username,) {
+            credentialId
+            confirmationId
+          }
+        }
+      `,
+      variables: {
+        username
+      }
+    }).pipe(map( res => {
+      return res.data.forgetPassword;
+    }));
   }
 
-  resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation> {
-    return undefined;
-    // return this.authenticationRepository.resendConfirmationCode(confirmationId, credentialId);
-  }
-
-  changePassword(changePassword: ChangePassword): Observable<ChangeResponse> {
-    return undefined;
-    // return this.authenticationRepository.changePassword(changePassword);
+  changePassword(changePassword: ChangePassword): Observable<boolean> {
+    return this.apollo.mutate( {
+      mutation: gql`
+        mutation changePassword($credentialId: ID!, $username: String!, $password: String!, $code: String!) {
+          changePassword(
+            changePassword : {
+            credentialId: $credentialId,
+            username: $username,
+            password: $password,
+            code: $code
+          }
+          )
+        }
+      `,
+      variables: {
+        credentialId: changePassword.credentialId,
+        username: changePassword.username,
+        password: changePassword.password,
+        code: changePassword.code
+      }
+    }).pipe(map( res => {
+      return res.data.changePassword;
+    }));
   }
 
 }

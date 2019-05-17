@@ -5,7 +5,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {AuthenticationComponent} from './authentication.component';
 import {RegisterComponent} from './register/register.component';
-import {ForgotPasswordComponent} from './forgot-password/forgot.password.component';
 import {authenticationServiceProvider} from './authenticate.service.provider';
 import { AuthenticationRoutingModule } from './authentication.routing.module';
 import {MaterialModule} from '../app/material.module';
@@ -17,6 +16,9 @@ import {AccountTypeModalComponent} from './account-type-modal/account.type.modal
 import {SignUpModalComponent} from './sign-up-modal/sign.up.modal.component';
 import {ConfirmationModalComponent} from './confirmation-modal/confirmation.modal.component';
 import {PopUpModule} from '../pop-up/pop-up.module';
+import {ForgetUsernameComponent} from './forget-username/forget.username.component';
+import {ForgetPasswordComponent} from './forget-password/forget.password.component';
+import {ForgetSavedComponent} from './forget-saved/forget.saved.component';
 
 @NgModule({
   imports: [
@@ -34,15 +36,20 @@ import {PopUpModule} from '../pop-up/pop-up.module';
     AuthenticationComponent,
     LoginComponent,
     RegisterComponent,
-    ForgotPasswordComponent,
     AccountTypeModalComponent,
     SignUpModalComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    ForgetUsernameComponent,
+    ForgetPasswordComponent,
+    ForgetSavedComponent
   ],
   entryComponents: [
     AccountTypeModalComponent,
     SignUpModalComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    ForgetUsernameComponent,
+    ForgetPasswordComponent,
+    ForgetSavedComponent
   ],
   providers: [
     authenticationServiceProvider,

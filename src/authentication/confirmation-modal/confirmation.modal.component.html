@@ -1,6 +1,9 @@
 <div class="modal-panel">
   <div fxLayoutAlign="space-between">
-    <h2 mat-dialog-title class="title title--bold" fxFlexAlign="center">Verification Code</h2>
+    <div fxFlexAlign="center" fxLayout="row no-wrap" fxLayoutGap="13px">
+      <span *ngIf="data && data['forgetPassword']" (click)="onPrevious.emit(true)" fxFlexAlign="center"><i class="fas fa-arrow-left panel__back" ></i></span>
+      <h2 mat-dialog-title class="title title--bold" fxFlexAlign="center">Verification Code</h2>
+    </div>
     <button mat-dialog-close fxFlexAlign="flex-start" class="modal__close">+</button>
   </div>
   <div mat-dialog-content
@@ -13,7 +16,7 @@
     </p>
     <form [formGroup]="confirmationForm" class="form">
 
-      <mat-form-field class="input-field" floatLabel="always" appearance="fill">
+      <mat-form-field class="input-field" appearance="fill">
         <mat-label>Verification Code</mat-label>
         <input matInput [formControl]="confirmationCode" required>
         <mat-error *ngIf="confirmationCode.errors && !confirmationCode.hasError('required')">
