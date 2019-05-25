@@ -50,8 +50,8 @@ export class ForgetPasswordComponent {
         }), map((value: string) => {
           return authenticationService.isValidPassword(value);
         })).subscribe(value => {
-        value.subscribe( (otherValue: ValidResponse) => {
-          isValidPassword = otherValue.valid;
+        value.subscribe( (otherValue: boolean) => {
+          isValidPassword = otherValue;
           passwordControl.updateValueAndValidity();
         });
       });

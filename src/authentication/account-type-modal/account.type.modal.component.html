@@ -6,12 +6,12 @@
   <div mat-dialog-content
        fxLayout.xs="column no-wrap"
        fxLayout.gt-xs="row no-wrap"
-       fxLayoutAlign="space-between"
+       fxLayoutAlign="end"
        fxLayoutGap.xs="45px"
        class="content">
-    <div class="img">
+    <div fxFlex="1 0 auto" class="img">
     </div>
-    <ul fxLayout="row no-wrap" fxLayoutGap="6px" fxFlexAlign.xs="center" >
+    <ul fxLayout="row no-wrap" fxLayoutGap="6px" fxFlexAlign.xs="center">
       <li class="card" (click)="onSelect('personal')" [class.selected]="selectedType === 'personal'">
         <div class="card__content">
           <div fxLayoutAlign="flex-end" *ngIf="selectedType === 'personal'"><i class="fas fa-check card__icon--check"></i></div>

@@ -27,8 +27,11 @@ button[mat-flat-button].button {
 /* container */
 .form-sec {
   position: relative;
-  width: calc(100% - 414px);
-  padding: 56px 66px 39px;
+  width: 270px;
+  margin: 56px auto 39px;
+  /*margin-left: auto;*/
+  /*margin-right: auto;*/
+  /*padding: 56px 66px 39px;*/
 }
 
 .img-sec {
@@ -111,21 +114,10 @@ button[mat-flat-button].button {
   background-color: #F0F7FB;
 }
 
-
-/* media queries */
-@media only screen and (max-width: 959px) {
-  .form-sec {
-    width: 100%;
-  }
-}
-
 @media only screen and (max-width: 599px) {
   .form-sec {
-    min-height: calc(100vh - 116px);
+    /*min-height: calc(100vh - 116px);*/
     margin-top: 116px;
-    width: 100%;
-    padding-left: 52px;
-    padding-right: 52px;
   }
 
   .modal-panel {
