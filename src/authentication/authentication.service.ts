@@ -8,68 +8,42 @@ import {ChangeResponse} from './change.response';
 import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {map} from 'rxjs/operators';
+import {CHANGE_PASS_GQL, CONFIRMATION_GQL, CREDENTIAL_GQL, FORGET_GQL, LOGIN_GQL, PASSWORD_GQL, USERNAME_GQL} from './auth.queries';
 
 export class AuthenticationService {
 
   constructor(private apollo: Apollo) {
   }
 
-  isValidUsername(username: string): Observable<ValidResponse> {
-    return this.apollo.mutate( {
-      mutation: gql`
-        mutation validateUsername($username: String!) {
-          validateUsername(username: $username) {
-            valid
-          }
-        }
-      `,
+  isValidUsername(username: string): Observable<boolean> {
+    return this.apollo.query( {
+      query: USERNAME_GQL,
       variables: {
         username
       }
-    }).pipe(map( res => {
+    }).pipe(map( (res: any) => {
       return res.data.validateUsername;
       }));
   }
 
-  isValidPassword(password: string): Observable<ValidResponse> {
-    return this.apollo.mutate( {
-      mutation: gql`
-        mutation validatePassword($password: String!) {
-          validatePassword(password: $password) {
-            valid
-          }
-        }
-      `,
+  isValidPassword(password: string): Observable<boolean> {
+    return this.apollo.query( {
+      query: PASSWORD_GQL,
       variables: {
         password
       }
-    }).pipe(map( res => {
+    }).pipe(map( (res: any) => {
       return res.data.validatePassword;
     }));
   }
 
   addCredential(credential: Credential): Observable<Confirmation> {
     return this.apollo.mutate( {
-      mutation: gql`
-        mutation register(
-          $username: String!,
-          $companyName: String, $accountType: String!, $usernameType: String!, $password: String!, $confirmedPassword: String!) {
-          register(
-            username: $username,
-            companyName: $companyName,
-            accountType: $accountType, usernameType: $usernameType, password: $password, confirmedPassword:$confirmedPassword) {
-            confirmationId
-            credentialId
-          }
-        }
-      `,
+      mutation: CREDENTIAL_GQL,
       variables: {
         username: credential.username,
         companyName: credential.companyName,
-        accountType: credential.accountType,
-        usernameType: credential.usernameType,
         password: credential.password,
-        confirmedPassword: credential.confirmedPassword
       }
     }).pipe(map( res => {
       return res.data.register;
@@ -78,14 +52,7 @@ export class AuthenticationService {
 
   verifyConfirmation(confirmation: Confirmation): Observable<Confirmation> {
     return this.apollo.mutate( {
-      mutation: gql`
-        mutation confirmation($confirmationId: ID!, $credentialId: ID!, $code: String!) {
-          confirmation(confirmationId: $confirmationId, credentialId: $credentialId, code: $code) {
-            status
-            code
-          }
-        }
-      `,
+      mutation: CONFIRMATION_GQL,
       variables: {
         confirmationId: confirmation.confirmationId,
         credentialId: confirmation.credentialId,
@@ -103,13 +70,7 @@ export class AuthenticationService {
 
   authenticate(credential: Credential): Observable<AuthenticatedCredential> {
     return this.apollo.mutate( {
-      mutation: gql`
-        mutation login($username: String!, $password: String!) {
-          login(username: $username, password: $password) {
-            authenticateStatus
-          }
-        }
-      `,
+      mutation: LOGIN_GQL,
       variables: {
         username: credential.username,
         password: credential.password,
@@ -121,14 +82,7 @@ export class AuthenticationService {
 
   forgotPassword(username: string): Observable<Confirmation> {
     return this.apollo.mutate( {
-      mutation: gql`
-        mutation forgetPassword($username: String!) {
-          forgetPassword(username: $username,) {
-            credentialId
-            confirmationId
-          }
-        }
-      `,
+      mutation: FORGET_GQL,
       variables: {
         username
       }
@@ -139,18 +93,7 @@ export class AuthenticationService {
 
   changePassword(changePassword: ChangePassword): Observable<boolean> {
     return this.apollo.mutate( {
-      mutation: gql`
-        mutation changePassword($credentialId: ID!, $username: String!, $password: String!, $code: String!) {
-          changePassword(
-            changePassword : {
-            credentialId: $credentialId,
-            username: $username,
-            password: $password,
-            code: $code
-          }
-          )
-        }
-      `,
+      mutation: CHANGE_PASS_GQL,
       variables: {
         credentialId: changePassword.credentialId,
         username: changePassword.username,

@@ -44,6 +44,6 @@ button[mat-flat-button].button--big--google {
 
 @media only screen and (max-width: 599px) {
   button[mat-flat-button].button--primary--medium {
-    width: 100%;
+    width: 270px;
   }
 }

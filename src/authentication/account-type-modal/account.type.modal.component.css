@@ -18,11 +18,12 @@
 }
 
 .content {
-  margin: 40px 1px 20px 55px;
+  margin: 40px 0 20px;
+  padding-right: 1px;
 }
 
 .img {
-  width: 183px;
+  /*width: 183px;*/
   height: 180px;
   background-image: url("../../css/images/account-type.svg");
   background-position: center;
@@ -99,6 +100,7 @@ ul {
   .content {
     margin-left: 0;
     margin-right: 0;
+    padding-right: 0;
   }
 
   .modal-panel {

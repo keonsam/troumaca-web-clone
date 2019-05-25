@@ -115,8 +115,8 @@ export class RegisterComponent implements OnInit {
       }), map((value: string) => {
         return authenticationService.isValidUsername(value);
       })).subscribe(value => {
-        value.subscribe( (otherValue: ValidResponse) => {
-          isValidUsername = otherValue.valid;
+        value.subscribe( (otherValue: boolean) => {
+          isValidUsername = otherValue;
           usernameControl.updateValueAndValidity();
         });
       });
@@ -150,8 +150,8 @@ export class RegisterComponent implements OnInit {
       }), map((value: string) => {
         return authenticationService.isValidPassword(value);
       })).subscribe(value => {
-        value.subscribe( (otherValue: ValidResponse) => {
-          isValidPassword = otherValue.valid;
+        value.subscribe( (otherValue: boolean) => {
+          isValidPassword = otherValue;
           passwordControl.updateValueAndValidity();
         });
       });
