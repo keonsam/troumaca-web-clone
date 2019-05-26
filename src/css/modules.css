@@ -25,8 +25,12 @@ button[mat-flat-button].button {
 
 
 /* container */
-.form-sec {
+.form-container {
   position: relative;
+  overflow-x: hidden;
+}
+
+.form-sec {
   width: 270px;
   margin: 56px auto 39px;
   /*margin-left: auto;*/
@@ -115,11 +119,13 @@ button[mat-flat-button].button {
 }
 
 @media only screen and (max-width: 599px) {
-  .form-sec {
-    /*min-height: calc(100vh - 116px);*/
-    margin-top: 116px;
+  .form-container {
+    position: static;
+    overflow-x: hidden;
   }
-
+  .form-sec {
+    padding-top: 70px;
+  }
   .modal-panel {
     padding: 55px 24px 40px;
   }

@@ -1,5 +1,4 @@
 /* container */
-
 .img-sec {
   background-image: url("../../css/images/login.png");
 }
@@ -92,11 +91,6 @@
 /*  }*/
 /*}*/
 @media only screen and (max-width: 599px) {
-  /*:host {*/
-  /*  width: 100%;*/
-  /*  min-height: 100vh;*/
-  /*  margin-top: 0;*/
-  /*}*/
 
   ::ng-deep .backdrop {
     background: none;
