@@ -181,26 +181,26 @@ export class RegisterComponent implements OnInit {
   }
 
   onCreate() {
-    this.doNotDisplayFailureMessage = false;
-    // this.authenticationService
-    // .addCredential(this.credential)
-    // .subscribe(confirmation => {
-    //   if (confirmation && confirmation.confirmationId) {
-    //     localStorage.setItem('verification', JSON.stringify({
-    //       usernameType: this.credential.usernameType,
-    //       username: this.credential.username,
-    //       credentialId: confirmation.credentialId,
-    //       confirmationId: confirmation.confirmationId
-    //     }));
-    //     this.openConfirmation();
-    //     // this.router.navigate([`/${AUTHENTICATION}/${CONFIRMATION}/${confirmation.credentialId}/${confirmation.confirmationId}`]);
-    //   } else {
-    //     this.doNotDisplayFailureMessage = false;
-    //   }
-    // }, error => {
-    //     console.log(error);
-    //     this.doNotDisplayFailureMessage = false;
-    // });
+    this.doNotDisplayFailureMessage = true;
+    this.authenticationService
+    .addCredential(this.credential)
+    .subscribe(confirmation => {
+      if (confirmation && confirmation.confirmationId) {
+        localStorage.setItem('verification', JSON.stringify({
+          usernameType: this.credential.usernameType,
+          username: this.credential.username,
+          credentialId: confirmation.credentialId,
+          confirmationId: confirmation.confirmationId
+        }));
+        this.openConfirmation();
+        // this.router.navigate([`/${AUTHENTICATION}/${CONFIRMATION}/${confirmation.credentialId}/${confirmation.confirmationId}`]);
+      } else {
+        this.doNotDisplayFailureMessage = false;
+      }
+    }, error => {
+        console.log(error);
+        this.doNotDisplayFailureMessage = false;
+    });
   }
 
   openConfirmation() {
