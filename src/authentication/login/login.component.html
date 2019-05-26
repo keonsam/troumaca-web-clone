@@ -1,33 +1,35 @@
 <div fxLayoutAlign="space-between">
-  <div class="form-sec">
-    <h2 class="title title--login">
-      Login
-    </h2>
-    <button mat-flat-button class="button button--big button--big--google"><i class="fab fa-google icon--google"></i>Login with Google</button>
-    <div class="or"><span class="or__text">or</span></div>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
-      <mat-form-field class="input-field" appearance="fill">
-        <mat-label>Email or Mobile Number</mat-label>
-        <input matInput [formControl]="username" required>
-        <mat-error *ngIf="username.hasError('required')">
-          Username is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
+  <div class="form-container" fxFlex="1 0 auto">
+    <div class="form-sec">
+      <h2 class="title title--login">
+        Login
+      </h2>
+      <button mat-flat-button class="button button--big button--big--google"><i class="fab fa-google icon--google"></i>Login with Google</button>
+      <div class="or"><span class="or__text">or</span></div>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
+        <mat-form-field class="input-field" appearance="fill">
+          <mat-label>Email or Mobile Number</mat-label>
+          <input matInput [formControl]="username" required>
+          <mat-error *ngIf="username.hasError('required')">
+            Username is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field class="input-field" appearance="fill">
-        <mat-label>Password</mat-label>
-        <input matInput [formControl]="password" [type]="hide ? 'password' : 'text'" required>
-<!--        <mat-icon *ngIf="password.value" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>-->
-        <mat-error *ngIf="password.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field class="input-field" appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput [formControl]="password" [type]="hide ? 'password' : 'text'" required>
+          <!--        <mat-icon *ngIf="password.value" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>-->
+          <mat-error *ngIf="password.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
 
-      <a class="forget" href (click)="openForget();false">Forget Password?</a>
-      <button mat-flat-button class="button button--primary button--big button--big--login" type="submit" [disabled]="!loginForm.valid">Login</button>
-    </form>
-    <div class="ending">Don't have any account? <a class="ending__link" href (click)="openAccountType();false">Sign up now</a></div>
-    <app-error [hidden]="doNotDisplayFailureMessage" [errorMessage]="error" (onHide)="hideError($event)"></app-error>
+        <a class="forget" href (click)="openForget();false">Forget Password?</a>
+        <button mat-flat-button class="button button--primary button--big button--big--login" type="submit" [disabled]="!loginForm.valid">Login</button>
+      </form>
+      <div class="ending">Don't have any account? <a class="ending__link" href (click)="openAccountType();false">Sign up now</a></div>
+      <app-error [hidden]="doNotDisplayFailureMessage" [errorMessage]="error" (onHide)="hideError($event)"></app-error>
+    </div>
   </div>
   <div class="img-sec" fxHide.lt-md>
     <p class="img-sec__text">Troumaka keeps your asset data safe with 128 bit encryption.</p>

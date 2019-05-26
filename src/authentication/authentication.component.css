@@ -16,6 +16,7 @@
 .auth-main {
   display: block;
   width: 826px;
+  min-height: 612px;
   background: #FFFFFF;
   border-radius: 8px;
   /*margin-top: 52px;*/
@@ -29,12 +30,41 @@
 }
 
 .auth-header2 {
-  margin-top: 96px;
+  display: none;
+  padding-top: 52px;
+  height: 88px;
 }
 
 .auth__brand {
   font-size: 18px;
   margin-left: 8px;
+}
+
+/* footer */
+.footer-menu {
+  margin-top: 18px;
+}
+
+.footer-header {
+  font-size: 13px;
+  line-height: 14px;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.footer-links {
+  margin-top: 25px;
+  list-style:none;
+  padding: 0;
+}
+
+.footer_link {
+  font-size: 10px;
+  line-height: 11px;
+  color: #FFFFFF;
+  text-decoration:none;
+  cursor: pointer;
+  margin-bottom: 20px;
 }
 
 @media only screen and (max-width: 959px) {
@@ -45,11 +75,20 @@
 
 @media only screen and (max-width: 599px) {
   .auth-main {
+    position: relative;
     width: 100%;
     min-height: 100vh;
     margin-top: 0;
+    overflow-x: hidden;
+    border-radius: 0;
   }
   .auth-header {
+    display: none;
+  }
+  .auth-header2 {
+    display: block;
+  }
+  .auth-footer {
     display: none;
   }
   .header {

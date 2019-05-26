@@ -1,57 +1,58 @@
 <div fxLayoutAlign="space-between">
-  <div class="form-sec">
-    <h2 class="title title--sign-up">
-      Sign Up
-    </h2>
-    <form [formGroup]="registrationForm" class="form">
+  <div class="form-container" fxFlex="1 0 auto">
+    <div class="form-sec">
+      <h2 class="title title--sign-up">
+        Sign Up
+      </h2>
+      <form [formGroup]="registrationForm" [ngClass]="{'form':true, 'form2': !secondImg}">
 
-      <mat-form-field class="input-field" appearance="fill">
-        <mat-label>{{ email ? 'Email': 'Mobile Number'}}</mat-label>
-        <input matInput [formControl]="username" required>
-        <mat-error *ngIf="username.hasError('validateEmail') && !username.hasError('required')">
-          {{ email ? 'e.g "someone@mail.com"': 'e.g "15417543010"'}}.
-        </mat-error>
-        <mat-error *ngIf="username.hasError('required')">
-          {{ email ? 'email': 'mobile number'}} is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field class="input-field" appearance="fill">
+          <mat-label>{{ email ? 'Email': 'Mobile Number'}}</mat-label>
+          <input matInput [formControl]="username" required>
+          <mat-error *ngIf="username.hasError('validateEmail') && !username.hasError('required')">
+            {{ email ? 'e.g "someone@mail.com"': 'e.g "15417543010"'}}.
+          </mat-error>
+          <mat-error *ngIf="username.hasError('required')">
+            {{ email ? 'email': 'mobile number'}} is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field *ngIf="secondImg" class="input-field" appearance="fill">
-        <mat-label>Company Name</mat-label>
-        <input matInput [formControl]="companyName">
-        <mat-error *ngIf="companyName.hasError('required')">
-          Company name is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field *ngIf="secondImg" class="input-field" appearance="fill">
+          <mat-label>Company Name</mat-label>
+          <input matInput [formControl]="companyName">
+          <mat-error *ngIf="companyName.hasError('required')">
+            Company name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field class="input-field" appearance="fill">
-        <mat-label>Create Password</mat-label>
-        <input matInput [formControl]="password" type="password">
-        <mat-error *ngIf="password.hasError('password') && !password.hasError('required')">
-          At least eight characters: 1 upper case letter, numeric, and special character.
-        </mat-error>
-        <mat-error *ngIf="password.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field class="input-field" appearance="fill">
+          <mat-label>Create Password</mat-label>
+          <input matInput [formControl]="password" type="password">
+          <mat-error *ngIf="password.hasError('password') && !password.hasError('required')">
+            At least eight characters: 1 upper case letter, numeric, and special character.
+          </mat-error>
+          <mat-error *ngIf="password.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field class="input-field" appearance="fill">
-        <mat-label>Retype Password</mat-label>
-        <input matInput [formControl]="confirmPass" type="password">
-        <mat-error *ngIf="confirmPass.hasError('password') && !confirmPass.hasError('required')">
-          password does not match.
-        </mat-error>
-        <mat-error *ngIf="confirmPass.hasError('required')">
-           retype your password.
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field class="input-field" appearance="fill">
+          <mat-label>Retype Password</mat-label>
+          <input matInput [formControl]="confirmPass" type="password">
+          <mat-error *ngIf="confirmPass.hasError('password') && !confirmPass.hasError('required')">
+            password does not match.
+          </mat-error>
+          <mat-error *ngIf="confirmPass.hasError('required')">
+            retype your password.
+          </mat-error>
+        </mat-form-field>
 
-      <button mat-flat-button class="button button--primary button--big button--big--login" type="submit" [disabled]="!registrationForm.valid" (click)="onCreate()">Sign Up</button>
-    </form>
-    <div class="ending">Already have an account? <a class="ending__link" href [routerLink]="loginRoute">Login now</a></div>
-    <app-error [hidden]="doNotDisplayFailureMessage" [errorMessage]="error" (onHide)="hideError($event)"></app-error>
+        <button mat-flat-button [ngClass]="{'button':true, 'button--primary':true, 'button--big':true, 'button--big--login': true, 'button-primary__margin': !secondImg}" type="submit" [disabled]="!registrationForm.valid" (click)="onCreate()">Sign Up</button>
+      </form>
+      <div class="ending">Already have an account? <a class="ending__link" href [routerLink]="loginRoute">Login now</a></div>
+      <app-error [hidden]="doNotDisplayFailureMessage" [errorMessage]="error" (onHide)="hideError($event)"></app-error>
+    </div>
   </div>
-
   <div [ngClass]="{'img-sec': true, 'img-sec1': !secondImg, 'img-sec2': secondImg}" fxHide.lt-md>
     <h2 [ngClass]="{'img-sec-header': true, 'black-text': !secondImg}">Manage Assets <br>
       {{ secondImg ? 'across your organization.': 'anyway you want.'}}</h2>

@@ -1,3 +1,6 @@
+.form2 {
+  padding-top: 47px;
+}
 .img-sec1 {
   background: url("../../css/images/register-personal.png");
 }
@@ -38,6 +41,10 @@
   color: #000000;
 }
 
+.button-primary__margin {
+  margin-top: 46px;
+}
+
 /* modal */
 
 ::ng-deep .backdrop {
@@ -62,20 +69,7 @@
   background-position: bottom;
 }
 
-/* media queries */
-@media only screen and (max-width: 959px) {
-  :host {
-    width: 412px;;
-  }
-}
-
 @media only screen and (max-width: 599px) {
-  :host {
-    width: 100%;
-    min-height: 100vh;
-    margin-top: 0;
-  }
-
   ::ng-deep .backdrop {
     background: none;
     opacity: 0.9 !important;
