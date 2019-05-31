@@ -1,14 +1,20 @@
 import {Observable} from 'rxjs';
 import { Credential } from './credential';
-import { ValidResponse} from './valid.response';
 import { Confirmation } from './confirmation';
 import {AuthenticatedCredential} from './authenticated.credential';
 import {ChangePassword} from './change.password';
-import {ChangeResponse} from './change.response';
 import {Apollo} from 'apollo-angular';
-import gql from 'graphql-tag';
 import {map} from 'rxjs/operators';
-import {CHANGE_PASS_GQL, CONFIRMATION_GQL, CREDENTIAL_GQL, FORGET_GQL, LOGIN_GQL, PASSWORD_GQL, USERNAME_GQL} from './auth.queries';
+import {
+  CHANGE_PASS_GQL,
+  CONFIRMATION_GQL,
+  CREDENTIAL_GQL,
+  FORGET_GQL,
+  LOGIN_GQL,
+  PASSWORD_GQL,
+  RESEND_CODE_GQL,
+  USERNAME_GQL
+} from './auth.queries';
 
 export class AuthenticationService {
 
@@ -45,7 +51,7 @@ export class AuthenticationService {
         companyName: credential.companyName,
         password: credential.password,
       }
-    }).pipe(map( res => {
+    }).pipe(map( (res: any) => {
       return res.data.register;
     }));
   }
@@ -58,14 +64,21 @@ export class AuthenticationService {
         credentialId: confirmation.credentialId,
         code: confirmation.code,
       }
-    }).pipe(map( res => {
+    }).pipe(map( (res: any) => {
       return res.data.confirmation;
     }));
   }
 
   resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation> {
-    return undefined;
-    // return this.authenticationRepository.resendConfirmationCode(confirmationId, credentialId);
+    return this.apollo.mutate( {
+      mutation: RESEND_CODE_GQL,
+      variables: {
+        confirmationId: confirmationId,
+        credentialId: credentialId,
+      }
+    }).pipe(map( (res: any) => {
+      return res.data.resendCode;
+    }));
   }
 
   authenticate(credential: Credential): Observable<AuthenticatedCredential> {
@@ -75,7 +88,7 @@ export class AuthenticationService {
         username: credential.username,
         password: credential.password,
       }
-    }).pipe(map( res => {
+    }).pipe(map( (res: any) => {
       return res.data.login;
     }));
   }
@@ -86,7 +99,7 @@ export class AuthenticationService {
       variables: {
         username
       }
-    }).pipe(map( res => {
+    }).pipe(map( (res: any) => {
       return res.data.forgetPassword;
     }));
   }
@@ -100,7 +113,7 @@ export class AuthenticationService {
         password: changePassword.password,
         code: changePassword.code
       }
-    }).pipe(map( res => {
+    }).pipe(map((res: any) => {
       return res.data.changePassword;
     }));
   }

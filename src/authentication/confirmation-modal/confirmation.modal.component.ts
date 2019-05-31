@@ -65,33 +65,29 @@ export class ConfirmationModalComponent implements OnInit {
   }
 
   sendConfirmationCode() {
-    console.log('not implemented');
-    // this.doNotDisplaySuccessMessage = true;
-    // this.doNotDisplayFailureMessage = true;
-    //
-    // this.authenticationService
-    //   .resendConfirmationCode(this.confirmation.confirmationId, this.confirmation.credentialId)
-    //   .subscribe(confirmation => {
-    //     if (confirmation && confirmation.status === 'New') {
-    //       this.message = 'If you didn\'t get it in 5 minutes, please try again.';
-    //       this.doNotDisplaySuccessMessage = false;
-    //       setTimeout(() => {
-    //         this.router.navigate([`/${AUTHENTICATION}/${CONFIRMATION}/${confirmation.credentialId}/${confirmation.confirmationId}`]);
-    //         this.doNotDisplaySuccessMessage = true;
-    //         this.doNotDisplayFailureMessage = true;
-    //       }, 2000);
-    //     } else if (confirmation && confirmation.status === 'Confirmed') {
-    //       this.message = 'Username confirmed, please log in.';
-    //       this.doNotDisplayFailureMessage = false;
-    //     } else {
-    //       this.message = 'Something went wrong, please try again.';
-    //       this.doNotDisplayFailureMessage = false;
-    //     }
-    //   }, error => {
-    //     console.log(error);
-    //     this.message = 'Something went wrong, please try again.';
-    //     this.doNotDisplayFailureMessage = false;
-    //   });
+    this.doNotDisplaySuccessMessage = true;
+    this.doNotDisplayFailureMessage = true;
+    this.authenticationService
+      .resendConfirmationCode(this.confirmation.confirmationId, this.confirmation.credentialId)
+      .subscribe(confirmation => {
+        if (confirmation && confirmation.status === 'New') {
+          this.success = 'Sent!';
+          this.data.credentialId = confirmation.credentialId;
+          this.data.confirmationId = confirmation.confirmationId;
+          localStorage.setItem('verification', JSON.stringify(this.data));
+          this.doNotDisplaySuccessMessage = false;
+        } else if (confirmation && confirmation.status === 'Confirmed') {
+          this.message = 'Username confirmed, please log in.';
+          this.doNotDisplayFailureMessage = false;
+        } else {
+          this.message = 'Something went wrong, please try again.';
+          this.doNotDisplayFailureMessage = false;
+        }
+      }, error => {
+        console.log(error);
+        this.message = 'Something went wrong, please try again.';
+        this.doNotDisplayFailureMessage = false;
+      });
   }
 
   onSubmit() {
@@ -101,7 +97,6 @@ export class ConfirmationModalComponent implements OnInit {
     this.authenticationService
       .verifyConfirmation(this.confirmation)
       .subscribe(confirmation => {
-        console.log(confirmation);
         if (confirmation && confirmation.status === 'Confirmed') {
           localStorage.removeItem('verification');
           this.doNotDisplaySuccessMessage = false;
