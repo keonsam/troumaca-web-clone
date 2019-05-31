@@ -30,6 +30,16 @@ export const CONFIRMATION_GQL = gql`
   }
 `;
 
+export const RESEND_CODE_GQL = gql`
+  mutation resendCode($confirmationId: ID!, $credentialId: ID!) {
+    resendCode(confirmationId: $confirmationId, credentialId: $credentialId) {
+      status
+      credentialId
+      confirmationId
+    }
+  }
+`;
+
 export const LOGIN_GQL = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password) {

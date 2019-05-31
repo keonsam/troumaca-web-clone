@@ -104,9 +104,6 @@ export class LoginComponent implements OnInit {
       panelClass: 'modal',
     });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    // });
-
     dialogRef.componentInstance.onNext.subscribe((result: string) => {
       this.accountType = result;
       this.openSignUp();

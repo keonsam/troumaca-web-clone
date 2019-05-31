@@ -59,7 +59,7 @@
 
 ::ng-deep .backdrop {
   background: #004777;
-  opacity: 0.9;
+  opacity: 0.9 !important;
 }
 
 ::ng-deep .modal > .mat-dialog-container {
