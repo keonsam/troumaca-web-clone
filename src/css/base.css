@@ -13,21 +13,6 @@
 }
 
 html {
-  height: 100%;
-}
-
-body {
-  min-height: 100%;
-}
-
-html, body {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  /*height: 100%;*/
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -40,4 +25,11 @@ html {
 .body {
   background: var(--body-background-color, #F5F5F5);
   color: var(--text-color, #000000);
+}
+
+@font-face {
+  font-family: 'Comfortaa';
+  src: url("font/Comfortaa[wght]normal.ttf");
+  font-style: normal;
+  font-weight: normal;
 }

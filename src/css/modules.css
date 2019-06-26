@@ -125,7 +125,7 @@ button[mat-flat-button].button {
     overflow-x: hidden;
   }
   .form-sec {
-    padding-top: 70px;
+    padding-top: 0;
   }
   .modal-panel {
     padding: 55px 24px 40px;
