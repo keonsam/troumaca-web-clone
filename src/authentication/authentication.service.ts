@@ -15,6 +15,7 @@ import {
   RESEND_CODE_GQL,
   USERNAME_GQL
 } from './auth.queries';
+import {User} from '../parties/user';
 
 export class AuthenticationService {
 
@@ -43,16 +44,18 @@ export class AuthenticationService {
     }));
   }
 
-  addCredential(credential: Credential): Observable<Confirmation> {
+  addCredential(user: User, credential: Credential): Observable<Confirmation> {
     return this.apollo.mutate( {
       mutation: CREDENTIAL_GQL,
       variables: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        organizationName: credential.companyName,
         username: credential.username,
-        companyName: credential.companyName,
         password: credential.password,
       }
     }).pipe(map( (res: any) => {
-      return res.data.register;
+      return res ?  res.data.register : res;
     }));
   }
 

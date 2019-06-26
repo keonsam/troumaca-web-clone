@@ -2,10 +2,8 @@ import {Component, EventEmitter} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../authentication.service';
-import {AUTHENTICATION, CONFIRMATION, FORGOT_PASSWORD, LOGIN} from '../../app/routes';
 import {ChangePassword} from '../change.password';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
-import {ValidResponse} from '../valid.response';
 
 @Component({
   selector: 'app-forget-password',
@@ -15,6 +13,7 @@ import {ValidResponse} from '../valid.response';
 
 export class ForgetPasswordComponent {
   password: FormControl;
+  confirmPass: FormControl;
   forgetPasswordForm: FormGroup;
   doNotDisplayFailureMessage = true;
   message: string;
@@ -28,13 +27,16 @@ export class ForgetPasswordComponent {
     this.data = JSON.parse(localStorage.getItem('changePassword'));
     this.changePassword = new ChangePassword();
     this.password = new FormControl('', [Validators.required, this.passwordValidator(this.authenticationService)]);
-    this.forgetPasswordForm = formBuilder.group( {
-      'password': this.password
+    this.confirmPass = new FormControl('', [Validators.required, this.checkPasswords.bind(this)]);
+    this.forgetPasswordForm = formBuilder.group({
+      'password': this.password,
+      'confirmPass': this.confirmPass
     });
     this.forgetPasswordForm
       .valueChanges
-      .subscribe( value => {
+      .subscribe(value => {
         this.changePassword.password = value.password;
+        this.changePassword.newPassword = value.confirmPass
       });
   }
 
@@ -50,7 +52,7 @@ export class ForgetPasswordComponent {
         }), map((value: string) => {
           return authenticationService.isValidPassword(value);
         })).subscribe(value => {
-        value.subscribe( (otherValue: boolean) => {
+        value.subscribe((otherValue: boolean) => {
           isValidPassword = otherValue;
           passwordControl.updateValueAndValidity();
         });
@@ -71,6 +73,13 @@ export class ForgetPasswordComponent {
         password: true
       };
     }
+  }
+
+  private checkPasswords(group: FormGroup) {
+    const pass = this.password.value;
+    const confirmPass = group.value;
+
+    return pass === confirmPass ? null : {password: true}
   }
 
   onPassword() {

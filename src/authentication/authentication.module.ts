@@ -19,10 +19,12 @@ import {PopUpModule} from '../pop-up/pop-up.module';
 import {ForgetUsernameComponent} from './forget-username/forget.username.component';
 import {ForgetPasswordComponent} from './forget-password/forget.password.component';
 import {ForgetSavedComponent} from './forget-saved/forget.saved.component';
+// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
     CommonModule,
+    // FontAwesomeModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,

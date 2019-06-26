@@ -13,6 +13,20 @@
 }
 
 html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+}
+
+html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html {
   /*height: 100%;*/
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -22,16 +36,6 @@ html {
   font-weight: normal;
   letter-spacing: 0.01em;
 }
-
-/*body {*/
-/*  min-height: 100%;*/
-/*}*/
-
-/*html, body {*/
-/*  width: 100%;*/
-/*  margin: 0;*/
-/*  padding: 0;*/
-/*}*/
 
 .body {
   background: var(--body-background-color, #F5F5F5);

@@ -18,8 +18,8 @@ import {MatDialog} from '@angular/material';
 export class RegisterComponent implements OnInit {
 
   registrationForm: FormGroup;
-  // firstName: FormControl;
-  // lastName: FormControl;
+  firstName: FormControl;
+  lastName: FormControl;
   companyName: FormControl;
   username: FormControl;
   password: FormControl;
@@ -62,9 +62,9 @@ export class RegisterComponent implements OnInit {
       this.companyName = new FormControl( '');
     }
 
-    // this.firstName = new FormControl( '', [Validators.required]);
-    //
-    // this.lastName = new FormControl( '', [Validators.required]);
+    this.firstName = new FormControl( '', [Validators.required]);
+
+    this.lastName = new FormControl( '', [Validators.required]);
 
     this.password = new FormControl('', [
       Validators.required,
@@ -75,10 +75,10 @@ export class RegisterComponent implements OnInit {
 
 
     this.registrationForm = formBuilder.group({
-      'username': this.username,
       'companyName': this.companyName,
-      // 'firstName': this.firstName,
-      // 'lastName': this.lastName,
+      'firstName': this.firstName,
+      'lastName': this.lastName,
+      'username': this.username,
       'password': this.password,
       'confirmPass': this.confirmPass
     });
@@ -90,8 +90,8 @@ export class RegisterComponent implements OnInit {
         this.credential.companyName = value.companyName;
         this.credential.password = value.password;
         this.credential.confirmedPassword = value.confirmPass;
-        // this.user.firstName = value.firstName;
-        // this.user.lastName = value.lastName;
+        this.user.firstName = value.firstName;
+        this.user.lastName = value.lastName;
       });
 
     this.doNotDisplayFailureMessage = true;
@@ -183,7 +183,7 @@ export class RegisterComponent implements OnInit {
   onCreate() {
     this.doNotDisplayFailureMessage = true;
     this.authenticationService
-    .addCredential(this.credential)
+    .addCredential(this.user, this.credential)
     .subscribe(confirmation => {
       if (confirmation && confirmation.confirmationId) {
         localStorage.setItem('verification', JSON.stringify({

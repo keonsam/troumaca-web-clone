@@ -21,7 +21,7 @@
 
     </form>
   </div>
-    <div mat-dialog-actions fxLayoutAlign="flex-end">
+    <div mat-dialog-actions fxLayoutAlign="flex-end" fxLayoutAlign.xs="center">
       <button [disabled]="!forgetUsernameForm.valid" mat-flat-button class="button button--primary button--primary--medium" (click)="onSubmit()">Recover Password</button>
     </div>
   <app-error [hidden]="doNotDisplayFailureMessage" [errorMessage]="message" (onHide)="hideError($event)"></app-error>

@@ -23,10 +23,16 @@ import 'hammerjs';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material';
 import { GraphQLModule } from './graphql.module';
+// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
+import { faUsers} from '@fortawesome/free-solid-svg-icons/faUsers';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons/faGoogle';
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
+    // FontAwesomeModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -55,4 +61,9 @@ import { GraphQLModule } from './graphql.module';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    // Add an icon to the library for convenient access in other components
+    library.add(faUser, faGoogle, faUsers);
+  }
+}
