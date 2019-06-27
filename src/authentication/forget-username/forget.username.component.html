@@ -11,17 +11,19 @@
     </p>
     <form [formGroup]="forgetUsernameForm" class="form">
 
-      <mat-form-field class="input-field" appearance="fill">
-        <mat-label>Email or Mobile Number</mat-label>
-        <input matInput [formControl]="username" required>
-        <mat-error *ngIf="username.hasError('required')">
-          Username is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
+      <div>
+        <label  class="input-label" for="username">Email or Mobile Number</label>
+        <mat-form-field class="input-field" appearance="outline">
+          <input matInput [formControl]="username" id="username" required>
+          <mat-error *ngIf="username.hasError('required')">
+            Username is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
     </form>
   </div>
-    <div mat-dialog-actions fxLayoutAlign="flex-end">
+    <div mat-dialog-actions fxLayoutAlign="flex-end" fxLayoutAlign.xs="center">
       <button [disabled]="!forgetUsernameForm.valid" mat-flat-button class="button button--primary button--primary--medium" (click)="onSubmit()">Recover Password</button>
     </div>
   <app-error [hidden]="doNotDisplayFailureMessage" [errorMessage]="message" (onHide)="hideError($event)"></app-error>

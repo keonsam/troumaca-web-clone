@@ -1,6 +1,6 @@
 /* container */
 .img-sec {
-  background-image: url("../../css/images/login.png");
+  background-image: url("../../css/images/login.svg");
 }
 
 
@@ -103,5 +103,3 @@
     border-radius: 0;
   }
 }
-
-

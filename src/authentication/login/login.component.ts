@@ -12,6 +12,7 @@ import {ForgetUsernameComponent} from '../forget-username/forget.username.compon
 import {ConfirmationModalComponent} from '../confirmation-modal/confirmation.modal.component';
 import {ForgetPasswordComponent} from '../forget-password/forget.password.component';
 import {ForgetSavedComponent} from '../forget-saved/forget.saved.component';
+import {faGoogle} from '@fortawesome/free-brands-svg-icons/faGoogle';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +32,7 @@ export class LoginComponent implements OnInit {
   // homeLink = `/${HOME}`;
   hide = true;
   accountType: string;
+  faGoogle = faGoogle;
 
   constructor(public dialog: MatDialog,
               private formBuilder: FormBuilder,

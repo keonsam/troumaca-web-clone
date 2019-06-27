@@ -13,8 +13,8 @@ export const PASSWORD_GQL = gql`
 `;
 
 export const CREDENTIAL_GQL = gql`
-  mutation register($username: String!, $companyName: String, $password: String!) {
-    register( data: { username: $username, companyName: $companyName, password: $password }) {
+  mutation register($firstName: String!, $lastName: String!, $organizationName: String, $username: String!, $password: String!) {
+    register( data: { firstName: $firstName, lastName: $lastName, organizationName: $organizationName, username: $username, password: $password }) {
       confirmationId
       credentialId
     }

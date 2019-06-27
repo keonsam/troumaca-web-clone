@@ -6,6 +6,7 @@ import {AuthenticationService} from '../authentication.service';
 import { Confirmation } from '../confirmation';
 import {AUTHENTICATION, LOGIN} from '../../app/routes';
 import {MatDialogRef} from '@angular/material';
+import {faArrowLeft} from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -25,6 +26,7 @@ export class ConfirmationModalComponent implements OnInit {
   success = 'Code Accepted!';
   onPrevious: EventEmitter<boolean> = new EventEmitter();
   onNext: EventEmitter<boolean> = new EventEmitter();
+  faArrowLeft = faArrowLeft;
 
   constructor(public dialogRef: MatDialogRef<ConfirmationModalComponent>,
               private formBuilder: FormBuilder,

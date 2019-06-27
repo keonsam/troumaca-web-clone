@@ -1,12 +1,9 @@
-.form2 {
-  padding-top: 47px;
-}
 .img-sec1 {
-  background: url("../../css/images/register-personal.png");
+  background: url("../../css/images/register-personal.svg");
 }
 
 .img-sec2 {
-  background-image: url("../../css/images/register-corporate.png");
+  background-image: url("../../css/images/register-corporate.svg");
 }
 
 .img-sec-header {
@@ -39,10 +36,6 @@
 
 .black-text {
   color: #000000;
-}
-
-.button-primary__margin {
-  margin-top: 46px;
 }
 
 /* modal */

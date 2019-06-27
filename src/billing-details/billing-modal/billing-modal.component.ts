@@ -26,7 +26,7 @@ export class BillingModalComponent implements OnInit {
   doNotDisplayFailureMessage = true;
   paymentInfoExist = false;
 
-  @ViewChild('closeModal') closeModal: ElementRef;
+  @ViewChild('closeModal', { static: false }) closeModal: ElementRef;
 
   constructor(private billingDetailsService: BillingDetailsService,
               private formBuilder: FormBuilder) {

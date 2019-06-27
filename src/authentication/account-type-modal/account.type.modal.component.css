@@ -1,3 +1,11 @@
+.modal-panel {
+  padding: 30px 30px 40px 47px;
+}
+
+.account-type-header {
+  margin-bottom: 51px;
+}
+
 .title--account {
   font-family: 'Comfortaa', cursive;
   font-style: normal;
@@ -18,7 +26,7 @@
 }
 
 .content {
-  margin: 40px 0 20px;
+  margin: 0 0 20px;
   padding-right: 1px;
 }
 
@@ -89,6 +97,10 @@ ul {
 
 /* media queries */
 @media only screen and (max-width: 599px) {
+  .account-type-header {
+    margin-bottom: 43px;
+  }
+
   .img {
     width: 100%;
   }
@@ -106,5 +118,9 @@ ul {
   .modal-panel {
     padding-left: 15px;
     padding-right: 15px;
+  }
+
+  .title--account {
+    margin-left: 15px;
   }
 }

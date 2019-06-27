@@ -1,7 +1,7 @@
 <div class="modal-panel">
   <div fxLayoutAlign="space-between">
     <div fxFlexAlign="center" fxLayout="row no-wrap" fxLayoutGap="13px">
-      <span *ngIf="data && data['forgetPassword']" (click)="onPrevious.emit(true)" fxFlexAlign="center"><i class="fas fa-arrow-left panel__back" ></i></span>
+      <button class="panel__back" *ngIf="data && data['forgetPassword']" (click)="onPrevious.emit(true)" fxFlexAlign="center"><fa-icon [icon]="faArrowLeft" ></fa-icon></button>
       <h2 mat-dialog-title class="title title--bold" fxFlexAlign="center">Verification Code</h2>
     </div>
     <button mat-dialog-close fxFlexAlign="flex-start" class="modal__close">+</button>
@@ -16,16 +16,18 @@
     </p>
     <form [formGroup]="confirmationForm" class="form">
 
-      <mat-form-field class="input-field" appearance="fill">
-        <mat-label>Verification Code</mat-label>
-        <input matInput [formControl]="confirmationCode" required>
-        <mat-error *ngIf="confirmationCode.errors && !confirmationCode.hasError('required')">
-          Must be six characters.
-        </mat-error>
-        <mat-error *ngIf="confirmationCode.hasError('required')">
-          Code  is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
+      <div>
+        <label class="input-label" for="code">Verification Code</label>
+        <mat-form-field class="input-field" appearance="outline">
+          <input matInput [formControl]="confirmationCode"  id="code" required>
+          <mat-error *ngIf="confirmationCode.errors && !confirmationCode.hasError('required')">
+            Must be six characters.
+          </mat-error>
+          <mat-error *ngIf="confirmationCode.hasError('required')">
+            Code  is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
       <a class="resend-code" href (click)="sendConfirmationCode();false">Resend code in 60 sec.</a>
 
     </form>

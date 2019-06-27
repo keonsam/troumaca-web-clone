@@ -1,5 +1,5 @@
 <div class="modal-panel">
-  <div fxLayoutAlign="space-between">
+  <div fxLayoutAlign="space-between" class="account-type-header">
     <h2 mat-dialog-title class="title title--account" fxFlexAlign="center">Choose your Account type.</h2>
     <button mat-dialog-close fxFlexAlign="flex-start" class="modal__close">+</button>
   </div>
@@ -14,16 +14,16 @@
     <ul fxLayout="row no-wrap" fxLayoutGap="6px" fxFlexAlign.xs="center">
       <li class="card" (click)="onSelect('personal')" [class.selected]="selectedType === 'personal'">
         <div class="card__content">
-          <div fxLayoutAlign="flex-end" *ngIf="selectedType === 'personal'"><i class="fas fa-check card__icon--check"></i></div>
-          <div><i class="fas fa-user card__icon"></i></div>
+          <div fxLayoutAlign="flex-end" *ngIf="selectedType === 'personal'"><fa-icon [icon]="faCheck" class="card__icon--check"></fa-icon></div>
+          <div><fa-icon [icon]="faUser" class="card__icon"></fa-icon></div>
           <h3 class="card__header">Personal</h3>
           <p class="card__desc">Use Troumaka as a personal asset manager.</p>
         </div>
       </li>
       <li class="card" (click)="onSelect('corporate')" [class.selected]="selectedType === 'corporate'">
         <div class="card__content">
-          <div fxLayoutAlign="flex-end" *ngIf="selectedType === 'corporate'"><i class="fas fa-check card__icon--check"></i></div>
-          <div><i class="fas fa-users card__icon"></i></div>
+          <div fxLayoutAlign="flex-end" *ngIf="selectedType === 'corporate'"><fa-icon [icon]="faCheck" class="card__icon--check"></fa-icon></div>
+          <div><fa-icon [icon]="faUsers" class="card__icon"></fa-icon></div>
           <h3 class="card__header">Corporate</h3>
           <p class="card__desc">Create or join corporate account for more amazing features.</p>
         </div>

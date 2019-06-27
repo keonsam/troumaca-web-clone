@@ -77,9 +77,11 @@ button[mat-flat-button].button {
 }
 
 .panel__back {
-  font-weight: 900;
+  border: none;
+  background: none;
+  /*font-weight: 900;*/
   font-size: 24px;
-  line-height: 28px;
+  /*line-height: 28px;*/
   color: #1CADD7;
 }
 
@@ -115,8 +117,31 @@ button[mat-flat-button].button {
   margin: 0 auto;
 }
 
-.mat-form-field-appearance-fill .mat-form-field-flex {
+.form__control {
+  display: block;
+  width: 100%;
+}
+
+.input-label {
+  display: block;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 14px;
+  /* identical to box height */
+  letter-spacing: 0.01em;
+  margin-bottom: 7px;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
   background-color: #F0F7FB;
+  height: 51px;
+  border-radius: 8px;
+  font-family: var(--font-family);
+}
+
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  border: none;
+  padding-top: 20px;
 }
 
 @media only screen and (max-width: 599px) {
@@ -125,7 +150,7 @@ button[mat-flat-button].button {
     overflow-x: hidden;
   }
   .form-sec {
-    padding-top: 70px;
+    padding-top: 0;
   }
   .modal-panel {
     padding: 55px 24px 40px;

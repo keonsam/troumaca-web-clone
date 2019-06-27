@@ -28,6 +28,7 @@
   }
 
   .content {
-    margin: 34px 0 0;
+    max-width: 270px;
+    margin: 34px auto 0;
   }
 }
