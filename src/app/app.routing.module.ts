@@ -18,29 +18,29 @@ import {
 const appRoutes: Routes = [
   { path: '', redirectTo: AUTHENTICATION, pathMatch: 'full'},
   // { path: HOME, component: FrontHomeComponent },
-  { path: AUTHENTICATION, loadChildren: '../authentication/authentication.module#AuthenticationModule'},
-  { path: LOBBY, loadChildren: '../lobby/lobby.module#LobbyModule', canLoad: [AuthGuard]},
-  { path: ASSET, loadChildren: '../assets/asset.module#AssetModule', canLoad: [AuthGuard] },
-  { path: ASSET_TYPE, loadChildren: '../asset-types/asset.type.module#AssetTypesModule', canLoad: [AuthGuard] },
+  { path: AUTHENTICATION, loadChildren: () => import('../authentication/authentication.module').then(m => m.AuthenticationModule)},
+  { path: LOBBY, loadChildren: () => import('../lobby/lobby.module').then(m => m.LobbyModule), canLoad: [AuthGuard]},
+  { path: ASSET, loadChildren: () => import('../assets/asset.module').then(m => m.AssetModule), canLoad: [AuthGuard] },
+  { path: ASSET_TYPE, loadChildren: () => import('../asset-types/asset.type.module').then(m => m.AssetTypesModule), canLoad: [AuthGuard] },
   {
     path: ASSET_CHARACTERISTICS,
-    loadChildren: '../asset-characteristics/asset.characteristic.module#AssetCharacteristicModule', canLoad: [AuthGuard]
+    loadChildren: () => import('../asset-characteristics/asset.characteristic.module').then(m => m.AssetCharacteristicModule), canLoad: [AuthGuard]
   },
-  { path: ASSET_SETTING, loadChildren: '../asset-settings/asset.setting.module#AssetSettingModule', canLoad: [AuthGuard] },
+  { path: ASSET_SETTING, loadChildren: () => import('../asset-settings/asset.setting.module').then(m => m.AssetSettingModule), canLoad: [AuthGuard] },
   { path: ORGANIZATION,
-    loadChildren: '../parties/organizations/organization.module#OrganizationModule',
+    loadChildren: () => import('../parties/organizations/organization.module').then(m => m.OrganizationModule),
     canLoad: [AuthGuard]
   },
   { path: USER,
-    loadChildren: '../parties/users/user.module#UserModule',
+    loadChildren: () => import('../parties/users/user.module').then(m => m.UserModule),
     canLoad: [AuthGuard]
   },
   { path: PEOPLE,
-    loadChildren: '../parties/people/people.module#PeopleModule',
+    loadChildren: () => import('../parties/people/people.module').then(m => m.PeopleModule),
     canLoad: [AuthGuard]
   },
   // { path: PARTY, loadChildren: '../parties/party.module#PartyModule', canLoad: [AuthGuard] },
-  { path: BILLING_DETAIL, loadChildren: '../billing-details/billing-details.module#BillingDetailsModule', canLoad: [AuthGuard]},
+  { path: BILLING_DETAIL, loadChildren: () => import('../billing-details/billing-details.module').then(m => m.BillingDetailsModule), canLoad: [AuthGuard]},
   { path: '**', component: PageNotFoundComponent, data : { displayMenu: false } },
 ];
 

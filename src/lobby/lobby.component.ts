@@ -10,8 +10,8 @@ import {LobbyService} from './lobby.service';
 export class LobbyComponent implements OnInit {
 
   apps: any[];
-  @ViewChild('showModal') showModal: ElementRef;
-  @ViewChild('closeButton') closeButton: ElementRef;
+  @ViewChild('showModal', { static: false }) showModal: ElementRef;
+  @ViewChild('closeButton', { static: false }) closeButton: ElementRef;
   doNotDisplayFailureMessage = true;
 
 

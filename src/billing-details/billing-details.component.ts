@@ -17,8 +17,8 @@ export class BillingDetailsComponent implements OnInit {
   cardName: string;
   paymentId: string;
   paymentInfo: PaymentInformation;
-  @ViewChild('openButton') openButton: ElementRef;
-  @ViewChild('closeButton') closeButton: ElementRef;
+  @ViewChild('openButton', { static: false }) openButton: ElementRef;
+  @ViewChild('closeButton', { static: false }) closeButton: ElementRef;
   doNotDisplayFailureMessage = true;
 
 

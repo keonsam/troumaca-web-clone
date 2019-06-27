@@ -1,21 +1,18 @@
 <div class="modal-panel">
   <div fxLayoutAlign="space-between">
     <div fxFlexAlign="center" fxLayout="row no-wrap" fxLayoutGap="13px">
-      <span (click)="onPrevious.emit(data['accountType'])" fxFlexAlign="center"><i class="fas fa-arrow-left panel__back" ></i></span>
+      <button class="panel__back" (click)="onPrevious.emit(data['accountType'])" fxFlexAlign="center"><fa-icon [icon]="faArrowLeft" ></fa-icon></button>
       <h2 mat-dialog-title class="title title--bold" fxFlexAlign="center">Sign Up</h2>
     </div>
     <button mat-dialog-close fxFlexAlign="flex-start" class="modal__close">+</button>
   </div>
   <div mat-dialog-content
        class="content">
-    <button mat-flat-button class="button button--big button--big--google"><i class="fab fa-google icon--google"></i>Sign Up with Google</button>
+    <button mat-flat-button class="button button--big button--big--google"><fa-icon [icon]="faGoogle" class="icon--google"></fa-icon>Sign Up with Google</button>
     <div class="or">or use</div>
     <div fxLayout="row no-wrap" fxLayoutAlign="space-between">
-      <button mat-flat-button class="button button--username" (click)="onSelect('email')" [class.selected]="selectedType === 'email'"><i class="fas fa-envelope username__icon"></i>Email</button>
-      <button mat-flat-button class="button button--username" (click)="onSelect('mobile')" [class.selected]="selectedType === 'mobile'"><i class="fas fa-mobile-alt username__icon"></i>Mobile</button>
+      <button mat-flat-button class="button button--username" (click)="onSelect('email')" [class.selected]="selectedType === 'email'"><fa-icon [icon]="faEnvelope" class="username__icon"></fa-icon>Email</button>
+      <button mat-flat-button class="button button--username" (click)="onSelect('mobile')" [class.selected]="selectedType === 'mobile'"><fa-icon [icon]="faMobileAlt" class="username__icon"></fa-icon>Mobile</button>
     </div>
   </div>
-<!--    <div mat-dialog-actions fxLayoutAlign="flex-end">-->
-<!--    <button [disabled]="!selectedType" mat-flat-button class="button button&#45;&#45;primary button&#45;&#45;primary&#45;&#45;small" (click)="onSubmit()">Next</button>-->
-<!--    </div>-->
 </div>

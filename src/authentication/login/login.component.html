@@ -4,25 +4,31 @@
       <h2 class="title title--login">
         Login
       </h2>
-      <button mat-flat-button class="button button--big button--big--google"><i class="fab fa-google icon--google"></i>Login with Google</button>
+      <button mat-flat-button class="button button--big button--big--google"><fa-icon [icon]="faGoogle" class="icon--google"></fa-icon>Login with Google</button>
       <div class="or"><span class="or__text">or</span></div>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
-        <mat-form-field class="input-field" appearance="fill">
-          <mat-label>Email or Mobile Number</mat-label>
-          <input matInput [formControl]="username" required>
-          <mat-error *ngIf="username.hasError('required')">
-            Username is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
 
-        <mat-form-field class="input-field" appearance="fill">
-          <mat-label>Password</mat-label>
-          <input matInput [formControl]="password" [type]="hide ? 'password' : 'text'" required>
-          <!--        <mat-icon *ngIf="password.value" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>-->
-          <mat-error *ngIf="password.hasError('required')">
-            Password is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
+        <div>
+          <label class="input-label" for="username">Email or Mobile Number</label>
+          <mat-form-field class="input-field" appearance="outline">
+            <input matInput [formControl]="username" id="username" required>
+            <mat-error *ngIf="username.hasError('required')">
+              Username is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <label class="input-label" for="password">Password</label>
+          <mat-form-field class="input-field" appearance="outline">
+            <input matInput [formControl]="password" [type]="hide ? 'password' : 'text'" id="password" required>
+            <!--        <mat-icon *ngIf="password.value" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>-->
+            <mat-error *ngIf="password.hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
 
         <a class="forget" href (click)="openForget();false">Forget Password?</a>
         <button mat-flat-button class="button button--primary button--big button--big--login" type="submit" [disabled]="!loginForm.valid">Login</button>
