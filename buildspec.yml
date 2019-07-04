@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 10.9
+      nodejs: 10
     commands:
       - echo Installing source NPM dependencies...
       - npm i npm@latest -g
