@@ -24,6 +24,7 @@
 
 .auth-footer {
   background: #004777;
+  padding-top: 25px;
 }
 
 .auth__brand {
@@ -34,9 +35,6 @@
 }
 
 /* footer */
-.footer-menu {
-  margin-top: 25px;
-}
 
 .footer-header {
   font-size: 13px;
@@ -62,21 +60,21 @@
 
 @media only screen and (max-width: 959px) {
   .auth-main {
-    width: 412px;;
+    width: 412px;
   }
 }
 
 @media only screen and (max-width: 599px) {
   .auth-main {
     /*position: relative;*/
-    /*width: 100%;*/
     /*min-height: 100vh;*/
     /*margin-top: 0;*/
     /*overflow-x: hidden;*/
+    width: 100%;
     border-radius: 0;
     background: none;
   }
-  .body {
+  .auth-body {
     position: relative;
     background: #FFFFFF;
     min-height: 100vh;

@@ -5,7 +5,7 @@ phases:
     commands:
       - echo Installing source NPM dependencies...
       - npm i npm@latest -g
-      - npm install -g @angular/cli
+      - npm install -g @angular/cli@latest
       - npm install
   build:
     commands:
@@ -13,11 +13,13 @@ phases:
       - ng build --prod
   post_build:
     commands:
+      - ls
+      - pwd
       - cp appspec.yml dist
       - cp server.js dist
       - cp package.json dist
-      - cp -r scripts dist
-      - cp -r node_modules dist
+      - cp scripts/* dist
+      - cp node_modules/* dist
       - echo Build completed on `date`
 artifacts:
     files:
