@@ -7,6 +7,7 @@ import { Confirmation } from '../confirmation';
 import {AUTHENTICATION, LOGIN} from '../../app/routes';
 import {MatDialogRef} from '@angular/material';
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons/faArrowLeft';
+import {debounceTime, filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -39,7 +40,7 @@ export class ConfirmationModalComponent implements OnInit {
       this.confirmation.confirmationId = this.data.confirmationId;
     }
     this.confirmationCode = new FormControl('', [Validators.required,
-      Validators.minLength(6),
+      Validators.minLength(5),
       Validators.maxLength(6)]);
 
     this.confirmationForm = formBuilder.group({
@@ -50,20 +51,29 @@ export class ConfirmationModalComponent implements OnInit {
       .valueChanges
       .subscribe(value => {
         this.confirmation.code = value.confirmationCode;
-        if (value.confirmationCode.length === 6) {
-          this.onSubmit();
-        }
       }, error2 => {
         console.log(error2);
       });
-
   }
 
   ngOnInit(): void {
+    this.subscribeToConfirmation();
     // this.sub = this.route.params.subscribe(params => {
     //   this.confirmation.credentialId = params['credentialId'];
     //   this.confirmation.confirmationId = params['confirmationId'];
     // });
+  }
+
+  private subscribeToConfirmation() {
+    this.confirmationCode.valueChanges
+      .pipe(debounceTime(1000), filter(value => { // filter out empty values
+        return !!(value);
+      }))
+      .subscribe( value => {
+        if (value.length >= 5) {
+          this.onSubmit();
+        }
+      })
   }
 
   sendConfirmationCode() {
@@ -71,16 +81,10 @@ export class ConfirmationModalComponent implements OnInit {
     this.doNotDisplayFailureMessage = true;
     this.authenticationService
       .resendConfirmationCode(this.confirmation.confirmationId, this.confirmation.credentialId)
-      .subscribe(confirmation => {
-        if (confirmation && confirmation.status === 'New') {
+      .subscribe(isValid => {
+        if (isValid.valid) {
           this.success = 'Sent!';
-          this.data.credentialId = confirmation.credentialId;
-          this.data.confirmationId = confirmation.confirmationId;
-          localStorage.setItem('verification', JSON.stringify(this.data));
           this.doNotDisplaySuccessMessage = false;
-        } else if (confirmation && confirmation.status === 'Confirmed') {
-          this.message = 'Username confirmed, please log in.';
-          this.doNotDisplayFailureMessage = false;
         } else {
           this.message = 'Something went wrong, please try again.';
           this.doNotDisplayFailureMessage = false;
@@ -98,19 +102,19 @@ export class ConfirmationModalComponent implements OnInit {
 
     this.authenticationService
       .verifyConfirmation(this.confirmation)
-      .subscribe(confirmation => {
-        if (confirmation && confirmation.status === 'Confirmed') {
+      .subscribe(isValid => {
+        if (isValid.valid) {
           localStorage.removeItem('verification');
           this.doNotDisplaySuccessMessage = false;
           if (this.data.forgetPassword) {
             localStorage.setItem('changePassword', JSON.stringify({
               username: this.data.username,
               credentialId: this.data.credentialId,
-              code: confirmation.code
+              confirmationId: this.data.confirmationId,
+              code: this.confirmation.code
             }));
             setTimeout( () => {
               this.onNext.emit(true);
-              // this.router.navigate([this.redirectLink]);
             }, 1000);
           }else {
             setTimeout( () => {
@@ -118,15 +122,13 @@ export class ConfirmationModalComponent implements OnInit {
               this.router.navigate([this.redirectLink]);
             }, 1000);
           }
-        } else if (confirmation && confirmation.status === 'Expired') {
-          this.message = 'Expired, please generate a new one below.';
-          this.doNotDisplayFailureMessage = false;
-        } else {
+        }else {
           this.message = 'Incorrect Code';
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
         console.log(error);
+        console.log(error.message);
         this.message = 'Incorrect Code';
         this.doNotDisplayFailureMessage = false;
       });

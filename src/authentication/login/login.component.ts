@@ -77,16 +77,10 @@ export class LoginComponent implements OnInit {
     this.doNotDisplayFailureMessage = true;
     this.authenticationService
       .authenticate(this.credential)
-      .subscribe(authenticatedCredential => {
-        if (authenticatedCredential && authenticatedCredential.authenticateStatus === 'CredentialActive') {
+      .subscribe(res => {
+        if (res.valid) {
           this.sessionService.loginEvent.next(true);
           this.router.navigate([`/${LOBBY}`]);
-        }else if (authenticatedCredential && authenticatedCredential.authenticateStatus === 'CredentialConfirmed') {
-          this.router.navigate([`/${ORGANIZATION}/create`]);
-        }else if (authenticatedCredential && authenticatedCredential.authenticateStatus === 'CredentialUsernameNotConfirmed') {
-          const credentialId = authenticatedCredential.credentialId;
-          const confirmationId = authenticatedCredential.confirmationId;
-          this.router.navigate([`/${AUTHENTICATION}/${CONFIRMATION}/${credentialId}/${confirmationId}`]);
         }else {
           this.doNotDisplayFailureMessage = false;
         }
