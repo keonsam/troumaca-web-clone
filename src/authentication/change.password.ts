@@ -1,7 +1,8 @@
 export class ChangePassword {
+  confirmationId: string;
   credentialId: string;
   username: string;
-  password: string;
+  oldPassword: string;
   newPassword: string;
   code: string;
 }

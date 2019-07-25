@@ -1,7 +1,6 @@
 import {Observable} from 'rxjs';
 import { Credential } from './credential';
 import { Confirmation } from './confirmation';
-import {AuthenticatedCredential} from './authenticated.credential';
 import {ChangePassword} from './change.password';
 import {Apollo} from 'apollo-angular';
 import {map} from 'rxjs/operators';
@@ -16,31 +15,32 @@ import {
   USERNAME_GQL
 } from './auth.queries';
 import {User} from '../parties/user';
+import {IsValid} from './isValid';
 
 export class AuthenticationService {
 
   constructor(private apollo: Apollo) {
   }
 
-  isValidUsername(username: string): Observable<boolean> {
+  isValidUsername(username: string): Observable<IsValid> {
     return this.apollo.query( {
       query: USERNAME_GQL,
       variables: {
         username
       }
     }).pipe(map( (res: any) => {
-      return res.data.validateUsername;
+      return res ? res.data.validateUsername : res;
       }));
   }
 
-  isValidPassword(password: string): Observable<boolean> {
+  isValidPassword(password: string): Observable<IsValid> {
     return this.apollo.query( {
       query: PASSWORD_GQL,
       variables: {
         password
       }
     }).pipe(map( (res: any) => {
-      return res.data.validatePassword;
+      return res ? res.data.validatePassword : res;
     }));
   }
 
@@ -50,7 +50,7 @@ export class AuthenticationService {
       variables: {
         firstName: user.firstName,
         lastName: user.lastName,
-        organizationName: credential.companyName,
+        organizationName: credential.companyName || '',
         username: credential.username,
         password: credential.password,
       }
@@ -59,7 +59,7 @@ export class AuthenticationService {
     }));
   }
 
-  verifyConfirmation(confirmation: Confirmation): Observable<Confirmation> {
+  verifyConfirmation(confirmation: Confirmation): Observable<IsValid> {
     return this.apollo.mutate( {
       mutation: CONFIRMATION_GQL,
       variables: {
@@ -68,11 +68,11 @@ export class AuthenticationService {
         code: confirmation.code,
       }
     }).pipe(map( (res: any) => {
-      return res.data.confirmation;
+      return res ? res.data.confirmation : res;
     }));
   }
 
-  resendConfirmationCode(confirmationId: string, credentialId: string): Observable<Confirmation> {
+  resendConfirmationCode(confirmationId: string, credentialId: string): Observable<IsValid> {
     return this.apollo.mutate( {
       mutation: RESEND_CODE_GQL,
       variables: {
@@ -80,11 +80,11 @@ export class AuthenticationService {
         credentialId: credentialId,
       }
     }).pipe(map( (res: any) => {
-      return res.data.resendCode;
+      return res ? res.data.resendCode : res;
     }));
   }
 
-  authenticate(credential: Credential): Observable<AuthenticatedCredential> {
+  authenticate(credential: Credential): Observable<IsValid> {
     return this.apollo.mutate( {
       mutation: LOGIN_GQL,
       variables: {
@@ -92,7 +92,7 @@ export class AuthenticationService {
         password: credential.password,
       }
     }).pipe(map( (res: any) => {
-      return res.data.login;
+      return res ? res.data.login : res;
     }));
   }
 
@@ -103,21 +103,22 @@ export class AuthenticationService {
         username
       }
     }).pipe(map( (res: any) => {
-      return res.data.forgetPassword;
+      return res ? res.data.forgetPassword : res;
     }));
   }
 
-  changePassword(changePassword: ChangePassword): Observable<boolean> {
+  changePassword(changePassword: ChangePassword): Observable<IsValid> {
     return this.apollo.mutate( {
       mutation: CHANGE_PASS_GQL,
       variables: {
+        confirmationId: changePassword.confirmationId,
         credentialId: changePassword.credentialId,
-        username: changePassword.username,
-        password: changePassword.password,
+        oldPassword: changePassword.oldPassword || '',
+        newPassword: changePassword.newPassword,
         code: changePassword.code
       }
     }).pipe(map((res: any) => {
-      return res.data.changePassword;
+      return res ? res.data.changePassword : res;
     }));
   }
 

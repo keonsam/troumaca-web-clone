@@ -3,12 +3,12 @@ import {AuthenticationService} from '../authentication.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Credential} from '../credential';
 import {ActivatedRoute, Router} from '@angular/router';
-import { ValidResponse } from '../valid.response';
 import {debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import {User} from '../../parties/user';
-import {AUTHENTICATION, CONFIRMATION, HOME, LOGIN} from '../../app/routes';
+import {AUTHENTICATION, HOME, LOGIN} from '../../app/routes';
 import {ConfirmationModalComponent} from '../confirmation-modal/confirmation.modal.component';
 import {MatDialog} from '@angular/material';
+import {IsValid} from '../isValid';
 
 @Component({
   selector: 'app-register',
@@ -27,7 +27,6 @@ export class RegisterComponent implements OnInit {
   private credential: Credential;
   private user: User;
   doNotDisplayFailureMessage: boolean;
-  homeLink = `/${HOME}`;
   loginRoute = `/${AUTHENTICATION}/${LOGIN}`;
   secondImg = false;
   email = false;
@@ -115,8 +114,8 @@ export class RegisterComponent implements OnInit {
       }), map((value: string) => {
         return authenticationService.isValidUsername(value);
       })).subscribe(value => {
-        value.subscribe( (otherValue: boolean) => {
-          isValidUsername = otherValue;
+        value.subscribe( (otherValue: IsValid) => {
+          isValidUsername = otherValue.valid;
           usernameControl.updateValueAndValidity();
         });
       });
@@ -150,8 +149,8 @@ export class RegisterComponent implements OnInit {
       }), map((value: string) => {
         return authenticationService.isValidPassword(value);
       })).subscribe(value => {
-        value.subscribe( (otherValue: boolean) => {
-          isValidPassword = otherValue;
+        value.subscribe( (otherValue: IsValid) => {
+          isValidPassword = otherValue.valid;
           passwordControl.updateValueAndValidity();
         });
       });

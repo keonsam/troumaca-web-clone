@@ -35,8 +35,7 @@ export class ForgetPasswordComponent {
     this.forgetPasswordForm
       .valueChanges
       .subscribe(value => {
-        this.changePassword.password = value.password;
-        this.changePassword.newPassword = value.confirmPass
+        this.changePassword.newPassword = value.password;
       });
   }
 
@@ -85,11 +84,11 @@ export class ForgetPasswordComponent {
   onPassword() {
     this.changePassword.code = this.data.code;
     this.changePassword.credentialId = this.data.credentialId;
-    this.changePassword.username = this.data.username;
+    this.changePassword.confirmationId = this.data.confirmationId;
     this.doNotDisplayFailureMessage = true;
     this.authenticationService.changePassword(this.changePassword)
-      .subscribe(changeRes => {
-        if (changeRes) {
+      .subscribe(isValid => {
+        if (isValid.valid) {
           localStorage.removeItem('changePassword');
           this.onNext.emit(true);
         } else {
