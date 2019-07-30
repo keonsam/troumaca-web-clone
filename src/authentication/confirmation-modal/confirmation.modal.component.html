@@ -9,10 +9,10 @@
   <div mat-dialog-content
        class="content">
     <p class="confirm-desc">
-      We have sent an {{ this.data['usernameType'] === 'email' ? 'email': 'SMS'}} to <br>
+      Success! We have sent the code to <br>
       <span class="confirm-desc__username">{{ this.data['username']}}</span><br>
       <br>
-      {{ this.data['usernameType'] === 'email' ? 'You can click the link in the email or input the code from that email below.' : 'Input the code below.'}}
+      Please input the code below.
     </p>
     <form [formGroup]="confirmationForm" class="form">
 

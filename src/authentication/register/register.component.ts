@@ -9,6 +9,7 @@ import {AUTHENTICATION, HOME, LOGIN} from '../../app/routes';
 import {ConfirmationModalComponent} from '../confirmation-modal/confirmation.modal.component';
 import {MatDialog} from '@angular/material';
 import {IsValid} from '../isValid';
+import {Confirmation} from '../confirmation';
 
 @Component({
   selector: 'app-register',
@@ -97,9 +98,6 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('verification')) {
-      this.openConfirmation();
-    }
   }
 
   private usernameValidator(authenticationService: AuthenticationService) {
@@ -185,14 +183,7 @@ export class RegisterComponent implements OnInit {
     .addCredential(this.user, this.credential)
     .subscribe(confirmation => {
       if (confirmation && confirmation.confirmationId) {
-        localStorage.setItem('verification', JSON.stringify({
-          usernameType: this.credential.usernameType,
-          username: this.credential.username,
-          credentialId: confirmation.credentialId,
-          confirmationId: confirmation.confirmationId
-        }));
-        this.openConfirmation();
-        // this.router.navigate([`/${AUTHENTICATION}/${CONFIRMATION}/${confirmation.credentialId}/${confirmation.confirmationId}`]);
+        this.openConfirmation(confirmation);
       } else {
         this.doNotDisplayFailureMessage = false;
       }
@@ -202,18 +193,15 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  openConfirmation() {
+  openConfirmation(confirmation: Confirmation) {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      data: { ...confirmation, username: this.credential.username},
       hasBackdrop: true,
       backdropClass: 'backdrop',
       closeOnNavigation: false,
       disableClose: true,
       panelClass: ['modal', 'modal-verify'],
     });
-
-    // dialogRef.componentInstance.onNext.subscribe((result: string) => {
-    //   this.openSignUp()
-    // });
 
     dialogRef.afterClosed().subscribe(result => {
     });

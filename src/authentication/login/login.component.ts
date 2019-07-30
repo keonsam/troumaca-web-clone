@@ -13,6 +13,7 @@ import {ConfirmationModalComponent} from '../confirmation-modal/confirmation.mod
 import {ForgetPasswordComponent} from '../forget-password/forget.password.component';
 import {ForgetSavedComponent} from '../forget-saved/forget.saved.component';
 import {faGoogle} from '@fortawesome/free-brands-svg-icons/faGoogle';
+import {Confirmation} from '../confirmation';
 
 @Component({
   selector: 'app-login',
@@ -68,19 +69,20 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('verification')) {
-      this.openConfirmation();
-    }
   }
 
   onSubmit() {
     this.doNotDisplayFailureMessage = true;
     this.authenticationService
       .authenticate(this.credential)
-      .subscribe(res => {
-        if (res.valid) {
-          this.sessionService.loginEvent.next(true);
-          this.router.navigate([`/${LOBBY}`]);
+      .subscribe(auth => {
+        if (auth) {
+          if (auth.state === 'USERNAME_NOT_CONFIRMED') {
+            this.openConfirmation({...auth.confirmation, username: this.credential.username });
+          } else {
+            this.sessionService.loginEvent.next(true);
+            this.router.navigate([`/${LOBBY}`]);
+          }
         }else {
           this.doNotDisplayFailureMessage = false;
         }
@@ -146,16 +148,17 @@ export class LoginComponent implements OnInit {
       panelClass: ['modal', 'modal-white'],
     });
 
-    dialogRef.componentInstance.onNext.subscribe((result: boolean) => {
-      if (result) {
-        this.openConfirmation();
+    dialogRef.componentInstance.onNext.subscribe((result: any) => {
+      if (result && result.confirmationId) {
+        this.openConfirmation(result);
         dialogRef.close();
       }
     });
   }
 
-  private openConfirmation() {
+  private openConfirmation(confirmation: any) {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      data: { ...confirmation},
       hasBackdrop: true,
       backdropClass: 'backdrop',
       closeOnNavigation: false,
@@ -170,13 +173,14 @@ export class LoginComponent implements OnInit {
       }
     });
     dialogRef.componentInstance.onNext.subscribe((result: string) => {
-      this.openPassword();
+      this.openPassword(result);
       dialogRef.close();
     });
   }
 
-  private openPassword() {
+  private openPassword(result) {
     const dialogRef = this.dialog.open(ForgetPasswordComponent, {
+      data: {... result},
       hasBackdrop: true,
       backdropClass: 'backdrop',
       closeOnNavigation: false,
@@ -184,8 +188,8 @@ export class LoginComponent implements OnInit {
       panelClass: ['modal', 'modal-white'],
     });
 
-    dialogRef.componentInstance.onNext.subscribe((result: string) => {
-      if (result) {
+    dialogRef.componentInstance.onNext.subscribe((res: boolean) => {
+      if (res) {
         this.openSaved();
         dialogRef.close();
       }

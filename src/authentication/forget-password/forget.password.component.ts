@@ -1,5 +1,5 @@
-import {Component, EventEmitter} from '@angular/core';
-import {MatDialogRef} from '@angular/material';
+import {Component, EventEmitter, Inject} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../authentication.service';
 import {ChangePassword} from '../change.password';
@@ -19,12 +19,12 @@ export class ForgetPasswordComponent {
   message: string;
   onNext: EventEmitter<boolean> = new EventEmitter();
   changePassword: ChangePassword;
-  data: any;
+  // data: any;
 
-  constructor(public dialogRef: MatDialogRef<ForgetPasswordComponent>,
+  constructor(@Inject(MAT_DIALOG_DATA) private readonly data: any,
+              public dialogRef: MatDialogRef<ForgetPasswordComponent>,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService) {
-    this.data = JSON.parse(localStorage.getItem('changePassword'));
     this.changePassword = new ChangePassword();
     this.password = new FormControl('', [Validators.required, this.passwordValidator(this.authenticationService)]);
     this.confirmPass = new FormControl('', [Validators.required, this.checkPasswords.bind(this)]);
@@ -89,7 +89,6 @@ export class ForgetPasswordComponent {
     this.authenticationService.changePassword(this.changePassword)
       .subscribe(isValid => {
         if (isValid.valid) {
-          localStorage.removeItem('changePassword');
           this.onNext.emit(true);
         } else {
           this.message = 'Password change failed.';

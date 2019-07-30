@@ -44,7 +44,11 @@ export const RESEND_CODE_GQL = gql`
 export const LOGIN_GQL = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
-      valid
+      state
+      confirmation {
+        credentialId
+        confirmationId
+      }
     }
   }
 `;

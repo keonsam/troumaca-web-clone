@@ -2,7 +2,6 @@ import {Component, EventEmitter} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../authentication.service';
-import {AUTHENTICATION, CONFIRMATION, FORGOT_PASSWORD} from '../../app/routes';
 
 @Component({
   selector: 'app-forget-username',
@@ -15,7 +14,7 @@ export class ForgetUsernameComponent {
   forgetUsernameForm: FormGroup;
   doNotDisplayFailureMessage = true;
   message: string;
-  onNext: EventEmitter<boolean> = new EventEmitter();
+  onNext: EventEmitter<any> = new EventEmitter();
 
   constructor(public dialogRef: MatDialogRef<ForgetUsernameComponent>,
               private formBuilder: FormBuilder,
@@ -26,23 +25,12 @@ export class ForgetUsernameComponent {
     })
   }
 
-  validateEmail(email) {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  }
   onSubmit() {
     this.doNotDisplayFailureMessage = true;
     this.authenticationService.forgotPassword(this.username.value)
       .subscribe( value => {
         if (value && value.confirmationId) {
-          localStorage.setItem('verification', JSON.stringify({
-            usernameType: this.validateEmail(this.username.value) ? 'email' : 'mobile',
-            username: this.username.value,
-            credentialId: value.credentialId,
-            confirmationId: value.confirmationId,
-            forgetPassword: true,
-          }));
-          this.onNext.emit(true);
+          this.onNext.emit({...value, username: this.username.value, forgetPassword: true});
         }else {
           this.message = 'Username does not exit.';
           this.doNotDisplayFailureMessage = false;

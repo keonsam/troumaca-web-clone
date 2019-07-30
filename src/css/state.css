@@ -12,6 +12,7 @@ button[mat-flat-button].button--primary[disabled] {
   background: #004777;
   opacity: 0.3;
   color: #FFFFFF;
+  cursor: not-allowed;
 }
 
 button[mat-flat-button].button--primary {
