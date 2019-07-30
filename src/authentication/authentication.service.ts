@@ -16,6 +16,7 @@ import {
 } from './auth.queries';
 import {User} from '../parties/user';
 import {IsValid} from './isValid';
+import {AuthenticatedCredential} from './authenticated.credential';
 
 export class AuthenticationService {
 
@@ -84,7 +85,7 @@ export class AuthenticationService {
     }));
   }
 
-  authenticate(credential: Credential): Observable<IsValid> {
+  authenticate(credential: Credential): Observable<AuthenticatedCredential> {
     return this.apollo.mutate( {
       mutation: LOGIN_GQL,
       variables: {

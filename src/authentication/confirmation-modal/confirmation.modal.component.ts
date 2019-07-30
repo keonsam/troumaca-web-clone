@@ -1,6 +1,5 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-// import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
 import { Confirmation } from '../confirmation';
@@ -8,6 +7,7 @@ import {AUTHENTICATION, LOGIN} from '../../app/routes';
 import {MatDialogRef} from '@angular/material';
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 import {debounceTime, filter} from 'rxjs/operators';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -23,18 +23,17 @@ export class ConfirmationModalComponent implements OnInit {
   doNotDisplaySuccessMessage = true;
   doNotDisplayFailureMessage = true;
   private redirectLink = `/${AUTHENTICATION}/${LOGIN}`;
-  data: any;
   success = 'Code Accepted!';
   onPrevious: EventEmitter<boolean> = new EventEmitter();
-  onNext: EventEmitter<boolean> = new EventEmitter();
+  onNext: EventEmitter<any> = new EventEmitter();
   faArrowLeft = faArrowLeft;
 
-  constructor(public dialogRef: MatDialogRef<ConfirmationModalComponent>,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+              public dialogRef: MatDialogRef<ConfirmationModalComponent>,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private router: Router) {
     this.confirmation = new Confirmation();
-    this.data = JSON.parse(localStorage.getItem('verification'));
     if (this.data) {
       this.confirmation.credentialId = this.data.credentialId;
       this.confirmation.confirmationId = this.data.confirmationId;
@@ -58,10 +57,6 @@ export class ConfirmationModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscribeToConfirmation();
-    // this.sub = this.route.params.subscribe(params => {
-    //   this.confirmation.credentialId = params['credentialId'];
-    //   this.confirmation.confirmationId = params['confirmationId'];
-    // });
   }
 
   private subscribeToConfirmation() {
@@ -104,19 +99,12 @@ export class ConfirmationModalComponent implements OnInit {
       .verifyConfirmation(this.confirmation)
       .subscribe(isValid => {
         if (isValid.valid) {
-          localStorage.removeItem('verification');
           this.doNotDisplaySuccessMessage = false;
           if (this.data.forgetPassword) {
-            localStorage.setItem('changePassword', JSON.stringify({
-              username: this.data.username,
-              credentialId: this.data.credentialId,
-              confirmationId: this.data.confirmationId,
-              code: this.confirmation.code
-            }));
             setTimeout( () => {
-              this.onNext.emit(true);
+              this.onNext.emit({...this.data,  code: this.confirmation.code });
             }, 1000);
-          }else {
+          } else {
             setTimeout( () => {
               this.dialogRef.close();
               this.router.navigate([this.redirectLink]);

@@ -1,8 +1,6 @@
-export class AuthenticatedCredential {
+import {Confirmation} from './confirmation';
 
-  credentialId: string;
-  username: string;
-  status: string;
-  confirmationId: string;
-  partyId: string;
+export class AuthenticatedCredential {
+  state: string;
+  confirmation: Confirmation;
 }
