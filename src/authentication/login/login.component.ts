@@ -13,7 +13,6 @@ import {ConfirmationModalComponent} from '../confirmation-modal/confirmation.mod
 import {ForgetPasswordComponent} from '../forget-password/forget.password.component';
 import {ForgetSavedComponent} from '../forget-saved/forget.saved.component';
 import {faGoogle} from '@fortawesome/free-brands-svg-icons/faGoogle';
-import {Confirmation} from '../confirmation';
 
 @Component({
   selector: 'app-login',
@@ -29,11 +28,10 @@ export class LoginComponent implements OnInit {
   private credential: Credential;
   doNotDisplayFailureMessage = true;
   error= 'Failed to Login';
-  // forgotPasswordRoute = `/${AUTHENTICATION}/${FORGOT_PASSWORD}/username`;
-  // homeLink = `/${HOME}`;
   hide = true;
   accountType: string;
   faGoogle = faGoogle;
+  loading: boolean;
 
   constructor(public dialog: MatDialog,
               private formBuilder: FormBuilder,
@@ -72,14 +70,17 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading = true;
     this.doNotDisplayFailureMessage = true;
     this.authenticationService
       .authenticate(this.credential)
       .subscribe(auth => {
+        this.loading = false;
         if (auth) {
           if (auth.state === 'USERNAME_NOT_CONFIRMED') {
             this.openConfirmation({...auth.confirmation, username: this.credential.username });
           } else {
+            // remove this.loading
             this.sessionService.loginEvent.next(true);
             this.router.navigate([`/${LOBBY}`]);
           }
@@ -88,6 +89,7 @@ export class LoginComponent implements OnInit {
         }
       }, error => {
         console.log(error);
+        this.loading = false;
         this.doNotDisplayFailureMessage = false;
       });
   }

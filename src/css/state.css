@@ -43,6 +43,9 @@ button[mat-flat-button].button--big--google {
   height: 21px;
 }
 
+.input-field--half {
+  width: calc(50% - 8px);
+}
 @media only screen and (max-width: 599px) {
   button[mat-flat-button].button--primary--medium {
     width: 270px;

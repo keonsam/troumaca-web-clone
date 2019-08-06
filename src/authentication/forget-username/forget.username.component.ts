@@ -15,6 +15,7 @@ export class ForgetUsernameComponent {
   doNotDisplayFailureMessage = true;
   message: string;
   onNext: EventEmitter<any> = new EventEmitter();
+  loading: boolean;
 
   constructor(public dialogRef: MatDialogRef<ForgetUsernameComponent>,
               private formBuilder: FormBuilder,
@@ -26,9 +27,11 @@ export class ForgetUsernameComponent {
   }
 
   onSubmit() {
+    this.loading = true;
     this.doNotDisplayFailureMessage = true;
     this.authenticationService.forgotPassword(this.username.value)
       .subscribe( value => {
+        this.loading = false;
         if (value && value.confirmationId) {
           this.onNext.emit({...value, username: this.username.value, forgetPassword: true});
         }else {
@@ -38,6 +41,7 @@ export class ForgetUsernameComponent {
       }, error => {
         console.log(error);
         this.message = 'Username does not exit.';
+        this.loading = false;
         this.doNotDisplayFailureMessage = false;
       });
   }

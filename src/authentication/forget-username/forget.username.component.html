@@ -24,7 +24,10 @@
     </form>
   </div>
     <div mat-dialog-actions fxLayoutAlign="flex-end" fxLayoutAlign.xs="center">
-      <button [disabled]="!forgetUsernameForm.valid" mat-flat-button class="button button--primary button--primary--medium" (click)="onSubmit()">Recover Password</button>
+      <button [disabled]="!forgetUsernameForm.valid || loading" mat-flat-button class="button button--primary button--primary--medium" (click)="onSubmit()">
+        <mat-spinner *ngIf="loading" [diameter]="20" class="button__spinner"></mat-spinner>
+        <span *ngIf="!loading">Recover Password</span>
+      </button>
     </div>
   <app-error [hidden]="doNotDisplayFailureMessage" [errorMessage]="message" (onHide)="hideError($event)"></app-error>
 </div>

@@ -8,7 +8,8 @@
 }
 
 .auth-header {
-  padding-top: 52px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .auth-main {
@@ -17,14 +18,13 @@
   min-height: 612px;
   background: #FFFFFF;
   border-radius: 8px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 20px auto 68px;
   padding: 0;
 }
 
 .auth-footer {
   background: #004777;
-  padding-top: 25px;
+  padding-top: 18px;
 }
 
 .auth__brand {
@@ -65,23 +65,26 @@
 }
 
 @media only screen and (max-width: 599px) {
+  .auth-footer {
+    padding-top: 28px;
+    padding-left: 58px;
+  }
   .auth-main {
-    /*position: relative;*/
+    position: relative;
     /*min-height: 100vh;*/
     /*margin-top: 0;*/
     /*overflow-x: hidden;*/
+    margin: 0 auto;
     width: 100%;
     border-radius: 0;
     background: none;
   }
-  .auth-body {
+  .auth-grid {
     position: relative;
     background: #FFFFFF;
-    min-height: 100vh;
   }
   /*  footer */
   .footer-div {
-    margin: auto;
     min-width: 122px;
   }
 }

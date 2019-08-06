@@ -1,4 +1,4 @@
-<div fxLayoutAlign="space-between">
+<div class="auth-main2" fxLayoutAlign="space-between">
   <div class="form-container" fxFlex="1 0 auto">
     <div class="form-sec">
       <h2 class="title title--sign-up">
@@ -6,24 +6,26 @@
       </h2>
       <form [formGroup]="registrationForm" class="form">
 
-        <div>
-          <label class="input-label" for="firstName">First Name</label>
-          <mat-form-field class="input-field" appearance="outline">
-            <input matInput [formControl]="firstName" id="firstName" required>
-            <mat-error *ngIf="firstName.hasError('required')">
-              First name is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
+        <div fxLayout="row" fxLayoutGap="16px">
+          <div class="input-field--half">
+            <label class="input-label" for="firstName">First Name</label>
+            <mat-form-field class="input-field"  appearance="outline">
+              <input matInput [formControl]="firstName" id="firstName" required>
+              <mat-error *ngIf="firstName.hasError('required')">
+                <strong>Required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-        <div>
-          <label class="input-label" for="lastName">Last Name</label>
-          <mat-form-field class="input-field" appearance="outline">
-            <input matInput [formControl]="lastName" id="lastName" required>
-            <mat-error *ngIf="lastName.hasError('required')">
-              Last name is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+          <div class="input-field--half">
+            <label class="input-label" for="lastName">Last Name</label>
+            <mat-form-field class="input-field" appearance="outline">
+              <input matInput [formControl]="lastName" id="lastName" required>
+              <mat-error *ngIf="lastName.hasError('required')">
+                <strong>Required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
 
         <div *ngIf="secondImg">
@@ -75,15 +77,18 @@
           </mat-form-field>
         </div>
 
-        <button mat-flat-button class="button button--primary button--big button--big--login" type="submit" [disabled]="!registrationForm.valid" (click)="onCreate()">Sign Up</button>
+        <button mat-flat-button class="button button--primary button--big button--big--login" type="submit" [disabled]="!registrationForm.valid || loading" (click)="onCreate()">
+          <mat-spinner *ngIf="loading" [diameter]="20" class="button__spinner"></mat-spinner>
+          <span *ngIf="!loading">Sign Up</span>
+        </button>
       </form>
       <div class="ending">Already have an account? <a class="ending__link" href [routerLink]="loginRoute">Login now</a></div>
       <app-error [hidden]="doNotDisplayFailureMessage" [errorMessage]="error" (onHide)="hideError($event)"></app-error>
     </div>
   </div>
-  <div [ngClass]="{'img-sec': true, 'img-sec1': !secondImg, 'img-sec2': secondImg}" fxHide.lt-md>
-    <h2 [ngClass]="{'img-sec-header': true, 'black-text': !secondImg}">Manage Assets <br>
+  <div class="img-sec" fxHide.lt-md>
+    <h2 class="img-sec-header">Manage Assets <br>
       {{ secondImg ? 'across your organization.': 'anyway you want.'}}</h2>
-    <p [ngClass]="{'img-sec__text': true, 'black-text': !secondImg}" >{{ secondImg ? 'Makes asset management a breeze for all levels.': 'Use Troumaka for anything from collection of personal assets, complex company and asset management.'}}</p>
+    <p class="img-sec__text">{{ secondImg ? 'Makes asset management a breeze for all levels.': 'Use Troumaka for anything from collection of personal assets, complex company and asset management.'}}</p>
   </div>
 </div>
