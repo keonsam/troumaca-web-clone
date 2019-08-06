@@ -1,3 +1,7 @@
+:host, .auth-main2 {
+  display: block;
+  min-height: 612px;
+}
 /* container */
 .img-sec {
   background-image: url("../../css/images/login.svg");
@@ -51,9 +55,6 @@
   margin-right: 70px;
 }
 
-/*input[matInput] .mat-form-field-flex {*/
-/*  background-color: #F0F7FB;*/
-/*}*/
 
 /* modal */
 
@@ -83,13 +84,11 @@
   background-repeat: no-repeat;
   background-position: bottom;
 }
-/* media queries */
 
-/*@media only screen and (max-width: 959px) {*/
-/*  :host {*/
-/*    width: 412px;;*/
-/*  }*/
-/*}*/
+.button__spinner {
+  margin: auto;
+}
+
 @media only screen and (max-width: 599px) {
 
   ::ng-deep .backdrop {

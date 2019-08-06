@@ -19,7 +19,7 @@ export class ForgetPasswordComponent {
   message: string;
   onNext: EventEmitter<boolean> = new EventEmitter();
   changePassword: ChangePassword;
-  // data: any;
+  loading: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) private readonly data: any,
               public dialogRef: MatDialogRef<ForgetPasswordComponent>,
@@ -82,12 +82,15 @@ export class ForgetPasswordComponent {
   }
 
   onPassword() {
+    this.loading = true;
+
     this.changePassword.code = this.data.code;
     this.changePassword.credentialId = this.data.credentialId;
     this.changePassword.confirmationId = this.data.confirmationId;
     this.doNotDisplayFailureMessage = true;
     this.authenticationService.changePassword(this.changePassword)
       .subscribe(isValid => {
+        this.loading = false;
         if (isValid.valid) {
           this.onNext.emit(true);
         } else {
@@ -96,6 +99,7 @@ export class ForgetPasswordComponent {
         }
       }, error1 => {
         console.log(error1);
+        this.loading = false;
         this.message = 'Password change failed.';
         this.doNotDisplayFailureMessage = false;
       });

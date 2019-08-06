@@ -1,9 +1,10 @@
-.img-sec1 {
-  background: url("../../css/images/register-personal.svg");
+:host, .auth-main2 {
+  display: block;
+  min-height: 612px;
 }
 
-.img-sec2 {
-  background-image: url("../../css/images/register-corporate.svg");
+.img-sec {
+  background: url("../../css/images/register-personal.png");
 }
 
 .img-sec-header {
@@ -11,8 +12,7 @@
   font-size: 24px;
   line-height: 27px;
   letter-spacing: -0.06em;
-
-  color: #FFFFFF;
+  color: #000000;
   margin-left: 57px;
   margin-top: 50px;
 }
@@ -22,8 +22,7 @@
   font-size: 18px;
   line-height: 20px;
   letter-spacing: 0.01em;
-
-  color: #FFFFFF;
+  color: #000000;
   margin-left: 57px;
   margin-top: 11px;
   opacity: 0.4;
@@ -32,10 +31,6 @@
 .title--sign-up {
   margin-bottom: 45px;
   padding-left: 6px;
-}
-
-.black-text {
-  color: #000000;
 }
 
 /* modal */
@@ -62,6 +57,9 @@
   background-position: bottom;
 }
 
+.button__spinner {
+  margin: auto;
+}
 @media only screen and (max-width: 599px) {
   ::ng-deep .backdrop {
     background: none;
@@ -74,3 +72,5 @@
     border-radius: 0;
   }
 }
+
+

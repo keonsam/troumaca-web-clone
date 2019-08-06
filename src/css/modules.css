@@ -5,14 +5,6 @@
   font-weight: bold;
 }
 
-/* Input */
-
-.input-field {
-  display: block;
-  width: 100%;
-  margin-bottom: 0.8rem;
-}
-
 /* button */
 button[mat-flat-button].button {
   border: 1px solid #EFEFF8;
@@ -23,6 +15,10 @@ button[mat-flat-button].button {
   font-size: 18px;
 }
 
+/* spinner */
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #FFFFFF !important;
+}
 
 /* container */
 .form-container {
@@ -32,7 +28,7 @@ button[mat-flat-button].button {
 
 .form-sec {
   width: 270px;
-  margin: 56px auto 39px;
+  margin: 35px auto 35px;
   /*margin-left: auto;*/
   /*margin-right: auto;*/
   /*padding: 56px 66px 39px;*/
@@ -129,7 +125,13 @@ button[mat-flat-button].button {
   line-height: 14px;
   /* identical to box height */
   letter-spacing: 0.01em;
-  margin-bottom: 7px;
+  margin-bottom: 3px;
+}
+
+.input-field {
+  display: block;
+  width: 100%;
+  /*margin-bottom: 0.8rem;*/
 }
 
 .mat-form-field-appearance-outline .mat-form-field-outline {
@@ -150,6 +152,8 @@ button[mat-flat-button].button {
     overflow-x: hidden;
   }
   .form-sec {
+    margin-top: 39px;
+    margin-bottom: 62px;
     padding-top: 0;
   }
   .modal-panel {

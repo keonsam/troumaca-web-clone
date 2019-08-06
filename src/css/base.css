@@ -29,6 +29,12 @@ html {
 
 @font-face {
   font-family: 'Comfortaa';
+  src: url("font/Comfortaa[wght]bold.ttf");
+  font-style: normal;
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'Comfortaa';
   src: url("font/Comfortaa[wght]normal.ttf");
   font-style: normal;
   font-weight: normal;

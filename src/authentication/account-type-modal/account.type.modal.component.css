@@ -31,9 +31,8 @@
 }
 
 .img {
-  /*width: 183px;*/
   height: 180px;
-  background-image: url("../../css/images/account-type.svg");
+  background-image: url("../../css/images/account-type.png");
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -53,11 +52,15 @@ ul {
 }
 
 .card__content {
-  margin: 11px 13px 27px 17px;
+  margin: 11px 13px 0 17px;
 }
 .card.selected {
   background: #004777;
   color: #FFFFFF;
+}
+
+.check-sign {
+  height: 17px;
 }
 
 .card__icon--check {
@@ -112,9 +115,9 @@ ul {
   .content {
     margin-left: 0;
     margin-right: 0;
+    margin-bottom: 52px;
     padding-right: 0;
   }
-
   .modal-panel {
     padding-left: 15px;
     padding-right: 15px;

@@ -32,6 +32,7 @@ export class RegisterComponent implements OnInit {
   secondImg = false;
   email = false;
   error: string;
+  loading: boolean;
 
   constructor(public dialog: MatDialog,
               private authenticationService: AuthenticationService,
@@ -179,9 +180,11 @@ export class RegisterComponent implements OnInit {
 
   onCreate() {
     this.doNotDisplayFailureMessage = true;
+    this.loading = true;
     this.authenticationService
     .addCredential(this.user, this.credential)
     .subscribe(confirmation => {
+      this.loading = false;
       if (confirmation && confirmation.confirmationId) {
         this.openConfirmation(confirmation);
       } else {
@@ -189,7 +192,8 @@ export class RegisterComponent implements OnInit {
       }
     }, error => {
         console.log(error);
-        this.doNotDisplayFailureMessage = false;
+      this.loading = false;
+      this.doNotDisplayFailureMessage = false;
     });
   }
 

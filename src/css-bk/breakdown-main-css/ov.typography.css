@@ -1,4 +1,0 @@
-/* 3g. Override bootstrap typography styles */
-.text-muted, .invoice-body .invoice-desc .desc-value {
-  font-weight: 300;
-}

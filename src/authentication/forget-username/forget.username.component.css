@@ -16,6 +16,9 @@
   line-height: 140%;
 }
 
+.button__spinner {
+  margin: auto;
+}
 
 /*!* media queries *!*/
 @media only screen and (max-width: 599px) {
@@ -29,6 +32,6 @@
 
   .content {
     max-width: 270px;
-    margin: 34px auto 0;
+    margin: 34px auto 232px;
   }
 }
