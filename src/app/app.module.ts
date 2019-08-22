@@ -15,7 +15,6 @@ import {sessionInterceptorProvider} from '../client/session.interceptor.provider
 import {AppRoutingModule} from './app.routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SessionModule} from '../session/session.module';
-import { FrontHomeModule } from '../front-home/front-home.module';
 import { ClientModule } from '../client/client.module';
 import { MenuModule } from '../menu/menu.module';
 import { MaterialModule } from './material.module';
@@ -32,6 +31,19 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
 import {faMobileAlt} from '@fortawesome/free-solid-svg-icons/faMobileAlt';
+import { faBox } from '@fortawesome/free-solid-svg-icons/faBox';
+import {faList} from '@fortawesome/free-solid-svg-icons/faList';
+import {faEllipsisH} from '@fortawesome/free-solid-svg-icons/faEllipsisH';
+import {
+  faChevronDown,
+  faChevronRight,
+  faFilter,
+  faImage,
+  faSearch,
+  faSortAmountDown,
+  faTag,
+  faThLarge
+} from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
   imports: [
@@ -46,7 +58,6 @@ import {faMobileAlt} from '@fortawesome/free-solid-svg-icons/faMobileAlt';
     PageNotFoundModule,
     SessionModule,
     ClientModule,
-    FrontHomeModule,
     MenuModule,
     MaterialModule,
     FlexLayoutModule,
@@ -68,6 +79,8 @@ import {faMobileAlt} from '@fortawesome/free-solid-svg-icons/faMobileAlt';
 export class AppModule {
   constructor() {
     // Add an icon to the library for convenient access in other components
-    library.add(faUser, faGoogle, faUsers, faCheck, faArrowLeft, faEnvelope, faMobileAlt);
+    library.add(faUser, faGoogle, faUsers, faCheck, faArrowLeft, faEnvelope, faMobileAlt, faBox, faList, faEllipsisH, faSearch, faCheck,
+      faFilter, faSortAmountDown, faImage, faThLarge, faChevronRight, faTag, faChevronDown
+    );
   }
 }

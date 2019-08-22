@@ -1,5 +1,70 @@
-<div class="content-i">
-  <div class="content-box">
-    <router-outlet></router-outlet>
+<div class="assets"
+     gdRows="auto auto auto"
+>
+  <div class="input-menu"
+       fxLayout="row wrap"
+  >
+    <div fxLayout="row" fxLayoutGap="48px">
+      <div class="status"
+           fxLayout="column"
+      >
+        <span class="status__figure">0</span>
+        <span class="status__text">Total</span>
+      </div>
+      <div class="status"
+           fxLayout="column"
+      >
+        <span class="status__figure">0</span>
+        <span class="status__text">Yours</span>
+      </div>
+    </div>
+    <form class="search-form">
+      <mat-form-field class="search-input" appearance="outline">
+        <input  matInput [formControl]="search" placeholder="Search Assets" >
+        <fa-icon matSuffix class="search__icon" [icon]="faSearch"></fa-icon>
+      </mat-form-field>
+    </form>
+    <div class="white-button-div">
+      <button class="white-button white-button--one" (click)="openAssetCreate()">
+        <div class="white-button__box" fxLayoutAlign="center center">
+          <fa-icon class="white-button__icons" [icon]="faBox" ></fa-icon>
+        </div>
+        <span class="white-button__text">new assets</span>
+      </button>
+      <button class="white-button">
+        <div class="white-button__box white-button__box--types" fxLayoutAlign="center center">
+          <fa-icon class="white-button__icons" [icon]="faCheck"></fa-icon>
+        </div>
+        <span class="white-button__text">new type</span>
+      </button>
+    </div>
+  </div>
+  <div class="sort-menu"  fxLayoutAlign="space-between">
+    <div class="sort-left">
+      <fa-icon class="sort__icons" [icon]="faFilter" ></fa-icon>
+      <span class="sort__text">Filters</span>
+    </div>
+    <div class="sort-right">
+      <fa-icon class="sort__icons" [icon]="faSortAmountDown" ></fa-icon>
+      <span class="sort__text">Sort</span>
+      <fa-icon class="sort__icons sort__icons--list" [icon]="faList"></fa-icon>
+    </div>
+  </div>
+  <div *ngIf="assets.assets.length < 1"
+       class="no-assets"
+       fxLayout="column"
+       fxLayoutAlign="center center"
+  >
+    <div class="no-assets-img">
+
+    </div>
+    <p class="no-assets-p">It’s a lonely space right now!<br />
+      Add your first asset, let the <br />
+      journey begin !</p>
+    <button mat-flat-button
+            class="button button--primary button--primary--new-asset"
+    >
+      Add a New Asset
+    </button>
   </div>
 </div>

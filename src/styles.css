@@ -1,1 +1,30 @@
-/*@import url('../node_modules/font-awesome/css/font-awesome.css');*/
+:root {
+  --body-background-color: #E5E5E5;;
+  --text-color: #000000;
+  --font-family: 'Comfortaa', cursive;
+}
+
+/* BODY */
+body {
+  background: var(--body-background-color, #F5F5F5);
+  color: var(--text-color, #000000);
+}
+
+/* STYLE INHERITANCE */
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: var(--font-family, 'Comfortaa') !important;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: 0.01em;
+}
+
+/* set all elements to inherit box sizing */
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+

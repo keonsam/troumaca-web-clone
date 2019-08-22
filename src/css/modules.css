@@ -1,3 +1,4 @@
+/* 1 START OF AUTHENTICATION */
 /* auth box */
 .title {
   font-size: 24px;
@@ -10,7 +11,7 @@ button[mat-flat-button].button {
   border: 1px solid #EFEFF8;
   box-sizing: border-box;
   border-radius: 28px;
-  color: var(--button-clr-white, #FFFFFF);
+  color:  #FFFFFF;
   height: 51px;
   font-size: 18px;
 }
@@ -56,8 +57,6 @@ button[mat-flat-button].button {
 }
 
 .modal__close {
-  /*width: 20px;*/
-  /*height: 41px;*/
   font-size: 36px;
   line-height: 40px;
   color: #2C4948;
@@ -123,15 +122,14 @@ button[mat-flat-button].button {
   font-weight: normal;
   font-size: 13px;
   line-height: 14px;
-  /* identical to box height */
   letter-spacing: 0.01em;
   margin-bottom: 3px;
+  margin-left: 6px;
 }
 
 .input-field {
   display: block;
   width: 100%;
-  /*margin-bottom: 0.8rem;*/
 }
 
 .mat-form-field-appearance-outline .mat-form-field-outline {
@@ -144,6 +142,156 @@ button[mat-flat-button].button {
 .mat-form-field-appearance-outline .mat-form-field-infix {
   border: none;
   padding-top: 20px;
+}
+
+/* END OF AUTHENTICATION */
+/* search */
+.search-input {
+  width: 414px;
+}
+
+.search-input.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
+}
+
+.search-input.mat-form-field-appearance-outline .mat-form-field-outline {
+  margin-left: 10px;
+  margin-right: 5px;
+  height: 62px;
+  background: #FFFFFF;
+  border: 1px solid #EFEFF8;
+}
+
+.search-input.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding-top: 30px;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 14px;
+  letter-spacing: 0.02em;
+  color: #A7A7A7;
+  opacity: 0.5;
+}
+
+.search__icon {
+  padding-right: 10px;
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 21px;
+  letter-spacing: 0.05em;
+  color: #AAAAAA;
+  opacity: 0.5;
+}
+
+.search-input-2 {
+  width: 349px;
+}
+
+.search-input-2.mat-form-field-appearance-outline .mat-form-field-outline {
+  height: 51px;
+  background: #FFFFFF;
+  border: 1px solid #EFEFF8;
+}
+
+.search-input-2.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding-top: 23px;
+  padding-left: 11px;
+  font-size: 13px;
+  line-height: 14px;
+  letter-spacing: 0.02em;
+  color: #A7A7A7;
+  opacity: 0.5;
+}
+
+.lsm-input--full {
+  width: 100%;
+}
+
+.lsm-input--full.mat-form-field-appearance-outline .mat-form-field-outline {
+  background: #FFFFFF;
+  border: 1px solid #EFEFF8;
+}
+
+.lsm-input--full.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+/*white button*/
+.white-button {
+  width: 138px;
+  height: 62px;
+  background: #FFFFFF;
+  border: 1px solid #EFEFF8;
+  border-radius: 8px;
+}
+
+.white-button--one {
+  margin-right: 9px;
+}
+
+.white-button__box {
+  width: 24px;
+  height: 24px;
+  background: #CCD8F1;
+  margin: 0 auto;
+  border-radius: 50%;
+}
+
+.white-button__box--types {
+  background: #E7CCF1;
+}
+
+.white-button__icons {
+  font-size: 8px;
+  color: #2C4948;
+}
+
+.white-button__text {
+  margin-top: 5px;
+  font-family: var(--font-family);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 11px;
+  color: #3F5958;
+  opacity: 0.9;
+}
+
+/* SORT */
+.sort-menu {
+  padding: 39px 9px 0 4px;
+}
+
+.sort__icons {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: 0.05em;
+  color: #C4C4C4;
+  opacity: 0.5;
+}
+
+.sort__icons--list {
+  margin-left: 29px;
+  color: #2C4948;
+  opacity: 1;
+}
+
+.sort__text {
+  margin-left: 6px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 11px;
+  letter-spacing: 0.02em;
+  color: #323948;
+}
+
+
+/* form input */
+
+.create-input.mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: #E9F9FD;
 }
 
 @media only screen and (max-width: 599px) {

@@ -3,13 +3,11 @@ import {ModuleWithProviders} from '@angular/core';
 import {PageNotFoundComponent} from './page-not-found/page.not.found.component';
 import {AUTHENTICATION} from './routes';
 
-// {path: '', component: AppComponent},
 const appRoutes: Routes = [
   {path: '', redirectTo: AUTHENTICATION, pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent }
 ];
 
-export const appRoutingProviders: any[] = [
-];
+export const appRoutingProviders: any[] = [ ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

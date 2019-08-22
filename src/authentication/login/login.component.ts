@@ -164,7 +164,7 @@ export class LoginComponent implements OnInit {
       hasBackdrop: true,
       backdropClass: 'backdrop',
       closeOnNavigation: false,
-      disableClose: true,
+      disableClose: false,
       panelClass: ['modal', 'modal-white', 'modal-verify'],
     });
 

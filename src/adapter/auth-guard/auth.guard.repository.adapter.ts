@@ -17,8 +17,6 @@ export class AuthGuardRepositoryAdapter extends AuthGuardService {
         query isValidSession {
           isValidSession {
             valid
-            partyId
-            ownerPartyId
           }
         }
       `,

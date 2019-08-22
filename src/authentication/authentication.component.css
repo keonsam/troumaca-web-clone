@@ -3,14 +3,12 @@
   min-height: 100vh;
 }
 
+/* LAYOUT */
 .auth-grid {
   min-height: 100vh;
+  background: #F5F5F5;
 }
 
-.auth-header {
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
 
 .auth-main {
   display: block;
@@ -27,15 +25,12 @@
   padding-top: 18px;
 }
 
-.auth__brand {
-  font-size: 20px;
-  margin-left: 8px;
-  font-weight: bold;
-  letter-spacing: -0.06em;
+
+/* FOOTER STYLES */
+.auth-footer-container {
+  max-width: 1440px;
+  margin: 0 auto;
 }
-
-/* footer */
-
 .footer-header {
   font-size: 13px;
   line-height: 14px;
@@ -65,23 +60,20 @@
 }
 
 @media only screen and (max-width: 599px) {
-  .auth-footer {
-    padding-top: 28px;
-    padding-left: 58px;
+  .auth-grid {
+    position: relative;
+    background: #FFFFFF;
   }
   .auth-main {
     position: relative;
-    /*min-height: 100vh;*/
-    /*margin-top: 0;*/
-    /*overflow-x: hidden;*/
     margin: 0 auto;
     width: 100%;
     border-radius: 0;
     background: none;
   }
-  .auth-grid {
-    position: relative;
-    background: #FFFFFF;
+  .auth-footer {
+    padding-top: 28px;
+    padding-left: 58px;
   }
   /*  footer */
   .footer-div {

@@ -1,0 +1,30 @@
+<div class="lsm2"
+>
+  <div class="lsm2-white">
+    <div fxLayoutAlign="start center">
+      <span class="lsm-header-text">Create Type</span>
+      <div class="red-header-circle"></div>
+      <button mat-dialog-close class="modal__close">+</button>
+    </div>
+    <form class="lsm2-form">
+      <label class="input-label" for="name">Type name</label>
+      <mat-form-field class="lsm-input--full" appearance="outline">
+        <input  matInput [formControl]="search" placeholder="Search Type" id="name">
+      </mat-form-field>
+      <p class="lsm2-input-hint">Name your type to easily find them</p>
+      <div class="lsm2-options">
+        <div fxLayout="column" fxLayoutAlign="start center">
+          <div class="lsm2-options-text">advanced options</div>
+          <fa-icon [icon]="faChevronDown"></fa-icon>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-content fxLayout="column"  fxLayoutAlign="start center">
+    <button mat-flat-button class="button button--white button--white--attribute">Add an attribute</button>
+    <span class="lsm2-content-q">what is this?</span>
+  </div>
+  <div mat-dialog-actions fxLayoutAlign="center">
+    <button mat-flat-button class="button button--primary button--primary--types">Save Type</button>
+  </div>
+</div>

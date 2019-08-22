@@ -1,6 +1,7 @@
-export const HOME = 'home';
-export const LOBBY = 'lobby';
+export const HOME = 'authentication';
+export const LOBBY = 'dashboard';
 export const ASSET = 'assets';
+export const MANAGE = 'manage';
 export const ASSET_TYPE = 'asset-types';
 export const ASSET_ROLE_TYPE = 'asset-role-types';
 export const ASSET_NAME_TYPE = 'asset-name-types';

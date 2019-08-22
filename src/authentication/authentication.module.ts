@@ -20,6 +20,7 @@ import {ForgetUsernameComponent} from './forget-username/forget.username.compone
 import {ForgetPasswordComponent} from './forget-password/forget.password.component';
 import {ForgetSavedComponent} from './forget-saved/forget.saved.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {MenuModule} from '../menu/menu.module';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MaterialModule,
     FlexLayoutModule,
     DialogModule,
-    PopUpModule
+    PopUpModule,
+    MenuModule
   ],
   declarations: [
     AuthenticationComponent,
