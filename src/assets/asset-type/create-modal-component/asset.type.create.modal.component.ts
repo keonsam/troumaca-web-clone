@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import { MatDialogRef} from '@angular/material';
-import {faChevronDown, faSearch} from '@fortawesome/free-solid-svg-icons';
+import {DialogPosition, MatDialog, MatDialogRef} from '@angular/material';
+import {faChevronDown, faChevronUp, faSearch} from '@fortawesome/free-solid-svg-icons';
+import {AttributeSelectModalComponent} from '../../attributes/attributes-select-modal-component/attribute.select.modal.component';
 
 @Component({
   selector: 'asset-type-create-modal',
@@ -15,9 +16,11 @@ export class AssetTypeCreateModalComponent {
   // recentArray: string[];
   // commons: string[];
   faChevronDown = faChevronDown;
+  faChevronUp = faChevronUp;
   constructor(
     public dialogRef: MatDialogRef<AssetTypeCreateModalComponent>,
     private formBuilder: FormBuilder,
+    public dialog: MatDialog
   ) {
     // this.recentArray = ['RAM'];
     // this.commons = ['Building', 'vehicle', 'computer', 'manufacturing',
@@ -25,5 +28,22 @@ export class AssetTypeCreateModalComponent {
     //   'Material Inventory', 'Lot', 'building'
     // ];
     this.search = new FormControl('');
+  }
+
+  newAttributeModal() {
+    const dialogPosition: DialogPosition = {
+      top: '244px',
+      left: '418px'
+    };
+    const dialogRef = this.dialog.open(AttributeSelectModalComponent,  {
+      height: 'calc(100% - 244px)',
+      width: '706px',
+      position: dialogPosition,
+      hasBackdrop: true,
+      backdropClass: 'backdrop-left',
+      closeOnNavigation: true,
+      disableClose: false,
+      panelClass: ['left-panel-2'],
+    })
   }
 }

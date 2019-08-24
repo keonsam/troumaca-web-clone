@@ -1,3 +1,6 @@
+::ng-deep {
+  font-family: 'Comfortaa', cursive !important;
+}
 /* 1 START OF AUTHENTICATION */
 /* auth box */
 .title {

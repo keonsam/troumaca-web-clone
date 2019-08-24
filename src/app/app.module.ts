@@ -36,9 +36,9 @@ import {faList} from '@fortawesome/free-solid-svg-icons/faList';
 import {faEllipsisH} from '@fortawesome/free-solid-svg-icons/faEllipsisH';
 import {
   faChevronDown,
-  faChevronRight,
+  faChevronRight, faChevronUp,
   faFilter,
-  faImage,
+  faImage, faMapMarkerAlt,
   faSearch,
   faSortAmountDown,
   faTag,
@@ -80,7 +80,7 @@ export class AppModule {
   constructor() {
     // Add an icon to the library for convenient access in other components
     library.add(faUser, faGoogle, faUsers, faCheck, faArrowLeft, faEnvelope, faMobileAlt, faBox, faList, faEllipsisH, faSearch, faCheck,
-      faFilter, faSortAmountDown, faImage, faThLarge, faChevronRight, faTag, faChevronDown
+      faFilter, faSortAmountDown, faImage, faThLarge, faChevronRight, faTag, faChevronDown, faChevronUp, faMapMarkerAlt
     );
   }
 }

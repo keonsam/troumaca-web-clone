@@ -1,0 +1,89 @@
+<div class="lsm2">
+  <div class="lsm2-white">
+    <div fxLayoutAlign="space-between center">
+      <span class="lsm-header-text">Select Attribute</span>
+      <button mat-dialog-close class="modal__close">+</button>
+    </div>
+    <span class="lsm-header-span">what is type?</span>
+    <form class="search">
+      <mat-form-field class="search-input-2" appearance="outline">
+        <input  matInput [formControl]="search" placeholder="Search Attributes" >
+        <fa-icon matSuffix class="search__icon" [icon]="faSearch"></fa-icon>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-content>
+    <mat-tab-group>
+      <mat-tab label="All">
+        <div class="select-types">
+          <span class="select-types-span">Recent</span>
+          <ul *ngFor="let recent of recentArray" class="select-types-list">
+            <li class="select-type-i" fxLayoutAlign="center center" fxLayoutGap="8px">
+              <fa-icon [icon]="faMapMarker" class="select-type-i__icons"></fa-icon>
+              <span class="select-type-i-s">{{recent}}</span>
+            </li>
+          </ul>
+          <span class="select-types-span">Recommended</span>
+          <ul *ngFor="let common of commons" class="select-types-list">
+            <li class="select-type-i" fxLayoutAlign="center center" fxLayoutGap="8px">
+              <fa-icon [icon]="faMapMarker" class="select-type-i__icons"></fa-icon>
+              <span class="select-type-i-s">{{common}}</span>
+            </li>
+          </ul>
+        </div>
+      </mat-tab>
+      <mat-tab label="Yours">
+        <div class="select-types">
+          <span class="select-types-span">Recent</span>
+          <ul *ngFor="let recent of recentArray" class="select-types-list">
+            <li class="select-type-i" fxLayoutAlign="center center">
+              <span class="select-type-i-s">{{recent}}</span>
+            </li>
+          </ul>
+          <span class="select-types-span">Common Type</span>
+          <ul *ngFor="let common of commons" class="select-types-list">
+            <li class="select-type-i" fxLayoutAlign="center center">
+              <span class="select-type-i-s">{{common}}</span>
+            </li>
+          </ul>
+        </div>
+      </mat-tab>
+      <mat-tab label="Company">
+        <div class="select-types">
+          <span class="select-types-span">Recent</span>
+          <ul *ngFor="let recent of recentArray" class="select-types-list">
+            <li class="select-type-i" fxLayoutAlign="center center">
+              <span class="select-type-i-s">{{recent}}</span>
+            </li>
+          </ul>
+          <span class="select-types-span">Common Type</span>
+          <ul *ngFor="let common of commons" class="select-types-list">
+            <li class="select-type-i" fxLayoutAlign="center center">
+              <span class="select-type-i-s">{{common}}</span>
+            </li>
+          </ul>
+        </div>
+      </mat-tab>
+      <mat-tab label="Community">
+        <div class="select-types">
+          <span class="select-types-span">Recent</span>
+          <ul class="select-types-list">
+            <li class="select-type-i" fxLayoutAlign="center center">
+              <span class="select-type-i-s"></span>
+            </li>
+          </ul>
+          <span class="select-types-span">Common Type</span>
+          <ul class="select-types-list">
+            <li class="select-type-i" fxLayoutAlign="center center">
+              <span class="select-type-i-s"></span>
+            </li>
+          </ul>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    <p class="attribute-ending">Can’t find a suitable attributes? Create one !</p>
+  </div>
+  <div mat-dialog-actions fxLayoutAlign="center">
+    <button mat-flat-button class="button button--primary button--primary--attribute" (click)="openCreateNew()">Create new Attributes</button>
+  </div>
+</div>

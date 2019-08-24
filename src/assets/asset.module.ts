@@ -21,6 +21,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {AssetCreateModal} from './asset-create-modal/asset.create.modal';
 import {AssetTypeSelectModalComponent} from './asset-type/select-modal-component/asset.type.select.modal.component';
 import {AssetTypeCreateModalComponent} from './asset-type/create-modal-component/asset.type.create.modal.component';
+import {AttributeSelectModalComponent} from './attributes/attributes-select-modal-component/attribute.select.modal.component';
 
 @NgModule({
   imports: [
@@ -42,12 +43,14 @@ import {AssetTypeCreateModalComponent} from './asset-type/create-modal-component
     AssetComponent,
     AssetCreateModal,
     AssetTypeSelectModalComponent,
-    AssetTypeCreateModalComponent
+    AssetTypeCreateModalComponent,
+    AttributeSelectModalComponent
   ],
   entryComponents: [
     AssetCreateModal,
     AssetTypeSelectModalComponent,
-    AssetTypeCreateModalComponent
+    AssetTypeCreateModalComponent,
+    AttributeSelectModalComponent
   ],
   providers: [
     assetServiceProvider,

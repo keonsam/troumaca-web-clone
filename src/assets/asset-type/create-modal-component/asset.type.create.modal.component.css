@@ -37,6 +37,7 @@
 /* options */
 .lsm2-options {
   margin-top: 25px;
+  box-shadow: none;
 }
 
 .lsm2-options-text {
@@ -157,4 +158,56 @@
   line-height: 16px;
   letter-spacing: 0.01em;
   color: #24CCEC;
+}
+
+.input-div {
+  margin-bottom: 35px;
+}
+
+/* panel */
+.lsm2-options .mat-expansion-panel-header:hover {
+  background: none;
+}
+
+::ng-deep .mat-expansion-panel-body {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+::ng-deep .mat-expansion-panel-content {
+  font-family: 'Comfortaa', cursive !important;
+}
+
+.type-setting-head {
+  text-align: center;
+  font-size: 13px;
+  line-height: 0.1em;
+  letter-spacing: 0.01em;
+  color: #000000;
+  border-bottom: 1px solid rgba(0,0,0, 0.1);
+}
+
+.type-setting-head__text {
+  background: #fff;
+  padding: 0 50px;
+}
+
+.type-setting-list {
+  margin: 24px 15px 0 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.type-setting-list__item__span {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 14px;
+  letter-spacing: 0.01em;
+  color: #000000;
+}
+
+::ng-deep .mat-checkbox-frame {
+  border: 1px solid #23C7EF !important;
+  border-radius: 6px;
 }

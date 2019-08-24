@@ -7,21 +7,48 @@
       <button mat-dialog-close class="modal__close">+</button>
     </div>
     <form class="lsm2-form">
-      <label class="input-label" for="name">Type name</label>
-      <mat-form-field class="lsm-input--full" appearance="outline">
-        <input  matInput [formControl]="search" placeholder="Search Type" id="name">
-      </mat-form-field>
-      <p class="lsm2-input-hint">Name your type to easily find them</p>
-      <div class="lsm2-options">
-        <div fxLayout="column" fxLayoutAlign="start center">
-          <div class="lsm2-options-text">advanced options</div>
-          <fa-icon [icon]="faChevronDown"></fa-icon>
-        </div>
+      <div>
+        <label class="input-label" for="name">Type name</label>
+        <mat-form-field class="lsm-input--full" appearance="outline">
+          <input  matInput [formControl]="search" id="name">
+        </mat-form-field>
+        <p class="lsm2-input-hint">Name your type to easily find them</p>
       </div>
+      <mat-expansion-panel class="lsm2-options" hideToggle #expansionPanel>
+        <mat-expansion-panel-header >
+          <mat-panel-description fxLayout="column" fxLayoutAlign="start center">
+            <div class="lsm2-options-text">advanced options</div>
+            <fa-icon [icon]="faChevronDown" *ngIf="!expansionPanel.expanded"></fa-icon>
+            <fa-icon [icon]="faChevronUp" *ngIf="expansionPanel.expanded"></fa-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="input-div">
+          <label class="input-label" for="name">Description</label>
+          <mat-form-field class="lsm-input--full" appearance="outline">
+            <input  matInput [formControl]="search" placeholder="Add a short description" id="description">
+          </mat-form-field>
+        </div>
+        <div class="type-setting">
+          <div class="type-setting-head"><span class="type-setting-head__text">Type Settings</span></div>
+          <ul class="type-setting-list" fxLayout="column" fxLayoutGap="18px">
+            <li fxLayoutAlign="space-between" class="type-setting-list__item">
+              <span class="type-setting-list__item__span">Share to community</span>
+              <mat-checkbox class="type-setting-list__item_check-box"></mat-checkbox>
+            </li>
+            <li fxLayoutAlign="space-between" class="type-setting-list__item">
+              <span class="type-setting-list__item__span">User can’t add attribute</span>
+              <mat-checkbox class="type-setting-list__item_check-box"></mat-checkbox>
+            </li>
+          </ul>
+        </div>
+      </mat-expansion-panel>
+
+
+
     </form>
   </div>
   <div mat-dialog-content fxLayout="column"  fxLayoutAlign="start center">
-    <button mat-flat-button class="button button--white button--white--attribute">Add an attribute</button>
+    <button mat-flat-button class="button button--white button--white--attribute" (click)="newAttributeModal()">Add an attribute</button>
     <span class="lsm2-content-q">what is this?</span>
   </div>
   <div mat-dialog-actions fxLayoutAlign="center">

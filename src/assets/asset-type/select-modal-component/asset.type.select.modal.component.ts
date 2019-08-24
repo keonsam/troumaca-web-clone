@@ -19,7 +19,6 @@ export class AssetTypeSelectModalComponent {
     public dialogRef: MatDialogRef<AssetTypeSelectModalComponent>,
     private formBuilder: FormBuilder,
     public dialog: MatDialog
-
   ) {
     this.recentArray = ['RAM'];
     this.commons = ['Building', 'vehicle', 'computer', 'manufacturing',

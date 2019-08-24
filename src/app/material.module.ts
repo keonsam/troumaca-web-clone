@@ -12,6 +12,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatExpansionModule } from '@angular/material';
 
 @NgModule({
   declarations: [],
@@ -20,6 +21,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatButtonModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatTabsModule,
     // using
     MatIconModule,
     MatCheckboxModule,
@@ -28,7 +31,6 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatTabsModule,
     MatTooltipModule
   ],
   exports: [
@@ -36,6 +38,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatButtonModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatTabsModule,
     // using
     MatIconModule,
     MatCheckboxModule,
@@ -44,8 +48,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatTabsModule,
-    MatTooltipModule,
+    MatTooltipModule
   ],
   providers: [ MatDatepickerModule],
 })
