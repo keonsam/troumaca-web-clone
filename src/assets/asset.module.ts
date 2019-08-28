@@ -22,6 +22,7 @@ import {AssetCreateModal} from './asset-create-modal/asset.create.modal';
 import {AssetTypeSelectModalComponent} from './asset-type/select-modal-component/asset.type.select.modal.component';
 import {AssetTypeCreateModalComponent} from './asset-type/create-modal-component/asset.type.create.modal.component';
 import {AttributeSelectModalComponent} from './attributes/attributes-select-modal-component/attribute.select.modal.component';
+import {AttributeCreateModalComponent} from './attributes/attributes-create-modal-component/attribute.create.modal.component';
 
 @NgModule({
   imports: [
@@ -44,13 +45,15 @@ import {AttributeSelectModalComponent} from './attributes/attributes-select-moda
     AssetCreateModal,
     AssetTypeSelectModalComponent,
     AssetTypeCreateModalComponent,
-    AttributeSelectModalComponent
+    AttributeSelectModalComponent,
+    AttributeCreateModalComponent
   ],
   entryComponents: [
     AssetCreateModal,
     AssetTypeSelectModalComponent,
     AssetTypeCreateModalComponent,
-    AttributeSelectModalComponent
+    AttributeSelectModalComponent,
+    AttributeCreateModalComponent
   ],
   providers: [
     assetServiceProvider,

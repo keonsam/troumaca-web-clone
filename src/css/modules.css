@@ -158,8 +158,6 @@ button[mat-flat-button].button {
 }
 
 .search-input.mat-form-field-appearance-outline .mat-form-field-outline {
-  margin-left: 10px;
-  margin-right: 5px;
   height: 62px;
   background: #FFFFFF;
   border: 1px solid #EFEFF8;
@@ -258,39 +256,6 @@ button[mat-flat-button].button {
   color: #3F5958;
   opacity: 0.9;
 }
-
-/* SORT */
-.sort-menu {
-  padding: 39px 9px 0 4px;
-}
-
-.sort__icons {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 15px;
-  letter-spacing: 0.05em;
-  color: #C4C4C4;
-  opacity: 0.5;
-}
-
-.sort__icons--list {
-  margin-left: 29px;
-  color: #2C4948;
-  opacity: 1;
-}
-
-.sort__text {
-  margin-left: 6px;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 10px;
-  line-height: 11px;
-  letter-spacing: 0.02em;
-  color: #323948;
-}
-
-
 /* form input */
 
 .create-input.mat-form-field-appearance-outline .mat-form-field-outline {

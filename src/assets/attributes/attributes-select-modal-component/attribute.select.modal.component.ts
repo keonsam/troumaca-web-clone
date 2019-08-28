@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import {DialogPosition, MatDialog, MatDialogRef} from '@angular/material';
 import {FormBuilder, FormControl} from '@angular/forms';
 import {faMapMarkerAlt, faSearch} from '@fortawesome/free-solid-svg-icons';
+import {AttributeCreateModalComponent} from '../attributes-create-modal-component/attribute.create.modal.component';
 
 @Component({
   selector: 'attribute-select',
@@ -24,5 +25,20 @@ export class AttributeSelectModalComponent {
     this.search = new FormControl('');
   }
 
-  openCreateNew() {}
+  openCreateNew() {
+    const dialogPosition: DialogPosition = {
+      bottom: '0',
+      left: '418px'
+    };
+    const dialogRef = this.dialog.open(AttributeCreateModalComponent,  {
+      height: 'calc(100% - 150px)',
+      width: '706px',
+      position: dialogPosition,
+      hasBackdrop: true,
+      backdropClass: 'backdrop-left',
+      closeOnNavigation: true,
+      disableClose: false,
+      panelClass: ['left-panel-2'],
+    })
+  }
 }

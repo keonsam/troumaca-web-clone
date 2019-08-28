@@ -1,0 +1,39 @@
+<div class="lsm2"
+     gdRows="153px auto"
+>
+  <div class="lsm2-white">
+    <div fxLayoutAlign="space-between center">
+      <span class="lsm-header-text">New Attribute</span>
+      <button mat-dialog-close class="modal__close">+</button>
+    </div>
+    <div class="lsm-white-d" fxLayoutAlign="start center">
+      <span class="lsm-white-d__span">Select Attribute type</span>
+      <div class="lsm-white-d__icon" fxLayoutAlign="center center"><span>i</span></div>
+    </div>
+  </div>
+  <div mat-dialog-content
+       fxLayout="row"
+  >
+    <div class="attribute-type">
+      <ul class="attribute-type-list"
+          gdColumns="111px 111px"
+          gdGap="8px 8px"
+          gdAlignRows="center"
+          >
+        <li class="attribute-type-item" *ngFor="let type of types"
+            fxLayout="column"
+            fxLayoutGap="22px"
+            (click)="onSelect(type.text)"
+            [class.selected]="selected === type.text"
+        >
+          <fa-icon [icon]="type.icon" class="attribute-type-item__icon" [class.selected]="selected === type.text"></fa-icon>
+          <div class="attribute-type-item__text" [class.selected]="selected === type.text"><span>{{type.text}}</span></div>
+        </li>
+      </ul>
+    </div>
+    <div class="attribute-form"></div>
+  </div>
+<!--  <div mat-dialog-actions fxLayoutAlign="center">-->
+<!--    <button mat-flat-button class="button button&#45;&#45;primary button&#45;&#45;primary&#45;&#45;attribute" (click)="openCreateNew()">Create new Attributes</button>-->
+<!--  </div>-->
+</div>

@@ -1,8 +1,12 @@
 <div class="assets"
-     gdRows="auto auto auto"
+     gdRows="129px 39px auto"
+     gdRows.xs="149px 39px auto"
 >
   <div class="input-menu"
        fxLayout="row wrap"
+       fxLayoutAlign="start"
+       fxLayout.xs="column"
+       fxLayoutGap.xs="14px"
   >
     <div fxLayout="row" fxLayoutGap="48px">
       <div class="status"
@@ -24,7 +28,7 @@
         <fa-icon matSuffix class="search__icon" [icon]="faSearch"></fa-icon>
       </mat-form-field>
     </form>
-    <div class="white-button-div">
+    <div fxHide.xs class="white-button-div">
       <button class="white-button white-button--one" (click)="openAssetCreate()">
         <div class="white-button__box" fxLayoutAlign="center center">
           <fa-icon class="white-button__icons" [icon]="faBox" ></fa-icon>
@@ -40,16 +44,20 @@
     </div>
   </div>
   <div class="sort-menu"  fxLayoutAlign="space-between">
+
     <div class="sort-left">
       <fa-icon class="sort__icons" [icon]="faFilter" ></fa-icon>
       <span class="sort__text">Filters</span>
     </div>
+
     <div class="sort-right">
       <fa-icon class="sort__icons" [icon]="faSortAmountDown" ></fa-icon>
       <span class="sort__text">Sort</span>
       <fa-icon class="sort__icons sort__icons--list" [icon]="faList"></fa-icon>
     </div>
-  </div>
+
+  </div
+  >
   <div *ngIf="assets.assets.length < 1"
        class="no-assets"
        fxLayout="column"
@@ -63,6 +71,7 @@
       journey begin !</p>
     <button mat-flat-button
             class="button button--primary button--primary--new-asset"
+            (click)="openAssetCreate()"
     >
       Add a New Asset
     </button>

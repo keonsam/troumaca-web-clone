@@ -32,11 +32,11 @@ export class AssetTypeCreateModalComponent {
 
   newAttributeModal() {
     const dialogPosition: DialogPosition = {
-      top: '244px',
+      bottom: '0',
       left: '418px'
     };
     const dialogRef = this.dialog.open(AttributeSelectModalComponent,  {
-      height: 'calc(100% - 244px)',
+      height: 'calc(100% - 150px)',
       width: '706px',
       position: dialogPosition,
       hasBackdrop: true,

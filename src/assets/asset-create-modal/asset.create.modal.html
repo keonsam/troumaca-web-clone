@@ -24,7 +24,8 @@
     <div fxLayoutAlign="start" class="lsm-select">
       <fa-icon [icon]="faThLarge" class="lsm-select-icon-1"></fa-icon>
       <span class="lsm-select-span">Select Type</span>
-      <fa-icon [icon]="faChevronRight" class="lsm-select-icon-2" (click)="openSelectType($event)"></fa-icon>
+      <fa-icon *ngIf="!dialogRefTypes" [icon]="faChevronRight" class="lsm-select-icon-2" (click)="openSelectType()"></fa-icon>
+      <fa-icon *ngIf="dialogRefTypes" [icon]="faChevronLeft" class="lsm-select-icon-2" (click)="closeSelectType()"></fa-icon>
     </div>
   </div>
   <div mat-dialog-content fxLayoutAlign="center center">

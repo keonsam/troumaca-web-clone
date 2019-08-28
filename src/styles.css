@@ -9,7 +9,6 @@ body {
   background: var(--body-background-color, #F5F5F5);
   color: var(--text-color, #000000);
 }
-
 /* STYLE INHERITANCE */
 html {
   -webkit-box-sizing: border-box;
