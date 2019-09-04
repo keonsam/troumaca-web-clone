@@ -12,11 +12,13 @@ import {ATTRIBUTE_TYPES} from '../attribute.types';
 export class AttributeCreateModalComponent {
   types: AttributeType[] = ATTRIBUTE_TYPES;
   selected: string;
+  label: FormControl;
   constructor(
     public dialogRef: MatDialogRef<AttributeCreateModalComponent>,
     private formBuilder: FormBuilder,
     public dialog: MatDialog
   ) {
+    this.label = new FormControl('');
   }
 
   onSelect(name: string) {

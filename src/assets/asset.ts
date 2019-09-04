@@ -19,7 +19,8 @@ export class Asset {
   lot: Lot;
   version: string;
 
-  constructor() {
+  constructor(name: string) {
+    this.name = name;
     this.discreteItem = new DiscreteItem();
     this.inventoryItem = new InventoryItem();
     this.building = new Building();

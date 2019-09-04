@@ -23,7 +23,8 @@ export class DepreciationRepositoryAdapter extends DepreciationRepository {
     return this.depreciationClient.findAssets(searchStr, pageSize)
       .pipe(map(values => {
         return values.map( value => {
-          return mapObjectProps(value, new Asset());
+          return undefined;
+          // return mapObjectProps(value, new Asset());
         });
       }));
   }

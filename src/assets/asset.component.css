@@ -10,6 +10,7 @@
 .input-menu {
   padding-top: 51px;
   padding-bottom: 14px;
+  width: 100%;
 }
 
 .search-form {
@@ -50,6 +51,12 @@
   padding: 23px 9px 0 4px;
 }
 
+.sort-sort {
+  margin-left: auto;
+}
+.sort-list {
+  margin-left: 29px;
+}
 .sort__icons {
   font-style: normal;
   font-weight: normal;
@@ -61,7 +68,6 @@
 }
 
 .sort__icons--list {
-  margin-left: 29px;
   color: #2C4948;
   opacity: 1;
 }
@@ -118,9 +124,108 @@
   padding: 0;
 }
 
+/* list */
+.asset-list {
+  height: 100%;
+  width: 100%;
+  /*overflow-y: hidden;*/
+}
+
+.al-list {
+  padding-top: 39px;
+}
+
+.al-rows-items {
+  padding-left: 9px;
+  padding-right: 7px;
+  width: 100%;
+  height: 62px;
+  background: #FFFFFF;
+  border-radius: 8px;
+}
+
+.al-ri-circle {
+  width: 50px;
+  height: 50px;
+  background: #F8F8FF;
+  border-radius: 50%;
+}
+
+.al-ri-circle-img {
+  width: 27px;
+  height: 28px;
+}
+
+.al-ri-span {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 11px;
+  letter-spacing: 0.02em;
+  color: #000000;
+}
+
+.al-ri-type {
+  width: 81px;
+  height: 23px;
+  background: rgba(38,224,124,0.2);
+  border-radius: 20px;
+  margin-right: 15px;
+  padding: 0 15px;
+}
+
+.al-ri-type-span {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 11px;
+  letter-spacing: 0.02em;
+  color: #000000;
+}
+
+.al-ri-edit-icons {
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: 0.02em;
+  color: #23C7EF;
+  margin-right: 17px;
+}
+
+.al-ri-edit-ellipsis {
+  font-size: 14px;
+  color: #80A3BB;
+  opacity: 0.4;
+  margin-left: 13px;
+  margin-top: 8px;
+}
+
+/* grid */
+.asset-grid {
+  padding: 49px 20px 0 29px;
+}
+
+.al-grid-items {
+  width: 111px;
+  height: 116px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding-top: 7px;
+  padding-right: 9px;
+}
+
+.al-gi-info {
+  margin-top: 7px;
+  max-width: 89.875px;
+}
+
+.al-ri-ee--g {
+  margin: 0;
+}
 @media only screen and (max-width: 599px) {
   .assets {
     padding: 0;
+    max-width: 100%;
+    width: 100%;
   }
 
   .status {
@@ -130,15 +235,35 @@
   .input-menu {
     width: 100%;
     background: #FFFFFF;
-    /*padding: 25px 12px 10px 14px;*/
     padding: 0 0 10px;
   }
+
   .search-form {
-    margin: 0 12px 0 14px;
+    margin: 0;
+    padding: 0 12px 0 14px;
+    width: 100%;
   }
 
   .sort-menu {
     padding-left: 20px;
     padding-right: 12px;
   }
+
+  .sort-sort {
+    margin-left: inherit;
+  }
+
+  .sort-list {
+    margin-left: inherit;
+  }
+
+  /* list */
+  .al-list {
+    padding: 21px 12px 0 14px;
+  }
+
+  .asset-grid {
+    padding: 18px 12px 0 14px;
+  }
+
 }

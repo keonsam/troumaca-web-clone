@@ -39,13 +39,13 @@ import {
   faCheckDouble,
   faCheckSquare,
   faChevronDown, faChevronLeft,
-  faChevronRight, faChevronUp,
+  faChevronRight, faChevronUp, faEdit, faEllipsisV,
   faFilter, faFont, faHashtag,
   faImage, faLink, faMapMarkerAlt,
   faSearch,
   faSortAmountDown,
-  faTag,
-  faThLarge
+  faTag, faTh,
+  faThLarge, faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
@@ -84,7 +84,8 @@ export class AppModule {
     // Add an icon to the library for convenient access in other components
     library.add(faUser, faGoogle, faUsers, faCheck, faArrowLeft, faEnvelope, faMobileAlt, faBox, faList, faEllipsisH, faSearch, faCheck,
       faFilter, faSortAmountDown, faImage, faThLarge, faChevronRight, faTag, faChevronDown, faChevronUp, faMapMarkerAlt,
-      faFont, faHashtag, faCheckSquare, faCheckDouble, faCalendar, faLink, faChevronLeft
+      faFont, faHashtag, faCheckSquare, faCheckDouble, faCalendar, faLink, faChevronLeft, faTrashAlt, faEdit, faEllipsisV,
+      faTh
     );
   }
 }

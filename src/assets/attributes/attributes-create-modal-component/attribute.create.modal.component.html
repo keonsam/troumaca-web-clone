@@ -8,7 +8,10 @@
     </div>
     <div class="lsm-white-d" fxLayoutAlign="start center">
       <span class="lsm-white-d__span">Select Attribute type</span>
-      <div class="lsm-white-d__icon" fxLayoutAlign="center center"><span>i</span></div>
+      <div class="lsm-white-d__icon"
+           fxLayoutAlign="center center">
+        <span>i</span>
+      </div>
     </div>
   </div>
   <div mat-dialog-content
@@ -31,9 +34,26 @@
         </li>
       </ul>
     </div>
-    <div class="attribute-form"></div>
+    <div class="attribute-form">
+      <form class="save-attribute" *ngIf="selected">
+        <div clas="sa-label-div">
+          <label class="input-label" for="label">Label</label>
+          <mat-form-field class="input-field input-field--white" appearance="outline">
+            <input matInput [formControl]="label" id="label" required>
+<!--            <mat-error *ngIf="label.hasError('required')">-->
+<!--              label is <strong>required</strong>-->
+<!--            </mat-error>-->
+          </mat-form-field>
+        </div>
+        <div class="save-attribute-check-fields" fxLayoutAlign="space-between">
+          <span class="sa-cf-span">Mandatory</span>
+          <mat-checkbox class="sa-cf-checkbox"></mat-checkbox>
+        </div>
+        <div fxLayoutAlign="center center" class="sa-action-button" fxLayoutGap="21px">
+          <span class="sa-ab-span">Learn more ...</span>
+          <button mat-flat-button class="button button--primary button--primary--sa">Save Attribute</button>
+        </div>
+      </form >
+    </div>
   </div>
-<!--  <div mat-dialog-actions fxLayoutAlign="center">-->
-<!--    <button mat-flat-button class="button button&#45;&#45;primary button&#45;&#45;primary&#45;&#45;attribute" (click)="openCreateNew()">Create new Attributes</button>-->
-<!--  </div>-->
 </div>
