@@ -1,6 +1,6 @@
-export class Site {
-  siteId: string;
-  tenantId: string;
-  name: string;
-  description: string;
-}
+// export class Site {
+//   siteId: string;
+//   tenantId: string;
+//   name: string;
+//   description: string;
+// }

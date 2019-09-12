@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import { ValidResponse } from './valid.response';
 import { Confirmation } from './confirmation';
 import {AuthenticatedCredential} from './authenticated.credential';
-import {User} from '../parties/user';
+import { User } from './user';
 import {ChangePassword} from "./change.password";
 import {ChangeResponse} from "./change.response";
 

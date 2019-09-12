@@ -23,10 +23,10 @@
       </div>
     </div>
     <form class="search-form">
-      <mat-form-field class="search-input" appearance="outline">
-        <input  matInput [formControl]="search" placeholder="Search Assets" >
-        <fa-icon matSuffix class="search__icon" [icon]="faSearch"></fa-icon>
-      </mat-form-field>
+      <div class="sf-div">
+        <input class="sf-input" [formControl]="search" placeholder="Search Assets" >
+        <fa-icon  class="sf__icon" [icon]="faSearch"></fa-icon>
+      </div>
     </form>
     <div fxHide.xs class="white-button-div">
       <button class="white-button white-button--one" (click)="openAssetCreate()">
@@ -75,7 +75,7 @@
     <p class="no-assets-p">It’s a lonely space right now!<br />
       Add your first asset, let the <br />
       journey begin !</p>
-    <button mat-flat-button
+    <button
             class="button button--primary button--primary--new-asset"
             (click)="openAssetCreate()"
     >

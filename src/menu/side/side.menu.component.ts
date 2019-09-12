@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ASSET, LOBBY, MANAGE} from '../../app/routes';
+import {ASSET, DASHBOARD, MANAGE} from '../../app/routes';
 import { faBox } from '@fortawesome/free-solid-svg-icons/faBox';
 import {faList} from '@fortawesome/free-solid-svg-icons/faList';
 import {faEllipsisH} from '@fortawesome/free-solid-svg-icons/faEllipsisH';
@@ -11,10 +11,10 @@ import {faEllipsisH} from '@fortawesome/free-solid-svg-icons/faEllipsisH';
 })
 
 export class SideMenuComponent {
-  link = `/${LOBBY}`;
+  link = `/${DASHBOARD}`;
   faBox = faBox;
   faList = faList;
   faEllipsisH = faEllipsisH;
-  assetsLink = `/${LOBBY}/${ASSET}`;
-  manageLink = `/${LOBBY}/${MANAGE}`;
+  assetsLink = `/${DASHBOARD}/${ASSET}`;
+  manageLink = `/${DASHBOARD}/${MANAGE}`;
 }

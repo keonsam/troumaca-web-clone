@@ -8,11 +8,11 @@
   </div>
   <div mat-dialog-content
        class="content">
-    <button mat-flat-button class="button button--big button--big--google"><fa-icon [icon]="faGoogle" class="icon--google"></fa-icon>Sign Up with Google</button>
+    <button class="button button--big button--big--google"><fa-icon [icon]="faGoogle" class="icon--google"></fa-icon>Sign Up with Google</button>
     <div class="or">or use</div>
     <div fxLayout="row no-wrap" fxLayoutAlign="space-between">
-      <button mat-flat-button class="button button--username" (click)="onSelect('email')" [class.selected]="selectedType === 'email'"><fa-icon [icon]="faEnvelope" class="username__icon"></fa-icon>Email</button>
-      <button mat-flat-button class="button button--username" (click)="onSelect('mobile')" [class.selected]="selectedType === 'mobile'"><fa-icon [icon]="faMobileAlt" class="username__icon"></fa-icon>Mobile</button>
+      <button class="button button--username" (click)="onSelect('email')" [class.selected]="selectedType === 'email'"><fa-icon [icon]="faEnvelope" class="username__icon"></fa-icon>Email</button>
+      <button class="button button--username" (click)="onSelect('mobile')" [class.selected]="selectedType === 'mobile'"><fa-icon [icon]="faMobileAlt" class="username__icon"></fa-icon>Mobile</button>
     </div>
   </div>
 </div>

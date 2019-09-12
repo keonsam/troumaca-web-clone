@@ -1,41 +1,41 @@
-<div class="element-wrapper">
-  <h6 class="element-header">
-    Asset Identifier Types Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right"  href="#" [routerLink]="newRoute">New</a></object>
-  </h6>
-  <div class="element-box">
+<!--<div class="element-wrapper">-->
+<!--  <h6 class="element-header">-->
+<!--    Asset Identifier Types Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right"  href="#" [routerLink]="newRoute">New</a></object>-->
+<!--  </h6>-->
+<!--  <div class="element-box">-->
 
-    <div class="table-responsive table-section">
-      <table class="table table-striped table-lightfont table-full-width">
-        <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th class="text-center">Actions</th>
-        </tr>
-        </thead>
-        <tfoot>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th class="text-center">Actions</th>
-        </tr>
-        </tfoot>
-        <tbody>
-        <tr role="row" *ngFor="let assetIdentifierType of assetIdentifierTypes.assetIdentifierTypes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-          <td>{{assetIdentifierType.name}}</td>
-          <td>{{assetIdentifierType.description}}</td>
-          <td class="row-actions">
-            <a [routerLink]="[ routerLink, assetIdentifierType.assetIdentifierTypeId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" (click)="onOpenModal(assetIdentifierType.assetIdentifierTypeId, assetIdentifierType.identifier);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
-          </td>
-        </tr>
-        <tr *ngIf="assetIdentifierTypes.assetIdentifierTypes.length <= 0" class="odd">
-          <td valign="top" align="" colspan="3" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
-        </tr>
-        </tbody>
-      </table>
-      <paging [page]="assetIdentifierTypes.page" (requestPage)="onRequestPage($event)"></paging>
-    </div>
+<!--    <div class="table-responsive table-section">-->
+<!--      <table class="table table-striped table-lightfont table-full-width">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--          <th>Name</th>-->
+<!--          <th>Description</th>-->
+<!--          <th class="text-center">Actions</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tfoot>-->
+<!--        <tr>-->
+<!--          <th>Name</th>-->
+<!--          <th>Description</th>-->
+<!--          <th class="text-center">Actions</th>-->
+<!--        </tr>-->
+<!--        </tfoot>-->
+<!--        <tbody>-->
+<!--        <tr role="row" *ngFor="let assetIdentifierType of assetIdentifierTypes.assetIdentifierTypes; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">-->
+<!--          <td>{{assetIdentifierType.name}}</td>-->
+<!--          <td>{{assetIdentifierType.description}}</td>-->
+<!--          <td class="row-actions">-->
+<!--            <a [routerLink]="[ routerLink, assetIdentifierType.assetIdentifierTypeId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" (click)="onOpenModal(assetIdentifierType.assetIdentifierTypeId, assetIdentifierType.identifier);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>-->
+<!--          </td>-->
+<!--        </tr>-->
+<!--        <tr *ngIf="assetIdentifierTypes.assetIdentifierTypes.length <= 0" class="odd">-->
+<!--          <td valign="top" align="" colspan="3" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--      </table>-->
+<!--      <paging [page]="assetIdentifierTypes.page" (requestPage)="onRequestPage($event)"></paging>-->
+<!--    </div>-->
 
-  </div>
-</div>
+<!--  </div>-->
+<!--</div>-->
 

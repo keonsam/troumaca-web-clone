@@ -1,8 +1,8 @@
-import {ChangePasswordRepository} from './change.password.repository';
-
-export class ChangePasswordService {
-
-  constructor(private changePasswordRepository: ChangePasswordRepository) {
-  }
-
-}
+// import {ChangePasswordRepository} from './change.password.repository';
+//
+// export class ChangePasswordService {
+//
+//   constructor(private changePasswordRepository: ChangePasswordRepository) {
+//   }
+//
+// }

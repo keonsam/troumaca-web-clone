@@ -1,2 +1,2 @@
-export class ActivityState {
-}
+// export class ActivityState {
+// }

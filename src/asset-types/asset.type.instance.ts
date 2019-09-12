@@ -1,4 +1,4 @@
-export class AssetTypeInstance {
-  name: string;
-  instanceId: string;
-}
+// export class AssetTypeInstance {
+//   name: string;
+//   instanceId: string;
+// }

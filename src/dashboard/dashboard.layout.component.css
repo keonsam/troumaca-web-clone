@@ -12,5 +12,176 @@
 .main {
   width: 100%;
 }
+
+/* REUSED */
+
+/* buttons */
+::ng-deep .button {
+  font-size: 14px;
+}
+
+::ng-deep .button--white {
+  background: #FFFFFF;
+  color: #119CB7;
+}
+
+::ng-deep .button--primary--normal {
+  width: 135px;
+}
+
+/* search input */
+::ng-deep .sf-div {
+  position: relative;
+}
+::ng-deep .sf-input {
+  height: 62px;
+  background: #FFFFFF;
+  padding-right: 35px;
+}
+
+::ng-deep .sf-input2 {
+  height: 51px;
+}
+
+::ng-deep .sf-input::placeholder {
+  color: #A7A7A7;
+  opacity: 0.5;
+}
+
+::ng-deep .sf__icon {
+   position: absolute;
+   right: 0;
+   padding-right: 10px;
+   padding-top: 22px;
+   font-weight: 900;
+   font-size: 18px;
+   line-height: 21px;
+   letter-spacing: 0.05em;
+   color: #AAAAAA;
+   opacity: 0.5;
+ }
+
+::ng-deep .sf__icon2 {
+  padding-top: 16px;
+}
+/* end of search input */
+
+/* blue input */
+::ng-deep .form-control {
+  min-height: 93px;
+}
+::ng-deep .f-c-no-padding{
+  min-height: auto;
+}
+::ng-deep .fc-label {
+  font-family: 'Comfortaa', cursive;
+  display: block;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 14px;
+  letter-spacing: 0.01em;
+  margin-bottom: 7px;
+  margin-left: 6px;
+}
+
+::ng-deep .fc-input {
+  height: 51px;
+  background: #E9F9FD;
+}
+
+::ng-deep .fc-input.ng-valid {
+  background: #FFFFFF;;
+}
+
+::ng-deep .fc-input.ng-invalid {
+  background: #FFE4E3;
+}
+
+::ng-deep .fc-input.ng-pristine {
+  background: #E9F9FD;
+}
+/* */
+
+.fc-input--search {
+  padding-right: 35px;
+}
+/*  white input */
+::ng-deep .fc-input--white.ng-valid {
+  background: #FFFFFF;
+}
+
+::ng-deep .fc-input--white.ng-pristine {
+  background: #FFFFFF;
+}
+
+::ng-deep .fc-input--white::placeholder {
+  color: #A7A7A7;
+  opacity: 0.5;
+}
+
+/* check box */
+::ng-deep .blue-checkbox-label {
+  font-size: 13px;
+  line-height: 14px;
+  letter-spacing: 0.01em;
+  color: #000000;
+  display: block;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+::ng-deep .blue-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+::ng-deep .blue-checkbox__shadow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24.97px;
+  height: 23px;
+  background: #FCFEFF;
+  border: 1px solid #23C7EF;
+  border-radius: 6px;
+}
+
+::ng-deep .blue-checkbox:checked ~ .blue-checkbox__shadow {
+  background-color: #4FD2F2;
+}
+
+::ng-deep .blue-checkbox__shadow:after {
+  content: "\2714";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+::ng-deep .blue-checkbox:checked ~ .blue-checkbox__shadow:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+::ng-deep .blue-checkbox__shadow:after {
+  left: 5px;
+  top: 5px;
+  /*width: 16.43px;*/
+  /*height: 12.49px;*/
+  font-size: 16px;
+  /*border: solid #FFFFFF;*/
+  color: #FFFFFF;
+  /*border-width: 0 3px 3px 0;*/
+  /*-webkit-transform: rotate(45deg);*/
+  /*-ms-transform: rotate(45deg);*/
+  /*transform: rotate(45deg);*/
+}
+
 @media only screen and (max-width: 599px) {
 }

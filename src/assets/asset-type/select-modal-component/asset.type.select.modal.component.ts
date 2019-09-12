@@ -34,7 +34,7 @@ export class AssetTypeSelectModalComponent {
       left: '418px'
     };
     const dialogRef = this.dialog.open(AssetTypeCreateModalComponent,  {
-      height: 'calc(100% - 80px)',
+      height: 'calc(100% - 48px)',
       width: '706px',
       position: dialogPosition,
       hasBackdrop: true,

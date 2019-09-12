@@ -4,12 +4,13 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Credential} from '../credential';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
-import {User} from '../../parties/user';
+import { User } from '../user';
 import {AUTHENTICATION, HOME, LOGIN} from '../../app/routes';
 import {ConfirmationModalComponent} from '../confirmation-modal/confirmation.modal.component';
 import {MatDialog} from '@angular/material';
 import {IsValid} from '../isValid';
 import {Confirmation} from '../confirmation';
+import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-register',
@@ -33,6 +34,7 @@ export class RegisterComponent implements OnInit {
   email = false;
   error: string;
   loading: boolean;
+  faExclamationTriangle = faExclamationTriangle;
 
   constructor(public dialog: MatDialog,
               private authenticationService: AuthenticationService,

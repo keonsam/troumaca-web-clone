@@ -4,36 +4,34 @@
       <h2 class="title title--login">
         Login
       </h2>
-      <button mat-flat-button class="button button--big button--big--google"><fa-icon [icon]="faGoogle" class="icon--google"></fa-icon>Login with Google</button>
+      <button class="button button--big button--big--google"><fa-icon [icon]="faGoogle" class="icon--google"></fa-icon>Login with Google</button>
       <div class="or"><span class="or__text">or</span></div>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
 
 
-        <div>
-          <label class="input-label" for="username">Email or Mobile Number</label>
-          <mat-form-field class="input-field" appearance="outline">
-            <input matInput [formControl]="username" id="username" required>
-            <mat-error *ngIf="username.hasError('required')">
-              Username is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+        <div class="form-control">
+          <label class="fc-label" for="username">Email or Mobile Number</label>
+          <input class="fc-input" [formControl]="username" id="username" required/>
+          <div class="fc-error" *ngIf="username.hasError('required') && !username.pristine">
+            <fa-icon class="fc-error__icon"[icon]="faExclamationTriangle"></fa-icon>Username is <strong>required</strong>
+          </div>
         </div>
 
-        <div>
-          <label class="input-label" for="password">Password</label>
-          <mat-form-field class="input-field" appearance="outline">
-            <input matInput [formControl]="password" type="password" id="password" required>
-            <mat-error *ngIf="password.hasError('required')">
-              Password is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+        <div class="form-control">
+          <label class="fc-label" for="password">Password</label>
+          <input class="fc-input" [formControl]="password" type="password" id="password" required>
+          <div class="fc-error" *ngIf="password.hasError('required') && !password.pristine">
+            <fa-icon class="fc-error__icon"[icon]="faExclamationTriangle"></fa-icon>Password is <strong>required</strong>
+          </div>
         </div>
-
 
         <a class="forget" href (click)="openForget();false">Forget Password?</a>
-        <button mat-flat-button class="button button--primary button--big button--big--login" type="submit" [disabled]="!loginForm.valid || loading">
-          <mat-spinner *ngIf="loading" [diameter]="20" class="button__spinner"></mat-spinner>
+        <button class="button button--primary button--big button--big--login" type="submit" [disabled]="!loginForm.valid || loading">
+          <svg *ngIf="loading" class="spinner">
+            <circle class="path" cx="50%" cy="50%" r="8" fill="none" stroke-width="2"></circle>
+          </svg>
           <span *ngIf="!loading">Login</span>
+          <mat-spinner *ngIf="loading" [diameter]="20" class="button__spinner"></mat-spinner>
         </button>
       </form>
       <div class="ending">Don't have any account? <a class="ending__link" href (click)="openAccountType();false">Sign up now</a></div>

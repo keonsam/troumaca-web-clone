@@ -1,18 +1,7 @@
 import {AttributeType} from './attribute.type';
-import {
-  faCalendar,
-  faCheck,
-  faCheckDouble,
-  faCheckSquare,
-  faFont,
-  faHashtag,
-  faLink,
-  faMapMarkerAlt,
-  faUser
-} from '@fortawesome/free-solid-svg-icons';
 
 export const ATTRIBUTE_TYPES: AttributeType[] = [
-  new AttributeType(faFont, 'Text'), new AttributeType( faHashtag, 'Number'), new AttributeType(faCheckSquare, 'Checkbox'),
-  new AttributeType(faCheck, 'Select'), new AttributeType(faCheckDouble,  'Multi Select'), new AttributeType(faCalendar,  'Date'),
-  new AttributeType(faUser, 'Person'), new AttributeType(faLink, 'URL'), new AttributeType(faMapMarkerAlt, 'Location')
+  new AttributeType('1', 'Text'), new AttributeType( '2', 'Number'), new AttributeType('3', 'Checkbox'),
+  new AttributeType('4', 'Select'), new AttributeType('5',  'Multi Select'), new AttributeType('6',  'Date'),
+  new AttributeType('7', 'Person'), new AttributeType('8', 'URL'), new AttributeType('9', 'Location')
 ];

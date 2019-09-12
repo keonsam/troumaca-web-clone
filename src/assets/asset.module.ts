@@ -4,18 +4,18 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AssetComponent} from './asset.component';
 import {RouterModule} from '@angular/router';
 import {MenuModule} from '../menu/menu.module';
-import {PagingModule} from '../paging/paging.module';
-import {SearchModule} from '../search/search.module';
+// import {PagingModule} from '../paging/paging.module';
+// import {SearchModule} from '../search/search.module';
 // import {AssetListComponent} from './asset-list/asset.list.component';
 import {assetServiceProvider} from './asset.service.provider';
 import { AssetRoutingModule } from './asset.routing.module';
 import {assetResolveProvider } from './asset.resolve.provider';
 // import {AssetFormComponent} from './asset-form/asset.form.component';
-import {DeleteModalModule} from '../delete-modal/delete.modal.module';
+// import {DeleteModalModule} from '../delete-modal/delete.modal.module';
 import {MaterialModule} from '../app/material.module';
-import {assetRepositoryProvider} from '../adapter/assets/asset.repository.adapter.provider';
-import {assetClientProvider} from '../client/asset/asset.client.provider';
-import {AssetTypeFormModule} from '../asset-types/asset-type-form/asset.type.form.module';
+// import {assetRepositoryProvider} from '../adapter/assets/asset.repository.adapter.provider';
+// import {assetClientProvider} from '../client/asset/asset.client.provider';
+// import {AssetTypeFormModule} from '../asset-types/asset-type-form/asset.type.form.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {AssetCreateModal} from './asset-create-modal/asset.create.modal';
@@ -23,6 +23,7 @@ import {AssetTypeSelectModalComponent} from './asset-type/select-modal-component
 import {AssetTypeCreateModalComponent} from './asset-type/create-modal-component/asset.type.create.modal.component';
 import {AttributeSelectModalComponent} from './attributes/attributes-select-modal-component/attribute.select.modal.component';
 import {AttributeCreateModalComponent} from './attributes/attributes-create-modal-component/attribute.create.modal.component';
+import {attributeServiceProvider} from './attributes/attribute.service.provider';
 
 @NgModule({
   imports: [
@@ -57,9 +58,10 @@ import {AttributeCreateModalComponent} from './attributes/attributes-create-moda
   ],
   providers: [
     assetServiceProvider,
+    attributeServiceProvider,
     assetResolveProvider,
-    assetRepositoryProvider,
-    assetClientProvider,
+    // assetRepositoryProvider,
+    // assetClientProvider,
   ],
 })
 export class AssetModule {}

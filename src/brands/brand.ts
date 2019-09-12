@@ -1,7 +1,7 @@
-export class Brand {
-  brandId: string;
-  name: string;
-  abbreviation: string;
-  description: string;
-  version: string;
-}
+// export class Brand {
+//   brandId: string;
+//   name: string;
+//   abbreviation: string;
+//   description: string;
+//   version: string;
+// }

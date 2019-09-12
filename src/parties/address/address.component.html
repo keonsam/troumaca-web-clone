@@ -1,167 +1,167 @@
-<form [formGroup]="addressForm">
-  <h5 class="form-header">Address<i *ngIf="activePane === 'left'" class="os-icon os-icon-pencil-2 float-right blue-icon" (click)="setActivePane('right')"></i></h5>
+<!--<form [formGroup]="addressForm">-->
+<!--  <h5 class="form-header">Address<i *ngIf="activePane === 'left'" class="os-icon os-icon-pencil-2 float-right blue-icon" (click)="setActivePane('right')"></i></h5>-->
 
-  <div class="slider-container">
-    <div class="parent-slider" [@slide]="activePane">
-      <div class="child-slider">
-        <div class="card-front-elements">
-          <div class="row">
-            <div class="col-sm-3">
-              <span class="front-card-header">Street Number</span>
-            </div>
-            <div class="col-sm-9">
-              <span class="front-card-text">{{address?.streetNumber}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="card-front-elements">
-          <div class="row">
-            <div class="col-sm-3">
-              <span class="front-card-header">Street Name</span>
-            </div>
-            <div class="col-sm-9">
-              <span class="front-card-text">{{address?.streetName}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="card-front-elements">
-          <div class="row">
-            <div class="col-sm-3">
-              <span class="front-card-header">Postal Code</span>
-            </div>
-            <div class="col-sm-9">
-              <span class="front-card-text">{{address?.postCode}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="card-front-elements">
-          <div class="row">
-            <div class="col-sm-3">
-              <span class="front-card-header">State / Province</span>
-            </div>
-            <div class="col-sm-9">
-              <span class="front-card-text">{{address?.stateOrProvince}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="card-front-elements">
-          <div class="row">
-            <div class="col-sm-3">
-              <span class="front-card-header">City</span>
-            </div>
-            <div class="col-sm-9">
-              <span class="front-card-text">{{address?.city}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="card-front-elements">
-          <div class="row">
-            <div class="col-sm-3">
-              <span class="front-card-header">Country</span>
-            </div>
-            <div class="col-sm-9">
-              <span class="front-card-text">{{address?.country}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="card-front-elements">
-          <div class="row">
-            <div class="col-sm-3">
-              <span class="front-card-header">Description</span>
-            </div>
-            <div class="col-sm-9">
-              <span class="front-card-text">{{address?.description}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="child-slider">
-        <div class="row">
+<!--  <div class="slider-container">-->
+<!--    <div class="parent-slider" [@slide]="activePane">-->
+<!--      <div class="child-slider">-->
+<!--        <div class="card-front-elements">-->
+<!--          <div class="row">-->
+<!--            <div class="col-sm-3">-->
+<!--              <span class="front-card-header">Street Number</span>-->
+<!--            </div>-->
+<!--            <div class="col-sm-9">-->
+<!--              <span class="front-card-text">{{address?.streetNumber}}</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="card-front-elements">-->
+<!--          <div class="row">-->
+<!--            <div class="col-sm-3">-->
+<!--              <span class="front-card-header">Street Name</span>-->
+<!--            </div>-->
+<!--            <div class="col-sm-9">-->
+<!--              <span class="front-card-text">{{address?.streetName}}</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="card-front-elements">-->
+<!--          <div class="row">-->
+<!--            <div class="col-sm-3">-->
+<!--              <span class="front-card-header">Postal Code</span>-->
+<!--            </div>-->
+<!--            <div class="col-sm-9">-->
+<!--              <span class="front-card-text">{{address?.postCode}}</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="card-front-elements">-->
+<!--          <div class="row">-->
+<!--            <div class="col-sm-3">-->
+<!--              <span class="front-card-header">State / Province</span>-->
+<!--            </div>-->
+<!--            <div class="col-sm-9">-->
+<!--              <span class="front-card-text">{{address?.stateOrProvince}}</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="card-front-elements">-->
+<!--          <div class="row">-->
+<!--            <div class="col-sm-3">-->
+<!--              <span class="front-card-header">City</span>-->
+<!--            </div>-->
+<!--            <div class="col-sm-9">-->
+<!--              <span class="front-card-text">{{address?.city}}</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="card-front-elements">-->
+<!--          <div class="row">-->
+<!--            <div class="col-sm-3">-->
+<!--              <span class="front-card-header">Country</span>-->
+<!--            </div>-->
+<!--            <div class="col-sm-9">-->
+<!--              <span class="front-card-text">{{address?.country}}</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="card-front-elements">-->
+<!--          <div class="row">-->
+<!--            <div class="col-sm-3">-->
+<!--              <span class="front-card-header">Description</span>-->
+<!--            </div>-->
+<!--            <div class="col-sm-9">-->
+<!--              <span class="front-card-text">{{address?.description}}</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="child-slider">-->
+<!--        <div class="row">-->
 
-          <div class="col-sm-12 col-md-3">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Street Number</mat-label>
-              <input matInput [formControl]="streetNumber">
-              <mat-error *ngIf="streetNumber.hasError('required')">
-                Street Number is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
+<!--          <div class="col-sm-12 col-md-3">-->
+<!--            <mat-form-field class="example-full-width" appearance="outline">-->
+<!--              <mat-label>Street Number</mat-label>-->
+<!--              <input matInput [formControl]="streetNumber">-->
+<!--              <mat-error *ngIf="streetNumber.hasError('required')">-->
+<!--                Street Number is <strong>required</strong>-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
 
-          <div class="col-sm-12 col-md-9">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Street Name</mat-label>
-              <input matInput [formControl]="streetName">
-              <mat-error *ngIf="streetName.hasError('required')">
-                Street Name is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
+<!--          <div class="col-sm-12 col-md-9">-->
+<!--            <mat-form-field class="example-full-width" appearance="outline">-->
+<!--              <mat-label>Street Name</mat-label>-->
+<!--              <input matInput [formControl]="streetName">-->
+<!--              <mat-error *ngIf="streetName.hasError('required')">-->
+<!--                Street Name is <strong>required</strong>-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
 
-        </div>
+<!--        </div>-->
 
-        <div class="row">
+<!--        <div class="row">-->
 
-          <div class="col-sm-12 col-md-3">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Postal Code</mat-label>
-              <input matInput [formControl]="postCode">
-              <mat-error *ngIf="postCode.hasError('required')">
-                Postal Code is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
+<!--          <div class="col-sm-12 col-md-3">-->
+<!--            <mat-form-field class="example-full-width" appearance="outline">-->
+<!--              <mat-label>Postal Code</mat-label>-->
+<!--              <input matInput [formControl]="postCode">-->
+<!--              <mat-error *ngIf="postCode.hasError('required')">-->
+<!--                Postal Code is <strong>required</strong>-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
 
-          <div class="col-sm-12 col-md-9">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>State/Province</mat-label>
-              <input matInput [formControl]="stateOrProvince">
-              <mat-error *ngIf="stateOrProvince.hasError('required')">
-                State/Province is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
+<!--          <div class="col-sm-12 col-md-9">-->
+<!--            <mat-form-field class="example-full-width" appearance="outline">-->
+<!--              <mat-label>State/Province</mat-label>-->
+<!--              <input matInput [formControl]="stateOrProvince">-->
+<!--              <mat-error *ngIf="stateOrProvince.hasError('required')">-->
+<!--                State/Province is <strong>required</strong>-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
 
-        </div>
+<!--        </div>-->
 
-        <div class="row">
+<!--        <div class="row">-->
 
-          <div class="col-sm-12 col-md-6">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>City</mat-label>
-              <input matInput [formControl]="city">
-              <mat-error *ngIf="city.hasError('required')">
-                City is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
+<!--          <div class="col-sm-12 col-md-6">-->
+<!--            <mat-form-field class="example-full-width" appearance="outline">-->
+<!--              <mat-label>City</mat-label>-->
+<!--              <input matInput [formControl]="city">-->
+<!--              <mat-error *ngIf="city.hasError('required')">-->
+<!--                City is <strong>required</strong>-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
 
-          <div class="col-sm-12 col-md-6">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Country</mat-label>
-              <input matInput [formControl]="country">
-              <mat-error *ngIf="country.hasError('required')">
-                Country is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
+<!--          <div class="col-sm-12 col-md-6">-->
+<!--            <mat-form-field class="example-full-width" appearance="outline">-->
+<!--              <mat-label>Country</mat-label>-->
+<!--              <input matInput [formControl]="country">-->
+<!--              <mat-error *ngIf="country.hasError('required')">-->
+<!--                Country is <strong>required</strong>-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
 
-        </div>
+<!--        </div>-->
 
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Description</mat-label>
-          <textarea matInput  [formControl]="description"></textarea>
-        </mat-form-field>
+<!--        <mat-form-field class="example-full-width" appearance="outline">-->
+<!--          <mat-label>Description</mat-label>-->
+<!--          <textarea matInput  [formControl]="description"></textarea>-->
+<!--        </mat-form-field>-->
 
-        <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{errorMessage}}</span></div>
+<!--        <div  class="error-box-text"><span [hidden]="doNotDisplayFailureMessage" class="text-danger">{{errorMessage}}</span></div>-->
 
-        <div class="form-buttons-w">
-          <button mat-flat-button color="primary" [disabled]="!addressForm.valid" type="submit" (click)="onUpdate()">Update</button>
-          <button class="right-button-form" mat-stroked-button color="warn"  type="button" (click)="cancel()">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<!--        <div class="form-buttons-w">-->
+<!--          <button mat-flat-button color="primary" [disabled]="!addressForm.valid" type="submit" (click)="onUpdate()">Update</button>-->
+<!--          <button class="right-button-form" mat-stroked-button color="warn"  type="button" (click)="cancel()">Cancel</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 
 
-</form>
+<!--</form>-->

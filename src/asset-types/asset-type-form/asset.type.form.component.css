@@ -1,28 +1,28 @@
-.right-button-form {
-  margin-left: 2rem;
-}
+/*.right-button-form {*/
+/*  margin-left: 2rem;*/
+/*}*/
 
 
-::ng-deep .mat-tab-body-wrapper {
-  height: 385px;
-}
+/*::ng-deep .mat-tab-body-wrapper {*/
+/*  height: 385px;*/
+/*}*/
 
-button[mat-icon-button] {
-  margin-top: 10px;
-}
+/*button[mat-icon-button] {*/
+/*  margin-top: 10px;*/
+/*}*/
 
-.spec {
-  min-height: 325px;
-}
+/*.spec {*/
+/*  min-height: 325px;*/
+/*}*/
 
-.trans-container {
-  min-height: 1375px;
-}
-/*
-  Troumaca overrides etc.
-*/
+/*.trans-container {*/
+/*  min-height: 1375px;*/
+/*}*/
+/*!**/
+/*  Troumaca overrides etc.*/
+/**!*/
 
-fieldset {
-  margin-top: 0;
-}
+/*fieldset {*/
+/*  margin-top: 0;*/
+/*}*/
 

@@ -10,13 +10,15 @@
       <button mat-dialog-close class="modal__close">+</button>
     </div>
     <div class="lsm-form">
-      <label class="input-label" for="name">Asset Name</label>
-      <mat-form-field class="input-field create-input" appearance="outline">
-        <input matInput [formControl]="name" id="name" required>
-        <mat-error *ngIf="name.hasError('required')">
-          Asset Name is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
+
+      <div class="form-control">
+        <label class="fc-label" for="name">Asset Name</label>
+        <input class="fc-input" [formControl]="name" id="name" required>
+        <div class="fc-error" *ngIf="name.hasError('required') && !name.pristine">
+          <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon> Asset Name is <strong>required</strong>
+        </div>
+      </div>
+
       <div fxLayoutAlign="end">
         <span class="lsm__des">Add description</span>
       </div>
@@ -41,6 +43,6 @@
     </div>
   </div>
   <div mat-dialog-actions fxLayoutAlign="end" class="lsm-end">
-    <button mat-flat-button class="button button--primary button--primary--assets" [disabled]="!assetForm.valid">Save Asset</button>
+    <button class="button button--primary button--primary--normal" [disabled]="!assetForm.valid">Save Asset</button>
   </div>
 </div>

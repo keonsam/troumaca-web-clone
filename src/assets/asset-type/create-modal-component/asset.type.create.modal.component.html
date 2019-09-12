@@ -7,37 +7,40 @@
       <button mat-dialog-close class="modal__close">+</button>
     </div>
     <form class="lsm2-form">
-      <div>
-        <label class="input-label" for="name">Type name</label>
-        <mat-form-field class="lsm-input--full" appearance="outline">
-          <input  matInput [formControl]="search" id="name">
-        </mat-form-field>
-        <p class="lsm2-input-hint">Name your type to easily find them</p>
+      <div class="form-control">
+        <label class="fc-label" for="name">Type name</label>
+        <input class="fc-input" [formControl]="name" id="name" required>
+        <div class="fc-error" *ngIf="name.hasError('required') && !name.pristine">
+          <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon>Username is <strong>required</strong>
+        </div>
       </div>
+      <p class="lsm2-input-hint">Name your type to easily find them</p>
       <mat-expansion-panel class="lsm2-options" hideToggle #expansionPanel>
-        <mat-expansion-panel-header >
+        <mat-expansion-panel-header>
           <mat-panel-description fxLayout="column" fxLayoutAlign="start center">
             <div class="lsm2-options-text">advanced options</div>
             <fa-icon [icon]="faChevronDown" *ngIf="!expansionPanel.expanded"></fa-icon>
             <fa-icon [icon]="faChevronUp" *ngIf="expansionPanel.expanded"></fa-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <div class="input-div">
-          <label class="input-label" for="name">Description</label>
-          <mat-form-field class="lsm-input--full" appearance="outline">
-            <input  matInput [formControl]="search" placeholder="Add a short description" id="description">
-          </mat-form-field>
+        <div class="form-control f-c-no-padding">
+          <label class="fc-label" for="description">Description</label>
+          <input class="fc-input fc-input--white" [formControl]="description" id="description" placeholder="Add a short description" />
         </div>
         <div class="type-setting">
           <div class="type-setting-head"><span class="type-setting-head__text">Type Settings</span></div>
           <ul class="type-setting-list" fxLayout="column" fxLayoutGap="18px">
-            <li fxLayoutAlign="space-between" class="type-setting-list__item">
-              <span class="type-setting-list__item__span">Share to community</span>
-              <mat-checkbox class="type-setting-list__item_check-box"></mat-checkbox>
+            <li class="type-setting-list__item">
+              <label class="blue-checkbox-label" for="share">Share to community
+                <input class="blue-checkbox" type="checkbox" id="share"/>
+                <span class="blue-checkbox__shadow"></span>
+              </label>
             </li>
-            <li fxLayoutAlign="space-between" class="type-setting-list__item">
-              <span class="type-setting-list__item__span">User can’t add attribute</span>
-              <mat-checkbox class="type-setting-list__item_check-box"></mat-checkbox>
+            <li class="type-setting-list__item">
+              <label class="blue-checkbox-label" for="can't">User can’t add attribute
+                <input class="blue-checkbox" type="checkbox" id="can't"/>
+                <span class="blue-checkbox__shadow"></span>
+              </label>
             </li>
           </ul>
         </div>
@@ -45,10 +48,10 @@
     </form>
   </div>
   <div mat-dialog-content fxLayout="column"  fxLayoutAlign="start center">
-    <button mat-flat-button class="button button--white button--white--attribute" (click)="newAttributeModal()">Add an attribute</button>
+    <button class="button button--white button--white--attribute" (click)="newAttributeModal()">Add an attribute</button>
     <span class="lsm2-content-q">what is this?</span>
   </div>
   <div mat-dialog-actions fxLayoutAlign="center">
-    <button mat-flat-button class="button button--primary button--primary--types">Save Type</button>
+    <button class="button button--primary button--primary--normal">Save Type</button>
   </div>
 </div>

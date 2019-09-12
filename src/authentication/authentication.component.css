@@ -1,14 +1,14 @@
 :host {
   display: block;
-  min-height: 100vh;
+  min-height: 100%;
+  width: 100%;
 }
 
 /* LAYOUT */
 .auth-grid {
-  min-height: 100vh;
+  min-height: 100%;
   background: #F5F5F5;
 }
-
 
 .auth-main {
   display: block;
@@ -52,6 +52,81 @@
   cursor: pointer;
   margin-bottom: 20px;
 }
+
+/* REUSED COMPONENTS*/
+
+/* input */
+::ng-deep .form-control {
+  min-height: 93px;
+}
+
+::ng-deep .fc--password {
+  min-height: 104px;
+}
+
+::ng-deep .fc-label {
+  font-family: 'Comfortaa', cursive;
+  display: block;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 14px;
+  letter-spacing: 0.01em;
+  margin-bottom: 7px;
+  margin-left: 6px;
+}
+
+::ng-deep .fc-input {
+  height: 51px;
+  background: #F0F7FB;
+}
+
+::ng-deep .fc-input.ng-valid {
+  background: #E9F9FD;
+}
+
+::ng-deep .fc-input.ng-invalid {
+  background: #FFE4E3;
+}
+
+::ng-deep .fc-input.ng-pristine {
+  background: #F0F7FB;
+}
+
+/*::ng-deep .fc-error__icon {*/
+/*  margin-right: 7px;*/
+/*}*/
+/* end of input */
+
+/* button */
+
+::ng-deep .button {
+  font-size: 18px;
+}
+::ng-deep .button--big {
+  width: 100%;
+}
+
+::ng-deep .button--primary--medium {
+  width: 243px;
+}
+
+::ng-deep .button--primary--small {
+  width: 145px;
+}
+
+/*::ng-deep .button--primary {*/
+/*  background: #004777;*/
+/*}*/
+
+::ng-deep .button--big--google {
+  background: #DB4437;
+}
+
+/*::ng-deep .button--primary[disabled] {*/
+/*  background: #004777;*/
+/*  opacity: 0.3;*/
+/*  cursor: not-allowed;*/
+/*}*/
 
 @media only screen and (max-width: 959px) {
   .auth-main {

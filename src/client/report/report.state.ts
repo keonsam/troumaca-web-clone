@@ -1,2 +1,2 @@
-export class ReportState {
-}
+// export class ReportState {
+// }

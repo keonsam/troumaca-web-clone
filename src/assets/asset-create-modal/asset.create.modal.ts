@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {faChevronLeft, faChevronRight, faImage, faTag, faThLarge} from '@fortawesome/free-solid-svg-icons';
+import {faChevronLeft, faChevronRight, faExclamationTriangle, faImage, faTag, faThLarge} from '@fortawesome/free-solid-svg-icons';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DialogPosition, MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {AssetTypeSelectModalComponent} from '../asset-type/select-modal-component/asset.type.select.modal.component';
@@ -19,6 +19,7 @@ export class AssetCreateModal {
   name: FormControl;
   assetForm: FormGroup;
   dialogRefTypes: MatDialogRef<AssetTypeSelectModalComponent>;
+  faExclamationTriangle = faExclamationTriangle;
 
   constructor(
     public dialogRef: MatDialogRef<AssetCreateModal>,

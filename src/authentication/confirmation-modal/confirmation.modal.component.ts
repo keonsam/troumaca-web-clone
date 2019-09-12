@@ -8,6 +8,7 @@ import {MatDialogRef} from '@angular/material';
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 import {debounceTime, filter} from 'rxjs/operators';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -27,6 +28,7 @@ export class ConfirmationModalComponent implements OnInit {
   onPrevious: EventEmitter<boolean> = new EventEmitter();
   onNext: EventEmitter<any> = new EventEmitter();
   faArrowLeft = faArrowLeft;
+  faExclamationTriangle = faExclamationTriangle;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               public dialogRef: MatDialogRef<ConfirmationModalComponent>,

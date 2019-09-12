@@ -16,18 +16,17 @@
     </p>
     <form [formGroup]="confirmationForm" class="form">
 
-      <div>
-        <label class="input-label" for="code">Verification Code</label>
-        <mat-form-field class="input-field" appearance="outline">
-          <input matInput [formControl]="confirmationCode"  id="code" required>
-          <mat-error *ngIf="confirmationCode.errors && !confirmationCode.hasError('required')">
-            Must be six characters.
-          </mat-error>
-          <mat-error *ngIf="confirmationCode.hasError('required')">
-            Code  is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
+      <div class="form-control">
+        <label class="fc-label" for="code">Verification Code</label>
+        <input class="fc-input" [formControl]="confirmationCode"  id="code" required>
+        <div class="fc-error" *ngIf="confirmationCode.errors && (!confirmationCode.hasError('required') && !confirmationCode.pristine)">
+          <fa-icon class="fc-error__icon"[icon]="faExclamationTriangle"></fa-icon> Must be six characters.
+        </div>
+        <div class="fc-error" *ngIf="confirmationCode.hasError('required') && !confirmationCode.pristine">
+          <fa-icon class="fc-error__icon"[icon]="faExclamationTriangle"></fa-icon>Code  is <strong>required</strong>
+        </div>
       </div>
+
       <a class="resend-code" href (click)="sendConfirmationCode();false">Resend code in 60 sec.</a>
 
     </form>

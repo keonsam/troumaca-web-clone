@@ -3,8 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
 import { Credential } from '../credential';
-import {SessionService} from '../../session/session.service';
-import {AUTHENTICATION, CONFIRMATION, LOBBY, ORGANIZATION} from '../../app/routes';
+import {DASHBOARD} from '../../app/routes';
 import {MatDialog} from '@angular/material';
 import {AccountTypeModalComponent} from '../account-type-modal/account.type.modal.component';
 import {SignUpModalComponent} from '../sign-up-modal/sign.up.modal.component';
@@ -13,6 +12,7 @@ import {ConfirmationModalComponent} from '../confirmation-modal/confirmation.mod
 import {ForgetPasswordComponent} from '../forget-password/forget.password.component';
 import {ForgetSavedComponent} from '../forget-saved/forget.saved.component';
 import {faGoogle} from '@fortawesome/free-brands-svg-icons/faGoogle';
+import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -31,13 +31,13 @@ export class LoginComponent implements OnInit {
   hide = true;
   accountType: string;
   faGoogle = faGoogle;
+  faExclamationTriangle = faExclamationTriangle;
   loading: boolean;
 
   constructor(public dialog: MatDialog,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
-              private router: Router,
-              private sessionService: SessionService) {
+              private router: Router) {
     this.credential = new Credential();
 
     this.username = new FormControl('', [
@@ -67,6 +67,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.username);
   }
 
   onSubmit() {
@@ -80,9 +81,7 @@ export class LoginComponent implements OnInit {
           if (auth.state === 'USERNAME_NOT_CONFIRMED') {
             this.openConfirmation({...auth.confirmation, username: this.credential.username });
           } else {
-            // remove this.loading
-            this.sessionService.loginEvent.next(true);
-            this.router.navigate([`/${LOBBY}`]);
+            this.router.navigate([`/${DASHBOARD}`]);
           }
         }else {
           this.doNotDisplayFailureMessage = false;

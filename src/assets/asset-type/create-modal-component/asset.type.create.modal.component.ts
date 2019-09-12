@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DialogPosition, MatDialog, MatDialogRef} from '@angular/material';
-import {faChevronDown, faChevronUp, faSearch} from '@fortawesome/free-solid-svg-icons';
+import {faChevronDown, faChevronUp, faExclamationTriangle, faSearch} from '@fortawesome/free-solid-svg-icons';
 import {AttributeSelectModalComponent} from '../../attributes/attributes-select-modal-component/attribute.select.modal.component';
 
 @Component({
@@ -11,12 +11,14 @@ import {AttributeSelectModalComponent} from '../../attributes/attributes-select-
 })
 export class AssetTypeCreateModalComponent {
 
-  search: FormControl;
+  name: FormControl;
+  description: FormControl;
   // faSearch = faSearch;
   // recentArray: string[];
   // commons: string[];
   faChevronDown = faChevronDown;
   faChevronUp = faChevronUp;
+  faExclamationTriangle = faExclamationTriangle;
   constructor(
     public dialogRef: MatDialogRef<AssetTypeCreateModalComponent>,
     private formBuilder: FormBuilder,
@@ -27,7 +29,8 @@ export class AssetTypeCreateModalComponent {
     //   'communication', 'measurement instrument','other discrete item',
     //   'Material Inventory', 'Lot', 'building'
     // ];
-    this.search = new FormControl('');
+    this.name = new FormControl('', [Validators.required]);
+    this.description = new FormControl('');
   }
 
   newAttributeModal() {
@@ -36,7 +39,7 @@ export class AssetTypeCreateModalComponent {
       left: '418px'
     };
     const dialogRef = this.dialog.open(AttributeSelectModalComponent,  {
-      height: 'calc(100% - 150px)',
+      height: 'calc(100% - 96px)',
       width: '706px',
       position: dialogPosition,
       hasBackdrop: true,

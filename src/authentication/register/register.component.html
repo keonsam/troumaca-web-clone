@@ -7,78 +7,70 @@
       <form [formGroup]="registrationForm" class="form">
 
         <div fxLayout="row" fxLayoutGap="16px">
-          <div class="input-field--half">
-            <label class="input-label" for="firstName">First Name</label>
-            <mat-form-field class="input-field"  appearance="outline">
-              <input matInput [formControl]="firstName" id="firstName" required>
-              <mat-error *ngIf="firstName.hasError('required')">
-                <strong>Required</strong>
-              </mat-error>
-            </mat-form-field>
+
+          <div class="form-control">
+            <label class="fc-label" for="firstName">First Name</label>
+            <input class="fc-input" [formControl]="firstName" id="firstName" required>
+            <div class="fc-error" *ngIf="firstName.hasError('required') && !firstName.pristine">
+              <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon><strong>required</strong>
+            </div>
           </div>
 
-          <div class="input-field--half">
-            <label class="input-label" for="lastName">Last Name</label>
-            <mat-form-field class="input-field" appearance="outline">
-              <input matInput [formControl]="lastName" id="lastName" required>
-              <mat-error *ngIf="lastName.hasError('required')">
-                <strong>Required</strong>
-              </mat-error>
-            </mat-form-field>
+          <div class="form-control">
+            <label class="fc-label" for="lastName">Last Name</label>
+            <input class="fc-input" [formControl]="lastName" id="lastName" required>
+            <div class="fc-error" *ngIf="lastName.hasError('required') && !lastName.pristine">
+              <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon><strong>required</strong>
+            </div>
+          </div>
+
+        </div>
+
+        <div *ngIf="secondImg" class="form-control">
+          <label class="fc-label"  for="companyName">Company Name</label>
+          <input class="fc-input" [formControl]="companyName"  id="companyName" [required]="secondImg">
+          <div class="fc-error" *ngIf="companyName.hasError('required') && !companyName.pristine">
+            <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon>Company name is <strong>required</strong>
           </div>
         </div>
 
-        <div *ngIf="secondImg">
-          <label class="input-label" for="companyName">Company Name</label>
-          <mat-form-field class="input-field" appearance="outline" id="companyName">
-            <input matInput [formControl]="companyName" [required]="secondImg">
-            <mat-error *ngIf="companyName.hasError('required')">
-              Company name is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+        <div class="form-control">
+          <label  class="fc-label" for="username">{{ email ? 'Email': 'Mobile Number'}}</label>
+          <input class="fc-input" [formControl]="username" id="username" required>
+          <div class="fc-error" *ngIf="username.hasError('validateEmail') && (!username.hasError('required') && !username.pristine)">
+            <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon>{{ email ? 'e.g "someone@mail.com"': 'e.g "15417543010"'}}
+          </div>
+          <div class="fc-error" *ngIf="username.hasError('required') && !username.pristine">
+            <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon>{{ email ? 'email': 'mobile number'}} is <strong>required</strong>
+          </div>
         </div>
 
-        <div>
-          <label  class="input-label" for="username">{{ email ? 'Email': 'Mobile Number'}}</label>
-          <mat-form-field class="input-field" appearance="outline">
-            <input matInput [formControl]="username" id="username" required>
-            <mat-error *ngIf="username.hasError('validateEmail') && !username.hasError('required')">
-              {{ email ? 'e.g "someone@mail.com"': 'e.g "15417543010"'}}.
-            </mat-error>
-            <mat-error *ngIf="username.hasError('required')">
-              {{ email ? 'email': 'mobile number'}} is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+        <div class="form-control fc--password">
+          <label class="fc-label"  for="password">Create Password</label>
+          <input class="fc-input" [formControl]="password"  id="password" type="password">
+          <div class="fc-error" *ngIf="password.hasError('password') && (!password.hasError('required') && !password.pristine)">
+            <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon>At least eight characters: 1 upper case letter, numeric, and special character.
+          </div>
+          <div class="fc-error" *ngIf="password.hasError('required') && !password.pristine">
+            <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon>Password is <strong>required</strong>
+          </div>
         </div>
 
-        <div>
-          <label  class="input-label" for="password">Create Password</label>
-          <mat-form-field class="input-field" appearance="outline">
-            <input matInput [formControl]="password"  id="password" type="password">
-            <mat-error *ngIf="password.hasError('password') && !password.hasError('required')">
-              At least eight characters: 1 upper case letter, numeric, and special character.
-            </mat-error>
-            <mat-error *ngIf="password.hasError('required')">
-              Password is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+        <div class="form-control">
+          <label class="fc-label" for="confirmPassword">Retype Password</label>
+          <input class="fc-input" [formControl]="confirmPass" id="confirmPassword" type="password">
+          <div class="fc-error" *ngIf="confirmPass.hasError('password') && (!confirmPass.hasError('required') && !confirmPass.pristine)">
+            <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon>Password does not match.
+          </div>
+          <div class="fc-error" *ngIf="confirmPass.hasError('required') && !confirmPass.pristine">
+            <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon>Retype your password.
+          </div>
         </div>
 
-        <div>
-          <label  class="input-label" for="confirmPassword">Retype Password</label>
-          <mat-form-field class="input-field" appearance="outline">
-            <input matInput [formControl]="confirmPass" id="confirmPassword" type="password">
-            <mat-error *ngIf="confirmPass.hasError('password') && !confirmPass.hasError('required')">
-              Password does not match.
-            </mat-error>
-            <mat-error *ngIf="confirmPass.hasError('required')">
-              Retype your password.
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <button mat-flat-button class="button button--primary button--big button--big--login" type="submit" [disabled]="!registrationForm.valid || loading" (click)="onCreate()">
-          <mat-spinner *ngIf="loading" [diameter]="20" class="button__spinner"></mat-spinner>
+        <button class="button button--primary button--big button--big--login" type="submit" [disabled]="!registrationForm.valid || loading" (click)="onCreate()">
+          <svg *ngIf="loading" class="spinner">
+            <circle class="path" cx="50%" cy="50%" r="8" fill="none" stroke-width="2"></circle>
+          </svg>
           <span *ngIf="!loading">Sign Up</span>
         </button>
       </form>

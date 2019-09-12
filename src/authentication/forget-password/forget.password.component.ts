@@ -4,6 +4,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../authentication.service';
 import {ChangePassword} from '../change.password';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-forget-password',
@@ -20,6 +21,7 @@ export class ForgetPasswordComponent {
   onNext: EventEmitter<boolean> = new EventEmitter();
   changePassword: ChangePassword;
   loading: boolean;
+  faExclamationTriangle = faExclamationTriangle;
 
   constructor(@Inject(MAT_DIALOG_DATA) private readonly data: any,
               public dialogRef: MatDialogRef<ForgetPasswordComponent>,

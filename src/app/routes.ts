@@ -1,5 +1,5 @@
 export const HOME = 'authentication';
-export const LOBBY = 'dashboard';
+export const DASHBOARD = 'dashboard';
 export const ASSET = 'assets';
 export const MANAGE = 'manage';
 export const ASSET_TYPE = 'asset-types';

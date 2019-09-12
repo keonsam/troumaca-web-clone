@@ -6,10 +6,10 @@
     </div>
     <span class="lsm-header-span">what is type?</span>
     <form class="search">
-      <mat-form-field class="search-input-2" appearance="outline">
-        <input  matInput [formControl]="search" placeholder="Search Type" >
-        <fa-icon matSuffix class="search__icon" [icon]="faSearch"></fa-icon>
-      </mat-form-field>
+      <div class="sf-div">
+        <input class="sf-input sf-input2" [formControl]="search" placeholder="Search Type" />
+        <fa-icon class="sf__icon sf__icon2" [icon]="faSearch"></fa-icon>
+      </div>
     </form>
   </div>
   <div mat-dialog-content>
@@ -81,6 +81,6 @@
     </mat-tab-group>
   </div>
   <div mat-dialog-actions fxLayoutAlign="center">
-    <button mat-flat-button class="button button--primary button--primary--assets" (click)="openCreateNew()">Create new Type</button>
+    <button class="button button--primary button--primary--asset-type" (click)="openCreateNew()">Create new Type</button>
   </div>
 </div>

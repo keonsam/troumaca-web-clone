@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import {Assets} from './assets';
 import {Asset} from './asset';
-import { AssetType} from '../asset-types/asset.type';
+// import { AssetType} from '../asset-types/asset.type';
 import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {map} from 'rxjs/operators';
@@ -224,7 +224,7 @@ export class AssetService {
 
   // others
 
-  findAssetTypes(searchStr: string, pageSize: number): Observable<AssetType[]> {
+  findAssetTypes(searchStr: string, pageSize: number): Observable<any[]> {
     return this.apollo.query( {
       query: gql`
         query findAssetTypes($searchStr: String!, $pageSize: Int!) {

@@ -1,6 +1,6 @@
-export class AssetIdentifierType {
-  assetIdentifierTypeId: string;
-  name: string;
-  description: string;
-  version: string;
-}
+// export class AssetIdentifierType {
+//   assetIdentifierTypeId: string;
+//   name: string;
+//   description: string;
+//   version: string;
+// }

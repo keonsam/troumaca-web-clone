@@ -7,29 +7,27 @@ import {
   CanLoad,
   CanActivateChild,
 } from '@angular/router';
-import { AuthGuardService} from './auth.guard.service';
+// import { AuthGuardService} from './auth.guard.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+// import { map } from 'rxjs/operators';
 import { Route } from '@angular/compiler/src/core';
-import {SessionService} from '../session/session.service';
-import {AuthService} from '../app/auth.service';
-import {authRoutes} from '../app/auth.routes';
-import {AUTHENTICATION, HOME, LOBBY} from '../app/routes';
+// import {SessionService} from '../session/session.service';
+// import {AuthService} from '../app/auth.service';
+// import {authRoutes} from '../app/auth.routes';
+// import {AUTHENTICATION, HOME, DASHBOARD} from '../app/routes';
 
 
-export function authGuardProviderFactory (authGuardService: AuthGuardService, authService: AuthService, router: Router): AuthGuard {
-  return new AuthGuard(authGuardService, authService, router);
+export function authGuardProviderFactory (router: Router): AuthGuard {
+  return new AuthGuard(router);
 }
 
 @Injectable({
   providedIn: 'root',
   useFactory: authGuardProviderFactory,
-  deps: [AuthGuardService, AuthService, Router]
+  deps: [Router]
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   constructor(
-    protected authGuardService: AuthGuardService,
-    protected authService: AuthService,
     protected router: Router,
   ) { }
 
@@ -57,7 +55,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     //   .pipe(map(validSession => {
     //     if (state.url.indexOf(`${AUTHENTICATION}`) !== -1) {
     //       if (validSession.valid) {
-    //         this.router.navigate([`/${LOBBY}`]);
+    //         this.router.navigate([`/${DASHBOARD}`]);
     //         if (!this.authService.isLoggedIn()) {
     //           this.authService.isLoginSubject.next(true);
     //         }

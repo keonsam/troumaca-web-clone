@@ -15,7 +15,7 @@
 }
 .lsm2-white {
   background: #FFFFFF;
-  padding: 32px 30px 25px 39px;
+  padding: 10px 30px 25px 39px;
 }
 
 .lsm2-form {
@@ -178,6 +178,10 @@
   font-family: 'Comfortaa', cursive !important;
 }
 
+.f-c-no-padding {
+  margin-bottom: 32px;
+}
+
 .type-setting-head {
   text-align: center;
   font-size: 13px;
@@ -188,7 +192,7 @@
 }
 
 .type-setting-head__text {
-  background: #fff;
+  background: #FFFFFF;
   padding: 0 50px;
 }
 
@@ -198,18 +202,17 @@
   list-style-type: none;
 }
 
-.type-setting-list__item__span {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 14px;
-  letter-spacing: 0.01em;
-  color: #000000;
+.type-setting-list__item_check-box {
+
 }
 
-::ng-deep .mat-checkbox-frame {
-  border: 1px solid #23C7EF !important;
-  border-radius: 6px;
+.button--white--attribute {
+  width: 171px;
 }
 
+@media only screen and (max-width: 599px) {
+  .fc-input--white {
+    height: 106px;
+  }
+}
 

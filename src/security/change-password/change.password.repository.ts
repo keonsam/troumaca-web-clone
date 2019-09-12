@@ -1,2 +1,2 @@
-export abstract class ChangePasswordRepository {
-}
+// export abstract class ChangePasswordRepository {
+// }
