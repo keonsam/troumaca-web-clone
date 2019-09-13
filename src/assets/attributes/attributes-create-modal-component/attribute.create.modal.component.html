@@ -1,0 +1,107 @@
+<div class="lsm2"
+>
+  <div class="lsm2-white">
+    <div fxLayoutAlign="space-between center">
+      <span class="lsm-header-text">New Attribute</span>
+      <button mat-dialog-close class="modal__close">+</button>
+    </div>
+    <div class="lsm-white-d" fxLayoutAlign="start center">
+      <span class="lsm-white-d__span">Select Attribute type</span>
+      <div class="lsm-white-d__icon"
+           fxLayoutAlign="center center">
+        <span>i</span>
+      </div>
+    </div>
+  </div>
+  <div class="attribute-body"
+       gdColumns="292px auto"
+  >
+    <div class="attribute-type">
+      <ul class="attribute-type-list"
+          gdColumns="111px 111px"
+          gdGap="8px 8px"
+          gdAlignRows="center"
+          >
+        <li class="attribute-type-item" *ngFor="let type of types"
+            fxLayout="column"
+            fxLayoutGap="22px"
+            (click)="onSelect(type)"
+            [class.selected]="selected === type.name"
+        >
+          <fa-icon [icon]="getIcon(type.assetCharacteristicTypeId)" class="attribute-type-item__icon" [class.selected]="selected === type.name"></fa-icon>
+          <div class="attribute-type-item__text" [class.selected]="selected === type.name"><span>{{type.name}}</span></div>
+        </li>
+      </ul>
+    </div>
+    <div class="attribute-form">
+      <form class="save-attribute" *ngIf="selected" [formGroup]="attributeForm">
+
+        <div class="form-control">
+          <label class="fc-label" for="label">Label</label>
+          <input class="fc-input" [formControl]="label" id="label" placeholder="Name your attribute" required>
+          <div class="fc-error" *ngIf="label.hasError('required') && !label.pristine">
+            <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon>Username is <strong>required</strong>
+          </div>
+        </div>
+
+        <div class="form-control f-c-no-padding-content" *ngIf="selected === 'Select' || selected === 'Multi Select'">
+          <label class="fc-label" for="list">List</label>
+          <input class="fc-input fc-input--search" [formControl]="list" id="list" placeholder="Search or Create new">
+          <fa-icon class="sf__icon sf__icon2" [icon]="faSearch"></fa-icon>
+        </div>
+
+        <div class="behavior">
+          <h4 class="behavior-title">Behavior</h4>
+          <ul class="behavior-list">
+            <li>
+              <label class="blue-checkbox-label" for="pre-filled">Pre-filled
+                <input class="blue-checkbox" type="checkbox" id="pre-filled" [formControl]="preFilled"/>
+                <span class="blue-checkbox__shadow"></span>
+              </label>
+              <div class="pre-filled-popup" *ngIf="preFilled.value && selected !== 'Checkbox'">
+                <div class="f-c-no-padding f-c-no-padding-content ">
+                  <input class="fc-input" [formControl]="preFilledValue" placeholder="Pre-Filled Content">
+                </div>
+              </div>
+
+            </li>
+            <li>
+              <label class="blue-checkbox-label" for="required">Required
+                <input class="blue-checkbox" type="checkbox" [formControl]="required" id="required"/>
+                <span class="blue-checkbox__shadow"></span>
+              </label>
+            </li>
+          </ul>
+        </div>
+
+        <div class="additional-info">
+
+          <div fxLayout="row no-wrap" class="additional-info-collapsible" (click)="expandPanel()">
+            <div class="additional-info-title">
+              <span class="additional-info-title__span">Additional options</span>
+            </div>
+            <fa-icon  *ngIf="!panelActive" class="additional-info-title__icon" [icon]="faChevronDown"></fa-icon>
+            <fa-icon  *ngIf="panelActive"  class="additional-info-title__icon" [icon]="faChevronUp"></fa-icon>
+          </div>
+
+          <div [ngClass]="{'additional-info-content': true, 'active': panelActive}">
+            <div class="form-control f-c-no-padding-content fc-tool-tip">
+              <div fxLayoutAlign="space-between center" class="fc-tool-tip-bar">
+                <label class="fc-label fc-label-tool-tip" for="tool-tip">Tool Tip Information</label>
+                <div class="lsm-white-d__icon" fxLayoutAlign="center center"><span>i</span></div>
+              </div>
+              <textarea class="fc-input fc-input-tool-tip" [formControl]="additionalInfo" id="tool-tip"
+                        placeholder="Add info for information about the attributes"
+              ></textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="sa-action-button">
+          <button class="button button--primary button--primary--sa" [disabled]="!attributeForm.valid" (click)="onSubmit()">Save Attribute</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

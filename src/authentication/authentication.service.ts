@@ -14,7 +14,7 @@ import {
   RESEND_CODE_GQL,
   USERNAME_GQL
 } from './auth.queries';
-import {User} from '../parties/user';
+import { User} from './user';
 import {IsValid} from './isValid';
 import {AuthenticatedCredential} from './authenticated.credential';
 

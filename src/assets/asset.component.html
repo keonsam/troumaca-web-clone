@@ -1,5 +1,137 @@
-<div class="content-i">
-  <div class="content-box">
-    <router-outlet></router-outlet>
+<div class="assets"
+     gdRows="129px 39px calc(100% - 168px)"
+     gdRows.xs="149px 39px calc(100% - 188px)"
+>
+  <div class="input-menu"
+       fxLayout="row wrap"
+       fxLayoutAlign="start"
+       fxLayout.xs="column"
+       fxLayoutGap.xs="14px"
+  >
+    <div fxLayout="row" fxLayoutGap="48px">
+      <div class="status"
+           fxLayout="column"
+      >
+        <span class="status__figure">0</span>
+        <span class="status__text">Total</span>
+      </div>
+      <div class="status"
+           fxLayout="column"
+      >
+        <span class="status__figure">0</span>
+        <span class="status__text">Yours</span>
+      </div>
+    </div>
+    <form class="search-form">
+      <div class="sf-div">
+        <input class="sf-input" [formControl]="search" placeholder="Search Assets" >
+        <fa-icon  class="sf__icon" [icon]="faSearch"></fa-icon>
+      </div>
+    </form>
+    <div fxHide.xs class="white-button-div">
+      <button class="white-button white-button--one" (click)="openAssetCreate()">
+        <div class="white-button__box" fxLayoutAlign="center center">
+          <fa-icon class="white-button__icons" [icon]="faBox" ></fa-icon>
+        </div>
+        <span class="white-button__text">new assets</span>
+      </button>
+      <button class="white-button">
+        <div class="white-button__box white-button__box--types" fxLayoutAlign="center center">
+          <fa-icon class="white-button__icons" [icon]="faCheck"></fa-icon>
+        </div>
+        <span class="white-button__text">new type</span>
+      </button>
+    </div>
+  </div>
+  <div class="sort-menu"
+       fxLayoutAlign="start"
+       fxLayoutAlign.xs="space-between"
+  >
+
+    <div class="sort-filter">
+      <fa-icon class="sort__icons" [icon]="faFilter" ></fa-icon>
+      <span class="sort__text">Filters</span>
+    </div>
+
+    <div class="sort-sort">
+      <fa-icon class="sort__icons" [icon]="faSortAmountDown" ></fa-icon>
+      <span class="sort__text">Sort</span>
+    </div>
+
+    <div class="sort-list">
+      <fa-icon *ngIf="listType === 'list'" class="sort__icons sort__icons--list" [icon]="faList" (click)="switchList('grid')"></fa-icon>
+      <fa-icon *ngIf="listType === 'grid'" class="sort__icons sort__icons--list" [icon]="faTh" (click)="switchList('list')"></fa-icon>
+    </div>
+
+  </div>
+  <div *ngIf="assets.assets.length < 1"
+       class="no-assets"
+       fxLayout="column"
+       fxLayoutAlign="center center"
+  >
+    <div class="no-assets-img">
+
+    </div>
+    <p class="no-assets-p">It’s a lonely space right now!<br />
+      Add your first asset, let the <br />
+      journey begin !</p>
+    <button
+            class="button button--primary button--primary--new-asset"
+            (click)="openAssetCreate()"
+    >
+      Add a New Asset
+    </button>
+  </div>
+
+  <div *ngIf="assets.assets.length > 1" class="asset-list">
+    <ul *ngIf="listType === 'list'"
+        class="al-list"
+        fxLayout="column"
+        fxLayoutGap="8px">
+      <li *ngFor="let asset of assets.assets" class="al-rows-items" fxLayoutAlign="space-between" >
+        <div
+          fxLayout="row"
+          fxLayoutGap="19px"
+          fxLayoutAlign="start center"
+        >
+          <div class="al-ri-circle" fxLayoutAlign="center center">
+            <img class="al-ri-circle-img" src="../css/images/asset-img.svg" alt="image of asset"/>
+          </div>
+          <span class="al-ri-span">{{asset.name}}</span>
+        </div>
+        <div fxLayoutAlign="start center">
+          <div class="al-ri-type"><span class="al-ri-type-span">computer</span></div>
+          <fa-icon class="al-ri-edit-icons" [icon]="faTrashAlt" fxHide.xs></fa-icon>
+          <fa-icon class="al-ri-edit-icons" [icon]="faEdit" fxHide.xs></fa-icon>
+          <fa-icon class="al-ri-edit-ellipsis" [icon]="faEllipsisV"
+                   fxFlexAlign="start"
+          ></fa-icon>
+        </div>
+      </li>
+    </ul>
+    <ul *ngIf="listType === 'grid'"
+        class="asset-grid"
+        gdColumns="repeat(auto-fill, 111px)"
+        gdGap="8px 8px">
+      <li *ngFor="let asset of assets.assets"
+          class="al-grid-items"
+          fxLayout="row no-wrap"
+          fxLayoutAlign="end">
+        <div
+          class="al-gi-info"
+          fxLayout="column"
+          fxLayoutGap="8px"
+          fxLayoutAlign="start center"
+        >
+          <div class="al-ri-circle" fxLayoutAlign="center center">
+            <img class="al-ri-circle-img" src="../css/images/asset-img.svg" alt="image of asset"/>
+          </div>
+          <span class="al-ri-span">{{asset.name}}</span>
+        </div>
+        <div fxFlexAlign="start">
+          <fa-icon class="al-ri-edit-ellipsis al-ri-ee--g" [icon]="faEllipsisV"></fa-icon>
+        </div>
+      </li>
+    </ul>
   </div>
 </div>

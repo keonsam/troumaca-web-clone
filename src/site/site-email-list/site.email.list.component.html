@@ -1,60 +1,60 @@
-<div class="content-i email-container">
+<!--<div class="content-i email-container">-->
 
- <site-top-menu></site-top-menu>
+<!-- <site-top-menu></site-top-menu>-->
 
-  <div class="content-box">
+<!--  <div class="content-box">-->
 
-    <div class="element-wrapper">
-      <h6 class="element-header">
-        Email Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" [routerLink]="routerLinkCreateEmail" href="#">New</a></object>
-      </h6>
-      <div class="element-box">
+<!--    <div class="element-wrapper">-->
+<!--      <h6 class="element-header">-->
+<!--        Email Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right" [routerLink]="routerLinkCreateEmail" href="#">New</a></object>-->
+<!--      </h6>-->
+<!--      <div class="element-box">-->
 
-        <!--<search></search> -->
+<!--        &lt;!&ndash;<search></search> &ndash;&gt;-->
 
-        <div class="table-responsive table-section">
-          <table class="table table-striped table-lightfont table-full-width">
-            <thead>
-            <tr>
-              <th>Name</th>
-              <th>Domain Name</th>
-              <th>Email Address</th>
-              <th>Created On</th>
-              <th>Description</th>
-              <th>Actions</th>
-            </tr>
-            </thead>
-            <tfoot>
-            <tr>
-              <th>Name</th>
-              <th>Domain Name</th>
-              <th>Email Address</th>
-              <th>Created On</th>
-              <th>Description</th>
-              <th>Actions</th>
-            </tr>
-            </tfoot>
-            <tbody>
-            <tr role="row" *ngFor="let email of emails.emails; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">
-              <td>{{email.name}}</td>
-              <td>{{email.domainName}}</td>
-              <td>{{email.emailAddress}}</td>
-              <td>{{email.createdOn}}</td>
-              <td >{{email.description}}</td>
-              <td class="row-actions">
-                <a [routerLink]="['/sites/emails', email.siteId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(email.siteId, email.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>
-              </td>
-            </tr>
-            <tr *ngIf="emails.emails.length <= 0" class="odd">
-              <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>
-            </tr>
-            </tbody>
-          </table>
-          <!--<app-delete-modal [name]="emailName" (delete)="onDelete($event)"></app-delete-modal>-->
-          <paging [page]="emails.page" (requestPage)="onRequestPage($event)"></paging>
-        </div>
+<!--        <div class="table-responsive table-section">-->
+<!--          <table class="table table-striped table-lightfont table-full-width">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--              <th>Name</th>-->
+<!--              <th>Domain Name</th>-->
+<!--              <th>Email Address</th>-->
+<!--              <th>Created On</th>-->
+<!--              <th>Description</th>-->
+<!--              <th>Actions</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tfoot>-->
+<!--            <tr>-->
+<!--              <th>Name</th>-->
+<!--              <th>Domain Name</th>-->
+<!--              <th>Email Address</th>-->
+<!--              <th>Created On</th>-->
+<!--              <th>Description</th>-->
+<!--              <th>Actions</th>-->
+<!--            </tr>-->
+<!--            </tfoot>-->
+<!--            <tbody>-->
+<!--            <tr role="row" *ngFor="let email of emails.emails; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">-->
+<!--              <td>{{email.name}}</td>-->
+<!--              <td>{{email.domainName}}</td>-->
+<!--              <td>{{email.emailAddress}}</td>-->
+<!--              <td>{{email.createdOn}}</td>-->
+<!--              <td >{{email.description}}</td>-->
+<!--              <td class="row-actions">-->
+<!--                <a [routerLink]="['/sites/emails', email.siteId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" data-target="#DeleteModal1" data-toggle="modal" (click)="onOpenModal(email.siteId, email.name);false;" href="#"><i class="os-icon os-icon-ui-15"></i></a>-->
+<!--              </td>-->
+<!--            </tr>-->
+<!--            <tr *ngIf="emails.emails.length <= 0" class="odd">-->
+<!--              <td valign="top" align="" colspan="6" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--          </table>-->
+<!--          &lt;!&ndash;<app-delete-modal [name]="emailName" (delete)="onDelete($event)"></app-delete-modal>&ndash;&gt;-->
+<!--          <paging [page]="emails.page" (requestPage)="onRequestPage($event)"></paging>-->
+<!--        </div>-->
 
-      </div>
-    </div>
-  </div>
-</div>
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

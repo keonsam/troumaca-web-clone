@@ -1,4 +1,4 @@
-export enum EventName {
-  UNAUTHORIZED,
-  LOGIN_TIME_OUT
-}
+// export enum EventName {
+//   UNAUTHORIZED,
+//   LOGIN_TIME_OUT
+// }

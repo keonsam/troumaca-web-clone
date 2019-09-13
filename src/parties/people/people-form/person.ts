@@ -1,8 +1,8 @@
-export class Person {
-  partyId: string;
-  firstName: string;
-  middleName: string;
-  lastName: string;
-  username: string;
-  version: String;
-}
+// export class Person {
+//   partyId: string;
+//   firstName: string;
+//   middleName: string;
+//   lastName: string;
+//   username: string;
+//   version: String;
+// }

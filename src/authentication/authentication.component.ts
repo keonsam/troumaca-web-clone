@@ -7,5 +7,5 @@ import {HOME} from '../app/routes';
   styleUrls: ['./authentication.component.css']
 })
 export class AuthenticationComponent {
-
+  link = `/${HOME}`;
 }

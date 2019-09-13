@@ -1,4 +1,4 @@
-export interface PropertyClass {
-  propertyClassId: string;
-  name: string;
-};
+// export interface PropertyClass {
+//   propertyClassId: string;
+//   name: string;
+// };

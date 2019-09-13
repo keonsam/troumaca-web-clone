@@ -1,47 +1,47 @@
-<fieldset [formGroup]="parentForm">
+<!--<fieldset [formGroup]="parentForm">-->
 
-  <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start" class="search-width">
-    <div fxFlex="1 1 auto">
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Search Names</mat-label>
-        <input matInput [formControl]="ids" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let type of types" [value]="type.name" (onSelectionChange)="onSelect(type)">{{type.name}}</mat-option>
-        </mat-autocomplete>
-        <mat-hint>Select Name</mat-hint>
-      </mat-form-field>
-    </div>
-    <div fxFlex="0 0 auto">
-      <button mat-icon-button
-              matTooltip="Create new"
-              (click)="panel.emit('name')"
-      ><mat-icon color="primary">add_circle_outline</mat-icon></button>
-    </div>
-  </div>
+<!--  <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start" class="search-width">-->
+<!--    <div fxFlex="1 1 auto">-->
+<!--      <mat-form-field class="example-full-width" appearance="fill">-->
+<!--        <mat-label>Search Names</mat-label>-->
+<!--        <input matInput [formControl]="ids" [matAutocomplete]="auto">-->
+<!--        <mat-autocomplete #auto="matAutocomplete">-->
+<!--          <mat-option *ngFor="let type of types" [value]="type.name" (onSelectionChange)="onSelect(type)">{{type.name}}</mat-option>-->
+<!--        </mat-autocomplete>-->
+<!--        <mat-hint>Select Name</mat-hint>-->
+<!--      </mat-form-field>-->
+<!--    </div>-->
+<!--    <div fxFlex="0 0 auto">-->
+<!--      <button mat-icon-button-->
+<!--              matTooltip="Create new"-->
+<!--              (click)="panel.emit('name')"-->
+<!--      ><mat-icon color="primary">add_circle_outline</mat-icon></button>-->
+<!--    </div>-->
+<!--  </div>-->
 
-  <ul>
-    <li formArrayName="names"
-         *ngFor="let item of parentForm.get('names')['controls']; let i = index" [ngClass]="{'multi-fields': true, 'no-border-bottom': i === parentForm.get('names')['controls'].length - 1}">
-      <div [formGroupName]="i">
+<!--  <ul>-->
+<!--    <li formArrayName="names"-->
+<!--         *ngFor="let item of parentForm.get('names')['controls']; let i = index" [ngClass]="{'multi-fields': true, 'no-border-bottom': i === parentForm.get('names')['controls'].length - 1}">-->
+<!--      <div [formGroupName]="i">-->
 
-        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start" class="search-width">
-          <div fxFlex="1 1 auto">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>{{item.controls.name.value | titlecase}} Value</mat-label>
-              <input matInput formControlName="value">
-            </mat-form-field>
-          </div>
-          <div fxFlex="0 0 auto">
-            <button mat-icon-button
-                    matTooltip="Remove Item"
-                    color="warn"
-                    (click)="onRemove(i)"
-            ><mat-icon>cancel</mat-icon></button>
-          </div>
-        </div>
+<!--        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start" class="search-width">-->
+<!--          <div fxFlex="1 1 auto">-->
+<!--            <mat-form-field class="example-full-width" appearance="outline">-->
+<!--              <mat-label>{{item.controls.name.value | titlecase}} Value</mat-label>-->
+<!--              <input matInput formControlName="value">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxFlex="0 0 auto">-->
+<!--            <button mat-icon-button-->
+<!--                    matTooltip="Remove Item"-->
+<!--                    color="warn"-->
+<!--                    (click)="onRemove(i)"-->
+<!--            ><mat-icon>cancel</mat-icon></button>-->
+<!--          </div>-->
+<!--        </div>-->
 
-      </div>
-    </li>
-  </ul>
+<!--      </div>-->
+<!--    </li>-->
+<!--  </ul>-->
 
-</fieldset>
+<!--</fieldset>-->

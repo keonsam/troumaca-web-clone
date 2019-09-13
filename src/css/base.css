@@ -1,41 +1,31 @@
-:root {
-  --body-background-color: #F5F5F5;
-  --text-color: #000000;
-  --font-family: 'Comfortaa', sans-serif;
-  --main-background-color: #FFFFFF;
-  --button-clr-white: #FFFFFF;
-}
 
-*, *:before, *:after {
-  -webkit-box-sizing: inherit;
-  -moz-box-sizing: inherit;
-  box-sizing: inherit;
-}
 
-html {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  font-family: var(--font-family, 'Comfortaa');
-  font-style: normal;
-  font-weight: normal;
-  letter-spacing: 0.01em;
-}
+/**, *:before, *:after {*/
+/*  -webkit-box-sizing: inherit;*/
+/*  -moz-box-sizing: inherit;*/
+/*  box-sizing: inherit;*/
+/*}*/
 
-.body {
-  background: var(--body-background-color, #F5F5F5);
-  color: var(--text-color, #000000);
-}
+/*!* style inheritance *!*/
+/*html {*/
+/*  -webkit-box-sizing: border-box;*/
+/*  -moz-box-sizing: border-box;*/
+/*  box-sizing: border-box;*/
+/*  font-family: var(--font-family, 'Comfortaa');*/
+/*  font-style: normal;*/
+/*  font-weight: normal;*/
+/*  letter-spacing: 0.01em;*/
+/*}*/
 
-@font-face {
-  font-family: 'Comfortaa';
-  src: url("font/Comfortaa[wght]bold.ttf");
-  font-style: normal;
-  font-weight: bold;
-}
-@font-face {
-  font-family: 'Comfortaa';
-  src: url("font/Comfortaa[wght]normal.ttf");
-  font-style: normal;
-  font-weight: normal;
-}
+/*@font-face {*/
+/*  font-family: 'Comfortaa';*/
+/*  src: url("font/Comfortaa[wght]bold.ttf");*/
+/*  font-style: normal;*/
+/*  font-weight: bold;*/
+/*}*/
+/*@font-face {*/
+/*  font-family: 'Comfortaa';*/
+/*  src: url("font/Comfortaa[wght]normal.ttf");*/
+/*  font-style: normal;*/
+/*  font-weight: normal;*/
+/*}*/

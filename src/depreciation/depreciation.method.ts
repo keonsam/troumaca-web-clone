@@ -1,4 +1,4 @@
-export interface DepreciationMethod {
-  methodId: string;
-  name: string;
-};
+// export interface DepreciationMethod {
+//   methodId: string;
+//   name: string;
+// };

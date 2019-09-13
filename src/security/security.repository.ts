@@ -1,2 +1,2 @@
-export abstract class SecurityRepository {
-}
+// export abstract class SecurityRepository {
+// }

@@ -1,3 +1,3 @@
-export class Kind {
-  name: string
-}
+// export class Kind {
+//   name: string
+// }

@@ -1,92 +1,52 @@
-.app-dropdown {
-  width: 320px;
+.top-menu {
+  height: 118px;
+  padding-left: 120px;
+  padding-right: 56px;
+  background: rgba(196,196,196, 0.1);
 }
 
-.small-padding {
-  padding-left: 2px;
-  padding-right: 2px;
+.top-menu__span {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 27px;
+  letter-spacing: 0.02em;
+  color: #2C4948;
+  margin-right: 11px;
+  opacity: 1;
 }
 
-.icon-w {
-  font-size: 30px;
+.top-menu__icon {
+  font-style: normal;
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 21px;
+  letter-spacing: 0.05em;
+  color: #2C4948;
 }
 
-.no-left-right-padding {
-  padding-left: 0;
-  padding-right: 0;
+.top-menu__right {
+  list-style-type: none;
+  padding: 0;
+  margin: 0
 }
 
-.break-sub-menu {
-  display: none;
+.top-menu__img {
+  width: 35px;
+  height: 38px;
+  border-radius: 50%;
 }
 
-@media (max-width: 860px) {
-  .break-sub-menu {
-    display: block;
-  }
+.top-menu__ellipsis {
+  font-size: 26px;
+  color: #2C4948;
+  opacity: 0.5;
 }
 
-/*
-troumaca overrides etc.
-*/
 
-.top-menu-secondary  {
-  border-radius: 0;
-}
-
-.top-menu-secondary .logo-w.menu-size {
-  width: auto !important;
-}
-
-.top-menu-secondary > ul {
-  margin-left: 20px;
-  letter-spacing: 0px;
-  font-size: 14px;
-}
-
-.break-sub-menu > ul {
-  margin: 0;
-}
-
-.top-menu-controls {
-  margin-left: auto;
-}
-
-.logo-w {
-  display: block;
-}
-
-.element-box {
-  box-shadow: none;
-}
-
-@media (max-width: 860px) {
-  .top-menu-secondary > ul:not(.show-ul) {
-    display: none;
-  }
-}
-
-@media (max-width: 767px) {
-  .top-menu-secondary.with-overflow .top-menu-controls {
-    display: flex;
-  }
-  .top-menu-secondary.with-overflow {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
-  }
-}
-
-@media (max-width: 450px) {
-  .logo-name {
-    display: none !important;
-  }
-  .top-menu-secondary > ul {
-    font-size: 12px;
-  }
-  .top-menu-secondary > ul a {
-    padding-left: 5px;
-    padding-right: 5px;
+@media only screen and (max-width: 599px) {
+  .top-menu {
+    padding-left: 25px;
+    background: #FFFFFF;
   }
 }

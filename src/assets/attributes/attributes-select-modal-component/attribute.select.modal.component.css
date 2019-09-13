@@ -1,0 +1,136 @@
+.lsm2-white {
+  background: #FFFFFF;
+  padding: 10px 30px 20px 39px;
+}
+
+.lsm-header-text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 27px;
+  letter-spacing: 0.02em;
+  color: #2C4948;
+  margin-left: 3px;
+}
+
+.lsm-header-span {
+  display: block;
+  margin-top: 11px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.01em;
+  color: #4DD0F0;
+  margin-left: 5px;
+}
+
+.search {
+  margin-top: 32px;
+  width: 349px;
+}
+
+
+::ng-deep .mat-tab-group {
+  font-family: 'Comfortaa', cursive !important;
+}
+
+::ng-deep .mat-tab-labels {
+  background: #FFFFFF;
+}
+
+::ng-deep .mat-tab-label {
+  font-family: 'Comfortaa', cursive !important;
+}
+
+::ng-deep .mat-tab-label.mat-tab-label-active {
+  color: #004777;
+  opacity: 1;
+}
+
+::ng-deep .mat-ink-bar {
+  background-color: #004777 !important;
+  opacity: 1;
+}
+
+.select-types {
+  padding: 35px 166px 35px 37px;
+  min-height: 226px;
+}
+
+.select-types-span {
+  display: block;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 14px;
+  letter-spacing: 0.02em;
+  color: #2C4948;
+  margin-left: 5px;
+  margin-bottom: 15px;
+}
+
+.select-types-list {
+  margin: 0 0 19px 0;
+  padding: 0;
+  list-style-type: none;
+  display: inline-block;
+}
+
+.select-types-list:not(last-child) {
+  margin-right: 7px;
+}
+
+.select-type-i {
+  border-radius: 20px;
+  height: 31px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background: rgba(37,207,232, 0.2);
+}
+
+
+.select-type-i-s {
+  font-size: 12px;
+  line-height: 13px;
+  letter-spacing: 0.02em;
+  color: #000000;
+}
+
+.mat-dialog-content {
+  padding: 0;
+  margin: 0;
+}
+
+.attribute-ending {
+  width: 204px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 13px;
+  text-align: center;
+  letter-spacing: 0.01em;
+  color: #000000;
+  opacity: 0.4;
+  margin: 0 auto 18px;
+}
+
+.select-type-i__icons {
+  font-style: normal;
+  font-weight: 900;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #7E8589;
+  opacity: 0.8;
+}
+
+.button--primary--attribute {
+  width: 231px;
+}
+@media only screen and (max-width: 599px) {
+  .search {
+    width: 100%;
+  }
+}

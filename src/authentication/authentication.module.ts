@@ -8,8 +8,8 @@ import {RegisterComponent} from './register/register.component';
 import {authenticationServiceProvider} from './authenticate.service.provider';
 import { AuthenticationRoutingModule } from './authentication.routing.module';
 import {MaterialModule} from '../app/material.module';
-import {authenticationRepositoryProvider} from '../adapter/authentication/authentication.repository.adapter.provider';
-import {authenticationClientProvider} from '../client/credential/authentication.client.provider';
+// import {authenticationRepositoryProvider} from '../adapter/authentication/authentication.repository.adapter.provider';
+// import {authenticationClientProvider} from '../client/credential/authentication.client.provider';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {DialogModule} from '../dialog/dialog.module';
 import {AccountTypeModalComponent} from './account-type-modal/account.type.modal.component';
@@ -20,6 +20,7 @@ import {ForgetUsernameComponent} from './forget-username/forget.username.compone
 import {ForgetPasswordComponent} from './forget-password/forget.password.component';
 import {ForgetSavedComponent} from './forget-saved/forget.saved.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {MenuModule} from '../menu/menu.module';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MaterialModule,
     FlexLayoutModule,
     DialogModule,
-    PopUpModule
+    PopUpModule,
+    MenuModule
   ],
   declarations: [
     AuthenticationComponent,
@@ -55,8 +57,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   ],
   providers: [
     authenticationServiceProvider,
-    authenticationRepositoryProvider,
-    authenticationClientProvider
+    // authenticationRepositoryProvider,
+    // authenticationClientProvider
   ],
   exports: []
 })

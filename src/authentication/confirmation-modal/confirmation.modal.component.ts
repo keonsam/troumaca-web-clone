@@ -6,8 +6,9 @@ import { Confirmation } from '../confirmation';
 import {AUTHENTICATION, LOGIN} from '../../app/routes';
 import {MatDialogRef} from '@angular/material';
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons/faArrowLeft';
-import {debounceTime, filter} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -27,6 +28,7 @@ export class ConfirmationModalComponent implements OnInit {
   onPrevious: EventEmitter<boolean> = new EventEmitter();
   onNext: EventEmitter<any> = new EventEmitter();
   faArrowLeft = faArrowLeft;
+  faExclamationTriangle = faExclamationTriangle;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               public dialogRef: MatDialogRef<ConfirmationModalComponent>,
@@ -61,13 +63,14 @@ export class ConfirmationModalComponent implements OnInit {
 
   private subscribeToConfirmation() {
     this.confirmationCode.valueChanges
-      .pipe(debounceTime(1000), filter(value => { // filter out empty values
-        return !!(value);
+      .pipe(
+        debounceTime(2000),
+        distinctUntilChanged(),
+        filter(value => { // filter out empty values or less than 5
+        return !!(value) || value.length < 5;
       }))
       .subscribe( value => {
-        if (value.length >= 5) {
-          this.onSubmit();
-        }
+        this.onSubmit();
       })
   }
 

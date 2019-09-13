@@ -1,2 +1,2 @@
-export abstract class SessionRepository {
-}
+// export abstract class SessionRepository {
+// }

@@ -1,0 +1,48 @@
+<div class="left-side-modal"
+     gdRows="348.5px auto 86px"
+>
+  <div class="lsm-white">
+    <div class="left-side-modal-header" fxLayoutAlign="start center">
+      <span class="lsm-header-text">New Asset</span>
+      <div class="lsm-header-round" fxLayoutAlign="center center">
+        <fa-icon [icon]="faImage" class="lsm-header-icon"></fa-icon>
+      </div>
+      <button mat-dialog-close class="modal__close">+</button>
+    </div>
+    <div class="lsm-form">
+
+      <div class="form-control">
+        <label class="fc-label" for="name">Asset Name</label>
+        <input class="fc-input" [formControl]="name" id="name" required>
+        <div class="fc-error" *ngIf="name.hasError('required') && !name.pristine">
+          <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon> Asset Name is <strong>required</strong>
+        </div>
+      </div>
+
+      <div fxLayoutAlign="end">
+        <span class="lsm__des">Add description</span>
+      </div>
+    </div>
+    <div fxLayoutAlign="start" class="lsm-select">
+      <fa-icon [icon]="faThLarge" class="lsm-select-icon-1"></fa-icon>
+      <span class="lsm-select-span">Select Type</span>
+      <fa-icon *ngIf="!dialogRefTypes" [icon]="faChevronRight" class="lsm-select-icon-2" (click)="openSelectType()"></fa-icon>
+      <fa-icon *ngIf="dialogRefTypes" [icon]="faChevronLeft" class="lsm-select-icon-2" (click)="closeSelectType()"></fa-icon>
+    </div>
+  </div>
+  <div mat-dialog-content fxLayoutAlign="center center">
+    <div class="lsm-add" fxLayoutAlign="center center">
+      <div class="lsm-add-icon">
+        <fa-icon [icon]="faTag" class="lsm-tag">+</fa-icon>
+        <span class="lsm-tag__span">+</span>
+      </div>
+      <div class="lsm-add-des">
+        <span class="lsm-add-span">Add Attribute</span>
+        <p class="lsm-add-p">Use our rich attribute creation to freely describe your asset.</p>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions fxLayoutAlign="end" class="lsm-end">
+    <button class="button button--primary button--primary--normal" [disabled]="!assetForm.valid">Save Asset</button>
+  </div>
+</div>

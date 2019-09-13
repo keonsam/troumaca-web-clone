@@ -1,2 +1,2 @@
-export abstract class PageNotFoundRepository {
-}
+// export abstract class PageNotFoundRepository {
+// }

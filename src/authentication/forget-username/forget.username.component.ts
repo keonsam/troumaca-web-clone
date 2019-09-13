@@ -2,6 +2,7 @@ import {Component, EventEmitter} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../authentication.service';
+import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-forget-username',
@@ -16,6 +17,7 @@ export class ForgetUsernameComponent {
   message: string;
   onNext: EventEmitter<any> = new EventEmitter();
   loading: boolean;
+  faExclamationTriangle = faExclamationTriangle;
 
   constructor(public dialogRef: MatDialogRef<ForgetUsernameComponent>,
               private formBuilder: FormBuilder,

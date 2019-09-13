@@ -19,6 +19,10 @@ button[mat-flat-button].button--primary {
   background: #004777;
 }
 
+button[mat-flat-button].button--white {
+  background: #FFFFFF;
+}
+
 button[mat-flat-button].button--primary--medium {
   width: 243px;
 }
@@ -35,6 +39,15 @@ button[mat-flat-button].button--big {
 button[mat-flat-button].button--big--google {
   font-weight: normal;
   background: #DB4437;
+}
+
+button[mat-flat-button].button--white--attribute {
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.01em;
+  color: #119CB7;
+  width: 171px;
+  height: 51px;
 }
 
 .icon--google {

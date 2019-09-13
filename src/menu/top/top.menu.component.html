@@ -1,108 +1,19 @@
-<div class="top-menu-secondary color-scheme-dark with-overflow">
-  <div class="logo-w menu-size">
-    <a class="logo" href="#" [routerLink]="lobbyLink"><img src="images/logo.png"><span class="logo-name">Troumaka</span></a>
+<div class="top-menu" fxLayoutAlign="space-between center">
+  <div class="top-menu__left">
+    <span class="top-menu__span">{{ name | titlecase }}</span>
+    <fa-icon class="top-menu__icon" *ngIf=" name === 'assets'" [icon]="faBox"></fa-icon>
+    <fa-icon class="top-menu__icon" *ngIf=" name === 'manage'" [icon]="faList"></fa-icon>
   </div>
-  <ul >
-    <li *ngFor="let menu of menuList" routerLinkActive="active">
-      <a [routerLink]="menu.route">{{menu.name}}</a>
+  <ul class="top-menu__right" fxLayout="row" fxLayoutGap="45px" fxHide.xs>
+    <li>
+      <a>
+        <img class="top-menu__img" src="../../css/images/profile-img.png" alt="profile image" />
+      </a>
     </li>
-  </ul>
-
-  <div class="top-menu-controls">
-
-    <!--<div [ngClass]="{'messages-notifications': true, 'os-dropdown-trigger': true, 'os-dropdown-center': true, 'over': overClass}" (mouseenter)="overClass = true" (mouseleave)="overClass = false">-->
-      <!--<div class="os-icon os-icon-grid-circles"></div>-->
-      <!--<div class="os-dropdown light app-dropdown">-->
-        <!--<div class="row">-->
-          <!--<div *ngFor="let app of apps" class="col-4 small-padding">-->
-            <!--<a [routerLink]="app.route" class="element-box el-tablo centered no-left-right-padding" href>-->
-              <!--<div class="icon-w">-->
-                <!--<mat-icon [inline]="true" color="primary" class="lobby-icons">{{app.iconClass}}</mat-icon>-->
-              <!--</div>-->
-              <!--<div class="label">-->
-                <!--{{ app.name }}-->
-              <!--</div>-->
-            <!--</a>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-
-    <!--------------------
-          START - User avatar and menu in secondary top menu
-          -------------------->
-    <div [ngClass]="{'top-icon top-settings': true, 'os-dropdown-trigger': true, 'os-dropdown-center': true, 'over': overClass2}" (mouseenter)="overClass2 = true" (mouseleave)="overClass2 = false">
-      <i class="os-icon os-icon-ui-46"></i>
-      <div class="os-dropdown">
-        <div class="icon-w">
-          <i class="os-icon os-icon-ui-46"></i>
-        </div>
-        <ul>
-          <li>
-            <a [routerLink]="comProLink" href="#"><i class="os-icon os-icon-ui-49"></i><span>Company Profile</span></a>
-          </li>
-          <li>
-            <a [routerLink]="billingLink" href="#"><i class="os-icon os-icon-coins-4"></i><span>Billing Info</span></a>
-          </li>
-          <li>
-            <a (click)="onDeactivate()" href="#"><i class="os-icon os-icon-ui-15"></i><span>Deactivate Account</span></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="logged-user-w">
-      <div class="logged-user-i">
-        <div class="avatar-w">
-          <img alt="" [src]="userMenu.imageUrl || 'images/avatar1.jpg'">
-        </div>
-        <div class="logged-user-menu">
-          <div class="logged-user-avatar-info">
-            <div class="avatar-w">
-              <img alt="" [src]="userMenu.imageUrl || 'images/avatar1.jpg'">
-            </div>
-            <div class="logged-user-info-w">
-              <div class="logged-user-name">
-                {{ userMenu.name }}
-              </div>
-              <div class="logged-user-role">
-                {{ userMenu.role || "Administrator"}}
-              </div>
-            </div>
-          </div>
-          <div class="bg-icon">
-            <i class="os-icon os-icon-wallet-loaded"></i>
-          </div>
-          <ul>
-            <li>
-              <a [routerLink]="userProfile"><i class="os-icon os-icon-user-male-circle2"></i><span>Profile Details</span></a>
-            </li>
-            <!--<li>-->
-              <!--<a routerLink="/billing-details"><i class="os-icon os-icon-coins-4"></i><span>Billing Details</span></a>-->
-            <!--</li>-->
-            <!--<li>-->
-              <!--<a ><i class="os-icon os-icon-others-43"></i><span>Notifications</span></a>-->
-            <!--</li>-->
-            <!--<li>-->
-              <!--<a ><i class="os-icon os-icon-others-43"></i><span>Session History</span></a>-->
-            <!--</li>-->
-            <li>
-              <a (click)="logOutEvent()"><i class="os-icon os-icon-signs-11"></i><span>Logout</span></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <!--------------------
-    END - User avatar and menu in secondary top menu
-    -------------------->
-  </div>
-
-</div>
-<div class="top-menu-secondary color-scheme-dark with-overflow break-sub-menu">
-  <ul class="show-ul" fxLayoutAlign="space-around">
-    <li *ngFor="let menu of menuList" routerLinkActive="active">
-      <a [routerLink]="menu.route">{{menu.name}}</a>
+    <li fxFlexAlign="center">
+      <a>
+        <fa-icon fxFlexAlign="center" class="top-menu__ellipsis" [icon]="faEllipsisH"></fa-icon>
+      </a>
     </li>
   </ul>
 </div>
