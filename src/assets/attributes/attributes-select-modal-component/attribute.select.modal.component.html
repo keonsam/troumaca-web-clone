@@ -2,7 +2,7 @@
   <div class="lsm2-white">
     <div fxLayoutAlign="space-between center">
       <span class="lsm-header-text">Select Attribute</span>
-      <button mat-dialog-close class="modal__close">+</button>
+      <button mat-dialog-close class="modal__close" (click)="closeModal()">+</button>
     </div>
     <span class="lsm-header-span">what is type?</span>
     <form class="search">
@@ -19,7 +19,7 @@
 
           <span class="select-types-span">Recent</span>
           <ul *ngFor="let attribute of attributes" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center" fxLayoutGap="8px">
+            <li class="select-type-i" fxLayoutAlign="center center" fxLayoutGap="8px" (dblclick)="attributeSelect(attribute)">
               <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
               <span class="select-type-i-s">{{attribute.name}}</span>
             </li>
@@ -27,7 +27,7 @@
 
           <span class="select-types-span">Recommended</span>
           <ul *ngFor="let attribute of attributes" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center" fxLayoutGap="8px">
+            <li class="select-type-i" fxLayoutAlign="center center" fxLayoutGap="8px" (dblclick)="attributeSelect(attribute)">
               <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
               <span class="select-type-i-s">{{attribute.name}}</span>
             </li>
@@ -84,7 +84,7 @@
         </div>
       </mat-tab>
     </mat-tab-group>
-    <p class="attribute-ending">Can’t find a suitable attributes? Create one !</p>
+    <p class="attribute-ending">Can’t find a suitable attributes? Create one!</p>
   </div>
   <div mat-dialog-actions fxLayoutAlign="center">
     <button class="button button--primary button--primary--attribute" (click)="openCreateNew()">Create new Attributes</button>

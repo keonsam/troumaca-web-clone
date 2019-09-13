@@ -1,4 +1,5 @@
-<div class="lsm2"
+<form class="lsm2"
+      [formGroup]="assetTypeForm"
 >
   <div class="lsm2-white">
     <div fxLayoutAlign="start center">
@@ -32,13 +33,13 @@
           <ul class="type-setting-list" fxLayout="column" fxLayoutGap="18px">
             <li class="type-setting-list__item">
               <label class="blue-checkbox-label" for="share">Share to community
-                <input class="blue-checkbox" type="checkbox" id="share"/>
+                <input class="blue-checkbox" type="checkbox" id="share" [formControl]="share"/>
                 <span class="blue-checkbox__shadow"></span>
               </label>
             </li>
             <li class="type-setting-list__item">
               <label class="blue-checkbox-label" for="can't">User can’t add attribute
-                <input class="blue-checkbox" type="checkbox" id="can't"/>
+                <input class="blue-checkbox" type="checkbox" id="can't" [formControl]="use"/>
                 <span class="blue-checkbox__shadow"></span>
               </label>
             </li>
@@ -47,11 +48,25 @@
       </mat-expansion-panel>
     </form>
   </div>
-  <div mat-dialog-content fxLayout="column"  fxLayoutAlign="start center">
-    <button class="button button--white button--white--attribute" (click)="newAttributeModal()">Add an attribute</button>
-    <span class="lsm2-content-q">what is this?</span>
+  <div mat-dialog-content>
+    <ul class="attribute-list" *ngIf="attributes.length >= 1"
+        gdColumns="repeat(2, 50%)"
+        gdGap="12px 12px"
+    >
+      <li *ngFor="let attribute of attributes" class="attribute-list-item" fxLayoutAlign="start center">
+        <fa-icon class="icon-tag" [icon]="faTag"></fa-icon>
+        <span class="attribute-item-label">{{attribute.name}}</span>
+        <fa-icon class="attribute-label-icon" [icon]="getIcon(attribute.assetCharacteristicTypeId)"></fa-icon>
+        <span class="attribute-type-name">select</span>
+        <a class="attribute-item-edit">edit</a>
+      </li>
+    </ul>
+    <div class="attribute-sec" fxLayout="column"  fxLayoutAlign="start center">
+      <button class="button button--white button--white--attribute" (click)="newAttributeModal()">Add an attribute</button>
+      <span class="lsm2-content-q">what is this?</span>
+    </div>
   </div>
   <div mat-dialog-actions fxLayoutAlign="center">
-    <button class="button button--primary button--primary--normal">Save Type</button>
+    <button class="button button--primary button--primary--normal" [disabled]="!assetTypeForm.valid" (click)="onSubmit()">Save Type</button>
   </div>
-</div>
+</form>

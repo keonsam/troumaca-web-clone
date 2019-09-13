@@ -95,7 +95,7 @@ export class AttributeCreateModalComponent {
       .saveAttribute(this.attribute)
       .subscribe( value => {
         if (value && value.assetCharacteristicId) {
-          this.dialogRef.close();
+          this.dialogRef.close(true);
         } else {
           console.log('error');
         }

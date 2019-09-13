@@ -110,7 +110,10 @@ export class RegisterComponent implements OnInit {
 
     const subscriberToChangeEvents = function () {
       valueChanges
-      .pipe(debounceTime(1000), distinctUntilChanged(),  filter(value => { // filter out empty values
+      .pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
+        filter(value => { // filter out empty values
         return !!(value);
       }), map((value: string) => {
         return authenticationService.isValidUsername(value);
@@ -145,7 +148,10 @@ export class RegisterComponent implements OnInit {
 
     const subscriberToChangeEvents = function () {
       valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged(), filter(value => { // filter out empty values
+      .pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
+        filter(value => { // filter out empty values
         return !!(value);
       }), map((value: string) => {
         return authenticationService.isValidPassword(value);

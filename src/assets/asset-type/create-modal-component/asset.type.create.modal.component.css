@@ -151,7 +151,6 @@
 
 .lsm2-content-q {
   margin-top: 15px;
-  margin-bottom: 64px;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
@@ -208,6 +207,71 @@
 
 .button--white--attribute {
   width: 171px;
+}
+
+.attribute-sec {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* ATTRIBUTE ITEMS */
+.attribute-list {
+  padding: 0 30px 10px;
+}
+
+.attribute-list-item {
+  height: 62px;
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding-left: 20px;
+  padding-right: 14px;
+}
+
+.icon-tag {
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 21px;
+  letter-spacing: 0.01em;
+  color: #4DD0F0;
+  margin-right: 9px;
+}
+
+.attribute-item-label {
+  font-size: 10px;
+  line-height: 11px;
+  letter-spacing: 0.02em;
+  color: #000000;
+}
+
+.attribute-label-icon {
+  margin-left: auto;
+  margin-right: 7px;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.02em;
+  color: #2C4948;
+  opacity: 0.8;
+}
+
+.attribute-type-name {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 11px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #000000;
+  opacity: 0.5;
+  margin-right: 32px;
+}
+
+.attribute-item-edit {
+  font-size: 12px;
+  line-height: 13px;
+  letter-spacing: 0.02em;
+  color: #119CB7;
+  text-decoration: none;
 }
 
 @media only screen and (max-width: 599px) {

@@ -1,36 +1,58 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DialogPosition, MatDialog, MatDialogRef} from '@angular/material';
-import {faChevronDown, faChevronUp, faExclamationTriangle, faSearch} from '@fortawesome/free-solid-svg-icons';
+import {faChevronDown, faChevronUp, faExclamationTriangle, faSearch, faTag} from '@fortawesome/free-solid-svg-icons';
 import {AttributeSelectModalComponent} from '../../attributes/attributes-select-modal-component/attribute.select.modal.component';
+import {Attribute} from '../../attributes/attribute';
+import {attributeFont} from '../../attributes/attribute.font';
+import {AssetType} from '../asset.type';
 
 @Component({
-  selector: 'asset-type-create-modal',
+  selector: 'app-asset-type-create-modal',
   templateUrl: './asset.type.create.modal.component.html',
   styleUrls: ['././asset.type.create.modal.component.css']
 })
 export class AssetTypeCreateModalComponent {
 
-  name: FormControl;
-  description: FormControl;
-  // faSearch = faSearch;
-  // recentArray: string[];
-  // commons: string[];
+
   faChevronDown = faChevronDown;
   faChevronUp = faChevronUp;
   faExclamationTriangle = faExclamationTriangle;
+  faTag = faTag;
+  attributes: Attribute[] = [];
+  name: FormControl;
+  description: FormControl;
+  share: FormControl;
+  use: FormControl;
+  assetTypeForm: FormGroup;
+  assetType: AssetType;
+
   constructor(
     public dialogRef: MatDialogRef<AssetTypeCreateModalComponent>,
     private formBuilder: FormBuilder,
     public dialog: MatDialog
   ) {
-    // this.recentArray = ['RAM'];
-    // this.commons = ['Building', 'vehicle', 'computer', 'manufacturing',
-    //   'communication', 'measurement instrument','other discrete item',
-    //   'Material Inventory', 'Lot', 'building'
-    // ];
+    this.assetType = new AssetType();
     this.name = new FormControl('', [Validators.required]);
     this.description = new FormControl('');
+    this.share = new FormControl(false);
+    this.use = new FormControl(false);
+
+    this.assetTypeForm = formBuilder.group({
+      'name': this.name,
+      'description': this.description,
+      'share': this.share,
+      'use': this.use
+    });
+
+    this.assetTypeForm
+      .valueChanges
+      .subscribe(value => {
+        this.assetType.name = value.name;
+        this.assetType.description = value.description;
+        this.assetType.share = value.share;
+        this.assetType.use = value.use
+      })
   }
 
   newAttributeModal() {
@@ -47,6 +69,20 @@ export class AssetTypeCreateModalComponent {
       closeOnNavigation: true,
       disableClose: false,
       panelClass: ['left-panel-2'],
-    })
+    });
+
+    dialogRef.afterClosed().subscribe(values => {
+      if (values) {
+        this.attributes = values;
+        this.assetType.attribute = values;
+      }
+    });
+  }
+
+  getIcon(id: string) {
+    return attributeFont(id);
+  }
+
+  onSubmit() {
   }
 }
