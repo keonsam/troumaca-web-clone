@@ -6,6 +6,7 @@ import {AttributeSelectModalComponent} from '../../attributes/attributes-select-
 import {Attribute} from '../../attributes/attribute';
 import {attributeFont} from '../../attributes/attribute.font';
 import {AssetType} from '../asset.type';
+import {AssetTypeService} from '../asset.type.service';
 
 @Component({
   selector: 'app-asset-type-create-modal',
@@ -26,11 +27,18 @@ export class AssetTypeCreateModalComponent {
   use: FormControl;
   assetTypeForm: FormGroup;
   assetType: AssetType;
+  colors: string[] = [
+    '#F2CBCB', '#CBEDF2', '#CCF1DD',
+    '#CCD8F1', '#E7CCF1', '#F0F1CC'
+  ];
+  color = '#F2CBCB';
+  showColors = false;
 
   constructor(
     public dialogRef: MatDialogRef<AssetTypeCreateModalComponent>,
     private formBuilder: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private assetTypeService: AssetTypeService
   ) {
     this.assetType = new AssetType();
     this.name = new FormControl('', [Validators.required]);
@@ -84,5 +92,25 @@ export class AssetTypeCreateModalComponent {
   }
 
   onSubmit() {
+    this.assetTypeService.saveAssetType(this.assetType)
+      .subscribe( val => {
+        if (val && val.assetTypeId) {
+          this.dialogRef.close(true)
+        }else {
+          console.log('failed')
+        }
+      }, error => {
+        console.log(error);
+      });
+  }
+
+  onSelectedColor(color: string) {
+    this.showColors = false;
+    this.color = color;
+    this.assetType.color = color;
+  }
+
+  togglePop() {
+    this.showColors = !this.showColors;
   }
 }

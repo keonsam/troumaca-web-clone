@@ -1,0 +1,48 @@
+input {
+  width: 100%;
+  border: 1px solid #EFEFF8;
+  border-radius: 8px;
+  padding-left: 19px;
+  line-height: 14px;
+  outline: none;
+}
+
+input:focus {
+  border: 0.75px solid #004777;
+}
+
+/* input */
+.form-control {
+  min-height: 93px;
+}
+
+.fc-label {
+  display: block;
+  line-height: 14px;
+  margin-bottom: 7px;
+  margin-left: 6px;
+}
+
+.fc-label--hidden {
+  display: none;
+}
+
+.fc-input {
+  height: 51px;
+}
+
+/* end of input */
+
+.fc-error {
+  font-size: 10px;
+  line-height: 11px;
+  letter-spacing: 0.01em;
+  color: #F54430;
+  padding-left: 10px;
+  padding-top: 6px;
+  padding-bottom: 4px;
+}
+
+.fc-error__icon {
+  margin-right: 7px;
+}

@@ -21,6 +21,7 @@ import {ForgetPasswordComponent} from './forget-password/forget.password.compone
 import {ForgetSavedComponent} from './forget-saved/forget.saved.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MenuModule} from '../menu/menu.module';
+import {FooterComponent} from './footer/footer.component';
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import {MenuModule} from '../menu/menu.module';
     ConfirmationModalComponent,
     ForgetUsernameComponent,
     ForgetPasswordComponent,
-    ForgetSavedComponent
+    ForgetSavedComponent,
+    FooterComponent
   ],
   entryComponents: [
     AccountTypeModalComponent,

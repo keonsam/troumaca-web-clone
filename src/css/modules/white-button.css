@@ -1,0 +1,31 @@
+/*white button*/
+.white-button {
+  width: 138px;
+  height: 62px;
+  background: #FFFFFF;
+  border: 1px solid #EFEFF8;
+  border-radius: 8px;
+}
+
+.white-button__circle {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 0 auto;
+  border-radius: 50%;
+}
+
+.white-button__icons {
+  font-size: 8px;
+  color: #2C4948;
+}
+
+.white-button__text {
+  margin-top: 5px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 11px;
+  color: #3F5958;
+  opacity: 0.9;
+}

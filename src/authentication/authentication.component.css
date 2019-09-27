@@ -1,13 +1,13 @@
 :host {
   display: block;
   min-height: 100%;
+  height: 100%;
   width: 100%;
 }
 
 /* LAYOUT */
 .auth-grid {
   min-height: 100%;
-  background: #F5F5F5;
 }
 
 .auth-main {
@@ -16,67 +16,20 @@
   min-height: 612px;
   background: #FFFFFF;
   border-radius: 8px;
-  margin: 20px auto 68px;
+  margin-top: 20px;
+  margin-bottom: 68px;
   padding: 0;
-}
-
-.auth-footer {
-  background: #004777;
-  padding-top: 18px;
-}
-
-
-/* FOOTER STYLES */
-.auth-footer-container {
-  max-width: 1440px;
-  margin: 0 auto;
-}
-.footer-header {
-  font-size: 13px;
-  line-height: 14px;
-  color: #FFFFFF;
-  margin: 0;
-}
-
-.footer-links {
-  margin-top: 25px;
-  list-style:none;
-  padding: 0;
-}
-
-.footer_link {
-  font-size: 10px;
-  line-height: 11px;
-  color: #FFFFFF;
-  text-decoration:none;
-  cursor: pointer;
-  margin-bottom: 20px;
 }
 
 /* REUSED COMPONENTS*/
 
 /* input */
-::ng-deep .form-control {
-  min-height: 93px;
-}
 
 ::ng-deep .fc--password {
   min-height: 104px;
 }
 
-::ng-deep .fc-label {
-  font-family: 'Comfortaa', cursive;
-  display: block;
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 14px;
-  letter-spacing: 0.01em;
-  margin-bottom: 7px;
-  margin-left: 6px;
-}
-
 ::ng-deep .fc-input {
-  height: 51px;
   background: #F0F7FB;
 }
 
@@ -92,9 +45,7 @@
   background: #F0F7FB;
 }
 
-/*::ng-deep .fc-error__icon {*/
-/*  margin-right: 7px;*/
-/*}*/
+
 /* end of input */
 
 /* button */
@@ -114,19 +65,15 @@
   width: 145px;
 }
 
-/*::ng-deep .button--primary {*/
-/*  background: #004777;*/
-/*}*/
-
 ::ng-deep .button--big--google {
   background: #DB4437;
 }
 
-/*::ng-deep .button--primary[disabled] {*/
-/*  background: #004777;*/
-/*  opacity: 0.3;*/
-/*  cursor: not-allowed;*/
-/*}*/
+::ng-deep .icon--google {
+  margin-right: 14px;
+  width: 16px;
+  height: 21px;
+}
 
 @media only screen and (max-width: 959px) {
   .auth-main {
@@ -145,13 +92,5 @@
     width: 100%;
     border-radius: 0;
     background: none;
-  }
-  .auth-footer {
-    padding-top: 28px;
-    padding-left: 58px;
-  }
-  /*  footer */
-  .footer-div {
-    min-width: 122px;
   }
 }

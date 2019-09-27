@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Assets} from './assets';
 import {Asset} from './asset';
 // import { AssetType} from '../asset-types/asset.type';
@@ -9,35 +9,38 @@ import {UUIDGenerator} from '../uuid.generator';
 
 export class AssetService {
 
+  listType: BehaviorSubject<string> = new BehaviorSubject( '');
   uuid = new UUIDGenerator();
   constructor(private apollo: Apollo) {
   }
 
-  getAssets(pageNumber: number, pageSize: number, sortOrder: string): Observable<Assets> {
+  getAssets(search?: string): Observable<Assets> {
     return this.apollo.query({
       query: gql`
-        query getAssets($pageNumber: Int!, $pageSize: Int!, $sortOrder: String!) {
-          getAssets(pageNumber: $pageNumber, pageSize: $pageSize, sortOrder: $sortOrder) {
+        query getAssets($search: String) {
+          getAssets(search: $search) {
             assets {
               assetId
               name
+              assetType {
+                name
+              }
+              image
               description
-            }
-            page {
-              number
-              size
-              items
-              totalItems
             }
           }
         }
       `,
       variables: {
-        pageNumber,
-        pageSize,
-        sortOrder
+        search: search
       }
-    }).pipe(map((res: any) => res.data.getAssets));
+    }).pipe(map((res: any) => {
+      if (res && res.data && res.data.getAssets) {
+        return res.data.getAssets;
+      } else {
+        return res;
+      }
+    }));
   }
 
   getAssetById(assetId: string): Observable<Asset> {
@@ -84,41 +87,43 @@ export class AssetService {
     return this.apollo.mutate({
       mutation: gql`
         mutation addAsset(
-        $name: String!,
-        $assetTypeId: ID!,
-        $description: String,
-        $createdOn: String,
-        $destroyOn: String,
-        $serialNumber: String,
-        $inventoryID: String,
-        $quantity: String,
-        $buildingNumber: String,
-        $lotNumber: String,
-        $numberOfShares: String,
-        $version: String!
+          $name: String!,
+          $assetTypeId: ID,
+          $description: String,
+          $image: String
+          #        $createdOn: String,
+          #        $destroyOn: String,
+          #        $serialNumber: String,
+          #        $inventoryID: String,
+          #        $quantity: String,
+          #        $buildingNumber: String,
+          #        $lotNumber: String,
+          #        $numberOfShares: String,
+          #        $version: String!
         ) {
           addAsset(
-            asset: {
+            data: {
               name: $name,
               assetTypeId: $assetTypeId,
               description: $description,
-              createdOn: $createdOn,
-              destroyOn: $destroyOn,
-              discreteItem: {
-                serialNumber: $serialNumber
-              }
-              inventoryItem: {
-                inventoryID: $inventoryID
-                quantity: $quantity
-              }
-              building: {
-                buildingNumber: $buildingNumber
-              }
-              lot: {
-                lotNumber: $lotNumber
-                numberOfShares: $numberOfShares
-              }
-              version: $version
+              image: $image
+              #              createdOn: $createdOn,
+              #              destroyOn: $destroyOn,
+              #              discreteItem: {
+              #                serialNumber: $serialNumber
+              #              }
+              #              inventoryItem: {
+              #                inventoryID: $inventoryID
+              #                quantity: $quantity
+              #              }
+              #              building: {
+              #                buildingNumber: $buildingNumber
+              #              }
+              #              lot: {
+              #                lotNumber: $lotNumber
+              #                numberOfShares: $numberOfShares
+              #              }
+              #              version: $version
             }
           ) {
             assetId
@@ -129,18 +134,23 @@ export class AssetService {
         name: asset.name,
         assetTypeId: asset.assetTypeId,
         description: asset.description,
-        createdOn: asset.createdOn,
-        destroyOn: asset.destroyOn,
-        serialNumber: asset.discreteItem.serialNumber,
-        inventoryID: asset.inventoryItem.inventoryID,
-        quantity: asset.inventoryItem.quantity,
-        buildingNumber: asset.building.buildingNumber,
-        lotNumber: asset.lot.lotNumber,
-        numberOfShares: asset.lot.numberOfShares,
-        version: this.uuid.generateUUID()
+        image: asset.image
+        // createdOn: asset.createdOn,
+        // destroyOn: asset.destroyOn,
+        // serialNumber: asset.discreteItem.serialNumber,
+        // inventoryID: asset.inventoryItem.inventoryID,
+        // quantity: asset.inventoryItem.quantity,
+        // buildingNumber: asset.building.buildingNumber,
+        // lotNumber: asset.lot.lotNumber,
+        // numberOfShares: asset.lot.numberOfShares,
+        // version: this.uuid.generateUUID()
       }
     }).pipe(map((res: any) => {
-      return res.data.addAsset;
+      if (res && res.data && res.data.addAsset) {
+        return res.data.addAsset;
+      } else {
+        return res
+      }
     }));
   }
 

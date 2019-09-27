@@ -68,9 +68,7 @@
         </div>
 
         <button class="button button--primary button--big button--big--login" type="submit" [disabled]="!registrationForm.valid || loading" (click)="onCreate()">
-          <svg *ngIf="loading" class="spinner">
-            <circle class="path" cx="50%" cy="50%" r="8" fill="none" stroke-width="2"></circle>
-          </svg>
+          <mat-spinner *ngIf="loading" [diameter]="20" class="button__spinner"></mat-spinner>
           <span *ngIf="!loading">Sign Up</span>
         </button>
       </form>

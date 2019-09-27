@@ -1,78 +1,31 @@
-import {Component} from '@angular/core';
-import {faBox} from '@fortawesome/free-solid-svg-icons/faBox';
-import {FormControl} from '@angular/forms';
-import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
-import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
-import {faEdit, faEllipsisV, faFilter, faList, faSortAmountDown, faTh, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
+import {Component, OnInit} from '@angular/core';
+import {faEdit, faEllipsisV, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 import {Assets} from './assets';
 import {DialogPosition, MatDialog} from '@angular/material';
-import {AssetCreateModal} from './asset-create-modal/asset.create.modal';
-import {Asset} from './asset';
+import {AssetCreateModalComponent} from './asset-create-modal/asset.create.modal.component';
+import {AssetService} from './asset.service';
 
 @Component({
-  selector: 'assets',
+  selector: 'app-assets',
   templateUrl: './asset.component.html',
   styleUrls: ['./asset.component.css']
 })
-export class AssetComponent {
-  faBox = faBox;
-  faSearch = faSearch;
-  faCheck = faCheck;
-  faFilter = faFilter;
-  faSortAmountDown = faSortAmountDown;
-  faList = faList;
-  faTrashAlt = faTrashAlt;
-  faEdit = faEdit;
-  faEllipsisV = faEllipsisV;
-  faTh = faTh;
-  search: FormControl;
+export class AssetComponent implements OnInit {
   assets: Assets;
-  listType= 'list';
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog,
+              private assetService: AssetService) {
     this.assets = new Assets();
-    this.search = new FormControl();
-    // this.assets.assets = [
-    //   new Asset('Macbook Pro 13 inch'),
-    //   new Asset('Magic  Mouse'),
-    //   new Asset( 'Printer Laser Jet'),
-    //   new Asset('Macbook Pro 13 inch'),
-    //   new Asset( 'Magic  Mouse'),
-    //   new Asset( 'Printer Laser Jet'),
-    //   // list
-    //   // new Asset('Macbook Pro 13 inch'),
-    //   // new Asset('Magic  Mouse'),
-    //   // new Asset( 'Printer Laser Jet'),
-    //   // new Asset('Macbook Pro 13 inch'),
-    //   // new Asset( 'Magic  Mouse'),
-    //   // new Asset( 'Printer Laser Jet'),
-    //   // new Asset('Macbook Pro 13 inch'),
-    //   // new Asset('Magic  Mouse'),
-    //   // new Asset( 'Printer Laser Jet'),
-    //   // new Asset('Macbook Pro 13 inch'),
-    //   // new Asset( 'Magic  Mouse'),
-    //   // new Asset( 'Printer Laser Jet'),
-    //   // new Asset('Macbook Pro 13 inch'),
-    //   // new Asset('Magic  Mouse'),
-    //   // new Asset( 'Printer Laser Jet'),
-    //   // new Asset('Macbook Pro 13 inch'),
-    //   // new Asset( 'Magic  Mouse'),
-    //   // new Asset( 'Printer Laser Jet'),
-    //   // new Asset('Macbook Pro 13 inch'),
-    //   // new Asset('Magic  Mouse'),
-    //   // new Asset( 'Printer Laser Jet'),
-    //   // new Asset('Macbook Pro 13 inch'),
-    //   // new Asset( 'Magic  Mouse'),
-    //   // new Asset( 'Printer Laser Jet'),
-    // ]
   }
 
+  ngOnInit(): void {
+  }
 
   openAssetCreate() {
     const dialogPosition: DialogPosition = {
       top: '0',
       left: '0'
     };
-    const dialogRef = this.dialog.open(AssetCreateModal,  {
+    const dialogRef = this.dialog.open(AssetCreateModalComponent,  {
       height: '100%',
       width: '423px',
       position: dialogPosition,
@@ -81,10 +34,6 @@ export class AssetComponent {
       closeOnNavigation: true,
       disableClose: false,
       panelClass: ['left-panel'],
-    })
-  }
-
-  switchList(type: string) {
-    this.listType = type;
+    });
   }
 }

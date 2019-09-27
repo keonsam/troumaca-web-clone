@@ -1,48 +1,69 @@
-<!--<div class="element-wrapper">-->
-<!--  <h6 class="element-header">-->
-<!--    Assets Listing <object align="right" style="align:right;"><a class="btn btn-sm btn-primary pull-right"  href="#" [routerLink]="routerLinkCreateAsset" >New</a></object>-->
-<!--  </h6>-->
-<!--  <div class="element-box">-->
+<div *ngIf="assets.assets.length < 1"
+     class="no-assets"
+     fxLayout="column"
+     fxLayoutAlign="center center"
+>
+  <div class="no-assets-img">
 
-<!--    &lt;!&ndash;  <search></search> &ndash;&gt;-->
-
-<!--    <div class="table-responsive table-section">-->
-<!--      <table class="table table-striped table-lightfont table-full-width">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--          <th>Name</th>-->
-<!--&lt;!&ndash;          <th>Created On</th>&ndash;&gt;-->
-<!--&lt;!&ndash;          <th>Destroy On</th>&ndash;&gt;-->
-<!--          <th>Description</th>-->
-<!--          <th class="text-center">Actions</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tfoot>-->
-<!--        <tr>-->
-<!--          <th>Name</th>-->
-<!--&lt;!&ndash;          <th>Created On</th>&ndash;&gt;-->
-<!--&lt;!&ndash;          <th>Destroy On</th>&ndash;&gt;-->
-<!--          <th>Description</th>-->
-<!--          <th class="text-center">Actions</th>-->
-<!--        </tr>-->
-<!--        </tfoot>-->
-<!--        <tbody>-->
-<!--        <tr role="row" *ngFor="let asset of assets.assets; let index = index; let isOdd=odd; let isEven=even" [class.odd]="isOdd" [class.even]="isEven">-->
-<!--          <td>{{asset.name}}</td>-->
-<!--&lt;!&ndash;          <td>{{asset.createdOn | date:'mediumDate' }}</td>&ndash;&gt;-->
-<!--&lt;!&ndash;          <td>{{asset.destroyOn | date:'mediumDate' }}</td>&ndash;&gt;-->
-<!--          <td>{{asset.description}}</td>-->
-<!--          <td class="row-actions">-->
-<!--            <a [routerLink]="['/assets', asset.assetId, 'edit']" href="#"><i class="os-icon os-icon-ui-49"></i></a><a class="danger" (click)="onOpenModal(asset.assetId, asset.name);false;" href><i class="os-icon os-icon-ui-15"></i></a>-->
-<!--          </td>-->
-<!--        </tr>-->
-<!--        <tr *ngIf="assets.assets.length <= 0" class="odd">-->
-<!--          <td valign="top" align="" colspan="5" class="dataTables_empty no-table-data-td no-data-center">No data available in table</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--      </table>-->
-<!--      <paging [page]="assets.page" (requestPage)="onRequestPage($event)"></paging>-->
-<!--    </div>-->
-
-<!--  </div>-->
-<!--</div>-->
+  </div>
+  <p class="no-assets-p">It’s a lonely space right now!<br />
+    Add your first asset, let the <br />
+    journey begin !</p>
+  <button
+    class="button button--primary button--primary--new-asset"
+    (click)="openAssetCreate()"
+  >
+    Add a New Asset
+  </button>
+</div>
+<div *ngIf="assets.assets.length > 1" class="asset-list">
+  <ul *ngIf="listType === 'list'"
+      class="al-list"
+      fxLayout="column"
+      fxLayoutGap="8px">
+    <li *ngFor="let asset of assets.assets" class="al-rows-items" fxLayoutAlign="space-between" >
+      <div
+        fxLayout="row"
+        fxLayoutGap="19px"
+        fxLayoutAlign="start center"
+      >
+        <div class="al-ri-circle" fxLayoutAlign="center center">
+          <img class="al-ri-circle-img" [src]="asset.image || '../css/images/asset-img.svg'" alt="image of asset"/>
+        </div>
+        <span class="al-ri-span">{{asset.name}}</span>
+      </div>
+      <div fxLayoutAlign="start center">
+        <div class="al-ri-type"><span class="al-ri-type-span">{{asset.assetType.name}}</span></div>
+        <fa-icon class="al-ri-edit-icons" [icon]="faTrashAlt" fxHide.xs></fa-icon>
+        <fa-icon class="al-ri-edit-icons" [icon]="faEdit" fxHide.xs></fa-icon>
+        <fa-icon class="al-ri-edit-ellipsis" [icon]="faEllipsisV"
+                 fxFlexAlign="start"
+        ></fa-icon>
+      </div>
+    </li>
+  </ul>
+  <ul *ngIf="listType === 'grid'"
+      class="asset-grid"
+      gdColumns="repeat(auto-fill, 111px)"
+      gdGap="8px 8px">
+    <li *ngFor="let asset of assets.assets"
+        class="al-grid-items"
+        fxLayout="row no-wrap"
+        fxLayoutAlign="end">
+      <div
+        class="al-gi-info"
+        fxLayout="column"
+        fxLayoutGap="8px"
+        fxLayoutAlign="start center"
+      >
+        <div class="al-ri-circle" fxLayoutAlign="center center">
+          <img class="al-ri-circle-img" [src]="asset.image || '../css/images/asset-img.svg'" alt="image of asset"/>
+        </div>
+        <span class="al-ri-span">{{asset.name}}</span>
+      </div>
+      <div fxFlexAlign="start">
+        <fa-icon class="al-ri-edit-ellipsis al-ri-ee--g" [icon]="faEllipsisV"></fa-icon>
+      </div>
+    </li>
+  </ul>
+</div>

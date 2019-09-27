@@ -1,0 +1,78 @@
+<form class="left-side-modal"
+     gdRows="auto auto auto"
+      [formGroup]="assetForm"
+>
+  <div class="lsm-white">
+    <div class="left-side-modal-header" fxLayoutAlign="start center">
+      <span class="lsm-header-text">New Asset</span>
+      <div class="image-container">
+        <div class="lsm-header-round" fxLayoutAlign="center center"
+             (click)="toggleImage()"
+        >
+          <fa-icon  *ngIf="!image" [icon]="faImage" class="lsm-header-icon"></fa-icon>
+          <img *ngIf="image" [src]="image" alt="image of asset" class="asset-img" >
+        </div>
+        <div [ngClass]="{'image-modal': true, 'show': showImage }">
+          <span class="image-modal__text">Asset Image</span>
+          <ul
+            gdColumns="repeat(3, 41px)"
+            gdRows="repeat(2, 41px)"
+            gdGap="30px 23px"
+          >
+            <li *ngFor="let image of images"
+                class="color-list__item"
+                [style.background-image]="returnImage(image)"
+                (click)="onImageSelect(image)"
+            ></li>
+          </ul>
+        </div>
+      </div>
+      <button mat-dialog-close class="modal__close">+</button>
+    </div>
+    <div class="lsm-form">
+
+      <div class="form-control">
+        <label class="fc-label" for="name">Asset Name</label>
+        <input class="fc-input" [formControl]="name" id="name" required>
+        <div class="fc-error" *ngIf="name.hasError('required') && !name.pristine">
+          <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon> Asset Name is <strong>required</strong>
+        </div>
+      </div>
+
+      <div fxLayoutAlign="end" (click)="toggleDes()">
+        <span *ngIf="!showDes" class="lsm__des">Add description</span>
+        <span *ngIf="showDes" class="remove">remove</span>
+      </div>
+
+      <div class="f-c-no-padding f-c-description"  *ngIf="showDes">
+        <input class="fc-input" [formControl]="description" placeholder="Add Description" id="description">
+      </div>
+
+    </div>
+    <div fxLayoutAlign="space-between center" class="lsm-select" (click)="openSelectType()">
+      <div>
+        <fa-icon [icon]="faThLarge" class="lsm-select-icon-1"></fa-icon>
+        <span class="lsm-select-span">{{ assetType ? 'Type: ' + assetType.name : 'Select Type'}}</span>
+      </div>
+      <div>
+        <a *ngIf="assetType" class="change">change</a>
+        <fa-icon [icon]=" dialogRefTypes ? faChevronLeft: faChevronRight" class="lsm-select-icon-2"></fa-icon>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-content fxLayoutAlign="center center">
+    <div class="lsm-add" fxLayoutAlign="center center">
+      <div class="lsm-add-icon">
+        <fa-icon [icon]="faTag" class="lsm-tag">+</fa-icon>
+        <span class="lsm-tag__span">+</span>
+      </div>
+      <div class="lsm-add-des">
+        <span class="lsm-add-span">Add Attribute</span>
+        <p class="lsm-add-p">Use our rich attribute creation to freely describe your asset.</p>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions fxLayoutAlign="end" class="lsm-end">
+    <button class="button button--primary button--primary--normal" [disabled]="!assetForm.valid" (click)="onSubmit()">Save Asset</button>
+  </div>
+</form>

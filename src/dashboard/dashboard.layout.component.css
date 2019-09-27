@@ -67,25 +67,11 @@
 /* end of search input */
 
 /* blue input */
-::ng-deep .form-control {
-  min-height: 93px;
-}
 ::ng-deep .f-c-no-padding{
   min-height: auto;
 }
-::ng-deep .fc-label {
-  font-family: 'Comfortaa', cursive;
-  display: block;
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 14px;
-  letter-spacing: 0.01em;
-  margin-bottom: 7px;
-  margin-left: 6px;
-}
 
 ::ng-deep .fc-input {
-  height: 51px;
   background: #E9F9FD;
 }
 
@@ -146,7 +132,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 24.97px;
+  width: 24px;
   height: 23px;
   background: #FCFEFF;
   border: 1px solid #23C7EF;
@@ -172,15 +158,8 @@
 ::ng-deep .blue-checkbox__shadow:after {
   left: 5px;
   top: 5px;
-  /*width: 16.43px;*/
-  /*height: 12.49px;*/
   font-size: 16px;
-  /*border: solid #FFFFFF;*/
   color: #FFFFFF;
-  /*border-width: 0 3px 3px 0;*/
-  /*-webkit-transform: rotate(45deg);*/
-  /*-ms-transform: rotate(45deg);*/
-  /*transform: rotate(45deg);*/
 }
 
 @media only screen and (max-width: 599px) {

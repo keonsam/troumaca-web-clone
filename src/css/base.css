@@ -1,31 +1,45 @@
+:root {
+  --body-background-color: #F5F5F5;
+  --text-color: #000000;
+  --font-family: 'Comfortaa', cursive;
+  --default-letter-spacing: 0.01em;
+  --default-font-size: 13px;
+}
 
+/* BODY */
+body {
+  background: var(--body-background-color, #F5F5F5);
+  color: var(--text-color, #000000);
+}
 
-/**, *:before, *:after {*/
-/*  -webkit-box-sizing: inherit;*/
-/*  -moz-box-sizing: inherit;*/
-/*  box-sizing: inherit;*/
-/*}*/
+/* STYLE INHERITANCE */
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: var(--font-family, 'Comfortaa') !important;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: var(--default-letter-spacing, 0.01em);
+  font-size: var(--default-font-size);
+}
 
-/*!* style inheritance *!*/
-/*html {*/
-/*  -webkit-box-sizing: border-box;*/
-/*  -moz-box-sizing: border-box;*/
-/*  box-sizing: border-box;*/
-/*  font-family: var(--font-family, 'Comfortaa');*/
-/*  font-style: normal;*/
-/*  font-weight: normal;*/
-/*  letter-spacing: 0.01em;*/
-/*}*/
+/* set all elements to inherit box sizing */
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
 
-/*@font-face {*/
-/*  font-family: 'Comfortaa';*/
-/*  src: url("font/Comfortaa[wght]bold.ttf");*/
-/*  font-style: normal;*/
-/*  font-weight: bold;*/
-/*}*/
-/*@font-face {*/
-/*  font-family: 'Comfortaa';*/
-/*  src: url("font/Comfortaa[wght]normal.ttf");*/
-/*  font-style: normal;*/
-/*  font-weight: normal;*/
-/*}*/
+/* ORDER LIST*/
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+/* A TAGS */
+a {
+  text-decoration: none;
+  color: inherit
+}

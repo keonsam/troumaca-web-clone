@@ -1,0 +1,46 @@
+/* SORT */
+.sort-menu {
+  margin: 23px 9px 0 4px;
+}
+
+.sort-sort {
+  margin-left: auto;
+}
+.sort-list {
+  margin-left: 29px;
+}
+.sort__icons {
+  line-height: 15px;
+  letter-spacing: 0.05em;
+  color: #C4C4C4;
+  opacity: 0.5;
+}
+
+.sort__icons--list {
+  color: #2C4948;
+  opacity: 1;
+}
+
+.sort__text {
+  margin-left: 6px;
+  font-size: 10px;
+  line-height: 11px;
+  letter-spacing: 0.02em;
+  color: #323948;
+}
+
+@media only screen and (max-width: 599px) {
+  .sort-menu {
+    margin-left: 20px;
+    margin-right: 12px;
+  }
+
+  .sort-sort {
+    margin-left: inherit;
+  }
+
+  .sort-list {
+    margin-left: inherit;
+  }
+
+}
