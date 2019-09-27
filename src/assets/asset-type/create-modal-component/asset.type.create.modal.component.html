@@ -4,7 +4,26 @@
   <div class="lsm2-white">
     <div fxLayoutAlign="start center">
       <span class="lsm-header-text">Create Type</span>
-      <div class="red-header-circle"></div>
+      <div class="color-container">
+        <div class="red-header-circle"
+             [style.background-color]="color"
+             (click)="togglePop()"
+        ></div>
+        <div [ngClass]="{'color-modal': true, 'show': showColors}" >
+          <span class="color-modal__text">Select colors</span>
+          <ul class="color-list"
+              gdColumns="repeat(3, 41px)"
+              gdRows="repeat(2, 41px)"
+              gdGap="30px 23px"
+          >
+            <li *ngFor="let color of colors"
+                class="color-list__item"
+                [style.background-color]="color"
+                (click)="onSelectedColor(color)"
+            ></li>
+          </ul>
+        </div>
+      </div>
       <button mat-dialog-close class="modal__close">+</button>
     </div>
     <form class="lsm2-form">

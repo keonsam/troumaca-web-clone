@@ -1,0 +1,58 @@
+<div class="input-menu"
+     fxLayout="row wrap"
+     fxLayoutAlign="start"
+     fxLayout.xs="column no-wrap"
+     fxLayoutGap.xs="14px"
+>
+
+  <div fxLayout="row" fxLayoutGap="48px">
+
+    <div class="status"
+         fxLayout="column"
+    >
+      <span class="status__figure">0</span>
+      <span class="status__text">Total</span>
+    </div>
+
+    <div class="status"
+         fxLayout="column"
+    >
+      <span class="status__figure">0</span>
+      <span class="status__text">Yours</span>
+    </div>
+
+  </div>
+
+  <form class="search-form">
+
+    <div class="sf-div">
+      <label class="fc-label--hidden" for="search">Search</label>
+      <input class="sf-input" [formControl]="search" placeholder="Search Assets" id="search">
+      <fa-icon  class="sf__icon" [icon]="faSearch"></fa-icon>
+    </div>
+
+  </form>
+
+  <div class="white-button-div"
+       fxLayout="row no-wrap"
+       fxLayoutGap="8px"
+       fxHide.xs
+  >
+
+    <button class="white-button white-button--one" (click)="openAssetCreate()">
+      <span class="white-button__circle" fxLayoutAlign="center center" style="background: #CCD8F1;">
+        <fa-icon class="white-button__icons" [icon]="faBox" ></fa-icon>
+      </span>
+      <span class="white-button__text">new assets</span>
+    </button>
+
+    <button class="white-button">
+      <span class="white-button__circle" fxLayoutAlign="center center" style="background: #E7CCF1;">
+        <fa-icon class="white-button__icons" [icon]="faCheck"></fa-icon>
+      </span>
+      <span class="white-button__text">new type</span>
+    </button>
+
+  </div>
+
+</div>

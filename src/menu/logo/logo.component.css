@@ -1,0 +1,10 @@
+.header {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.brand {
+  font-size: 20px;
+  margin-left: 7px;
+  font-weight: bold;
+  letter-spacing: -0.06em;
+}

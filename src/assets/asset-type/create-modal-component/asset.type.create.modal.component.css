@@ -1,8 +1,50 @@
+/* colors */
+.color-container {
+  position: relative;
+}
+
 .red-header-circle {
   margin-left: 15px;
   width: 18px;
   height: 18px;
   background: #F2CBCB;
+  border-radius: 50%;
+}
+
+.color-modal {
+  position: absolute;
+  display: none;
+  top: 25px;
+  width: 231px;
+  height: 191px;
+  background: #FFFFFF;
+  border: 1px solid #004777;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.color-modal.show {
+  display: block;
+}
+
+.color-modal__text {
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  line-height: 14px;
+  letter-spacing: 0.01em;
+  color: #000000;
+  opacity: 0.3;
+  margin-top: 20px;
+}
+
+.color-list {
+  padding: 18px 30px 25px;
+}
+
+.color-list__item {
+  width: 41px;
+  height: 41px;
   border-radius: 50%;
 }
 

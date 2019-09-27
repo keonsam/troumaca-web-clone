@@ -1,0 +1,40 @@
+.auth-footer {
+  background: #004777;
+  padding-top: 18px;
+}
+
+.auth-footer-container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.footer-header {
+  font-size: 13px;
+  line-height: 14px;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.footer-links {
+  margin-top: 25px;
+  list-style:none;
+  padding: 0;
+}
+
+.footer_link {
+  font-size: 10px;
+  line-height: 11px;
+  color: #FFFFFF;
+  text-decoration:none;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 599px) {
+  .auth-footer {
+    padding-top: 28px;
+    padding-left: 58px;
+  }
+  .footer-div {
+    min-width: 122px;
+  }
+}

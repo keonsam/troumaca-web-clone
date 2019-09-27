@@ -1,0 +1,80 @@
+import {UUIDGenerator} from '../../uuid.generator';
+import {Apollo} from 'apollo-angular';
+import {AssetType} from './asset.type';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import gql from 'graphql-tag';
+import {AssetTypes} from './asset.types';
+
+export class AssetTypeService {
+  uuid = new UUIDGenerator();
+
+  constructor(private apollo: Apollo) {
+  }
+
+  saveAssetType(assetType: AssetType): Observable<AssetType> {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation addAssetType(
+            $name: String!,
+            $description: String,
+            $color: String!,
+            $share: Boolean,
+            $use: Boolean
+        ) {
+            addAssetType(data: {
+                    name: $name,
+                    description: $description,
+                    color: $color,
+                    share: $share,
+                    use: $use
+                }) {
+                assetTypeId
+                name
+                color
+            }
+        }
+      `,
+      variables: {
+        name: assetType.name,
+        description: assetType.description,
+        color: assetType.color,
+        share: assetType.share,
+        use: assetType.use
+      }
+    }).pipe(map( (res: any) => {
+      if (res && res.data && res.data.addAssetType) {
+        return res.data.addAssetType;
+      }else {
+        return res;
+      }
+    }));
+  }
+
+  getAssetTypes(search?: string): Observable<AssetTypes> {
+    return this.apollo.query({
+      query: gql`
+        query getAssetTypes($search: String) {
+            getAssetTypes(data: {
+                    search: $search
+                }) {
+                assetTypes {
+                    assetTypeId
+                    name
+                    color
+                }
+            }
+        }
+      `,
+      variables: {
+        search: search
+      }
+    }).pipe(map( (res: any) => {
+      if (res && res.data && res.data.getAssetTypes) {
+        return res.data.getAssetTypes;
+      }else {
+        return res;
+      }
+    }));
+  }
+}

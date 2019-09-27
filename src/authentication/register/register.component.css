@@ -57,9 +57,6 @@
   background-position: bottom;
 }
 
-.button__spinner {
-  margin: auto;
-}
 @media only screen and (max-width: 599px) {
   ::ng-deep .backdrop {
     background: none;

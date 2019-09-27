@@ -5,12 +5,12 @@ import {faList} from '@fortawesome/free-solid-svg-icons/faList';
 import {faEllipsisH} from '@fortawesome/free-solid-svg-icons/faEllipsisH';
 
 @Component({
-  selector: 'app-side-menu',
-  templateUrl: './side.menu.component.html',
-  styleUrls: ['side.menu.component.css']
+  selector: 'app-main-menu',
+  templateUrl: './main.menu.component.html',
+  styleUrls: ['main.menu.component.css']
 })
 
-export class SideMenuComponent {
+export class MainMenuComponent {
   link = `/${DASHBOARD}`;
   faBox = faBox;
   faList = faList;

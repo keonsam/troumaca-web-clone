@@ -1,49 +1,9 @@
 <div class="auth-grid"
-     gdRows="53px auto auto"
+     gdRows="53px auto 150px"
 >
   <app-logo [redirect]="link"></app-logo>
   <main class="auth-main" gdGridAlign.gt-xs="center center">
     <router-outlet></router-outlet>
   </main>
-  <footer class="auth-footer"
-  >
-    <div class="auth-footer-container"
-         fxLayout="row no-wrap"
-         fxLayoutAlign="space-around"
-         fxLayout.xs="column"
-         fxLayoutGap.xs="30px"
-    >
-      <div class="footer-div">
-        <h2 class="footer-header">Using Troumaka</h2>
-        <ul class="footer-links">
-          <li class="footer_link"><a>Product</a></li>
-          <li class="footer_link"><a>Enterprise</a></li>
-          <li class="footer_link"><a>Pricing</a></li>
-        </ul>
-      </div>
-      <div class="footer-div">
-        <h2 class="footer-header">Support</h2>
-        <ul class="footer-links">
-          <li class="footer_link"><a>FAQ</a></li>
-          <li class="footer_link"><a>Knowledge base</a></li>
-          <li class="footer_link"><a>Contact Us</a></li>
-        </ul>
-      </div>
-      <div class="footer-div">
-        <h2 class="footer-header">Legal</h2>
-        <ul class="footer-links">
-          <li class="footer_link"><a>Privacy</a></li>
-          <li class="footer_link"><a>Security</a></li>
-          <li class="footer_link"><a>Terms of Service</a></li>
-        </ul>
-      </div>
-      <div class="footer-div">
-        <h2 class="footer-header">Links</h2>
-        <ul class="footer-links">
-          <li class="footer_link"><a>Download iOS App</a></li>
-          <li class="footer_link"><a>Enterprise Partnership</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
+  <app-footer></app-footer>
 </div>

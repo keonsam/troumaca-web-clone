@@ -1,0 +1,21 @@
+<div class="sort-menu"
+     fxLayoutAlign="start"
+     fxLayoutAlign.xs="space-between"
+>
+
+  <div class="sort-filter">
+    <fa-icon class="sort__icons" [icon]="faFilter" ></fa-icon>
+    <span class="sort__text">Filters</span>
+  </div>
+
+  <div class="sort-sort">
+    <fa-icon class="sort__icons" [icon]="faSortAmountDown" ></fa-icon>
+    <span class="sort__text">Sort</span>
+  </div>
+
+  <div class="sort-list">
+    <fa-icon *ngIf="listType === 'list'" class="sort__icons sort__icons--list" [icon]="faList" (click)="switchList('grid')"></fa-icon>
+    <fa-icon *ngIf="listType === 'grid'" class="sort__icons sort__icons--list" [icon]="faTh" (click)="switchList('list')"></fa-icon>
+  </div>
+
+</div>

@@ -7,7 +7,8 @@
     <span class="lsm-header-span">what is type?</span>
     <form class="search">
       <div class="sf-div">
-        <input class="sf-input sf-input2" [formControl]="search" placeholder="Search Type" />
+        <label for="search" hidden>Search</label>
+        <input class="sf-input sf-input2" [formControl]="search" placeholder="Search Type" id="search"/>
         <fa-icon class="sf__icon sf__icon2" [icon]="faSearch"></fa-icon>
       </div>
     </form>
@@ -17,50 +18,50 @@
       <mat-tab label="All">
         <div class="select-types">
           <span class="select-types-span">Recent</span>
-          <ul *ngFor="let recent of recentArray" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center">
-              <span class="select-type-i-s">{{recent}}</span>
+          <ul *ngFor="let assetType of assetTypes" class="select-types-list">
+            <li class="select-type-i" fxLayoutAlign="center center" [style.background-color]="assetType.color" (dblclick)="onSelected(assetType)">
+              <span class="select-type-i-s">{{assetType.name}}</span>
             </li>
           </ul>
           <span class="select-types-span">Common Type</span>
-          <ul *ngFor="let common of commons" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center">
-              <span class="select-type-i-s">{{common}}</span>
+          <ul *ngFor="let assetType of assetTypes" class="select-types-list">
+            <li class="select-type-i" fxLayoutAlign="center center" [style.background-color]="assetType.color" (dblclick)="onSelected(assetType)">
+              <span class="select-type-i-s">{{assetType.name}}</span>
             </li>
           </ul>
         </div>
       </mat-tab>
       <mat-tab label="Yours">
-        <div class="select-types">
-          <span class="select-types-span">Recent</span>
-          <ul *ngFor="let recent of recentArray" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center">
-              <span class="select-type-i-s">{{recent}}</span>
-            </li>
-          </ul>
-          <span class="select-types-span">Common Type</span>
-          <ul *ngFor="let common of commons" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center">
-              <span class="select-type-i-s">{{common}}</span>
-            </li>
-          </ul>
-        </div>
+<!--        <div class="select-types">-->
+<!--          <span class="select-types-span">Recent</span>-->
+<!--          <ul *ngFor="let recent of recentArray" class="select-types-list">-->
+<!--            <li class="select-type-i" fxLayoutAlign="center center">-->
+<!--              <span class="select-type-i-s">{{recent}}</span>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--          <span class="select-types-span">Common Type</span>-->
+<!--          <ul *ngFor="let common of commons" class="select-types-list">-->
+<!--            <li class="select-type-i" fxLayoutAlign="center center">-->
+<!--              <span class="select-type-i-s">{{common}}</span>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </div>-->
       </mat-tab>
       <mat-tab label="Company">
-        <div class="select-types">
-          <span class="select-types-span">Recent</span>
-          <ul *ngFor="let recent of recentArray" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center">
-              <span class="select-type-i-s">{{recent}}</span>
-            </li>
-          </ul>
-          <span class="select-types-span">Common Type</span>
-          <ul *ngFor="let common of commons" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center">
-              <span class="select-type-i-s">{{common}}</span>
-            </li>
-          </ul>
-        </div>
+<!--        <div class="select-types">-->
+<!--          <span class="select-types-span">Recent</span>-->
+<!--          <ul *ngFor="let recent of recentArray" class="select-types-list">-->
+<!--            <li class="select-type-i" fxLayoutAlign="center center">-->
+<!--              <span class="select-type-i-s">{{recent}}</span>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--          <span class="select-types-span">Common Type</span>-->
+<!--          <ul *ngFor="let common of commons" class="select-types-list">-->
+<!--            <li class="select-type-i" fxLayoutAlign="center center">-->
+<!--              <span class="select-type-i-s">{{common}}</span>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </div>-->
       </mat-tab>
       <mat-tab label="Community">
         <div class="select-types">

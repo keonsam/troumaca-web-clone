@@ -16,10 +16,6 @@
   line-height: 140%;
 }
 
-.button__spinner {
-  margin: auto;
-}
-
 /*!* media queries *!*/
 @media only screen and (max-width: 599px) {
   .form {

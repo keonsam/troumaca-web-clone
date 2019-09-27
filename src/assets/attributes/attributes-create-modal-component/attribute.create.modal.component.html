@@ -58,9 +58,12 @@
                 <input class="blue-checkbox" type="checkbox" id="pre-filled" [formControl]="preFilled"/>
                 <span class="blue-checkbox__shadow"></span>
               </label>
-              <div class="pre-filled-popup" *ngIf="preFilled.value && selected !== 'Checkbox'">
-                <div class="f-c-no-padding f-c-no-padding-content ">
+              <div class="pre-filled-popup"  *ngIf="preFilled.value">
+                <div class="f-c-no-padding f-c-no-padding-content" *ngIf="selected === 'Text'">
                   <input class="fc-input" [formControl]="preFilledValue" placeholder="Pre-Filled Content">
+                </div>
+                <div class="f-c-no-padding f-c-no-padding-content" *ngIf="selected === 'Number'">
+                  <input class="fc-input" [formControl]="preFilledValue" placeholder="Pre-Filled Content" type="number">
                 </div>
               </div>
 

@@ -1,0 +1,78 @@
+<div class="menu">
+  <app-logo class="header" [redirect]="link"></app-logo>
+  <nav class="nav">
+    <ul class="nav-ul"
+        fxLayout="column no-wrap"
+        fxLayoutAlign="start"
+        fxLayoutGap="36px"
+        fxLayout.xs="row no-wrap"
+        fxLayoutAlign.xs="space-between center"
+        fxLayoutGap.xs="0"
+    >
+
+      <li class="nav-ul__items"
+          fxLayout.xs="column"
+          fxLayoutAlign.xs="center"
+      >
+        <a class="nav__link nav__link--padding"
+           [routerLink]="assetsLink"
+           routerLinkActive="active"
+           fxLayout="row"
+           fxLayoutAlign="start center"
+           fxLayout.xs="column"
+           fxLayoutAlign.xs="space-between center"
+        >
+          <fa-icon class="nav__icons"  [icon]="faBox"></fa-icon>
+          <span class="nav__text">ASSETS</span>
+        </a>
+      </li>
+
+      <li class="nav-ul__items"
+          fxLayout.xs="column"
+          fxLayoutAlign.xs="center"
+      >
+        <a class="nav__link nav__link--padding"
+           [routerLink]="manageLink"
+           routerLinkActive="active"
+           fxLayout="row"
+           fxLayoutAlign="start center"
+           fxLayout.xs="column"
+           fxLayoutAlign.xs="space-between center"
+        >
+          <fa-icon class="nav__icons" [icon]="faList"></fa-icon>
+          <span class="nav__text">MANAGE</span>
+        </a>
+      </li>
+
+      <li class="nav-ul__items"
+          fxHide.gt-xs
+          fxLayout.xs="column"
+          fxLayoutAlign.xs="center"
+      >
+        <a class="nav__link"
+          fxLayout.xs="column"
+          fxLayoutAlign.xs="space-between center"
+        >
+          <img class="menu__img" src="../../css/images/profile-img.png" alt="profile image"/>
+          <span class="nav__text">ACCOUNT</span>
+        </a>
+      </li>
+
+      <li class="nav-ul__items"
+          fxHide.gt-xs
+          fxLayout.xs="column"
+          fxLayoutAlign.xs="center"
+      >
+        <a
+          class="nav__link"
+          fxLayout.xs="column"
+          fxLayoutAlign.xs="space-between center"
+          >
+          <fa-icon class="nav__icons nav__icons--ellipsis" [icon]="faEllipsisH"></fa-icon>
+          <span class="nav__text">MORE</span>
+        </a>
+      </li>
+
+    </ul>
+  </nav>
+</div>
