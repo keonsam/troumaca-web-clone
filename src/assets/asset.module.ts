@@ -28,6 +28,7 @@ import {assetTypeServiceProvider} from './asset-type/asset.type.service.provider
 import {AssetTopMenuComponent} from './asset-top-menu/asset.top.menu.component';
 import {AssetSortComponent} from './asset-sort/asset.sort.component';
 import {AssetListComponent} from './asset-list/asset.list.component';
+import {AssetListEmptyComponent} from './asset-list/asset-list-empty/asset.list.empty.component';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import {AssetListComponent} from './asset-list/asset.list.component';
     AttributeCreateModalComponent,
     AssetTopMenuComponent,
     AssetSortComponent,
-    AssetListComponent
+    AssetListComponent,
+    AssetListEmptyComponent
   ],
   entryComponents: [
     AssetCreateModalComponent,

@@ -15,12 +15,17 @@ export class AssetComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private assetService: AssetService) {
     this.assets = new Assets();
+    this.assetService.onNewAsset.subscribe( val => {
+      if (val) {
+        this.openAssetCreate();
+      }
+    })
   }
 
   ngOnInit(): void {
   }
 
-  openAssetCreate() {
+  private openAssetCreate() {
     const dialogPosition: DialogPosition = {
       top: '0',
       left: '0'

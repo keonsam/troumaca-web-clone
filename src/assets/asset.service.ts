@@ -10,6 +10,7 @@ import {UUIDGenerator} from '../uuid.generator';
 export class AssetService {
 
   listType: BehaviorSubject<string> = new BehaviorSubject( '');
+  onNewAsset: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   uuid = new UUIDGenerator();
   constructor(private apollo: Apollo) {
   }
