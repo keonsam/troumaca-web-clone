@@ -18,7 +18,6 @@ export class AssetListComponent implements OnInit {
   faEdit = faEdit;
   faEllipsisV = faEllipsisV;
   listType= 'list';
-  @Output() onNewAsset: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private assetService: AssetService,
               public dialog: MatDialog) {
@@ -33,10 +32,6 @@ export class AssetListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAssets();
-  }
-
-  openAssetCreate() {
-    this.onNewAsset.emit(true);
   }
 
   private getAssets(search?: string) {

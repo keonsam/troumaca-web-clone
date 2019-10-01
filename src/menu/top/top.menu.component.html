@@ -1,10 +1,17 @@
-<div class="top-menu" fxLayoutAlign="space-between center">
+<div class="top-menu"
+     fxLayoutAlign="space-between center"
+     fxLayoutAlign.xs="start start"
+>
   <div class="top-menu__left">
     <span class="top-menu__span">{{ name | titlecase }}</span>
     <fa-icon class="top-menu__icon" *ngIf=" name === 'assets'" [icon]="faBox"></fa-icon>
     <fa-icon class="top-menu__icon" *ngIf=" name === 'manage'" [icon]="faList"></fa-icon>
   </div>
-  <ul class="top-menu__right" fxLayout="row" fxLayoutGap="45px" fxHide.xs>
+  <ul class="top-menu__right"
+      fxLayout="row"
+      fxLayoutGap="45px"
+      fxHide.xs
+  >
     <li>
       <a>
         <img class="top-menu__img" src="../../css/images/profile-img.png" alt="profile image" />

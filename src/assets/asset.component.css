@@ -5,32 +5,6 @@
   max-width: calc(1440px - 216px);
 }
 
-/* no-assets */
-.no-assets {
-  padding-top: 20px;
-}
-
-.no-assets-img {
-  width: 125px;
-  height: 179px;
-  background: url("../css/images/new-asset.svg");
-}
-
-.no-assets-p {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 140%;
-  text-align: center;
-  letter-spacing: 0.01em;
-  color: #000000;
-  opacity: 0.7;
-}
-
-.button--primary--new-asset {
-  width: 234px;
-}
-
 /* LEFT MODAL */
 ::ng-deep .backdrop {
   background: #0A1733;

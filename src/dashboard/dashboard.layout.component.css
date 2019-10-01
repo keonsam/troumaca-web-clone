@@ -49,17 +49,18 @@
 }
 
 ::ng-deep .sf__icon {
-   position: absolute;
-   right: 0;
-   padding-right: 10px;
-   padding-top: 22px;
-   font-weight: 900;
-   font-size: 18px;
-   line-height: 21px;
-   letter-spacing: 0.05em;
-   color: #AAAAAA;
-   opacity: 0.5;
- }
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-right: 10px;
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 21px;
+  letter-spacing: 0.05em;
+  color: #AAAAAA;
+  opacity: 0.5;
+}
 
 ::ng-deep .sf__icon2 {
   padding-top: 16px;

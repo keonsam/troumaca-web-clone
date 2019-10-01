@@ -3,12 +3,7 @@ import {Asset} from './asset';
 // import {Sort} from '../sort/sort';
 
 export class Assets {
-  assets: Asset[];
+  assets: Asset[] = [];
   page: any;
   sort: any;
-  constructor() {
-    this.assets = [];
-    // this.page = new Page();
-    // this.sort = new Sort();
-  }
 }

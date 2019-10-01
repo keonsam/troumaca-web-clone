@@ -4,6 +4,7 @@ import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {DialogPosition} from '@angular/material/dialog';
 import {AssetCreateModalComponent} from '../asset-create-modal/asset.create.modal.component';
+import {AssetService} from '../asset.service';
 
 @Component({
   selector: 'app-asset-top-menu',
@@ -15,8 +16,7 @@ export class AssetTopMenuComponent implements OnInit {
   faSearch = faSearch;
   faCheck = faCheck;
   search: FormControl;
-  @Output() onNewAsset: EventEmitter<boolean> = new EventEmitter();
-  constructor() {
+  constructor(private assetService: AssetService) {
     this.search = new FormControl();
   }
 
@@ -36,6 +36,6 @@ export class AssetTopMenuComponent implements OnInit {
   }
 
   openAssetCreate() {
-    this.onNewAsset.emit(true);
+    this.assetService.onNewAsset.next(true);
   }
 }

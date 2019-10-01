@@ -1,69 +1,57 @@
-<div *ngIf="assets.assets.length < 1"
-     class="no-assets"
-     fxLayout="column"
-     fxLayoutAlign="center center"
->
-  <div class="no-assets-img">
-
-  </div>
-  <p class="no-assets-p">It’s a lonely space right now!<br />
-    Add your first asset, let the <br />
-    journey begin !</p>
-  <button
-    class="button button--primary button--primary--new-asset"
-    (click)="openAssetCreate()"
-  >
-    Add a New Asset
-  </button>
-</div>
-<div *ngIf="assets.assets.length > 1" class="asset-list">
-  <ul *ngIf="listType === 'list'"
-      class="al-list"
+<app-asset-list-empty *ngIf="assets.assets.length < 1"></app-asset-list-empty>
+<ul *ngIf="listType === 'list' && assets.assets.length >= 1"
+    class="al-list"
+    fxLayout="column"
+    fxLayoutGap="8px">
+  <li *ngFor="let asset of assets.assets" class="al-rows-items" fxLayoutAlign="space-between" >
+    <div
+      fxLayout="row no-wrap"
+      fxLayoutGap="19px"
+      fxLayoutAlign="start center"
+      fxLayoutGap.xs="15px"
+    >
+      <div class="al-ri-circle" fxLayoutAlign="center center">
+        <img class="al-ri-circle-img" [src]="asset.image || '../css/images/asset-img.svg'" alt="image of asset"/>
+      </div>
+      <span class="al-ri-span">{{asset.name}}</span>
+    </div>
+    <div
+      fxLayoutAlign="start center"
+    >
+      <div class="al-ri-type" fxLayoutAlign="center center">
+        <span class="al-ri-type-span">{{asset.assetType.name}}</span>
+      </div>
+      <fa-icon class="al-ri-edit-icons" [icon]="faTrashAlt" fxHide.xs></fa-icon>
+      <fa-icon class="al-ri-edit-icons" [icon]="faEdit" fxHide.xs></fa-icon>
+      <fa-icon
+        class="al-ri-edit-ellipsis"
+        [icon]="faEllipsisV"
+        fxFlexAlign="start"
+      ></fa-icon>
+    </div>
+  </li>
+</ul>
+<ul *ngIf="listType === 'grid'  && assets.assets.length >= 1"
+    class="asset-grid"
+    gdColumns="repeat(auto-fill, 111px)"
+    gdGap="8px 8px">
+  <li *ngFor="let asset of assets.assets"
+      class="al-grid-items"
+      fxLayout="row no-wrap"
+      fxLayoutAlign="end">
+    <div
+      class="al-gi-info"
       fxLayout="column"
-      fxLayoutGap="8px">
-    <li *ngFor="let asset of assets.assets" class="al-rows-items" fxLayoutAlign="space-between" >
-      <div
-        fxLayout="row"
-        fxLayoutGap="19px"
-        fxLayoutAlign="start center"
-      >
-        <div class="al-ri-circle" fxLayoutAlign="center center">
-          <img class="al-ri-circle-img" [src]="asset.image || '../css/images/asset-img.svg'" alt="image of asset"/>
-        </div>
-        <span class="al-ri-span">{{asset.name}}</span>
+      fxLayoutGap="8px"
+      fxLayoutAlign="start center"
+    >
+      <div class="al-ri-circle" fxLayoutAlign="center center">
+        <img class="al-ri-circle-img" [src]="asset.image || '../css/images/asset-img.svg'" alt="image of asset"/>
       </div>
-      <div fxLayoutAlign="start center">
-        <div class="al-ri-type"><span class="al-ri-type-span">{{asset.assetType.name}}</span></div>
-        <fa-icon class="al-ri-edit-icons" [icon]="faTrashAlt" fxHide.xs></fa-icon>
-        <fa-icon class="al-ri-edit-icons" [icon]="faEdit" fxHide.xs></fa-icon>
-        <fa-icon class="al-ri-edit-ellipsis" [icon]="faEllipsisV"
-                 fxFlexAlign="start"
-        ></fa-icon>
-      </div>
-    </li>
-  </ul>
-  <ul *ngIf="listType === 'grid'"
-      class="asset-grid"
-      gdColumns="repeat(auto-fill, 111px)"
-      gdGap="8px 8px">
-    <li *ngFor="let asset of assets.assets"
-        class="al-grid-items"
-        fxLayout="row no-wrap"
-        fxLayoutAlign="end">
-      <div
-        class="al-gi-info"
-        fxLayout="column"
-        fxLayoutGap="8px"
-        fxLayoutAlign="start center"
-      >
-        <div class="al-ri-circle" fxLayoutAlign="center center">
-          <img class="al-ri-circle-img" [src]="asset.image || '../css/images/asset-img.svg'" alt="image of asset"/>
-        </div>
-        <span class="al-ri-span">{{asset.name}}</span>
-      </div>
-      <div fxFlexAlign="start">
-        <fa-icon class="al-ri-edit-ellipsis al-ri-ee--g" [icon]="faEllipsisV"></fa-icon>
-      </div>
-    </li>
-  </ul>
-</div>
+      <span class="al-ri-span">{{asset.name}}</span>
+    </div>
+    <div fxFlexAlign="start">
+      <fa-icon class="al-ri-edit-ellipsis al-ri-ee--g" [icon]="faEllipsisV"></fa-icon>
+    </div>
+  </li>
+</ul>

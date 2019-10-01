@@ -24,11 +24,10 @@
   </div>
 
   <form class="search-form">
-
     <div class="sf-div">
       <label class="fc-label--hidden" for="search">Search</label>
-      <input class="sf-input" [formControl]="search" placeholder="Search Assets" id="search">
-      <fa-icon  class="sf__icon" [icon]="faSearch"></fa-icon>
+      <input class="sf-input sf-input--asset" [formControl]="search" placeholder="Search Assets" id="search">
+      <fa-icon  class="sf__icon sf__icon--asset" [icon]="faSearch"></fa-icon>
     </div>
 
   </form>
@@ -54,5 +53,4 @@
     </button>
 
   </div>
-
 </div>
