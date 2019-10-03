@@ -37,7 +37,26 @@
   margin-left: 5px;
 }
 
+/* blue-button */
+
+.blue-button {
+  width: 63px;
+  height: 63px;
+  background: #004777;
+  font-size: 36px;
+  line-height: 40px;
+  color: #FFFFFF;
+  border-radius: 50%;
+  border: none;
+  margin-left: 20px;
+}
+
 @media only screen and (max-width: 599px) {
+  .blue-button {
+    position: absolute;
+    top: 38px;
+    right: 17px;
+  }
   .status {
     margin-left: 24px;
   }
@@ -59,4 +78,13 @@
     height: 51px;
   }
 
+}
+
+@media only screen and (min-width: 600px) and (max-width: 959px) {
+  .blue-button {
+    position: absolute;
+    right: 20px;
+    top: 87px;
+    margin-left: 0;
+  }
 }

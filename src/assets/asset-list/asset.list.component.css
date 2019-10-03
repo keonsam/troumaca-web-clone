@@ -20,10 +20,12 @@
 }
 
 .al-ri-circle {
+  display: block;
   width: 50px;
   height: 50px;
   background: #F8F8FF;
   border-radius: 50%;
+  margin: 7px auto 0;
 }
 
 .al-ri-circle-img {
@@ -35,6 +37,12 @@
   font-size: 10px;
   line-height: 11px;
   letter-spacing: 0.02em;
+}
+
+.al-ri-span-g {
+  display: block;
+  margin-top: 13px;
+  text-align: center;
 }
 
 .al-ri-type {
@@ -68,7 +76,7 @@
 
 /* grid */
 .asset-grid {
-  padding: 49px 20px 0 29px;
+  padding: 46px 20px 0 29px;
   height: 100%;
 }
 
@@ -77,8 +85,7 @@
   height: 116px;
   background: #FFFFFF;
   border-radius: 8px;
-  padding-top: 7px;
-  padding-right: 9px;
+  padding: 7px 9px 9px 13px;
 }
 
 .al-gi-info {
