@@ -8,10 +8,7 @@ import {RegisterComponent} from './register/register.component';
 import {authenticationServiceProvider} from './authenticate.service.provider';
 import { AuthenticationRoutingModule } from './authentication.routing.module';
 import {MaterialModule} from '../app/material.module';
-// import {authenticationRepositoryProvider} from '../adapter/authentication/authentication.repository.adapter.provider';
-// import {authenticationClientProvider} from '../client/credential/authentication.client.provider';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {DialogModule} from '../dialog/dialog.module';
 import {AccountTypeModalComponent} from './account-type-modal/account.type.modal.component';
 import {SignUpModalComponent} from './sign-up-modal/sign.up.modal.component';
 import {ConfirmationModalComponent} from './confirmation-modal/confirmation.modal.component';
@@ -33,7 +30,6 @@ import {FooterComponent} from './footer/footer.component';
     AuthenticationRoutingModule,
     MaterialModule,
     FlexLayoutModule,
-    DialogModule,
     PopUpModule,
     MenuModule
   ],
@@ -59,8 +55,6 @@ import {FooterComponent} from './footer/footer.component';
   ],
   providers: [
     authenticationServiceProvider,
-    // authenticationRepositoryProvider,
-    // authenticationClientProvider
   ],
   exports: []
 })

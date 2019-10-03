@@ -6,17 +6,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppComponent} from './app.component';
 import {appRoutingProviders} from './app.routing';
 import {UUIDGenerator} from '../uuid.generator';
-// import {AppConfig} from '../app.config';
-
-// import {AdapterModule} from '../adapter/adapter.module';
-// import {PageNotFoundModule} from './page-not-found/page.not.found.module';
-
-// import {sessionInterceptorProvider} from '../client/session.interceptor.provider';
 import {AppRoutingModule} from './app.routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-// import {SessionModule} from '../session/session.module';
-// import { ClientModule } from '../client/client.module';
-// import { MenuModule } from '../menu/menu.module';
 import { MaterialModule } from './material.module';
 import 'hammerjs';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -48,13 +39,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    // basics
     FontAwesomeModule,
-    // AdapterModule,
-    // PageNotFoundModule,
-    // SessionModule,
-    // ClientModule,
-    // MenuModule,
     MaterialModule,
     FlexLayoutModule,
     GraphQLModule
@@ -65,17 +50,16 @@ import {
   providers: [
     appRoutingProviders,
     {provide: APP_BASE_HREF, useValue: '/'},
-    // {provide: AppConfig, useClass: AppConfig},
     {provide: UUIDGenerator, useClass: UUIDGenerator},
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
-    // sessionInterceptorProvider,
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor() {
     // Add an icon to the library for convenient access in other components
-    library.add(faUser, faGoogle, faUsers, faCheck, faArrowLeft, faEnvelope, faMobileAlt, faBox, faList, faEllipsisH, faSearch, faCheck,
+    library.add(
+      faUser, faGoogle, faUsers, faCheck, faArrowLeft, faEnvelope, faMobileAlt, faBox, faList, faEllipsisH, faSearch, faCheck,
       faFilter, faSortAmountDown, faImage, faThLarge, faChevronRight, faTag, faChevronDown, faChevronUp, faMapMarkerAlt,
       faFont, faHashtag, faCheckSquare, faCheckDouble, faCalendar, faLink, faChevronLeft, faTrashAlt, faEdit, faEllipsisV,
       faTh, faExclamationTriangle

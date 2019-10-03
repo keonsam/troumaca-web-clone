@@ -5,7 +5,10 @@
      fxLayoutGap.xs="14px"
 >
 
-  <div fxLayout="row" fxLayoutGap="48px">
+  <div fxLayout="row"
+       fxLayoutGap="48px"
+       fxLayoutGap.sm="20px"
+  >
 
     <div class="status"
          fxLayout="column"
@@ -35,9 +38,8 @@
   <div class="white-button-div"
        fxLayout="row no-wrap"
        fxLayoutGap="8px"
-       fxHide.xs
+       fxHide.lt-lg
   >
-
     <button class="white-button white-button--one" (click)="openAssetCreate()">
       <span class="white-button__circle" fxLayoutAlign="center center" style="background: #CCD8F1;">
         <fa-icon class="white-button__icons" [icon]="faBox" ></fa-icon>
@@ -53,4 +55,8 @@
     </button>
 
   </div>
+
+  <button class="blue-button" fxHide.gt-md>
+    +
+  </button>
 </div>
