@@ -63,8 +63,7 @@ export class AssetCreateModalComponent {
     };
     this.dialogRefTypes = this.dialog.open(AssetTypeSelectModalComponent,  {
       height: '100%',
-      width: '706px',
-      position: dialogPosition,
+      // position: dialogPosition,
       hasBackdrop: true,
       backdropClass: 'backdrop-left',
       closeOnNavigation: true,
@@ -81,7 +80,8 @@ export class AssetCreateModalComponent {
   }
 
   private closeSelectType() {
-    this.dialogRefTypes.close();
+    console.log('feature not available');
+    // this.dialogRefTypes.close();
   }
 
   openSelectType() {

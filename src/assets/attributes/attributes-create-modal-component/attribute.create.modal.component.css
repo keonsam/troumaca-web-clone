@@ -13,8 +13,6 @@
 .lsm-white-d__span {
   margin-left: 3px;
   margin-right: 11px;
-  font-style: normal;
-  font-weight: normal;
   font-size: 14px;
   line-height: 16px;
   letter-spacing: 0.02em;
@@ -120,12 +118,12 @@
 }
 
 /* behavior */
+.behavior {
+  margin-top: 21px;
+}
 .behavior-title {
   display: block;
-  font-size: 13px;
   line-height: 14px;
-  letter-spacing: 0.01em;
-  color: #000000;
   margin-bottom: 17px;
 }
 
@@ -169,10 +167,7 @@
 
 .additional-info-title__span {
   display: inline-block;
-  font-size: 13px;
   line-height: 14px;
-  letter-spacing: 0.01em;
-  color: #000000;
 }
 
 .additional-info-title__span:after,
@@ -223,10 +218,8 @@
 }
 
 .fc-input-tool-tip::placeholder {
-  font-size: 13px;
   line-height: 14px;
   letter-spacing: 0.01em;
-  color: #000000;
   opacity: 0.4;
 }
 

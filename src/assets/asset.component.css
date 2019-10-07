@@ -1,8 +1,9 @@
 .assets {
-  padding: 0 224px 0 115px;
+  /*padding: 0 224px 0 115px;*/
+  margin-left: 115px;
   height: 100%;
   width: 100%;
-  max-width: calc(1440px - 216px);
+  max-width: 885px;
 }
 
 /* LEFT MODAL */
@@ -15,28 +16,38 @@
   background: #F5F5F5;
   border: 1px solid #EFEFF8;
   border-radius: 0;
+  width: 423px;
   padding: 0;
 }
 
 @media only screen and (max-width: 599px) {
   .assets {
+    margin: 0 auto;
     padding: 0;
     max-width: 100%;
     width: 100%;
+  }
+
+  ::ng-deep .left-panel > .mat-dialog-container {
+    background: #F5F5F5;
+    border: 1px solid #EFEFF8;
+    width: 100vw;
+    border-radius: 0;
+    padding: 0;
   }
 }
 
 @media only screen and (min-width: 960px) and (max-width: 1279px){
   .assets {
-    padding-right: 62px;
-    padding-left: 80px;
+    margin: 0 auto;
+    padding: 15px;
   }
 }
 
 
 @media only screen and (min-width: 600px) and (max-width: 959px) {
   .assets {
-    padding-right: 12px;
-    padding-left: 14px;
+    margin: 0 auto;
+    padding: 15px;
   }
 }

@@ -111,6 +111,10 @@
   width: 171px;
 }
 
+::ng-deep .left-panel-3 > .mat-dialog-container {
+  height: calc(100% - 48px);
+}
+
 @media only screen and (max-width: 599px) {
   .search {
     width: 100%;

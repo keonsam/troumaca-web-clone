@@ -73,14 +73,14 @@ export class AttributeSelectModalComponent implements OnInit {
       left: '418px'
     };
     const dialogRef = this.dialog.open(AttributeCreateModalComponent, {
-      height: 'calc(100% - 138px)',
+      height: 'calc(100% - 48px)',
       width: '706px',
       position: dialogPosition,
       hasBackdrop: true,
       backdropClass: 'backdrop-left',
       closeOnNavigation: true,
       disableClose: false,
-      panelClass: ['left-panel-2'],
+      panelClass: ['left-panel-2', 'left-panel-3'],
     });
 
     dialogRef.afterClosed().subscribe(result => {
