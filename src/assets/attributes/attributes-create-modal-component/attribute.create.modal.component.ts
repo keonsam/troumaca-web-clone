@@ -34,6 +34,7 @@ export class AttributeCreateModalComponent {
   preFilledValue: FormControl;
   additionalInfo: FormControl;
   list: FormControl;
+  select: FormControl;
   faExclamationTriangle = faExclamationTriangle;
   faChevronDown = faChevronDown;
   faChevronUp = faChevronUp;
@@ -55,26 +56,29 @@ export class AttributeCreateModalComponent {
     this.preFilled = new FormControl(false);
     this.required = new FormControl(false);
     this.preFilledValue = new FormControl('');
+    this.select = new FormControl('');
     this.additionalInfo = new FormControl('');
     this.list = new FormControl('');
     this.attributeForm = formBuilder.group({
       'label': this.label,
+      'list': this.list,
       'preFilled': this.preFilled,
       'required': this.required,
       'preFilledValue': this.preFilledValue,
       'additionalInfo': this.additionalInfo
-    })
+    });
 
     this.attributeForm
       .valueChanges
       .subscribe( value => {
         // attribute
         this.attribute.name = value.label;
+        this.attribute.list = value.list.split(',');
         this.attribute.preFilled = value.preFilled;
         this.attribute.required = value.required;
         this.attribute.defaultValue = value.preFilledValue;
         this.attribute.description = value.additionalInfo;
-      })
+      });
   }
 
   onSelect(type: AttributeType) {

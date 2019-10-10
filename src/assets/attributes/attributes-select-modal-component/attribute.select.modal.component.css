@@ -1,3 +1,8 @@
+.lsm2 {
+  height: 100%;
+  width: 100%;
+}
+
 .lsm2-white {
   background: #FFFFFF;
   padding: 10px 30px 20px 39px;
@@ -33,6 +38,7 @@
 
 ::ng-deep .mat-tab-group {
   font-family: 'Comfortaa', cursive !important;
+  height: 100%;
 }
 
 ::ng-deep .mat-tab-labels {
@@ -54,11 +60,12 @@
 }
 
 .select-types {
-  padding: 35px 166px 35px 37px;
-  min-height: 226px;
+  padding: 35px 37px;
+  min-height: 200px;
+  max-width: 100%;
 }
 
-.select-types-span {
+.select-types-heading {
   display: block;
   font-style: normal;
   font-weight: normal;
@@ -71,10 +78,9 @@
 }
 
 .select-types-list {
-  margin: 0 0 19px 0;
   padding: 0;
   list-style-type: none;
-  display: inline-block;
+  display: block;
 }
 
 .select-types-list:not(last-child) {
@@ -87,6 +93,9 @@
   padding-left: 15px;
   padding-right: 15px;
   background: rgba(37,207,232, 0.2);
+  margin-bottom: 17px;
+  min-width: 115px;
+  max-width: 200px;
 }
 
 
@@ -127,6 +136,8 @@
 }
 
 .button--primary--attribute {
+  display: block;
+  margin: 0 auto 8px;
   width: 231px;
 }
 @media only screen and (max-width: 599px) {

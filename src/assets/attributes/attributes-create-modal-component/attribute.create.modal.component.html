@@ -7,11 +7,11 @@
        gdColumn="1/3"
   >
     <div fxLayoutAlign="space-between center">
-      <span class="lsm-header-text">New Attribute</span>
+      <span class="lsm-header-text">New Characteristic</span>
       <button mat-dialog-close class="modal__close">+</button>
     </div>
     <div class="lsm-white-d" fxLayoutAlign="start center">
-      <span class="lsm-white-d__span">Select Attribute type</span>
+      <span class="lsm-white-d__span">Select Characteristic type</span>
       <div class="lsm-white-d__icon"
            fxLayoutAlign="center center">
         <span>i</span>
@@ -54,7 +54,10 @@
 
       <div class="form-control f-c-no-padding-content" *ngIf="selected === 'Select' || selected === 'Multi Select'">
         <label class="fc-label" for="list">List</label>
-        <input class="fc-input fc-input--search" [formControl]="list" id="list" placeholder="Search or Create new">
+        <div class="search-with-label">
+          <input class="fc-input fc-input--search" [formControl]="list" id="list" placeholder="Enter values separated by commas">
+          <fa-icon class="sf__icon" [icon]="faSearch"></fa-icon>
+        </div>
       </div>
 
       <div class="behavior">
@@ -65,15 +68,12 @@
               <input class="blue-checkbox" type="checkbox" id="pre-filled" [formControl]="preFilled"/>
               <span class="blue-checkbox__shadow"></span>
             </label>
-            <div class="pre-filled-popup"  *ngIf="preFilled.value">
-              <div class="f-c-no-padding f-c-no-padding-content" *ngIf="selected === 'Text'">
-                <input class="fc-input" [formControl]="preFilledValue" placeholder="Pre-Filled Content">
-              </div>
-              <div class="f-c-no-padding f-c-no-padding-content" *ngIf="selected === 'Number'">
-                <input class="fc-input" [formControl]="preFilledValue" placeholder="Pre-Filled Content" type="number">
-              </div>
+            <div class="f-c-no-padding f-c-no-padding-content pre-filled-popup" *ngIf="preFilled.value && selected === 'Text'">
+              <input class="fc-input" [formControl]="preFilledValue" placeholder="Pre-Filled Content">
             </div>
-
+            <div class="f-c-no-padding f-c-no-padding-content pre-filled-popup" *ngIf="preFilled.value && selected === 'Number'">
+              <input class="fc-input" [formControl]="preFilledValue" placeholder="Pre-Filled Content" type="number">
+            </div>
           </li>
           <li>
             <label class="blue-checkbox-label" for="required">Required
@@ -109,7 +109,7 @@
       </div>
 
       <div class="sa-action-button">
-        <button class="button button--primary button--primary--sa" [disabled]="!attributeForm.valid" (click)="onSubmit()">Save Attribute</button>
+        <button class="button button--primary button--primary--sa" [disabled]="!attributeForm.valid" (click)="onSubmit()">Save Characteristic</button>
       </div>
     </form>
   </div>
