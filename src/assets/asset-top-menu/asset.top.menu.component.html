@@ -56,7 +56,38 @@
 
   </div>
 
-  <button class="blue-button" fxHide.gt-md>
+  <button
+    class="button-around button-around--blue button-around--blue1"
+    fxHide.gt-md
+    (click)="showModal($event)"
+  >
     +
   </button>
+
+  <div
+    [ngClass]="{'button-pop-up': true, show: show}"
+  >
+    <div class="button-container"
+         [ngStyle]="{'top.px': offsetTop, 'left.px': offsetLeft}"
+         fxLayout="column"
+         fxLayoutGap="30px"
+    >
+      <button class="button-around button-around--blue button-around--blue2" (click)="closeShow()">
+        <span class="button-around--blue2__span">+</span>
+      </button>
+      <button
+        class="button-around button-around--assets"
+        (click)="handleButtons(1)"
+      >
+        <fa-icon [icon]="faBox"></fa-icon>
+        <span class="button-around__span">new assets</span>
+      </button>
+      <button
+        class="button-around button-around--asset-types"
+      >
+        <fa-icon [icon]="faCheck"></fa-icon>
+        <span class="button-around__span">new type</span>
+      </button>
+    </div>
+  </div>
 </div>

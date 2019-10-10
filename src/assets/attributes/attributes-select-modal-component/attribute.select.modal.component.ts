@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {DialogPosition, MatDialog, MatDialogRef} from '@angular/material';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {faMapMarkerAlt, faSearch} from '@fortawesome/free-solid-svg-icons';
+import {FormBuilder, FormControl} from '@angular/forms';
+import {faSearch} from '@fortawesome/free-solid-svg-icons';
 import {AttributeCreateModalComponent} from '../attributes-create-modal-component/attribute.create.modal.component';
 import {attributeFont} from '../attribute.font';
 import {AttributeService} from '../attribute.service';
 import {Attribute} from '../attribute';
-import {Attributes} from '../attributes';
-import {debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 @Component({
   selector: 'app-attribute-select',
@@ -73,14 +72,14 @@ export class AttributeSelectModalComponent implements OnInit {
       left: '418px'
     };
     const dialogRef = this.dialog.open(AttributeCreateModalComponent, {
-      height: 'calc(100% - 138px)',
+      height: 'calc(100% - 48px)',
       width: '706px',
       position: dialogPosition,
       hasBackdrop: true,
       backdropClass: 'backdrop-left',
       closeOnNavigation: true,
       disableClose: false,
-      panelClass: ['left-panel-2'],
+      panelClass: ['left-panel-2', 'left-panel-3'],
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -96,5 +95,9 @@ export class AttributeSelectModalComponent implements OnInit {
 
   closeModal() {
     this.dialogRef.close(this.selectedAttribute);
+  }
+
+  tabClick(type: string) {
+    console.log(type);
   }
 }

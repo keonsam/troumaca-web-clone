@@ -61,10 +61,6 @@
   color: #AAAAAA;
   opacity: 0.5;
 }
-
-::ng-deep .sf__icon2 {
-  padding-top: 16px;
-}
 /* end of search input */
 
 /* blue input */

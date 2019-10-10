@@ -5,6 +5,7 @@ import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {DialogPosition} from '@angular/material/dialog';
 import {AssetCreateModalComponent} from '../asset-create-modal/asset.create.modal.component';
 import {AssetService} from '../asset.service';
+import {Target} from '@angular/compiler';
 
 @Component({
   selector: 'app-asset-top-menu',
@@ -16,6 +17,9 @@ export class AssetTopMenuComponent implements OnInit {
   faSearch = faSearch;
   faCheck = faCheck;
   search: FormControl;
+  show = false;
+  offsetLeft: string;
+  offsetTop: string;
   constructor(private assetService: AssetService) {
     this.search = new FormControl();
   }
@@ -37,5 +41,22 @@ export class AssetTopMenuComponent implements OnInit {
 
   openAssetCreate() {
     this.assetService.onNewAsset.next(true);
+  }
+
+  showModal(event: any) {
+    this.offsetLeft = event.target.offsetLeft;
+    this.offsetTop = event.target.offsetTop;
+    this.show = true;
+  }
+
+  closeShow() {
+    this.show = false;
+  }
+
+  handleButtons(num: number) {
+    this.closeShow();
+    if (num === 1) {
+      this.openAssetCreate();
+    }
   }
 }

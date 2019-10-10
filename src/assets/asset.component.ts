@@ -32,7 +32,6 @@ export class AssetComponent implements OnInit {
     };
     const dialogRef = this.dialog.open(AssetCreateModalComponent,  {
       height: '100%',
-      width: '423px',
       position: dialogPosition,
       hasBackdrop: true,
       backdropClass: 'backdrop',
@@ -42,3 +41,4 @@ export class AssetComponent implements OnInit {
     });
   }
 }
+

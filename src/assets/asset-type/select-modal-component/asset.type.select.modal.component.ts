@@ -69,7 +69,7 @@ export class AssetTypeSelectModalComponent implements OnInit {
       backdropClass: 'backdrop-left',
       closeOnNavigation: true,
       disableClose: false,
-      panelClass: ['left-panel-2'],
+      panelClass: ['left-panel-2', 'left-panel-3'],
     })
   }
 

@@ -1,35 +1,5 @@
 @import "css/base.css";
 @import "css/modules/input.css";
 @import "css/modules/white-button.css";
-
-/* BUTTON */
-.button {
-  height: 51px;
-  border: 1px solid #EFEFF8;
-  border-radius: 28px;
-  line-height: 20px;
-  color: #FFFFFF;
-}
-
-.button--primary {
-  background: #004777;
-}
-
-.button--primary[disabled] {
-  background: #004777;
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-/* SPINNER */
-.mat-progress-spinner circle, .mat-spinner circle {
-  stroke: #FFFFFF !important;
-}
-
-.button__spinner {
-  margin: auto;
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-}
+@import "css/modules/button.css";
+@import "css/modules/spinner.css";

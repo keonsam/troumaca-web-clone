@@ -1,0 +1,8 @@
+/* SPINNER */
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #FFFFFF !important;
+}
+
+.button__spinner {
+  margin: auto;
+}

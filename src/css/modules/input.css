@@ -46,3 +46,15 @@ input:focus {
 .fc-error__icon {
   margin-right: 7px;
 }
+
+
+/* number edit */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+/* search-with-label */
+.search-with-label {
+  position: relative;
+}

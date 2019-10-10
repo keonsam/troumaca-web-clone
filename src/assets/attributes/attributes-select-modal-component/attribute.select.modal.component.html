@@ -1,4 +1,6 @@
-<div class="lsm2">
+<div class="lsm2"
+     gdRows="180px auto 103px"
+>
   <div class="lsm2-white">
     <div fxLayoutAlign="space-between center">
       <span class="lsm-header-text">Select Attribute</span>
@@ -12,81 +14,200 @@
       </div>
     </form>
   </div>
-  <div mat-dialog-content>
+  <div>
     <mat-tab-group>
-      <mat-tab label="All">
-        <div class="select-types">
+      <mat-tab label="All" (click)="tabClick('all')">
+        <div class="select-types"
+             gdRows="repeat(2, auto)"
+             gdAlignRows="space-between"
+        >
+          <div>
+            <h3 class="select-types-heading">Recent</h3>
+                      <ul class="select-types-list"
+                          fxLayout="row wrap"
+                          fxLayoutGap="7px"
+                      >
+                        <li
+                          *ngFor="let attribute of attributes"
+                          class="select-type-i"
+                          fxLayoutAlign="center center"
+                          fxLayoutGap="8px"
+                          (dblclick)="attributeSelect(attribute)"
+                        >
+                          <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
+                          <span class="select-type-i-s">{{attribute.name}}</span>
+                        </li>
 
-          <span class="select-types-span">Recent</span>
-          <ul *ngFor="let attribute of attributes" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center" fxLayoutGap="8px" (dblclick)="attributeSelect(attribute)">
-              <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
-              <span class="select-type-i-s">{{attribute.name}}</span>
-            </li>
-          </ul>
+                      </ul>
+          </div>
 
-          <span class="select-types-span">Recommended</span>
-          <ul *ngFor="let attribute of attributes" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center" fxLayoutGap="8px" (dblclick)="attributeSelect(attribute)">
-              <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
-              <span class="select-type-i-s">{{attribute.name}}</span>
-            </li>
-          </ul>
+          <div>
+            <h3 class="select-types-heading">Recommended</h3>
+            <ul class="select-types-list"
+                fxLayout="row wrap"
+                fxLayoutGap="7px"
+            >
+              <li
+                *ngFor="let attribute of attributes"
+                class="select-type-i"
+                fxLayoutAlign="center center"
+                fxLayoutGap="8px"
+                (dblclick)="attributeSelect(attribute)"
+              >
+                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
+                <span class="select-type-i-s">{{attribute.name}}</span>
+              </li>
+
+            </ul>
+          </div>
 
         </div>
       </mat-tab>
       <mat-tab label="Yours">
-        <div class="select-types">
-          <span class="select-types-span">Recent</span>
-          <ul *ngFor="let recent of recentArray" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center">
-              <span class="select-type-i-s">{{recent}}</span>
-            </li>
-          </ul>
-          <span class="select-types-span">Common Type</span>
-          <ul *ngFor="let common of commons" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center">
-              <span class="select-type-i-s">{{common}}</span>
-            </li>
-          </ul>
+        <div class="select-types"
+             gdRows="repeat(2, auto)"
+             gdAlignRows="space-between"
+        >
+          <div>
+            <h3 class="select-types-heading">Recent</h3>
+            <ul class="select-types-list"
+                fxLayout="row wrap"
+                fxLayoutGap="7px"
+            >
+              <li
+                *ngFor="let attribute of attributes"
+                class="select-type-i"
+                fxLayoutAlign="center center"
+                fxLayoutGap="8px"
+                (dblclick)="attributeSelect(attribute)"
+              >
+                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
+                <span class="select-type-i-s">{{attribute.name}}</span>
+              </li>
+
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="select-types-heading">Recommended</h3>
+            <ul class="select-types-list"
+                fxLayout="row wrap"
+                fxLayoutGap="7px"
+            >
+              <li
+                *ngFor="let attribute of attributes"
+                class="select-type-i"
+                fxLayoutAlign="center center"
+                fxLayoutGap="8px"
+                (dblclick)="attributeSelect(attribute)"
+              >
+                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
+                <span class="select-type-i-s">{{attribute.name}}</span>
+              </li>
+
+            </ul>
+          </div>
+
         </div>
       </mat-tab>
       <mat-tab label="Company">
-        <div class="select-types">
-          <span class="select-types-span">Recent</span>
-          <ul *ngFor="let recent of recentArray" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center">
-              <span class="select-type-i-s">{{recent}}</span>
-            </li>
-          </ul>
-          <span class="select-types-span">Common Type</span>
-          <ul *ngFor="let common of commons" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center">
-              <span class="select-type-i-s">{{common}}</span>
-            </li>
-          </ul>
+        <div class="select-types"
+             gdRows="repeat(2, auto)"
+             gdAlignRows="space-between"
+        >
+          <div>
+            <h3 class="select-types-heading">Recent</h3>
+            <ul class="select-types-list"
+                fxLayout="row wrap"
+                fxLayoutGap="7px"
+            >
+              <li
+                *ngFor="let attribute of attributes"
+                class="select-type-i"
+                fxLayoutAlign="center center"
+                fxLayoutGap="8px"
+                (dblclick)="attributeSelect(attribute)"
+              >
+                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
+                <span class="select-type-i-s">{{attribute.name}}</span>
+              </li>
+
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="select-types-heading">Recommended</h3>
+            <ul class="select-types-list"
+                fxLayout="row wrap"
+                fxLayoutGap="7px"
+            >
+              <li
+                *ngFor="let attribute of attributes"
+                class="select-type-i"
+                fxLayoutAlign="center center"
+                fxLayoutGap="8px"
+                (dblclick)="attributeSelect(attribute)"
+              >
+                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
+                <span class="select-type-i-s">{{attribute.name}}</span>
+              </li>
+
+            </ul>
+          </div>
+
         </div>
       </mat-tab>
       <mat-tab label="Community">
-        <div class="select-types">
-          <span class="select-types-span">Recent</span>
-          <ul class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center">
-              <span class="select-type-i-s"></span>
-            </li>
-          </ul>
-          <span class="select-types-span">Common Type</span>
-          <ul class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center">
-              <span class="select-type-i-s"></span>
-            </li>
-          </ul>
+        <div class="select-types"
+             gdRows="repeat(2, auto)"
+             gdAlignRows="space-between"
+        >
+          <div>
+            <h3 class="select-types-heading">Recent</h3>
+            <ul class="select-types-list"
+                fxLayout="row wrap"
+                fxLayoutGap="7px"
+            >
+              <li
+                *ngFor="let attribute of attributes"
+                class="select-type-i"
+                fxLayoutAlign="center center"
+                fxLayoutGap="8px"
+                (dblclick)="attributeSelect(attribute)"
+              >
+                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
+                <span class="select-type-i-s">{{attribute.name}}</span>
+              </li>
+
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="select-types-heading">Recommended</h3>
+            <ul class="select-types-list"
+                fxLayout="row wrap"
+                fxLayoutGap="7px"
+            >
+              <li
+                *ngFor="let attribute of attributes"
+                class="select-type-i"
+                fxLayoutAlign="center center"
+                fxLayoutGap="8px"
+                (dblclick)="attributeSelect(attribute)"
+              >
+                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
+                <span class="select-type-i-s">{{attribute.name}}</span>
+              </li>
+
+            </ul>
+          </div>
+
         </div>
       </mat-tab>
     </mat-tab-group>
-    <p class="attribute-ending">Can’t find a suitable attributes? Create one!</p>
   </div>
-  <div mat-dialog-actions fxLayoutAlign="center">
+  <div>
+    <p class="attribute-ending">Can’t find a suitable attributes? Create one!</p>
     <button class="button button--primary button--primary--attribute" (click)="openCreateNew()">Create new Attributes</button>
   </div>
 </div>
