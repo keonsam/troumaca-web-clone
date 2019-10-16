@@ -233,3 +233,27 @@
 .button--primary--sa {
   padding: 0 15px;
 }
+
+/* items */
+.list {
+  width: 281px;
+  margin-left: auto;
+  max-height: 202px;
+  overflow-y: auto;
+}
+
+.list-items {
+  margin-bottom: 21px;
+}
+
+.list-item-button {
+  display: block;
+  font-size: 14px;
+  line-height: 16px;
+  color: #119CB7;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0 auto;
+}

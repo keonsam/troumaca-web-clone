@@ -61,6 +61,18 @@
   color: #AAAAAA;
   opacity: 0.5;
 }
+
+::ng-deep .input-trash {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: 0.02em;
+  color: #23C7EF;
+  padding-right: 10px;
+}
 /* end of search input */
 
 /* blue input */

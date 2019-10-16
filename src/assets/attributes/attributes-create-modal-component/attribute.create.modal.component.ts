@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AttributeType} from '../attribute.type';
 import {ATTRIBUTE_TYPES} from '../attribute.types';
 import {
@@ -13,7 +13,7 @@ import {
   faHashtag,
   faLink,
   faMapMarkerAlt,
-  faUser
+  faUser, faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
 import {Attribute} from '../attribute';
 import {AttributeService} from '../attribute.service';
@@ -25,7 +25,7 @@ import {attributeFont} from '../attribute.font';
   templateUrl: './attribute.create.modal.component.html',
   styleUrls: ['./attribute.create.modal.component.css']
 })
-export class AttributeCreateModalComponent {
+export class AttributeCreateModalComponent implements OnInit {
   types: AttributeType[] = ATTRIBUTE_TYPES;
   selected: string;
   label: FormControl;
@@ -33,7 +33,6 @@ export class AttributeCreateModalComponent {
   required: FormControl;
   preFilledValue: FormControl;
   additionalInfo: FormControl;
-  list: FormControl;
   select: FormControl;
   faExclamationTriangle = faExclamationTriangle;
   faChevronDown = faChevronDown;
@@ -42,6 +41,8 @@ export class AttributeCreateModalComponent {
   panelActive: boolean;
   attribute: Attribute;
   attributeForm: FormGroup;
+  arrayItems: string[] = ['', '', ];
+  faTrashAlt = faTrashAlt;
 
   constructor(
     public dialogRef: MatDialogRef<AttributeCreateModalComponent>,
@@ -58,27 +59,47 @@ export class AttributeCreateModalComponent {
     this.preFilledValue = new FormControl('');
     this.select = new FormControl('');
     this.additionalInfo = new FormControl('');
-    this.list = new FormControl('');
     this.attributeForm = formBuilder.group({
       'label': this.label,
-      'list': this.list,
       'preFilled': this.preFilled,
       'required': this.required,
       'preFilledValue': this.preFilledValue,
-      'additionalInfo': this.additionalInfo
+      'additionalInfo': this.additionalInfo,
+      // list
+      'list': formBuilder.array([
+        this.formBuilder.control(''),
+        this.formBuilder.control('')
+      ])
     });
 
     this.attributeForm
       .valueChanges
       .subscribe( value => {
+        console.log(value.list);
         // attribute
         this.attribute.name = value.label;
-        this.attribute.list = value.list.split(',');
         this.attribute.preFilled = value.preFilled;
         this.attribute.required = value.required;
         this.attribute.defaultValue = value.preFilledValue;
         this.attribute.description = value.additionalInfo;
       });
+  }
+
+  ngOnInit(): void {
+  }
+
+  get list() {
+    return this.attributeForm.get('list') as FormArray;
+  }
+
+  addItem() {
+    this.arrayItems.push('');
+    this.list.push(this.formBuilder.control(''));
+  }
+
+  removeItem(i: number) {
+    this.arrayItems = this.arrayItems.filter((v, e) => e !== i);
+    this.list.removeAt(i);
   }
 
   onSelect(type: AttributeType) {

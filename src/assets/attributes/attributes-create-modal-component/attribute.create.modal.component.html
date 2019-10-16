@@ -2,14 +2,17 @@
      gdColumns="292px calc(100% - 292px)"
      gdRows="86px calc(100%- 86px)"
 >
+
   <div class="lsm2-white"
        gdRow="1/2"
        gdColumn="1/3"
   >
+
     <div fxLayoutAlign="space-between center">
       <span class="lsm-header-text">New Characteristic</span>
       <button mat-dialog-close class="modal__close">+</button>
     </div>
+
     <div class="lsm-white-d" fxLayoutAlign="start center">
       <span class="lsm-white-d__span">Select Characteristic type</span>
       <div class="lsm-white-d__icon"
@@ -17,7 +20,9 @@
         <span>i</span>
       </div>
     </div>
+
   </div>
+
   <div class="attribute-type"
        gdRow="2/3"
        gdColumn="1/2"
@@ -38,6 +43,7 @@
       </li>
     </ul>
   </div>
+
   <div class="attribute-form"
        gdRow="2/3"
        gdColumn="2/3"
@@ -52,36 +58,60 @@
         </div>
       </div>
 
-      <div class="form-control f-c-no-padding-content" *ngIf="selected === 'Select' || selected === 'Multi Select'">
-        <label class="fc-label" for="list">List</label>
-        <div class="search-with-label">
-          <input class="fc-input fc-input--search" [formControl]="list" id="list" placeholder="Enter values separated by commas">
-          <fa-icon class="sf__icon" [icon]="faSearch"></fa-icon>
+      <div class="list"
+           *ngIf="selected === 'Select' || selected === 'Multi Select'"
+           formArrayName="list"
+      >
+        <div class="list-items"
+             *ngFor="let arrayItem of arrayItems; let i=index"
+        >
+          <label class="fc-label" for="{{'item' + (i +1)}}">{{'Item #' + (i +1)}}</label>
+          <div class="input-icon">
+            <input class="fc-input fc-input-items"  id="{{'item' + (i +1)}}"  [formControl]="list.controls[i]" placeholder="Type to add new item" >
+            <fa-icon class="input-trash" [icon]="faTrashAlt" (click)="removeItem(i)" *ngIf="i > 1"></fa-icon>
+          </div>
         </div>
+        <button class="list-item-button" (click)="addItem()" >Click to add Item +</button>
       </div>
 
       <div class="behavior">
         <h4 class="behavior-title">Behavior</h4>
         <ul class="behavior-list">
+
           <li>
+
             <label class="blue-checkbox-label" for="pre-filled">Pre-filled
               <input class="blue-checkbox" type="checkbox" id="pre-filled" [formControl]="preFilled"/>
               <span class="blue-checkbox__shadow"></span>
             </label>
-            <div class="f-c-no-padding f-c-no-padding-content pre-filled-popup" *ngIf="preFilled.value && selected === 'Text'">
-              <input class="fc-input" [formControl]="preFilledValue" placeholder="Pre-Filled Content">
-            </div>
-            <div class="f-c-no-padding f-c-no-padding-content pre-filled-popup" *ngIf="preFilled.value && selected === 'Number'">
-              <input class="fc-input" [formControl]="preFilledValue" placeholder="Pre-Filled Content" type="number">
-            </div>
+
+            <ng-container *ngIf="preFilled.value && selected !== 'Checkbox'">
+              <div
+                [ngSwitch]="selected"
+                class="pre-filled-popup"
+              >
+                <div class="f-c-no-padding f-c-no-padding-content"  *ngSwitchCase="'Text'">
+                  <label class="fc-label--hidden" for="text">Text</label>
+                  <input class="fc-input" id="text" [formControl]="preFilledValue" placeholder="Pre-Filled Content">
+                </div>
+                <div class="f-c-no-padding f-c-no-padding-content" *ngIf="preFilled.value && selected === 'Number'">
+                  <label class="fc-label--hidden" for="number">Text</label>
+                  <input class="fc-input" id="number" [formControl]="preFilledValue" placeholder="Pre-Filled Content" type="number">
+                </div>
+              </div>
+            </ng-container>
+
           </li>
+
           <li>
             <label class="blue-checkbox-label" for="required">Required
               <input class="blue-checkbox" type="checkbox" [formControl]="required" id="required"/>
               <span class="blue-checkbox__shadow"></span>
             </label>
           </li>
+
         </ul>
+
       </div>
 
       <div class="additional-info">
@@ -111,6 +141,9 @@
       <div class="sa-action-button">
         <button class="button button--primary button--primary--sa" [disabled]="!attributeForm.valid" (click)="onSubmit()">Save Characteristic</button>
       </div>
+
     </form>
+
   </div>
+
 </div>
