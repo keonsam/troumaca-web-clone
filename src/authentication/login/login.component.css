@@ -2,6 +2,7 @@
   display: block;
   min-height: 612px;
 }
+
 /* container */
 .img-sec {
   background-image: url("../../css/images/login.svg");

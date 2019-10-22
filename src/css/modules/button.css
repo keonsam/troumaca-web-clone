@@ -1,4 +1,9 @@
 /* BUTTON */
+/* spinner */
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #FFFFFF !important;
+}
+
 .button {
   height: 51px;
   border: 1px solid #EFEFF8;
@@ -15,4 +20,19 @@
   background: #004777;
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+.modal__close {
+  font-size: 36px;
+  line-height: 40px;
+  color: #2C4948;
+  transform: rotate(-45deg);
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.modal__close:focus {
+  outline: none;
 }

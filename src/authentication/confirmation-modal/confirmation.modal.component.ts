@@ -30,15 +30,18 @@ export class ConfirmationModalComponent implements OnInit {
   faArrowLeft = faArrowLeft;
   faExclamationTriangle = faExclamationTriangle;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {
+    confirmation: Confirmation,
+    forgetPassword: any
+    username: string
+              },
               public dialogRef: MatDialogRef<ConfirmationModalComponent>,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private router: Router) {
     this.confirmation = new Confirmation();
     if (this.data) {
-      this.confirmation.credentialId = this.data.credentialId;
-      this.confirmation.confirmationId = this.data.confirmationId;
+      this.confirmation = this.data.confirmation;
     }
     this.confirmationCode = new FormControl('', [Validators.required,
       Validators.minLength(5),
@@ -53,7 +56,7 @@ export class ConfirmationModalComponent implements OnInit {
       .subscribe(value => {
         this.confirmation.code = value.confirmationCode;
       }, error2 => {
-        console.log(error2);
+        console.error(error2);
       });
   }
 
@@ -88,7 +91,7 @@ export class ConfirmationModalComponent implements OnInit {
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
-        console.log(error);
+        console.error(error);
         this.message = 'Something went wrong, please try again.';
         this.doNotDisplayFailureMessage = false;
       });
@@ -118,8 +121,8 @@ export class ConfirmationModalComponent implements OnInit {
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
-        console.log(error);
-        console.log(error.message);
+        console.error(error);
+        console.error(error.message);
         this.message = 'Incorrect Code';
         this.doNotDisplayFailureMessage = false;
       });

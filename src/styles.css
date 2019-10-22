@@ -3,3 +3,5 @@
 @import "css/modules/white-button.css";
 @import "css/modules/button.css";
 @import "css/modules/spinner.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "css/modules/select.css";

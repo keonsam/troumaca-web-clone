@@ -8,7 +8,6 @@
       <div class="or"><span class="or__text">or</span></div>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
 
-
         <div class="form-control">
           <label class="fc-label" for="username">Email or Mobile Number</label>
           <input class="fc-input" [formControl]="username" id="username" required/>
@@ -21,7 +20,7 @@
           <label class="fc-label" for="password">Password</label>
           <input class="fc-input" [formControl]="password" type="password" id="password" required>
           <div class="fc-error" *ngIf="password.hasError('required') && !password.pristine">
-            <fa-icon class="fc-error__icon"[icon]="faExclamationTriangle"></fa-icon>Password is <strong>required</strong>
+            <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon>Password is <strong>required</strong>
           </div>
         </div>
 

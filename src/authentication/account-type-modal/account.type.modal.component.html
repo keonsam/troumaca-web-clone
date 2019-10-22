@@ -12,17 +12,17 @@
     <div fxFlex="1 0 auto" class="img">
     </div>
     <ul fxLayout="row no-wrap" fxLayoutGap="6px" fxFlexAlign.xs="center">
-      <li class="card" (click)="onSelect('personal')" [class.selected]="selectedType === 'personal'">
+      <li class="card" (click)="onSelect('personal')" [class.selected]="personal">
         <div class="card__content">
-          <div fxLayoutAlign="flex-end" class="check-sign" ><fa-icon *ngIf="selectedType === 'personal'" [icon]="faCheck" class="card__icon--check"></fa-icon></div>
+          <div fxLayoutAlign="flex-end" class="check-sign" ><fa-icon *ngIf="personal" [icon]="faCheck" class="card__icon--check"></fa-icon></div>
           <div><fa-icon [icon]="faUser" class="card__icon"></fa-icon></div>
           <h3 class="card__header">Personal</h3>
           <p class="card__desc">Use Troumaka as a personal asset manager.</p>
         </div>
       </li>
-      <li class="card" (click)="onSelect('corporate')" [class.selected]="selectedType === 'corporate'">
+      <li class="card" (click)="onSelect('corporate')" [class.selected]="corporate">
         <div class="card__content">
-          <div fxLayoutAlign="flex-end" class="check-sign" ><fa-icon *ngIf="selectedType === 'corporate'" [icon]="faCheck" class="card__icon--check"></fa-icon></div>
+          <div fxLayoutAlign="flex-end" class="check-sign" ><fa-icon *ngIf="corporate" [icon]="faCheck" class="card__icon--check"></fa-icon></div>
           <div><fa-icon [icon]="faUsers" class="card__icon"></fa-icon></div>
           <h3 class="card__header">Corporate</h3>
           <p class="card__desc">Create or join corporate account for more amazing features.</p>
@@ -31,6 +31,6 @@
     </ul>
   </div>
   <div mat-dialog-actions fxLayoutAlign="flex-end">
-    <button class="button button--primary button--primary--small" (click)="onNext.emit(selectedType)">Next</button>
+    <button class="button button--primary button--primary--small" (click)="next()">Next</button>
   </div>
 </div>

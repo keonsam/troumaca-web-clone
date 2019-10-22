@@ -28,8 +28,9 @@ import {
   faSearch,
   faSortAmountDown,
   faTag, faTh,
-  faThLarge, faTrashAlt, faExclamationTriangle
+  faThLarge, faTrashAlt, faExclamationTriangle, faBars
 } from '@fortawesome/free-solid-svg-icons';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import {
     FontAwesomeModule,
     MaterialModule,
     FlexLayoutModule,
-    GraphQLModule
+    GraphQLModule,
+    NgSelectModule
   ],
   declarations: [
     AppComponent,
@@ -62,7 +64,7 @@ export class AppModule {
       faUser, faGoogle, faUsers, faCheck, faArrowLeft, faEnvelope, faMobileAlt, faBox, faList, faEllipsisH, faSearch, faCheck,
       faFilter, faSortAmountDown, faImage, faThLarge, faChevronRight, faTag, faChevronDown, faChevronUp, faMapMarkerAlt,
       faFont, faHashtag, faCheckSquare, faCheckDouble, faCalendar, faLink, faChevronLeft, faTrashAlt, faEdit, faEllipsisV,
-      faTh, faExclamationTriangle
+      faTh, faExclamationTriangle, faBars
     );
   }
 }

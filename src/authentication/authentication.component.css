@@ -1,3 +1,6 @@
+@import "auth.input.css";
+@import "auth.button.css";
+@import "auth.basic.css";
 :host {
   display: block;
   min-height: 100%;
@@ -6,11 +9,11 @@
 }
 
 /* LAYOUT */
-.auth-grid {
+.container {
   min-height: 100%;
 }
 
-.auth-main {
+.main {
   display: block;
   width: 826px;
   min-height: 612px;
@@ -21,76 +24,26 @@
   padding: 0;
 }
 
-/* REUSED COMPONENTS*/
-
-/* input */
-
-::ng-deep .fc--password {
-  min-height: 104px;
-}
-
-::ng-deep .fc-input {
-  background: #F0F7FB;
-}
-
-::ng-deep .fc-input.ng-valid {
-  background: #E9F9FD;
-}
-
-::ng-deep .fc-input.ng-invalid {
-  background: #FFE4E3;
-}
-
-::ng-deep .fc-input.ng-pristine {
-  background: #F0F7FB;
-}
-
-
-/* end of input */
-
-/* button */
-
-::ng-deep .button {
-  font-size: 18px;
-}
-::ng-deep .button--big {
-  width: 100%;
-}
-
-::ng-deep .button--primary--medium {
-  width: 243px;
-}
-
-::ng-deep .button--primary--small {
-  width: 145px;
-}
-
-::ng-deep .button--big--google {
-  background: #DB4437;
-}
-
-::ng-deep .icon--google {
-  margin-right: 14px;
-  width: 16px;
-  height: 21px;
-}
-
 @media only screen and (max-width: 959px) {
-  .auth-main {
+
+  .main {
     width: 412px;
   }
+
 }
 
 @media only screen and (max-width: 599px) {
-  .auth-grid {
+  .container {
     position: relative;
     background: #FFFFFF;
   }
-  .auth-main {
+
+  .main {
     position: relative;
     margin: 0 auto;
     width: 100%;
     border-radius: 0;
     background: none;
   }
+
 }

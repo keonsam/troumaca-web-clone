@@ -11,7 +11,9 @@ import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
 })
 export class AccountTypeModalComponent {
 
-  selectedType = 'personal';
+  private selectedType: string;
+  personal: boolean;
+  corporate: boolean;
   onNext: EventEmitter<string> = new EventEmitter();
   faUser = faUser;
   faUsers = faUsers;
@@ -19,7 +21,10 @@ export class AccountTypeModalComponent {
 
   constructor(
     public dialogRef: MatDialogRef<AccountTypeModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: {
+      accountType: string
+    }) {
+    this.selectedType = 'personal';
     if (data.accountType) {
       this.selectedType = data.accountType;
     }
@@ -27,8 +32,16 @@ export class AccountTypeModalComponent {
 
   onSelect(type: string) {
     this.selectedType = type;
+    if (type === 'personal') {
+      this.personal = true;
+      this.corporate = false;
+    } else {
+      this.personal = false;
+      this.corporate = true;
+    }
   }
 
-
-
+  next() {
+    this.onNext.emit(this.selectedType);
+  }
 }

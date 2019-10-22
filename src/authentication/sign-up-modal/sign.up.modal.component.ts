@@ -15,6 +15,8 @@ import {faMobileAlt} from '@fortawesome/free-solid-svg-icons/faMobileAlt';
 export class SignUpModalComponent {
 
   selectedType: string;
+  email: boolean;
+  mobile: boolean;
   onNext: EventEmitter<string> = new EventEmitter();
   onPrevious: EventEmitter<string> = new EventEmitter();
   faArrowLeft = faArrowLeft;
@@ -29,13 +31,15 @@ export class SignUpModalComponent {
 
   onSelect(type: string) {
     this.selectedType = type;
+    if (type === 'email') {
+      this.email = true;
+      this.mobile = false;
+    } else {
+      this.email = false;
+      this.mobile = true;
+    }
     this.router.navigate([`${AUTHENTICATION}/${REGISTER}/${this.data.accountType}/${type}`]);
     this.dialogRef.close();
   }
-
-  // onSubmit() {
-  //   this.dialogRef.close();
-  // }
-
 }
 

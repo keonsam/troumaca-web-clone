@@ -1,23 +1,14 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AttributeType} from '../attribute.type';
 import {ATTRIBUTE_TYPES} from '../attribute.types';
 import {
-  faChevronDown, faChevronUp, faExclamationTriangle, faSearch,
-  faCalendar,
-  faCheck,
-  faCheckDouble,
-  faCheckSquare,
-  faFont,
-  faHashtag,
-  faLink,
-  faMapMarkerAlt,
-  faUser
+  faBars,
+  faChevronDown, faChevronUp, faExclamationTriangle, faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
 import {Attribute} from '../attribute';
 import {AttributeService} from '../attribute.service';
-import {Icon} from '@fortawesome/fontawesome-svg-core';
 import {attributeFont} from '../attribute.font';
 
 @Component({
@@ -25,23 +16,36 @@ import {attributeFont} from '../attribute.font';
   templateUrl: './attribute.create.modal.component.html',
   styleUrls: ['./attribute.create.modal.component.css']
 })
-export class AttributeCreateModalComponent {
+export class AttributeCreateModalComponent implements OnInit {
   types: AttributeType[] = ATTRIBUTE_TYPES;
   selected: string;
+
   label: FormControl;
   preFilled: FormControl;
   required: FormControl;
   preFilledValue: FormControl;
   additionalInfo: FormControl;
-  list: FormControl;
   select: FormControl;
-  faExclamationTriangle = faExclamationTriangle;
-  faChevronDown = faChevronDown;
-  faChevronUp = faChevronUp;
-  faSearch = faSearch;
+  date: FormControl;
+
   panelActive: boolean;
   attribute: Attribute;
   attributeForm: FormGroup;
+
+  arrayItems: string[] = ['', '',];
+  items: string[];
+  dates: string[] = [
+    'MM - DD - YY',
+    'DD - MM - YY',
+    'YY - MM - DD'
+  ];
+
+  // icons
+  faExclamationTriangle = faExclamationTriangle;
+  faChevronDown = faChevronDown;
+  faChevronUp = faChevronUp;
+  faTrashAlt = faTrashAlt;
+  faBars = faBars;
 
   constructor(
     public dialogRef: MatDialogRef<AttributeCreateModalComponent>,
@@ -55,30 +59,63 @@ export class AttributeCreateModalComponent {
     this.label = new FormControl('', [Validators.required]);
     this.preFilled = new FormControl(false);
     this.required = new FormControl(false);
-    this.preFilledValue = new FormControl('');
-    this.select = new FormControl('');
+    this.preFilledValue = new FormControl(null);
+    this.select = new FormControl(null);
+    this.date = new FormControl('MM - DD - YY');
     this.additionalInfo = new FormControl('');
-    this.list = new FormControl('');
     this.attributeForm = formBuilder.group({
       'label': this.label,
-      'list': this.list,
       'preFilled': this.preFilled,
       'required': this.required,
       'preFilledValue': this.preFilledValue,
-      'additionalInfo': this.additionalInfo
+      'additionalInfo': this.additionalInfo,
+      // list
+      'list': formBuilder.array([
+        this.formBuilder.control(''),
+        this.formBuilder.control('')
+      ])
     });
 
     this.attributeForm
       .valueChanges
-      .subscribe( value => {
+      .subscribe(value => {
         // attribute
-        this.attribute.name = value.label;
-        this.attribute.list = value.list.split(',');
+        this.items = value.list.filter(val => !!val);
         this.attribute.preFilled = value.preFilled;
         this.attribute.required = value.required;
         this.attribute.defaultValue = value.preFilledValue;
         this.attribute.description = value.additionalInfo;
+        this.attribute.list = value.list;
       });
+  }
+
+  ngOnInit(): void {
+  }
+
+  trackByFn(index, item) {
+    return index;
+  }
+
+  isSelected(name) {
+    return this.selected === name;
+  }
+
+  isList() {
+    return this.selected === 'Select' || this.selected === 'Multi Select';
+  }
+
+  get list() {
+    return this.attributeForm.get('list') as FormArray;
+  }
+
+  addItem() {
+    this.arrayItems.push('');
+    this.list.push(this.formBuilder.control(''));
+  }
+
+  removeItem(i: number) {
+    this.arrayItems = this.arrayItems.filter((v, e) => e !== i);
+    this.list.removeAt(i);
   }
 
   onSelect(type: AttributeType) {
@@ -97,14 +134,18 @@ export class AttributeCreateModalComponent {
   onSubmit() {
     this.attributeService
       .saveAttribute(this.attribute)
-      .subscribe( value => {
+      .subscribe(value => {
         if (value && value.assetCharacteristicId) {
           this.dialogRef.close(true);
         } else {
-          console.log('error');
+          console.error('error');
         }
       }, error => {
-        console.log(error);
-      })
+        console.error(error);
+      });
+  }
+
+  defaultUI() {
+    return this.preFilled.value && this.selected !== 'Checkbox';
   }
 }
