@@ -1,0 +1,19 @@
+::ng-deep .fc--password {
+  min-height: 104px;
+}
+
+::ng-deep .fc-input {
+  background: #F0F7FB;
+}
+
+::ng-deep .fc-input.ng-valid {
+  background: #E9F9FD;
+}
+
+::ng-deep .fc-input.ng-invalid {
+  background: #FFE4E3;
+}
+
+::ng-deep .fc-input.ng-pristine {
+  background: #F0F7FB;
+}

@@ -7,7 +7,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../../app/material.module';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import { ScrollingModule } from '@angular/cdk/scrolling';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -17,7 +17,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MaterialModule,
     FontAwesomeModule,
     FlexLayoutModule,
-    ScrollingModule
+    NgSelectModule
   ],
   exports: [
     AttributeSelectModalComponent,

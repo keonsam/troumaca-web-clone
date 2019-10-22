@@ -13,6 +13,7 @@ import {ForgetPasswordComponent} from '../forget-password/forget.password.compon
 import {ForgetSavedComponent} from '../forget-saved/forget.saved.component';
 import {faGoogle} from '@fortawesome/free-brands-svg-icons/faGoogle';
 import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons';
+import {Confirmation} from '../confirmation';
 
 @Component({
   selector: 'app-login',
@@ -27,8 +28,7 @@ export class LoginComponent implements OnInit {
   rememberMe: FormControl;
   private credential: Credential;
   doNotDisplayFailureMessage = true;
-  error= 'Failed to Login';
-  hide = true;
+  error: string;
   accountType: string;
   faGoogle = faGoogle;
   faExclamationTriangle = faExclamationTriangle;
@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private router: Router) {
+    this.error = 'Failed to Login';
     this.credential = new Credential();
 
     this.username = new FormControl('', [
@@ -63,11 +64,9 @@ export class LoginComponent implements OnInit {
         this.credential.password = value.password;
         this.credential.rememberMe = value.rememberMe;
       });
-
   }
 
   ngOnInit(): void {
-    console.log(this.username);
   }
 
   onSubmit() {
@@ -79,7 +78,7 @@ export class LoginComponent implements OnInit {
         this.loading = false;
         if (auth) {
           if (auth.state === 'USERNAME_NOT_CONFIRMED') {
-            this.openConfirmation({...auth.confirmation, username: this.credential.username });
+            this.openConfirmation({...auth.confirmation}, this.credential.username );
           } else {
             this.router.navigate([`/${DASHBOARD}`]);
           }
@@ -87,7 +86,7 @@ export class LoginComponent implements OnInit {
           this.doNotDisplayFailureMessage = false;
         }
       }, error => {
-        console.log(error);
+        console.error(error);
         this.loading = false;
         this.doNotDisplayFailureMessage = false;
       });
@@ -149,7 +148,7 @@ export class LoginComponent implements OnInit {
       panelClass: ['modal', 'modal-white'],
     });
 
-    dialogRef.componentInstance.onNext.subscribe((result: any) => {
+    dialogRef.componentInstance.onNext.subscribe((result: Confirmation) => {
       if (result && result.confirmationId) {
         this.openConfirmation(result);
         dialogRef.close();
@@ -157,9 +156,9 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  private openConfirmation(confirmation: any) {
+  private openConfirmation(confirmation: Confirmation, username?: string) {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
-      data: { ...confirmation},
+      data: { ...confirmation, username },
       hasBackdrop: true,
       backdropClass: 'backdrop',
       closeOnNavigation: false,

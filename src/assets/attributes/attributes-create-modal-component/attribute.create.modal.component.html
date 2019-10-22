@@ -1,6 +1,6 @@
 <div class="lsm2"
      gdColumns="292px calc(100% - 292px)"
-     gdRows="86px calc(100%- 86px)"
+     gdRows="86px auto"
 >
 
   <div class="lsm2-white"
@@ -36,10 +36,10 @@
           fxLayout="column"
           fxLayoutGap="22px"
           (click)="onSelect(type)"
-          [class.selected]="selected === type.name"
+          [class.selected]="isSelected(type.name)"
       >
-        <fa-icon [icon]="getIcon(type.assetCharacteristicTypeId)" class="attribute-type-item__icon" [class.selected]="selected === type.name"></fa-icon>
-        <div class="attribute-type-item__text" [class.selected]="selected === type.name"><span>{{type.name}}</span></div>
+        <fa-icon [icon]="getIcon(type.assetCharacteristicTypeId)" class="attribute-type-item__icon" [class.selected]="isSelected(type.name)"></fa-icon>
+        <div class="attribute-type-item__text" [class.selected]="isSelected(type.name)"><span>{{type.name}}</span></div>
       </li>
     </ul>
   </div>
@@ -59,19 +59,38 @@
       </div>
 
       <div class="list"
-           *ngIf="selected === 'Select' || selected === 'Multi Select'"
+           *ngIf="isList()"
            formArrayName="list"
       >
         <div class="list-items"
-             *ngFor="let arrayItem of arrayItems; let i=index"
+             *ngFor="let arrayItem of arrayItems; trackBy: trackByFn; let i=index"
+             fxLayout="row"
+             fxLayoutAlign="end"
+             fxLayoutGap="16px"
         >
-          <label class="fc-label" for="{{'item' + (i +1)}}">{{'Item #' + (i +1)}}</label>
-          <div class="input-icon">
-            <input class="fc-input fc-input-items"  id="{{'item' + (i +1)}}"  [formControl]="list.controls[i]" placeholder="Type to add new item" >
-            <fa-icon class="input-trash" [icon]="faTrashAlt" (click)="removeItem(i)" *ngIf="i > 1"></fa-icon>
+          <fa-icon [icon]="faBars" class="icon-bars" fxFlexAlign="center"></fa-icon>
+          <div class="input-container">
+            <label class="fc-label" for="{{'item' + (i +1)}}">{{'Item #' + (i +1)}}</label>
+            <div class="input-icon">
+              <input class="fc-input fc-input-items"  id="{{'item' + (i +1)}}"  [formControl]="list.controls[i]" placeholder="Type to add new item" >
+              <fa-icon class="input-trash" [icon]="faTrashAlt" (click)="removeItem(i)" *ngIf="i > 1"></fa-icon>
+            </div>
           </div>
         </div>
         <button class="list-item-button" (click)="addItem()" >Click to add Item +</button>
+      </div>
+
+      <div class="form-control" *ngIf="selected === 'Date'">
+        <label class="fc-label" for="dates">Format</label>
+        <ng-select
+          [searchable]="false"
+          labelForId="dates"
+          class="custom"
+          [formControl]="date"
+          placeholder="Select default"
+          [items]="dates"
+        >
+        </ng-select>
       </div>
 
       <div class="behavior">
@@ -81,30 +100,51 @@
           <li>
 
             <label class="blue-checkbox-label" for="pre-filled">Pre-filled
+              <span class="blue-checkbox-label__details">Fill the content for all</span>
               <input class="blue-checkbox" type="checkbox" id="pre-filled" [formControl]="preFilled"/>
               <span class="blue-checkbox__shadow"></span>
             </label>
 
-            <ng-container *ngIf="preFilled.value && selected !== 'Checkbox'">
+            <ng-container *ngIf="defaultUI()">
+
               <div
                 [ngSwitch]="selected"
                 class="pre-filled-popup"
               >
-                <div class="f-c-no-padding f-c-no-padding-content"  *ngSwitchCase="'Text'">
-                  <label class="fc-label--hidden" for="text">Text</label>
-                  <input class="fc-input" id="text" [formControl]="preFilledValue" placeholder="Pre-Filled Content">
-                </div>
-                <div class="f-c-no-padding f-c-no-padding-content" *ngIf="preFilled.value && selected === 'Number'">
+                <div class="f-c-no-padding f-c-no-padding-content" *ngSwitchCase="'Number'">
                   <label class="fc-label--hidden" for="number">Text</label>
                   <input class="fc-input" id="number" [formControl]="preFilledValue" placeholder="Pre-Filled Content" type="number">
                 </div>
+                <ng-select
+                  *ngSwitchCase="'Select'"
+                  class="custom"
+                  [formControl]="preFilledValue"
+                  placeholder="Select default"
+                  [items]="items"
+                >
+                </ng-select>
+                <ng-select
+                  *ngSwitchCase="'Multi Select'"
+                  class="custom multi"
+                  [formControl]="preFilledValue"
+                  multiple="true"
+                  placeholder="Select defaults"
+                  [items]="items"
+                >
+                </ng-select>
+                <div class="f-c-no-padding f-c-no-padding-content"  *ngSwitchDefault>
+                  <label class="fc-label--hidden" for="text">Text</label>
+                  <input class="fc-input" id="text" [formControl]="preFilledValue" placeholder="Pre-Filled Content">
+                </div>
               </div>
+
             </ng-container>
 
           </li>
 
           <li>
             <label class="blue-checkbox-label" for="required">Required
+              <span class="blue-checkbox-label__details">User must fill the form</span>
               <input class="blue-checkbox" type="checkbox" [formControl]="required" id="required"/>
               <span class="blue-checkbox__shadow"></span>
             </label>
@@ -138,9 +178,7 @@
 
       </div>
 
-      <div class="sa-action-button">
-        <button class="button button--primary button--primary--sa" [disabled]="!attributeForm.valid" (click)="onSubmit()">Save Characteristic</button>
-      </div>
+      <button class="button button--primary button--primary--sa" [disabled]="!attributeForm.valid" (click)="onSubmit()">Save Characteristic</button>
 
     </form>
 

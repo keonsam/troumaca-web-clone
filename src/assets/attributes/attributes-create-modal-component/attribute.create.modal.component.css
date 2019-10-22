@@ -37,13 +37,13 @@
 }
 
 .attribute-type {
-  height: 100%;
-  overflow: hidden;
+  max-height: calc(100%- 86px);
+  overflow-y: auto;
 }
 
 .attribute-form {
-  height: 100%;
-  max-height: 100%;
+  max-height: calc(100%- 86px);
+  overflow-y: auto;
   background: rgba(231,229,229,0.5);
   padding: 24px 37px  10px 29px;
 }
@@ -224,22 +224,29 @@
 }
 
 /* buttons */
-.sa-action-button {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
+
 
 .button--primary--sa {
+  display: block;
+  margin-left: auto;
+  margin-top: 10px;
   padding: 0 15px;
 }
 
 /* items */
 .list {
-  width: 281px;
-  margin-left: auto;
   max-height: 202px;
   overflow-y: auto;
+}
+
+.input-container {
+  width: 281px;
+}
+
+.icon-bars {
+  padding-top: 21px;
+  color: #CCCCCC;
+  font-size: 22px;
 }
 
 .list-items {
@@ -256,4 +263,13 @@
   outline: none;
   padding: 0;
   margin: 0 auto;
+}
+
+
+/* */
+.blue-checkbox-label__details {
+  margin-top: 9px;
+  display: block;
+  color: #000000;
+  opacity: 0.4
 }

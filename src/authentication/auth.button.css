@@ -1,0 +1,24 @@
+::ng-deep .button {
+  font-size: 18px;
+}
+::ng-deep .button--big {
+  width: 100%;
+}
+
+::ng-deep .button--primary--medium {
+  width: 243px;
+}
+
+::ng-deep .button--primary--small {
+  width: 145px;
+}
+
+::ng-deep .button--big--google {
+  background: #DB4437;
+}
+
+::ng-deep .icon--google {
+  margin-right: 14px;
+  width: 16px;
+  height: 21px;
+}
