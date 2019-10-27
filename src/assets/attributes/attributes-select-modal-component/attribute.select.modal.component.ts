@@ -39,12 +39,12 @@ export class AttributeSelectModalComponent implements OnInit {
     this.attributeService.getAttributes(search, this.selected)
       .subscribe( val => {
         if (val && val.assetCharacteristics) {
-          this.attributes = val.assetCharacteristics;
+          // this.attributes = val.assetCharacteristics;
         }else {
-          console.log('failed');
+          console.error('failed');
         }
       }, error => {
-        console.log(error);
+        console.error(error);
       });
   }
 

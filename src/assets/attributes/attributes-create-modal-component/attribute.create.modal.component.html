@@ -38,7 +38,7 @@
           (click)="onSelect(type)"
           [class.selected]="isSelected(type.name)"
       >
-        <fa-icon [icon]="getIcon(type.assetCharacteristicTypeId)" class="attribute-type-item__icon" [class.selected]="isSelected(type.name)"></fa-icon>
+        <fa-icon [icon]="['fas', 'fa-font']" class="attribute-type-item__icon" [class.selected]="isSelected(type.name)"></fa-icon>
         <div class="attribute-type-item__text" [class.selected]="isSelected(type.name)"><span>{{type.name}}</span></div>
       </li>
     </ul>
@@ -93,66 +93,66 @@
         </ng-select>
       </div>
 
-      <div class="behavior">
-        <h4 class="behavior-title">Behavior</h4>
-        <ul class="behavior-list">
+<!--      <div class="behavior">-->
+<!--        <h4 class="behavior-title">Behavior</h4>-->
+<!--        <ul class="behavior-list">-->
 
-          <li>
+<!--          <li>-->
 
-            <label class="blue-checkbox-label" for="pre-filled">Pre-filled
-              <span class="blue-checkbox-label__details">Fill the content for all</span>
-              <input class="blue-checkbox" type="checkbox" id="pre-filled" [formControl]="preFilled"/>
-              <span class="blue-checkbox__shadow"></span>
-            </label>
+<!--            <label class="blue-checkbox-label" for="pre-filled">Pre-filled-->
+<!--              <span class="blue-checkbox-label__details">Fill the content for all</span>-->
+<!--              <input class="blue-checkbox" type="checkbox" id="pre-filled" [formControl]="preFilled"/>-->
+<!--              <span class="blue-checkbox__shadow"></span>-->
+<!--            </label>-->
 
-            <ng-container *ngIf="defaultUI()">
+<!--            <ng-container *ngIf="defaultUI()">-->
 
-              <div
-                [ngSwitch]="selected"
-                class="pre-filled-popup"
-              >
-                <div class="f-c-no-padding f-c-no-padding-content" *ngSwitchCase="'Number'">
-                  <label class="fc-label--hidden" for="number">Text</label>
-                  <input class="fc-input" id="number" [formControl]="preFilledValue" placeholder="Pre-Filled Content" type="number">
-                </div>
-                <ng-select
-                  *ngSwitchCase="'Select'"
-                  class="custom"
-                  [formControl]="preFilledValue"
-                  placeholder="Select default"
-                  [items]="items"
-                >
-                </ng-select>
-                <ng-select
-                  *ngSwitchCase="'Multi Select'"
-                  class="custom multi"
-                  [formControl]="preFilledValue"
-                  multiple="true"
-                  placeholder="Select defaults"
-                  [items]="items"
-                >
-                </ng-select>
-                <div class="f-c-no-padding f-c-no-padding-content"  *ngSwitchDefault>
-                  <label class="fc-label--hidden" for="text">Text</label>
-                  <input class="fc-input" id="text" [formControl]="preFilledValue" placeholder="Pre-Filled Content">
-                </div>
-              </div>
+<!--              <div-->
+<!--                [ngSwitch]="selected"-->
+<!--                class="pre-filled-popup"-->
+<!--              >-->
+<!--                <div class="f-c-no-padding f-c-no-padding-content" *ngSwitchCase="'Number'">-->
+<!--                  <label class="fc-label&#45;&#45;hidden" for="number">Text</label>-->
+<!--                  <input class="fc-input" id="number" [formControl]="preFilledValue" placeholder="Pre-Filled Content" type="number">-->
+<!--                </div>-->
+<!--                <ng-select-->
+<!--                  *ngSwitchCase="'Select'"-->
+<!--                  class="custom"-->
+<!--                  [formControl]="preFilledValue"-->
+<!--                  placeholder="Select default"-->
+<!--                  [items]="items"-->
+<!--                >-->
+<!--                </ng-select>-->
+<!--                <ng-select-->
+<!--                  *ngSwitchCase="'Multi Select'"-->
+<!--                  class="custom multi"-->
+<!--                  [formControl]="preFilledValue"-->
+<!--                  multiple="true"-->
+<!--                  placeholder="Select defaults"-->
+<!--                  [items]="items"-->
+<!--                >-->
+<!--                </ng-select>-->
+<!--                <div class="f-c-no-padding f-c-no-padding-content"  *ngSwitchDefault>-->
+<!--                  <label class="fc-label&#45;&#45;hidden" for="text">Text</label>-->
+<!--                  <input class="fc-input" id="text" [formControl]="preFilledValue" placeholder="Pre-Filled Content">-->
+<!--                </div>-->
+<!--              </div>-->
 
-            </ng-container>
+<!--            </ng-container>-->
 
-          </li>
+<!--          </li>-->
 
-          <li>
-            <label class="blue-checkbox-label" for="required">Required
-              <span class="blue-checkbox-label__details">User must fill the form</span>
-              <input class="blue-checkbox" type="checkbox" [formControl]="required" id="required"/>
-              <span class="blue-checkbox__shadow"></span>
-            </label>
-          </li>
+<!--          <li>-->
+<!--            <label class="blue-checkbox-label" for="required">Required-->
+<!--              <span class="blue-checkbox-label__details">User must fill the form</span>-->
+<!--              <input class="blue-checkbox" type="checkbox" [formControl]="required" id="required"/>-->
+<!--              <span class="blue-checkbox__shadow"></span>-->
+<!--            </label>-->
+<!--          </li>-->
 
-        </ul>
+<!--        </ul>-->
 
-      </div>
+<!--      </div>-->
 
       <div class="additional-info">
 

@@ -10,7 +10,7 @@ import {
   faUser
 } from '@fortawesome/free-solid-svg-icons';
 
-export function attributeFont(assetCharacteristicTypeId: string) {
+export function attributeFont(assetCharacteristicTypeId: string): string[] {
   let font;
   switch (assetCharacteristicTypeId) {
     case '1':

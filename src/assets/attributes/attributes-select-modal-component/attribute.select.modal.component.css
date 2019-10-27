@@ -38,7 +38,6 @@
 
 ::ng-deep .mat-tab-group {
   font-family: 'Comfortaa', cursive !important;
-  height: 100%;
 }
 
 ::ng-deep .mat-tab-labels {

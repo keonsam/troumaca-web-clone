@@ -37,13 +37,9 @@
 }
 
 .attribute-type {
-  max-height: calc(100%- 86px);
-  overflow-y: auto;
 }
 
 .attribute-form {
-  max-height: calc(100%- 86px);
-  overflow-y: auto;
   background: rgba(231,229,229,0.5);
   padding: 24px 37px  10px 29px;
 }
@@ -55,7 +51,7 @@
 
 .attribute-type-list {
   height: 100%;
-  padding: 22px 0;
+  padding: 22px 0 0;
   margin: 0;
   list-style-type: none;
   overflow-y: auto;
