@@ -1,44 +1,34 @@
-import {
-  faCalendar,
-  faCheck,
-  faCheckDouble,
-  faCheckSquare,
-  faFont,
-  faHashtag,
-  faLink,
-  faMapMarkerAlt,
-  faUser
-} from '@fortawesome/free-solid-svg-icons';
+import {IconProp} from '@fortawesome/fontawesome-svg-core';
 
-export function attributeFont(assetCharacteristicTypeId: string) {
+export function attributeFont(assetCharacteristicTypeId: string): IconProp {
   let font;
   switch (assetCharacteristicTypeId) {
     case '1':
-      font = faFont;
+      font = ['fas', 'font'];
       break;
     case '2':
-      font = faHashtag;
+      font = ['fas', 'hashtag'];
       break;
     case '3':
-      font = faCheckSquare;
+      font = ['fas', 'check-square'];
       break;
     case '4':
-      font = faCheck;
+      font = ['fas', 'check'];
       break;
     case '5':
-      font = faCheckDouble;
+      font = ['fas', 'check-double'];
       break;
     case '6':
-      font = faCalendar;
+      font = ['fas', 'calendar'];
       break;
     case '7':
-      font = faUser;
+      font = ['fas', 'user'];
       break;
     case '8':
-      font = faLink;
+      font = ['fas', 'link'];
       break;
     case '9':
-      font = faMapMarkerAlt;
+      font = ['fas', 'map-marker-alt'];
       break;
   }
   return font;

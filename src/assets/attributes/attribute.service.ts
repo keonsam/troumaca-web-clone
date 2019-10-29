@@ -17,19 +17,25 @@ export class AttributeService {
           mutation addAssetCharacteristic(
               $assetCharacteristicTypeId: ID!,
               $name: String!,
-              $defaultValue: String,
+              $list: [String!],
+#              $defaultValue: String,
               $description: String,
-              $preFilled: Boolean,
-              $required: Boolean
+              $type: String,
+              $format: String
+#              $preFilled: Boolean,
+#              $required: Boolean
           ) {
               addAssetCharacteristic(data: {
-                      assetCharacteristicTypeId: $assetCharacteristicTypeId,
-                      name: $name,
-                      defaultValue: $defaultValue,
-                      description: $description,
-                      preFilled: $preFilled,
-                      required: $required
-                  }
+                assetCharacteristicTypeId: $assetCharacteristicTypeId,
+                name: $name,
+                list: $list
+                #                      defaultValue: $defaultValue,
+                description: $description,
+                type: $type,
+                format: $format
+                #                      preFilled: $preFilled,
+                #                      required: $required
+              }
               ) {
                   assetCharacteristicId
                   assetCharacteristicTypeId
@@ -40,12 +46,19 @@ export class AttributeService {
       variables: {
         assetCharacteristicTypeId: attribute.assetCharacteristicTypeId,
         name: attribute.name,
-        defaultValue: attribute.defaultValue,
+        list: attribute.list,
+        // defaultValue: attribute.defaultValue,
         description: attribute.description,
-        preFilled: attribute.preFilled,
-        required: attribute.required
+        type: attribute.type,
+        format: attribute.date
+        // preFilled: attribute.preFilled,
+        // required: attribute.required
       }
-    }).pipe(map( (res: any) => {
+    }).pipe(map( (res: {
+      data: {
+        addAssetCharacteristic
+      }
+    }) => {
       if (res && res.data && res.data.addAssetCharacteristic) {
         return res.data.addAssetCharacteristic;
       }else {

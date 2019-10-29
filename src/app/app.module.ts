@@ -13,7 +13,7 @@ import 'hammerjs';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material';
 import { GraphQLModule } from './graphql.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FontAwesomeModule  } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons/faGoogle';
 import {
