@@ -85,20 +85,21 @@
 }
 
 ::ng-deep .fc-input {
-  background: #E9F9FD;
-}
-
-::ng-deep .fc-input.ng-valid {
   background: #FFFFFF;
 }
 
-::ng-deep .fc-input.ng-invalid {
+::ng-deep .fc-input.ng-untouched {
+  background: #E9F9FD;
+}
+
+::ng-deep .fc-input.ng-invalid:not(.ng-untouched) {
   background: #FFE4E3;
 }
 
-::ng-deep .fc-input.ng-pristine {
-  background: #E9F9FD;
+::ng-deep .fc-input.ng-dirty {
+  background: #FFFFFF;
 }
+
 
 
 /* */
@@ -175,6 +176,8 @@
 ::ng-deep .blue-checkbox:checked ~ .blue-checkbox__shadow:after {
   display: block;
 }
+
+/*  Additional Info if */
 
 @media only screen and (max-width: 599px) {
 }

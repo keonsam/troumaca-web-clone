@@ -38,7 +38,7 @@
           (click)="onSelect(type)"
           [class.selected]="isSelected(type.name)"
       >
-        <fa-icon [icon]="['fas', 'fa-font']" class="attribute-type-item__icon" [class.selected]="isSelected(type.name)"></fa-icon>
+        <fa-icon [icon]="getIcon(type.assetCharacteristicTypeId)" class="attribute-type-item__icon" [class.selected]="isSelected(type.name)"></fa-icon>
         <div class="attribute-type-item__text" [class.selected]="isSelected(type.name)"><span>{{type.name}}</span></div>
       </li>
     </ul>
@@ -48,50 +48,87 @@
        gdRow="2/3"
        gdColumn="2/3"
   >
-    <form class="save-attribute" *ngIf="selected" [formGroup]="attributeForm">
+    <form class="save-attribute" *ngIf="selected" [formGroup]="attributeForm"
+    >
 
-      <div class="form-control">
-        <label class="fc-label" for="label">Label</label>
-        <input class="fc-input" [formControl]="label" id="label" placeholder="Name your attribute" required>
-        <div class="fc-error" *ngIf="label.hasError('required') && !label.pristine">
-          <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon>Label is <strong>required</strong>
+      <div class="form-input-fields">
+        <div class="form-control">
+          <label class="fc-label" for="label">Label</label>
+          <input class="fc-input" [formControl]="label" id="label" placeholder="Name your attribute" required>
+          <div class="fc-error" *ngIf="label.hasError('required') && !label.pristine">
+            <fa-icon class="fc-error__icon" [icon]="['fas', 'exclamation-triangle']"></fa-icon>Label is <strong>required</strong>
+          </div>
         </div>
-      </div>
 
-      <div class="list"
-           *ngIf="isList()"
-           formArrayName="list"
-      >
-        <div class="list-items"
-             *ngFor="let arrayItem of arrayItems; trackBy: trackByFn; let i=index"
-             fxLayout="row"
-             fxLayoutAlign="end"
-             fxLayoutGap="16px"
+        <div class="list"
+             *ngIf="isList()"
+             formArrayName="list"
         >
-          <fa-icon [icon]="faBars" class="icon-bars" fxFlexAlign="center"></fa-icon>
-          <div class="input-container">
-            <label class="fc-label" for="{{'item' + (i +1)}}">{{'Item #' + (i +1)}}</label>
-            <div class="input-icon">
-              <input class="fc-input fc-input-items"  id="{{'item' + (i +1)}}"  [formControl]="list.controls[i]" placeholder="Type to add new item" >
-              <fa-icon class="input-trash" [icon]="faTrashAlt" (click)="removeItem(i)" *ngIf="i > 1"></fa-icon>
+          <div class="list-items"
+               *ngFor="let arrayItem of arrayItems; trackBy: trackByFn; let i=index"
+               fxLayout="row"
+               fxLayoutAlign="end"
+               fxLayoutGap="16px"
+          >
+            <fa-icon [icon]="['fas', 'bars']" class="icon-bars" fxFlexAlign="center"></fa-icon>
+            <div class="input-container">
+              <label class="fc-label" for="{{'item' + (i +1)}}">{{'Item #' + (i +1)}}</label>
+              <div class="input-icon">
+                <input class="fc-input fc-input-items"  id="{{'item' + (i +1)}}"  [formControl]="list.controls[i]" placeholder="Type to add new item">
+                <fa-icon class="input-trash" [icon]="['fas', 'trash-alt']" (click)="removeItem(i)"></fa-icon>
+              </div>
             </div>
           </div>
         </div>
-        <button class="list-item-button" (click)="addItem()" >Click to add Item +</button>
+
+        <div class="form-control" *ngIf="isDate()">
+          <label class="fc-label" for="dates">Format</label>
+          <ng-select
+            [searchable]="false"
+            labelForId="dates"
+            class="custom"
+            [formControl]="date"
+            placeholder="Select default"
+            [items]="dates"
+          >
+          </ng-select>
+        </div>
+
+        <div *ngIf="isURL()">
+          <label  class="fc-label">Type</label>
+
+          <div class="select-div" fxLayout="row" fxLayoutGap="15px">
+            <div class="type-select type-select--url" fxLayout="row" fxLayoutAlign="center center" (click)="selectedType('url')" [class.selected]="isSelectedType('url')">
+              <span class="type-select__name">URL</span>
+              <fa-icon [icon]="['fas', 'check']" class="type-select__icon"></fa-icon>
+            </div>
+
+            <div  class="type-select type-select--email" fxLayout="row" fxLayoutAlign="center center" (click)="selectedType('email')" [class.selected]="isSelectedType('email')">
+              <span class="type-select__name">Email</span>
+              <fa-icon [icon]="['fas', 'check']" class="type-select__icon"></fa-icon>
+            </div>
+          </div>
+
+        </div>
+
+        <div *ngIf="isLocation()">
+          <label  class="fc-label">Location Type</label>
+
+          <div class="select-div" fxLayout="row" fxLayoutGap="15px">
+            <div class="type-select type-select--google" fxLayout="row" fxLayoutAlign="center center" (click)="selectedLocation('maps')" [class.selected]="isSelectedLocation('maps')">
+              <span class="type-select__name">Google Maps</span>
+              <fa-icon [icon]="['fas', 'check']" class="type-select__icon"></fa-icon>
+            </div>
+
+            <div class="type-select type-select--manuel" fxLayout="row" fxLayoutAlign="center center" (click)="selectedLocation('manual')" [class.selected]="isSelectedLocation('manual')">
+              <span class="type-select__name">Manual Input</span>
+              <fa-icon [icon]="['fas', 'check']" class="type-select__icon"></fa-icon>
+            </div>
+          </div>
+
+        </div>
       </div>
 
-      <div class="form-control" *ngIf="selected === 'Date'">
-        <label class="fc-label" for="dates">Format</label>
-        <ng-select
-          [searchable]="false"
-          labelForId="dates"
-          class="custom"
-          [formControl]="date"
-          placeholder="Select default"
-          [items]="dates"
-        >
-        </ng-select>
-      </div>
 
 <!--      <div class="behavior">-->
 <!--        <h4 class="behavior-title">Behavior</h4>-->
@@ -156,12 +193,12 @@
 
       <div class="additional-info">
 
-        <div fxLayout="row no-wrap" class="additional-info-collapsible" (click)="expandPanel()">
-          <div class="additional-info-title">
-            <span class="additional-info-title__span">Additional options</span>
+        <div fxLayout="row no-wrap" fxLayoutAlign="start center" class="additional-info-collapsible" (click)="expandPanel()">
+          <h3 class="additional-info-title">Additional options</h3>
+          <div>
+            <fa-icon  *ngIf="!panelActive" class="additional-info-title__icon" [icon]="['fas', 'chevron-down']"></fa-icon>
+            <fa-icon  *ngIf="panelActive"  class="additional-info-title__icon" [icon]="['fas', 'chevron-up']"></fa-icon>
           </div>
-          <fa-icon  *ngIf="!panelActive" class="additional-info-title__icon" [icon]="faChevronDown"></fa-icon>
-          <fa-icon  *ngIf="panelActive"  class="additional-info-title__icon" [icon]="faChevronUp"></fa-icon>
         </div>
 
         <div [ngClass]="{'additional-info-content': true, 'active': panelActive}">

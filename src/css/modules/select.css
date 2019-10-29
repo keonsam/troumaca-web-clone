@@ -78,7 +78,7 @@
 
 /* select validation */
 
-.ng-select.ng-valid .ng-select-container {
+.ng-select.ng-dirty .ng-select-container {
   background: #FFFFFF;
 }
 
@@ -86,7 +86,7 @@
   background: #FFE4E3;
 }
 
-.ng-select.ng-pristine .ng-select-container {
+.ng-select.ng-untouched .ng-select-container {
   background: #E9F9FD;
 }
 
