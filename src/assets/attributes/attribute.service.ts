@@ -67,12 +67,13 @@ export class AttributeService {
     }));
   }
 
-  getAttributes(search?: string, selected?: string[]): Observable<Attributes> {
+  getAttributes(tab?: string, search?: string, selected?: string[]): Observable<Attributes> {
     return this.apollo.query({
       query: gql`
-        query getAssetCharacteristics($search: String, $selected: [String!]) {
+        query getAssetCharacteristics($tab: String, $search: String, $selected: [String!]) {
             getAssetCharacteristics(
                 data: {
+                    tab: $tab,
                     search: $search,
                     selected: $selected
                 }) {
@@ -85,6 +86,7 @@ export class AttributeService {
         }
       `,
       variables: {
+        tab: tab,
         search: search,
         selected: selected || []
       }
