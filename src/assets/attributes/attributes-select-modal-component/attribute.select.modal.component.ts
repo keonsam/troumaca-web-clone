@@ -1,12 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit} from '@angular/core';
 import {DialogPosition, MatDialog, MatDialogRef} from '@angular/material';
-import {FormBuilder, FormControl} from '@angular/forms';
+import {Form, FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 import {AttributeCreateModalComponent} from '../attributes-create-modal-component/attribute.create.modal.component';
 import {attributeFont} from '../attribute.font';
 import {AttributeService} from '../attribute.service';
 import {Attribute} from '../attribute';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {SelectedAttribute} from '../selected.attribute';
+import {MatTabChangeEvent} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-attribute-select',
@@ -14,32 +16,43 @@ import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
   styleUrls: ['./attribute.select.modal.component.css']
 })
 export class AttributeSelectModalComponent implements OnInit {
-  search: FormControl;
-  faSearch = faSearch;
-  recentArray: string[];
-  commons: string[];
-  attributes: Attribute[];
-  selected: string[] = [];
-  selectedAttribute: Attribute[] = [];
+  private _search: FormControl;
+  private _attributes: Attribute[];
+  private _selected: string[] = [];
+  private _selectedAttribute: SelectedAttribute[] = [];
+  private _selectForm: FormGroup;
+  private _tab: string;
+  private _searchStr: string;
+  private _charBox: boolean;
+  private _selectedId: string;
+  offsetLeft: number;
+  offsetTop: number;
+  private _items: FormArray;
+
   constructor(
     public dialogRef: MatDialogRef<AttributeSelectModalComponent>,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    private attributeService: AttributeService
+    private attributeService: AttributeService,
   ) {
-    this.search = new FormControl('');
+    this._tab = 'All';
+    this._searchStr = '';
+    this._search = new FormControl('');
+    this._selectForm = formBuilder.group({
+      items: this.formBuilder.array([ ])
+    })
   }
 
   ngOnInit(): void {
-    this.getAttributes();
+    this.getAttributes(this._tab);
     this.subscribeToSearch();
   }
 
-  private getAttributes(search?: string) {
-    this.attributeService.getAttributes(search, this.selected)
+  private getAttributes(tab?: string, search?: string, selected?: string[]) {
+    this.attributeService.getAttributes(tab, search, selected)
       .subscribe( val => {
         if (val && val.assetCharacteristics) {
-          // this.attributes = val.assetCharacteristics;
+          this._attributes = val.assetCharacteristics;
         }else {
           console.error('failed');
         }
@@ -49,21 +62,60 @@ export class AttributeSelectModalComponent implements OnInit {
   }
 
   private subscribeToSearch() {
-    this.search
+    this._search
       .valueChanges
       .pipe(
         debounceTime(1000),
         distinctUntilChanged()
       )
       .subscribe( val => {
-        this.getAttributes(val);
+        this._searchStr = val;
+        this.getAttributes(this._tab, this._searchStr, this._selected);
       });
   }
 
+  get search(): FormControl {
+    return this._search;
+  }
+
+  get attributes(): Attribute[] {
+    return this._attributes;
+  }
+
+  get selectForm(): FormGroup {
+    return this._selectForm;
+  }
+
+  createItem(attribute: Attribute) {
+    return this.formBuilder.group({
+      assetCharacteristicId: attribute.assetCharacteristicId,
+      assetCharacteristicTypeId: attribute.assetCharacteristicTypeId,
+      name: attribute.name,
+      required: false,
+      preFilled: false,
+      description: '',
+    });
+  }
+
+  addItem(attribute: Attribute): void {
+    this._items = this._selectForm.get('items') as FormArray;
+    this._items.push(this.createItem(attribute));
+  }
+
+  trackByFn(index: number, item: Attribute | SelectedAttribute) {
+    return item.assetCharacteristicId;
+  }
+
+  removeSelectedAttr(assetCharacteristicId: string, i: number) {
+    this._selected = this._selected.filter(x => x !== assetCharacteristicId);
+    this._items.removeAt(i);
+    this.getAttributes(this._tab, this._searchStr, this._selected);
+  }
+
   attributeSelect(attribute: Attribute) {
-    this.selected.push(attribute.assetCharacteristicId);
-    this.selectedAttribute.push(attribute);
-    this.attributes = this.attributes.filter( val => val.assetCharacteristicId !== attribute.assetCharacteristicId);
+    this._selected.push(attribute.assetCharacteristicId);
+    this.addItem(attribute);
+    this.getAttributes(this._tab, this._searchStr, this._selected);
   }
 
   openCreateNew() {
@@ -84,7 +136,7 @@ export class AttributeSelectModalComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.getAttributes();
+        this.getAttributes(this._tab, this._searchStr, this._selected);
       }
     });
   }
@@ -94,10 +146,40 @@ export class AttributeSelectModalComponent implements OnInit {
   }
 
   closeModal() {
-    this.dialogRef.close(this.selectedAttribute);
+    this.dialogRef.close(this._selectedAttribute);
   }
 
-  tabClick(type: string) {
-    console.log(type);
+  tabChange(event: MatTabChangeEvent) {
+    this._tab = event.tab.textLabel;
+    this.getAttributes(this._tab, this._searchStr, this._selected);
+  }
+
+  // char-box
+  charBox(assetCharacteristicId: string) {
+    return this._charBox && this._selectedId === assetCharacteristicId;
+  }
+
+  editChar(event: MouseEvent, assetCharacteristicId: string) {
+    this._charBox = false;
+    if (!this._selectedId) {
+      this._selectedId = assetCharacteristicId;
+      this.offsetLeft = event.pageX;
+      this.offsetTop = event.pageY + 21;
+      this._charBox = true;
+    } else if (this._selectedId !== assetCharacteristicId) {
+      this._selectedId = assetCharacteristicId;
+      this.offsetLeft = event.pageX;
+      this.offsetTop = event.pageY + 21;
+      this._charBox = true
+      // setTimeout( () => {
+      //   this._charBox = true
+      // }, 300);
+    } else {
+      this._selectedId = '';
+    }
+  }
+
+  onSelect() {
+    this.dialogRef.close();
   }
 }

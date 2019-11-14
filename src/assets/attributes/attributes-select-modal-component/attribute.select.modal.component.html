@@ -3,56 +3,116 @@
 >
   <div class="lsm2-white">
     <div fxLayoutAlign="space-between center">
-      <span class="lsm-header-text">Select Attribute</span>
+      <span class="lsm-header-text">Select Characteristics</span>
       <button mat-dialog-close class="modal__close" (click)="closeModal()">+</button>
     </div>
-    <span class="lsm-header-span">what is type?</span>
     <form class="search">
       <div class="sf-div">
-        <input class="sf-input sf-input2" [formControl]="search" placeholder="Search Attributes" />
-        <fa-icon class="sf__icon sf__icon2" [icon]="faSearch"></fa-icon>
+        <label class="fc-label--hidden" for="search"></label>
+        <input id="search" class="sf-input sf-input2" [formControl]="search" placeholder="Search Characteristics" />
+        <fa-icon class="sf__icon sf__icon2" [icon]="['fas', 'search']"></fa-icon>
       </div>
     </form>
   </div>
   <div>
-    <mat-tab-group>
-      <mat-tab label="All" (click)="tabClick('all')">
-        <div class="select-types"
-             fxLayout="column"
-             fxLayoutGap="19px"
-        >
-          <div>
-            <h3 class="select-types-heading">Recent</h3>
-                      <ul class="select-types-list"
-                          fxLayout="row wrap"
-                          fxLayoutGap="7px"
-                      >
-                        <li
-                          *ngFor="let attribute of attributes"
-                          class="select-type-i"
-                          fxLayoutAlign="center center"
-                          fxLayoutGap="8px"
-                          (dblclick)="attributeSelect(attribute)"
-                        >
-                          <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
-                          <span class="select-type-i-s">{{attribute.name}}</span>
-                        </li>
+    <mat-tab-group (selectedTabChange)="tabChange($event)">
+      <mat-tab label="All" class="select-fields">
+        <div class="select-types">
 
-                      </ul>
+          <div class="select-fields select-fields-margin selected">
+            <h3 class="select-types-heading">Selected</h3>
+            <ul class="select-types-list selected"
+                fxLayout="row wrap"
+                fxLayoutGap="7px"
+                [formGroup]="selectForm"
+            >
+              <li
+                formArrayName="items"
+                *ngFor="let item of selectForm.get('items')['controls']; let i = index;"
+                class="select-type-i selected"
+              >
+                <div [formGroupName]="i"
+                     class="select-type-i-container"
+                     fxLayoutAlign="center center"
+                     fxLayoutGap="8px"
+                >
+                  <fa-icon [icon]="getIcon(item['controls']['assetCharacteristicTypeId']['value'])" class="select-type-i__icons"></fa-icon>
+                  <span class="select-type-i-s">{{item['controls']['name']['value']}}</span>
+                  <div class="select-type-edit" (click)="editChar($event, item['controls']['assetCharacteristicId']['value'])">
+                    <fa-icon [icon]="['fas', 'pencil-alt']" class="select-type-i-edit" ></fa-icon>
+                  </div>
+                  <span class="select-type-i-cancel" (click)="removeSelectedAttr(item['controls']['assetCharacteristicId']['value'], i)">+</span>
+                  <div
+                    [ngClass]="{'char-box': true, 'selected': charBox(item['controls']['assetCharacteristicId']['value'])}"
+                    [ngStyle]="{'top.px': offsetTop, 'left.px': offsetLeft}"
+                  >
+                    <h4 class="char-opt">Characteristic Options {{ i }}</h4>
+
+                    <div class="char-form">
+
+                      <label class="blue-checkbox-label char " for="required{{i}}">Required
+                        <span class="blue-checkbox-label__details">User must fill the form</span>
+                        <input class="blue-checkbox" type="checkbox" id="required{{i}}" formControlName="required" />
+                        <span class="blue-checkbox__shadow"></span>
+                      </label>
+
+                      <label class="blue-checkbox-label char" for="pre-filled{{i}}">Pre-filled
+                        <span class="blue-checkbox-label__details">Fill the content for all</span>
+                        <input class="blue-checkbox" type="checkbox" id="pre-filled{{i}}" formControlName="preFilled" />
+                        <span class="blue-checkbox__shadow"></span>
+                      </label>
+
+                      <div class="tool-tip">
+                        <div class="tool-tip--head" fxLayout="row" fxLayoutAlign="space-between center">
+                          <label class="tool-tip--header" for="tool-tip">Tool Tip Information</label>
+                          <span class="tool-tip--span">i</span>
+                        </div>
+                        <textarea class="fc-input fc-input-tool-tip" id="tool-tip"
+                                  placeholder="Add info for information about the characteristics"
+                                  formControlName="description"
+                        ></textarea>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
 
-          <div>
+          <div class="select-fields select-fields-margin">
+            <h3 class="select-types-heading">Recent</h3>
+            <ul class="select-types-list"
+                fxLayout="row wrap"
+                fxLayoutGap="7px"
+            >
+              <li
+                *ngFor="let attribute of attributes; index as i; trackBy: trackByFn"
+                class="select-type-i"
+                fxLayoutAlign="center center"
+                fxLayoutGap="8px"
+                (click)="attributeSelect(attribute)"
+              >
+                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
+                <span class="select-type-i-s">{{attribute.name}}</span>
+              </li>
+
+            </ul>
+          </div>
+
+          <div class="select-fields">
             <h3 class="select-types-heading">Recommended</h3>
             <ul class="select-types-list"
                 fxLayout="row wrap"
                 fxLayoutGap="7px"
             >
               <li
-                *ngFor="let attribute of attributes"
+                *ngFor="let attribute of attributes; index as i; trackBy: trackByFn"
                 class="select-type-i"
                 fxLayoutAlign="center center"
                 fxLayoutGap="8px"
-                (dblclick)="attributeSelect(attribute)"
+                (click)="attributeSelect(attribute)"
               >
                 <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
                 <span class="select-type-i-s">{{attribute.name}}</span>
@@ -64,150 +124,154 @@
         </div>
       </mat-tab>
       <mat-tab label="Yours">
-        <div class="select-types"
-             gdRows="repeat(2, auto)"
-             gdAlignRows="space-between"
-        >
-          <div>
-            <h3 class="select-types-heading">Recent</h3>
-            <ul class="select-types-list"
-                fxLayout="row wrap"
-                fxLayoutGap="7px"
-            >
-              <li
-                *ngFor="let attribute of attributes"
-                class="select-type-i"
-                fxLayoutAlign="center center"
-                fxLayoutGap="8px"
-                (dblclick)="attributeSelect(attribute)"
-              >
-                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
-                <span class="select-type-i-s">{{attribute.name}}</span>
-              </li>
+<!--        <div class="select-types"-->
+<!--             gdRows="repeat(2, auto)"-->
+<!--             gdAlignRows="space-between"-->
+<!--        >-->
+<!--          <div>-->
+<!--            <h3 class="select-types-heading">Recent</h3>-->
+<!--            <ul class="select-types-list"-->
+<!--                fxLayout="row wrap"-->
+<!--                fxLayoutGap="7px"-->
+<!--            >-->
+<!--              <li-->
+<!--                *ngFor="let attribute of attributes"-->
+<!--                class="select-type-i"-->
+<!--                fxLayoutAlign="center center"-->
+<!--                fxLayoutGap="8px"-->
+<!--                (dblclick)="attributeSelect(attribute)"-->
+<!--              >-->
+<!--                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>-->
+<!--                <span class="select-type-i-s">{{attribute.name}}</span>-->
+<!--              </li>-->
 
-            </ul>
-          </div>
+<!--            </ul>-->
+<!--          </div>-->
 
-          <div>
-            <h3 class="select-types-heading">Recommended</h3>
-            <ul class="select-types-list"
-                fxLayout="row wrap"
-                fxLayoutGap="7px"
-            >
-              <li
-                *ngFor="let attribute of attributes"
-                class="select-type-i"
-                fxLayoutAlign="center center"
-                fxLayoutGap="8px"
-                (dblclick)="attributeSelect(attribute)"
-              >
-                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
-                <span class="select-type-i-s">{{attribute.name}}</span>
-              </li>
+<!--          <div>-->
+<!--            <h3 class="select-types-heading">Recommended</h3>-->
+<!--            <ul class="select-types-list"-->
+<!--                fxLayout="row wrap"-->
+<!--                fxLayoutGap="7px"-->
+<!--            >-->
+<!--              <li-->
+<!--                *ngFor="let attribute of attributes"-->
+<!--                class="select-type-i"-->
+<!--                fxLayoutAlign="center center"-->
+<!--                fxLayoutGap="8px"-->
+<!--                (dblclick)="attributeSelect(attribute)"-->
+<!--              >-->
+<!--                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>-->
+<!--                <span class="select-type-i-s">{{attribute.name}}</span>-->
+<!--              </li>-->
 
-            </ul>
-          </div>
+<!--            </ul>-->
+<!--          </div>-->
 
-        </div>
+<!--        </div>-->
       </mat-tab>
       <mat-tab label="Company">
-        <div class="select-types"
-             gdRows="repeat(2, auto)"
-             gdAlignRows="space-between"
-        >
-          <div>
-            <h3 class="select-types-heading">Recent</h3>
-            <ul class="select-types-list"
-                fxLayout="row wrap"
-                fxLayoutGap="7px"
-            >
-              <li
-                *ngFor="let attribute of attributes"
-                class="select-type-i"
-                fxLayoutAlign="center center"
-                fxLayoutGap="8px"
-                (dblclick)="attributeSelect(attribute)"
-              >
-                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
-                <span class="select-type-i-s">{{attribute.name}}</span>
-              </li>
+<!--        <div class="select-types"-->
+<!--             gdRows="repeat(2, auto)"-->
+<!--             gdAlignRows="space-between"-->
+<!--        >-->
+<!--          <div>-->
+<!--            <h3 class="select-types-heading">Recent</h3>-->
+<!--            <ul class="select-types-list"-->
+<!--                fxLayout="row wrap"-->
+<!--                fxLayoutGap="7px"-->
+<!--            >-->
+<!--              <li-->
+<!--                *ngFor="let attribute of attributes"-->
+<!--                class="select-type-i"-->
+<!--                fxLayoutAlign="center center"-->
+<!--                fxLayoutGap="8px"-->
+<!--                (dblclick)="attributeSelect(attribute)"-->
+<!--              >-->
+<!--                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>-->
+<!--                <span class="select-type-i-s">{{attribute.name}}</span>-->
+<!--              </li>-->
 
-            </ul>
-          </div>
+<!--            </ul>-->
+<!--          </div>-->
 
-          <div>
-            <h3 class="select-types-heading">Recommended</h3>
-            <ul class="select-types-list"
-                fxLayout="row wrap"
-                fxLayoutGap="7px"
-            >
-              <li
-                *ngFor="let attribute of attributes"
-                class="select-type-i"
-                fxLayoutAlign="center center"
-                fxLayoutGap="8px"
-                (dblclick)="attributeSelect(attribute)"
-              >
-                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
-                <span class="select-type-i-s">{{attribute.name}}</span>
-              </li>
+<!--          <div>-->
+<!--            <h3 class="select-types-heading">Recommended</h3>-->
+<!--            <ul class="select-types-list"-->
+<!--                fxLayout="row wrap"-->
+<!--                fxLayoutGap="7px"-->
+<!--            >-->
+<!--              <li-->
+<!--                *ngFor="let attribute of attributes"-->
+<!--                class="select-type-i"-->
+<!--                fxLayoutAlign="center center"-->
+<!--                fxLayoutGap="8px"-->
+<!--                (dblclick)="attributeSelect(attribute)"-->
+<!--              >-->
+<!--                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>-->
+<!--                <span class="select-type-i-s">{{attribute.name}}</span>-->
+<!--              </li>-->
 
-            </ul>
-          </div>
+<!--            </ul>-->
+<!--          </div>-->
 
-        </div>
+<!--        </div>-->
       </mat-tab>
       <mat-tab label="Community">
-        <div class="select-types"
-             gdRows="repeat(2, auto)"
-             gdAlignRows="space-between"
-        >
-          <div>
-            <h3 class="select-types-heading">Recent</h3>
-            <ul class="select-types-list"
-                fxLayout="row wrap"
-                fxLayoutGap="7px"
-            >
-              <li
-                *ngFor="let attribute of attributes"
-                class="select-type-i"
-                fxLayoutAlign="center center"
-                fxLayoutGap="8px"
-                (dblclick)="attributeSelect(attribute)"
-              >
-                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
-                <span class="select-type-i-s">{{attribute.name}}</span>
-              </li>
+<!--        <div class="select-types"-->
+<!--             gdRows="repeat(2, auto)"-->
+<!--             gdAlignRows="space-between"-->
+<!--        >-->
+<!--          <div>-->
+<!--            <h3 class="select-types-heading">Recent</h3>-->
+<!--            <ul class="select-types-list"-->
+<!--                fxLayout="row wrap"-->
+<!--                fxLayoutGap="7px"-->
+<!--            >-->
+<!--              <li-->
+<!--                *ngFor="let attribute of attributes"-->
+<!--                class="select-type-i"-->
+<!--                fxLayoutAlign="center center"-->
+<!--                fxLayoutGap="8px"-->
+<!--                (dblclick)="attributeSelect(attribute)"-->
+<!--              >-->
+<!--                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>-->
+<!--                <span class="select-type-i-s">{{attribute.name}}</span>-->
+<!--              </li>-->
 
-            </ul>
-          </div>
+<!--            </ul>-->
+<!--          </div>-->
 
-          <div>
-            <h3 class="select-types-heading">Recommended</h3>
-            <ul class="select-types-list"
-                fxLayout="row wrap"
-                fxLayoutGap="7px"
-            >
-              <li
-                *ngFor="let attribute of attributes"
-                class="select-type-i"
-                fxLayoutAlign="center center"
-                fxLayoutGap="8px"
-                (dblclick)="attributeSelect(attribute)"
-              >
-                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>
-                <span class="select-type-i-s">{{attribute.name}}</span>
-              </li>
+<!--          <div>-->
+<!--            <h3 class="select-types-heading">Recommended</h3>-->
+<!--            <ul class="select-types-list"-->
+<!--                fxLayout="row wrap"-->
+<!--                fxLayoutGap="7px"-->
+<!--            >-->
+<!--              <li-->
+<!--                *ngFor="let attribute of attributes"-->
+<!--                class="select-type-i"-->
+<!--                fxLayoutAlign="center center"-->
+<!--                fxLayoutGap="8px"-->
+<!--                (dblclick)="attributeSelect(attribute)"-->
+<!--              >-->
+<!--                <fa-icon [icon]="getIcon(attribute.assetCharacteristicTypeId)" class="select-type-i__icons"></fa-icon>-->
+<!--                <span class="select-type-i-s">{{attribute.name}}</span>-->
+<!--              </li>-->
 
-            </ul>
-          </div>
+<!--            </ul>-->
+<!--          </div>-->
 
-        </div>
+<!--        </div>-->
       </mat-tab>
     </mat-tab-group>
-    <div>
-      <p class="attribute-ending">Can’t find a suitable attributes? Create one!</p>
-      <button class="button button--primary button--primary--attribute" (click)="openCreateNew()">Create new Attributes</button>
+    <div
+      fxLayout="row"
+      fxLayoutAlign="center"
+      fxLayoutGap="24px"
+    >
+      <button class="button button--white button--white--attribute" (click)="openCreateNew()">Add a characteristic</button>
+      <button class="button button--primary button--primary--attribute" (click)="onSelect()">Select</button>
     </div>
   </div>
 </div>
