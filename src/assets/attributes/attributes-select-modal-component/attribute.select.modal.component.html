@@ -1,4 +1,4 @@
-<div class="lsm2"
+<div class="lsm2 relative"
      gdRows="180px auto"
 >
   <div class="lsm2-white">
@@ -42,40 +42,85 @@
                     <fa-icon [icon]="['fas', 'pencil-alt']" class="select-type-i-edit" ></fa-icon>
                   </div>
                   <span class="select-type-i-cancel" (click)="removeSelectedAttr(item['controls']['assetCharacteristicId']['value'], i)">+</span>
+
                   <div
-                    [ngClass]="{'char-box': true, 'selected': charBox(item['controls']['assetCharacteristicId']['value'])}"
-                    [ngStyle]="{'top.px': offsetTop, 'left.px': offsetLeft}"
+                    [ngClass]="{'char-box-overlay': true, 'selected': charBox(item['controls']['assetCharacteristicId']['value'])}"
+                    (click)="charBoxOverlay()"
                   >
-                    <h4 class="char-opt">Characteristic Options {{ i }}</h4>
+                    <div
+                      class="char-box"
+                      [ngStyle]="{'top.px': offsetTop, 'left.px': offsetLeft}"
+                      (click)="$event.stopPropagation()"
+                    >
+                      <h4 class="char-opt">Characteristic Options</h4>
 
-                    <div class="char-form">
+                      <div class="char-form">
 
-                      <label class="blue-checkbox-label char " for="required{{i}}">Required
-                        <span class="blue-checkbox-label__details">User must fill the form</span>
-                        <input class="blue-checkbox" type="checkbox" id="required{{i}}" formControlName="required" />
-                        <span class="blue-checkbox__shadow"></span>
-                      </label>
+                        <label class="blue-checkbox-label char " for="required{{i}}">Required
+                          <span class="blue-checkbox-label__details">User must fill the form</span>
+                          <input class="blue-checkbox" type="checkbox" id="required{{i}}" formControlName="required" />
+                          <span class="blue-checkbox__shadow"></span>
+                        </label>
 
-                      <label class="blue-checkbox-label char" for="pre-filled{{i}}">Pre-filled
-                        <span class="blue-checkbox-label__details">Fill the content for all</span>
-                        <input class="blue-checkbox" type="checkbox" id="pre-filled{{i}}" formControlName="preFilled" />
-                        <span class="blue-checkbox__shadow"></span>
-                      </label>
+                        <label class="blue-checkbox-label char" for="pre-filled{{i}}">Pre-filled
+                          <span class="blue-checkbox-label__details">Fill the content for all</span>
+                          <input class="blue-checkbox" type="checkbox" id="pre-filled{{i}}" formControlName="preFilled" />
+                          <span class="blue-checkbox__shadow"></span>
+                        </label>
 
-                      <div class="tool-tip">
-                        <div class="tool-tip--head" fxLayout="row" fxLayoutAlign="space-between center">
-                          <label class="tool-tip--header" for="tool-tip">Tool Tip Information</label>
-                          <span class="tool-tip--span">i</span>
+                        <div class="pre-filled-container">
+                          <ng-container *ngIf="item['controls']['preFilled']['value']">
+
+                            <div
+                              [ngSwitch]="item['controls']['assetCharacteristicTypeId']['value']"
+                              class="pre-filled-input-div"
+                            >
+                              <div class="f-c-no-padding f-c-no-padding-content" *ngSwitchCase="'2'">
+                                <label class="fc-label--hidden" for="number{{i}}">Value</label>
+                                <input class="fc-input" id="number{{i}}" formControlName="preFilledValue" placeholder="Pre-Filled Content" type="number">
+                              </div>
+                              <ng-select
+                                *ngSwitchCase="'4'"
+                                class="custom"
+                                formControlName="preFilledValue"
+                                placeholder="Select default"
+                                [items]="item['controls']['list']['value']"
+                              >
+                              </ng-select>
+                              <ng-select
+                                *ngSwitchCase="'5'"
+                                class="custom multi"
+                                formControlName="preFilledValue"
+                                multiple="true"
+                                placeholder="Select defaults"
+                                [items]="item['controls']['list']['value']"
+                              >
+                              </ng-select>
+                              <div class="f-c-no-padding f-c-no-padding-content"  *ngSwitchDefault>
+                                <label class="fc-label--hidden" for="text">Text</label>
+                                <input class="fc-input" id="text" formControlName="preFilledValue" placeholder="Pre-Filled Content">
+                              </div>
+                            </div>
+
+                          </ng-container>
                         </div>
-                        <textarea class="fc-input fc-input-tool-tip" id="tool-tip"
-                                  placeholder="Add info for information about the characteristics"
-                                  formControlName="description"
-                        ></textarea>
+
+                        <div class="tool-tip">
+                          <div class="tool-tip--head" fxLayout="row" fxLayoutAlign="space-between center">
+                            <label class="tool-tip--header" for="tool-tip">Tool Tip Information</label>
+                            <span class="tool-tip--span">i</span>
+                          </div>
+                          <textarea class="fc-input fc-input-tool-tip" id="tool-tip"
+                                    placeholder="Add info for information about the characteristics"
+                                    formControlName="description"
+                          ></textarea>
+                        </div>
+
                       </div>
 
                     </div>
-
                   </div>
+
                 </div>
               </li>
             </ul>

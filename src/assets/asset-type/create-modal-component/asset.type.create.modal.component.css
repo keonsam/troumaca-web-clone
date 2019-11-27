@@ -257,17 +257,16 @@
 }
 
 /* ATTRIBUTE ITEMS */
+.modal-body {
+  width: 100%;
+}
+
 .attribute-list {
-  padding: 0 30px 10px;
+  margin: 31px 30px 10px 38px;
 }
 
 .attribute-list-item {
-  height: 62px;
   width: 100%;
-  background: #FFFFFF;
-  border-radius: 8px;
-  padding-left: 20px;
-  padding-right: 14px;
 }
 
 .icon-tag {

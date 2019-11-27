@@ -20,6 +20,11 @@
   padding: 0;
 }
 
+::ng-deep .fc-ellipse-v-icon {
+  font-size: 13px;
+  color: #919F9F;
+}
+
 @media only screen and (max-width: 599px) {
   .assets {
     margin: 0 auto;

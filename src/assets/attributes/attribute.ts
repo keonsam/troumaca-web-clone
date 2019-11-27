@@ -1,13 +1,8 @@
-import {AttributeType} from './attribute.type';
-
 export class Attribute {
   private _assetCharacteristicId: string;
   private _assetCharacteristicTypeId: string;
   private _name: string;
   private _list: string[];
-  // preFilled: boolean;
-  // defaultValue: string;
-  // required: string;
   private _description: string;
   private _type: string;
   private _date: string;
