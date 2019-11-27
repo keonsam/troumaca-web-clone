@@ -1,42 +1,24 @@
+import {Attribute} from "./attribute";
 
-export class SelectedAttribute {
-  private _assetCharacteristicId: string;
-  private _assetCharacteristicTypeId: string;
-  private _name: string;
+export class SelectedAttribute extends Attribute {
   private _preFilled: boolean;
-  private _defaultValue: string;
-  private _required: string;
+  private _preFilledValue: string;
+  private _required: boolean;
 
   constructor(assetCharacteristicId?: string, name?: string, assetCharacteristicTypeId?: string) {
-    this._assetCharacteristicId = assetCharacteristicId;
-    this._name = name;
-    this._assetCharacteristicTypeId = assetCharacteristicTypeId;
+    super();
+    this.assetCharacteristicId = assetCharacteristicId;
+    this.name = name;
+    this.assetCharacteristicTypeId = assetCharacteristicTypeId;
   }
 
-  get assetCharacteristicTypeId(): string {
-    return this._assetCharacteristicTypeId;
+  get preFilledValue(): string {
+    return this._preFilledValue;
   }
 
-  set assetCharacteristicTypeId(value: string) {
-    this._assetCharacteristicTypeId = value;
+  set preFilledValue(value: string) {
+    this._preFilledValue = value;
   }
-
-  get name(): string {
-    return this._name;
-  }
-
-  set name(value: string) {
-    this._name = value;
-  }
-
-  get defaultValue(): string {
-    return this._defaultValue;
-  }
-
-  set defaultValue(value: string) {
-    this._defaultValue = value;
-  }
-
 
   get preFilled(): boolean {
     return this._preFilled;
@@ -46,19 +28,11 @@ export class SelectedAttribute {
     this._preFilled = value;
   }
 
-  get required(): string {
+  get required(): boolean {
     return this._required;
   }
 
-  set required(value: string) {
+  set required(value: boolean) {
     this._required = value;
-  }
-
-  get assetCharacteristicId(): string {
-    return this._assetCharacteristicId;
-  }
-
-  set assetCharacteristicId(value: string) {
-    this._assetCharacteristicId = value;
   }
 }

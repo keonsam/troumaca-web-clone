@@ -19,7 +19,6 @@ export class AttributeSelectModalComponent implements OnInit {
   private _search: FormControl;
   private _attributes: Attribute[];
   private _selected: string[] = [];
-  private _selectedAttribute: SelectedAttribute[] = [];
   private _selectForm: FormGroup;
   private _tab: string;
   private _searchStr: string;
@@ -39,7 +38,7 @@ export class AttributeSelectModalComponent implements OnInit {
     this._searchStr = '';
     this._search = new FormControl('');
     this._selectForm = formBuilder.group({
-      items: this.formBuilder.array([ ])
+      items: formBuilder.array([ ])
     })
   }
 
@@ -94,6 +93,8 @@ export class AttributeSelectModalComponent implements OnInit {
       required: false,
       preFilled: false,
       description: '',
+      preFilledValue: '',
+      list: attribute.list
     });
   }
 
@@ -146,7 +147,7 @@ export class AttributeSelectModalComponent implements OnInit {
   }
 
   closeModal() {
-    this.dialogRef.close(this._selectedAttribute);
+    this.dialogRef.close();
   }
 
   tabChange(event: MatTabChangeEvent) {
@@ -155,31 +156,24 @@ export class AttributeSelectModalComponent implements OnInit {
   }
 
   // char-box
+
+  charBoxOverlay() {
+    this._selectedId = '';
+    this._charBox = false;
+  }
+
   charBox(assetCharacteristicId: string) {
     return this._charBox && this._selectedId === assetCharacteristicId;
   }
 
   editChar(event: MouseEvent, assetCharacteristicId: string) {
-    this._charBox = false;
-    if (!this._selectedId) {
-      this._selectedId = assetCharacteristicId;
-      this.offsetLeft = event.pageX;
-      this.offsetTop = event.pageY + 21;
-      this._charBox = true;
-    } else if (this._selectedId !== assetCharacteristicId) {
-      this._selectedId = assetCharacteristicId;
-      this.offsetLeft = event.pageX;
-      this.offsetTop = event.pageY + 21;
-      this._charBox = true
-      // setTimeout( () => {
-      //   this._charBox = true
-      // }, 300);
-    } else {
-      this._selectedId = '';
-    }
+    this._selectedId = assetCharacteristicId;
+    this.offsetLeft = event.pageX;
+    this.offsetTop = event.pageY + 21;
+    this._charBox = true;
   }
 
   onSelect() {
-    this.dialogRef.close();
+    this.dialogRef.close(this._selectForm.get('items').value);
   }
 }

@@ -1,4 +1,4 @@
-import {Attribute} from '../attributes/attribute';
+import {Characteristic} from "./characteristic";
 
 export class AssetType {
   assetTypeId: string;
@@ -7,5 +7,5 @@ export class AssetType {
   color: string;
   share: boolean;
   use: boolean;
-  attribute: Attribute[]
+  characteristics: Characteristic[]
 }

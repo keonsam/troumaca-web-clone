@@ -20,18 +20,19 @@ export class AssetTypeService {
             $description: String,
             $color: String!,
             $share: Boolean,
-            $use: Boolean
+            $use: Boolean,
+            $characteristics: [SelectedCharacteristicsInput!]
         ) {
             addAssetType(data: {
                     name: $name,
                     description: $description,
                     color: $color,
                     share: $share,
-                    use: $use
+                    use: $use,
+                    characteristics: $characteristics
                 }) {
                 assetTypeId
                 name
-                color
             }
         }
       `,
@@ -40,7 +41,8 @@ export class AssetTypeService {
         description: assetType.description,
         color: assetType.color,
         share: assetType.share,
-        use: assetType.use
+        use: assetType.use,
+        characteristics: assetType.characteristics
       }
     }).pipe(map( (res: any) => {
       if (res && res.data && res.data.addAssetType) {

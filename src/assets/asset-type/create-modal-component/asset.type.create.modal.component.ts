@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DialogPosition, MatDialog, MatDialogRef} from '@angular/material';
-import {faChevronDown, faChevronUp, faExclamationTriangle, faSearch, faTag} from '@fortawesome/free-solid-svg-icons';
 import {AttributeSelectModalComponent} from '../../attributes/attributes-select-modal-component/attribute.select.modal.component';
-import {Attribute} from '../../attributes/attribute';
 import {attributeFont} from '../../attributes/attribute.font';
 import {AssetType} from '../asset.type';
 import {AssetTypeService} from '../asset.type.service';
+import {SelectedAttribute} from "../../attributes/selected.attribute";
+import {Characteristic} from "../characteristic";
 
 @Component({
   selector: 'app-asset-type-create-modal',
@@ -15,12 +15,7 @@ import {AssetTypeService} from '../asset.type.service';
 })
 export class AssetTypeCreateModalComponent {
 
-
-  faChevronDown = faChevronDown;
-  faChevronUp = faChevronUp;
-  faExclamationTriangle = faExclamationTriangle;
-  faTag = faTag;
-  attributes: Attribute[] = [];
+  attributes: SelectedAttribute[] = [];
   name: FormControl;
   description: FormControl;
   share: FormControl;
@@ -33,6 +28,7 @@ export class AssetTypeCreateModalComponent {
   ];
   color = '#F2CBCB';
   showColors = false;
+  private _items: FormArray;
 
   constructor(
     public dialogRef: MatDialogRef<AssetTypeCreateModalComponent>,
@@ -41,6 +37,7 @@ export class AssetTypeCreateModalComponent {
     private assetTypeService: AssetTypeService
   ) {
     this.assetType = new AssetType();
+    this.assetType.color = this.color;
     this.name = new FormControl('', [Validators.required]);
     this.description = new FormControl('');
     this.share = new FormControl(false);
@@ -50,7 +47,8 @@ export class AssetTypeCreateModalComponent {
       'name': this.name,
       'description': this.description,
       'share': this.share,
-      'use': this.use
+      'use': this.use,
+      'items': formBuilder.array([ ])
     });
 
     this.assetTypeForm
@@ -61,6 +59,24 @@ export class AssetTypeCreateModalComponent {
         this.assetType.share = value.share;
         this.assetType.use = value.use
       })
+  }
+
+  createItem(attribute: SelectedAttribute) {
+    return this.formBuilder.group({
+      assetCharacteristicId: attribute.assetCharacteristicId,
+      assetCharacteristicTypeId: attribute.assetCharacteristicTypeId,
+      name: attribute.name,
+      required: attribute.required,
+      preFilled: attribute.preFilled,
+      description: attribute.description,
+      preFilledValue: new FormControl(attribute.preFilledValue, attribute.required ? [Validators.required]: null),
+      list: attribute.list
+    });
+  }
+
+  addItem(attribute: SelectedAttribute): void {
+    this._items = this.assetTypeForm.get('items') as FormArray;
+    this._items.push(this.createItem(attribute));
   }
 
   newAttributeModal() {
@@ -79,19 +95,19 @@ export class AssetTypeCreateModalComponent {
       panelClass: ['left-panel-2'],
     });
 
-    dialogRef.afterClosed().subscribe(values => {
+    dialogRef.afterClosed().subscribe((values: SelectedAttribute[]) => {
       if (values) {
-        this.attributes = values;
-        this.assetType.attribute = values;
+        values.forEach( (val: SelectedAttribute) => {
+          this.addItem(val);
+        })
       }
     });
   }
 
-  getIcon(id: string) {
-    return attributeFont(id);
-  }
-
   onSubmit() {
+    this.assetType.characteristics = this.assetTypeForm.get('items').value.map( (val: SelectedAttribute) => {
+      return new Characteristic(val.assetCharacteristicId, val.preFilled, val.preFilledValue, val.required).toJSON();
+    });
     this.assetTypeService.saveAssetType(this.assetType)
       .subscribe( val => {
         if (val && val.assetTypeId) {
