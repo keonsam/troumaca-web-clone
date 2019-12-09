@@ -9,6 +9,8 @@
   height: 18px;
   background: #F2CBCB;
   border-radius: 50%;
+  padding: 0;
+  border: none;
 }
 
 .color-modal {
@@ -313,6 +315,10 @@
   letter-spacing: 0.02em;
   color: #119CB7;
   text-decoration: none;
+}
+
+.fc-input--white-des {
+  width: calc(100% - 20px);
 }
 
 @media only screen and (max-width: 599px) {

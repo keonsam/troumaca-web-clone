@@ -59,7 +59,7 @@
 }
 
 .select-types {
-  padding: 35px 166px 35px 37px;
+  padding: 35px 35px 37px;
   min-height: 378px;
 }
 
@@ -76,10 +76,15 @@
 }
 
 .select-types-list {
-  margin: 0 0 19px 0;
   padding: 0;
   list-style-type: none;
   display: inline-block;
+  height: 145px;
+  overflow-y: auto;
+}
+
+.select-types-list__margin {
+  margin-bottom: 15px;
 }
 
 .select-types-list:not(last-child) {
@@ -91,9 +96,9 @@
   height: 31px;
   padding-left: 24px;
   padding-right: 24px;
-  background: rgba(37,207,232, 0.2);
+  margin-bottom: 17px;
+  max-width: 200px;
 }
-
 
 .select-type-i-s {
   font-size: 12px;

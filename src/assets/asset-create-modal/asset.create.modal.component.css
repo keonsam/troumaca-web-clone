@@ -221,6 +221,15 @@
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
 }
 
+/* image sec */
+.file-input {
+  display: none;
+}
+
+.button---primary--upload {
+  width: 100%;
+  margin-top: 33px;
+}
 @media only screen and (max-width: 599px) {
   ::ng-deep .left-panel-2 > .mat-dialog-container {
     background: #F5F5F5;

@@ -1,14 +1,14 @@
-import {Component, ElementRef, EventEmitter, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DialogPosition, MatDialog, MatDialogRef} from '@angular/material';
-import {Form, FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AttributeCreateModalComponent} from '../attributes-create-modal-component/attribute.create.modal.component';
 import {attributeFont} from '../attribute.font';
 import {AttributeService} from '../attribute.service';
 import {Attribute} from '../attribute';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
-import {SelectedAttribute} from '../selected.attribute';
 import {MatTabChangeEvent} from '@angular/material/tabs';
+import {User} from '../../../authentication/user';
+import {Site} from '../site';
 
 @Component({
   selector: 'app-attribute-select',
@@ -27,6 +27,8 @@ export class AttributeSelectModalComponent implements OnInit {
   offsetLeft: number;
   offsetTop: number;
   private _items: FormArray;
+  people: User[];
+  sites: Site[];
 
   constructor(
     public dialogRef: MatDialogRef<AttributeSelectModalComponent>,
@@ -90,11 +92,14 @@ export class AttributeSelectModalComponent implements OnInit {
       assetCharacteristicId: attribute.assetCharacteristicId,
       assetCharacteristicTypeId: attribute.assetCharacteristicTypeId,
       name: attribute.name,
+      format: attribute.format,
+      type: attribute.type,
       required: false,
       preFilled: false,
       description: '',
-      preFilledValue: '',
-      list: attribute.list
+      preFilledValue: new FormControl({value: '', disabled: true}),
+      partyId: '',
+      list: [attribute.list]
     });
   }
 
@@ -103,7 +108,7 @@ export class AttributeSelectModalComponent implements OnInit {
     this._items.push(this.createItem(attribute));
   }
 
-  trackByFn(index: number, item: Attribute | SelectedAttribute) {
+  trackByFn(index: number, item: Attribute) {
     return item.assetCharacteristicId;
   }
 
@@ -173,7 +178,78 @@ export class AttributeSelectModalComponent implements OnInit {
     this._charBox = true;
   }
 
+  private findPeople(searchStr: string) {
+    this.attributeService.findPeople(searchStr)
+      .subscribe( val => {
+        if (val && val.persons) {
+          this.people = val.persons;
+        }else {
+          console.error('failed');
+        }
+      }, error => {
+        console.error(error);
+      });
+  }
+
+  private findSites(searchStr: string) {
+    this.attributeService.findSites(searchStr)
+      .subscribe( val => {
+        console.log()
+        if (val && val.sites) {
+          this.sites = val.sites;
+        }else {
+          console.error('failed');
+        }
+      }, error => {
+        console.error(error);
+      });
+  }
+
+  preFilledChange(event: any, control: FormControl, id: string) {
+    if (id === '3') {
+      control.setValue(event.currentTarget.checked);
+    }else {
+      if(event.currentTarget.checked) {
+        control.enable();
+      }else {
+        control.setValue('');
+        control.disable();
+      }
+      if (id === '7') {
+        control.valueChanges
+          .pipe(
+            debounceTime(1000),
+            distinctUntilChanged()
+          )
+          .subscribe( val => {
+          this.findPeople(val);
+        });
+      }
+      if (id === '9') {
+        control.valueChanges
+          .pipe(
+            debounceTime(1000),
+            distinctUntilChanged()
+          )
+          .subscribe( val => {
+            this.findSites(val);
+          });
+      }
+    }
+  }
+
+  setPersonValue(preFilled: FormControl, id: FormControl, person: User) {
+    preFilled.setValue(person.firstName);
+    id.setValue(person.partyId);
+  }
+
+  setSiteValue(preFilled: FormControl, id: FormControl, site: Site) {
+    preFilled.setValue(site.name);
+    id.setValue(site.siteId);
+  }
+
   onSelect() {
+    console.log(this._selectForm.get('items').value);
     this.dialogRef.close(this._selectForm.get('items').value);
   }
 }

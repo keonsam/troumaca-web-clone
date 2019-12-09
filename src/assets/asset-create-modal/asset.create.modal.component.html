@@ -9,7 +9,7 @@
         <div class="lsm-header-round" fxLayoutAlign="center center"
              (click)="toggleImage()"
         >
-          <fa-icon  *ngIf="!image" [icon]="faImage" class="lsm-header-icon"></fa-icon>
+          <fa-icon  *ngIf="!image" [icon]="['fas', 'image']" class="lsm-header-icon"></fa-icon>
           <img *ngIf="image" [src]="image" alt="image of asset" class="asset-img" >
         </div>
         <div [ngClass]="{'image-modal': true, 'show': showImage }">
@@ -25,6 +25,8 @@
                 (click)="onImageSelect(image)"
             ></li>
           </ul>
+          <input class="file-input" type="file" #file>
+          <button class="button button--primary button---primary--upload" (click)="file.click()">Upload new</button>
         </div>
       </div>
       <button mat-dialog-close class="modal__close">+</button>
@@ -35,7 +37,7 @@
         <label class="fc-label" for="name">Asset Name</label>
         <input class="fc-input" [formControl]="name" id="name" required>
         <div class="fc-error" *ngIf="name.hasError('required') && !name.pristine">
-          <fa-icon class="fc-error__icon" [icon]="faExclamationTriangle"></fa-icon> Asset Name is <strong>required</strong>
+          <fa-icon class="fc-error__icon" [icon]="['fas', 'exclamation-triangle']"></fa-icon> Asset Name is <strong>required</strong>
         </div>
       </div>
 
@@ -51,26 +53,26 @@
     </div>
     <div fxLayoutAlign="space-between center" class="lsm-select" (click)="openSelectType()">
       <div>
-        <fa-icon [icon]="faThLarge" class="lsm-select-icon-1"></fa-icon>
+        <fa-icon [icon]="['fas', 'th-large']" class="lsm-select-icon-1"></fa-icon>
         <span class="lsm-select-span">{{ assetType ? 'Type: ' + assetType.name : 'Select Type'}}</span>
       </div>
       <div>
         <a *ngIf="assetType" class="change">change</a>
-        <fa-icon [icon]="dialogRefTypes ? faChevronLeft: faChevronRight" class="lsm-select-icon-2"></fa-icon>
+        <fa-icon [icon]="['fas', 'chevron-right']" class="lsm-select-icon-2"></fa-icon>
       </div>
     </div>
   </div>
   <div mat-dialog-content fxLayoutAlign="center center">
-    <div class="lsm-add" fxLayoutAlign="center center">
-      <div class="lsm-add-icon">
-        <fa-icon [icon]="faTag" class="lsm-tag">+</fa-icon>
-        <span class="lsm-tag__span">+</span>
-      </div>
-      <div class="lsm-add-des">
-        <span class="lsm-add-span">Add Attribute</span>
-        <p class="lsm-add-p">Use our rich attribute creation to freely describe your asset.</p>
-      </div>
-    </div>
+<!--    <div class="lsm-add" fxLayoutAlign="center center">-->
+<!--      <div class="lsm-add-icon">-->
+<!--        <fa-icon [icon]="faTag" class="lsm-tag">+</fa-icon>-->
+<!--        <span class="lsm-tag__span">+</span>-->
+<!--      </div>-->
+<!--      <div class="lsm-add-des">-->
+<!--        <span class="lsm-add-span">Add Attribute</span>-->
+<!--        <p class="lsm-add-p">Use our rich attribute creation to freely describe your asset.</p>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
   <div mat-dialog-actions fxLayoutAlign="end" class="lsm-end">
     <button class="button button--primary button--primary--normal" [disabled]="!assetForm.valid" (click)="onSubmit()">Save Asset</button>

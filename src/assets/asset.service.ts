@@ -1,7 +1,6 @@
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Assets} from './assets';
 import {Asset} from './asset';
-// import { AssetType} from '../asset-types/asset.type';
 import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {map} from 'rxjs/operators';
@@ -11,6 +10,7 @@ export class AssetService {
 
   listType: BehaviorSubject<string> = new BehaviorSubject( '');
   onNewAsset: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  onNewAssetType: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   uuid = new UUIDGenerator();
   constructor(private apollo: Apollo) {
   }

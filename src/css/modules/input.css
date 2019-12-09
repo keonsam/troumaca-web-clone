@@ -58,3 +58,73 @@ input[type=number]::-webkit-outer-spin-button {
 .search-with-label {
   position: relative;
 }
+
+.fc-input-icon--left {
+  padding-left: 71px;
+}
+
+.icon-left {
+  position: absolute;
+  left: 33px;
+  line-height: 51px;
+}
+
+.icon-left .mat-icon-button {
+  margin-top: 5px;
+}
+
+.icon-left--blue--others {
+  position: absolute;
+  left: 33px;
+  line-height: 51px;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #23C7EF;
+  opacity: 0.8;
+}
+
+.icon-left--blue {
+  font-size: 20px;
+  line-height: 40px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #23C7EF;
+  opacity: 0.8;
+}
+
+/* dropdown */
+.fc-dropdown {
+  position: relative;
+}
+
+.input-dropdown {
+  position: absolute;
+  top: 61px;
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 8px;
+  z-index: 3;
+  height: 150px;
+}
+
+.input-dropdown-list {
+  max-height: 150px;
+  padding: 20px 0 10px 0;
+  overflow-y: auto;
+}
+
+.input-dropdown-list__item {
+  display: block;
+  width: 100%;
+  height: 37px;
+  font-size: 13px;
+  line-height: 37px;
+  letter-spacing: 0.01em;
+  color: #000000;
+  padding-left: 19px;
+}
+
+.input-dropdown-list__item:hover {
+  background: #f5faff;
+}

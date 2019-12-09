@@ -1,28 +1,23 @@
-import {Component} from '@angular/core';
-import {faChevronLeft, faChevronRight, faExclamationTriangle, faImage, faTag, faThLarge} from '@fortawesome/free-solid-svg-icons';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DialogPosition, MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {AssetTypeSelectModalComponent} from '../asset-type/select-modal-component/asset.type.select.modal.component';
 import {AssetType} from '../asset-type/asset.type';
 import {Asset} from '../asset';
 import {AssetService} from '../asset.service';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-asset-create-modal',
   templateUrl: './asset.create.modal.component.html',
   styleUrls: ['./asset.create.modal.component.css']
 })
-export class AssetCreateModalComponent {
-  faImage = faImage;
-  faThLarge = faThLarge;
-  faChevronRight = faChevronRight;
-  faChevronLeft = faChevronLeft;
-  faTag = faTag;
+export class AssetCreateModalComponent implements OnInit, OnDestroy {
   name: FormControl;
   description: FormControl;
   assetForm: FormGroup;
   dialogRefTypes: MatDialogRef<AssetTypeSelectModalComponent>;
-  faExclamationTriangle = faExclamationTriangle;
   assetType: AssetType;
   showDes = false;
   showImage = false;
@@ -33,6 +28,7 @@ export class AssetCreateModalComponent {
     `${this.source}/asset-2.3.png`, `${this.source}/asset-2.4.png`, `${this.source}/asset-2.5.png`
   ];
   image: string;
+  private _destroyed$ = new Subject();
 
   constructor(
     public dialogRef: MatDialogRef<AssetCreateModalComponent>,
@@ -51,10 +47,21 @@ export class AssetCreateModalComponent {
 
     this.assetForm
       .valueChanges
+      .pipe(
+        takeUntil(this._destroyed$)
+      )
       .subscribe( val => {
         this.asset.name = val.name;
         this.asset.description = val.description
       });
+  }
+
+  ngOnInit(): void {
+  }
+
+  ngOnDestroy (): void {
+    this._destroyed$.next();
+    this._destroyed$.complete();
   }
 
   private openModal() {
@@ -79,15 +86,12 @@ export class AssetCreateModalComponent {
     });
   }
 
-  private closeSelectType() {
-    console.log('feature not available');
-    // this.dialogRefTypes.close();
-  }
+  // private closeSelectType() {
+  //   this.dialogRefTypes.close();
+  // }
 
   openSelectType() {
-    if (this.dialogRefTypes) {
-      this.closeSelectType();
-    } else {
+    if (!this.dialogRefTypes) {
       this.openModal();
     }
   }
@@ -111,15 +115,19 @@ export class AssetCreateModalComponent {
   }
 
   onSubmit() {
+    console.log(this.asset);
     this.assetService.addAsset(this.asset)
+      .pipe(
+        takeUntil(this._destroyed$)
+      )
       .subscribe( value => {
         if (value && value.assetId) {
           this.dialogRef.close(true)
         }else {
-          console.log('failed');
+          console.error('failed');
         }
       }, error => {
-        console.log(error);
+        console.error(error);
       });
   }
 }

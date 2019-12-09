@@ -47,7 +47,7 @@
       <span class="white-button__text">new assets</span>
     </button>
 
-    <button class="white-button">
+    <button class="white-button" (click)="openAssetTypeCreate()">
       <span class="white-button__circle" fxLayoutAlign="center center" style="background: #E7CCF1;">
         <fa-icon class="white-button__icons" [icon]="faCheck"></fa-icon>
       </span>
@@ -66,11 +66,13 @@
 
   <div
     [ngClass]="{'button-pop-up': true, show: show}"
+    (click)="closeShow()"
   >
     <div class="button-container"
          [ngStyle]="{'top.px': offsetTop, 'left.px': offsetLeft}"
          fxLayout="column"
          fxLayoutGap="30px"
+         (click)="$event.stopPropagation()"
     >
       <button class="button-around button-around--blue button-around--blue2" (click)="closeShow()">
         <span class="button-around--blue2__span">+</span>
@@ -84,6 +86,7 @@
       </button>
       <button
         class="button-around button-around--asset-types"
+        (click)="handleButtons(2)"
       >
         <fa-icon [icon]="faCheck"></fa-icon>
         <span class="button-around__span">new type</span>

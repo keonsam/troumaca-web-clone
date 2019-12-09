@@ -5,16 +5,15 @@
   width: 100%;
   border-radius: 8px;
   box-sizing: border-box;
-
 }
 
 .ng-select.custom .ng-select-container  {
   height: 100%;
   width: 100%;
   background: #FFFFFF;
-  border: 0;
   border-radius: 8px !important;
   box-sizing: border-box;
+  border: 1px solid #EFEFF8;
 }
 
 .ng-select.custom .ng-select-container .ng-value-container {
@@ -88,6 +87,12 @@
 
 .ng-select.ng-untouched .ng-select-container {
   background: #E9F9FD;
+}
+
+.ng-select.ng-select-disabled .ng-select-container {
+  background: #E9F9FD;
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 /* dropdown */

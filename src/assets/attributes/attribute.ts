@@ -5,7 +5,7 @@ export class Attribute {
   private _list: string[];
   private _description: string;
   private _type: string;
-  private _date: string;
+  private _format: string;
 
   get assetCharacteristicId(): string {
     return this._assetCharacteristicId;
@@ -55,11 +55,11 @@ export class Attribute {
     this._type = value;
   }
 
-  get date(): string {
-    return this._date;
+  get format(): string {
+    return this._format;
   }
 
-  set date(value: string) {
-    this._date = value;
+  set format(value: string) {
+    this._format = value;
   }
 }

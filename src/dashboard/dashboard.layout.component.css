@@ -103,11 +103,11 @@
   background: #FFE4E3;
 }
 
-::ng-deep .fc-input.ng-dirty {
-  background: #FFFFFF;
+::ng-deep .fc-input:disabled {
+  background: #E9F9FD;
+  opacity: 0.3;
+  cursor: not-allowed;
 }
-
-
 
 /* */
 

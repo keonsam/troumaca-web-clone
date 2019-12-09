@@ -53,14 +53,23 @@ export class AssetTypeService {
     }));
   }
 
-  getAssetTypes(search?: string): Observable<AssetTypes> {
+  getAssetTypes(tab?: string, search?: string): Observable<AssetTypes> {
     return this.apollo.query({
       query: gql`
-        query getAssetTypes($search: String) {
+        query getAssetTypes(
+        $tab: String
+        $search: String
+        ) {
             getAssetTypes(data: {
+                    tab: $tab
                     search: $search
                 }) {
-                assetTypes {
+                recent {
+                    assetTypeId
+                    name
+                    color
+                }
+                recommended {
                     assetTypeId
                     name
                     color
@@ -69,6 +78,7 @@ export class AssetTypeService {
         }
       `,
       variables: {
+        tab: tab,
         search: search
       }
     }).pipe(map( (res: any) => {

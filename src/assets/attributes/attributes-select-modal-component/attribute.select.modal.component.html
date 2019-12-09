@@ -64,46 +64,86 @@
 
                         <label class="blue-checkbox-label char" for="pre-filled{{i}}">Pre-filled
                           <span class="blue-checkbox-label__details">Fill the content for all</span>
-                          <input class="blue-checkbox" type="checkbox" id="pre-filled{{i}}" formControlName="preFilled" />
+                          <input class="blue-checkbox" type="checkbox" id="pre-filled{{i}}" formControlName="preFilled" (change)="preFilledChange($event, item['controls']['preFilledValue'], item['controls']['assetCharacteristicTypeId']['value'])"/>
                           <span class="blue-checkbox__shadow"></span>
                         </label>
 
-                        <div class="pre-filled-container">
-                          <ng-container *ngIf="item['controls']['preFilled']['value']">
+                        <ng-container *ngIf="item['controls']['assetCharacteristicTypeId']['value'] !== '3'" >
 
-                            <div
-                              [ngSwitch]="item['controls']['assetCharacteristicTypeId']['value']"
-                              class="pre-filled-input-div"
+                          <div
+                            [ngSwitch]="item['controls']['assetCharacteristicTypeId']['value']"
+                            class="pre-filled-input-div"
+                          >
+
+                            <div class="f-c-no-padding f-c-no-padding-content" *ngSwitchCase="'2'">
+                              <label class="fc-label--hidden" for="number{{i}}">Value</label>
+                              <input class="fc-input" id="number{{i}}" formControlName="preFilledValue" placeholder="Value" type="number">
+                            </div>
+
+                            <ng-select
+                              *ngSwitchCase="'4'"
+                              class="custom"
+                              formControlName="preFilledValue"
+                              placeholder="Select default"
+                              [items]="item['controls']['list']['value']"
                             >
-                              <div class="f-c-no-padding f-c-no-padding-content" *ngSwitchCase="'2'">
-                                <label class="fc-label--hidden" for="number{{i}}">Value</label>
-                                <input class="fc-input" id="number{{i}}" formControlName="preFilledValue" placeholder="Pre-Filled Content" type="number">
-                              </div>
-                              <ng-select
-                                *ngSwitchCase="'4'"
-                                class="custom"
-                                formControlName="preFilledValue"
-                                placeholder="Select default"
-                                [items]="item['controls']['list']['value']"
-                              >
-                              </ng-select>
-                              <ng-select
-                                *ngSwitchCase="'5'"
-                                class="custom multi"
-                                formControlName="preFilledValue"
-                                multiple="true"
-                                placeholder="Select defaults"
-                                [items]="item['controls']['list']['value']"
-                              >
-                              </ng-select>
-                              <div class="f-c-no-padding f-c-no-padding-content"  *ngSwitchDefault>
-                                <label class="fc-label--hidden" for="text">Text</label>
-                                <input class="fc-input" id="text" formControlName="preFilledValue" placeholder="Pre-Filled Content">
+                            </ng-select>
+
+                            <ng-select
+                              *ngSwitchCase="'5'"
+                              class="custom multi"
+                              formControlName="preFilledValue"
+                              multiple="true"
+                              placeholder="Select defaults"
+                              [items]="item['controls']['list']['value']"
+                            >
+                            </ng-select>
+
+                            <div class="f-c-no-padding f-c-no-padding-content" *ngSwitchCase="'6'">
+                              <label class="fc-label--hidden" for="date{{i}}">Date</label>
+                              <input [matDatepicker]="picker" class="fc-input fc-input-icon--left" id="date{{i}}" formControlName="preFilledValue" placeholder="{{item['controls']['format']['value'] }}">
+                              <mat-datepicker-toggle  [for]="picker" class="icon-left">
+                                <fa-icon matDatepickerToggleIcon [icon]="['fas', 'calendar']" class="icon-left--blue"></fa-icon>
+                              </mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                            </div>
+
+
+                            <div class="f-c-no-padding f-c-no-padding-content fc-dropdown" *ngSwitchCase="'7'">
+                              <label class="fc-label--hidden" for="person{{i}}">person</label>
+                              <input class="fc-input fc-input-icon--left" id="person{{i}}" formControlName="preFilledValue" placeholder="Person" autocomplete="off">
+                              <fa-icon [icon]="['fas', 'user']" class="icon-left--blue--others"></fa-icon>
+                              <div class="input-dropdown" *ngIf="people?.length > 0">
+                                <ul class="input-dropdown-list">
+                                  <li *ngFor="let person of people; let i = index" class="input-dropdown-list__item"  (click)="setPersonValue(item['controls']['preFilledValue'],item['controls']['partyId'], person)"><a>{{person.firstName}}</a></li>
+                                </ul>
                               </div>
                             </div>
 
-                          </ng-container>
-                        </div>
+                            <div class="f-c-no-padding f-c-no-padding-content"  *ngSwitchCase="'8'">
+                              <label class="fc-label--hidden" for="link{{i}}">Text</label>
+                              <input class="fc-input" id="link{{i}}" formControlName="preFilledValue" placeholder="{{item['controls']['type']['value'] | titlecase }}">
+                            </div>
+
+                            <div class="f-c-no-padding f-c-no-padding-content fc-dropdown" *ngSwitchCase="'9'">
+                              <label class="fc-label--hidden" for="location{{i}}">location</label>
+                              <input class="fc-input fc-input-icon--left" id="location{{i}}" formControlName="preFilledValue" placeholder="{{item['controls']['type']['value']}}">
+                              <fa-icon [icon]="['fas', 'map-marker-alt']" class="icon-left--blue--others"></fa-icon>
+                              <div class="input-dropdown" *ngIf="sites?.length > 0">
+                                <ul class="input-dropdown-list">
+                                  <li *ngFor="let site of sites; let i = index" class="input-dropdown-list__item"  (click)="setSiteValue(item['controls']['preFilledValue'],item['controls']['partyId'], site)"><a>{{site.name}}</a></li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div class="f-c-no-padding f-c-no-padding-content"  *ngSwitchDefault>
+                              <label class="fc-label--hidden" for="text{{i}}">Text</label>
+                              <input class="fc-input" id="text{{i}}" formControlName="preFilledValue" placeholder="Text">
+                            </div>
+
+                          </div>
+
+                        </ng-container>
 
                         <div class="tool-tip">
                           <div class="tool-tip--head" fxLayout="row" fxLayoutAlign="space-between center">

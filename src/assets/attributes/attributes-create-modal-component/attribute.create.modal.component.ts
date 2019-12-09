@@ -27,13 +27,14 @@ export class AttributeCreateModalComponent implements OnInit {
 
   private _arrayItems: string[] = ['',];
   private _dates: string[] = [
-    'MM - DD - YY',
-    'DD - MM - YY',
-    'YY - MM - DD'
+    'MM/DD/YY',
+    'DD/MM/YY',
+    'YY/MM/DD'
   ];
 
   private _selectType: string;
   private _selectLocation: string;
+  private _defaultDate: string;
 
   constructor(
     public dialogRef: MatDialogRef<AttributeCreateModalComponent>,
@@ -41,6 +42,7 @@ export class AttributeCreateModalComponent implements OnInit {
     public dialog: MatDialog,
     private attributeService: AttributeService
   ) {
+    this._defaultDate = localStorage.getItem("defaultDate") || this._dates[0];
     this._selectType = 'url';
     this._selectLocation = 'maps';
     this._panelActive = false;
@@ -57,16 +59,20 @@ export class AttributeCreateModalComponent implements OnInit {
     this.attributeForm
       .valueChanges
       .subscribe(value => {
+        if (value.date !== this._attribute.format) {
+          localStorage.setItem("defaultDate", value.date);
+        }
         this._attribute.name = value.label;
         this._attribute.description = value.additionalInfo;
-        this._attribute.date = value.date;
+        this._attribute.format = value.date;
         this._attribute.list = value.list.filter(val => !!val);
       });
   }
 
   ngOnInit(): void {
-    this._attributeForm.controls['date'].setValue('MM - DD - YY');
+    this._attributeForm.controls['date'].setValue(this._defaultDate);
   }
+
 
   get attributeForm(): FormGroup {
     return this._attributeForm;
@@ -171,6 +177,11 @@ export class AttributeCreateModalComponent implements OnInit {
   onSelect(type: AttributeType) {
     this._selected = type.name;
     this._attribute.assetCharacteristicTypeId = type.assetCharacteristicTypeId;
+    if (type.assetCharacteristicTypeId === '8') {
+      this._attribute.type = this._selectType;
+    }else if (type.assetCharacteristicTypeId === '9') {
+      this._attribute.type = this._selectLocation;
+    }
   }
 
   expandPanel() {
@@ -182,6 +193,16 @@ export class AttributeCreateModalComponent implements OnInit {
   }
 
   onSubmit() {
+    if(this._attribute.assetCharacteristicTypeId !== '6') {
+      this._attribute.format = undefined;
+    }
+    if (this._attribute.assetCharacteristicTypeId !== '8' && this._attribute.assetCharacteristicTypeId !== '9') {
+      this._attribute.type = undefined;
+    }
+    if (this._attribute.assetCharacteristicTypeId !== '4' && this._attribute.assetCharacteristicTypeId !== '5') {
+      this._attribute.list = undefined;
+    }
+    console.log(this._attribute);
     this.attributeService
       .saveAttribute(this._attribute)
       .subscribe(value => {
