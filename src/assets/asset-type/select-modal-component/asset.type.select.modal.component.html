@@ -13,18 +13,38 @@
     </form>
   </div>
   <div mat-dialog-content>
-    <mat-tab-group>
+    <mat-tab-group (selectedTabChange)="tabChange($event)">
       <mat-tab label="All">
         <div class="select-types">
           <span class="select-types-span">Recent</span>
-          <ul *ngFor="let assetType of assetTypes" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center" [style.background-color]="assetType.color" (dblclick)="onSelected(assetType)">
+          <ul
+            fxLayout="row wrap"
+            fxLayoutGap="7px"
+            class="select-types-list select-types-list__margin"
+          >
+            <li
+              *ngFor="let assetType of assetTypes.recent; trackBy: trackByFn"
+              class="select-type-i"
+              fxLayoutAlign="center center"
+              [style.background-color]="assetType.color"
+              (dblclick)="onSelected(assetType)"
+            >
               <span class="select-type-i-s">{{assetType.name}}</span>
             </li>
           </ul>
-          <span class="select-types-span">Common Type</span>
-          <ul *ngFor="let assetType of assetTypes" class="select-types-list">
-            <li class="select-type-i" fxLayoutAlign="center center" [style.background-color]="assetType.color" (dblclick)="onSelected(assetType)">
+          <span class="select-types-span">Recommended</span>
+          <ul
+            fxLayout="row wrap"
+            fxLayoutGap="7px"
+            class="select-types-list"
+          >
+            <li
+              *ngFor="let assetType of assetTypes.recommended; trackBy: trackByFn"
+              class="select-type-i"
+              fxLayoutAlign="center center"
+              [style.background-color]="assetType.color"
+              (dblclick)="onSelected(assetType)"
+            >
               <span class="select-type-i-s">{{assetType.name}}</span>
             </li>
           </ul>

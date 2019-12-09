@@ -5,10 +5,10 @@
     <div fxLayoutAlign="start center">
       <span class="lsm-header-text">Create Type</span>
       <div class="color-container">
-        <div class="red-header-circle"
+        <button class="red-header-circle"
              [style.background-color]="color"
-             (click)="togglePop()"
-        ></div>
+             (click)="togglePop(origin)"
+         #origin></button>
         <div [ngClass]="{'color-modal': true, 'show': showColors}" >
           <span class="color-modal__text">Select colors</span>
           <ul class="color-list"
@@ -45,7 +45,7 @@
         </mat-expansion-panel-header>
         <div class="form-control f-c-no-padding">
           <label class="fc-label" for="description">Description</label>
-          <input class="fc-input fc-input--white" [formControl]="description" id="description" placeholder="Add a short description" />
+          <input class="fc-input fc-input--white fc-input--white-des" [formControl]="description" id="description" placeholder="Add a short description" />
         </div>
         <div class="type-setting">
           <div class="type-setting-head"><span class="type-setting-head__text">Type Settings</span></div>
@@ -94,7 +94,7 @@
       </li>
     </ul>
     <div class="attribute-sec" fxLayout="column"  fxLayoutAlign="start center">
-      <button class="button button--white button--white--attribute" (click)="newAttributeModal()">Add characteristics</button>
+<!--      <button class="button button&#45;&#45;white button&#45;&#45;white&#45;&#45;attribute" (click)="newAttributeModal()">Add characteristics</button>-->
       <span class="lsm2-content-q">what is this?</span>
     </div>
   </div>

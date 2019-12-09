@@ -1,19 +1,19 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DialogPosition, MatDialog, MatDialogRef} from '@angular/material';
 import {AttributeSelectModalComponent} from '../../attributes/attributes-select-modal-component/attribute.select.modal.component';
-import {attributeFont} from '../../attributes/attribute.font';
 import {AssetType} from '../asset.type';
 import {AssetTypeService} from '../asset.type.service';
-import {SelectedAttribute} from "../../attributes/selected.attribute";
-import {Characteristic} from "../characteristic";
+import {SelectedAttribute} from '../../attributes/selected.attribute';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-asset-type-create-modal',
   templateUrl: './asset.type.create.modal.component.html',
   styleUrls: ['././asset.type.create.modal.component.css']
 })
-export class AssetTypeCreateModalComponent {
+export class AssetTypeCreateModalComponent implements OnInit, OnDestroy {
 
   attributes: SelectedAttribute[] = [];
   name: FormControl;
@@ -29,6 +29,7 @@ export class AssetTypeCreateModalComponent {
   color = '#F2CBCB';
   showColors = false;
   private _items: FormArray;
+  private _destroyed$ = new Subject();
 
   constructor(
     public dialogRef: MatDialogRef<AssetTypeCreateModalComponent>,
@@ -53,12 +54,23 @@ export class AssetTypeCreateModalComponent {
 
     this.assetTypeForm
       .valueChanges
+      .pipe(
+        takeUntil(this._destroyed$)
+      )
       .subscribe(value => {
         this.assetType.name = value.name;
         this.assetType.description = value.description;
         this.assetType.share = value.share;
         this.assetType.use = value.use
       })
+  }
+
+  ngOnInit(): void {
+  }
+
+  ngOnDestroy (): void {
+    this._destroyed$.next();
+    this._destroyed$.complete();
   }
 
   createItem(attribute: SelectedAttribute) {
@@ -69,7 +81,7 @@ export class AssetTypeCreateModalComponent {
       required: attribute.required,
       preFilled: attribute.preFilled,
       description: attribute.description,
-      preFilledValue: new FormControl(attribute.preFilledValue, attribute.required ? [Validators.required]: null),
+      preFilledValue: new FormControl(attribute.preFilledValue, attribute.required ? [Validators.required] : null),
       list: attribute.list
     });
   }
@@ -95,28 +107,31 @@ export class AssetTypeCreateModalComponent {
       panelClass: ['left-panel-2'],
     });
 
-    dialogRef.afterClosed().subscribe((values: SelectedAttribute[]) => {
-      if (values) {
-        values.forEach( (val: SelectedAttribute) => {
-          this.addItem(val);
-        })
-      }
-    });
+    // dialogRef.afterClosed().subscribe((values: SelectedAttribute[]) => {
+    //   if (values) {
+    //     values.forEach( (val: SelectedAttribute) => {
+    //       this.addItem(val);
+    //     })
+    //   }
+    // });
   }
 
   onSubmit() {
-    this.assetType.characteristics = this.assetTypeForm.get('items').value.map( (val: SelectedAttribute) => {
-      return new Characteristic(val.assetCharacteristicId, val.preFilled, val.preFilledValue, val.required).toJSON();
-    });
+    // this.assetType.characteristics = this.assetTypeForm.get('items').value.map( (val: SelectedAttribute) => {
+    //   return new Characteristic(val.assetCharacteristicId, val.preFilled, val.preFilledValue, val.required).toJSON();
+    // });
     this.assetTypeService.saveAssetType(this.assetType)
+      .pipe(
+        takeUntil(this._destroyed$)
+      )
       .subscribe( val => {
         if (val && val.assetTypeId) {
-          this.dialogRef.close(true)
+          this.dialogRef.close(true);
         }else {
-          console.log('failed')
+          console.error('failed');
         }
       }, error => {
-        console.log(error);
+        console.error(error);
       });
   }
 
@@ -126,7 +141,7 @@ export class AssetTypeCreateModalComponent {
     this.assetType.color = color;
   }
 
-  togglePop() {
+  togglePop(origin: HTMLButtonElement) {
     this.showColors = !this.showColors;
   }
 }

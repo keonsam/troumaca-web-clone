@@ -1,18 +1,19 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {faBox, faCheck, faSearch} from '@fortawesome/free-solid-svg-icons';
 import {FormControl} from '@angular/forms';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
 import {DialogPosition} from '@angular/material/dialog';
 import {AssetCreateModalComponent} from '../asset-create-modal/asset.create.modal.component';
 import {AssetService} from '../asset.service';
 import {Target} from '@angular/compiler';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-asset-top-menu',
   templateUrl: 'asset.top.menu.component.html',
   styleUrls: ['asset.top.menu.component.css']
 })
-export class AssetTopMenuComponent implements OnInit {
+export class AssetTopMenuComponent implements OnInit, OnDestroy {
   faBox = faBox;
   faSearch = faSearch;
   faCheck = faCheck;
@@ -20,6 +21,8 @@ export class AssetTopMenuComponent implements OnInit {
   show = false;
   offsetLeft: string;
   offsetTop: string;
+  private _destroyed$ = new Subject();
+
   constructor(private assetService: AssetService) {
     this.search = new FormControl();
   }
@@ -28,12 +31,18 @@ export class AssetTopMenuComponent implements OnInit {
     this.subscribeToSearch()
   }
 
+  ngOnDestroy (): void {
+    this._destroyed$.next();
+    this._destroyed$.complete();
+  }
+
   private subscribeToSearch() {
     this.search
       .valueChanges
       .pipe(
         debounceTime(1000),
-        distinctUntilChanged()
+        distinctUntilChanged(),
+        takeUntil(this._destroyed$)
       )
       .subscribe( val => {
       });
@@ -41,6 +50,10 @@ export class AssetTopMenuComponent implements OnInit {
 
   openAssetCreate() {
     this.assetService.onNewAsset.next(true);
+  }
+
+  openAssetTypeCreate() {
+    this.assetService.onNewAssetType.next(true);
   }
 
   showModal(event: any) {
@@ -57,6 +70,9 @@ export class AssetTopMenuComponent implements OnInit {
     this.closeShow();
     if (num === 1) {
       this.openAssetCreate();
+    }
+    if (num === 2) {
+      this.openAssetTypeCreate();
     }
   }
 }

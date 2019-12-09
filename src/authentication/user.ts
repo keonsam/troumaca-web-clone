@@ -4,6 +4,7 @@
 // import {ContactInfo} from './contact-info/contact.info';
 
 export class User {
+  partyId: string;
   firstName: string;
   middleName: string;
   lastName: string;

@@ -1,4 +1,4 @@
-import {Characteristic} from "./characteristic";
+import {Characteristic} from './characteristic';
 
 export class AssetType {
   assetTypeId: string;
