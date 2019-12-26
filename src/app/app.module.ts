@@ -31,6 +31,7 @@ import {
   faThLarge, faTrashAlt, faExclamationTriangle, faBars, faPencilAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    VirtualScrollerModule,
     AppRoutingModule,
     FontAwesomeModule,
     MaterialModule,
@@ -53,7 +55,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     appRoutingProviders,
     {provide: APP_BASE_HREF, useValue: '/'},
     {provide: UUIDGenerator, useClass: UUIDGenerator},
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   bootstrap: [AppComponent]
 })

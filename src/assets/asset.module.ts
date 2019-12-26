@@ -15,6 +15,8 @@ import {AssetSortComponent} from './asset-sort/asset.sort.component';
 import {AssetListComponent} from './asset-list/asset.list.component';
 import {AssetListEmptyComponent} from './asset-list/asset-list-empty/asset.list.empty.component';
 import {AssetTypeModule} from './asset-type/asset.type.module';
+import { VirtualScrollerModule } from 'ngx-virtual-scroller';
+import {AssetListFullComponent} from './asset-list/asset-list-full/asset.list.full.component';
 
 @NgModule({
   imports: [
@@ -26,6 +28,7 @@ import {AssetTypeModule} from './asset-type/asset.type.module';
     MaterialModule,
     FontAwesomeModule,
     FlexLayoutModule,
+    VirtualScrollerModule,
     // other
     AssetTypeModule
   ],
@@ -35,7 +38,8 @@ import {AssetTypeModule} from './asset-type/asset.type.module';
     AssetTopMenuComponent,
     AssetSortComponent,
     AssetListComponent,
-    AssetListEmptyComponent
+    AssetListEmptyComponent,
+    AssetListFullComponent
   ],
   entryComponents: [
     AssetCreateModalComponent,

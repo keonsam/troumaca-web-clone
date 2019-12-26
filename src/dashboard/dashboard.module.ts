@@ -6,6 +6,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MenuModule} from '../menu/menu.module';
 import {DashboardRoutingModule} from './dashboard.routing.module';
 import {DashboardLayoutComponent} from './dashboard.layout.component';
+import { SuccessMessageComponent} from './success-message/success-message.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {DashboardLayoutComponent} from './dashboard.layout.component';
     MenuModule,
   ],
   declarations: [
-    DashboardLayoutComponent
+    DashboardLayoutComponent,
+    SuccessMessageComponent
   ]
 })
 export class DashboardModule { }

@@ -12,10 +12,11 @@ export class AssetSortComponent {
   faSortAmountDown = faSortAmountDown;
   faList = faList;
   faTh = faTh;
-  listType = 'list';
-  constructor(private assetService: AssetService) {}
+  listType = localStorage.getItem('defaultList') || 'list';
+  constructor(private assetService: AssetService) { }
   switchList(type: string) {
     this.listType = type;
+    localStorage.setItem('defaultList', type);
     this.assetService.listType.next(type);
   }
 }

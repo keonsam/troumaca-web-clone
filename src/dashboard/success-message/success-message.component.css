@@ -1,0 +1,42 @@
+.success-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(10,23,51,0.5);
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+}
+
+.success-bar {
+  width: 100%;
+  height: 167px;
+  background: #004777;
+  padding-left: 71px;
+  padding-right: 77px;
+  opacity: 1;
+}
+
+.success-left {
+  margin-top: 39px;
+}
+
+.success--heading {
+  font-size: 18px;
+  line-height: 20px;
+  color: #F5F5F5;
+}
+
+.success-message1 {
+  margin-top: 20px;
+  font-size: 18px;
+  letter-spacing: 0.01em;
+  color: #FFFFFF;
+  opacity: 0.5;
+}
+
+.success-icon {
+  color: #23C7EF;
+  opacity: 0.8;
+  font-size: 35px;
+}

@@ -45,6 +45,7 @@ export class AssetTopMenuComponent implements OnInit, OnDestroy {
         takeUntil(this._destroyed$)
       )
       .subscribe( val => {
+        this.assetService.search.next(val);
       });
   }
 
