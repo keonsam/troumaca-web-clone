@@ -1,0 +1,110 @@
+<ul *ngIf="listType"
+    [ngClass]="{'al-list': listType === 'list', 'asset-grid': listType === 'grid'}"
+>
+  <virtual-scroller
+    #scroll
+    [items]="assets"
+    *ngIf="listType === 'list'"
+    class="virtual-list"
+    (vsEnd)="getAssets($event)"
+  >
+    <li *ngFor="let asset of scroll.viewPortItems; trackBy: trackByFn"
+        class="al-rows-items"
+    >
+      <div
+        class="al-rows-container"
+        gdRows="auto"
+        gdColumns="50px 248px auto 27px 32px 18px"
+      >
+        <div
+          class="al-ri-circle"
+          fxLayoutAlign="center center"
+          gdColumn="1/2"
+          gdRow="1/2"
+          gdGridAlign="start center"
+        >
+          <img class="al-ri-circle-img" [src]="asset.image || '../css/images/asset-img.svg'" alt="image of asset"/>
+        </div>
+        <span
+          class="al-ri-span"
+          gdColumn="2/3"
+          gdRow="1/2"
+          gdGridAlign="start center"
+        >{{asset.name}}</span>
+        <div
+          gdColumn="3/4"
+          gdRow="1/2"
+          class="al-ri-type"
+          gdGridAlign="start center"
+          fxLayoutAlign="center center"
+        >
+          <span class="al-ri-type-span">{{asset.assetType.name}}</span>
+        </div>
+        <fa-icon
+                 class="al-ri-edit-icons"
+                 gdColumn="4/5"
+                 gdRow="1/2"
+                 gdGridAlign="start center"
+                 [icon]="['fas', 'trash-alt']"
+                 fxHide.xs
+        ></fa-icon>
+        <fa-icon
+                 class="al-ri-edit-icons"
+                 gdColumn="5/6"
+                 gdRow="1/2"
+                 gdGridAlign="start center"
+                 [icon]="['fas', 'edit']"
+                 fxHide.xs
+        ></fa-icon>
+        <fa-icon
+          [icon]="['fas', 'ellipsis-v']"
+          class="al-ri-edit-ellipsis"
+          gdColumn="6/7"
+          gdRow="1/2"
+          (click)="handleDetails(asset.assetId)"
+        ></fa-icon>
+      </div>
+    </li>
+  </virtual-scroller>
+
+  <virtual-scroller
+    #scroll
+    [items]="assets"
+    *ngIf="listType === 'grid'"
+    class="virtual-grid"
+    (vsEnd)="getAssets($event)"
+  >
+    <li *ngFor="let asset of scroll.viewPortItems; trackBy: trackByFn"
+        class="al-grid-items"
+    >
+      <div
+        gdRows="16px 41px auto 9px"
+        gdColumns="auto 6px"
+      >
+        <div
+          class="al-ri-circle"
+          fxLayoutAlign="center center"
+          gdColumn="1/2"
+          gdRow="1/3"
+          gdGridAlign="center start"
+        >
+          <img class="al-ri-circle-img" [src]="asset.image || '../css/images/asset-img.svg'" alt="image of asset"/>
+        </div>
+        <span
+          gdColumn="1/2"
+          gdRow="3/4"
+          gdGridAlign="center start"
+          class="al-ri-span al-ri-span-g"
+        >{{asset.name}}</span>
+        <fa-icon
+          class="al-ri-edit-ellipsis al-ri-ee--g"
+          gdColumn="2/3"
+          gdRow="1/2"
+          [icon]="['fas', 'ellipsis-v']"
+          (click)="handleDetails(asset.assetId)"
+        ></fa-icon>
+      </div>
+    </li>
+  </virtual-scroller>
+
+</ul>

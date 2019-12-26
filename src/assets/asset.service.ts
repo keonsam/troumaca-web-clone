@@ -11,15 +11,17 @@ export class AssetService {
   listType: BehaviorSubject<string> = new BehaviorSubject( '');
   onNewAsset: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   onNewAssetType: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  onOpenDetails: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  search: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   uuid = new UUIDGenerator();
   constructor(private apollo: Apollo) {
   }
 
-  getAssets(search?: string): Observable<Assets> {
+  getAssets(search?: string, lastPage?: number, pageSize?: number): Observable<Assets> {
     return this.apollo.query({
       query: gql`
-        query getAssets($search: String) {
-          getAssets(search: $search) {
+        query getAssets($search: String $paging: AssetPagingInput) {
+          getAssets(search: $search, paging: $paging) {
             assets {
               assetId
               name
@@ -33,7 +35,11 @@ export class AssetService {
         }
       `,
       variables: {
-        search: search
+        search: search,
+        paging: {
+          pageSize: pageSize,
+          pageNumber: lastPage
+        }
       }
     }).pipe(map((res: any) => {
       if (res && res.data && res.data.getAssets) {

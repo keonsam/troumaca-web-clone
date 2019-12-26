@@ -7,6 +7,8 @@ import {AssetTypeService} from '../asset.type.service';
 import {SelectedAttribute} from '../../attributes/selected.attribute';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {DashboardLayoutService} from '../../../dashboard/dashboard.layout.service';
+import {SuccessMessage} from '../../../dashboard/success-message/success.message';
 
 @Component({
   selector: 'app-asset-type-create-modal',
@@ -35,7 +37,8 @@ export class AssetTypeCreateModalComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<AssetTypeCreateModalComponent>,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    private assetTypeService: AssetTypeService
+    private assetTypeService: AssetTypeService,
+    private dashboardLayoutService: DashboardLayoutService
   ) {
     this.assetType = new AssetType();
     this.assetType.color = this.color;
@@ -62,7 +65,17 @@ export class AssetTypeCreateModalComponent implements OnInit, OnDestroy {
         this.assetType.description = value.description;
         this.assetType.share = value.share;
         this.assetType.use = value.use
-      })
+      });
+
+    this.dashboardLayoutService.successNext
+      .pipe(
+        takeUntil(this._destroyed$)
+      )
+      .subscribe(value => {
+        if (value) {
+          this.dialogRef.close(true);
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -126,7 +139,7 @@ export class AssetTypeCreateModalComponent implements OnInit, OnDestroy {
       )
       .subscribe( val => {
         if (val && val.assetTypeId) {
-          this.dialogRef.close(true);
+          this.dashboardLayoutService.success.next(new SuccessMessage('asset type', this.assetType.name, true));
         }else {
           console.error('failed');
         }

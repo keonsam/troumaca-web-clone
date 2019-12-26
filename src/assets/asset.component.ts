@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {faEdit, faEllipsisV, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 import {Assets} from './assets';
 import {DialogPosition, MatDialog} from '@angular/material';
 import {AssetCreateModalComponent} from './asset-create-modal/asset.create.modal.component';
@@ -7,6 +6,7 @@ import {AssetService} from './asset.service';
 import {AssetTypeCreateModalComponent} from './asset-type/create-modal-component/asset.type.create.modal.component';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+// import {AssetDetails} from './asset-details/asset-details.component';
 
 @Component({
   selector: 'app-assets',
@@ -35,6 +35,15 @@ export class AssetComponent implements OnInit, OnDestroy {
       ).subscribe( val => {
       if (val) {
         this.openAssetTypeCreate();
+      }
+    });
+
+    this.assetService.onOpenDetails
+      .pipe(
+        takeUntil(this._destroyed$)
+      ).subscribe( val => {
+      if (val) {
+        this.openAssetDetails(val);
       }
     });
   }
@@ -77,6 +86,21 @@ export class AssetComponent implements OnInit, OnDestroy {
       disableClose: false,
       panelClass: ['left-panel'],
     });
+  }
+
+  private openAssetDetails(id: string) {
+  //   const dialogPosition: DialogPosition = {
+  //     top: '0',
+  //     right: '0'
+  //   };
+  //   const dialogRef = this.dialog.open(AssetDetails,  {
+  //     height: '100%',
+  //     position: dialogPosition,
+  //     hasBackdrop: false,
+  //     closeOnNavigation: true,
+  //     disableClose: true,
+  //     panelClass: ['right-panel'],
+  //   });
   }
 }
 

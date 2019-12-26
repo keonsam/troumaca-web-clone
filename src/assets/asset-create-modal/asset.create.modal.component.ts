@@ -7,6 +7,8 @@ import {Asset} from '../asset';
 import {AssetService} from '../asset.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {DashboardLayoutService} from '../../dashboard/dashboard.layout.service';
+import {SuccessMessage} from '../../dashboard/success-message/success.message';
 
 @Component({
   selector: 'app-asset-create-modal',
@@ -34,7 +36,8 @@ export class AssetCreateModalComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<AssetCreateModalComponent>,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    private assetService: AssetService
+    private assetService: AssetService,
+    private dashboardLayoutService: DashboardLayoutService
   ) {
     this.asset = new Asset();
     this.name = new FormControl('', [Validators.required]);
@@ -53,6 +56,16 @@ export class AssetCreateModalComponent implements OnInit, OnDestroy {
       .subscribe( val => {
         this.asset.name = val.name;
         this.asset.description = val.description
+      });
+
+    this.dashboardLayoutService.successNext
+      .pipe(
+        takeUntil(this._destroyed$)
+      )
+      .subscribe(value => {
+        if (value) {
+          this.dialogRef.close(true);
+        }
       });
   }
 
@@ -115,14 +128,13 @@ export class AssetCreateModalComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.asset);
     this.assetService.addAsset(this.asset)
       .pipe(
         takeUntil(this._destroyed$)
       )
       .subscribe( value => {
         if (value && value.assetId) {
-          this.dialogRef.close(true)
+          this.dashboardLayoutService.success.next(new SuccessMessage('asset type', this.asset.name, true));
         }else {
           console.error('failed');
         }

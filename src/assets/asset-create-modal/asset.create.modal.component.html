@@ -1,16 +1,15 @@
 <form class="left-side-modal"
-     gdRows="auto auto auto"
       [formGroup]="assetForm"
 >
   <div class="lsm-white">
     <div class="left-side-modal-header" fxLayoutAlign="start center">
-      <span class="lsm-header-text">New Asset</span>
+      <span class="lsm-header-text">{{asset.name || 'New Asset'}}</span>
       <div class="image-container">
         <div class="lsm-header-round" fxLayoutAlign="center center"
              (click)="toggleImage()"
         >
-          <fa-icon  *ngIf="!image" [icon]="['fas', 'image']" class="lsm-header-icon"></fa-icon>
-          <img *ngIf="image" [src]="image" alt="image of asset" class="asset-img" >
+          <fa-icon  *ngIf="!asset.image" [icon]="['fas', 'image']" class="lsm-header-icon"></fa-icon>
+          <img *ngIf="asset.image" [src]="asset.image" alt="image of asset" class="asset-img" >
         </div>
         <div [ngClass]="{'image-modal': true, 'show': showImage }">
           <span class="image-modal__text">Asset Image</span>
@@ -62,19 +61,7 @@
       </div>
     </div>
   </div>
-  <div mat-dialog-content fxLayoutAlign="center center">
-<!--    <div class="lsm-add" fxLayoutAlign="center center">-->
-<!--      <div class="lsm-add-icon">-->
-<!--        <fa-icon [icon]="faTag" class="lsm-tag">+</fa-icon>-->
-<!--        <span class="lsm-tag__span">+</span>-->
-<!--      </div>-->
-<!--      <div class="lsm-add-des">-->
-<!--        <span class="lsm-add-span">Add Attribute</span>-->
-<!--        <p class="lsm-add-p">Use our rich attribute creation to freely describe your asset.</p>-->
-<!--      </div>-->
-<!--    </div>-->
-  </div>
-  <div mat-dialog-actions fxLayoutAlign="end" class="lsm-end">
+  <div fxLayoutAlign="end" class="lsm-end">
     <button class="button button--primary button--primary--normal" [disabled]="!assetForm.valid" (click)="onSubmit()">Save Asset</button>
   </div>
 </form>
