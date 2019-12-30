@@ -14,6 +14,19 @@
 }
 
 /* REUSED */
+
+::ng-deep .backdrop-blue {
+  background: #004777;
+  opacity: 0.9 !important;
+}
+
+::ng-deep .delete-panel > .mat-dialog-container {
+  background: #F5F5F5;
+  border-radius: 9px;
+  width: 415px;
+  padding: 0;
+}
+
 ::ng-deep .fc-select-label-div {
   margin-bottom: 7px;
 }

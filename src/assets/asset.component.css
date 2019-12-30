@@ -20,14 +20,6 @@
   padding: 0;
 }
 
-::ng-deep .right-panel > .mat-dialog-container {
-  background: #F5F5F5;
-  border: 1px solid #EFEFF8;
-  border-radius: 0;
-  width: 375px;
-  padding: 0;
-}
-
 ::ng-deep .fc-ellipse-v-icon {
   font-size: 13px;
   color: #919F9F;

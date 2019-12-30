@@ -1,30 +1,24 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {DashboardLayoutService} from '../dashboard.layout.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-  templateUrl: 'success-message.component.html',
-  styleUrls: ['success-message.component.css'],
-  selector: 'app-success-message'
+  templateUrl: 'error.message.component.html',
+  styleUrls: ['error.message.component.css'],
+  selector: 'app-error-message'
 })
-export class SuccessMessageComponent implements OnDestroy {
-  type: string;
-  name: string;
+export class ErrorMessageComponent implements OnDestroy {
   show: boolean;
-  process: string;
   private _destroyed$ = new Subject();
 
   constructor(private dashboardLayoutService: DashboardLayoutService) {
-    this.dashboardLayoutService.success
+    this.dashboardLayoutService.error
       .pipe(
         takeUntil(this._destroyed$)
       )
       .subscribe( value => {
-        if (value && value.show) {
-          this.type = value.type;
-          this.name = value.name;
-          this.process = value.process;
+        if (value) {
           this.show = true;
         }
       });
@@ -36,7 +30,6 @@ export class SuccessMessageComponent implements OnDestroy {
   }
 
   toggleShow() {
-    // this.dashboardLayoutService.successNext.next(true);
     this.show =  false;
   }
 }

@@ -11,8 +11,9 @@ export class AssetService {
   listType: BehaviorSubject<string> = new BehaviorSubject( '');
   onNewAsset: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   onNewAssetType: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  onOpenDetails: BehaviorSubject<string> = new BehaviorSubject<string>('');
   search: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  lastPage: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
   uuid = new UUIDGenerator();
   constructor(private apollo: Apollo) {
   }
@@ -53,41 +54,25 @@ export class AssetService {
   getAssetById(assetId: string): Observable<Asset> {
     return this.apollo.query({
       query: gql`
-        query getAsset($assetId: ID!) {
-          getAsset(assetId: $assetId) {
+        query getAssetById($assetId: ID!) {
+          getAssetById(assetId: $assetId) {
             assetId
             assetTypeId
             assetType {
               assetTypeId
-              initialId
               name
+              color
             }
             name
             description
-            createdOn
-            destroyOn
-            discreteItem {
-              serialNumber
-            }
-            inventoryItem {
-              inventoryID
-              quantity
-            }
-            building {
-              buildingNumber
-            }
-            lot {
-              lotNumber
-              numberOfShares
-            }
-            version
+            image
           }
         }
       `,
       variables: {
         assetId: assetId
       }
-    }).pipe(map((res: any) => res.data.getAsset));
+    }).pipe(map((res: any) => res.data.getAssetById));
   }
 
   addAsset(asset: Asset): Observable<Asset> {
@@ -169,15 +154,7 @@ export class AssetService {
           $name: String!,
           $assetTypeId: ID!,
           $description: String,
-          $createdOn: String,
-          $destroyOn: String,
-          $serialNumber: String,
-          $inventoryID: String,
-          $quantity: String,
-          $buildingNumber: String,
-          $lotNumber: String,
-          $numberOfShares: String,
-          $version: String!
+          $image: String
         ) {
           updateAsset(
             assetId: $assetId,
@@ -185,23 +162,7 @@ export class AssetService {
               name: $name,
               assetTypeId: $assetTypeId,
               description: $description,
-              createdOn: $createdOn,
-              destroyOn: $destroyOn,
-              discreteItem: {
-                serialNumber: $serialNumber
-              }
-              inventoryItem: {
-                inventoryID: $inventoryID
-                quantity: $quantity
-              }
-              building: {
-                buildingNumber: $buildingNumber
-              }
-              lot: {
-                lotNumber: $lotNumber
-                numberOfShares: $numberOfShares
-              }
-              version: $version
+              image: $image
             }
           )
         }
@@ -211,15 +172,7 @@ export class AssetService {
         name: asset.name,
         assetTypeId: asset.assetTypeId,
         description: asset.description,
-        createdOn: asset.createdOn,
-        destroyOn: asset.destroyOn,
-        serialNumber: asset.discreteItem.serialNumber,
-        inventoryID: asset.inventoryItem.inventoryID,
-        quantity: asset.inventoryItem.quantity,
-        buildingNumber: asset.building.buildingNumber,
-        lotNumber: asset.lot.lotNumber,
-        numberOfShares: asset.lot.numberOfShares,
-        version: asset.version
+        image: asset.image
       }
     }).pipe(map((res: any) => {
       return res.data.updateAsset;

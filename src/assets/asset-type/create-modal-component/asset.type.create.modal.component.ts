@@ -67,15 +67,15 @@ export class AssetTypeCreateModalComponent implements OnInit, OnDestroy {
         this.assetType.use = value.use
       });
 
-    this.dashboardLayoutService.successNext
-      .pipe(
-        takeUntil(this._destroyed$)
-      )
-      .subscribe(value => {
-        if (value) {
-          this.dialogRef.close(true);
-        }
-      });
+    // this.dashboardLayoutService.successNext
+    //   .pipe(
+    //     takeUntil(this._destroyed$)
+    //   )
+    //   .subscribe(value => {
+    //     if (value) {
+    //       this.dialogRef.close(true);
+    //     }
+    //   });
   }
 
   ngOnInit(): void {
@@ -139,11 +139,13 @@ export class AssetTypeCreateModalComponent implements OnInit, OnDestroy {
       )
       .subscribe( val => {
         if (val && val.assetTypeId) {
-          this.dashboardLayoutService.success.next(new SuccessMessage('asset type', this.assetType.name, true));
+          this.dialogRef.close(true);
+          this.dashboardLayoutService.success.next(new SuccessMessage('asset type', this.assetType.name, true, 'created'));
         }else {
-          console.error('failed');
+          this.dashboardLayoutService.error.next(true);
         }
       }, error => {
+        this.dashboardLayoutService.error.next(true);
         console.error(error);
       });
   }

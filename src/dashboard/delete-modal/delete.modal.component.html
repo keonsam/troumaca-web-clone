@@ -1,0 +1,19 @@
+<div class="delete-modal">
+  <div fxLayout="row">
+    <h1 class="delete-modal-title" fxFlexAlign="center">Delete Confirmation</h1>
+    <button class="delete-modal-close" mat-dialog-close>+</button>
+  </div>
+  <div class="delete-modal-c">
+    <p class="delete-modal-p">Are you sure you wanted to delete <br>
+      this {{data?.type}}?</p>
+    <div class="delete-modal-i-div" fxLayout="row">
+      <img [src]="data?.image || '../../css/images/asset-img.svg'" class="delete-modal-i">
+      <h2 class="delete-modal-s" fxFlexAlign="center">{{data?.name}}</h2>
+    </div>
+  </div>
+  <div fxLayoutAlign="end" fxLayoutGap="16px">
+    <button (click)="onNoClick()" class="button delete-modal-b-y">Yes</button>
+    <button mat-dialog-close class="button delete-modal-b-n">No</button>
+  </div>
+</div>
+

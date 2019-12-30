@@ -1,0 +1,12 @@
+<div class="error-overlay" *ngIf="show" (click)="toggleShow()">
+  <div class="error-bar" fxLayoutAlign="space-between">
+    <div class="error-left">
+      <h2 class="error--heading">Uh oh... Something went wrong</h2>
+      <p class="error-message1">You can try again in a <br>
+        few seconds
+      </p>
+    </div>
+    <fa-icon class="error-right error-icon" fxFlexAlign="center" [icon]="['fas', 'times']"></fa-icon>
+  </div>
+</div>
+

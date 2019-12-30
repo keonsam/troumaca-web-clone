@@ -7,6 +7,9 @@ import {MenuModule} from '../menu/menu.module';
 import {DashboardRoutingModule} from './dashboard.routing.module';
 import {DashboardLayoutComponent} from './dashboard.layout.component';
 import { SuccessMessageComponent} from './success-message/success-message.component';
+import {DeleteModalComponent} from './delete-modal/delete.modal.component';
+import {MaterialModule} from '../app/material.module';
+import {ErrorMessageComponent} from './error-message/error.message.component';
 
 @NgModule({
   imports: [
@@ -16,10 +19,14 @@ import { SuccessMessageComponent} from './success-message/success-message.compon
     FlexLayoutModule,
     DashboardRoutingModule,
     MenuModule,
+    MaterialModule
   ],
   declarations: [
     DashboardLayoutComponent,
-    SuccessMessageComponent
-  ]
+    SuccessMessageComponent,
+    ErrorMessageComponent,
+    DeleteModalComponent
+  ],
+  entryComponents: [DeleteModalComponent],
 })
 export class DashboardModule { }

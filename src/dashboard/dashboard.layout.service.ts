@@ -8,6 +8,6 @@ import {SuccessMessage} from './success-message/success.message';
 })
 export class DashboardLayoutService {
   success: BehaviorSubject<SuccessMessage> = new BehaviorSubject<SuccessMessage>(null);
-  successNext: Subject<boolean> = new Subject<boolean>();
+  error: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 }

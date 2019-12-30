@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DialogPosition, MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {AssetTypeSelectModalComponent} from '../asset-type/select-modal-component/asset.type.select.modal.component';
@@ -20,11 +20,11 @@ export class AssetCreateModalComponent implements OnInit, OnDestroy {
   description: FormControl;
   assetForm: FormGroup;
   dialogRefTypes: MatDialogRef<AssetTypeSelectModalComponent>;
-  assetType: AssetType;
   showDes = false;
   showImage = false;
   source = '../../css/images/assets-img';
   private asset: Asset;
+  type: string;
   images: string[] = [
     `${this.source}/asset-2.png`, `${this.source}/asset-2.1.png`, `${this.source}/asset-2.2.png`,
     `${this.source}/asset-2.3.png`, `${this.source}/asset-2.4.png`, `${this.source}/asset-2.5.png`
@@ -33,6 +33,7 @@ export class AssetCreateModalComponent implements OnInit, OnDestroy {
   private _destroyed$ = new Subject();
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { type: string, assetId: string },
     public dialogRef: MatDialogRef<AssetCreateModalComponent>,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
@@ -58,23 +59,37 @@ export class AssetCreateModalComponent implements OnInit, OnDestroy {
         this.asset.description = val.description
       });
 
-    this.dashboardLayoutService.successNext
-      .pipe(
-        takeUntil(this._destroyed$)
-      )
-      .subscribe(value => {
-        if (value) {
-          this.dialogRef.close(true);
-        }
-      });
+    // this.dashboardLayoutService.successNext
+    //   .pipe(
+    //     takeUntil(this._destroyed$)
+    //   )
+    //   .subscribe(value => {
+    //     if (value) {
+    //       this.dialogRef.close(true);
+    //     }
+    //   });
   }
 
   ngOnInit(): void {
+    if (this.data) {
+      this.getAssetById(this.data.assetId);
+    }
   }
 
   ngOnDestroy (): void {
     this._destroyed$.next();
     this._destroyed$.complete();
+  }
+
+  private getAssetById(assetId: string) {
+    this.assetService.getAssetById(assetId)
+      .subscribe( val => {
+        if (val && val.assetId) {
+          this.name.setValue(val.name);
+          this.description.setValue(val.description);
+          this.asset = val;
+        }
+      });
   }
 
   private openModal() {
@@ -92,16 +107,13 @@ export class AssetCreateModalComponent implements OnInit, OnDestroy {
     });
     this.dialogRefTypes.afterClosed().subscribe( (val: AssetType) => {
       if (val && val.assetTypeId) {
-        this.assetType = val;
         this.asset.assetTypeId = val.assetTypeId;
+        this.asset.assetType = val;
       }
         this.dialogRefTypes = undefined;
     });
   }
 
-  // private closeSelectType() {
-  //   this.dialogRefTypes.close();
-  // }
 
   openSelectType() {
     if (!this.dialogRefTypes) {
@@ -134,11 +146,27 @@ export class AssetCreateModalComponent implements OnInit, OnDestroy {
       )
       .subscribe( value => {
         if (value && value.assetId) {
-          this.dashboardLayoutService.success.next(new SuccessMessage('asset type', this.asset.name, true));
+          this.dialogRef.close(true);
+          this.dashboardLayoutService.success.next(new SuccessMessage('asset', this.asset.name, true, 'created'));
         }else {
           console.error('failed');
         }
       }, error => {
+        console.error(error);
+      });
+  }
+
+  onEdit() {
+    this.assetService.updateAsset(this.data.assetId, this.asset)
+      .subscribe( value => {
+        if (value) {
+          this.dialogRef.close(this.asset);
+          this.dashboardLayoutService.success.next(new SuccessMessage('asset', this.asset.name, true, 'updated'));
+        } else {
+          this.dashboardLayoutService.error.next(true);
+        }
+      }, error => {
+        this.dashboardLayoutService.error.next(true);
         console.error(error);
       });
   }

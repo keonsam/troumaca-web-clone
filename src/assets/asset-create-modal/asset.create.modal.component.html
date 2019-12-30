@@ -53,15 +53,16 @@
     <div fxLayoutAlign="space-between center" class="lsm-select" (click)="openSelectType()">
       <div>
         <fa-icon [icon]="['fas', 'th-large']" class="lsm-select-icon-1"></fa-icon>
-        <span class="lsm-select-span">{{ assetType ? 'Type: ' + assetType.name : 'Select Type'}}</span>
+        <span class="lsm-select-span">{{ asset.assetType ? 'Type: ' + asset.assetType.name : 'Select Type'}}</span>
       </div>
       <div>
-        <a *ngIf="assetType" class="change">change</a>
+        <a *ngIf="asset.assetType" class="change">change</a>
         <fa-icon [icon]="['fas', 'chevron-right']" class="lsm-select-icon-2"></fa-icon>
       </div>
     </div>
   </div>
+  <div class="lsm-body"></div>
   <div fxLayoutAlign="end" class="lsm-end">
-    <button class="button button--primary button--primary--normal" [disabled]="!assetForm.valid" (click)="onSubmit()">Save Asset</button>
+    <button class="button button--primary button--primary--normal" [disabled]="!assetForm.valid" (click)="data ? onEdit():onSubmit()">{{data ? 'Edit Asset': 'Save Asset'}}</button>
   </div>
 </form>

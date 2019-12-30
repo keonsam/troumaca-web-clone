@@ -1,7 +1,7 @@
 import {UUIDGenerator} from '../../uuid.generator';
 import {Apollo} from 'apollo-angular';
 import {AssetType} from './asset.type';
-import {Observable} from 'rxjs';
+import { Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import gql from 'graphql-tag';
 import {AssetTypes} from './asset.types';

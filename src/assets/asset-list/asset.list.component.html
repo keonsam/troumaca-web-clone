@@ -1,2 +1,6 @@
 <app-asset-list-empty *ngIf="assets.length < 1"></app-asset-list-empty>
-<app-asset-list-full *ngIf="assets.length" [listType]="listType" [assets]="assets" (getAssetsEvent)="getAssetsEvent($event)"></app-asset-list-full>
+<app-asset-list-full *ngIf="assets.length" [listType]="listType" [assets]="assets" (getAssetsEvent)="getAssetsEvent($event)"
+                     (remove)="handleRemove($event)"
+                     (edit)="handleEdit($event)"
+>
+</app-asset-list-full>

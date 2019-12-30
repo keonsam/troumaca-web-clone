@@ -2,12 +2,12 @@ import {DiscreteItem} from './discrete.item';
 import {InventoryItem} from './inventory.item';
 import {Building} from './building';
 import {Lot} from './lot';
-// import {AssetType} from '../asset-types/asset.type';
+import {AssetType} from './asset-type/asset.type';
 
 export class Asset {
   assetId: string;
   assetTypeId: string;
-  assetType: any;
+  assetType: AssetType;
   name: string;
   createdOn: Date;
   destroyOn: Date;

@@ -1,0 +1,23 @@
+<ul
+  fxLayout="row wrap"
+  fxLayoutGap="7px"
+  class="select-types-list"
+>
+  <virtual-scroller
+    #scroll
+    [items]="items"
+    [enableUnequalChildrenSizes]="true"
+    class="virtual-list"
+    (vsEnd)="getAssetTypesEvent($event)"
+  >
+    <li
+      *ngFor="let assetType of scroll.viewPortItems; trackBy: trackByFn;"
+      class="select-type-i"
+      fxLayoutAlign="center center"
+      [style.background-color]="assetType.color"
+      (dblclick)="onSelected(assetType)"
+    >
+      <span class="select-type-i-s">{{assetType.name}}</span>
+    </li>
+  </virtual-scroller>
+</ul>

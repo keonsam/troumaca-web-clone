@@ -8,6 +8,8 @@ import {MaterialModule} from '../../app/material.module';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AttributeModule} from '../attributes/attribute.module';
+import {VirtualScrollerModule} from 'ngx-virtual-scroller';
+import {AssetTypeListComponent} from './select-modal-component/asset-type-list/asset.type.list.component';
 
 @NgModule({
   imports: [
@@ -17,6 +19,7 @@ import {AttributeModule} from '../attributes/attribute.module';
     MaterialModule,
     FontAwesomeModule,
     FlexLayoutModule,
+    VirtualScrollerModule,
     // others
     AttributeModule
   ],
@@ -27,6 +30,7 @@ import {AttributeModule} from '../attributes/attribute.module';
   declarations: [
     AssetTypeSelectModalComponent,
     AssetTypeCreateModalComponent,
+    AssetTypeListComponent
   ],
   entryComponents: [
     AssetTypeSelectModalComponent,

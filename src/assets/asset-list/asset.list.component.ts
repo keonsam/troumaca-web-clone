@@ -1,32 +1,32 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AssetService} from '../asset.service';
-import {Assets} from '../assets';
 import {MatDialog} from '@angular/material';
-import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
+import {Subject } from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {Asset} from '../asset';
-import {AssetsDataSource} from '../assets.data.source';
 
 @Component({
   selector: 'app-asset-list',
   templateUrl: './asset.list.component.html',
   styleUrls: ['./asset.list.component.css']
 })
-export class AssetListComponent implements OnInit, OnDestroy  {
+export class AssetListComponent implements OnDestroy  {
 
 
   assetId: string;
-  // assets: AssetsDataSource;
   assets: Asset[] = [];
   listType = localStorage.getItem('defaultList') || 'list';
   private _destroyed$ = new Subject();
   pageSize = 10;
   search: string;
+  lastPage: number;
 
   constructor(private assetService: AssetService,
               public dialog: MatDialog) {
-    // this.assets = new AssetsDataSource(assetService, this.listSize[this.listType]);
+    this.assetService.lastPage
+      .subscribe( value => {
+        this.lastPage = value;
+      });
     this.assetService.listType
       .pipe(
         takeUntil(this._destroyed$)
@@ -40,11 +40,10 @@ export class AssetListComponent implements OnInit, OnDestroy  {
       .pipe(
         takeUntil(this._destroyed$)
       ).subscribe( val => {
-        console.log("testing ");
       if (val || val === '') {
-        console.log("testing2");
         this.search = val;
-        this.getAssets(val, 0, this.pageSize, true);
+        this.assetService.lastPage.next(0);
+        this.getAssets(val, this.lastPage, this.pageSize, true);
       }
     });
     this.getAssets()
@@ -56,7 +55,6 @@ export class AssetListComponent implements OnInit, OnDestroy  {
         takeUntil(this._destroyed$)
       )
       .subscribe( val => {
-        console.log(val);
         if (val && !newArr) {
           this.assets = this.assets.concat(val.assets);
         } else if (val && newArr) {
@@ -67,7 +65,16 @@ export class AssetListComponent implements OnInit, OnDestroy  {
       });
   }
 
-  ngOnInit(): void {
+  handleRemove(index: number) {
+    if (index !== null && index > -1) {
+      this.assets.splice(index, 1);
+    }
+  }
+
+  handleEdit(event: {index: number, asset: Asset}) {
+    if ( event && event.index > -1) {
+      this.assets[event.index] = event.asset;
+    }
   }
 
   ngOnDestroy (): void {
@@ -75,11 +82,9 @@ export class AssetListComponent implements OnInit, OnDestroy  {
     this._destroyed$.complete();
   }
 
-  getAssetsEvent(lastPage: number) {
-    this.getAssets(this.search, lastPage, this.pageSize);
-  }
-
-  handleDetails(id: string) {
-    this.assetService.onOpenDetails.next(id);
+  getAssetsEvent(next: boolean) {
+    if (next) {
+      this.getAssets(this.search, this.lastPage, this.pageSize);
+    }
   }
 }

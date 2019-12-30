@@ -20,7 +20,6 @@
 }
 
 .lsm-header-round {
-  padding: 5px;
   width: 50px;
   height: 50px;
   background: #F5F5F5;
@@ -202,6 +201,9 @@
   height: 100%;
 }
 
+.lsm-body {
+  min-height: 250px;
+}
 /* LEFT MODAL */
 
 ::ng-deep .backdrop-left {

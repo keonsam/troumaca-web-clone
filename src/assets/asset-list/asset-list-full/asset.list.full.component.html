@@ -8,8 +8,10 @@
     class="virtual-list"
     (vsEnd)="getAssets($event)"
   >
-    <li *ngFor="let asset of scroll.viewPortItems; trackBy: trackByFn"
+    <li *ngFor="let asset of scroll.viewPortItems; trackBy: trackByFn; let i = index"
         class="al-rows-items"
+        (click)="handleDetails(asset.assetId)"
+        [class.selected]="selected === asset.assetId"
     >
       <div
         class="al-rows-container"
@@ -47,6 +49,7 @@
                  gdGridAlign="start center"
                  [icon]="['fas', 'trash-alt']"
                  fxHide.xs
+                 (click)="handleDelete(asset.assetId, asset.image, asset.name, i); $event.stopPropagation()"
         ></fa-icon>
         <fa-icon
                  class="al-ri-edit-icons"
@@ -55,6 +58,7 @@
                  gdGridAlign="start center"
                  [icon]="['fas', 'edit']"
                  fxHide.xs
+                 (click)="handleEdit(asset.assetId, i); $event.stopPropagation()"
         ></fa-icon>
         <fa-icon
           [icon]="['fas', 'ellipsis-v']"
@@ -76,6 +80,8 @@
   >
     <li *ngFor="let asset of scroll.viewPortItems; trackBy: trackByFn"
         class="al-grid-items"
+        (click)="handleDetails(asset.assetId)"
+        [class.selected]="selected === asset.assetId"
     >
       <div
         gdRows="16px 41px auto 9px"

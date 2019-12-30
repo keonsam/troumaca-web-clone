@@ -1,9 +1,9 @@
 <div class="success-overlay" *ngIf="show" (click)="toggleShow()">
   <div class="success-bar" fxLayoutAlign="space-between">
     <div class="success-left">
-      <h2 class="success--heading">{{ name }} was created!</h2>
+      <h2 class="success--heading">{{ name }} was {{process}}!</h2>
       <p class="success-message1">Your {{ type }}: {{ name }} <br>
-        has been created successfully
+        has been {{ process}} successfully
       </p>
     </div>
     <fa-icon class="success-right success-icon" fxFlexAlign="center" [icon]="['fas', 'check']"></fa-icon>

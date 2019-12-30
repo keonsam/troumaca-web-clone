@@ -75,38 +75,6 @@
   margin-bottom: 15px;
 }
 
-.select-types-list {
-  padding: 0;
-  list-style-type: none;
-  display: inline-block;
-  height: 143px;
-  overflow-y: auto;
-}
-
-.select-types-list__margin {
-  margin-bottom: 15px;
-}
-
-.select-types-list:not(last-child) {
-  margin-right: 7px;
-}
-
-.select-type-i {
-  border-radius: 20px;
-  height: 31px;
-  padding-left: 24px;
-  padding-right: 24px;
-  margin-bottom: 17px;
-  max-width: 200px;
-}
-
-.select-type-i-s {
-  font-size: 12px;
-  line-height: 13px;
-  letter-spacing: 0.02em;
-  color: #000000;
-}
-
 .mat-dialog-content {
   padding: 0;
   margin: 0;

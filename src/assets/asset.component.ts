@@ -6,7 +6,6 @@ import {AssetService} from './asset.service';
 import {AssetTypeCreateModalComponent} from './asset-type/create-modal-component/asset.type.create.modal.component';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-// import {AssetDetails} from './asset-details/asset-details.component';
 
 @Component({
   selector: 'app-assets',
@@ -37,15 +36,6 @@ export class AssetComponent implements OnInit, OnDestroy {
         this.openAssetTypeCreate();
       }
     });
-
-    this.assetService.onOpenDetails
-      .pipe(
-        takeUntil(this._destroyed$)
-      ).subscribe( val => {
-      if (val) {
-        this.openAssetDetails(val);
-      }
-    });
   }
 
   ngOnInit(): void {
@@ -62,6 +52,7 @@ export class AssetComponent implements OnInit, OnDestroy {
       left: '0'
     };
     const dialogRef = this.dialog.open(AssetCreateModalComponent,  {
+      data: null,
       height: '100%',
       position: dialogPosition,
       hasBackdrop: true,
@@ -86,21 +77,6 @@ export class AssetComponent implements OnInit, OnDestroy {
       disableClose: false,
       panelClass: ['left-panel'],
     });
-  }
-
-  private openAssetDetails(id: string) {
-  //   const dialogPosition: DialogPosition = {
-  //     top: '0',
-  //     right: '0'
-  //   };
-  //   const dialogRef = this.dialog.open(AssetDetails,  {
-  //     height: '100%',
-  //     position: dialogPosition,
-  //     hasBackdrop: false,
-  //     closeOnNavigation: true,
-  //     disableClose: true,
-  //     panelClass: ['right-panel'],
-  //   });
   }
 }
 

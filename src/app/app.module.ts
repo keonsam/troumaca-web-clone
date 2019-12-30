@@ -28,7 +28,7 @@ import {
   faSearch,
   faSortAmountDown,
   faTag, faTh,
-  faThLarge, faTrashAlt, faExclamationTriangle, faBars, faPencilAlt
+  faThLarge, faTrashAlt, faExclamationTriangle, faBars, faPencilAlt, faTimes
 } from '@fortawesome/free-solid-svg-icons';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VirtualScrollerModule } from 'ngx-virtual-scroller';
@@ -66,7 +66,7 @@ export class AppModule {
       faUser, faGoogle, faUsers, faCheck, faArrowLeft, faEnvelope, faMobileAlt, faBox, faList, faEllipsisH, faSearch, faCheck,
       faFilter, faSortAmountDown, faImage, faThLarge, faChevronRight, faTag, faChevronDown, faChevronUp, faMapMarkerAlt,
       faFont, faHashtag, faCheckSquare, faCheckDouble, faCalendar, faLink, faChevronLeft, faTrashAlt, faEdit, faEllipsisV,
-      faTh, faExclamationTriangle, faBars, faPencilAlt
+      faTh, faExclamationTriangle, faBars, faPencilAlt, faTimes
     );
   }
 }
